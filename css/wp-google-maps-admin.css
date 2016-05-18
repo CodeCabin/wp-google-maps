@@ -1,0 +1,29 @@
+.wpgmza-extension {
+
+    float: left;
+    margin: 0 15px 15px 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    width: 320px;
+    padding: 14px;
+    height: 370px;
+    position: relative;
+
+}
+.wpgmza-extension h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+
+}
+.wpgmza-extension .wp-post-image { 
+    width: 100%;
+    height: auto;
+}
+.wpgmza-extension .button-secondary {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+}
+.wpgmza-plugin {
+    height: 250px;
+}
