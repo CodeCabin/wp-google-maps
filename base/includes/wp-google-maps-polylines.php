@@ -25,7 +25,7 @@ function wpgmza_b_pro_add_polyline($mid) {
                     <h2>".__("Add a Polyline","wp-google-maps")."</h2>
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_add_polyline_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>
                                 ".__("Name","wp-google-maps")."
@@ -60,17 +60,21 @@ function wpgmza_b_pro_add_polyline($mid) {
                                 
                     </tr>
                     </table>
-                    <div id=\"wpgmza_map\">&nbsp;</div>
-                    <p>
-                            <ul style=\"list-style:initial;\">
-                                <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
-                                <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
-                                <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
-                            </ul>
-                    </p>
+                    <div class='wpgmza_map_seventy'> 
+                        <div id=\"wpgmza_map\">&nbsp;</div>
+                        <p>
+
+                                <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
+                                    
+                                    <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
+                                    <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
+                                    <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
+                                </ul>
+                        </p>
+                    </div>
 
 
-                     <p>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_save_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -106,7 +110,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_edit_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
                     <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".sanitize_text_field($_GET['poly_id'])."' />
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>
                                 ".__("Name","wp-google-maps")."
@@ -141,17 +145,19 @@ function wpgmza_b_pro_edit_polyline($mid) {
                                 
                     </tr>
                     </table>
+                    <div class='wpgmza_map_seventy'> 
+                        <div id=\"wpgmza_map\">&nbsp;</div>
+                        <p>
+                                <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
 
-                    <div id=\"wpgmza_map\">&nbsp;</div>
-                    <p>
-                            <ul style=\"list-style:initial;\">
-                                <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
-                                <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
-                                <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
-                            </ul>
-                    </p>
+                                    <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
+                                    <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
+                                    <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
+                                </ul>
+                        </p>
+                    </div>
 
-                     <p>Polygon data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_edit_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
