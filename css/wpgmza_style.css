@@ -3,7 +3,7 @@
     
 }
 .wpgmza_hide_input { display:none !important; }
-.wpgmza_theme_selection { margin-right:20px; margin-bottom:20px; cursor:pointer; border-radius:20px; }
+.wpgmza_theme_selection { margin-right:20px; margin-bottom:20px; cursor:pointer; border-radius:4px; }
 
 
 .wpgmza_map img {
@@ -171,13 +171,12 @@
 }
 
 .wpgm_notice_message {
-    border-radius: 3px 3px 3px 3px;
     border-style: solid;
     border-width: 1px;
     margin: 5px 0 15px;
     padding: 0 0.6em;
-    background-color: #FFFFE0;
-    border-color: #E6DB55;
+    background-color: #FFFCF5;
+    border-color: #FFBA00;
 }
 
 
@@ -257,7 +256,7 @@
 .wpgmza_infowindow_title { white-space: normal; }
 .wpgmza_infowindow_address { white-space: normal; }
 .wpgmza_infowindow_title { font-weight: bold; }
-/*.gm-style-iw div {overflow:visible !important;} */
+.gm-style-iw div {overflow:visible !important;}
 #wpgmza_marker_list tr { vertical-align: middle !important; }
 #wpgmza_marker_list td { vertical-align: middle !important; }
 #wpgmza_marker_list td img { vertical-align: middle !important; }
@@ -330,26 +329,13 @@ ul.wpgmza_marker_list_class {
     
 }
 .wpgmza_theme_selection_activate {
-    -webkit-box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
-    -moz-box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
-    box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
     /* padding: 10px; */
-    border-radius: 10px;
-    padding-left:0px;
-    padding-right:0px;
-    
+    border-radius: px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left: 4px solid #0073AA;
 }
 
-.wpgmza_mlist_selection_activate { 
-    -webkit-box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
-    -moz-box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
-    box-shadow: 3px 2px 19px 2px rgba(0,0,0,0.75);
-    /* padding: 10px; */
-    border-radius: 10px;
-    padding-left:0px;
-    padding-right:0px;
-
-}
 
 /*The following CSS will fix text from overflowing in the info window on an iPhone*/
 @media only screen and (min-width: 320px) and (max-width:568px) and (-webkit-min-device-pixel-ratio: 2) {

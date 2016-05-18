@@ -27,7 +27,7 @@ function wpgmza_b_pro_add_poly($mid) {
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_add_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
                     
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
                         <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"\" name=\"poly_name\" /></td>
                     </tr>
@@ -60,18 +60,21 @@ function wpgmza_b_pro_add_poly($mid) {
                     </tr>
                         
                     </table>
-                    <p>
-                            <ul style=\"list-style:initial;\">
-                                <li style=\"margin-left:30px;\">".__("Click on the map to insert a vertex.","wp-google-maps")."</li>
-                                <li style=\"margin-left:30px;\">".__("Click on a vertex to remove it.","wp-google-maps")."</li>
-                                <li style=\"margin-left:30px;\">".__("Drag a vertex to move it.","wp-google-maps")."</li>
-                            </ul>
-                    </p>
-                    <div id=\"wpgmza_map\">&nbsp;</div>
+
+                    <div class='wpgmza_map_seventy'> 
+                        <div id=\"wpgmza_map\">&nbsp;</div>
                     
+                        <p>
+                                <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
 
+                                    <li style=\"margin-left:30px;\">".__("Click on the map to insert a vertex.","wp-google-maps")."</li>
+                                    <li style=\"margin-left:30px;\">".__("Click on a vertex to remove it.","wp-google-maps")."</li>
+                                    <li style=\"margin-left:30px;\">".__("Drag a vertex to move it.","wp-google-maps")."</li>
+                                </ul>
+                        </p>
+                    </div>
 
-                     <p>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_save_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -110,7 +113,7 @@ function wpgmza_b_pro_edit_poly($mid) {
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
                     <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".sanitize_text_field($_GET['poly_id'])."' />
                         
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
                         <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"".$pol->polyname."\" name=\"poly_name\" /></td>
                     </tr>
@@ -144,17 +147,20 @@ function wpgmza_b_pro_edit_poly($mid) {
                         
                     </table>
                     
-                             
-                    <div id=\"wpgmza_map\">&nbsp;</div>
-                    <p>
-                            <ul style=\"list-style:initial;\">
+                    <div class='wpgmza_map_seventy'>        
+                        <div id=\"wpgmza_map\" >&nbsp;</div>
+                        <p>
+                            <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
+                               
                                 <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
                                 <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
                                 <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
                             </ul>
-                    </p>
+                        </p>
+                    </div>
+                    
 
-                     <p>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;' >Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_edit_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -258,60 +264,6 @@ function wpgmaps_b_admin_add_poly_javascript($mapid) {
                 poly.setMap(this.map);
                 poly.setPaths(new google.maps.MVCArray([poly_path]));
                 google.maps.event.addListener(this.map, 'click', addPoint);
-                <?php
-                $total_poly_array = wpgmza_b_return_polygon_id_array(sanitize_text_field($_GET['map_id']));
-                if ($total_poly_array > 0) {
-                foreach ($total_poly_array as $poly_id) {
-                    $polyoptions = wpgmza_b_return_poly_options($poly_id);
-                    $linecolor = $polyoptions->linecolor;
-                    $fillcolor = $polyoptions->fillcolor;
-                    $fillopacity = $polyoptions->opacity;
-                    $lineopacity = $polyoptions->lineopacity;
-                    $title = $polyoptions->title;
-                    $link = $polyoptions->link;
-                    $ohlinecolor = $polyoptions->ohlinecolor;
-                    $ohfillcolor = $polyoptions->ohfillcolor;
-                    $ohopacity = $polyoptions->ohopacity;
-                    if (!$linecolor) { $linecolor = "000000"; }
-                    if (!$fillcolor) { $fillcolor = "66FF00"; }
-                    if ($fillopacity == "") { $fillopacity = "0.5"; }
-                    if ($lineopacity == "") { $lineopacity = "1.0"; }
-                    if ($ohlinecolor == "") { $ohlinecolor = $linecolor; }
-                    if ($ohfillcolor == "") { $ohfillcolor = $fillcolor; }
-                    if ($ohopacity == "") { $ohopacity = $fillopacity; }
-                    $linecolor = "#".$linecolor;
-                    $fillcolor = "#".$fillcolor;
-                    $ohlinecolor = "#".$ohlinecolor;
-                    $ohfillcolor = "#".$ohfillcolor;
-                    
-                    $poly_array = wpgmza_b_return_polygon_array($poly_id);
-                    
-                    if (sizeof($poly_array) > 1) { ?>
-
-                        var WPGM_PathData_<?php echo $poly_id; ?> = [<?php
-                        foreach ($poly_array as $single_poly) {
-                            $poly_data_raw = str_replace(" ","",$single_poly);
-                            $poly_data_raw = explode(",",$poly_data_raw);
-                            $lat = $poly_data_raw[0];
-                            $lng = $poly_data_raw[1];
-                            ?>
-                            new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
-                            <?php
-                        }
-                ?>];
-                var WPGM_Path_<?php echo $poly_id; ?> = new google.maps.Polygon({
-                  path: WPGM_PathData_<?php echo $poly_id; ?>,
-                  strokeColor: "<?php echo $linecolor; ?>",
-                  fillOpacity: "<?php echo $fillopacity; ?>",
-                  strokeOpacity: "<?php echo $lineopacity; ?>",
-                  fillColor: "<?php echo $fillcolor; ?>",
-                  strokeWeight: 2
-                });
-
-                WPGM_Path_<?php echo $poly_id; ?>.setMap(this.map);
-                <?php } } ?>
-
-                <?php } ?>
 
             }
             function addPoint(event) {
@@ -448,68 +400,8 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
                 this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
                 this.bounds = new google.maps.LatLngBounds();
                 // polygons
-                // 
-                // 
-                // 
                 
-                <?php
-                $total_poly_array = wpgmza_b_return_polygon_id_array(sanitize_text_field($_GET['map_id']));
-                if ($total_poly_array > 0) {
-                foreach ($total_poly_array as $poly_id) {
-                    $polyoptions = wpgmza_b_return_poly_options($poly_id);
-                    $linecolor = $polyoptions->linecolor;
-                    $fillcolor = $polyoptions->fillcolor;
-                    $fillopacity = $polyoptions->opacity;
-                    $lineopacity = $polyoptions->lineopacity;
-                    $title = $polyoptions->title;
-                    $link = $polyoptions->link;
-                    $ohlinecolor = $polyoptions->ohlinecolor;
-                    $ohfillcolor = $polyoptions->ohfillcolor;
-                    $ohopacity = $polyoptions->ohopacity;
-                    if (!$linecolor) { $linecolor = "000000"; }
-                    if (!$fillcolor) { $fillcolor = "66FF00"; }
-                    if ($fillopacity == "") { $fillopacity = "0.5"; }
-                    if ($lineopacity == "") { $lineopacity = "1.0"; }
-                    if ($ohlinecolor == "") { $ohlinecolor = $linecolor; }
-                    if ($ohfillcolor == "") { $ohfillcolor = $fillcolor; }
-                    if ($ohopacity == "") { $ohopacity = $fillopacity; }
-                    $linecolor = "#".$linecolor;
-                    $fillcolor = "#".$fillcolor;
-                    $ohlinecolor = "#".$ohlinecolor;
-                    $ohfillcolor = "#".$ohfillcolor;
-                    
-                    $poly_array = wpgmza_b_return_polygon_array($poly_id);
-                    
-                    if (sizeof($poly_array) > 1) {
-                        if ($polyid != $poly_id) {
-                     ?>
-
-                        var WPGM_PathData_<?php echo $poly_id; ?> = [<?php
-                        foreach ($poly_array as $single_poly) {
-                            $poly_data_raw = str_replace(" ","",$single_poly);
-                            $poly_data_raw = explode(",",$poly_data_raw);
-                            $lat = $poly_data_raw[0];
-                            $lng = $poly_data_raw[1];
-                            ?>
-                            new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
-                            <?php
-                        } 
-                ?>]; 
-                var WPGM_Path_<?php echo $poly_id; ?> = new google.maps.Polygon({
-                  path: WPGM_PathData_<?php echo $poly_id; ?>,
-                  strokeColor: "<?php echo $linecolor; ?>",
-                  fillOpacity: "<?php echo $fillopacity; ?>",
-                  strokeOpacity: "<?php echo $lineopacity; ?>",
-                  fillColor: "<?php echo $fillcolor; ?>",
-                  strokeWeight: 2
-                });
-
-                WPGM_Path_<?php echo $poly_id; ?>.setMap(this.map);
-                <?php } } } ?>
-
-                <?php } ?>
-
-
+                
                 addPolygon();
                 
 
