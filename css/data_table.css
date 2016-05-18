@@ -152,7 +152,7 @@ table.display {
 
 table.display thead th {
 	padding: 3px 18px 3px 10px;
-	border-bottom: 1px solid #BBBBBB;
+	border-bottom: 1px solid black;
 	font-weight: bold;
 	cursor: pointer;
 	* cursor: hand;
@@ -237,16 +237,16 @@ table.display tr.even.gradeX {
 }
 
 table.display tr.odd.gradeU {
-	background-color: white;
+	background-color: #ddd;
 }
 
 table.display tr.even.gradeU {
-	background-color: white;
+	background-color: #eee;
 }
 
 
 tr.odd {
-	background-color: white;
+	background-color: #E2E4FF;
 }
 
 tr.even {
@@ -462,27 +462,27 @@ tr.even.gradeX td.sorting_3 {
 }
 
 tr.odd.gradeU td.sorting_1 {
-	background-color: #E8E8E8;
+	background-color: #c4c4c4;
 }
 
 tr.odd.gradeU td.sorting_2 {
-	background-color: #E8E8E8;
+	background-color: #d1d1d1;
 }
 
 tr.odd.gradeU td.sorting_3 {
-	background-color: #E8E8E8;
+	background-color: #d1d1d1;
 }
 
 tr.even.gradeU td.sorting_1 {
-	background-color: #E8E8E8;
+	background-color: #d5d5d5;
 }
 
 tr.even.gradeU td.sorting_2 {
-	background-color: #E8E8E8;
+	background-color: #e2e2e2;
 }
 
 tr.even.gradeU td.sorting_3 {
-	background-color: #E8E8E8;
+	background-color: #e2e2e2;
 }
 
 
