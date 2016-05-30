@@ -848,6 +848,7 @@ function wpgmaps_admin_javascript_basic() {
         <script type="text/javascript" >
             var marker_pull = '<?php echo $marker_pull; ?>';
             var placeSearch, autocomplete;
+            var wpgmza_table_length;
 
 
             <?php if (isset($markers) && strlen($markers) > 0 && $markers != "[]"){ ?>var db_marker_array = JSON.stringify(<?php echo $markers; ?>);<?php } else { echo "var db_marker_array = '';"; } ?>
@@ -872,6 +873,10 @@ function wpgmaps_admin_javascript_basic() {
 
             jQuery(document).ready(function(){
 
+                jQuery("select[name=wpgmza_table_length]").change(function () {
+                    wpgmza_table_length = jQuery(this).val();
+                })
+
                 if (typeof document.getElementById('wpgmza_add_address') !== "undefined") {
                     if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
 
@@ -893,8 +898,12 @@ function wpgmaps_admin_javascript_basic() {
             
             function wpgmza_reinitialisetbl() {
                 wpgmzaTable.fnClearTable( 0 );
+                if (wpgmza_table_length === "") { wpgmza_table_length = 10; }
+                        
                 wpgmzaTable = jQuery('#wpgmza_table').dataTable({
-                    "bProcessing": true
+                    "bProcessing": true,
+                    "iDisplayLength": wpgmza_table_length
+
                 });
             }
 
@@ -4439,6 +4448,7 @@ function wpgmaps_list_maps() {
                 <th scope='col' id='map_width' class='manage-column column-map_width' style=\"\">".__("Width","wp-google-maps")."</th>
                 <th scope='col' id='map_height' class='manage-column column-map_height'  style=\"\">".__("Height","wp-google-maps")."</th>
                 <th scope='col' id='type' class='manage-column column-type sortable desc'  style=\"\"><span>".__("Type","wp-google-maps")."</span></th>
+                <th scope='col' id='type' class='manage-column column-type sortable desc'  style=\"\"><span>".__("Shortcode","wp-google-maps")."</span></th>
         </tr>
 	</thead>
         <tbody id=\"the-list\" class='list:wp_list_text_link'>
@@ -4459,6 +4469,7 @@ function wpgmaps_list_maps() {
         echo "<td class='map_width column-map_width'>".$result->map_width."".stripslashes($result->map_width_type)."</td>";
         echo "<td class='map_width column-map_height'>".$result->map_height."".stripslashes($result->map_height_type)."</td>";
         echo "<td class='type column-type'>".$map_type."</td>";
+        echo "<td class='type column-type'><input class='wpgmza_copy_shortcode' type='text' readonly value='[wpgmza id=\"".$result->id."\"]'/></td>";
         echo "</tr>";
 
 
@@ -4732,7 +4743,7 @@ function wpgmza_basic_menu() {
                             <table>
                                 <tr>
                                     <td>".__("Short code","wp-google-maps").":</td>
-                                    <td><input type='text' readonly name='shortcode' style='font-size:18px; text-align:center;' onclick=\"this.select()\" value='[wpgmza id=\"".$res->id."\"]' /> <small><i>".__("copy this into your post or page to display the map","wp-google-maps")."</i></td>
+                                    <td><input type='text' readonly name='shortcode' class='wpgmza_copy_shortcode' style='font-size:18px; text-align:center;' onclick=\"this.select()\" value='[wpgmza id=\"".$res->id."\"]' /> <small><i>".__("copy this into your post or page to display the map","wp-google-maps")."</i></td>
                                 </tr>
                                 <tr>
                                     <td>".__("Map Name","wp-google-maps").":</td>
@@ -5545,6 +5556,16 @@ function wpgmaps_admin_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-slider');
+
+    $wpgmza_lang_strings = array(
+        "wpgm_copy_string" => __("Copied to clipboard","wp-google-maps")
+    );
+
+    if (!function_exists("wpgmza_register_pro_version")) {
+        wp_register_script('wpgmaps-admin-basic', plugins_url('js/admin-basic.js', __FILE__), array('jquery'), '1.0', true);
+        wp_enqueue_script('wpgmaps-admin-basic');
+        wp_localize_script( 'wpgmaps-admin-basic', 'wpgmaps_localize_strings', $wpgmza_lang_strings);
+    }
 
     if (function_exists('wp_enqueue_media')) {
         wp_enqueue_media();
