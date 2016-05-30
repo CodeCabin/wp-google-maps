@@ -27,7 +27,7 @@ function wpgmza_b_pro_add_poly($mid) {
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_add_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
                     
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
                         <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"\" name=\"poly_name\" /></td>
                     </tr>
@@ -60,18 +60,21 @@ function wpgmza_b_pro_add_poly($mid) {
                     </tr>
                         
                     </table>
-                    <p>
-                            <ul style=\"list-style:initial;\">
-                                <li style=\"margin-left:30px;\">".__("Click on the map to insert a vertex.","wp-google-maps")."</li>
-                                <li style=\"margin-left:30px;\">".__("Click on a vertex to remove it.","wp-google-maps")."</li>
-                                <li style=\"margin-left:30px;\">".__("Drag a vertex to move it.","wp-google-maps")."</li>
-                            </ul>
-                    </p>
-                    <div id=\"wpgmza_map\">&nbsp;</div>
+
+                    <div class='wpgmza_map_seventy'> 
+                        <div id=\"wpgmza_map\">&nbsp;</div>
                     
+                        <p>
+                                <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
 
+                                    <li style=\"margin-left:30px;\">".__("Click on the map to insert a vertex.","wp-google-maps")."</li>
+                                    <li style=\"margin-left:30px;\">".__("Click on a vertex to remove it.","wp-google-maps")."</li>
+                                    <li style=\"margin-left:30px;\">".__("Drag a vertex to move it.","wp-google-maps")."</li>
+                                </ul>
+                        </p>
+                    </div>
 
-                     <p>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_save_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -110,7 +113,7 @@ function wpgmza_b_pro_edit_poly($mid) {
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
                     <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".sanitize_text_field($_GET['poly_id'])."' />
                         
-                    <table>
+                    <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
                         <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"".$pol->polyname."\" name=\"poly_name\" /></td>
                     </tr>
@@ -144,17 +147,20 @@ function wpgmza_b_pro_edit_poly($mid) {
                         
                     </table>
                     
-                             
-                    <div id=\"wpgmza_map\">&nbsp;</div>
-                    <p>
-                            <ul style=\"list-style:initial;\">
+                    <div class='wpgmza_map_seventy'>        
+                        <div id=\"wpgmza_map\" >&nbsp;</div>
+                        <p>
+                            <ul style=\"list-style:initial;\" class='update-nag update-blue update-slim update-map-overlay'>
+                               
                                 <li style=\"margin-left:30px;\">Click on the map to insert a vertex.</li>
                                 <li style=\"margin-left:30px;\">Click on a vertex to remove it.</li>
                                 <li style=\"margin-left:30px;\">Drag a vertex to move it.</li>
                             </ul>
-                    </p>
+                        </p>
+                    </div>
+                    
 
-                     <p>Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;' >Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><input type='submit' name='wpgmza_edit_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -448,9 +454,6 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
                 this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
                 this.bounds = new google.maps.LatLngBounds();
                 // polygons
-                // 
-                // 
-                // 
                 
                 <?php
                 $total_poly_array = wpgmza_b_return_polygon_id_array(sanitize_text_field($_GET['map_id']));
@@ -510,6 +513,7 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
                 <?php } ?>
 
 
+                
                 addPolygon();
                 
 
