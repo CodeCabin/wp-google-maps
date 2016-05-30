@@ -6437,23 +6437,30 @@ function wpgmza_basic_support_menu() {
 
 add_action('wp_enqueue_scripts', 'wpgmza_deregister_scripts',999);
 add_action('wp_head', 'wpgmza_deregister_scripts',999);
+add_action('init', 'wpgmza_deregister_scripts',999);
 add_action('wp_footer', 'wpgmza_deregister_scripts',999);
 add_action('wp_print_scripts', 'wpgmza_deregister_scripts',999);
 function wpgmza_deregister_scripts() {
     global $short_code_active;
     if ($short_code_active) {
-        /* only deregister on pages that contain the shortcode */
-        wp_dequeue_script("google_map");
-        wp_dequeue_script("google_map2");
-        wp_dequeue_script("gmap-key");
-        wp_dequeue_script("imic_google_map");
-        wp_dequeue_script("googlemap");
-        wp_dequeue_script("googlemaps");
-        wp_dequeue_script("gmap_form_api");
-        wp_dequeue_script("map-api");
-        wp_dequeue_script("google-maps-v3");
-        wp_dequeue_script("googlemaps-v3");
-        wp_dequeue_script("googlemapsv3");
+        $map_handle = '';
+        global $wp_scripts;
+        if (isset($wp_scripts->registered) && is_array($wp_scripts->registered)) {
+            foreach ( $wp_scripts->registered as $script) {    
+                if (strpos($script->src, 'maps.google.com/maps/api/js') !== false) {
+                    if (!isset($script->handle) || $script->handle == '') {
+                        $script->handle = 'remove-this-map-call';
+                    }
+                    unset($script->src);
+                    $map_handle = $script->handle;
+                    if ($map_handle != '') {
+                        $wp_scripts->remove( $map_handle );
+                        $map_handle = '';
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 }
