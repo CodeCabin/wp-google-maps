@@ -54,8 +54,7 @@
     background: #E8E8E8;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 25px;
-    padding-right: 25px;
+    
 
     transition: background 0.2s;
     -webkit-transition: background 0.2s;
@@ -66,6 +65,12 @@
 .ui-state-default a{
     text-decoration: none;
     color: black;
+
+    padding-left: 25px;
+    padding-right: 25px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .ui-tabs-panel {
