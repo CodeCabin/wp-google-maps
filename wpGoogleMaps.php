@@ -879,7 +879,6 @@ function wpgmaps_admin_javascript_basic() {
 
                 if (typeof document.getElementById('wpgmza_add_address') !== "undefined") {
                     if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
-
                         /* initialize the autocomplete form */
                         autocomplete = new google.maps.places.Autocomplete(
                           /** @type {HTMLInputElement} */(document.getElementById('wpgmza_add_address')),
@@ -1655,8 +1654,6 @@ function wpgmaps_user_javascript_basic() {
         if (isset($marker_pull) && $marker_pull == "0") {
             $markers = json_encode(wpgmaps_return_markers($wpgmza_current_map_id));
         }
-        
-        
         ?>
         
         <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
@@ -1670,8 +1667,7 @@ function wpgmaps_user_javascript_basic() {
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
                 document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
-        <?php } ?>
-        
+        <?php } ?>        
         <script type="text/javascript" >
             var marker_pull = '<?php echo $marker_pull; ?>';
             <?php if (isset($markers) && strlen($markers) > 0 && $markers != "[]"){ ?>var db_marker_array = JSON.stringify(<?php echo $markers; ?>);<?php } else { echo "var db_marker_array = '';"; } ?>
@@ -2271,16 +2267,32 @@ function wpgmaps_user_javascript_basic() {
             }
             var elementExists = document.getElementById("addressInput");
             if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
+
+                // user autofill
                 if (elementExists !== null) {
-                    /* initialize the autocomplete form */
-                    autocomplete = new google.maps.places.Autocomplete(
-                      /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
-                      { types: ['geocode'] });
-                    // When the user selects an address from the dropdown,
-                    // populate the address fields in the form.
-                    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                    fillInAddress();
-                    });
+                    <?php if (!$restrict_search) { ?>
+                        console.log('not restricting');
+                        /* initialize the autocomplete form */
+                        autocomplete = new google.maps.places.Autocomplete(
+                          /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
+                          { types: ['geocode'] });
+                        // When the user selects an address from the dropdown,
+                        // populate the address fields in the form.
+                        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                            fillInAddress();
+                        });
+                    <?php } else { ?>
+                        /* initialize the autocomplete form */
+                        console.log('restricting');
+                        autocomplete = new google.maps.places.Autocomplete(
+                          /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
+                          { types: ['geocode'], componentRestrictions: {country: '<?php echo $restrict_search; ?>'} });
+                        // When the user selects an address from the dropdown,
+                        // populate the address fields in the form.
+                        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                            fillInAddress();
+                        });                                                
+                    <?php } ?>
                 } 
             }
 
@@ -2587,6 +2599,7 @@ function wpgmaps_return_markers($mapid = false) {
             'category' => $category,
             'infoopen' => $infoopen,
             'other_data'=> maybe_unserialize($other_data)
+            'infoopen' => $infoopen
         );
         $cnt++;
         
@@ -3102,7 +3115,6 @@ function wpgmaps_head() {
 
         $other_settings['store_locator_query_string'] = sanitize_text_field($_POST['wpgmza_store_locator_query_string']);
         if (isset($_POST['wpgmza_store_locator_restrict'])) { $other_settings['wpgmza_store_locator_restrict'] = sanitize_text_field($_POST['wpgmza_store_locator_restrict']); }
-        
 
 
         $other_settings['map_max_zoom'] = sanitize_text_field($map_max_zoom);
@@ -3421,6 +3433,9 @@ function wpgmaps_head() {
         if (isset($_POST['wpgmza_marker_xml_url'])) { update_option("wpgmza_xml_url",sanitize_text_field($_POST['wpgmza_marker_xml_url'])); }
         if (isset($_POST['wpgmza_access_level'])) { $wpgmza_data['wpgmza_settings_access_level'] = sanitize_text_field($_POST['wpgmza_access_level']); }
         if (isset($_POST['wpgmza_settings_marker_pull'])) { $wpgmza_data['wpgmza_settings_marker_pull'] = sanitize_text_field($_POST['wpgmza_settings_marker_pull']); }
+
+        if (isset($_POST['wpgmza_settings_enable_usage_tracking'])) { $wpgmza_data['wpgmza_settings_enable_usage_tracking'] = sanitize_text_field($_POST['wpgmza_settings_enable_usage_tracking']); }
+
         update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_data);
 
         if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( $_POST['wpgmza_google_maps_api_key'] ) ); }
@@ -4057,6 +4072,16 @@ function wpgmaps_settings_page_basic() {
     if (isset($wpgmza_settings_map_type)) { if ($wpgmza_settings_map_type == "yes") { $wpgmza_type_checked = "checked='checked'"; } else { $wpgmza_type_checked = ""; } } else { $wpgmza_type_checked = ""; }
     if (isset($wpgmza_force_jquery)) { if ($wpgmza_force_jquery == "yes") { $wpgmza_force_jquery_checked = "checked='checked'"; } else { $wpgmza_force_jquery_checked = ""; } } else { $wpgmza_force_jquery_checked = ""; }
 
+    if (isset($wpgmza_settings['wpgmza_settings_enable_usage_tracking'])) { 
+        if ($wpgmza_settings['wpgmza_settings_enable_usage_tracking'] == "yes") { 
+            $wpgmza_settings_enable_usage_tracking = "checked='checked'"; 
+        } else { 
+            $wpgmza_settings_enable_usage_tracking = ""; 
+        } 
+    } else { 
+        $wpgmza_settings_enable_usage_tracking = ""; 
+    }
+
     if (function_exists('wpgmza_register_pro_version')) {
         $pro_settings1 = wpgmaps_settings_page_sub('infowindow');
         $prov = get_option("WPGMZA_PRO");
@@ -4067,7 +4092,8 @@ function wpgmaps_settings_page_basic() {
     } else {
         $pro_settings1 = "";
         $prov_msg = "";
-    }
+    }    
+
     $marker_location = wpgmza_return_marker_path();
     $marker_url = wpgmza_return_marker_url();
     
@@ -4155,6 +4181,13 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                    </td>";
             $ret .= "                </tr>";
 
+            $ret .= "               <tr>";
+            $ret .= "                        <td width='200' valign='top'>".__("Enable Usage Tracking","wp-google-maps").":</td>";
+            $ret .= "                     <td>";
+            $ret .= "                           <div class='switch'><input name='wpgmza_settings_enable_usage_tracking' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_settings_enable_usage_tracking' value='yes' $wpgmza_settings_enable_usage_tracking /> <label for='wpgmza_settings_enable_usage_tracking' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> ".__("Allow us to anonymously track how you use your maps and we will send you a 15% Sola Plugins coupon as a token of our gratitude (Coupon will be sent to the administrator's email address)", 'wp-google-maps')."<br />";
+            $ret .= "                       <input type='hidden' id='wpgmza_admin_email_coupon' value='".get_option('admin_email')."' />";
+            $ret .= "                    </td>";
+            $ret .= "                </tr>";
 
             $ret .= "            </table>";
 
@@ -4923,7 +4956,22 @@ function wpgmza_basic_menu() {
                                 </tr>
                                 <tr>
                                     <td width='200'>".__("Restrict to country","wp-google-maps").":</td>
-                                    <td><input type=\"text\" name=\"wpgmza_store_locator_restrict\" id=\"wpgmza_store_locator_restrict\" value=\"$wpgmza_store_locator_restrict\" style='width:110px;' placeholder='Country TLD'> <em>".__("Insert country TLD. For example, use DE for Germany.","wp-google-maps")." ".__("Leave blank for no restrictions.","wp-google-maps")."</em></td>
+                                    <td>
+                                        <select name='wpgmza_store_locator_restrict' id='wpgmza_store_locator_restrict'>";
+                                        $countries = wpgmza_return_country_tld_array();
+
+                                        if( $countries ){
+                                            echo "<option value=''>".__('No country selected', 'wp-google-maps')."</option>";
+                                            foreach( $countries as $key => $val ){
+
+                                                if( $key == $wpgmza_store_locator_restrict ){ $selected = 'selected'; } else { $selected = ''; }
+                                                echo "<option value='$key' $selected>$val</option>";
+
+                                            }
+
+                                        }
+                                        echo "</select>
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -5622,6 +5670,15 @@ function wpgmaps_admin_scripts() {
         if(strpos($_GET['page'], "wp-google-maps") !== -1){
             wp_register_style('wpgmaps-admin-style', plugins_url('css/wp-google-maps-admin.css', __FILE__));
             wp_enqueue_style('wpgmaps-admin-style');
+        }
+    }
+
+    $wpgmza_settings = get_option('WPGMZA_OTHER_SETTINGS');
+    if( isset( $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] ) && $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] == 'yes' ){
+        /** The user has allowed us to track their map usage */
+        if( ( isset( $_GET['action'] ) && $_GET['action'] == 'edit' ) && isset( $_GET['map_id'] ) ){
+            wp_register_script('wpgmaps-usage-tracking', WPGMAPS_DIR.'js/usage_tracking.js', array('jquery'), '1.0.0', true);
+            wp_enqueue_script('wpgmaps-usage-tracking');
         }
     }
 }
@@ -6481,4 +6538,126 @@ function wpgmza_deregister_scripts() {
             }
         }
     }
+}
+
+add_action('wp_ajax_track_usage', 'wpgmaps_usage_tracking_callback');
+add_action('wp_ajax_request_coupon', 'wpgmaps_usage_tracking_callback');
+
+function wpgmaps_usage_tracking_callback(){
+
+    if( isset( $_POST['action'] ) ){
+
+        if( $_POST['action'] == 'track_usage' ){
+
+            $wpgmza_settings = get_option('WPGMZA_OTHER_SETTINGS');
+            
+            if( isset( $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] ) && $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] == 'yes' ){
+
+                $map_data = wpgmza_get_map_data( sanitize_text_field( $_POST['mapid'] ) );
+
+                if( isset( $map_data->other_settings ) && $map_data->other_settings == '' ){
+                    
+                    /* New map - no changes have been made to it */
+
+                } else {
+
+                    if (function_exists('curl_version')) {
+                
+                        $request_url = "http://ccplugins.co/usage-tracking/record.php";
+
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $request_url);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $map_data);
+                        curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_HOST']);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        
+                        $output = curl_exec($ch);                            
+
+                        curl_close($ch);
+
+                    } 
+
+                }
+
+            }
+
+        }
+
+        if( $_POST['action'] == 'request_coupon' ){
+
+            if( $_POST['status'] == 'true' ){
+
+                if (function_exists('curl_version')) {
+                
+                    $request_url = "http://ccplugins.co/usage-tracking/coupons.php";
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $request_url);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST);
+                    curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_HOST']);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    
+                    $output = curl_exec($ch);                            
+                    
+                    curl_close($ch);
+
+                    $wpgmza_settings = get_option('WPGMZA_OTHER_SETTINGS');
+
+                    $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] = 'yes';
+
+                    update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_settings);
+
+                } else {
+                    $body = "Usage tracking has been enabled by ".$_POST['email'];
+                    wp_mail('nick@wpgmaps.com', 'Coupon Code Request', $body);
+
+                }
+
+            } else {
+
+                $wpgmza_settings = get_option('WPGMZA_OTHER_SETTINGS');
+
+                $wpgmza_settings['wpgmza_settings_enable_usage_tracking'] = '0';
+
+                update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_settings);
+
+            }
+
+        }
+
+    }
+
+    wp_die();
+
+}
+
+function wpgmza_return_country_tld_array(){
+
+    $path = plugins_url().'/wp-google-maps/js/countries.json';
+
+    $file = file_get_contents($path);
+
+    $countries = json_decode( $file );
+
+    $tld = array();
+
+    if( $countries ){
+
+        foreach( $countries as $country ){
+
+            if( $country->topLevelDomain[0] !== '' ){
+                $tld[str_replace('.', '', $country->topLevelDomain[0])] = $country->name;
+            }
+
+        }
+        asort( $tld );
+    } else {
+
+        $tld['us'] = __('United States of America', 'wp-google-maps');
+
+    }
+
+    return $tld;
 }
