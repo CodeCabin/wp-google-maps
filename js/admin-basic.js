@@ -15,5 +15,27 @@ jQuery(document).ready(function(){
         setTimeout(function(){ jQuery($tmp2).remove(); }, 1500);
     });
 
+    jQuery('#wpgmza_settings_enable_usage_tracking').change(function(event) {
+
+        var usage_tracking = jQuery(this);
+
+        if (usage_tracking.is (':checked')){
+            var enabled = true;
+        } else {
+            var enabled = false;
+        }
+        console.log(enabled);
+        var email = jQuery("#wpgmza_admin_email_coupon").val();
+
+        var data = {
+            action: 'request_coupon',
+            email: email,
+            status: enabled
+        }
+        jQuery.post(ajaxurl, data, function(response){
+            console.log(response);                
+        });
+
+    });
 
 });
