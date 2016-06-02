@@ -237,8 +237,8 @@ $wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
 $wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "6.3.11";
-$wpgmza_p_version = "6.3.11";
+$wpgmza_version = "6.3.13";
+$wpgmza_p_version = "6.3.13";
 $wpgmza_t = "basic";
 define("WPGMAPS", $wpgmza_version);
 define("WPGMAPS_DIR",plugin_dir_url(__FILE__));
@@ -1725,6 +1725,13 @@ function wpgmaps_user_javascript_basic() {
                             UniqueCode=Math.round(Math.random()*10000);
                             MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
                         });           
+
+                        jQuery(window).resize(function() {
+                            MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
+                            UniqueCode=Math.round(Math.random()*10000);
+                            MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
+                        });
+
                         /* tab compatibility */
 
                         jQuery('body').on('click', '.ui-tabs-nav li', function(event, ui) {
@@ -2543,6 +2550,7 @@ function wpgmaps_return_markers($mapid = false) {
         $anim = $result->anim;
         $retina = $result->retina;
         $category = $result->category;
+        $other_data = $result->other_data;
         
         if ($icon == "") {
             if (function_exists('wpgmza_get_category_data')) {
@@ -2577,7 +2585,8 @@ function wpgmaps_return_markers($mapid = false) {
             'anim' => $anim,
             'retina' => $retina,
             'category' => $category,
-            'infoopen' => $infoopen
+            'infoopen' => $infoopen,
+            'other_data'=> maybe_unserialize($other_data)
         );
         $cnt++;
         
@@ -6002,6 +6011,8 @@ function wpgmaps_handle_db() {
           category varchar(500) NOT NULL,
           approved tinyint(1) DEFAULT '1',
           retina tinyint(1) DEFAULT '0',
+          type tinyint(1) DEFAULT '0',
+          other_data LONGTEXT NOT NULL,
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
     ";
