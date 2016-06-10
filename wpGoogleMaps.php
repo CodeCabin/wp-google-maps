@@ -2598,7 +2598,7 @@ function wpgmaps_return_markers($mapid = false) {
             'retina' => $retina,
             'category' => $category,
             'infoopen' => $infoopen,
-            'other_data'=> maybe_unserialize($other_data)
+            'other_data'=> maybe_unserialize($other_data),
             'infoopen' => $infoopen
         );
         $cnt++;
