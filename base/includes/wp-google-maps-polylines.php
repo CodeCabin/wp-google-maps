@@ -12,6 +12,9 @@ function wpgmza_b_pro_add_polyline($mid) {
     global $wpgmza_tblname_maps;
     global $wpdb;
     if ($_GET['action'] == "add_polyline" && isset($mid)) {
+
+        if( function_exists('google_maps_api_key_warning' ) ){ google_maps_api_key_warning(); }
+
         $res = wpgmza_get_map_data($mid);
         echo "
             
@@ -201,10 +204,18 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
         ?>
-        <script type="text/javascript">
-                       var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                       document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?sensor=false' type='text/javascript'%3E%3C/script%3E"));
-        </script>
+        <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?key="+wpgmza_api_key+"&language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } else { ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >
             jQuery(document).ready(function(){
