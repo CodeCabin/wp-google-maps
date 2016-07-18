@@ -69,7 +69,7 @@ function wpgmza_get_widget_select_field($selection) {
     
     if (function_exists('wpgmza_get_widget_select_field_pro')) { wpgmza_get_widget_select_field_pro(); return; }
 
-    $results = $wpdb->get_results("SELECT * FROM $wpgmza_tblname_maps WHERE `active` = 0 ORDER BY `id` DESC ");
+    $results = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpgmza_tblname_maps WHERE `active` = 0 ORDER BY `id` DESC ") );
     
     foreach ( $results as $result ) {
         $sel = ( intval($selection) == $result->id ) ? "selected" : '';

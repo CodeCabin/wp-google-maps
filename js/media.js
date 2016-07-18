@@ -59,8 +59,18 @@ jQuery(document).ready(function($){
             var media_attachment = tgm_media_frame_img.state().get('selection').first().toJSON();
             if (typeof media_attachment["sizes"]["thumbnail"] === "object" && media_attachment["sizes"]["thumbnail"]["url"].length > 0) { var wpgmza_img_thumbnail = media_attachment["sizes"]["thumbnail"]["url"]; }
             if (typeof media_attachment["sizes"]["full"] === "object" && media_attachment["sizes"]["full"]["url"].length > 0) { var wpgmza_img_full = media_attachment["sizes"]["full"]["url"]; }
-            if (typeof wpgmza_img_thumbnail !== "undefined" && wpgmza_img_thumbnail.length > 0) { jQuery('#wpgmza_add_pic').val(wpgmza_img_thumbnail); }
-            else { jQuery('#wpgmza_add_pic').val(wpgmza_img_full); }
+            
+            /* modified 6.3.14 */
+            if (typeof wpgmza_img_full !== "undefined" && wpgmza_img_full.length > 0) {
+                jQuery('#wpgmza_add_pic').val(wpgmza_img_full); 
+            } else { 
+               jQuery('#wpgmza_add_pic').val(wpgmza_img_thumbnail); 
+            }
+
+            /*if (typeof wpgmza_img_thumbnail !== "undefined" && wpgmza_img_thumbnail.length > 0) { jQuery('#wpgmza_add_pic').val(wpgmza_img_thumbnail); }
+            else { jQuery('#wpgmza_add_pic').val(wpgmza_img_full); }*/
+
+
         });
         tgm_media_frame_img.open();
     });
