@@ -344,3 +344,28 @@ ul.wpgmza_marker_list_class {
         width:140px !important;
     }
 }
+
+.wpgmza-badge {
+    background-image: url(http://www.wpgmaps.com/wp-content/uploads/2012/11/WP-google-maps-logo-1-B-transparent.png); position: absolute;
+    background: url(http://www.wpgmaps.com/wp-content/uploads/2012/11/WP-google-maps-logo-1-B-transparent.png) center no-repeat;
+    -webkit-background-size: 202px 101px;
+    background-size: 202px 101px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    margin: 5px 0 0;
+    padding:5px;
+    
+    height: 101px;
+    display: inline-block;
+    width: 202px;
+    text-rendering: optimizeLegibility;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    top: 0;
+    right: 0;
+}
+.toplevel_page_wp-google-maps-menu .about-text {
+    max-width: 600px;
+}

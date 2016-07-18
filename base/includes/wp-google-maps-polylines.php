@@ -26,8 +26,8 @@ function wpgmza_b_pro_add_polyline($mid) {
                 <div class='wide'>
 
                     <h2>".__("Add a Polyline","wp-google-maps")."</h2>
-                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_add_polyline_form'>
-                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
+                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_add_polyline_form'>
+                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
                     <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>
@@ -110,16 +110,16 @@ function wpgmza_b_pro_edit_polyline($mid) {
                 <div class='wide'>
 
                     <h2>".__("Edit Polyline","wp-google-maps")."</h2>
-                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_edit_poly_form'>
-                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
-                    <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".sanitize_text_field($_GET['poly_id'])."' />
+                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_edit_poly_form'>
+                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
+                    <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".esc_attr($_GET['poly_id'])."' />
                     <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>
                                 ".__("Name","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_line\" name=\"poly_name\" type=\"text\" value=\"".$pol->polyname."\" />
+                                <input id=\"poly_line\" name=\"poly_name\" type=\"text\" value=\"".esc_attr(stripslashes($pol->polyname))."\" />
                             </td>
                         </tr>
                         <tr>
@@ -127,7 +127,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                                 ".__("Line Color","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_line\" name=\"poly_line\" type=\"text\" class=\"color\" value=\"".$pol->linecolor."\" />
+                                <input id=\"poly_line\" name=\"poly_line\" type=\"text\" class=\"color\" value=\"".esc_attr($pol->linecolor)."\" />
                             </td>
                         </tr>
                         <tr>
@@ -135,7 +135,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                                 ".__("Opacity","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_opacity\" name=\"poly_opacity\" type=\"text\" value=\"".$pol->opacity."\" /> (0 - 1.0) example: 0.8 for 80%
+                                <input id=\"poly_opacity\" name=\"poly_opacity\" type=\"text\" value=\"".esc_attr($pol->opacity)."\" /> (0 - 1.0) example: 0.8 for 80%
                             </td>
                         </tr>
                         <tr>
@@ -143,7 +143,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                                 ".__("Line Thickness","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_thickness\" name=\"poly_thickness\" type=\"text\" value=\"".$pol->linethickness."\" /> (0 - 50) example: 4
+                                <input id=\"poly_thickness\" name=\"poly_thickness\" type=\"text\" value=\"".esc_attr($pol->linethickness)."\" /> (0 - 50) example: 4
                             </td>
                                 
                     </tr>
@@ -647,11 +647,7 @@ function wpgmza_b_return_polyline_list($map_id,$admin = true,$width = "100%") {
     global $wpgmza_tblname_polylines;
     $wpgmza_tmp = "";
 
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_polylines
-	WHERE `map_id` = '$map_id' ORDER BY `id` DESC
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_polylines WHERE `map_id` = %d ORDER BY `id` DESC",intval($map_id)) );
     
     $wpgmza_tmp .= "
         
@@ -684,7 +680,7 @@ function wpgmza_b_return_polyline_list($map_id,$admin = true,$width = "100%") {
         $wpgmza_tmp .= "
             <tr id=\"wpgmza_poly_tr_".$result->id."\">
                 <td height=\"40\">".$result->id."</td>
-                <td height=\"40\">$poly_name</td>
+                <td height=\"40\">".esc_attr(stripslashes($poly_name))."</td>
                 <td width='170' align='left'>
                     <a href=\"".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu&action=edit_polyline&map_id=".$map_id."&poly_id=".$result->id."\" title=\"".__("Edit","wp-google-maps")."\" class=\"wpgmza_edit_poly_btn button\" id=\"".$result->id."\"><i class=\"fa fa-edit\"> </i></a> 
                     <a href=\"javascript:void(0);\" title=\"".__("Delete this polyline","wp-google-maps")."\" class=\"wpgmza_polyline_del_btn button\" id=\"".$result->id."\"><i class=\"fa fa-times\"> </i></a>
@@ -701,11 +697,7 @@ function wpgmza_b_return_polyline_list($map_id,$admin = true,$width = "100%") {
 function wpgmza_b_return_polyline_options($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_polylines
-	WHERE `id` = '$poly_id' LIMIT 1
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_polylines WHERE `id` = %d LIMIT 1",intval($poly_id)) );
     foreach ( $results as $result ) {
         return $result;
     }
@@ -714,11 +706,7 @@ function wpgmza_b_return_polyline_options($poly_id) {
 function wpgmza_b_return_polyline_array($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_polylines
-	WHERE `id` = '$poly_id' LIMIT 1
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_polylines WHERE `id` = %d LIMIT 1",intval($poly_id)) );
     foreach ( $results as $result ) {
         $current_polydata = $result->polydata;
         $new_polydata = str_replace("),(","|",$current_polydata);
@@ -736,11 +724,7 @@ function wpgmza_b_return_polyline_id_array($map_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
     $ret = array();
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_polylines
-	WHERE `map_id` = '$map_id'
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_polylines WHERE `map_id` = %d",intval($map_id)) );
     foreach ( $results as $result ) {
         $current_id = $result->id;
         $ret[] = $current_id;
