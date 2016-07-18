@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google, google map, google maps plugin, wp maps, wp google maps, wp google map, easy map, store locator, map plugin, directions, map directions, google map plugin, routes, polygons, polylines, streetview, location, marker, latitude, longitude, map widget, map themes
 Requires at least: 3.5
-Tested up to: 4.5
+Tested up to: 4.6
 Stable tag: trunk
 License: GPLv2
 
@@ -193,6 +193,9 @@ Try [Nifty Maps](http://www.niftymaps.co) - Comprehensive Map Builder for all we
 
 == Upgrade Notice ==
 
+= 6.3.14 =
+Please update your WP Google Maps version to 6.3.14 to ensure you are using the latest security enhancements.
+
 = 6.2.1 =
 Please update your WP Google Maps version to 6.2.1 to ensure you are using the latest security enhancements.
 
@@ -206,6 +209,12 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 6.3.14 - 2016-07-13 - High priority =
+* Many security patches - thank you Gerard Arall
+* Bug fix - trim whitespace before and api the Google Maps API key
+* Additional tab support added
+* Corrected PHP noticess
 
 = 6.3.13 - 2016-07-07 - Medium priority =
 * Revised Maps API Dequeue Script Added
