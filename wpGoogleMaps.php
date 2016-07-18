@@ -15,6 +15,7 @@ Domain Path: /languages
  * Many security patches - thank you Gerard Arall
  * Bug fix - trim whitespace before and api the Google Maps API key
  * Additional tab support added
+ * Corrected PHP noticess
  * 
  * 6.3.13 - 2016-07-05 - Medium priority
  * Revised Maps API Dequeue Script Added
@@ -3850,7 +3851,7 @@ function wpgmaps_menu_layout() {
         echo"<br /><div class='wpgmza-support-notice' style='float:right; display:block; width:250px; height:65px; padding:6px; text-align:center; background-color: white;  border-top: 4px solid #0073AA; margin-right:17px;'><strong>".__("Experiencing problems with the plugin?","wp-google-maps")."</strong><br /><a href='http://www.wpgmaps.com/documentation/troubleshooting/' title='WP Google Maps Troubleshooting Section' target='_BLANK'>".__("See the troubleshooting manual.","wp-google-maps")."</a> <br />".__("Or ask a question on our ","wp-google-maps")." <a href='http://www.wpgmaps.com/forums/forum/support-forum/' title='WP Google Maps Support Forum' target='_BLANK'>".__("Support forum.","wp-google-maps")."</a></div>";
 
         if ($_GET['action'] == "trash" && isset($_GET['map_id'])) {
-            if ($_GET['s'] == "1") {
+            if (isset( $_GET['s'] ) && $_GET['s'] == "1") {
                 if (wpgmaps_trash_map(sanitize_text_field($_GET['map_id']))) {
                     echo "<script>window.location = \"".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu\"</script>";
                 } else {
@@ -3861,7 +3862,7 @@ function wpgmaps_menu_layout() {
                 echo "<h2>".__("Delete your map","wp-google-maps")."</h2><p>".__("Are you sure you want to delete the map","wp-google-maps")." <strong>\"".$res->map_title."?\"</strong> <br /><a href='?page=wp-google-maps-menu&action=trash&map_id=".sanitize_text_field($_GET['map_id'])."&s=1'>".__("Yes","wp-google-maps")."</a> | <a href='?page=wp-google-maps-menu'>".__("No","wp-google-maps")."</a></p>";
             }
         }
-        if ($_GET['action'] == "duplicate" && isset($_GET['map_id'])) {
+        if (isset($_GET['action']) && $_GET['action'] == "duplicate" && isset($_GET['map_id'])) {
             if (function_exists('wpgmaps_duplicate_map')) {    
                 $new_id = wpgmaps_duplicate_map(sanitize_text_field($_GET['map_id']));
                 if ($new_id > 0) {
