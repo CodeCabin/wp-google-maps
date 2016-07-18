@@ -193,6 +193,9 @@ Try [Nifty Maps](http://www.niftymaps.co) - Comprehensive Map Builder for all we
 
 == Upgrade Notice ==
 
+= 6.3.14 =
+Please update your WP Google Maps version to 6.3.14 to ensure you are using the latest security enhancements.
+
 = 6.2.1 =
 Please update your WP Google Maps version to 6.2.1 to ensure you are using the latest security enhancements.
 
