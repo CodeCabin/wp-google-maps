@@ -346,8 +346,8 @@ ul.wpgmza_marker_list_class {
 }
 
 .wpgmza-badge {
-    background-image: url(http://www.wpgmaps.com/wp-content/uploads/2012/11/WP-google-maps-logo-1-B-transparent.png); position: absolute;
-    background: url(http://www.wpgmaps.com/wp-content/uploads/2012/11/WP-google-maps-logo-1-B-transparent.png) center no-repeat;
+    background-image: url(../images/WP-google-maps-logo-1-B-transparent.png); position: absolute;
+    background: url(../images/WP-google-maps-logo-1-B-transparent.png) center no-repeat;
     -webkit-background-size: 202px 101px;
     background-size: 202px 101px;
     color: #fff;

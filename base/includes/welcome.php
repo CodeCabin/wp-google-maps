@@ -3,7 +3,7 @@
 
 <h1><?php _e("Welcome to WP Google Maps version 6.3","wp-google-maps"); ?></h1>
 
-<div class="about-text"><?php _e("Thank you for updating! WP Google Maps version 6 helps you build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
+<div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 
 <div class="wpgmza-badge" style=''></div>
 
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                         
-                <a class="button-primary" href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
+                <a class="button-primary" style='padding:10px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
 
             </div>
         </div>

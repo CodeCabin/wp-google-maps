@@ -22,7 +22,7 @@ Nick Duncan</a>
 	<span class="title"><?php _e("Founder &amp; Lead Developer","wp-google-maps"); ?></span>
 </li>
 </ul>
-<h3 class="wp-people-group"><?php _e("Contributers","wp-google-maps"); ?></h3>
+<h3 class="wp-people-group"><?php _e("Contributors","wp-google-maps"); ?></h3>
 <ul class="wp-people-group " id="wp-people-group-core-developers">
 <li class="wp-person" id="wp-person-dylanauty">
 	<a href="https://profiles.wordpress.org/dylanauty/" class="web"><img src="http://en.gravatar.com/userimage/99843032/c4b24cccc2f7bd5b23ed2d1d8b1638e4?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
@@ -57,5 +57,7 @@ Gerard Arall</a>
 
 
 <p class="clear"><?php _e("Want to see your name on this page?","wp-google-maps"); ?> <a href="https://github.com/CodeCabin/wp-google-maps/"><?php _e("Get involved on GitHub.","wp-google-maps"); ?></a></p>
+
+                <a class="button-primary" style='padding:10px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
 
 </div>

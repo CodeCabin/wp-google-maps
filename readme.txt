@@ -1,7 +1,7 @@
 === WP Google Maps ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
-Tags: google maps, maps, map, map markers, google, google map, google maps plugin, wp maps, wp google maps, wp google map, easy map, store locator, map plugin, directions, map directions, google map plugin, routes, polygons, polylines, streetview, location, marker, latitude, longitude, map widget, map themes
+Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
 Tested up to: 4.6
 Stable tag: trunk
