@@ -224,6 +224,7 @@ Domain Path: /languages
  * Now showing default settings for marker path and URL
  * Removed the "map could not load" error
  * Fixed a bug that when threw off gps co-ordinates when adding a lat,lng as an address
+ * Water is good
  * 
  */
 
