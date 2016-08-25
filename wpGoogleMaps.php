@@ -505,8 +505,8 @@ function wpgmaps_init() {
     if (!isset($current_version) || $current_version != $wpgmza_version) {
 
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-        if (isset($wpgmza_settings['wpgmza_api_version']) && ($wpgmza_settings['wpgmza_api_version'] == "3.14" || $wpgmza_settings['wpgmza_api_version'] == "3.15")) {
-            $wpgmza_settings['wpgmza_api_version'] = "3.23";
+        if (isset($wpgmza_settings['wpgmza_api_version']) && ($wpgmza_settings['wpgmza_api_version'] == "3.14" || $wpgmza_settings['wpgmza_api_version'] == "3.15" || $wpgmza_settings['wpgmza_api_version'] = "3.23")) {
+            $wpgmza_settings['wpgmza_api_version'] = "3.24";
         }
         update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
 
