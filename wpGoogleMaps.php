@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: http://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 6.3.18
+Version: 6.3.19
 Author: WP Google Maps
 Author URI: http://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /* 
+ * 6.3.19 - 2016-09-21
+ * Fixed a bug that caused some maps to not load markers on page load
+ * 
  * 6.3.18 - 2016-09-15
  * Chinese support - when your language is set to Chinese (ZN_cn), the map will now load from maps.google.cn
  * Hebrew language code fixed when accessing the Google Maps API in Hebrew
@@ -284,8 +287,8 @@ $wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
 $wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "6.3.18";
-$wpgmza_p_version = "6.02";
+$wpgmza_version = "6.3.19";
+$wpgmza_p_version = "6.07";
 $wpgmza_t = "basic";
 define("WPGMAPS", $wpgmza_version);
 define("WPGMAPS_DIR",plugin_dir_url(__FILE__));
@@ -1822,22 +1825,16 @@ function wpgmaps_user_javascript_basic() {
         /* Chinese integration */
         if ($wpgmza_locale == "zh_CN") { $wpgmza_suffix = ".cn"; } else { $wpgmza_suffix = ".com"; } 
 
-        if(isset($wpgmza_settings['wpgmza_settings_remove_api']) && $wpgmza_settings['wpgmza_settings_remove_api'] == "yes"){ } else {
-            if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
-            <script type="text/javascript">
-                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                var wpgmza_api_key = '<?php echo trim(get_option( 'wpgmza_google_maps_api_key' )); ?>';
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google<?php echo $wpgmza_suffix; ?>/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"&language=<?php echo $wpgmza_locale; ?>' type='text/javascript'%3E%3C/script%3E"));
-            </script>
-        <?php } else { ?>
-            <script type="text/javascript">
-                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google<?php echo $wpgmza_suffix; ?>/maps/api/js?<?php echo $api_version_string; ?>&language=<?php echo $wpgmza_locale; ?>&libraries=places' type='text/javascript'%3E%3C/script%3E"));
-            </script>
-        <?php } 
-        }  
+        $wpgmza_api_key = get_option( 'wpgmza_google_maps_api_key' );
 
-        wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.min.js',__FILE__), array(), $wpgmza_version.'b' , false);
+        if( $wpgmza_api_key ){
+            wp_enqueue_script('wpgmza_api_call', '//maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'key='.$wpgmza_api_key.'&language='.$wpgmza_locale );            
+        } else {
+            wp_enqueue_script('wpgmza_api_call', '//maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'language='.$wpgmza_locale );            
+        }
+
+        wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.min.js',__FILE__), array( 'wpgmza_api_call' ), $wpgmza_version.'b' , false);
+
         do_action("wpgooglemaps_basic_hook_user_js_after_core");
 
 
