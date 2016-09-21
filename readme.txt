@@ -213,6 +213,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 6.3.19 - 2016-09-21 =
+* Fixed a bug that caused some maps to not load markers on page load
+
 = 6.3.18 - 2016-09-15 =
 * Chinese support - when your language is set to Chinese (ZN_cn), the map will now load from maps.google.cn
 * Hebrew language code fixed when accessing the Google Maps API in Hebrew
