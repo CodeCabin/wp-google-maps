@@ -1,11 +1,15 @@
 <?php global $wpgmza_global_array; ?>
 <div class="wrap about-wrap">
-
+<p>&nbsp;</p>
 <h1><?php _e("Welcome to WP Google Maps version 6.3","wp-google-maps"); ?></h1>
 
 <div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 
 <div class="wpgmza-badge" style=''></div>
+
+<a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("Skip intro and create a map","wp-google-maps"); ?></a>
+<p>&nbsp;</p>
+
 
 <h2 class="nav-tab-wrapper wp-clearfix">
 	<a href="admin.php?page=wp-google-maps-menu&action=welcome_page" class="nav-tab  nav-tab-active"><?php _e("Welcome","wp-google-maps"); ?></a>
@@ -73,7 +77,7 @@
                                         
                                         
                                     </ul></p>
-                                    <input type='submit' name='wpgmza_save_feedback' value='Submit'> 
+                                    <input class='button-primary' type='submit' name='wpgmza_save_feedback' value='<?php _e("Submit and create a map","wp-google-maps"); ?>'> 
                                     
                                 </form>
                                 </div>
@@ -102,7 +106,7 @@
                             </div>
                         </div>
                         
-                <a class="button-primary" style='padding:10px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
+                <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
 
             </div>
         </div>
