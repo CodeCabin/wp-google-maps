@@ -6166,7 +6166,9 @@ function wpgmza_deregister_styles() {
     }
 }
 
-add_action( 'wp_enqueue_scripts', 'wpgmza_load_google_maps_api' );
+if( !function_exists( 'wpgmaps_pro_activate' ) ){
+    add_action( 'wp_enqueue_scripts', 'wpgmza_load_google_maps_api' );
+}
 
 function wpgmza_load_google_maps_api(){
 
@@ -6175,7 +6177,7 @@ function wpgmza_load_google_maps_api(){
     if( $short_code_active ){
 
         $wpgmza_locale = get_locale();
-        
+
         $wpgmza_suffix = ".com";
         /* Hebrew correction */
         if ($wpgmza_locale == "he_IL") { $wpgmza_locale = "iw"; }
