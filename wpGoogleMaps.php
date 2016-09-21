@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: http://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 6.3.11
+Version: 6.3.16
 Author: WP Google Maps
 Author URI: http://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,9 +11,34 @@ Domain Path: /languages
 */
 
 /* 
- * 6.3.11 - 2016-05-04
+ * 6.3.16 - 2016-08-04 - Low priority
+ * API key is now used on the edit polyline page
+ * Removed the resizing script that caused the map to flicker on mobile devices
+ * Added additional tab support (tri-tabs-nav span)
+ * Fixed a bug in the store locator country restriction list
+ * 
+ * 6.3.15 - 2016-07-31 - High priority
+ * Security patches
+ * Code refactoring
+ * 
+ * 6.3.14 - 2016-07-13 - High priority
+ * Many security patches - thank you Gerard Arall
+ * Bug fix - trim whitespace before and api the Google Maps API key
+ * Additional tab support added
+ * Corrected PHP noticess
+ * 
+ * 6.3.13 - 2016-07-05 - Medium priority
+ * Revised Maps API Dequeue Script Added
+ * Remove Style dequeue script as this was causing UI conflicts
+ * Added option to disable Maps API from being loaded on front end
+ *
+ * 6.3.12 - 2016-06-27 - Medium priority
+ * Modified the API key notification to make it simpler and more intuitive
+ * 
+ * 6.3.11 - 2016-06-24 - Medium Priority
  * Small activation bug fixed
  * all polygons and polylines are now viewable when editing or creating a new polygon or polyline
+ * Notifications of Google Maps API key requirements
  * 
  * 6.3.10 - 2016-05-03 - Low priority
  * Added event listeners for both jQuery and accordions so that the map can init correctly when placed in a tab or accordion
@@ -237,8 +262,8 @@ $wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
 $wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "6.3.13";
-$wpgmza_p_version = "6.3.13";
+$wpgmza_version = "6.3.16";
+$wpgmza_p_version = "6.02";
 $wpgmza_t = "basic";
 define("WPGMAPS", $wpgmza_version);
 define("WPGMAPS_DIR",plugin_dir_url(__FILE__));
@@ -324,7 +349,7 @@ function wpgmaps_activate() {
                 "bicycle" => "2",
                 "traffic" => "2",
                 "dbox" => "1",
-                "dbox_width" => "250",
+                "dbox_width" => "100",
                 "default_to" => "",
                 "listmarkers" => "0",
                 "listmarkers_advanced" => "0",
@@ -382,7 +407,7 @@ function wpgmaps_activate() {
     
     
     /* load first marker as an example marker */
-    $results = $wpdb->get_results("SELECT * FROM $table_name WHERE `map_id` = '1'");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE `map_id` = %d",1));
     if (!$results) { $rows_affected = $wpdb->insert( $table_name, array( 'map_id' => '1', 'address' => 'California', 'lat' => '36.778261', 'lng' => '-119.4179323999', 'pic' => '', 'link' => '', 'icon' => '', 'anim' => '', 'title' => '', 'infoopen' => '', 'description' => '', 'category' => 0, 'retina' => 0) ); }
 
     
@@ -442,10 +467,12 @@ function wpgmaps_init() {
 
     
     
+//    delete_option("WPGMZA_FIRST_TIME");
     
     wpgmaps_handle_directory();
     /* handle first time users and updates */
     if (isset($_GET['page']) && $_GET['page'] == 'wp-google-maps-menu') {
+
         
         /* check if their using APC object cache, if yes, do nothing with the welcome page as it causes issues when caching the DB options */
         if (class_exists("APC_Object_Cache")) {
@@ -613,10 +640,10 @@ function wpgmaps_get_marker_url($mapid = false) {
     if (floatval($wpgmza_version) < 6 || $wpgmza_version == "6.0.4" || $wpgmza_version == "6.0.3" || $wpgmza_version == "6.0.2" || $wpgmza_version == "6.0.1" || $wpgmza_version == "6.0.0") {
         if (is_multisite()) { 
             global $blog_id;
-            $wurl = wpgmaps_get_plugin_url()."/".$blog_id."-".$mapid."markers.xml";
+            $wurl = wpgmaps_get_plugin_url()."".$blog_id."-".$mapid."markers.xml";
         }
         else {
-            $wurl = wpgmaps_get_plugin_url()."/".$mapid."markers.xml";
+            $wurl = wpgmaps_get_plugin_url()."".$mapid."markers.xml";
         }
     } else {
         /* later versions store marker files in wp-content/uploads/wp-google-maps director */
@@ -666,7 +693,7 @@ function wpgmaps_admin_edit_marker_javascript() {
     <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
         <script type="text/javascript">
             var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-            var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+            var wpgmza_api_key = '<?php echo trim(get_option( 'wpgmza_google_maps_api_key' )); ?>';
             document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"' type='text/javascript'%3E%3C/script%3E"));
         </script>
     <?php } else { ?>
@@ -676,8 +703,8 @@ function wpgmaps_admin_edit_marker_javascript() {
         </script>
     <?php } ?>
     <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
-    <link rel="stylesheet" type="text/css" media="all" href="<?php echo wpgmaps_get_plugin_url(); ?>/css/data_table.css" />
-    <script type="text/javascript" src="<?php echo wpgmaps_get_plugin_url(); ?>/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="<?php echo wpgmaps_get_plugin_url(); ?>css/data_table.css" />
+    <script type="text/javascript" src="<?php echo wpgmaps_get_plugin_url(); ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" >
         jQuery(document).ready(function(){
             function wpgmza_InitMap() {
@@ -741,7 +768,16 @@ function wpgmaps_admin_javascript_basic() {
     $ajax_nonce = wp_create_nonce("wpgmza");
 
 
-    
+    if( isset( $_POST['wpgmza_save_google_api_key_list'] ) ){  
+        if( $_POST['wpgmza_google_maps_api_key'] !== '' ){      
+            update_option('wpgmza_google_maps_api_key', sanitize_text_field(trim($_POST['wpgmza_google_maps_api_key'])));
+            echo "<div class='updated'><p>";
+            $settings_page = "<a href='".admin_url('/admin.php?page=wp-google-maps-menu-settings#tabs-4')."'>".__('settings', 'wp-google-maps')."</a>";
+            echo sprintf( __('Your Google Maps API key has been successfully saved. This API key can be changed in the %s page', 'wp-google-maps'), $settings_page );
+            echo "</p></div>";
+        }          
+    }
+
     if (is_admin() && isset( $_GET['page'] ) && $_GET['page'] == 'wp-google-maps-menu' && isset( $_GET['action'] ) && $_GET['action'] == "edit_marker") {
         wpgmaps_admin_edit_marker_javascript();
     }
@@ -830,7 +866,7 @@ function wpgmaps_admin_javascript_basic() {
         <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
             <script type="text/javascript">
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+                var wpgmza_api_key = '<?php echo trim(get_option( 'wpgmza_google_maps_api_key' )); ?>';
                 document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } else { ?>
@@ -842,9 +878,9 @@ function wpgmaps_admin_javascript_basic() {
         
         <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />-->
 
-        <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
-        <link rel="stylesheet" type="text/css" media="all" href="<?php echo wpgmaps_get_plugin_url(); ?>/css/data_table.css" />
-        <script type="text/javascript" src="<?php echo wpgmaps_get_plugin_url(); ?>/js/jquery.dataTables.min.js"></script>
+        <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>css/wpgmza_style.css' type='text/css' media='all' />
+        <link rel="stylesheet" type="text/css" media="all" href="<?php echo wpgmaps_get_plugin_url(); ?>css/data_table.css" />
+        <script type="text/javascript" src="<?php echo wpgmaps_get_plugin_url(); ?>js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" >
             var marker_pull = '<?php echo $marker_pull; ?>';
             var placeSearch, autocomplete;
@@ -1656,10 +1692,11 @@ function wpgmaps_user_javascript_basic() {
         }
         ?>
         
-        <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
+        <?php if(isset($wpgmza_settings['wpgmza_settings_remove_api']) && $wpgmza_settings['wpgmza_settings_remove_api'] == "yes"){ } else {
+            if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
             <script type="text/javascript">
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+                var wpgmza_api_key = '<?php echo trim(get_option( 'wpgmza_google_maps_api_key' )); ?>';
                 document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } else { ?>
@@ -1667,7 +1704,8 @@ function wpgmaps_user_javascript_basic() {
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
                 document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
-        <?php } ?>        
+        <?php } 
+        }  ?>        
         <script type="text/javascript" >
             var marker_pull = '<?php echo $marker_pull; ?>';
             <?php if (isset($markers) && strlen($markers) > 0 && $markers != "[]"){ ?>var db_marker_array = JSON.stringify(<?php echo $markers; ?>);<?php } else { echo "var db_marker_array = '';"; } ?>
@@ -1722,11 +1760,13 @@ function wpgmaps_user_javascript_basic() {
                             MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
                         });           
 
+                        /* removed in 6.3.16 
                         jQuery(window).resize(function() {
                             MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
                             UniqueCode=Math.round(Math.random()*10000);
                             MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
                         });
+                        */
 
                         /* tab compatibility */
 
@@ -1745,7 +1785,17 @@ function wpgmaps_user_javascript_basic() {
                             UniqueCode=Math.round(Math.random()*10000);
                             MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
                         });
-
+                        jQuery('body').on('click', '.vc_tta-panel-heading', function(){ 
+                            setTimeout(function(){
+                            MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
+                            UniqueCode=Math.round(Math.random()*10000);
+                            MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
+                        }, 500); });
+                        jQuery('body').on('click', '.ult_exp_section', function(){ setTimeout(function(){
+                            MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
+                            UniqueCode=Math.round(Math.random()*10000);
+                            MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
+                        }, 300); });
                         jQuery('body').on('click', '.x-accordion-heading', function(){ 
                             MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
                             UniqueCode=Math.round(Math.random()*10000);
@@ -1781,6 +1831,13 @@ function wpgmaps_user_javascript_basic() {
                             UniqueCode=Math.round(Math.random()*10000);
                             MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
                         });  
+                        jQuery('body').on('click', '. tri-tabs-nav span', function (event, ui) { 
+                            MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
+                            UniqueCode=Math.round(Math.random()*10000);
+                            MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url($wpgmza_current_map_id); ?>?u='+UniqueCode,<?php echo $wpgmza_current_map_id; ?>,null,null,null);
+                        });  
+
+
                         
                         
                         /* compatibility for GDL tabs */
@@ -2270,8 +2327,7 @@ function wpgmaps_user_javascript_basic() {
 
                 // user autofill
                 if (elementExists !== null) {
-                    <?php if (!$restrict_search) { ?>
-                        console.log('not restricting');
+                    <?php if (!$restrict_search) { ?>                        
                         /* initialize the autocomplete form */
                         autocomplete = new google.maps.places.Autocomplete(
                           /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
@@ -2282,8 +2338,7 @@ function wpgmaps_user_javascript_basic() {
                             fillInAddress();
                         });
                     <?php } else { ?>
-                        /* initialize the autocomplete form */
-                        console.log('restricting');
+                        /* initialize the autocomplete form */                        
                         autocomplete = new google.maps.places.Autocomplete(
                           /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
                           { types: ['geocode'], componentRestrictions: {country: '<?php echo $restrict_search; ?>'} });
@@ -2414,19 +2469,11 @@ function wpgmaps_update_xml_file($mapid = false) {
     if (function_exists('wpgmza_register_pro_version')) {
         $prov = get_option("WPGMZA_PRO");
         $wpgmza_pro_version = $prov['version'];
-        $sql = "SELECT * FROM $table_name WHERE `map_id` = '$mapid' AND `approved` = 1";
-        $results = $wpdb->get_results($sql);
+        
+        $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE `map_id` = %d AND `approved` = 1",intval($mapid)) );
     } else {
 
-        $results = $wpdb->get_results(
-            "
-                SELECT *
-                FROM $table_name
-                WHERE `map_id` = '$mapid'
-                AND `approved` = 1
-
-                "
-        );
+        $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE `map_id` = %d AND `approved` = 1",intval($mapid)) );
     }
     
 
@@ -2535,15 +2582,14 @@ function wpgmaps_update_xml_file($mapid = false) {
 
 
 function wpgmaps_return_markers($mapid = false) {
-
     if (!$mapid) {
         return;
     }
     global $wpdb;
     
     $table_name = $wpdb->prefix . "wpgmza";
-    $sql = "SELECT * FROM $table_name WHERE `map_id` = '$mapid' AND `approved` = 1";
-    $results = $wpdb->get_results($sql);
+    
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE `map_id` = %d AND `approved` = 1",intval($mapid)) );
     $m_array = array();
     $cnt = 0;
     foreach ( $results as $result ) {   
@@ -2776,7 +2822,7 @@ function wpgmaps_update_all_xml_file() {
     }
     
     $table_name = $wpdb->prefix . "wpgmza_maps";
-    $results = $wpdb->get_results("SELECT `id` FROM $table_name WHERE `active` = 0");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT `id` FROM $table_name WHERE `active` = %d",0));
 
     foreach ( $results as $result ) {
         $map_id = $result->id;
@@ -2824,13 +2870,8 @@ function wpgmaps_action_callback_basic() {
         }
         if ($_POST['action'] == "delete_marker") {
             $marker_id = sanitize_text_field($_POST['marker_id']);
-            $wpdb->query(
-                "
-                        DELETE FROM $wpgmza_tblname
-                        WHERE `id` = '$marker_id'
-                        LIMIT 1
-                        "
-            );
+            $wpdb->query( $wpdb->prepare("DELETE FROM $wpgmza_tblname WHERE `id` = %d LIMIT 1",intval($marker_id)) );
+
             $wpgmza_check = wpgmaps_update_xml_file(sanitize_text_field($_POST['map_id']));
             if ( is_wp_error($wpgmza_check) ) wpgmza_return_error($wpgmza_check);
             $return_a = array(
@@ -2844,38 +2885,16 @@ function wpgmaps_action_callback_basic() {
         }
         if ($_POST['action'] == "delete_poly") {
             $poly_id = sanitize_text_field($_POST['poly_id']);
-
-            $wpdb->query(
-                    "
-                    DELETE FROM $wpgmza_tblname_poly
-                    WHERE `id` = '$poly_id'
-                    LIMIT 1
-                    "
-            );
-
+            $wpdb->query($wpdb->prepare("DELETE FROM $wpgmza_tblname_poly WHERE `id` = %d LIMIT 1",intval($poly_id)) );
             echo wpgmza_b_return_polygon_list(sanitize_text_field($_POST['map_id']));
-
         }
         if ($_POST['action'] == "delete_polyline") {
             $poly_id = sanitize_text_field($_POST['poly_id']);
-
-            $wpdb->query(
-                    "
-                    DELETE FROM $wpgmza_tblname_polylines
-                    WHERE `id` = '$poly_id'
-                    LIMIT 1
-                    "
-            );
-
+            $wpdb->query($wpdb->prepare("DELETE FROM $wpgmza_tblname_polylines WHERE `id` = %d LIMIT 1",intval($poly_id)) );
             echo wpgmza_b_return_polyline_list(sanitize_text_field($_POST['map_id']));
-
         }
-        
-
     }
-
     die(); 
-
 }
 
 function wpgmaps_load_maps_api() {
@@ -2997,7 +3016,7 @@ function wpgmaps_sl_user_output_basic($map_id) {
     
     $ret_msg .= "<div class=\"wpgmza_sl_main_div\">";
     $ret_msg .= "       <div class=\"wpgmza_sl_query_div\">";
-    $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv1\"><label for='addressInput'>".$sl_query_string."</label></div>";
+    $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv1\"><label for='addressInput'>".esc_attr($sl_query_string)."</label></div>";
     $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv2\"><input type=\"text\" id=\"addressInput\" size=\"20\"/></div>";
     $ret_msg .= "       </div>";
 
@@ -3053,9 +3072,10 @@ function wpgmaps_sl_user_output_basic($map_id) {
 }
 
 function wpgmaps_get_plugin_url() {
-    if ( !function_exists('plugins_url') )
-        return get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
-    return plugins_url(plugin_basename(dirname(__FILE__)));
+    return plugin_dir_url( __FILE__ );
+//    if ( !function_exists('plugins_url') )
+//        return get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
+//    return plugins_url(plugin_basename(dirname(__FILE__)));
 }
 
 function wpgmaps_head() {
@@ -3423,6 +3443,8 @@ function wpgmaps_head() {
         if (isset($_POST['wpgmza_settings_map_pan'])) { $wpgmza_data['wpgmza_settings_map_pan'] = sanitize_text_field($_POST['wpgmza_settings_map_pan']); }
         if (isset($_POST['wpgmza_settings_map_type'])) { $wpgmza_data['wpgmza_settings_map_type'] = sanitize_text_field($_POST['wpgmza_settings_map_type']); }
         if (isset($_POST['wpgmza_settings_force_jquery'])) { $wpgmza_data['wpgmza_settings_force_jquery'] = sanitize_text_field($_POST['wpgmza_settings_force_jquery']); }
+        if (isset($_POST['wpgmza_settings_remove_api'])) { $wpgmza_data['wpgmza_settings_remove_api'] = sanitize_text_field($_POST['wpgmza_settings_remove_api']); }
+        
         if (isset($_POST['wpgmza_settings_map_scroll'])) { $wpgmza_data['wpgmza_settings_map_scroll'] = sanitize_text_field($_POST['wpgmza_settings_map_scroll']); }
         if (isset($_POST['wpgmza_settings_map_draggable'])) { $wpgmza_data['wpgmza_settings_map_draggable'] = sanitize_text_field($_POST['wpgmza_settings_map_draggable']); }
         if (isset($_POST['wpgmza_settings_map_clickzoom'])) { $wpgmza_data['wpgmza_settings_map_clickzoom'] = sanitize_text_field($_POST['wpgmza_settings_map_clickzoom']); }
@@ -3438,7 +3460,7 @@ function wpgmaps_head() {
 
         update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_data);
 
-        if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( $_POST['wpgmza_google_maps_api_key'] ) ); }
+        if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( trim($_POST['wpgmza_google_maps_api_key'] )) ); }
 
         echo "<div class='updated'>";
         _e("Your settings have been saved.","wp-google-maps");
@@ -3822,7 +3844,7 @@ function wpgmaps_admin_menu() {
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
     
     if (isset($wpgmza_settings['wpgmza_settings_access_level'])) { $access_level = $wpgmza_settings['wpgmza_settings_access_level']; } else { $access_level = "manage_options"; }
-    add_menu_page('WPGoogle Maps', __('Maps','wp-google-maps'), $access_level, 'wp-google-maps-menu', 'wpgmaps_menu_layout', wpgmaps_get_plugin_url()."/images/map_app_small.png");
+    add_menu_page('WPGoogle Maps', __('Maps','wp-google-maps'), $access_level, 'wp-google-maps-menu', 'wpgmaps_menu_layout', wpgmaps_get_plugin_url()."images/map_app_small.png");
     
     if (function_exists('wpgmaps_menu_category_layout')) { add_submenu_page('wp-google-maps-menu', 'WP Google Maps - Categories', __('Categories','wp-google-maps'), $access_level , 'wp-google-maps-menu-categories', 'wpgmaps_menu_category_layout'); }
     if (function_exists('wpgmza_register_pro_version')) { add_submenu_page('wp-google-maps-menu', 'WP Google Maps - Advanced Options', __('Advanced','wp-google-maps'), $access_level , 'wp-google-maps-menu-advanced', 'wpgmaps_menu_advanced_layout'); }
@@ -3849,7 +3871,7 @@ function wpgmaps_menu_layout() {
         echo"<br /><div class='wpgmza-support-notice' style='float:right; display:block; width:250px; height:65px; padding:6px; text-align:center; background-color: white;  border-top: 4px solid #0073AA; margin-right:17px;'><strong>".__("Experiencing problems with the plugin?","wp-google-maps")."</strong><br /><a href='http://www.wpgmaps.com/documentation/troubleshooting/' title='WP Google Maps Troubleshooting Section' target='_BLANK'>".__("See the troubleshooting manual.","wp-google-maps")."</a> <br />".__("Or ask a question on our ","wp-google-maps")." <a href='http://www.wpgmaps.com/forums/forum/support-forum/' title='WP Google Maps Support Forum' target='_BLANK'>".__("Support forum.","wp-google-maps")."</a></div>";
 
         if ($_GET['action'] == "trash" && isset($_GET['map_id'])) {
-            if ($_GET['s'] == "1") {
+            if (isset( $_GET['s'] ) && $_GET['s'] == "1") {
                 if (wpgmaps_trash_map(sanitize_text_field($_GET['map_id']))) {
                     echo "<script>window.location = \"".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu\"</script>";
                 } else {
@@ -3858,9 +3880,10 @@ function wpgmaps_menu_layout() {
             } else {
                 $res = wpgmza_get_map_data(sanitize_text_field($_GET['map_id']));
                 echo "<h2>".__("Delete your map","wp-google-maps")."</h2><p>".__("Are you sure you want to delete the map","wp-google-maps")." <strong>\"".$res->map_title."?\"</strong> <br /><a href='?page=wp-google-maps-menu&action=trash&map_id=".sanitize_text_field($_GET['map_id'])."&s=1'>".__("Yes","wp-google-maps")."</a> | <a href='?page=wp-google-maps-menu'>".__("No","wp-google-maps")."</a></p>";
+                return;
             }
         }
-        if ($_GET['action'] == "duplicate" && isset($_GET['map_id'])) {
+        if (isset($_GET['action']) && $_GET['action'] == "duplicate" && isset($_GET['map_id'])) {
             if (function_exists('wpgmaps_duplicate_map')) {    
                 $new_id = wpgmaps_duplicate_map(sanitize_text_field($_GET['map_id']));
                 if ($new_id > 0) {
@@ -3911,12 +3934,19 @@ function wpgmaps_menu_layout() {
         else if ($_GET['action'] == "edit_heatmap" && isset($_GET['map_id'])) {
             if (function_exists("wpgmza_b_pro_edit_heatmap")) { wpgmza_b_pro_edit_heatmap(sanitize_text_field($_GET['map_id'])); }
         }
-
         else if ($_GET['action'] == 'welcome_page') {
             $file = dirname(__FILE__).'/base/classes/WPGM_templates.php';
             include ($file);
             $wpgmc = new WPGMAPS_templates();
-            $wpgmc->welcome_page();
+            $wpgmc->welcome_page_v6();
+        
+        }
+
+        else if ($_GET['action'] == 'credits') {
+            $file = dirname(__FILE__).'/base/classes/WPGM_templates.php';
+            include ($file);
+            $wpgmc = new WPGMAPS_templates();
+            $wpgmc->welcome_page_credits();
         
         }
         else {
@@ -4006,12 +4036,17 @@ function wpgmaps_settings_page_basic() {
     
     echo"<div class=\"wrap\"><div id=\"icon-edit\" class=\"icon32 icon32-posts-post\"><br></div><h2>".__("WP Google Map Settings","wp-google-maps")."</h2>";
 
+    google_maps_api_key_warning();
+
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
     if (isset($wpgmza_settings['wpgmza_settings_map_streetview'])) { $wpgmza_settings_map_streetview = $wpgmza_settings['wpgmza_settings_map_streetview']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_zoom'])) { $wpgmza_settings_map_zoom = $wpgmza_settings['wpgmza_settings_map_zoom']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_pan'])) { $wpgmza_settings_map_pan = $wpgmza_settings['wpgmza_settings_map_pan']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_type'])) { $wpgmza_settings_map_type = $wpgmza_settings['wpgmza_settings_map_type']; }
     if (isset($wpgmza_settings['wpgmza_settings_force_jquery'])) { $wpgmza_force_jquery = $wpgmza_settings['wpgmza_settings_force_jquery']; }
+
+    if (isset($wpgmza_settings['wpgmza_settings_remove_api'])) { $wpgmza_remove_api = $wpgmza_settings['wpgmza_settings_remove_api']; }
+    
     if (isset($wpgmza_settings['wpgmza_settings_map_scroll'])) { $wpgmza_settings_map_scroll = $wpgmza_settings['wpgmza_settings_map_scroll']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_draggable'])) { $wpgmza_settings_map_draggable = $wpgmza_settings['wpgmza_settings_map_draggable']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_clickzoom'])) { $wpgmza_settings_map_clickzoom = $wpgmza_settings['wpgmza_settings_map_clickzoom']; }
@@ -4071,6 +4106,10 @@ function wpgmaps_settings_page_basic() {
     if (isset($wpgmza_settings_map_pan)) { if ($wpgmza_settings_map_pan == "yes") { $wpgmza_pan_checked = "checked='checked'"; } else { $wpgmza_pan_checked = ""; } } else { $wpgmza_pan_checked = ""; }
     if (isset($wpgmza_settings_map_type)) { if ($wpgmza_settings_map_type == "yes") { $wpgmza_type_checked = "checked='checked'"; } else { $wpgmza_type_checked = ""; } } else { $wpgmza_type_checked = ""; }
     if (isset($wpgmza_force_jquery)) { if ($wpgmza_force_jquery == "yes") { $wpgmza_force_jquery_checked = "checked='checked'"; } else { $wpgmza_force_jquery_checked = ""; } } else { $wpgmza_force_jquery_checked = ""; }
+
+    if (isset($wpgmza_remove_api)) { if ($wpgmza_remove_api == "yes") { $wpgmza_remove_api_checked = "checked='checked'"; } else { $wpgmza_remove_api_checked = ""; } } else { $wpgmza_remove_api_checked = ""; }
+
+    
 
     if (isset($wpgmza_settings['wpgmza_settings_enable_usage_tracking'])) { 
         if ($wpgmza_settings['wpgmza_settings_enable_usage_tracking'] == "yes") { 
@@ -4157,6 +4196,14 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                           <div class='switch'><input name='wpgmza_settings_force_jquery' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_settings_force_jquery' value='yes' $wpgmza_force_jquery_checked /> <label for='wpgmza_settings_force_jquery' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> ".__("Over-ride current jQuery with version 1.11.3 (Tick this box if you are receiving jQuery related errors after updating to WordPress 4.5)", 'wp-google-maps')."<br />";
             $ret .= "                    </td>";
             $ret .= "                </tr>";
+
+            $ret .= "               <tr>";
+            $ret .= "                        <td width='200' valign='top'></td>";
+            $ret .= "                     <td>";
+            $ret .= "                           <div class='switch'><input name='wpgmza_settings_remove_api' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_settings_remove_api' value='yes' $wpgmza_remove_api_checked /> <label for='wpgmza_settings_remove_api' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> ".__("Do not load the Google Maps API (Only check this if your theme loads the Google Maps API by default)", 'wp-google-maps')."<br />";
+            $ret .= "                    </td>";
+            $ret .= "                </tr>";
+
             $ret .= "                <tr>";
             $ret .= "                        <td width='200' valign='top'>".__("Use Google Maps API","wp-google-maps").":</td>";
             $ret .= "                     <td>";
@@ -4272,9 +4319,9 @@ function wpgmaps_settings_page_basic() {
 
             $ret .= "                   <table class='form-table'>";
             $ret .= "                <tr>";
-            $ret .= "                    <td valign='top' width='200' style='vertical-align:top;'>".__('Google Maps API Key (optional)', 'wp-google-maps')."</td>";
+            $ret .= "                    <td valign='top' width='200' style='vertical-align:top;'>".__('Google Maps API Key (required)', 'wp-google-maps')."</td>";
             $ret .= "                        <td>";
-            $ret .= "                           <input type='text' id='wpgmza_google_maps_api_key' name='wpgmza_google_maps_api_key' value='".get_option('wpgmza_google_maps_api_key')."' style='width: 400px;' />";
+            $ret .= "                           <input type='text' id='wpgmza_google_maps_api_key' name='wpgmza_google_maps_api_key' value='".trim(get_option('wpgmza_google_maps_api_key'))."' style='width: 400px;' />";
             $ret .= "                        </td>";
             $ret .= "                </tr>";
             $ret .= "                <p>".__("This API key can be obtained from the <a href='https://console.developers.google.com' target='_BLANK'>Google Developers Console</a>. Our <a href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this. ","wp-google-maps")."</p>";
@@ -4412,7 +4459,9 @@ function wpgmza_map_page() {
         update_option("wpgmza_review_nag",time());
     }
 
-    wpgmza_review_nag();
+    wpgmza_review_nag();    
+
+    google_maps_api_key_warning();    
     
     if (function_exists('wpgmza_register_pro_version')) {
         wpgmza_stats("list_maps_pro");
@@ -4452,7 +4501,7 @@ function wpgmza_map_page() {
 
             echo "<div class='error'><p>".__("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='".admin_url('/admin.php?page=wp-google-maps-menu-settings#wpgmza_settings_force_jquery')."'>settings page</a> and check the highlighted checkbox.", "wp-google-maps")."</p></div>";
 
-        }
+        }            
 
         wpgmaps_list_maps();
 
@@ -4472,14 +4521,7 @@ function wpgmaps_list_maps() {
     if ($wpgmza_tblname_maps) { $table_name = $wpgmza_tblname_maps; } else { $table_name = $wpdb->prefix . "wpgmza_maps"; }
 
 
-    $results = $wpdb->get_results(
-        "
-	SELECT *
-	FROM $table_name
-        WHERE `active` = 0
-        ORDER BY `id` DESC
-	"
-    );
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE `active` = %d ORDER BY `id` DESC",0));
     echo "
 
       <table class=\"wp-list-table widefat fixed wpgmza-listing\" cellspacing=\"0\">
@@ -4533,14 +4575,7 @@ function wpgmza_marker_page() {
 function wpgmaps_list_markers() {
     global $wpdb;
     global $wpgmza_tblname;
-
-    $results = $wpdb->get_results(
-        "
-	SELECT *
-	FROM $wpgmza_tblname
-        ORDER BY `address` DESC
-	"
-    );
+    $results = $wpdb->get_results("SELECT * FROM $wpgmza_tblname ORDER BY `address` DESC");
     echo "
 
       <table class=\"wp-list-table widefat fixed \" cellspacing=\"0\">
@@ -4728,11 +4763,16 @@ function wpgmza_basic_menu() {
     if( isset( $other_settings_data['wpgmza_theme_data'] ) ){
         $wpgmza_theme_data_custom = $other_settings_data['wpgmza_theme_data'];
     } else {
+        /* convert old gold stylign to new styling */
+        if (isset($res->styling_json)) {
+            $wpgmza_theme_data_custom = stripslashes($res->styling_json);
+        } else {
         $wpgmza_theme_data_custom  = '';
+    }
     }
     
 
-    
+    google_maps_api_key_warning();
     echo "
 
            <div class='wrap'>
@@ -4789,12 +4829,12 @@ function wpgmza_basic_menu() {
                                 </tr>
                                 <tr>
                                     <td>".__("Map Name","wp-google-maps").":</td>
-                                    <td><input id='wpgmza_title' name='wpgmza_title' type='text' size='20' maxlength='50' value='".stripslashes($res->map_title)."' /></td>
+                                    <td><input id='wpgmza_title' name='wpgmza_title' type='text' size='20' maxlength='50' value='".stripslashes(esc_attr($res->map_title))."' /></td>
                                 </tr>
                                 <tr>
                                      <td>".__("Width","wp-google-maps").":</td>
                                      <td>
-                                     <input id='wpgmza_width' name='wpgmza_width' type='text' size='4' maxlength='4' value='".$res->map_width."' />
+                                     <input id='wpgmza_width' name='wpgmza_width' type='text' size='4' maxlength='4' value='".esc_attr($res->map_width)."' />
                                      <select id='wpgmza_map_width_type' name='wpgmza_map_width_type'>
                                         <option value=\"px\" $wpgmza_map_width_type_px>px</option>
                                         <option value=\"%\" $wpgmza_map_width_type_percentage>%</option>
@@ -4805,7 +4845,7 @@ function wpgmza_basic_menu() {
                                 </tr>
                                 <tr>
                                     <td>".__("Height","wp-google-maps").":</td>
-                                    <td><input id='wpgmza_height' name='wpgmza_height' type='text' size='4' maxlength='4' value='".$res->map_height."' />
+                                    <td><input id='wpgmza_height' name='wpgmza_height' type='text' size='4' maxlength='4' value='".esc_attr($res->map_height)."' />
                                      <select id='wpgmza_map_height_type' name='wpgmza_map_height_type'>
                                         <option value=\"px\" $wpgmza_map_height_type_px>px</option>
                                         <option value=\"%\" $wpgmza_map_height_type_percentage>%</option>
@@ -4984,7 +5024,7 @@ function wpgmza_basic_menu() {
                                 </tr>
                                 <tr>
                                     <td>".__("Query string","wp-google-maps").":</td>
-                                    <td><input type=\"text\" name=\"wpgmza_store_locator_query_string\" id=\"wpgmza_store_locator_query_string\" value=\"$wpgmza_store_locator_query_string\">
+                                    <td><input type=\"text\" name=\"wpgmza_store_locator_query_string\" id=\"wpgmza_store_locator_query_string\" value=\"".esc_attr($wpgmza_store_locator_query_string)."\">
                                     </td>
                                 </tr>
                                 <tr>
@@ -5345,6 +5385,7 @@ function wpgmza_basic_menu() {
                                             <li><a href=\"#tabs-m-2\" class=\"tabs-m-1\">".__("Advanced markers","wp-google-maps")."</a></li>
                                             <li><a href=\"#tabs-m-3\" class=\"tabs-m-2\">".__("Polygon","wp-google-maps")."</a></li>
                                             <li><a href=\"#tabs-m-4\" class=\"tabs-m-3\">".__("Polylines","wp-google-maps")."</a></li>
+                                            <li><a href=\"#tabs-m-5\" class=\"tabs-m-3\">".__("Heatmaps","wp-google-maps")."</a></li>
                                     </ul>
                                     <div id=\"tabs-m-1\">
 
@@ -5476,7 +5517,11 @@ function wpgmza_basic_menu() {
                                         <span id=\"wpgmza_addpolyline_div\"><a href='".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu&action=add_polyline&map_id=".sanitize_text_field($_GET['map_id'])."' id='wpgmza_addpolyline' class='button-primary' value='".__("Add a New Polyline","wp-google-maps")."' />".__("Add a New Polyline","wp-google-maps")."</a></span>
                                         <div id=\"wpgmza_polyline_holder\">".wpgmza_b_return_polyline_list(sanitize_text_field($_GET['map_id']))."</div>
                                     </div>
-
+                                    <div id=\"tabs-m-5\">
+                                        <h2 style=\"padding-top:0; margin-top:0;\"> ".__("Heatmaps","wp-google-maps")."</h2>
+                                        <a target=\"_BLANK\" href=\"http://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=heatmaps\">".__("Add dynamic heatmap data","wp-google-maps")."</a> ".__("with the Pro version.","wp-google-maps")."
+                                        <a target=\"_BLANK\" href=\"http://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap_demo\">".__("View a demo.","wp-google-maps")."</a>
+                                    </div>
                                 </div>
                             </div>
                             <div style='display:block; width:50%; overflow:auto; float:left;'>
@@ -5511,15 +5556,15 @@ function wpgmza_basic_menu() {
                         
                             <table style='clear:both;'>
                                 <tr>
-                                    <td><img src=\"".wpgmaps_get_plugin_url()."/images/custom_markers.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add detailed information to your markers!")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
+                                    <td><img src=\"".wpgmaps_get_plugin_url()."images/custom_markers.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add detailed information to your markers!")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
                                     <td valign=\"middle\"><span style=\"font-size:18px; color:#666; margin-left: 15px;\">".__("Add detailed information to your markers for only","wp-google-maps")." <strong>$39.99</strong>. ".__("Click","wp-google-maps")." <a href=\"http://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=image1\" title=\"Pro Edition\" target=\"_BLANK\">".__("here","wp-google-maps")."</a></span></td>
                                 </tr>
                                 <tr>
-                                    <td><img src=\"".wpgmaps_get_plugin_url()."/images/custom_marker_icons.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add custom markers to your map!","wp-google-maps")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
+                                    <td><img src=\"".wpgmaps_get_plugin_url()."images/custom_marker_icons.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add custom markers to your map!","wp-google-maps")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
                                     <td valign=\"middle\"><span style=\"font-size:18px; color:#666; margin-left: 15px;\">".__("Add different marker icons, or your own icons to make your map really stand out!","wp-google-maps")." ".__("Click","wp-google-maps")." <a href=\"http://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=image3\" title=\"".__("Pro Edition","wp-google-maps")."\" target=\"_BLANK\">".__("here","wp-google-maps")."</a></span></td>
                                 </tr>
                                 <tr>
-                                    <td><img src=\"".wpgmaps_get_plugin_url()."/images/get_directions.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add custom markers to your map!","wp-google-maps")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
+                                    <td><img src=\"".wpgmaps_get_plugin_url()."images/get_directions.jpg\" width=\"260\" class='wpgmza-promo' title=\"".__("Add custom markers to your map!","wp-google-maps")."\" alt=\"".__("Add custom markers to your map!","wp-google-maps")."\" /><br /><br /></td>
                                     <td valign=\"middle\"><span style=\"font-size:18px; color:#666; margin-left: 15px;\">".__("Allow your visitors to get directions to your markers!","wp-google-maps")." ".__("Click","wp-google-maps")." <a href=\"http://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=image2\" title=\"".__("Pro Edition","wp-google-maps")."\" target=\"_BLANK\">".__("here","wp-google-maps")."</a></span></td>
                                 </tr>
 
@@ -5724,48 +5769,36 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
     global $wpdb;
     global $wpgmza_tblname;
     
-    
     if ($mashup) {
         $map_ids = $mashup_ids;
         $wpgmza_cnt = 0;
 
         if ($mashup_ids[0] == "ALL") {
 
-            $wpgmza_sql1 = "
-            SELECT *
-            FROM $wpgmza_tblname
-            ORDER BY `id` DESC
-            ";
+            $wpgmza_sql1 = "SELECT * FROM $wpgmza_tblname ORDER BY `id` DESC";
         }
         else {
             $wpgmza_id_cnt = count($map_ids);
             $sql_string1 = "";
             foreach ($map_ids as $wpgmza_map_id) {
                 $wpgmza_cnt++;
-                if ($wpgmza_cnt == 1) { $sql_string1 .= "`map_id` = '$wpgmza_map_id' "; }
-                elseif ($wpgmza_cnt > 1 && $wpgmza_cnt < $wpgmza_id_cnt) { $sql_string1 .= "OR `map_id` = '$wpgmza_map_id' "; }
-                else { $sql_string1 .= "OR `map_id` = '$wpgmza_map_id' "; }
+                if ($wpgmza_cnt == 1) { $sql_string1 .= $wpdb->prepare("`map_id` = %d ",$wpgmza_map_id); }
+                elseif ($wpgmza_cnt > 1 && $wpgmza_cnt < $wpgmza_id_cnt) { $sql_string1 .= $wpdb->prepare("OR `map_id` = %d ",$wpgmza_map_id); }
+                else { $sql_string1 .= $wpdb->prepare("OR `map_id` = %d ",$wpgmza_map_id); }
 
             }
-            $wpgmza_sql1 = "
-            SELECT *
-            FROM $wpgmza_tblname
-            WHERE $sql_string1 ORDER BY `id` DESC
-            ";
+            $wpgmza_sql1 = "SELECT * FROM $wpgmza_tblname WHERE $sql_string1 ORDER BY `id` DESC";
+
         }
 
     } else {
-        $wpgmza_sql1 = "
-            SELECT *
-            FROM $wpgmza_tblname
-            WHERE `map_id` = '$map_id' ORDER BY `id` DESC
-            ";
+        $wpgmza_sql1 = $wpdb->prepare("SELECT * FROM $wpgmza_tblname WHERE `map_id` = %d ORDER BY `id` DESC",intval($map_id));
+        
     }
     $marker_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpgmza_tblname WHERE map_id = %d",$map_id ) );
     if ($marker_count > 5000) {
         return __("There are too many markers to make use of the live edit function. The maximum amount for this functionality is 5000 markers. Anything more than that could crash your browser. In order to edit your markers, you would need to download the table in CSV format, edit it and re-upload it.","wp-google-maps");
     } else {
- 
         $results = $wpdb->get_results($wpgmza_sql1);
         $wpgmza_tmp_body = "";
         $wpgmza_tmp_head = "";
@@ -5773,7 +5806,7 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
 
         $res = wpgmza_get_map_data($map_id);
         if (!$res->default_marker) {
-            $default_marker = "<img src='".wpgmaps_get_plugin_url()."/images/marker.png' />";
+            $default_marker = "<img src='".wpgmaps_get_plugin_url()."images/marker.png' />";
         } else {
             $default_marker = "<img src='".$res->default_marker."' />";
         }
@@ -5897,7 +5930,7 @@ function wpgmza_return_category_name($cid) {
     global $wpgmza_tblname_categories;
     $pos = strpos($cid, ",");
     if ($pos === false) {
-        $results = $wpdb->get_results("SELECT * FROM `$wpgmza_tblname_categories` WHERE `id` = '$cid' LIMIT 1");
+        $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$wpgmza_tblname_categories` WHERE `id` = %d LIMIT 1",intval($cid)) );
         foreach ( $results as $result ) {
             return $result->category_name;
         }
@@ -5908,7 +5941,7 @@ function wpgmza_return_category_name($cid) {
         $countr = 0;
         foreach ($categories as $cid) {
             $countr++;
-            $results = $wpdb->get_results("SELECT * FROM `$wpgmza_tblname_categories` WHERE `id` = '$cid' LIMIT 1");
+            $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$wpgmza_tblname_categories` WHERE `id` = %d LIMIT 1",intval($cid)) );
             foreach ( $results as $result ) {
                 if ($countr >= $tot_cnt) {
                     $ret_cat .= $result->category_name;
@@ -6069,6 +6102,7 @@ function wpgmaps_handle_db() {
           approved tinyint(1) DEFAULT '1',
           retina tinyint(1) DEFAULT '0',
           type tinyint(1) DEFAULT '0',
+          did varchar(500) NOT NULL,
           other_data LONGTEXT NOT NULL,
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -6146,7 +6180,7 @@ function wpgmaps_handle_db() {
     $sql = "
         CREATE TABLE `".$table_name."` (
           id int(11) NOT NULL AUTO_INCREMENT,
-          map_title varchar(50) NOT NULL,
+          map_title varchar(55) NOT NULL,
           map_width varchar(6) NOT NULL,
           map_height varchar(6) NOT NULL,
           map_start_lat varchar(700) NOT NULL,
@@ -6181,10 +6215,13 @@ function wpgmaps_handle_db() {
           default_to VARCHAR(700) NOT NULL,
           other_settings longtext NOT NULL,
           PRIMARY KEY  (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
     ";
 
     dbDelta($sql);
+
+    /* 6.3.14 */
+    $check = $wpdb->query("ALTER TABLE $table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
 
 
     /* check for previous versions containing 'desc' instead of 'description' */
@@ -6220,31 +6257,15 @@ function wpgmaps_handle_db() {
 function wpgmza_get_map_data($map_id) {
     global $wpdb;
     global $wpgmza_tblname_maps;
-
-    $result = $wpdb->get_results("
-        SELECT *
-        FROM $wpgmza_tblname_maps
-        WHERE `id` = '".$map_id."' LIMIT 1
-    ");
-
+    $result = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpgmza_tblname_maps WHERE `id` = %d LIMIT 1" , intval($map_id)) );
     if (isset($result[0])) { return $result[0]; }
-
-    
-
 }
 function wpgmza_get_marker_data($mid) {
     global $wpdb;
     global $wpgmza_tblname;
-
-    $result = $wpdb->get_results("
-        SELECT *
-        FROM $wpgmza_tblname
-        WHERE `id` = '".$mid."' LIMIT 1
-    ");
-
+    $result = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpgmza_tblname WHERE `id` = %d LIMIT 1 " , intval($mid)) );
     $res = $result[0];
     return $res;
-
 }
 function wpgmaps_upgrade_notice() {
     global $wpgmza_pro_version;
@@ -6368,58 +6389,37 @@ function wpgmza_get_category_icon($cat_id) {
 
 function wpgmza_return_error($data) {
     echo "<div id=\"message\" class=\"error\"><p><strong>".$data->get_error_message()."</strong><blockquote>".$data->get_error_data()."</blockquote></p></div>";
-    wpgmza_write_to_error_log($data);
-}
-function wpgmza_write_to_error_log($data) {
-    if (wpgmza_error_directory()) {
-        if (is_multisite()) {
-            $upload_dir = wp_upload_dir();
-            $content = "\r\n".date("Y-m-d H:i:s").": ".$data->get_error_message() . " -> ". $data->get_error_data();
-            $fp = @fopen($upload_dir['basedir'].'/wp-google-maps'."/error_log.txt","a+");
-            fwrite($fp,$content);
-        } else {
-            $content = "\r\n".date("Y-m-d H:i:s").": ".$data->get_error_message() . " -> ". $data->get_error_data();
-            $fp = @fopen(ABSPATH.'wp-content/uploads/wp-google-maps'."/error_log.txt","a+");
-            fwrite($fp,$content);
-        }
-    }
     
+}
+
+function wpgmza_write_to_error_log($data) {
     error_log(date("Y-m-d H:i:s"). ": WP Google Maps : " . $data->get_error_message() . "->" . $data->get_error_data());
+    return;
     
 }
 function wpgmza_error_directory() {
-    $upload_dir = wp_upload_dir();
-    
-    if (is_multisite()) {
-        if (!file_exists($upload_dir['basedir'].'/wp-google-maps')) {
-            wp_mkdir_p($upload_dir['basedir'].'/wp-google-maps');
-            $content = "Error log created";
-            $fp = @fopen($upload_dir['basedir'].'/wp-google-maps'."/error_log.txt","w+");
-            fwrite($fp,$content);
-        }
-    } else {
-        if (!file_exists(ABSPATH.'wp-content/uploads/wp-google-maps')) {
-            wp_mkdir_p(ABSPATH.'wp-content/uploads/wp-google-maps');
-            $content = "Error log created";
-            $fp = @fopen(ABSPATH.'wp-content/uploads/wp-google-maps'."/error_log.txt","w+");
-            fwrite($fp,$content);
-        }
-        
-    }
     return true;
     
 }
 
 function wpgmza_return_error_log() {
-    $fh = @fopen(ABSPATH.'wp-content/uploads/wp-google-maps'."/error_log.txt","r");
-    $ret = "";
-    if ($fh) {
-        for ($i=0;$i<10;$i++) {
-            $visits = fread($fh,4096);
-            $ret .= $visits;
+    $check = wp_upload_dir();
+    $file = $check['basedir']."/wp-google-maps/error_log.txt";
+    if (@file_exists($file)) {
+        $fh = @fopen($check['basedir']."/wp-google-maps/error_log.txt","r");
+
+        $ret = "";
+        if ($fh) {
+            for ($i=0;$i<10;$i++) {
+                $visits = fread($fh,4096);
+                $ret .= $visits;
+            }
+        } else {
+            $ret .= "No errors to report on";
         }
     } else {
         $ret .= "No errors to report on";
+        
     }
     return $ret;
     
@@ -6517,27 +6517,28 @@ add_action('init', 'wpgmza_deregister_scripts',999);
 add_action('wp_footer', 'wpgmza_deregister_scripts',999);
 add_action('wp_print_scripts', 'wpgmza_deregister_scripts',999);
 function wpgmza_deregister_scripts() {
-    global $short_code_active;
-    if ($short_code_active) {
-        $map_handle = '';
-        global $wp_scripts;
-        if (isset($wp_scripts->registered) && is_array($wp_scripts->registered)) {
-            foreach ( $wp_scripts->registered as $script) {    
-                if (strpos($script->src, 'maps.google.com/maps/api/js') !== false) {
-                    if (!isset($script->handle) || $script->handle == '') {
+
+   global $short_code_active;
+   if ($short_code_active) {
+       $map_handle = '';
+       global $wp_scripts;
+       if (isset($wp_scripts->registered) && is_array($wp_scripts->registered)) {
+           foreach ( $wp_scripts->registered as $script) {    
+               if (strpos($script->src, 'maps.google.com/maps/api/js') !== false || strpos($script->src, 'maps.googleapis.com/maps/api') !== false || strpos($script->src, 'maps.googleapis') !== false || strpos($script->src, 'maps.google') !== false) {
+                   if (!isset($script->handle) || $script->handle == '') {
                         $script->handle = 'remove-this-map-call';
-                    }
-                    unset($script->src);
-                    $map_handle = $script->handle;
-                    if ($map_handle != '') {
+                   }
+                   unset($script->src);
+                   $map_handle = $script->handle;
+                   if ($map_handle != '') {
                         $wp_scripts->remove( $map_handle );
                         $map_handle = '';
                         break;
-                    }
-                }
-            }
-        }
-    }
+                   }
+               }
+           }
+       }
+   }
 }
 
 add_action('wp_ajax_track_usage', 'wpgmaps_usage_tracking_callback');
@@ -6634,8 +6635,7 @@ function wpgmaps_usage_tracking_callback(){
 }
 
 function wpgmza_return_country_tld_array(){
-
-    $path = plugins_url().'/wp-google-maps/js/countries.json';
+    $path = plugin_dir_path(__FILE__).'js/countries.json';
 
     $file = file_get_contents($path);
 
@@ -6660,4 +6660,55 @@ function wpgmza_return_country_tld_array(){
     }
 
     return $tld;
+}
+
+function google_maps_api_key_warning(){
+    $g_api_key = get_option('wpgmza_google_maps_api_key');
+    if( !$g_api_key || $g_api_key == '' ){
+        $video = "<a href='https://www.youtube.com/watch?v=OH98za14LNg' target='_BLANK'>".__('View the instruction video', 'wp-google-maps')."</a>";
+        $documentation = "<a href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' target='_BLANK'>".__('Read the documentation', 'wp-google-maps')."</a>";
+        echo "<div class='error'><h1>".__('Important Notification', 'wp-google-maps')."</h1><p>";
+        $article = "<a href='https://googlegeodevelopers.blogspot.co.za/2016/06/building-for-scale-updates-to-google.html' target='_BLANK'>".__('You can read more about that here.', 'wp-google-maps')."</a>";
+        echo "<p><strong>".__('*ALL* Google Maps now require an API key to function.','wp-google-maps').'</strong> '.$article.'</p>';
+
+        echo "<p>".__("Before creating a map please follow these steps:","wp-google-maps")."";
+        echo "<ol>";
+        echo "<li>";
+        echo " <a target='_BLANK' href='https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true' class=''>".__("Create an API key now (free)","wp-google-maps")."</a>";
+        echo "</li>";
+        echo "<li><form method='POST'>";
+        echo __('Paste your API key here and press save:','wp-google-maps');
+        echo " <input type='text' name='wpgmza_google_maps_api_key' style='width:350px;' placeholder='".__("paste your Google Maps JavaScript API Key here","wp-google-maps")."' /> <button type='submit' class='button button-primary' name='wpgmza_save_google_api_key_list'>".__('Save', 'wp-google-maps')."</button>";
+        echo "</form>";
+
+        echo "</li>";
+        echo "</ol>";
+        echo "</p>";
+        echo "<p><em>".__("Once saved, it may take up to 5 minutes for your map to display.","wp-google-maps")."</em></p>";
+        echo sprintf( __('Need help? %s or %s.', 'wp-google-maps'), $video, $documentation )."</p>";
+        echo "</div>";
+    }
+}
+
+if( isset( $_GET['page'] ) && $_GET['page'] == 'wp-google-maps-menu' ){
+    if( is_admin() ){
+        add_action('admin_enqueue_styles', 'wpgmza_deregister_styles',999);
+        add_action('admin_enqueue_scripts', 'wpgmza_deregister_styles',999);        
+        add_action('admin_head', 'wpgmza_deregister_styles',999);
+        add_action('init', 'wpgmza_deregister_styles',999);
+        add_action('admin_footer', 'wpgmza_deregister_styles',999);
+        add_action('admin_print_styles', 'wpgmza_deregister_styles',999);        
+    }
+}
+
+function wpgmza_deregister_styles() {
+    global $wp_styles;            
+    if (isset($wp_styles->registered) && is_array($wp_styles->registered)) {                
+        foreach ( $wp_styles->registered as $script) {                    
+            if (strpos($script->src, 'jquery-ui.theme.css') !== false || strpos($script->src, 'jquery-ui.css') !== false) {
+               // $script->handle = "";
+               // $script->src = "";
+            }
+        }
+    }
 }

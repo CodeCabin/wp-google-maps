@@ -12,6 +12,9 @@ function wpgmza_b_pro_add_poly($mid) {
     global $wpgmza_tblname_maps;
     global $wpdb;
     if ($_GET['action'] == "add_poly" && isset($mid)) {
+
+        if( function_exists('google_maps_api_key_warning' ) ){ google_maps_api_key_warning(); }
+        
         $mid = sanitize_text_field($mid);
         $res = wpgmza_get_map_data($mid);
         echo "
@@ -24,8 +27,8 @@ function wpgmza_b_pro_add_poly($mid) {
                 <div class='wide'>
 
                     <h2>".__("Add a Polygon","wp-google-maps")."</h2>
-                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_add_poly_form'>
-                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
+                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_add_poly_form'>
+                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
                     
                     <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
@@ -109,13 +112,13 @@ function wpgmza_b_pro_edit_poly($mid) {
                 <div class='wide'>
 
                     <h2>".__("Edit Polygon","wp-google-maps")."</h2>
-                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".$mid."' method='post' id='wpgmaps_edit_poly_form'>
-                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".$mid."' />
-                    <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".sanitize_text_field($_GET['poly_id'])."' />
+                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_edit_poly_form'>
+                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
+                    <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".esc_attr($_GET['poly_id'])."' />
                         
                     <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
-                        <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"".$pol->polyname."\" name=\"poly_name\" /></td>
+                        <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"".esc_attr(stripslashes($pol->polyname))."\" name=\"poly_name\" /></td>
                     </tr>
                     <tr>
                         <td>".__("Title","wp-google-maps")."</td><td><input disabled type=\"text\" value=\"".__("Pro version only","wp-google-maps")."\" /><i><a href='http://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=polygons' title='".__("Pro Version","wp-google-maps")."'>".__("Get the Pro add-on","wp-google-maps")."</a></i></td>
@@ -124,16 +127,16 @@ function wpgmza_b_pro_edit_poly($mid) {
                         <td>".__("Link","wp-google-maps")."</td><td><input disabled type=\"text\" value=\"pro version only\" /></td> 
                     </tr>
                     <tr>
-                        <td>".__("Line Color","wp-google-maps")."</td><td><input id=\"poly_line\" name=\"poly_line\" type=\"text\" class=\"color\" value=\"".$pol->linecolor."\" /></td>   
+                        <td>".__("Line Color","wp-google-maps")."</td><td><input id=\"poly_line\" name=\"poly_line\" type=\"text\" class=\"color\" value=\"".esc_attr($pol->linecolor)."\" /></td>   
                     </tr>
                     <tr>
-                        <td>".__("Line Opacity","wp-google-maps")."</td><td><input id=\"poly_line_opacity\" name=\"poly_line_opacity\" type=\"text\" value=\"".$pol->lineopacity."\" /> (0 - 1.0) example: 0.5 for 50%</td>   
+                        <td>".__("Line Opacity","wp-google-maps")."</td><td><input id=\"poly_line_opacity\" name=\"poly_line_opacity\" type=\"text\" value=\"".esc_attr($pol->lineopacity)."\" /> (0 - 1.0) example: 0.5 for 50%</td>   
                     </tr>
                     <tr>
-                        <td>".__("Fill Color","wp-google-maps")."</td><td><input id=\"poly_fill\" name=\"poly_fill\" type=\"text\" class=\"color\" value=\"".$pol->fillcolor."\" /></td>  
+                        <td>".__("Fill Color","wp-google-maps")."</td><td><input id=\"poly_fill\" name=\"poly_fill\" type=\"text\" class=\"color\" value=\"".esc_attr($pol->fillcolor)."\" /></td>  
                     </tr>
                     <tr>
-                        <td>".__("Opacity","wp-google-maps")."</td><td><input id=\"poly_opacity\" name=\"poly_opacity\" type=\"text\" value=\"".$pol->opacity."\" /> (0 - 1.0) example: 0.5 for 50%</td>   
+                        <td>".__("Opacity","wp-google-maps")."</td><td><input id=\"poly_opacity\" name=\"poly_opacity\" type=\"text\" value=\"".esc_attr($pol->opacity)."\" /> (0 - 1.0) example: 0.5 for 50%</td>   
                     </tr>
                     <tr>
                         <td>".__("On Hover Line Color","wp-google-maps")."</td><td><input disabled type=\"text\" value=\"".__("Pro version only","wp-google-maps")."\"/></td>   
@@ -204,10 +207,18 @@ function wpgmaps_b_admin_add_poly_javascript($mapid) {
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
         ?>
-        <script type="text/javascript">
-                       var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                       document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?sensor=false' type='text/javascript'%3E%3C/script%3E"));
-        </script>
+        <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?key="+wpgmza_api_key+"&language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } else { ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >
             jQuery(document).ready(function(){
@@ -398,10 +409,18 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
         ?>
-        <script type="text/javascript">
-                       var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                       document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?sensor=false' type='text/javascript'%3E%3C/script%3E"));
-        </script>
+        <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?key="+wpgmza_api_key+"&language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } else { ?>
+            <script type="text/javascript">
+                var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >
              // polygons variables
@@ -644,11 +663,7 @@ function wpgmza_b_return_polygon_list($map_id,$admin = true,$width = "100%") {
     global $wpgmza_tblname_poly;
     $wpgmza_tmp = "";
 
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_poly
-	WHERE `map_id` = '$map_id' ORDER BY `id` DESC
-    ");
+    $results = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpgmza_tblname_poly WHERE `map_id` = %d ORDER BY `id` DESC", intval($map_id)) );
     
     $wpgmza_tmp .= "
         
@@ -681,7 +696,7 @@ function wpgmza_b_return_polygon_list($map_id,$admin = true,$width = "100%") {
         $wpgmza_tmp .= "
             <tr id=\"wpgmza_poly_tr_".$result->id."\">
                 <td height=\"40\">".$result->id."</td>
-                <td height=\"40\">$polygon_name</td>
+                <td height=\"40\">".esc_attr(stripslashes($polygon_name))."</td>
                 <td width='170' align='left'>
                     <a href=\"".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu&action=edit_poly&map_id=".$map_id."&poly_id=".$result->id."\" title=\"".__("Edit","wp-google-maps")."\" class=\"wpgmza_edit_poly_btn button\" id=\"".$result->id."\"><i class=\"fa fa-edit\"> </i></a> 
                     <a href=\"javascript:void(0);\" title=\"".__("Delete this polygon","wp-google-maps")."\" class=\"wpgmza_poly_del_btn button\" id=\"".$result->id."\"><i class=\"fa fa-times\"> </i></a>
@@ -698,11 +713,7 @@ function wpgmza_b_return_polygon_list($map_id,$admin = true,$width = "100%") {
 function wpgmza_b_return_poly_options($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_poly;
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_poly
-	WHERE `id` = '$poly_id' LIMIT 1
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_poly WHERE `id` = %d LIMIT 1",intval($poly_id)) );
     foreach ( $results as $result ) {
         return $result;
     }
@@ -711,11 +722,7 @@ function wpgmza_b_return_poly_options($poly_id) {
 function wpgmza_b_return_polygon_array($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_poly;
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_poly
-	WHERE `id` = '$poly_id' LIMIT 1
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_poly WHERE `id` = %d LIMIT 1",intval($poly_id)) );
     foreach ( $results as $result ) {
         $current_polydata = $result->polydata;
         $new_polydata = str_replace("),(","|",$current_polydata);
@@ -733,11 +740,7 @@ function wpgmza_b_return_polygon_id_array($map_id) {
     global $wpdb;
     global $wpgmza_tblname_poly;
     $ret = array();
-    $results = $wpdb->get_results("
-	SELECT *
-	FROM $wpgmza_tblname_poly
-	WHERE `map_id` = '$map_id'
-    ");
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_poly WHERE `map_id` = %d",intval($map_id)) );
     foreach ( $results as $result ) {
         $current_id = $result->id;
         $ret[] = $current_id;
