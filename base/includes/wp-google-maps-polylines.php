@@ -199,21 +199,27 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
         if ($start_zoom < 1 || !$start_zoom) {
             $start_zoom = 5;
         }
+        if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
 
         
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-
+        if (isset($wpgmza_settings['wpgmza_api_version']) && $wpgmza_settings['wpgmza_api_version'] != "") {
+            $api_version_string = "v=".$wpgmza_settings['wpgmza_api_version']."&";
+        } else {
+            $api_version_string = "v=3.exp&";
+        }
         ?>
         <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
             <script type="text/javascript">
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
                 var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?key="+wpgmza_api_key+"&language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } else { ?>
             <script type="text/javascript">
+                var wpgmza_temp_api_key = "<?php echo get_option('wpgmza_temp_api'); ?>";
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_temp_api_key+"&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
@@ -310,8 +316,23 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
                   
                 });
 
+
+
                 WPGM_PathLine_<?php echo $poly_id; ?>.setMap(this.map);
+
+
+
                 <?php } } } ?> 
+
+                <?php if ($kml != false) { ?>
+                var temp = '<?php echo $kml; ?>';
+                arr = temp.split(',');
+                arr.forEach(function(entry) {
+                    var georssLayer = new google.maps.KmlLayer(entry+'?tstamp=<?php echo time(); ?>',{suppressInfoWindows: true, zindex: 0, clickable : false});
+                    georssLayer.setMap(MYMAP.map);
+
+                });
+                <?php } ?>
 
             }
             function addPoint(event) {
@@ -389,7 +410,7 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
         if ($start_zoom < 1 || !$start_zoom) {
             $start_zoom = 5;
         }
-
+        if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
         
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
         
@@ -407,18 +428,25 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
         $linecolor = "#".$linecolor;
                         
         
+        if (isset($wpgmza_settings['wpgmza_api_version']) && $wpgmza_settings['wpgmza_api_version'] != "") {
+            $api_version_string = "v=".$wpgmza_settings['wpgmza_api_version']."&";
+        } else {
+            $api_version_string = "v=3.exp&";
+        }
+        
 
         ?>
         <?php if( get_option( 'wpgmza_google_maps_api_key' ) ){ ?>
             <script type="text/javascript">
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
                 var wpgmza_api_key = '<?php echo get_option( 'wpgmza_google_maps_api_key' ); ?>';
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?key="+wpgmza_api_key+"&language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_api_key+"' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } else { ?>
             <script type="text/javascript">
+                var wpgmza_temp_api_key = "<?php echo get_option('wpgmza_temp_api'); ?>";
                 var gmapsJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?language=<?php echo get_locale(); ?>&libraries=places,visualization' type='text/javascript'%3E%3C/script%3E"));
+                document.write(unescape("%3Cscript src='" + gmapsJsHost + "maps.google.com/maps/api/js?<?php echo $api_version_string; ?>key="+wpgmza_temp_api_key+"&libraries=places' type='text/javascript'%3E%3C/script%3E"));
             </script>
         <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
@@ -526,6 +554,16 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
                     WPGM_PathLine_<?php echo $poly_id; ?>.setMap(this.map);
                     <?php } } } }   ?> 
 
+
+                <?php if ($kml != false) { ?>
+                var temp = '<?php echo $kml; ?>';
+                arr = temp.split(',');
+                arr.forEach(function(entry) {
+                    var georssLayer = new google.maps.KmlLayer(entry+'?tstamp=<?php echo time(); ?>',{suppressInfoWindows: true, zindex: 0, clickable : false});
+                    georssLayer.setMap(MYMAP.map);
+
+                });
+                <?php } ?>
 
 
                 addPolyline();
