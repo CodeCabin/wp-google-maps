@@ -6199,9 +6199,9 @@ function wpgmza_load_google_maps_api(){
             $wpgmza_api_key = get_option( 'wpgmza_google_maps_api_key' );
 
             if( $wpgmza_api_key ){
-                wp_enqueue_script('wpgmza_api_call', 'http://maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'key='.$wpgmza_api_key.'&language='.$wpgmza_locale );            
+                wp_enqueue_script('wpgmza_api_call', 'http://maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'key='.$wpgmza_api_key.'&language='.$wpgmza_locale, array(), null );            
             } else {
-                wp_enqueue_script('wpgmza_api_call', '//maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'language='.$wpgmza_locale );            
+                wp_enqueue_script('wpgmza_api_call', '//maps.google'.$wpgmza_suffix.'/maps/api/js?'.$api_version_string.'language='.$wpgmza_locale, array(), null );            
             }
 
         }
