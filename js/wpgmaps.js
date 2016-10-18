@@ -1,5 +1,6 @@
 var WPGM_Path_Polygon = new Array();
 var WPGM_Path = new Array();
+var infoWindow_poly = Array();
 
 for (var entry in wpgmaps_localize) {
     if ('undefined' === typeof window.jQuery) {
