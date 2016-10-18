@@ -1,13 +1,15 @@
 <?php
 /*
 Polylines functionality for WP Google Maps
-
-
 */
 
 
 
-
+/**
+ * Render polyline editor HTML
+ * @param  integer $mid     Map ID
+ * @return string           HTML outut
+ */
 function wpgmza_b_pro_add_polyline($mid) {
     global $wpgmza_tblname_maps;
     global $wpdb;
@@ -95,6 +97,13 @@ function wpgmza_b_pro_add_polyline($mid) {
 
 
 }
+
+
+/**
+ * Render polyline editor HTML (edit mode)
+ * @param  integer $mid     Map ID
+ * @return string           HTML outut
+ */
 function wpgmza_b_pro_edit_polyline($mid) {
     global $wpgmza_tblname_maps;
     global $wpdb;
@@ -178,6 +187,15 @@ function wpgmza_b_pro_edit_polyline($mid) {
 
 
 }
+/**
+ * Render polyline JS
+ *
+ * @todo  This needs to be converted to a native JS file with localized variables
+ * 
+ * @param  integer $mapid   Map ID
+ * 
+ * @return void
+ */
 function wpgmaps_b_admin_add_polyline_javascript($mapid) {
         $res = wpgmza_get_map_data(sanitize_text_field($_GET['map_id']));
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
@@ -387,6 +405,17 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
         </script>
         <?php
 }
+
+/**
+ * Render polyline edit JS
+ *
+ * @todo  This needs to be converted to a native JS file with localized variables
+ * 
+ * @param  integer $mapid       Map ID
+ * @param  integer $polyid      Polygon ID
+ * 
+ * @return void
+ */
 function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
         $res = wpgmza_get_map_data($mapid);
         
@@ -685,7 +714,16 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
         </script>
         <?php
 }
-
+/**
+ * Returns the list of polylines displayed in the map editor
+ *
+ * @todo Build this as a hook or filter instead of a function call
+ * 
+ * @param  integer  $map_id Map ID
+ * @param  boolean  $admin  Identify if user is admin or not
+ * @param  string   $width  Width to be used for HTML output
+ * @return string           List HTML
+ */
 function wpgmza_b_return_polyline_list($map_id,$admin = true,$width = "100%") {
     wpgmaps_debugger("return_marker_start");
 
@@ -740,6 +778,12 @@ function wpgmza_b_return_polyline_list($map_id,$admin = true,$width = "100%") {
     return $wpgmza_tmp;
     
 }
+/**
+ * Retrieve polyline options from DB
+ * 
+ * @param  integer $poly_id Polyline ID
+ * @return array            MYSQL Array
+ */
 function wpgmza_b_return_polyline_options($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
@@ -749,6 +793,12 @@ function wpgmza_b_return_polyline_options($poly_id) {
     }
 }
 
+/**
+ * Return the polyline data in the correct format
+ * 
+ * @param  integer $poly_id Polyline ID
+ * @return array            Poly data array
+ */
 function wpgmza_b_return_polyline_array($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
@@ -766,6 +816,15 @@ function wpgmza_b_return_polyline_array($poly_id) {
         return $ret;
     }
 }
+
+/**
+ * Return polyline ID array
+ *
+ * This is used when creating the JSON array of all the polylines and their unique options
+ * 
+ * @param  integer  $map_id     Map ID
+ * @return array                Array of IDs
+ */
 function wpgmza_b_return_polyline_id_array($map_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
