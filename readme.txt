@@ -213,6 +213,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+
+= 6.3.20 - 2016-09-27 =
+* Fixed a big that prevented the map from loading in a widget
+* Refactored code used to load the Google Maps API and Script files
+
 = 6.3.19 - 2016-09-21 =
 * Fixed a bug that caused some maps to not load markers on page load
 
