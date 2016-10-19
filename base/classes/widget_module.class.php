@@ -1,6 +1,9 @@
 <?php
 class wpgmza_widget extends WP_Widget {
 
+    /**
+     * Widget Constructor
+     */
     function __construct() {
         parent::__construct(
             'wpgmza_map_widget', 
@@ -12,6 +15,14 @@ class wpgmza_widget extends WP_Widget {
         );
     }
 
+    /**
+     * Outputs Widget Content
+     *
+     * @param array   $args       Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+     * @param array   $instance   The settings for the instance of a widget
+     *
+     * @return void
+     */
     public function widget( $args, $instance ) {
         $title = apply_filters( 'widget_title', $instance['title'] );
         
@@ -29,6 +40,13 @@ class wpgmza_widget extends WP_Widget {
         echo $args['after_widget'];
     }
 
+    /**
+     * Outputs the settings update form.
+     *
+     * @param array   $instance     Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+     *
+     * @return void/string  'noform' (Default - Inherited)
+     */
     public function form($instance) {
         if( $instance) {
              if (isset($instance['title'])) { $title = esc_attr($instance['title']); } else { $title = ""; }
@@ -50,7 +68,15 @@ class wpgmza_widget extends WP_Widget {
         echo "</select></p>";
    
     }
-    // Updating widget replacing old instances with new
+
+     /**
+     * Updates a particular instance of a widget.
+     *
+     * @param array   $new_instance     New settings for this instance as input
+     * @param array   $old_instance     Old settings for this instance
+     *
+     * @return array $instance
+     */
     public function update( $new_instance, $old_instance ) {
         $instance = array();
         $instance['selection'] = ( ! empty( $new_instance['selection'] ) ) ? strip_tags( $new_instance['selection'] ) : '';
@@ -60,9 +86,20 @@ class wpgmza_widget extends WP_Widget {
     }
 } 
 
+/**
+ * Registers the 'wpgmza' widget
+ *
+ * @return void
+ */
 function wpgmza_load_widget() {
     register_widget( 'wpgmza_widget' );
 }
+
+/**
+ * Outputs the 'options' for the map select field 
+ *
+ * @return void
+ */
 function wpgmza_get_widget_select_field($selection) {
     global $wpdb;
     global $wpgmza_tblname_maps;

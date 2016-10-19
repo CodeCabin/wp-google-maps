@@ -3,14 +3,29 @@
 class WPGMAPS_templates {
 
 
+    /**
+     * Includes WP Google Maps V6 Welome Page
+     *
+     * @return void
+     */
     function welcome_page_v6() {
         include(dirname(dirname(__FILE__))."/includes/welcome.php");
     }
+
+    /**
+     * Includes credits page
+     *
+     * @return void
+     */
     function welcome_page_credits() {
         include(dirname(dirname(__FILE__))."/includes/credits.php");
     }
 
-
+    /**
+     * Outputs WP Google Maps V5 Welcome Page
+     *
+     * @return void
+     */
     function welcome_page() {
         global $wpgmza_global_array;
 ?>    

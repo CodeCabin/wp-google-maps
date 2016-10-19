@@ -3594,7 +3594,10 @@ function wpgmaps_head_old() {
 
 
 
-
+/**
+ * Adds WP Google Maps Menu to the WordPress admin area
+ * @return void
+ */
 function wpgmaps_admin_menu() {
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
     
@@ -3608,7 +3611,11 @@ function wpgmaps_admin_menu() {
 
 }
 
-
+/**
+ * Outputs (echo) user interface based on current action in $_GET['action']
+ * If Pro is enabled, Pro functions will be called
+ * @return void
+ */
 function wpgmaps_menu_layout() {
     
     
@@ -3731,7 +3738,10 @@ function wpgmaps_menu_layout() {
 }
 
 
-
+/**
+ * Outputs (echo) user interface for deleting a marker
+ * @return void
+ */
 function wpgmaps_menu_marker_layout() {
 
     if (!$_GET['action']) {
@@ -3762,6 +3772,10 @@ function wpgmaps_menu_marker_layout() {
 
 }
 
+/**
+ * Handles the creation of the settings pages, based on whether user is using Basic or Pro
+ * @return void
+ */
 function wpgmaps_menu_settings_layout() {
     $my_theme = wp_get_theme();
 
@@ -3786,7 +3800,10 @@ function wpgmaps_menu_settings_layout() {
     }
 }
 
-
+/**
+ * Outputs (echo) the Settings page (Basic)
+ * @return void
+ */
 function wpgmaps_settings_page_basic() {
     
     wpgmza_stats("settings_basic");
@@ -4147,6 +4164,10 @@ function wpgmaps_settings_page_basic() {
 
 }
 
+/**
+ * Handles the creation of the Advanced page (Pro)
+ * @return void
+ */
 function wpgmaps_menu_advanced_layout() {
     if (function_exists('wpgmza_register_pro_version')) {
         wpgmza_pro_advanced_menu();
@@ -4154,6 +4175,10 @@ function wpgmaps_menu_advanced_layout() {
 
 }
 
+/**
+ * Handles the creation of the Support page, based on whether the user is using Basic or Pro
+ * @return void
+ */
 function wpgmaps_menu_support_layout() {
     if (function_exists('wpgmza_pro_support_menu')) {
         wpgmza_pro_support_menu();
@@ -4162,6 +4187,13 @@ function wpgmaps_menu_support_layout() {
     }
 
 }
+
+/**
+ * Checks if this is the users 'first run', and if so
+ * Outputs (echo) a review prompt
+ * 
+ * @return void
+ */
 function wpgmza_review_nag() {
     if (!function_exists('wpgmza_register_pro_version')) {
         $wpgmza_review_nag = get_option("wpgmza_review_nag");
@@ -4190,6 +4222,12 @@ function wpgmza_review_nag() {
     }
 
 }
+
+/**
+ * Outputs (echo) the My Maps page
+ * 
+ * @return void
+ */
 function wpgmza_map_page() {
     
 
@@ -4249,7 +4287,12 @@ function wpgmza_map_page() {
     echo"<br /><div style='float:right;'><a href='http://www.wpgmaps.com/documentation/troubleshooting/'  target='_BLANK' title='WP Google Maps Troubleshooting Section'>".__("Problems with the plugin? See the troubleshooting manual.","wp-google-maps")."</a></div>";
 }
 
-
+/**
+ * Outputs (echo) table of maps seen on the My Maps Page
+ * If Pro is enabled, calls Pro function instead
+ * 
+ * @return void
+ */
 function wpgmaps_list_maps() {
     global $wpdb;
     global $wpgmza_tblname_maps;
@@ -4300,8 +4343,10 @@ function wpgmaps_list_maps() {
 }
 
 
-
-
+/**
+ * Handles output (echo) of marker list
+ * @return void
+ */
 function wpgmza_marker_page() {
     echo"<div class=\"wrap\"><div id=\"icon-edit\" class=\"icon32 icon32-posts-post\"><br></div><h2>".__("My Markers","wp-google-maps")." <a href=\"admin.php?page=wp-google-maps-marker-menu&action=new\" class=\"add-new-h2\">".__("Add New","wp-google-maps")."</a></h2>";
     wpgmaps_list_markers();
@@ -4310,6 +4355,10 @@ function wpgmza_marker_page() {
 
 }
 
+/**
+ * Outputs (echo) list of markers
+ * @return void
+ */
 function wpgmaps_list_markers() {
     global $wpdb;
     global $wpgmza_tblname;
@@ -4350,7 +4399,12 @@ function wpgmaps_list_markers() {
 }
 
 
-
+/**
+ * Checks if Pro is installed, and is not older than v4.51
+ * If user is running an outdated version, prompt user to upgrade to the latest version
+ *
+ * @return void
+ */
 function wpgmaps_check_versions() {
     $prov = get_option("WPGMZA_PRO");
     $wpgmza_pro_version = $prov['version'];
@@ -4359,6 +4413,11 @@ function wpgmaps_check_versions() {
     }
 }
 
+/**
+ * Outputs (echo) map editor
+ *
+ * @return void
+ */
 function wpgmza_basic_menu() {
     
     
@@ -5331,7 +5390,10 @@ function wpgmza_basic_menu() {
 }
 
 
-
+/**
+ * Outputs (echo) the Edit Marker page
+ * @return void
+ */
 function wpgmza_edit_marker($mid) {
     global $wpgmza_tblname_maps;
 
@@ -5396,8 +5458,10 @@ function wpgmza_edit_marker($mid) {
 
 
 
-
-
+/**
+ * Enqueues Admin side scripts
+ * @return void
+ */
 function wpgmaps_admin_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script('jquery-ui-core');
@@ -5471,6 +5535,11 @@ function wpgmaps_admin_scripts() {
         }
     }
 }
+
+/**
+ * Enqueues user side styles
+ * @return void
+ */
 function wpgmaps_user_styles() {
 
     if (!function_exists('wpgmaps_admin_styles_pro')) {
@@ -5485,6 +5554,10 @@ function wpgmaps_user_styles() {
 
 }
 
+/**
+ * Enqueues Admin side styles
+ * @return void
+ */
 function wpgmaps_admin_styles() {
     wp_enqueue_style('thickbox');
      global $wpgmza_version;
@@ -5508,7 +5581,17 @@ if (isset($_GET['page'])) {
 add_action('wp_print_styles', 'wpgmaps_user_styles');
 
 
-
+/**
+ * Returns a list of markers (html)
+ *
+ * @param  integer    $map_id      Map ID
+ * @param  boolean    $admin       Identify if user is admin or not
+ * @param  string     $width       Width to be used for HTML output
+ * @param  boolean    $mashup      Identify if this is a map mashup
+ * @param  array(int) $mashup_ids  Array of map id's to include in mashup
+ * 
+ * @return string                  List HTML
+ */
 function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup = false,$mashup_ids = false) {
     global $wpdb;
     global $wpgmza_tblname;
@@ -5668,6 +5751,12 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
     }
 }
 
+/**
+ * Returns the name of a category
+ *
+ * @param  integer $cid Category ID
+ * @return string
+ */
 function wpgmza_return_category_name($cid) {
 
     global $wpdb;
@@ -5700,17 +5789,16 @@ function wpgmza_return_category_name($cid) {
 
 }
 
-
+/**
+ * DEPRECATED
+ *
+ * Handled files - removed in 6.0.25. is_dir caused fatal errors on some hosts
+ * 
+ * @return void 
+ */
 function wpgmaps_chmodr($path, $filemode) {
     /* removed in 6.0.25. is_dir caused fatal errors on some hosts */
 }
-
-
-
-
-
-
-
 
 
 if (function_exists('wpgmza_register_pro_version')) {
@@ -5747,7 +5835,13 @@ if (function_exists('wpgmza_register_pro_version')) {
 }
 
 
-
+/**
+ * Checks if the shortcode is active on the current page
+ *
+ * Sets the global $short_code_active to 'true' if the shortcode is active
+ * 
+ * @return void 
+ */
 function wpgmaps_check_shortcode() {
     global $posts;
     global $short_code_active;
@@ -5767,6 +5861,13 @@ function wpgmaps_check_shortcode() {
     }
 }
 
+/**
+ * Checks if WP Google Maps has suffecient file access
+ *
+ * Create/Updates an option (wpgmza_permission) based on the result
+ *
+ * @return void 
+ */
 function wpgmaps_check_permissions() {
     $filename = dirname( __FILE__ ).'/wpgmaps.tmp';
     $testcontent = "Permission Check\n";
@@ -5784,6 +5885,12 @@ function wpgmaps_check_permissions() {
 
 
 }
+
+/**
+ * Outputs (echo) a warning message for file permissions
+ *
+ * @return void 
+ */
 function wpgmaps_permission_warning() {
     echo "<div class='error below-h1'><big>";
     _e("The plugin directory does not have 'write' permissions. Please enable 'write' permissions (755) for ");
@@ -5797,7 +5904,11 @@ function wpgmaps_permission_warning() {
 }
 
 
-/* handle database check upon upgrade */
+/**
+ * Handles database checks on upgrade
+ *
+ * @return void 
+ */
 function wpgmaps_update_db_check() {
     global $wpgmza_version;
     if (get_option('wpgmza_db_version') != $wpgmza_version) {
@@ -5814,7 +5925,12 @@ add_action('plugins_loaded', 'wpgmaps_update_db_check');
 
 
 
-
+/**
+ * Handles the creation and updating of tables upon update
+ * Includes backwards-compatibility checks
+ *
+ * @return void 
+ */
 function wpgmaps_handle_db() {
     global $wpdb;
     global $wpgmza_version;
@@ -5999,12 +6115,26 @@ function wpgmaps_handle_db() {
     update_option("wpgmza_db_version",$wpgmza_version);
 }
 
+/**
+ * Returns map data for a specific map
+ *
+ * @param integer   $map_id   Map ID
+ * @return array    Array with relevant map data
+ */
 function wpgmza_get_map_data($map_id) {
     global $wpdb;
     global $wpgmza_tblname_maps;
     $result = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpgmza_tblname_maps WHERE `id` = %d LIMIT 1" , intval($map_id)) );
     if (isset($result[0])) { return $result[0]; }
 }
+
+
+/**
+ * Returns marker data for a specific marker
+ *
+ * @param integer   $mid   Marker ID
+ * @return array    Array with relevant marker data
+ */
 function wpgmza_get_marker_data($mid) {
     global $wpdb;
     global $wpgmza_tblname;
@@ -6012,6 +6142,12 @@ function wpgmza_get_marker_data($mid) {
     $res = $result[0];
     return $res;
 }
+
+/**
+ * Outputs (echo) Upgrade notice for the Pro add-on
+ *
+ * @return void
+ */
 function wpgmaps_upgrade_notice() {
     global $wpgmza_pro_version;
     echo "<div class='error below-h1'>
@@ -6029,6 +6165,13 @@ function wpgmaps_upgrade_notice() {
 
     </div>";
 }
+
+/**
+ * Deletes a specific map
+ *
+ * @param integer $map_id  Map ID
+ * @return boolean  If map was deleted sucessfully
+ */
 function wpgmaps_trash_map($map_id) {
     global $wpdb;
     global $wpgmza_tblname_maps;
@@ -6040,6 +6183,12 @@ function wpgmaps_trash_map($map_id) {
     }
 }
 
+/**
+ * Updates basic stats for a specific map 
+ *
+ * @param interger $sec  Map ID
+ * @return void
+ */
 function wpgmza_stats($sec) {
     $wpgmza_stats = get_option("wpgmza_stats");
     if ($wpgmza_stats) {
@@ -6065,6 +6214,12 @@ function wpgmza_stats($sec) {
 
 }
 
+/**
+ * Filters SQL arrays
+ *
+ * @param string/array $array  Data to filter
+ * @return void
+ */
 function wpgmaps_filter(&$array) {
     $clean = array();
     foreach($array as $key => &$value ) {
@@ -6078,6 +6233,13 @@ function wpgmaps_filter(&$array) {
         }
     }
 }
+
+/**
+ * Outputs (echo) an HTML comment, which logs the time taken to process a task
+ *
+ * @param string $section  Tag for the task being processed
+ * @return void
+ */
 function wpgmaps_debugger($section) {
 
     global $debug;
@@ -6090,6 +6252,12 @@ function wpgmaps_debugger($section) {
 
 }
 
+/**
+ * Checks if the 'Force jQuery to load' override setting is enabled
+ * If so, Enqueues jQuery 1.11.3
+ *
+ * @return void
+ */
 function wpgmaps_load_jquery() {
     if (!is_admin()) {
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
@@ -6104,6 +6272,12 @@ function wpgmaps_load_jquery() {
 }
 add_action('wp_enqueue_scripts', 'wpgmaps_load_jquery', 9999);
 
+/**
+ * Returns category data for a specific category
+ *
+ * @param integer   $cat_id   Category ID
+ * @return array    Array with relevant category data
+ */
 function wpgmza_get_category_data($cat_id) {
     global $wpgmza_tblname_categories;
     global $wpdb;
@@ -6117,6 +6291,13 @@ function wpgmza_get_category_data($cat_id) {
 	");
     return $result;
 }
+
+/**
+ * Returns category icon for a specific category
+ *
+ * @param integer   $cat_id   Category ID
+ * @return string    Category Icon
+ */
 function wpgmza_get_category_icon($cat_id) {
     global $wpgmza_tblname_categories;
     global $wpdb;
@@ -6131,22 +6312,44 @@ function wpgmza_get_category_icon($cat_id) {
     return $result;
 }
 
-
+/**
+ * Outputs (echo) error message
+ *
+ * @param object   $data  Object to check
+ * @return void
+ */
 function wpgmza_return_error($data) {
     echo "<div id=\"message\" class=\"error\"><p><strong>".$data->get_error_message()."</strong><blockquote>".$data->get_error_data()."</blockquote></p></div>";
     
 }
 
+/**
+ * Logs error message
+ *
+ * @param object   $data  Object to check
+ * @return void
+ */
 function wpgmza_write_to_error_log($data) {
     error_log(date("Y-m-d H:i:s"). ": WP Google Maps : " . $data->get_error_message() . "->" . $data->get_error_data());
     return;
     
 }
+
+/**
+ * Return True - Forced
+ *
+ * @return true
+ */
 function wpgmza_error_directory() {
     return true;
     
 }
 
+/**
+ * Returns Error logs
+ *
+ * @return string
+ */
 function wpgmza_return_error_log() {
     $check = wp_upload_dir();
     $file = $check['basedir']."/wp-google-maps/error_log.txt";
@@ -6170,6 +6373,13 @@ function wpgmza_return_error_log() {
     return $ret;
     
 }
+
+/**
+ * Checks if WP Google Maps has access to the XML data path
+ * If it does not, Outputs (echo) an error message
+ *
+ * @return void
+ */
 function wpgmaps_marker_permission_check() { 
     
     
@@ -6212,6 +6422,11 @@ function wpgmaps_marker_permission_check() {
     } 
 }
 
+/**
+ * Outputs Support Page
+ *
+ * @return void
+ */
 function wpgmza_basic_support_menu() {
     wpgmza_stats("support_basic");
 ?>   
@@ -6256,7 +6471,11 @@ function wpgmza_basic_support_menu() {
 <?php
 }
 
-
+/**
+ * Deregisters all scripts containing calls to the Google Maps API
+ *
+ * @return void
+ */
 add_action('wp_enqueue_scripts', 'wpgmza_deregister_scripts',999);
 add_action('wp_head', 'wpgmza_deregister_scripts',999);
 add_action('init', 'wpgmza_deregister_scripts',999);
@@ -6291,7 +6510,11 @@ function wpgmza_deregister_scripts() {
 
 add_action('wp_ajax_track_usage', 'wpgmaps_usage_tracking_callback');
 add_action('wp_ajax_request_coupon', 'wpgmaps_usage_tracking_callback');
-
+/**
+ * Handles ajax callbacks for usage tracker
+ *
+ * @return void
+ */
 function wpgmaps_usage_tracking_callback(){
 
     if( isset( $_POST['action'] ) ){
@@ -6382,6 +6605,11 @@ function wpgmaps_usage_tracking_callback(){
 
 }
 
+/**
+ * Returns array of all Country TLD's
+ *
+ * @return array
+ */
 function wpgmza_return_country_tld_array(){
     $path = plugin_dir_path(__FILE__).'js/countries.json';
 
@@ -6410,6 +6638,12 @@ function wpgmza_return_country_tld_array(){
     return $tld;
 }
 
+/**
+ * Checks if Google Maps API key is present
+ * If not, Outputs(echo) a prompt to enter Google Maps API key
+ *
+ * @return void
+ */
 function google_maps_api_key_warning(){
     $g_api_key = get_option('wpgmza_google_maps_api_key');
     if( !$g_api_key || $g_api_key == '' ){
@@ -6450,7 +6684,11 @@ if( isset( $_GET['page'] ) && $_GET['page'] == 'wp-google-maps-menu' ){
 }
 
 
-
+/**
+ * Attempts to deregister styles which include 'jquery-ui'
+ *
+ * @return void
+ */
 function wpgmza_deregister_styles() {
     global $wp_styles;            
     if (isset($wp_styles->registered) && is_array($wp_styles->registered)) {                
