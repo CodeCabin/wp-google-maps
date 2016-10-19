@@ -1,9 +1,9 @@
 === WP Google Maps ===
-Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long
+Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
-Tags: google maps, maps, map, map markers, google, google map, google maps plugin, wp maps, wp google maps, wp google map, easy map, store locator, map plugin, directions, map directions, google map plugin, routes, polygons, polylines, streetview, location, marker, latitude, longitude, map widget, map themes
+Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.5
+Tested up to: 4.6.1
 Stable tag: trunk
 License: GPLv2
 
@@ -193,6 +193,12 @@ Try [Nifty Maps](http://www.niftymaps.co) - Comprehensive Map Builder for all we
 
 == Upgrade Notice ==
 
+= 6.3.15 =
+Please update your WP Google Maps version to 6.3.15 to ensure you are using the latest security enhancements.
+
+= 6.3.14 =
+Please update your WP Google Maps version to 6.3.14 to ensure you are using the latest security enhancements.
+
 = 6.2.1 =
 Please update your WP Google Maps version to 6.2.1 to ensure you are using the latest security enhancements.
 
@@ -206,6 +212,63 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+
+= 6.3.20 - 2016-09-27 =
+* Fixed a big that prevented the map from loading in a widget
+* Refactored code used to load the Google Maps API and Script files
+
+= 6.3.19 - 2016-09-21 =
+* Fixed a bug that caused some maps to not load markers on page load
+
+= 6.3.18 - 2016-09-15 =
+* Chinese support - when your language is set to Chinese (ZN_cn), the map will now load from maps.google.cn
+* Hebrew language code fixed when accessing the Google Maps API in Hebrew
+* Added support for the KML layer to be visible when adding/editing polygons or polylines
+* Fixed a bug with the store locator not using miles when selected
+* Moved up to versions 3.25 and 3.26 of the Google Maps JavaScript API
+* Datatables updated
+* When a marker is deleted, the view does not reset
+* User javascript has been ported over to a JavaScript file
+* A minimifed and unminified version of the user-side JS file is now included - The minifed version is used by default
+* You can now set the google map zoom level via the shortcode. Example: [wpgmza id='1' zoom=8]
+* Fixed a PHP warning on the error log page
+
+= 6.3.17 - 2016-08-07 - Medium priority =
+* Added a temporary Google Maps JavaScript API key for users so that the UX is not negatively affected on the user's first attempt at using the plugin.
+* Added a check to the front end to only display the map if there is an Google Maps JavaScript API key saved 
+* Fixed bugs that caused PHP warnings within the store locator
+* UX improvements to the welcome page
+* Fixed a bug that caused a JS error as a result of the previous versions new tab support
+
+= 6.3.16 - 2016-08-02 - Low priority =
+* API key is now used on the edit polyline page
+* Removed the resizing script that caused the map to flicker on mobile devices
+* Added additional tab support (tri-tabs-nav span)
+* Fixed a bug in the store locator country restriction list
+
+= 6.3.15 - 2016-07-31 - High priority =
+* Security patches
+* Code refactoring
+
+= 6.3.14 - 2016-07-13 - High priority =
+* Many security patches - thank you Gerard Arall
+* Bug fix - trim whitespace before and api the Google Maps API key
+* Additional tab support added
+* Corrected PHP noticess
+
+= 6.3.13 - 2016-07-07 - Medium priority =
+* Revised Maps API Dequeue Script Added
+* Remove Style dequeue script as this was causing UI conflicts
+* Added option to disable Maps API from being loaded on front end
+
+= 6.3.12 - 2016-06-27 - Medium priority =
+* Modified the API key notification to make it simpler and more intuitive
+
+= 6.3.11 - 2016-06-24 - Medium Priority =
+* Small activation bug fixed
+* all polygons and polylines are now viewable when editing or creating a new polygon or polyline
+* Notifications of Google Maps API key requirements
 
 = 6.3.10 - 2016-05-03 - Low priority =
 * Added event listeners for both jQuery and accordions so that the map can init correctly when placed in a tab or accordion
@@ -501,7 +564,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 * Plugin now checks to see if the Google Maps API is already loaded before trying to load it again
 * Fixed some SSL bugs
 
-= 5.15 =
+= 5.15 = 
 * Added marker category functionality
 * Added Google Map Mashup functionality
 * Fixed small bugs
