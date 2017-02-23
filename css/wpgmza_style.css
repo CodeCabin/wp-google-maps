@@ -369,34 +369,3 @@ ul.wpgmza_marker_list_class {
 .toplevel_page_wp-google-maps-menu .about-text {
     max-width: 600px;
 }
-
-.wpgmza-clearfix {
-    zoom: 1;
-}
-
-.wpgmza-clearfix:before,
-.wpgmza-clearfix:after {
-    content: '';
-    display: table;
-    table-layout: fixed;
-}
-
-.wpgmza-clearfix:after {
-    clear: both;
-}
-
-.wpgmza_sl_main_div {
-    overflow: hidden;
-    position: relative;
-    top: 10px;
-}
-
-.wpgmza_sl_query_div,
-.wpgmza_sl_radius_div {
-    height: auto;
-    margin-bottom: 10px;
-}
-
-.wpgmza_sl_radius_div {
-    margin-bottom: 20px;
-}
