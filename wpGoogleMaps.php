@@ -2752,12 +2752,12 @@ function wpgmaps_sl_user_output_basic($map_id) {
     $ret_msg = "";
     
     $ret_msg .= "<div class=\"wpgmza_sl_main_div\">";
-    $ret_msg .= "       <div class=\"wpgmza_sl_query_div\">";
+    $ret_msg .= "       <div class=\"wpgmza_sl_query_div wpgmza-clearfix\">";
     $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv1\"><label for='addressInput'>".esc_attr($sl_query_string)."</label></div>";
     $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv2\"><input type=\"text\" id=\"addressInput\" size=\"20\" value=\"".$sl_default_address."\" /></div>";
     $ret_msg .= "       </div>";
 
-    $ret_msg .= "       <div class=\"wpgmza_sl_radius_div\">";
+    $ret_msg .= "       <div class=\"wpgmza_sl_radius_div wpgmza-clearfix\">";
     $ret_msg .= "           <div class=\"wpgmza_sl_radius_innerdiv1\"><label for='radiusSelect'>".__("Radius","wp-google-maps").":</label></div>";
     $ret_msg .= "           <div class=\"wpgmza_sl_radius_innerdiv2\">";
     $ret_msg .= "           <select class=\"wpgmza_sl_radius_select\" id=\"radiusSelect\">";
