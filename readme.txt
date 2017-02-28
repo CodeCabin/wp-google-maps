@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.6.1
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2
 
@@ -29,6 +29,7 @@ The [WP Google Maps Pro Version](http://www.wpgmaps.com/purchase-professional-ve
 * Google Maps Streetview supported
 * UTF-8 character support
 * Map widget functionality
+* Full screen map functionality
 * Support for localization
 * Choose from four Google maps types: roadmap, terrain, satellite and hybrid
 * Define your own width, height and zoom level for your Google Map
@@ -213,6 +214,30 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 6.4.03 - 2017-02-17 - Low priority =
+* Added the ability for affiliates to make use of their affiliate IDs in the pro links
+* Added better SSL support
+* Added shortcode support for XML marker files
+
+= 6.4.02 - 2017-01-20 - Low priority =
+* Removed an echo that was incorrectly placed
+
+= 6.4.01 - 2017-01-20 - Low priority =
+* Added the ability for users to subscribe to our mailing list
+
+= 6.4.00 - 2017-01-11 - Medium priority =
+* Added an option to set default store locator address
+* Full screen map functionality added
+* Fixed a bug that caused custom css to be incorrectly escaped
+* Fixed the bug that caused the "save marker" button to not revert when an address couldnt be geocoded
+* Added caching notices to notify users to clear their cache when a marker is added or edited or when map settings were changed
+* Estonian translation added
+* Fixed the incorrect locale setting with the Google Maps API
+* Fixed a bug that caused the admin style sheet to load on all admin pages
+* Added the ability to change the gesture input
+* Fixed a bug that caused PHP warnings when a polygon or polyline had no polydata
+* Fixed a bug that caused non-utf8 characters within an address to cause the insertion of the marker to fail
+* Documented all PHP functions
 
 = 6.3.20 - 2016-09-27 =
 * Fixed a big that prevented the map from loading in a widget

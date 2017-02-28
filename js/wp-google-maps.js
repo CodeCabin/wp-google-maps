@@ -55,98 +55,35 @@ for(var entry in wpgmaps_localize) {
     if (wpgmaps_localize_global_settings['wpgmza_settings_map_pan'] === "" || 'undefined' === typeof wpgmaps_localize_global_settings['wpgmza_settings_map_pan']) { wpgmza_settings_map_pan = true; } else { wpgmza_settings_map_pan = false; }
     if (wpgmaps_localize_global_settings['wpgmza_settings_map_type'] === "" || 'undefined' === typeof wpgmaps_localize_global_settings['wpgmza_settings_map_type']) { wpgmza_settings_map_type = true; } else { wpgmza_settings_map_type = false; }
     if (wpgmaps_localize_global_settings['wpgmza_settings_map_streetview'] === "" || 'undefined' === typeof wpgmaps_localize_global_settings['wpgmza_settings_map_streetview']) { wpgmza_settings_map_streetview = true; } else { wpgmza_settings_map_streetview = false; }
+    if (wpgmaps_localize_global_settings['wpgmza_settings_map_full_screen_control'] === "" || 'undefined' === typeof wpgmaps_localize_global_settings['wpgmza_settings_map_full_screen_control']) { wpgmza_settings_map_full_screen_control = true; } else { wpgmza_settings_map_full_screen_control = false; }
 
 
     if ('undefined' === typeof wpgmaps_localize[entry]['other_settings']['map_max_zoom'] || wpgmaps_localize[entry]['other_settings']['map_max_zoom'] === "") { wpgmza_max_zoom = 0; } else { wpgmza_max_zoom = parseInt(wpgmaps_localize[entry]['other_settings']['map_max_zoom']); }
 
     MYMAP[entry].init = function(selector, latLng, zoom, maptype,mapid) {
         zoom = parseInt(zoom);
-        if (maptype === "1") { 
-            var myOptions = {
-                zoom:zoom,
-                minZoom: wpgmza_max_zoom,
-                maxZoom: 21,
-                center: latLng,
-                draggable: wpgmza_settings_map_draggable,
-                disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
-                scrollwheel: wpgmza_settings_map_scroll,
-                zoomControl: wpgmza_settings_map_zoom,
-                panControl: wpgmza_settings_map_pan,
-                mapTypeControl: wpgmza_settings_map_type,
-                streetViewControl: wpgmza_settings_map_streetview,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-              };
-        }
-        else if (maptype === "2") { 
-            var myOptions = {
-                zoom:zoom,
-                minZoom: wpgmza_max_zoom,
-                maxZoom: 21,
-                center: latLng,
-                draggable: wpgmza_settings_map_draggable,
-                disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
-                scrollwheel: wpgmza_settings_map_scroll,
-                zoomControl: wpgmza_settings_map_zoom,
-                panControl: wpgmza_settings_map_pan,
-                mapTypeControl: wpgmza_settings_map_type,
-                streetViewControl: wpgmza_settings_map_streetview,
-                mapTypeId: google.maps.MapTypeId.SATELLITE
-              };
-
-        }
-        else if (maptype === "3") { 
-            var myOptions = {
-                zoom:zoom,
-                minZoom: wpgmza_max_zoom,
-                maxZoom: 21,
-                center: latLng,
-                draggable: wpgmza_settings_map_draggable,
-                disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
-                scrollwheel: wpgmza_settings_map_scroll,
-                zoomControl: wpgmza_settings_map_zoom,
-                panControl: wpgmza_settings_map_pan,
-                mapTypeControl: wpgmza_settings_map_type,
-                streetViewControl: wpgmza_settings_map_streetview,
-                mapTypeId: google.maps.MapTypeId.HYBRID
-              };
 
 
-        }
-        else if (maptype === "4") { 
-            var myOptions = {
-                zoom:zoom,
-                minZoom: wpgmza_max_zoom,
-                maxZoom: 21,
-                center: latLng,
-                draggable: wpgmza_settings_map_draggable,
-                disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
-                scrollwheel: wpgmza_settings_map_scroll,
-                zoomControl: wpgmza_settings_map_zoom,
-                panControl: wpgmza_settings_map_pan,
-                mapTypeControl: wpgmza_settings_map_type,
-                streetViewControl: wpgmza_settings_map_streetview,
-                mapTypeId: google.maps.MapTypeId.TERRAIN
-              };
+        var myOptions = {
+            zoom:zoom,
+            minZoom: wpgmza_max_zoom,
+            maxZoom: 21,
+            center: latLng,
+            draggable: wpgmza_settings_map_draggable,
+            disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
+            scrollwheel: wpgmza_settings_map_scroll,
+            zoomControl: wpgmza_settings_map_zoom,
+            panControl: wpgmza_settings_map_pan,
+            mapTypeControl: wpgmza_settings_map_type,
+            streetViewControl: wpgmza_settings_map_streetview,
+            fullScreenControl = wpgmza_settings_map_full_screen_control,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
 
-        }
-        else { 
-            var myOptions = {
-                zoom:zoom,
-                minZoom: wpgmza_max_zoom,
-                maxZoom: 21,
-                center: latLng,
-                draggable: wpgmza_settings_map_draggable,
-                disableDoubleClickZoom: wpgmza_settings_map_clickzoom,
-                scrollwheel: wpgmza_settings_map_scroll,
-                zoomControl: wpgmza_settings_map_zoom,
-                panControl: wpgmza_settings_map_pan,
-                mapTypeControl: wpgmza_settings_map_type,
-                streetViewControl: wpgmza_settings_map_streetview,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-              };
-
-
-        }
+        if (maptype === "1") { myOptions.mapTypeId = google.maps.MapTypeId.ROADMAP; }
+        else if (maptype === "2") { myOptions.mapTypeId = google.maps.MapTypeId.SATELLITE; }
+        else if (maptype === "3") { myOptions.mapTypeId = google.maps.MapTypeId.HYBRID; }
+        else if (maptype === "4") { myOptions.mapTypeId = google.maps.MapTypeId.TERRAIN; }
 
         this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
         this.bounds = new google.maps.LatLngBounds();
