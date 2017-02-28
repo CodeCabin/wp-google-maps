@@ -2746,9 +2746,10 @@ function wpgmaps_sl_user_output_basic($map_id) {
     
     if (isset($map_other_settings['store_locator_query_string'])) { $sl_query_string = stripslashes($map_other_settings['store_locator_query_string']); } else { $sl_query_string = __("ZIP / Address:","wp-google-maps"); }
     if (isset($map_other_settings['store_locator_default_address'])) { $sl_default_address = stripslashes($map_other_settings['store_locator_default_address']); } else { $sl_default_address = ''; }
-    if (isset($map_other_settings['store_locator_default_radius'])) { $sl_default_radius = stripslashes($map_other_settings['store_locator_default_radius']); } else { $sl_default_radius = '10'; }
+	if (isset($map_other_settings['store_locator_default_radius'])) { $sl_default_radius = stripslashes($map_other_settings['store_locator_default_radius']); } else { $sl_default_radius = '10'; }
+	if (isset($map_other_settings['store_locator_not_found_message'])) { $sl_not_found_message = stripslashes($map_other_settings['store_locator_not_found_message']); } else { $sl_not_found_message = __( "No results found in this location. Please try again.", "wp-google-maps" ); }
 
-    if ($map_width_type == "px" && $map_width < 300) { $map_width = "300"; }
+	if ($map_width_type == "px" && $map_width < 300) { $map_width = "300"; }
     
     $ret_msg = "";
     
@@ -2803,7 +2804,8 @@ function wpgmaps_sl_user_output_basic($map_id) {
     }
 
     $ret_msg .= "       <input class=\"wpgmza_sl_search_button\" type=\"button\" onclick=\"searchLocations($map_id)\" value=\"".__("Search","wp-google-maps")."\"/>";
-    $ret_msg .= "    </div>";
+	$ret_msg .= "       <div class='wpgmza-not-found-msg js-not-found-msg'><p>" . $sl_not_found_message . "</p></div>";
+	$ret_msg .= "    </div>";
     $ret_msg .= "    <div><select id=\"locationSelect\" style=\"width:100%;visibility:hidden\"></select></div>";
     
     return $ret_msg;
@@ -2877,6 +2879,7 @@ function wpgmaps_head() {
         $other_settings['store_locator_enabled'] = isset($_POST['wpgmza_store_locator']) ? 1 : 2;
         $other_settings['store_locator_distance'] = isset($_POST['wpgmza_store_locator_distance']) ? 1 : 2;
         $other_settings['store_locator_default_radius'] = isset($_POST['wpgmza_store_locator_default_radius']) ? esc_attr( $_POST['wpgmza_store_locator_default_radius'] ): '10';
+	    if (isset($_POST['wpgmza_store_locator_not_found_message'])) { $other_settings['store_locator_not_found_message'] = sanitize_text_field( $_POST['wpgmza_store_locator_not_found_message'] ); }
         $other_settings['store_locator_bounce'] = isset($_POST['wpgmza_store_locator_bounce']) ? 1 : 2;
 
         $other_settings['store_locator_query_string'] = sanitize_text_field($_POST['wpgmza_store_locator_query_string']);
@@ -4440,6 +4443,7 @@ function wpgmza_basic_menu() {
         if (isset($other_settings_data['store_locator_bounce'])) { $wpgmza_store_locator_bounce = $other_settings_data['store_locator_bounce']; } else { $wpgmza_store_locator_bounce = 1; }
         if (isset($other_settings_data['store_locator_query_string'])) { $wpgmza_store_locator_query_string = stripslashes($other_settings_data['store_locator_query_string']); } else { $wpgmza_store_locator_query_string = __("ZIP / Address:","wp-google-maps"); }
         if (isset($other_settings_data['store_locator_default_address'])) { $wpgmza_store_locator_default_address = stripslashes($other_settings_data['store_locator_default_address']); } else { $wpgmza_store_locator_default_address = ""; }
+        if (isset($other_settings_data['store_locator_not_found_message'])) { $wpgmza_store_locator_not_found_message = stripslashes($other_settings_data['store_locator_not_found_message']); } else { $wpgmza_store_locator_not_found_message = __( "No results found in this location. Please try again.", "wp-google-maps" ); }
         if (isset($other_settings_data['wpgmza_store_locator_restrict'])) { $wpgmza_store_locator_restrict = $other_settings_data['wpgmza_store_locator_restrict']; } else { $wpgmza_store_locator_restrict = ""; }
 
         /* deprecated in 6.2.0
@@ -4866,6 +4870,11 @@ function wpgmza_basic_menu() {
                                 <tr>
                                     <td>".__("Default address","wp-google-maps").":</td>
                                     <td><input type=\"text\" name=\"wpgmza_store_locator_default_address\" id=\"wpgmza_store_locator_default_address\" value=\"".esc_attr($wpgmza_store_locator_default_address)."\">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>" . __( "Not found message" ,"wp-google-maps" ) . ":</td>
+                                    <td><input type=\"text\" name=\"wpgmza_store_locator_not_found_message\" id=\"wpgmza_store_locator_not_found_message\" value=\"".esc_attr($wpgmza_store_locator_not_found_message)."\">
                                     </td>
                                 </tr>
                                 <tr>

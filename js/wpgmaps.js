@@ -153,7 +153,8 @@ google.maps.event.addDomListener(window, 'resize', function() {
     MYMAP.map.setCenter(myLatLng);
 });
 MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_type) {
-    var check1 = 0;
+    var check1 = 0,
+        slNotFoundMessage = jQuery('.js-not-found-msg');
     if (wpgmaps_localize_global_settings.wpgmza_settings_marker_pull === '1') {
     	jQuery.get(filename, function(xml){
             jQuery(xml).find("marker").each(function(){
@@ -280,27 +281,27 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
         });
     } else { 
         if (wpgmaps_localize_marker_data.length > 0) {
+            var markerStoreLocatorsNum = 0;
             jQuery.each(wpgmaps_localize_marker_data, function(i, val) {
-                
-                
+
                 var wpmgza_map_id = val.map_id;
 
                     if (wpmgza_map_id == map_id) {
-                        
+
                         var wpmgza_address = val.address;
                         var wpmgza_anim = val.anim;
                         var wpmgza_infoopen = val.infoopen;
                         var lat = val.lat;
                         var lng = val.lng;
                         var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
-                        
-                       
+
+
                         var current_lat = val.lat;
                         var current_lng = val.lng;
                         var show_marker_radius = true;
 
                         if (radius !== null) {
-                            if (check1 > 0 ) { } else { 
+                            if (check1 > 0 ) { } else {
 
 
                                 var point = new google.maps.LatLng(parseFloat(searched_center.lat()),parseFloat(searched_center.lng()));
@@ -335,23 +336,28 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                           radius: parseInt(radius / 0.001)
                                         };
                                 }
-                                
+
                                 cityCircle = new google.maps.Circle(populationOptions);
                                 check1 = check1 + 1;
                             }
                             var R = 0;
                             if (distance_type === "1") {
-                                R = 3958.7558657440545; 
+                                R = 3958.7558657440545;
                             } else {
-                                R = 6378.16; 
+                                R = 6378.16;
                             }
                             var dLat = toRad(searched_center.lat()-current_lat);
-                            var dLon = toRad(searched_center.lng()-current_lng); 
-                            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(current_lat)) * Math.cos(toRad(searched_center.lat())) * Math.sin(dLon/2) * Math.sin(dLon/2); 
-                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                            var dLon = toRad(searched_center.lng()-current_lng);
+                            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(current_lat)) * Math.cos(toRad(searched_center.lat())) * Math.sin(dLon/2) * Math.sin(dLon/2);
+                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
                             var d = R * c;
-                            
-                            if (d < radius) { show_marker_radius = true; } else { show_marker_radius = false; }
+
+                            if (d < radius) {
+                                show_marker_radius = true;
+                                markerStoreLocatorsNum++;
+                            } else {
+                                show_marker_radius = false;
+                            }
                         }
 
 
@@ -380,9 +386,9 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                 });
                             }
                             var d_string = "";
-	                        if (radius !== null) {                                 
+	                        if (radius !== null) {
 	                            if (distance_type === "1") {
-	                                d_string = "<p style='min-width:100px; display:block;'>"+Math.round(d,2)+" "+wpgmaps_lang_m_away+"</p>"; 
+	                                d_string = "<p style='min-width:100px; display:block;'>"+Math.round(d,2)+" "+wpgmaps_lang_m_away+"</p>";
 	                            } else {
 	                                d_string = "<p style='min-width:100px; display:block;'>"+Math.round(d,2)+" "+wpgmaps_lang_km_away+"</p>";
 	                            }
@@ -406,6 +412,13 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         }
                     }
             });
+
+            if ('' !== jQuery('#addressInput').val() && markerStoreLocatorsNum < 1) {
+                slNotFoundMessage.addClass('is-active');
+                setTimeout(function () {
+                    slNotFoundMessage.removeClass('is-active');
+                }, 5000);
+            }
         }
     }
 }

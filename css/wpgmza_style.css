@@ -400,3 +400,17 @@ ul.wpgmza_marker_list_class {
 .wpgmza_sl_radius_div {
     margin-bottom: 20px;
 }
+
+.wpgmza-not-found-msg {
+    display: none;
+    margin-top: 20px;
+    color: #777;
+}
+
+.wpgmza-not-found-msg.is-active {
+    display: block;
+}
+
+.wpgmza-not-found-msg p {
+    margin-bottom: 0;
+}
