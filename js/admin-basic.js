@@ -24,7 +24,6 @@ jQuery(document).ready(function(){
         } else {
             var enabled = false;
         }
-        console.log(enabled);
         var email = jQuery("#wpgmza_admin_email_coupon").val();
 
         var data = {
@@ -33,7 +32,6 @@ jQuery(document).ready(function(){
             status: enabled
         }
         jQuery.post(ajaxurl, data, function(response){
-            console.log(response);                
         });
 
     });
