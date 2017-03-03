@@ -5941,6 +5941,9 @@ function wpgmaps_trash_map($map_id) {
     global $wpdb;
     global $wpgmza_tblname_maps;
     if (isset($map_id)) {
+		$wpdb->query(
+			$wpdb->prepare('DELETE FROM wp_wpgmza WHERE map_id=%d', $map_id)
+		);
         $rows_affected = $wpdb->query( $wpdb->prepare( "UPDATE $wpgmza_tblname_maps SET active = %d WHERE id = %d", 1, $map_id) );
         return true;
     } else {

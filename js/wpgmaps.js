@@ -19,7 +19,7 @@ function InitMap() {
 	MYMAP.placeMarkers(wpgmaps_markerurl+'?u='+UniqueCode,wpgmaps_localize[wpgmaps_mapid].id,null,null,null);
 }
 jQuery(function() {
-
+	
     jQuery(document).ready(function(){
         if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
             setTimeout(function(){ 
