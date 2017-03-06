@@ -2743,6 +2743,7 @@ function wpgmaps_head() {
         /* overwrite theme data if a custom theme is selected */
         if (isset($_POST['wpgmza_styling_json'])) { $other_settings['wpgmza_theme_data'] = sanitize_text_field($_POST['wpgmza_styling_json']); }
 
+		$other_settings['wpgmza_show_points_of_interest'] = (isset($_POST['wpgmza_show_points_of_interest']) ? 1 : 0);
 
         $other_settings_data = maybe_serialize($other_settings);
 
@@ -4771,8 +4772,23 @@ function wpgmza_basic_menu() {
 
                                     </td>
                                 </tr>
+								<tr>
+									<td><label for=\"wpgmza_show_points_of_interest\">".__("Show Points of Interest?", "wp-google-maps")."</label></td>
+									<td>
+										<input type='checkbox' id='wpgmza_show_points_of_interest' name='wpgmza_show_points_of_interest' " .
+											(
+												!isset($other_settings_data['wpgmza_show_points_of_interest']) ||
+												$other_settings_data['wpgmza_show_points_of_interest'] == 1
+												?
+												"checked='checked'"
+												:
+												''
+											)
+										. "/>
+									</td>
+								</tr>
+								
                                 <tr>
-
                                 </tr>
                                 <tr>
                                     <td></td>

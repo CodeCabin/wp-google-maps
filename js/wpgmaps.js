@@ -103,20 +103,37 @@ MYMAP.init = function(selector, latLng, zoom) {
     if(typeof wpgmza_force_greedy_gestures !== "undefined"){
         myOptions.gestureHandling = wpgmza_force_greedy_gestures;
     }
+	
+	// NB: Perry: Moved this block up here and altered it so it plays nicely with other maps styles settings
+	if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== false && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== "") {
+		if(!myOptions.styles)
+			myOptions.styles = [];
+		
+        wpgmza_theme_data = jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']);
+		
+        myOptions.styles = myOptions.styles.concat(jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']));
+    }
 
+	console.log(wpgmaps_localize[wpgmaps_mapid]['other_settings']);
+	if(!wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_show_points_of_interest'])
+	{
+		// Only create a new array if styles aren't set already, so no existing styles are overwritten
+		if(!myOptions.styles)
+			myOptions.styles = [];
+		
+		// Push a style to hide all points of interest
+		myOptions.styles.push(
+			{
+				featureType: "poi",
+				stylers: [{visibility: "off"}]
+			}
+		);
+	}
 
     this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
     this.bounds = new google.maps.LatLngBounds();
 
-
-	if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== false && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== "") {
-        wpgmza_theme_data = jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']);
-        this.map.setOptions({styles: jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'])});
-    } 
-    
     jQuery( "#wpgmza_map").trigger( 'wpgooglemaps_loaded' );
-
-    
 
     if (wpgmaps_localize_polygon_settings !== null) {
         if (typeof wpgmaps_localize_polygon_settings !== "undefined") {
