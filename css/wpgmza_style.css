@@ -2,6 +2,7 @@
     border:0;
     
 }
+
 .wpgmza_hide_input { display:none !important; }
 .wpgmza_theme_selection { margin-right:20px; margin-bottom:20px; cursor:pointer; border-radius:4px; }
 
@@ -370,6 +371,7 @@ ul.wpgmza_marker_list_class {
     max-width: 600px;
 }
 
+
 .wpgmza-clearfix {
     zoom: 1;
 }
@@ -413,4 +415,14 @@ ul.wpgmza_marker_list_class {
 
 .wpgmza-not-found-msg p {
     margin-bottom: 0;
+}
+
+.wpgmaps_fullscreen {
+    position: fixed !important;
+    top:0;
+    left:0;
+    width:100% !important;
+    height: 100% !important;
+    z-index:9999;
+
 }
