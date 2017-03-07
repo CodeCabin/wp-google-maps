@@ -36,4 +36,22 @@ jQuery(document).ready(function(){
 
     });
 
+    var radiusStoreLocator      = jQuery('.wpgmza-store-locator-default-radius'),
+        radiusStoreLocatorKm    = jQuery('#wpgmza_store_locator_default_radius_km'),
+        radiusStoreLocatorMi    = jQuery('#wpgmza_store_locator_default_radius_mi');
+
+    radiusStoreLocator.on('change', function() {
+        radiusStoreLocator.val(jQuery(this).val());
+    });
+
+    jQuery('#wpgmza_store_locator_distance').on('change', function() {
+        radiusStoreLocator.removeClass('active');
+
+        if (jQuery(this).attr('checked')){
+            radiusStoreLocatorMi.addClass('active');
+        } else {
+            radiusStoreLocatorKm.addClass('active');
+        }
+    });
+
 });

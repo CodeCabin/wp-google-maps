@@ -432,3 +432,12 @@ input.cmn-toggle-yes-no:checked + label:after {
   margin-left: 1%;
 }
 
+#wpgmza_store_locator_default_radius_km,
+#wpgmza_store_locator_default_radius_mi {
+    display: none;
+}
+
+#wpgmza_store_locator_default_radius_km.active,
+#wpgmza_store_locator_default_radius_mi.active {
+    display: block;
+}

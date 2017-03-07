@@ -2584,18 +2584,20 @@ function wpgmaps_sl_user_output_basic($map_id) {
     
     if (isset($map_other_settings['store_locator_query_string'])) { $sl_query_string = stripslashes($map_other_settings['store_locator_query_string']); } else { $sl_query_string = __("ZIP / Address:","wp-google-maps"); }
     if (isset($map_other_settings['store_locator_default_address'])) { $sl_default_address = stripslashes($map_other_settings['store_locator_default_address']); } else { $sl_default_address = ''; }
-    
-    if ($map_width_type == "px" && $map_width < 300) { $map_width = "300"; }
+	if (isset($map_other_settings['store_locator_default_radius'])) { $sl_default_radius = stripslashes($map_other_settings['store_locator_default_radius']); } else { $sl_default_radius = '10'; }
+	if (isset($map_other_settings['store_locator_not_found_message'])) { $sl_not_found_message = stripslashes($map_other_settings['store_locator_not_found_message']); } else { $sl_not_found_message = __( "No results found in this location. Please try again.", "wp-google-maps" ); }
+
+	if ($map_width_type == "px" && $map_width < 300) { $map_width = "300"; }
     
     $ret_msg = "";
     
     $ret_msg .= "<div class=\"wpgmza_sl_main_div\">";
-    $ret_msg .= "       <div class=\"wpgmza_sl_query_div\">";
+    $ret_msg .= "       <div class=\"wpgmza_sl_query_div wpgmza-clearfix\">";
     $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv1\"><label for='addressInput'>".esc_attr($sl_query_string)."</label></div>";
     $ret_msg .= "           <div class=\"wpgmza_sl_query_innerdiv2\"><input type=\"text\" id=\"addressInput\" size=\"20\" value=\"".$sl_default_address."\" /></div>";
     $ret_msg .= "       </div>";
 
-    $ret_msg .= "       <div class=\"wpgmza_sl_radius_div\">";
+    $ret_msg .= "       <div class=\"wpgmza_sl_radius_div wpgmza-clearfix\">";
     $ret_msg .= "           <div class=\"wpgmza_sl_radius_innerdiv1\"><label for='radiusSelect'>".__("Radius","wp-google-maps").":</label></div>";
     $ret_msg .= "           <div class=\"wpgmza_sl_radius_innerdiv2\">";
     $ret_msg .= "           <select class=\"wpgmza_sl_radius_select\" id=\"radiusSelect\">";
@@ -2603,27 +2605,27 @@ function wpgmaps_sl_user_output_basic($map_id) {
 
     $map_other_settings['store_locator_distance'] = isset($map_other_settings['store_locator_distance']) ? intval($map_other_settings['store_locator_distance']) : 2;
     if (isset($map_other_settings['store_locator_distance']) && $map_other_settings['store_locator_distance'] === 1) {        
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"1\">".__("1mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"5\">".__("5mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"10\" selected>".__("10mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"25\">".__("25mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"50\">".__("50mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"75\">".__("75mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"100\">".__("100mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"150\">".__("150mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"200\">".__("200mi","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"300\">".__("300mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"1\"" . selected( '1', $sl_default_radius, false ) . ">".__("1mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"5\"" . selected( '5', $sl_default_radius, false ) . ">".__("5mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"10\"" . selected( '10', $sl_default_radius, false ) . ">".__("10mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"25\"" . selected( '25', $sl_default_radius, false ) . ">".__("25mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"50\"" . selected( '50', $sl_default_radius, false ) . ">".__("50mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"75\"" . selected( '75', $sl_default_radius, false ) . ">".__("75mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"100\"" . selected( '100', $sl_default_radius, false ) . ">".__("100mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"150\"" . selected( '150', $sl_default_radius, false ) . ">".__("150mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"200\"" . selected( '200', $sl_default_radius, false ) . ">".__("200mi","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"300\"" . selected( '300', $sl_default_radius, false ) . ">".__("300mi","wp-google-maps")."</option>";
     } else {
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"1\">".__("1km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"5\">".__("5km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"10\" selected>".__("10km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"25\">".__("25km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"50\">".__("50km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"75\">".__("75km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"100\">".__("100km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"150\">".__("150km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"200\">".__("200km","wp-google-maps")."</option>";
-        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"300\">".__("300km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"1\"" . selected( '1', $sl_default_radius, false ) . ">".__("1km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"5\"" . selected( '5', $sl_default_radius, false ) . ">".__("5km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"10\"" . selected( '10', $sl_default_radius, false ) . ">".__("10km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"25\"" . selected( '25', $sl_default_radius, false ) . ">".__("25km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"50\"" . selected( '50', $sl_default_radius, false ) . ">".__("50km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"75\"" . selected( '75', $sl_default_radius, false ) . ">".__("75km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"100\"" . selected( '100', $sl_default_radius, false ) . ">".__("100km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"150\"" . selected( '150', $sl_default_radius, false ) . ">".__("150km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"200\"" . selected( '200', $sl_default_radius, false ) . ">".__("200km","wp-google-maps")."</option>";
+        $ret_msg .= "                   <option class=\"wpgmza_sl_select_option\" value=\"300\"" . selected( '300', $sl_default_radius, false ) . ">".__("300km","wp-google-maps")."</option>";
     }
     
     $ret_msg .= "               </select><input type='hidden' value='".$map_other_settings['store_locator_distance']."' name='wpgmza_distance_type' id='wpgmza_distance_type'  style='display:none;' />";
@@ -2639,8 +2641,10 @@ function wpgmaps_sl_user_output_basic($map_id) {
         $ret_msg .= "       </div>";
     }
 
-    $ret_msg .= "       <input class=\"wpgmza_sl_search_button\" type=\"button\" onclick=\"searchLocations($map_id)\" value=\"".apply_filters("wpgmza_filter_store_locator_button_search_string",__("Search","wp-google-maps"))."\"/>";
-    $ret_msg .= "    </div>";
+
+    $ret_msg .= "       <input class=\"wpgmza_sl_search_button\" type=\"button\" onclick=\"searchLocations($map_id)\" value=\"".__("Search","wp-google-maps")."\"/>";
+	  $ret_msg .= "       <div class='wpgmza-not-found-msg js-not-found-msg'><p>" . $sl_not_found_message . "</p></div>";
+	  $ret_msg .= "    </div>";
     $ret_msg .= "    <div><select id=\"locationSelect\" style=\"width:100%;visibility:hidden\"></select></div>";
     
     return $ret_msg;
@@ -2714,6 +2718,8 @@ function wpgmaps_head() {
 
         $other_settings['store_locator_enabled'] = isset($_POST['wpgmza_store_locator']) ? 1 : 2;
         $other_settings['store_locator_distance'] = isset($_POST['wpgmza_store_locator_distance']) ? 1 : 2;
+        $other_settings['store_locator_default_radius'] = isset($_POST['wpgmza_store_locator_default_radius']) ? esc_attr( $_POST['wpgmza_store_locator_default_radius'] ): '10';
+	    if (isset($_POST['wpgmza_store_locator_not_found_message'])) { $other_settings['store_locator_not_found_message'] = sanitize_text_field( $_POST['wpgmza_store_locator_not_found_message'] ); }
         $other_settings['store_locator_bounce'] = isset($_POST['wpgmza_store_locator_bounce']) ? 1 : 2;
 
         $other_settings['store_locator_query_string'] = sanitize_text_field($_POST['wpgmza_store_locator_query_string']);
@@ -4271,9 +4277,11 @@ function wpgmza_basic_menu() {
         $other_settings_data = maybe_unserialize($res->other_settings);
         if (isset($other_settings_data['store_locator_enabled'])) { $wpgmza_store_locator_enabled = $other_settings_data['store_locator_enabled']; } else { $wpgmza_store_locator_enabled = 0; }
         if (isset($other_settings_data['store_locator_distance'])) { $wpgmza_store_locator_distance = $other_settings_data['store_locator_distance']; } else { $wpgmza_store_locator_distance = 0; }
+        if (isset($other_settings_data['store_locator_default_radius'])) { $wpgmza_store_locator_default_radius = $other_settings_data['store_locator_default_radius']; } else { $wpgmza_store_locator_default_radius = "10"; }
         if (isset($other_settings_data['store_locator_bounce'])) { $wpgmza_store_locator_bounce = $other_settings_data['store_locator_bounce']; } else { $wpgmza_store_locator_bounce = 1; }
         if (isset($other_settings_data['store_locator_query_string'])) { $wpgmza_store_locator_query_string = stripslashes($other_settings_data['store_locator_query_string']); } else { $wpgmza_store_locator_query_string = __("ZIP / Address:","wp-google-maps"); }
         if (isset($other_settings_data['store_locator_default_address'])) { $wpgmza_store_locator_default_address = stripslashes($other_settings_data['store_locator_default_address']); } else { $wpgmza_store_locator_default_address = ""; }
+        if (isset($other_settings_data['store_locator_not_found_message'])) { $wpgmza_store_locator_not_found_message = stripslashes($other_settings_data['store_locator_not_found_message']); } else { $wpgmza_store_locator_not_found_message = __( "No results found in this location. Please try again.", "wp-google-maps" ); }
         if (isset($other_settings_data['wpgmza_store_locator_restrict'])) { $wpgmza_store_locator_restrict = $other_settings_data['wpgmza_store_locator_restrict']; } else { $wpgmza_store_locator_restrict = ""; }
 
         /* deprecated in 6.2.0
@@ -4405,9 +4413,9 @@ function wpgmza_basic_menu() {
         $wpgmza_theme_data_custom  = '';
     }
     }
-    
 
-    google_maps_api_key_warning();
+
+	google_maps_api_key_warning();
     echo "
 
            <div class='wrap'>
@@ -4658,6 +4666,41 @@ function wpgmza_basic_menu() {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>".__("Default radius","wp-google-maps").":</td>
+                                    <td>
+                                    <div>
+                                    <select class='wpgmza-store-locator-default-radius";
+                                        echo ( 1 === $wpgmza_store_locator_distance ) ? ' active' : '';
+                                        echo "' id='wpgmza_store_locator_default_radius_mi' name='wpgmza_store_locator_default_radius'>
+                                        <option value=\"1\"" . selected( '1', $wpgmza_store_locator_default_radius, false ) . ">" . __( "1mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"5\"" . selected( '5', $wpgmza_store_locator_default_radius, false ) . ">" . __( "5mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"10\"" . selected( '10', $wpgmza_store_locator_default_radius, false ) . ">" . __( "10mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"25\"" . selected( '25', $wpgmza_store_locator_default_radius, false ) . ">" . __( "25mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"50\"" . selected( '50', $wpgmza_store_locator_default_radius, false ) . ">" . __( "50mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"75\"" . selected( '75', $wpgmza_store_locator_default_radius, false ) . ">" . __( "75mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"100\"" . selected( '100', $wpgmza_store_locator_default_radius, false ) . ">" . __( "100mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"150\"" . selected( '150', $wpgmza_store_locator_default_radius, false ) . ">" . __( "150mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"200\"" . selected( '200', $wpgmza_store_locator_default_radius, false ) . ">" . __( "200mi", "wp-google-maps" ) . "</option>
+                                        <option value=\"300\"" . selected( '300', $wpgmza_store_locator_default_radius, false ) . ">" . __( "300mi", "wp-google-maps" ) . "</option>
+                                    </select>
+                                    <select class='wpgmza-store-locator-default-radius";
+                                        echo ( 1 !== $wpgmza_store_locator_distance ) ? ' active' : '';
+	                                    echo "' id='wpgmza_store_locator_default_radius_km' name='wpgmza_store_locator_default_radius'>
+                                        <option value=\"1\"" . selected( '1', $wpgmza_store_locator_default_radius, false ) . ">" . __( "1km", "wp-google-maps" ) . "</option>
+                                        <option value=\"5\"" . selected( '5', $wpgmza_store_locator_default_radius, false ) . ">" . __( "5km", "wp-google-maps" ) . "</option>
+                                        <option value=\"10\"" . selected( '10', $wpgmza_store_locator_default_radius, false ) . ">" . __( "10km", "wp-google-maps" ) . "</option>
+                                        <option value=\"25\"" . selected( '25', $wpgmza_store_locator_default_radius, false ) . ">" . __( "25km", "wp-google-maps" ) . "</option>
+                                        <option value=\"50\"" . selected( '50', $wpgmza_store_locator_default_radius, false ) . ">" . __( "50km", "wp-google-maps" ) . "</option>
+                                        <option value=\"75\"" . selected( '75', $wpgmza_store_locator_default_radius, false ) . ">" . __( "75km", "wp-google-maps" ) . "</option>
+                                        <option value=\"100\"" . selected( '100', $wpgmza_store_locator_default_radius, false ) . ">" . __( "100km", "wp-google-maps" ) . "</option>
+                                        <option value=\"150\"" . selected( '150', $wpgmza_store_locator_default_radius, false ) . ">" . __( "150km", "wp-google-maps" ) . "</option>
+                                        <option value=\"200\"" . selected( '200', $wpgmza_store_locator_default_radius, false ) . ">" . __( "200km", "wp-google-maps" ) . "</option>
+                                        <option value=\"300\"" . selected( '300', $wpgmza_store_locator_default_radius, false ) . ">" . __( "300km", "wp-google-maps" ) . "</option>
+                                    </select>
+                                </div>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>".__("Query string","wp-google-maps").":</td>
                                     <td><input type=\"text\" name=\"wpgmza_store_locator_query_string\" id=\"wpgmza_store_locator_query_string\" value=\"".esc_attr($wpgmza_store_locator_query_string)."\">
                                     </td>
@@ -4665,6 +4708,11 @@ function wpgmza_basic_menu() {
                                 <tr>
                                     <td>".__("Default address","wp-google-maps").":</td>
                                     <td><input type=\"text\" name=\"wpgmza_store_locator_default_address\" id=\"wpgmza_store_locator_default_address\" value=\"".esc_attr($wpgmza_store_locator_default_address)."\">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>" . __( "Not found message" ,"wp-google-maps" ) . ":</td>
+                                    <td><input type=\"text\" name=\"wpgmza_store_locator_not_found_message\" id=\"wpgmza_store_locator_not_found_message\" value=\"".esc_attr($wpgmza_store_locator_not_found_message)."\">
                                     </td>
                                 </tr>
                                 <tr>
