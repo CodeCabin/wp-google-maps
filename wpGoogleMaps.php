@@ -3066,6 +3066,7 @@ function wpgmaps_head() {
         if (isset($_POST['wpgmza_settings_map_draggable'])) { $wpgmza_data['wpgmza_settings_map_draggable'] = sanitize_text_field($_POST['wpgmza_settings_map_draggable']); }
         if (isset($_POST['wpgmza_settings_map_clickzoom'])) { $wpgmza_data['wpgmza_settings_map_clickzoom'] = sanitize_text_field($_POST['wpgmza_settings_map_clickzoom']); }
         if (isset($_POST['wpgmza_settings_map_open_marker_by'])) { $wpgmza_data['wpgmza_settings_map_open_marker_by'] = sanitize_text_field($_POST['wpgmza_settings_map_open_marker_by']); }
+		if (isset($_POST['wpgmza_settings_disable_infowindows'])) { $wpgmza_data['wpgmza_settings_disable_infowindows'] = sanitize_text_field($_POST['wpgmza_settings_disable_infowindows']); }
         if (isset($_POST['wpgmza_api_version'])) { $wpgmza_data['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
         if (isset($_POST['wpgmza_custom_css'])) { $wpgmza_data['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
         if (isset($_POST['wpgmza_marker_xml_location'])) { update_option("wpgmza_xml_location",sanitize_text_field($_POST['wpgmza_marker_xml_location'])); }
@@ -3727,7 +3728,7 @@ function wpgmaps_settings_page_basic() {
     else { $wpgmza_settings_map_open_marker_by_checked[0] = "checked='checked'"; }
     
 	$wpgmza_settings_disable_infowindows = '';
-	if(isset($wpgmza_settings['wpgmza_settings_map_open_marker_by']) && $wpgmza_settings['wpgmza_settings_map_open_marker_by'] == 1)
+	if(isset($wpgmza_settings['wpgmza_settings_disable_infowindows']) && $wpgmza_settings['wpgmza_settings_disable_infowindows'] == 1)
 		$wpgmza_settings_disable_infowindows = ' checked="checked"';
     
     $show_advanced_marker_tr = 'style="visibility:hidden; display:none;"';
@@ -5579,6 +5580,9 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
             if ($admin) {
                 
                 $wpgmza_tmp_body .= "<tr id=\"wpgmza_tr_".$result->id."\" class=\"gradeU\">";
+				
+				$wpgmza_tmp_body .= '<td><input type="checkbox" name="mark"/></td>';
+				
                 $wpgmza_tmp_body .= "<td height=\"40\">".$result->id."</td>";
                 $wpgmza_tmp_body .= "<td height=\"40\">".$icon."<input type=\"hidden\" id=\"wpgmza_hid_marker_icon_".$result->id."\" value=\"".$result->icon."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_anim_".$result->id."\" value=\"".$result->anim."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_category_".$result->id."\" value=\"".$result->category."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_infoopen_".$result->id."\" value=\"".$result->infoopen."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_approved_".$result->id."\" value=\"".$result->approved."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_retina_".$result->id."\" value=\"".$result->retina."\" /></td>";
                 $wpgmza_tmp_body .= "<td>".stripslashes($result->title)."<input type=\"hidden\" id=\"wpgmza_hid_marker_title_".$result->id."\" value=\"".stripslashes($result->title)."\" /></td>";
@@ -5612,6 +5616,7 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
             $wpgmza_tmp_head .= "<table id=\"wpgmza_table\" class=\"display\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:$width;\">";
             $wpgmza_tmp_head .= "<thead>";
             $wpgmza_tmp_head .= "<tr>";
+            $wpgmza_tmp_head .= "   <td><strong>".__("Mark","wp-google-maps")."</strong></td>";
             $wpgmza_tmp_head .= "   <th><strong>".__("ID","wp-google-maps")."</strong></th>";
             $wpgmza_tmp_head .= "   <th><strong>".__("Icon","wp-google-maps")."</strong></th>";
             $wpgmza_tmp_head .= "   <th><strong>".apply_filters("wpgmza_filter_title_name",__("Title","wp-google-maps"))."</strong></th>";
@@ -5641,11 +5646,20 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
             $wpgmza_tmp_head .= "</thead>";
             $wpgmza_tmp_head .= "<tbody>";
         }
-        if ($admin) {
-            $wpgmza_tmp_footer .= "</tbody></table>";
-        } else {
-            $wpgmza_tmp_footer .= "</tbody></table></div>";
-        }
+        
+		$wpgmza_tmp_footer .= "</tbody></table>";
+		
+		$wpgmza_tmp_footer .= '
+			<div>
+				&#x21b3;
+				<button class="wpgmza button select_all_markers" type="button">Select All</button>
+				<button class="wpgmza button bulk_delete" type="button">Bulk Delete</button>
+			</div>
+		';
+		
+		if(!$admin)
+			$wpgmza_tmp_footer .= '</div>';
+		
         return $wpgmza_tmp_head.$wpgmza_tmp_body.$wpgmza_tmp_footer;
     }
 }

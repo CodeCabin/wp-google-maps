@@ -60,9 +60,86 @@
 		window.removeEventListener("beforeunload", onBeforeUnload);
 	}
 	
+	function wpgmza_select_all_markers()
+	{
+		$("#wpgmza_table input[name='mark']").prop("checked", "checked");
+	}
+	
+	function wpgmza_bulk_delete()
+	{
+		var ids = [];
+		
+		// Gather IDs to delete
+		$("#wpgmza_table input[name='mark']:checked").each(function(index, el) {
+			ids.push( $(el).closest("tr").attr("id").match(/\d+$/)[0] );
+		});
+		
+		if(ids.length == 0)
+		{
+			alert("No markers selected");
+			return;
+		}
+		
+		// Prompt user to confirm
+		if(!confirm("Confirm deleting " + ids.length + " marker(s)"))
+			return;
+		
+		// Get ready
+		var data = {
+			action: "delete_marker",
+			security: wpgmaps_nonce,
+			map_id: wpgmaps_mapid
+		};
+		
+		// Count responses separately since were shifting ids straight off the array async
+		var counter = ids.length;
+		
+		function sendDeleteRequest(id)
+		{
+			$.post(ajaxurl, $.extend({marker_id: id}, data), function(response) {
+				if(--counter == 1)
+				{
+					// Send very last one synchronous so tables don't collide
+					var last = ids.shift();
+					sendDeleteRequest(last);
+				}
+				else if(counter == 0)
+				{
+					// Receive last response
+					jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
+					wpgmza_reinitialisetbl();
+				}
+			});
+			
+			wpgmaps_markers_array[id].setMap(null);
+			delete wpgmaps_markers_array[id];
+		}
+		
+		// Send all but one delete request async, last one is send inside sendDeleteRequest
+		while(ids.length > 1)
+		{
+			var id = ids.shift();
+			sendDeleteRequest(id);
+		}
+	}
+
     jQuery(document).ready(function(){
 		$("input[type='submit'].button-primary").on("click", function() {
 			unbindSaveReminder();
+		});
+		
+		$(document.body).on("click", function(event) {
+			if($(event.target).is(".wpgmza.bulk_delete"))
+			{
+				wpgmza_bulk_delete();
+				return;
+			}
+			
+			if($(event.target).is(".wpgmza.select_all_markers"))
+			{
+				wpgmza_select_all_markers();
+				return;
+			}
 		});
 
         jQuery("select[name=wpgmza_table_length]").change(function () {
@@ -86,7 +163,7 @@
             "bProcessing": true,
             "aaSorting": [[ 0, "desc" ]]
         });
-    
+		
         function wpgmza_reinitialisetbl() {
             //wpgmzaTable.fnClearTable( 0 );
             if (wpgmza_table_length === "") { wpgmza_table_length = 10; }
@@ -95,7 +172,7 @@
                 "iDisplayLength": wpgmza_table_length
             });
         }
-
+		
         function wpgmza_InitMap() {
             var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat ,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
             MYMAP.init('#wpgmza_map', myLatLng, parseInt(wpgmaps_localize[wpgmaps_mapid].map_start_zoom));

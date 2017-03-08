@@ -87,8 +87,6 @@ if ('undefined' === typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['ma
 
 MYMAP.init = function(selector, latLng, zoom) {
 	
-	console.log(wpgmaps_localize_global_settings);
-
 	if (typeof wpgmaps_localize[wpgmaps_mapid].type !== "undefined") {
 		if (wpgmaps_localize[wpgmaps_mapid].type === "1") { maptype = google.maps.MapTypeId.ROADMAP; }
 		else if (wpgmaps_localize[wpgmaps_mapid].type === "2") { maptype = google.maps.MapTypeId.SATELLITE; }
@@ -311,7 +309,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
 
                         var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
-                        if (wpmgza_infoopen === "1") {
+                        if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
                             infoWindow.setContent(html);
                             infoWindow.open(MYMAP.map, marker);
                         }
@@ -321,8 +319,11 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         }
                         google.maps.event.addListener(marker, temp_actiontype, function() {
                             infoWindow.close();
-                            infoWindow.setContent(html);
-                            infoWindow.open(MYMAP.map, marker);
+							if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
+							{
+								infoWindow.setContent(html);
+								infoWindow.open(MYMAP.map, marker);
+							}
                         });
                     }
                 }
@@ -450,7 +451,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
 
                             var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
-                            if (wpmgza_infoopen === "1") {
+                            if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
                                 infoWindow.setContent(html);
                                 infoWindow.open(MYMAP.map, marker);
                             }
@@ -460,8 +461,11 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	                        }
 	                        google.maps.event.addListener(marker, temp_actiontype, function() {
 	                            infoWindow.close();
-	                            infoWindow.setContent(html);
-	                            infoWindow.open(MYMAP.map, marker);
+								if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
+								{
+									infoWindow.setContent(html);
+									infoWindow.open(MYMAP.map, marker);
+								}
 	                        });
                         }
                     }
@@ -522,8 +526,11 @@ function add_polygon(polygonid) {
          } else {
              var content = tmp_data['title'];
          }
-         infoWindow_poly[polygonid].setContent(content);
-         infoWindow_poly[polygonid].open(MYMAP.map,this.position);
+		 if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
+		 {
+			infoWindow_poly[polygonid].setContent(content);
+			infoWindow_poly[polygonid].open(MYMAP.map,this.position);
+		 }
      }); 
     }
 
