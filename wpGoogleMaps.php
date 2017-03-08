@@ -2294,10 +2294,11 @@ function wpgmaps_tag_basic( $atts ) {
 
 
     extract( shortcode_atts( array(
-        'id' => '1'
+        'id' 		=> '1', 
+		'width' 	=> 'inherit',
+		'height' 	=> 'inherit'
     ), $atts ) );
 
-    
     $ret_msg = "";
     $wpgmza_current_map_id = $atts['id'];
 
@@ -2356,6 +2357,13 @@ function wpgmaps_tag_basic( $atts ) {
     if ($map_width_type == "%" && intval($res->map_width) > 100) { $res->map_width = 100; }
     if ($map_height_type == "%" && intval($res->map_height) > 100) { $res->map_height = 100; }
 
+	$map_attributes = '';
+	
+	if(isset($atts['width']) && $atts['width'] != 'inherit')
+		$map_attributes .= "data-shortcode-width='{$atts["width"]}' ";
+	if(isset($atts['height']) && $atts['height'] != 'inherit')
+		$map_attributes .= "data-shortcode-height='{$atts["height"]}' ";
+	
     if (!$map_align || $map_align == "" || $map_align == "1") { $map_align = "float:left;"; }
     else if ($map_align == "2") { $map_align = "margin-left:auto !important; margin-right:auto; !important; align:center;"; }
     else if ($map_align == "3") { $map_align = "float:right;"; }
@@ -2368,10 +2376,9 @@ function wpgmaps_tag_basic( $atts ) {
         $sl_data = wpgmaps_sl_user_output_basic($wpgmza_current_map_id);
     } else { $sl_data = ""; }
     
-    
     $ret_msg .= "
             $sl_data    
-            ".apply_filters("wpgooglemaps_filter_map_div_output","<div id=\"wpgmza_map\" $map_style>",$wpgmza_current_map_id)."
+            ".apply_filters("wpgooglemaps_filter_map_div_output","<div id=\"wpgmza_map\" $map_attributes $map_style>",$wpgmza_current_map_id)."
             
             </div>
         ";
@@ -3719,6 +3726,9 @@ function wpgmaps_settings_page_basic() {
     else if ($wpgmza_settings_map_open_marker_by == '2') { $wpgmza_settings_map_open_marker_by_checked[1] = "checked='checked'"; }
     else { $wpgmza_settings_map_open_marker_by_checked[0] = "checked='checked'"; }
     
+	$wpgmza_settings_disable_infowindows = '';
+	if(isset($wpgmza_settings['wpgmza_settings_map_open_marker_by']) && $wpgmza_settings['wpgmza_settings_map_open_marker_by'] == 1)
+		$wpgmza_settings_disable_infowindows = ' checked="checked"';
     
     $show_advanced_marker_tr = 'style="visibility:hidden; display:none;"';
     $wpgmza_settings_marker_pull_checked[0] = "";
@@ -3907,9 +3917,17 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                    <td valign='top' width='200' style='vertical-align:top;'>".__("Open Marker InfoWindows by","wp-google-maps")." </td>";
             $ret .= "                        <td><input name='wpgmza_settings_map_open_marker_by' type='radio' id='wpgmza_settings_map_open_marker_by' value='1' ".$wpgmza_settings_map_open_marker_by_checked[0]." />Click<br /><input name='wpgmza_settings_map_open_marker_by' type='radio' id='wpgmza_settings_map_open_marker_by' value='2' ".$wpgmza_settings_map_open_marker_by_checked[1]." />Hover </td>";
             $ret .= "                </tr>";
+			
+			$ret .= "				<tr>";
+			$ret .= "                   <td valign='top' width='200' style='vertical-align:top;'>".__("Disable InfoWindows","wp-google-maps")." </td>";
+			$ret .= "					<td>";
+			$ret .= "						<input name='wpgmza_settings_disable_infowindows' type='checkbox' value='1' {$wpgmza_settings_disable_infowindows}/>";
+			$ret .= "					</td>";
+			$ret .= "				</tr>";
   
             $ret .= "            </table>";
             $ret .= "        </div>";
+			
             $ret .= "        <div id=\"tabs-3\">";
 
             $ret .= "            <table class='form-table'>";

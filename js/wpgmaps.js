@@ -21,15 +21,28 @@ function InitMap() {
 jQuery(function() {
 	
     jQuery(document).ready(function(){
-        if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
+        if (/1\.([0-7])\.([0-9])/.test(jQuery.fn.jquery)) {
             setTimeout(function(){ 
                 document.getElementById('wpgmza_map').innerHTML = 'Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.';
             }, 6000);
         } else {
-            jQuery("#wpgmza_map").css({
-                height:wpgmaps_localize[wpgmaps_mapid]['map_height']+''+wpgmaps_localize[wpgmaps_mapid]['map_height_type'],
-                width:wpgmaps_localize[wpgmaps_mapid]['map_width']+''+wpgmaps_localize[wpgmaps_mapid]['map_width_type']
+			var temp;
+			var selector = "#wpgmza_map";
+			var mapElement = jQuery(selector);
+			
+			var width = wpgmaps_localize[wpgmaps_mapid]['map_width']+wpgmaps_localize[wpgmaps_mapid]['map_width_type'];
+			var height = wpgmaps_localize[wpgmaps_mapid]['map_height']+wpgmaps_localize[wpgmaps_mapid]['map_height_type'];
+			
+			if((temp = mapElement.attr("data-shortcode-width")) != "inherit")
+				width = temp;
+			if((temp = mapElement.attr("data-shortcode-height")) != "inherit")
+				height = temp;
+			
+            mapElement.css({
+                width: width,
+                height: height
             });  
+			
            	InitMap();
             jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
             jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
@@ -73,6 +86,8 @@ if ('undefined' === typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['ma
 
 
 MYMAP.init = function(selector, latLng, zoom) {
+	
+	console.log(wpgmaps_localize_global_settings);
 
 	if (typeof wpgmaps_localize[wpgmaps_mapid].type !== "undefined") {
 		if (wpgmaps_localize[wpgmaps_mapid].type === "1") { maptype = google.maps.MapTypeId.ROADMAP; }
@@ -114,7 +129,6 @@ MYMAP.init = function(selector, latLng, zoom) {
         myOptions.styles = myOptions.styles.concat(jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']));
     }
 
-	console.log(wpgmaps_localize[wpgmaps_mapid]['other_settings']);
 	if(!wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_show_points_of_interest'])
 	{
 		// Only create a new array if styles aren't set already, so no existing styles are overwritten
@@ -133,6 +147,13 @@ MYMAP.init = function(selector, latLng, zoom) {
     this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
     this.bounds = new google.maps.LatLngBounds();
 
+	/*var map = this.map;
+	google.maps.event.addDomListener(window, "resize", function() {
+		var center = map.getCenter();
+		google.maps.event.trigger(map, "resize");
+		map.setCenter(center); 
+	});*/
+	
     jQuery( "#wpgmza_map").trigger( 'wpgooglemaps_loaded' );
 
     if (wpgmaps_localize_polygon_settings !== null) {
@@ -167,8 +188,11 @@ MYMAP.init = function(selector, latLng, zoom) {
         infoWindow.close();
     });
     
-    
-    
+    window.addEventListener("keydown", function(e) {
+		var k = (e.which ? e.which : e.keyCode);
+		if(k == 27)
+			infoWindow.close();
+	});
 }
 
 var infoWindow = new google.maps.InfoWindow();
@@ -306,8 +330,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
         });
     } else { 
-
-        if (wpgmaps_localize_marker_data.length > 0) {
+	
+        if (Object.keys(wpgmaps_localize_marker_data).length > 0) {
             var markerStoreLocatorsNum = 0;
 
           if (typeof wpgmaps_localize_marker_data !== "undefined") {
