@@ -1,0 +1,591 @@
+<div>
+	<h2><?php _e("WP Google Map Settings","wp-google-maps"); ?></h2>
+	<div id="warning-container"></div>
+	<form method="POST" class="wpgmza">
+		<input type="hidden" name="action" value="wpgmza_save_settings"/>
+	
+		<div id="wpgmza_tabs">
+			<ul>
+				<li>
+					<a href="#maps">
+						<?php
+						_e('Maps', 'wp-google-maps');
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#infowindows">
+						<?php
+						_e('InfoWindows', 'wp-google-maps');
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#markerlisting">
+						<?php
+						_e('Marker Listing', 'wp-google-maps');
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#advanced">
+						<?php
+						_e('Advanced', 'wp-google-maps');
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#errorlog">
+						<?php
+						_e('Error Log', 'wp-google-maps');
+						?>
+					</a>
+				</li>
+			</ul>
+			
+			<div id="maps">
+				<h3><?php _e('Map Settings'); ?></h3>
+				<fieldset>
+					<label><?php _e("General Map Settings","wp-google-maps") ?></label>
+					<div>
+						<div>
+							<div class="switch">
+								<input name="map_full_screen_control" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label for="map_full_screen_control"></label>
+							</div>
+							<?php
+							_e("Disable Full Screen Control","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_streetview" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable StreetView","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_zoom" type="checkbox" class="cmn-toggle cmn-toggle-round-flat"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Zoom Controls","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_zoom" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Pan Controls","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_type" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Map Type Controls","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_scroll" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Mouse Wheel Zoom","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_draggable" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Mouse Dragging","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input name="map_clickzoom" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<label></label>
+							</div>
+							<?php
+							_e("Disable Mouse Double Click Zooming","wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+					<label><?php _e("Troubleshooting Options","wp-google-maps"); ?></label>
+					<div>
+						<p>
+							<span class="switch">
+								<input name="force_jquery" type="checkbox" class="cmn-toggle cmn-toggle-yes-no"/>
+								<label for="force_jquery"
+									data-on="<?php _e("Yes", "wp-google-maps"); ?>"
+									data-off="<?php _e("No", "wp-google-maps"); ?>">
+								</label>
+							</span>
+							<span>
+								<?php
+								_e("Over-ride current jQuery with version 1.11.3 (Tick this box if you are receiving jQuery related errors after updating to WordPress 4.5)", 'wp-google-maps');
+								?>
+							</span>
+						</p>
+						<p>
+							<span class="switch">
+								<input name="remove_api" type="checkbox" class="cmn-toggle cmn-toggle-yes-no" value="yes"/>
+								<label for="remove_api"
+									data-on="<?php _e("Yes", "wp-google-maps"); ?>"
+									data-off="<?php _e("No", "wp-google-maps"); ?>">
+								</label>
+							</span>
+							<span>
+								<?php
+								_e("Do not load the Google Maps API (Only check this if your theme loads the Google Maps API by default)", 'wp-google-maps');
+								?>
+							</span>
+						</p>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Use Google Maps API","wp-google-maps");
+						?>
+					</label>
+					<select name="api_version">
+						<option value="3.25">3.25</option>
+						<option value="3.26">3.26</option>
+						<option value="3.exp">3.exp</option>
+					</select>
+				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Lowest level of access to the map editor","wp-google-maps");
+						?>
+					</label>
+					<select name="access_level">
+						<option value="manage_options">
+							<?php
+							_e("Admin", "wp-google-maps");
+							?>
+						</option>
+						<option value="edit_pages">
+							<?php
+							_e("Editor", "wp-google-maps");
+							?>
+						</option>
+						<option value="publish_posts">
+							<?php
+							_e("Author", "wp-google-maps");
+							?>
+						</option>
+						<option value="edit_posts">
+							<?php
+							_e("Contributor", "wp-google-maps");
+							?>
+						</option>
+						<option value="read">
+							<?php
+							_e("Subscriber", "wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Enable Usage Tracking","wp-google-maps");
+						?>
+					</label>
+					
+					<div>
+						<span class="switch">
+							<input name="enable_usage_tracking" type="checkbox" class="cmn-toggle cmn-toggle-yes-no" value="yes"/>
+							<label for="enable_usage_tracking"
+								data-on="<?php _e("Yes", "wp-google-maps"); ?>"
+								data-off="<?php _e("No", "wp-google-maps"); ?>">
+							</label>
+						</span>
+						
+						<div>
+							<?php
+							_e("Allow us to anonymously track how you use your maps and we will send you a 15% Sola Plugins coupon as a token of our gratitude (Coupon will be sent to the administrator's email address)", 'wp-google-maps');
+							?>
+						</div>
+					</div>
+					
+					<!-- TODO: There is an input here with no name, which I believe means it won't be sent in the form
+					
+					<input type='hidden' id='wpgmza_admin_email_coupon' value='".get_option('admin_email')."' />
+					
+					-->
+				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Disable Two-Finger Pan","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<div class="switch">
+							<input name="force_greedy_gestures" type="checkbox" class="cmn-toggle cmn-toggle-yes-no" value="yes"/>
+							<label for="force_greedy_gestures"
+								data-on="<?php _e("Yes", "wp-google-maps"); ?>"
+								data-off="<?php _e("No", "wp-google-maps"); ?>">
+							</label>
+						</div>
+						
+						<div>
+							<?php
+							_e("Removes the need to use two fingers to move the map on mobile devices", "wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div id="infowindows">
+				<h3>
+					<?php
+					_e("Marker InfoWindow Settings");
+					?>
+				</h3>
+				<fieldset>
+					<label>
+						<?php
+						_e("Open Marker InfoWindows by","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<div>
+							<input type="radio" name="map_open_marker_by" value="1"/> Click
+						</div>
+						<div>
+							<input type="radio" name="map_open_marker_by" value="2"/>
+							Hover
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Disable InfoWindows","wp-google-maps");
+						?>
+					</label>
+					<input name="disable_infowindows" type="checkbox" value="1"/>
+				</fieldset>
+			</div>
+			<div id="markerlisting">
+				<h3>
+					<?php
+					_e("Marker Listing Settings","wp-google-maps");
+					?>
+				</h3>
+				<p>
+					<?php
+					_e("Changing these settings will alter the way the marker list appears on your website.","wp-google-maps");
+					?>
+				</p>
+				<div class="update-nag update-att wpgmza-free-version-only">
+					<i class="fa fa-arrow-circle-right"></i>
+					<a target="_blank" href="<?php 
+						echo urlencode( WPGMZA\Plugin::getProLink(array(
+							'utm_source'	=> 'plugin',
+							'utm_medium'	=> 'link',
+							'utm_campaign'	=> 'mlisting_settings'
+						)) );
+						?>">
+						<?php
+						_e('Add Beautiful Marker Listings', 'wp-google-maps');
+						?>
+					</a>
+					<?php
+					_e('to your maps with the Pro version for only $39.99 once off. Support and updates included forever.');
+					?>
+				</div>
+				
+				<h4>
+					<?php
+					_e("Advanced Marker Listing","wp-google-maps");
+					?>
+				</h4>
+				<fieldset>
+					<label>
+						<?php
+						_e("Column settings","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Icon column","wp-google-maps");
+							?>
+						</div>
+						<div>
+							
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Title column","wp-google-maps");
+							?>
+						</div>
+						<div>
+							
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Address column","wp-google-maps");
+							?>
+						</div>
+						<div>
+							
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Category column","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Description column","wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
+				
+				<h4>
+					<?php
+					_e("Carousel Marker Listing","wp-google-maps");
+					?>
+				</h4>
+				<fieldset>
+					<label>
+						<?php
+						_e("Theme selection","wp-google-maps");
+						?>
+					</label>
+					<select disabled>
+						<!-- NB: Only included this option since disabled selects can be opened anyway -->
+						<option><?php _e('Sky', 'wp-google-maps'); ?></option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Carousel settings","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Image","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Title","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Marker Icon","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Address","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Description","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Marker Link","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Directions Link","wp-google-maps");
+							?>
+						</div>
+						<br/>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Enable lazyload of images","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Enable autoheight","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Enable pagination","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Enable navigation","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Items","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Autolay after x milliseconds (1000 = 1 second)", "wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div id="advanced">
+				<h3>
+					<?php
+					_e("Advanced Settings","wp-google-maps");
+					?>
+				</h3>
+				<h4>
+					<?php
+					_e("Google Maps API Key","wp-google-maps");
+					?>
+				</h4>
+				<fieldset>
+					<label>
+						<?php
+						_e('Google Maps API Key (required)', 'wp-google-maps');
+						?>
+					</label>
+					<input name="google_maps_api_key"/>
+				</fieldset>
+				
+				<h4>
+					<?php
+					_e("Custom CSS","wp-google-maps");
+					?>
+				</h4>
+				<fieldset>
+					<label>
+						<?php
+						_e("Custom CSS","wp-google-maps");
+						?>
+					</label>
+					<!-- TODO: v6 calls stripslashes on custom_css, is this still necessary? Might need to do it at migration stage -->
+					<textarea name="custom_css"></textarea>
+				</fieldset>
+			</div>
+			<div id="errorlog">
+				<h3>
+					<?php
+					_e("WP Google Maps Error log","wp-google-maps");
+					?>
+				</h3>
+				<p>
+					<?php
+					_e("Having issues? Perhaps something below can give you a clue as to what's wrong. Alternatively, email this through to nick@wpgmaps.com for help!","wp-google-maps");
+					?>
+				</p>
+				<textarea style='width:100%; height:600px;' readonly>
+					<?php
+					// TODO: Get error log here (see wpgmza_return_error_log)
+					?>
+				</textarea>
+			</div>
+		</div>
+		
+		<input type='submit' class='button-primary' value='<?php _e("Save Settings","wp-google-maps"); ?> &raquo;' />
+	</form>
+</div>

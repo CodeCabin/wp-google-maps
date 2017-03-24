@@ -1,0 +1,115 @@
+<div>
+	<h2>
+		<?php
+		_e("My Maps",'wp-google-maps');
+		?>
+	</h2>
+	<div id="warning-container"></div>
+	<div id="nag-container"></div>
+	
+	<p class="wpgmza_upgrade_nag">
+		<i>
+			<a target="_blank" 
+				title="<?php _e('Pro Version', 'wp-google-maps'); ?>" 
+				href="<?php 
+				echo urlencode(WPGMZA\Plugin::getProLink(array(
+					'utm_source'	=> 'plugin',
+					'utm_medium'	=> 'link',
+					'utm_campagin'	=> 'mappage_1'
+				)));
+			?>">
+				<?php
+				_e("Create unlimited maps","wp-google-maps");
+				?>
+			</a>
+			
+			<?php
+			_e("with the","wp-google-maps");
+			?>
+			
+			<a target="_blank" 
+				title="<?php _e('Pro Version', 'wp-google-maps'); ?>" 
+				href="<?php 
+				echo urlencode(WPGMZA\Plugin::getProLink(array(
+					'utm_source'	=> 'plugin',
+					'utm_medium'	=> 'link',
+					'utm_campagin'	=> 'mappage_2'
+				)));
+			?>">
+				<?php
+				_e("Pro Version","wp-google-maps");
+				?>
+			</a>
+			
+			<?php
+			_e("of WP Google Maps for only","wp-google-maps");
+			?>
+			
+			<strong>$39.99!</strong>
+		</i>
+	</p>
+	
+	<table class="wp-list-table widefat fixed wpgmza-listing">
+		<thead>
+			<tr>
+				<th scope="col" id="id" class="manage-column column-id sortable desc">
+					<?php
+					_e("ID","wp-google-maps");
+					?>
+				</th>
+				<th scope="col" id="map_title" class="manage-column column-map_title sortable desc">
+					<?php
+					_e("Title","wp-google-maps");
+					?>
+				</th>
+				<th scope="col" id="map_width" class="manage-column column-map_width">
+					<?php
+					_e("Width","wp-google-maps");
+					?>
+				</th>
+				<th scope="col" id="map_height" class="manage-column column-map_height">
+					<?php
+					_e("Height","wp-google-maps");
+					?>
+				</th>
+				<th scope="col" id="type" class="manage-column column-type sortable desc">
+					<?php
+					_e("Type","wp-google-maps");
+					?>
+				</th>
+				<th scope="col" id="shortcode" class="manage-column column-type sortable desc">
+					<?php
+					_e("Shortcode","wp-google-maps");
+					?>
+				</th>
+			</tr>
+		</thead>
+		<tbody id="the-list" class="list:wp_list_text_link">
+			<tr class="template">
+				<td name="id"></td>
+				<td>
+					<strong>
+						<big>
+							<a class="title"></a>
+							<br/>
+						</big>
+						<a class="edit"></a>
+					</strong>
+				</td>
+				<td name="width"></td>
+				<td name="height"></td>
+				<td name="type"></td>
+				<td>
+					<input readonly class="wpgmza_copy_shortcode" name="shortcode"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p style="text-align: right;">
+		<a href='http://www.wpgmaps.com/documentation/troubleshooting/'  target='_BLANK' title='<?php _e("WP Google Maps Troubleshooting Section"); ?>'>
+			<?php
+			_e("Problems with the plugin? See the troubleshooting manual.","wp-google-maps")
+			?>
+		</a>
+	</p>
+</div>

@@ -1,0 +1,402 @@
+<div id="wpgmza_map_panel">
+	<input name="spatial-json" type="hidden"/>
+
+	<p>
+		<?php
+		_e("Tip: Use your mouse to change the layout of your map. When you have positioned the map to your desired location, press \"Save Map\" to keep your settings.","wp-google-maps");
+		?>
+	</p>
+	
+	<div class="two-col">
+		<div class="wpgmza-tabs">
+			<ul>
+				<li>
+					<a href="#wpgmza-markers-tab">
+						<?php
+						_e("Markers","wp-google-maps");
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#advanced-markers">
+						<?php
+						_e("Advanced markers","wp-google-maps");
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#polygons">
+						<?php
+						_e("Polygon","wp-google-maps");
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#polylines">
+						<?php
+						_e("Polylines","wp-google-maps");
+						?>
+					</a>
+				</li>
+				<li>
+					<a href="#heatmaps">
+						<?php
+						_e("Heatmaps","wp-google-maps");
+						?>
+					</a>
+				</li>
+			</ul>
+			<div id="wpgmza-markers-tab" class="add-marker">
+				<fieldset>
+					<label>
+						<?php
+						_e("Address/GPS","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input name="address"/>
+						<div>
+							<small>
+								<?php
+								_e("Or right click on the map","wp-google-maps");
+								?>
+							</small>
+						</div>
+						<div id="geocoder-error" class="error" style="display: none;">
+							<?php
+							_e("Sorry, we couldn't find this address", "wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Animation","wp-google-maps");
+						?>
+					</label>
+					<select name="anim">
+						<option value="0">
+							<?php
+							_e("None","wp-google-maps");
+							?>
+						</option>
+						<option value="1">
+							<?php
+							_e("Bounce","wp-google-maps");
+							?>
+						</option>
+						<option value="2">
+							<?php
+							_e("Drop","wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("InfoWindow open by default","wp-google-maps");
+						?>
+					</label>
+					<select name="infoopen">
+						<option value="0">
+							<?php
+							_e("No","wp-google-maps");
+							?>
+						</option>
+						<option value="1">
+							<?php
+							_e("Yes","wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				<fieldset class="marker-buttons">
+					<label></label>
+					
+					<button id="add-marker" type="button" class="button button-primary">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+						<?php _e("Add Marker","wp-google-maps"); ?>
+					</button>
+					
+					<button id="update-marker" type="button" class="update-marker button button-primary">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						<?php _e("Update Marker","wp-google-maps"); ?>
+					</button>
+					
+					<button id="cancel-marker-edit" type="button" class="update-marker button button-primary">
+						<i class="fa fa-times" aria-hidden="true"></i>
+						<?php _e("Cancel Edit", "wp-google-maps"); ?>
+					</button>
+					
+					<button id="delete-marker" type="button" class="update-marker button button-primary">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+						<?php _e("Delete Marker", "wp-google-maps"); ?>
+					</button>
+				</fieldset>
+			</div>
+			<div id="advanced-markers">
+				<div class="update-nag update-att">
+					<i class="fa fa-arrow-circle-right"></i>
+					<a target="_blank" href="<?php
+					echo urlencode(WPGMZA\Plugin::getProLink(array(
+						'utm_source'	=> 'plugin',
+						'utm_medium'	=> 'link',
+						'utm_campaign'	=> 'advanced_markers'
+					)));
+					?>">
+						<?php
+						_e("Add advanced markers","wp-google-maps");
+						?>
+					</a>
+					<?php
+					_e("with the Pro version","wp-google-maps");
+					?>
+				</div>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Address/GPS","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input name="address_or_gps" disabled/>
+						<div>
+							<small>
+								<?php
+								_e("Or right click on the map","wp-google-maps");
+								?>
+							</small>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Animation","wp-google-maps");
+						?>
+					</label>
+					<select disabled>
+						<option value="0">
+							<?php
+							_e("None","wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("InfoWindow open by default","wp-google-maps");
+						?>
+					</label>
+					<select disabled>
+						<option value="0">
+							<?php
+							_e("No","wp-google-maps");
+							?>
+						</option>
+						<option value="1">
+							<?php
+							_e("Yes","wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Title","wp-google-maps");
+						?>
+					</label>
+					<input disabled/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Description","wp-google-maps");
+						?>
+					</label>
+					<textarea class="marker-description" disabled></textarea>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Pic URL","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input disabled/>
+						<input disabled type="file"/>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Link URL","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input disabled/>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Custom Marker","wp-google-maps");
+						?>
+					</label>
+					<input disabled type="file"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e("Category","wp-google-maps");
+						?>
+					</label>
+					<select disabled>
+						<option>
+							<?php
+							_e("Select","wp-google-maps");
+							?>
+						</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<label></label>
+					<button class="button-primary" type="button" disabled>
+						<?php
+						_e("Add Marker","wp-google-maps");
+						?>
+					</button>
+				</fieldset>
+				
+				<div class="update-nag update-att">
+					<?php
+					_e("Add custom icons, titles, descriptions, pictures and links to your markers with the","wp-google-maps");
+					?>
+					
+					"<a target="_blank"
+						href="<?php
+						echo urlencode(WPGMZA\Plugin::getProLink(array(
+							'utm_source'	=> 'plugin',
+							'utm_medium'	=> 'link',
+							'utm_campaign'	=> 'below_marker'
+						)));
+					?>"><?php 
+						_e("Pro Edition","wp-google-maps");
+					?></a>"
+					
+					<?php
+					_e("of this plugin for just","wp-google-maps");
+					?>
+					
+					<strong>$39.99</strong>
+				</div>
+				
+				<div class="update-nag update-att">
+					<a target="_blank"
+						href="<?php
+						echo urlencode(WPGMZA\Plugin::getProLink(array(
+							'utm_source'	=> 'plugin',
+							'utm_medium'	=> 'link',
+							'utm_campaign'	=> 'csv_link'
+						)));
+					?>"><?php 
+						_e("Purchase the Pro Edition","wp-google-maps");
+					?></a>
+					
+					<?php
+					_e("of WP Google Maps and save your markers to a CSV file!","wp-google-maps");
+					?>
+				</div>
+			</div>
+			<div id="polygons">
+				<!-- TODO: Consider moving this to below the marker list, and putting the polygon form in here, like the markers form -->
+				<table id="polygon-list">
+					<thead>
+						<tr>
+							<th>
+								<?php _e('ID', 'wp-google-maps'); ?>
+							</th>
+							<th>
+								<?php _e('Name', 'wp-google-maps'); ?>
+							</th>
+							<th>
+								<?php _e('Action', 'wp-google-maps'); ?>
+							</th>
+						</tr>
+					</thead>
+				</table>
+				<button type="button" class="button-primary">
+					<?php
+					_e("Add a New Polygon","wp-google-maps");
+					?>
+				</button>
+			</div>
+			<div id="polylines">
+				<!-- TODO: Consider moving this to below the marker list, and putting the polyline form in here, like the markers form -->
+				<table id="polyline-list">
+					<thead>
+						<tr>
+							<th>
+								<?php _e('ID', 'wp-google-maps'); ?>
+							</th>
+							<th>
+								<?php _e('Name', 'wp-google-maps'); ?>
+							</th>
+							<th>
+								<?php _e('Action', 'wp-google-maps'); ?>
+							</th>
+						</tr>
+					</thead>
+				</table>
+				<button type="button" class="button-primary">
+					<?php
+					_e("Add a New Polyline","wp-google-maps");
+					?>
+				</button>
+			</div>
+			<div id="heatmaps">
+				<div class="update-nag update-att">
+					<a target="_blank"
+						href="<?php
+						echo urlencode(WPGMZA\Plugin::getProLink(array(
+							'utm_source'	=> 'plugin',
+							'utm_medium'	=> 'link',
+							'utm_campaign'	=> 'heatmaps'
+						)));
+					?>"><?php 
+						_e("Add dynamic heatmap data","wp-google-maps");
+					?></a>
+					
+					<?php
+					_e("with the Pro version.","wp-google-maps");
+					?>
+					
+					<a target="_blank" href="https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmap_demo">
+						<?php
+						_e("View a demo.","wp-google-maps");
+						?>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="wpgmza-map-container">
+			<div id="wpgmza-load-failed" class="update-nag" style="text-align:center;">
+				<small>
+					<strong>
+						<?php _e("The map could not load.","wp-google-maps"); ?>
+					</strong>
+					<br/>
+					<?php 
+					_e("This is normally caused by a conflict with another plugin or a JavaScript error that is preventing our plugin's Javascript from executing. Please try disable all plugins one by one and see if this problem persists.","wp-google-maps");
+					?>
+				</small>
+			</div>
+		</div>
+	</div>
+</div>

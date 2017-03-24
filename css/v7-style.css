@@ -1,0 +1,204 @@
+form.wpgmza fieldset>*:not(.switch)
+{
+	display: inline-block;
+	vertical-align: top;
+	max-width: 500px;
+}
+
+form.wpgmza fieldset
+{
+	margin: 1em 0;
+}
+
+form.wpgmza fieldset>label:first-child
+{
+	width: 256px;
+}
+
+form.wpgmza p:first-child
+{
+	margin-top: 0;
+}
+
+form.wpgmza textarea
+{
+	width: 100%;
+	height: 50vh;
+}
+
+form.wpgmza input[type='number']
+{
+	width: 56px;
+}
+
+form.wpgmza .pro-upgrade
+{
+	background-color: #d7e6f2; 
+	font-weight: bold;
+}
+
+form.wpgmza #themes img
+{
+	width: 200px;
+	height: auto;
+	margin: 4px;
+}
+
+form.wpgmza #themes input[type="radio"]
+{
+	display: none;
+}
+
+form.wpgmza #themes input[type="radio"]:checked + img
+{
+	border-left: 4px solid #0073aa;
+	border-radius: 2px;
+	position: relative;
+	left: -4px;
+	margin-right: 0px;
+}
+
+form.wpgmza .three-col
+{
+	display: flex;
+}
+
+form.wpgmza .three-col>.col
+{
+	flex: 1;
+	padding: 1em;
+}
+
+form.wpgmza .three-col img
+{
+	max-width: 100%;
+}
+
+form.wpgmza .three-col .wpgmza-promo
+{
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+	position: relative;
+}
+
+form.wpgmza .wpgmza-promo-overlay
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+form.wpgmza textarea.marker-description
+{
+	width: 25vw;
+	height: 4em;
+}
+
+form.wpgmza .ui-slider
+{
+	width: 33vw;
+}
+
+form.wpgmza .height-warning
+{
+	margin-left: 0.5em;
+	background: yellow;
+	text-shadow: 0px -1px 0px white;
+	padding: 5px;
+	border-radius: 5px;
+	color: black;
+	box-shadow: 2px 2px 2px white inset,
+		-2px -2px 2px rgba(0,0,0,0.5) inset,
+		3px 3px 7px rgba(0,0,0,0.5);
+}
+
+form.wpgmza .default-radius-units
+{
+	margin-left: 0.5em;
+}
+
+#wpgmza_map_panel .two-col
+{
+	display: flex;
+}
+
+#wpgmza_map_panel .two-col>*
+{
+	flex: 1;
+}
+
+.wpgmza-footer-promo-item
+{
+	display: flex;
+}
+
+.wpgmza-footer-promo-item>*
+{
+	margin: 1em;
+}
+
+.wpgmza-footer-promo-item img
+{
+	width: 260px;
+	height: auto;
+	border: 4px solid white;
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+}
+
+.wpgmza-footer-promo-item .text
+{
+	display: flex;
+	align-items: center;
+	color: #666;
+	font-size: 18px;
+}
+
+.wpgmza-map .wpgmza-progress
+{
+	position: absolute;
+	bottom: 0.5em;
+	left: 0.5em;
+	z-index: 999;
+	background: #E8E8E8;
+	border-radius: 32px;
+	overflow: hidden;
+	width: 10vw;
+	height: 1em;
+	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
+	opacity: 0.8;
+}
+
+.wpgmza-map .wpgmza-progress>div
+{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b8e1fc+0,a9d2f3+10,90bae4+25,90bcea+37,90bff0+50,6ba8e5+51,a2daf5+83,bdf3fd+100;Blue+Gloss+%231 */
+	background: #b8e1fc; /* Old browsers */
+	background: -moz-linear-gradient(top,  #b8e1fc 0%, #a9d2f3 10%, #90bae4 25%, #90bcea 37%, #90bff0 50%, #6ba8e5 51%, #a2daf5 83%, #bdf3fd 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #b8e1fc 0%,#a9d2f3 10%,#90bae4 25%,#90bcea 37%,#90bff0 50%,#6ba8e5 51%,#a2daf5 83%,#bdf3fd 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #b8e1fc 0%,#a9d2f3 10%,#90bae4 25%,#90bcea 37%,#90bff0 50%,#6ba8e5 51%,#a2daf5 83%,#bdf3fd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e1fc', endColorstr='#bdf3fd',GradientType=0 ); /* IE6-9 */
+
+	-webkit-transition: width 0.5s;
+	-moz-transition: width 0.5s;
+	-o-transition: width 0.5s;
+	transition: width 0.5s;
+	
+	border-radius: 32px;
+	height: 100%;
+}
+
+.notransition {
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+	transition: none !important;
+}
+
+#wpgmza-markers-tab.add-marker button.update-marker
+{
+	display: none;
+}
+
+#wpgmza-markers-tab.update-marker button#add-marker
+{
+	display: none;
+}

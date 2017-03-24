@@ -1,0 +1,39 @@
+<div>
+	<h1>
+		<?php
+		_e("WP Google Maps","wp-google-maps");
+		?>
+	</h1>
+	<h2>
+		<?php
+		_e("Create your Map","wp-google-maps");
+		?>
+	</h2>
+	<form method="POST" class="wpgmza">
+		<input type="hidden" name="action" value="wpgmza_save_map"/>
+	
+		<div smart:import-php="<?php 
+			echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html'; 
+		?>"></div>
+			
+		<div smart:import-php="<?php
+			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html';
+		?>"></div>
+		
+		<div smart:import-php="<?php
+			echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';
+		?>"></div>
+		
+		<div smart:import-php="<?php
+			echo WPGMZA_DIR . 'html/map-edit-page-pro-advert.html';
+		?>"></div>
+	</form>
+	
+	<?php
+	_e("WP Google Maps encourages you to make use of the amazing icons created by Nicolas Mollet's Maps Icons Collection","wp-google-maps");
+	?>
+	<a href='http://mapicons.nicolasmollet.com'>http://mapicons.nicolasmollet.com/</a>
+	<?php
+	_e("and to credit him when doing so.","wp-google-maps");
+	?>
+</div>
