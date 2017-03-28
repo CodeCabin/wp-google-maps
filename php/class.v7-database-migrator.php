@@ -180,7 +180,7 @@ class V7DatabaseMigrator
 		
 		// Copy data into a new table (with pluralised name)
 		$wpdb->query("INSERT INTO $WPGMZA_TABLE_NAME_POLYGONS 
-			SELECT *, NULL 
+			SELECT *, NULL, NULL
 			FROM $oldtable
 			ON DUPLICATE KEY UPDATE $WPGMZA_TABLE_NAME_POLYGONS.id=$WPGMZA_TABLE_NAME_POLYGONS.id
 		");
@@ -200,6 +200,30 @@ class V7DatabaseMigrator
 			$wkt_polygon = 'POLYGON((' . implode(',', $coords) . '))';
 			
 			$result = $wpdb->query("UPDATE $WPGMZA_TABLE_NAME_POLYGONS SET points=PolygonFromText('$wkt_polygon') WHERE id={$oldpoly->id}");
+		}
+		
+		// Convert columns into settings JSON
+		$polygons = $wpdb->get_results("SELECT * FROM $WPGMZA_TABLE_NAME_POLYGONS");
+		foreach($polygons as $poly)
+		{
+			$settings = (object)array(
+				'strokeColor'		=> '#' . (empty($poly->linecolor) 	? '000000' : $poly->linecolor),
+				'strokeOpacity'		=> 		 (empty($poly->lineopacity) ? '0.5' : $poly->lineopacity),
+				'fillColor'			=> '#' . (empty($poly->fillcolor) 	? '66ff00' : $poly->fillcolor),
+				'fillOpacity'		=> 		 (empty($poly->opacity) 	? '0.5' : $poly->opacity),
+				'hoverStrokeColor'	=> '#' . (empty($poly->ohlinecolor) ? '333333' : $poly->ohlinecolor),
+				'hoverFillColor'	=> '#' . (empty($poly->ohfillcolor) ? 'aaff00' : $poly->ohfillcolor),
+				'hoverOpacity'		=> 		 (empty($poly->ohopacity)	? '0.75' : $poly->ohopacity),
+				
+				'title'	=> $poly->title,
+				'link'	=> $poly->{'link'}
+			);
+			$json = json_encode($settings);
+			$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_POLYGONS SET settings=%s WHERE id=%d", array(
+				$json,
+				$poly->id
+			));
+			$wpdb->query($stmt);
 		}
 	}
 	

@@ -41,26 +41,17 @@ class Map extends Smart\Document
 		$data = clone Plugin::$settings;
 		if(is_admin())
 			$data->ajaxurl = admin_url('admin-ajax.php');
-		wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', Plugin::$settings);
+		wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
 	}
 	
 	/**
-	 * Fetches all markers, polygons and polylines within the specified bounds
-	 * @return object
+	 * Fetches all markers within specified bounds, that haven't been fetched already in this session
+	 * @return array
 	 */
-	public function fetch($bounds, $session_id=null)
+	protected function fetchMarkers($bounds, $session_id=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MARKERS;
-		
-		if(empty(session_id()))
-			session_start();
-		
-		if(!isset($_SESSION['wpgmza_map-session-id']) || $session_id != $_SESSION['wpgmza_map-session-id'])
-		{
-			$_SESSION['wpgmza_transmitted-ids'] = array();
-			$_SESSION['wpgmza_map-session-id'] = $session_id;
-		}
 		
 		$exclusions = array();
 		
@@ -96,8 +87,8 @@ class Map extends Smart\Document
 		);
 		
 		// If we've got a list of markers that have already been transmitted, don't send them again
-		if(!empty($_SESSION['wpgmza_transmitted-ids']))
-			$qstr .= ' AND id NOT IN (' . implode(',', $_SESSION['wpgmza_transmitted-ids']) . ')';
+		if(!empty($_SESSION['wpgmza_transmitted-marker-ids']))
+			$qstr .= ' AND id NOT IN (' . implode(',', $_SESSION['wpgmza_transmitted-marker-ids']) . ')';
 		else
 			$_SESSION['wpgzma_transmitted-ids'] = array();
 		
@@ -115,11 +106,62 @@ class Map extends Smart\Document
 			unset($m->latlng);
 			
 			// Remember we have sent this marker already
-			array_push($_SESSION['wpgmza_transmitted-ids'], $m->id);
+			array_push($_SESSION['wpgmza_transmitted-marker-ids'], $m->id);
+		}
+		
+		return $markers;
+	}
+	
+	/**
+	 * Fetches all polygons
+	 * TODO: Optimize by only fetching polygons within bounds
+	 * @return array
+	 */
+	protected function fetchPolygons($bounds, $session_id=null)
+	{
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_POLYGONS;
+		
+		// TODO: Respect bounds instead of transmitting all polygons
+		
+		$exclusions = array();
+		
+		$qstr = "SELECT id, polyname AS name, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS";
+		
+		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
+			$qstr .= " WHERE id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
+		
+		$polygons = $wpdb->get_results($qstr);
+		
+		foreach($polygons as $p)
+		{
+			$p->settings = json_decode($p->settings);
+			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $p->id);
+		}
+			
+		return $polygons;
+	}
+	
+	/**
+	 * Fetches all markers, polygons and polylines within the specified bounds
+	 * @return object
+	 */
+	public function fetch($bounds, $session_id=null)
+	{
+		if(empty(session_id()))
+			session_start();
+		
+		if(!isset($_SESSION['wpgmza_map-session-id']) || $session_id != $_SESSION['wpgmza_map-session-id'])
+		{
+			$_SESSION['wpgmza_transmitted-marker-ids'] = array();
+			$_SESSION['wpgmza_transmitted-polygon-ids'] = array();
+			$_SESSION['wpgmza_transmitted-polyline-ids'] = array();
+			$_SESSION['wpgmza_map-session-id'] = $session_id;
 		}
 		
 		$results = (object)array(
-			'markers'	=> $markers
+			'markers'	=> $this->fetchMarkers($bounds, $session_id),
+			'polygons'	=> $this->fetchPolygons($bounds, $session_id)
 		);
 		
 		return $results;

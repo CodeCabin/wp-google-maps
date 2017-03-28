@@ -2,6 +2,10 @@
 	var map;
 	var rightClickCursor;
 	var editMarkerTarget;
+	var editPolygonTarget;
+	var drawingManager;
+	
+	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin
 	
 	/**
 	 * Utility function returns true is string is a latitude and longitude
@@ -10,6 +14,22 @@
 	function isLatLngString(str)
 	{
 		return str.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/);
+	}
+	
+	/**
+	 * Utility function to get polygon fields without the polygon- prefix
+	 * @return object
+	 */
+	function getPolygonFields()
+	{
+		var fields = {};
+		
+		$("#polygons").find("input, select, textarea").each(function(index, el) {
+			var name = $(el).attr("name").replace(/^polygon-/, "");
+			fields[name] = $(el).val();
+		});
+		
+		return fields;
 	}
 	
 	/**
@@ -119,6 +139,10 @@
 	 */
 	function editMarker(marker)
 	{
+		// Stop right click add if that was happening
+		rightClickCursor.setMap(null);
+		
+		// Set edit marker target
 		editMarkerTarget = marker;
 		
 		if(!marker)
@@ -128,11 +152,15 @@
 			return;
 		}
 		
-		// Stop right click add if that was happening
-		rightClickCursor.setMap(null);
+		// Select the marker tab
+		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
+			active: 0
+		});
+		
+		// TODO: Stop editing polygon
 		
 		// Center on the marker
-		map.setCenter(marker.marker.getPosition());
+		map.setCenter(marker.googleMarker.getPosition());
 		
 		// Fill the form with markers data
 		$("#wpgmza-markers-tab").find("input, select, textarea").each(function(index, el) {
@@ -172,6 +200,125 @@
 	}
 	
 	/**
+	 * Start editing the specified polygon
+	 * @return void
+	 */
+	function editPolygon(polygon)
+	{
+		var prevTarget = editPolygonTarget;
+		editPolygonTarget = polygon;
+		
+		if(prevTarget)
+			prevTarget.googlePolygon.setOptions({editable: false});
+		
+		if(!polygon)
+		{
+			$("input[name='polygon-name']").val("");
+			$("#polygons").removeClass("update-polygon").addClass("add-polygon");
+			drawingManager.setDrawingMode(null);
+			return;
+		}
+		
+		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
+			active: 2
+		});
+		
+		// TODO: Fit polygon bounds
+		
+		// TODO: Show "right click to delete points" hint
+		polygon.googlePolygon.setOptions({editable: true});
+		
+		$("input[name='polygon-name']").val(polygon.name);
+		
+		$("#polygons input").each(function(index, el) {
+			if($(el).prop("disabled"))
+				return;
+			
+			if($(el).attr("name") == "polygon-name")
+				return;
+			
+			var nameWithoutPrefix = $(el).attr("name").replace(/^polygon-/, "");
+			$(el).val(polygon.settings[nameWithoutPrefix]);
+		});
+		
+		$("#polygons").removeClass("add-polygon").addClass("update-polygon");
+	}
+	 
+	
+	/**
+	 * Called when use clicks draw polygon or clicks on a polygon
+	 * @return void
+	 */
+	function onDrawPolygon(event)
+	{
+		var fields = getPolygonFields();
+		drawingManager.setOptions({
+			polygonOptions: fields
+		});
+		drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+	}
+	
+	function onPolygonClosed(googlePolygon)
+	{
+		var fields = getPolygonFields();
+		var polygon = new WPGMZA.Polygon(fields, googlePolygon);
+		
+		drawingManager.setDrawingMode(null);
+		map.addPolygon(polygon);
+		
+		editPolygon(polygon);
+	}
+	
+	/**
+	 * Called when the user clicks finish editing polygon, or clicks off the polygon tab
+	 * @return void
+	 */
+	function onFinishEditingPolygon(event)
+	{
+		editPolygon(null);
+	}
+	
+	/**
+	 * Called when the user clicks delete polygon
+	 * @return void
+	 */
+	function onDeletePolygon(event)
+	{
+		var id = editPolygonTarget.id;
+		
+		$("form.wpgmza").append($("<input type='hidden' name='delete_polygons[]' value='" + id + "'/>"));
+		map.deletePolygon(editPolygonTarget);
+		editPolygon(null);
+	}
+	
+	function onPolygonAdded(event)
+	{
+		// TODO: Unbind on remove
+		event.polygon.addEventListener("click", onPolygonClicked);
+	}
+	
+	function onPolygonClicked(event)
+	{
+		editPolygon(event.target);
+	}
+	
+	function onPolygonSettingChanged(event)
+	{
+		if(!editPolygonTarget)
+			return;
+		
+		var name = event.target.name.replace(/^polygon-/, "");
+		var value = $(event.target).val();
+		
+		editPolygonTarget.settings[name] = value;
+		
+		// NB: Options have to be passed like this so that the property name is a literal and not a string
+		var options = {};
+		options[name] = value;
+		editPolygonTarget.googlePolygon.setOptions(options);
+	}
+	
+	/**
 	 * Called when the user right clicks on the map
 	 * NB: Some of this code might have to be moved to the Map object to 
 	 * @return void
@@ -184,7 +331,7 @@
 		var value = event.latLng.toString().replace(/[() ]/g, "");
 		$("input[name='address']").val(value).focus().select();
 		
-		rightClickCursor.setMap(map.map);
+		rightClickCursor.setMap(map.googleMap);
 		rightClickCursor.setPosition(event.latLng);
 	}
 	
@@ -194,6 +341,7 @@
 	 */
 	function onMarkerAdded(event)
 	{
+		// TODO: Unbind on remove
 		event.marker.addEventListener("click", onMarkerClicked);
 	}
 	
@@ -241,7 +389,7 @@
 	}
 	
 	$(document).ready(function() {		
-		// All tabs
+		// Main tabs
 		$(".wpgmza-tabs").tabs();
 		
 		// Map start zoom slider
@@ -273,14 +421,16 @@
 		});
 		map = new WPGMZA.Map(element);
 		
-		// Listen for left clicks on markers
+		// Listen for markers, polygons and polylines being added
 		map.addEventListener("markeradded", onMarkerAdded);
+		map.addEventListener("polygonadded", onPolygonAdded);
 		
 		// Listen for bounds change
 		map.addEventListener("bounds_changed", onBoundsChanged);
 		
 		// When the user clicks cancel edit button or blank space on the map, cancel editing marker
-		google.maps.event.addListener(map.map, "click", onCancelEditMarker);
+		google.maps.event.addListener(map.googleMap, "click", onCancelEditMarker);
+		google.maps.event.addListener(map.googleMap, "click", onFinishEditingPolygon);
 		
 		// Set up right click marker adding
 		rightClickCursor = new google.maps.Marker({
@@ -292,7 +442,7 @@
 		});
 		
 		google.maps.event.addListener(rightClickCursor, 'dragend', onRightClickMap);
-		google.maps.event.addListener(map.map, 'rightclick', onRightClickMap);
+		google.maps.event.addListener(map.googleMap, 'rightclick', onRightClickMap);
 		
 		// Bind listener to update form on changes
 		$("form.wpgmza").on("change", update);
@@ -302,6 +452,24 @@
 		$("#add-marker, #update-marker").on("click", onSaveMarker);
 		$("#cancel-marker-edit").on("click", onCancelEditMarker);
 		$("#delete-marker").on("click", onDeleteMarker);
+		
+		// Polygon buttons
+		$("#draw-polygon").on("click", onDrawPolygon);
+		$("#finish-editing-polygon").on("click", onFinishEditingPolygon);
+		$("#delete-polygon").on("click", onDeletePolygon);
+		
+		// Polygon input change listeners
+		$("#polygons").find("input, textarea, select").on("change input", onPolygonSettingChanged);
+		
+		// Drawing manager for polygons and polylines
+		drawingManager = new google.maps.drawing.DrawingManager({
+			drawingControl: false,
+			polygonOptions: {
+				editable: true
+			}
+		});
+		drawingManager.setMap(map.googleMap);
+		google.maps.event.addListener(drawingManager, "polygoncomplete", onPolygonClosed);
 		
 		// Form submission
 		$("form.wpgmza").submit(onSubmit);

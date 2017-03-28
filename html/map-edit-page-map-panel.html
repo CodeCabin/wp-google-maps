@@ -113,8 +113,6 @@
 					</select>
 				</fieldset>
 				<fieldset class="marker-buttons">
-					<label></label>
-					
 					<button id="add-marker" type="button" class="button button-primary">
 						<i class="fa fa-plus" aria-hidden="true"></i>
 						<?php _e("Add Marker","wp-google-maps"); ?>
@@ -130,7 +128,7 @@
 						<?php _e("Cancel Edit", "wp-google-maps"); ?>
 					</button>
 					
-					<button id="delete-marker" type="button" class="update-marker button button-primary">
+					<button id="delete-marker" type="button" class="delete-marker button button-primary">
 						<i class="fa fa-trash-o" aria-hidden="true"></i>
 						<?php _e("Delete Marker", "wp-google-maps"); ?>
 					</button>
@@ -313,28 +311,123 @@
 					?>
 				</div>
 			</div>
-			<div id="polygons">
-				<!-- TODO: Consider moving this to below the marker list, and putting the polygon form in here, like the markers form -->
-				<table id="polygon-list">
-					<thead>
-						<tr>
-							<th>
-								<?php _e('ID', 'wp-google-maps'); ?>
-							</th>
-							<th>
-								<?php _e('Name', 'wp-google-maps'); ?>
-							</th>
-							<th>
-								<?php _e('Action', 'wp-google-maps'); ?>
-							</th>
-						</tr>
-					</thead>
-				</table>
-				<button type="button" class="button-primary">
-					<?php
-					_e("Add a New Polygon","wp-google-maps");
-					?>
-				</button>
+			<div id="polygons" class="add-polygon">
+				<fieldset>
+					<label>
+						<?php _e("Name", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-name"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Title", "wp-google-maps"); ?>
+					</label>
+					<div>
+						<input name="polygon-title" disabled 
+							placeholder="<?php _e("Pro version only", "wp-google-maps"); 
+						?>"/>
+						<br/>
+						<a href="<?php 
+								echo urlencode(WPGMZA\Plugin::getProLink(array(
+									'utm_source'	=> 'plugin',
+									'utm_medium'	=> 'link',
+									'utm_campaign'	=> 'polygons'
+								)));
+							?>">
+							<?php
+							_e("Get the Pro add-on", "wp-google-maps");
+							?>
+						</a>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Link", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-link" disabled 
+						placeholder="<?php _e("Pro version only", "wp-google-maps"); 
+					?>"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Line Color", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-strokeColor" type="color"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Line Opacity", "wp-google-maps"); ?>
+					</label>
+					<div>
+						<input name="polygon-strokeOpacity" type="number" min="0" max="1" step="0.01" value="0.5"/>
+						<p>
+							<small>
+								0 - 1.0 <?php _e("eg 0.5 for 50%", "wp-google-maps"); ?>
+							</small>
+						</p>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Fill Color", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-fillColor" type="color" value="#66ff00"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("Fill Opacity", "wp-google-maps"); ?>
+					</label>
+					<div>
+						<input name="polygon-fillOpacity" type="number" min="0" max="1" step="0.01" value="1.0"/>
+						<p>
+							<small>
+								0 - 1.0 <?php _e("eg 0.5 for 50%", "wp-google-maps"); ?>
+							</small>
+						</p>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("On Hover Line Color", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-hoverStrokeColor" disabled placeholder="Pro version only"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("On Hover Fill Color", "wp-google-maps"); ?>
+					</label>
+					<input name="polygon-hoverFillColor" disabled placeholder="Pro version only"/>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php _e("On Hover Opacity", "wp-google-maps"); ?>
+					</label>
+					<div>
+						<input name="polygon-hoverOpacity" disabled placeholder="Pro version only"/>
+						<p>
+							<small>
+								0 - 1.0 <?php _e("eg 0.5 for 50%", "wp-google-maps"); ?>
+							</small>
+						</p>
+					</div>
+				</fieldset>
+				
+				<fieldset id="polygon-buttons">
+					<button id="draw-polygon" type="button" class="button button-primary">
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+						<?php _e("Draw Polygon","wp-google-maps"); ?>
+					</button>
+					
+					<button id="finish-editing-polygon" type="button" class="update-polygon button button-primary">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						<?php _e("Finish Editing","wp-google-maps"); ?>
+					</button>
+					
+					<button id="delete-polygon" type="button" class="delete-polygon button button-primary">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+						<?php _e("Delete Polygon", "wp-google-maps"); ?>
+					</button>
+				</fieldset>
 			</div>
 			<div id="polylines">
 				<!-- TODO: Consider moving this to below the marker list, and putting the polyline form in here, like the markers form -->

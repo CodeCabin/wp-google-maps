@@ -186,6 +186,9 @@ class Plugin
 		if(!empty(Plugin::$settings->google_maps_api_key))
 			$params['key'] = Plugin::$settings->google_maps_api_key;
 		
+		if(is_admin())
+			$params['libraries'] = 'drawing';
+		
 		wp_enqueue_script('wpgmza_api_call', '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params));
 	}
 	

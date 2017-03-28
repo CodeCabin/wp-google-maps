@@ -8,18 +8,19 @@
 		var self = this;
 		
 		this.id = -1;
-		this.marker = new google.maps.Marker();
-		
+		this.modified = true;
 		this.properties = {
 			lat: "36.778261",
 			lng: "-119.4179323999"
 		};
-		this.modified = true;
-
+		
+		this.googleMarker = new google.maps.Marker();
+		this.googleMarker.wpgmzaMarker = this;
+		
 		for(var name in options)
 			this[name] = options[name];
 		
-		google.maps.event.addListener(this.marker, "click", function() {
+		google.maps.event.addListener(this.googleMarker, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
 	}
@@ -59,16 +60,16 @@
 			{
 				case 1:
 				case "1":
-					this.marker.setAnimation(google.maps.Animation.BOUNCE);
+					this.googleMarker.setAnimation(google.maps.Animation.BOUNCE);
 					break;
 					
 				case 2:
 				case "2":
-					this.marker.setAnimation(google.maps.Animation.DROP);
+					this.googleMarker.setAnimation(google.maps.Animation.DROP);
 					break;
 				
 				default:
-					this.marker.setAnimation(null);
+					this.googleMarker.setAnimation(null);
 					break;
 			}
 		}
@@ -87,7 +88,7 @@
 				this.properties.lng
 			);
 			
-			this.marker.setPosition(position);
+			this.googleMarker.setPosition(position);
 		}
 	});
 	
@@ -104,7 +105,7 @@
 				this.properties.lng
 			);
 			
-			this.marker.setPosition(position);
+			this.googleMarker.setPosition(position);
 		}
 	});
 	

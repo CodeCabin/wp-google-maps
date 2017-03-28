@@ -32,6 +32,6 @@ $WPGMZA_MAP_TYPES = array(
 define('WPGMZA_DIR', __DIR__ . '/');
 define('WPGMZA_BASE', plugins_url() . '/' . basename(__DIR__) . '/');
 
-// define('WPGMZA_FORCE_V7_MIGRATE', true);
+define('WPGMZA_FORCE_V7_MIGRATE', true);
 
 ?>

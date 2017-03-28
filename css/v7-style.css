@@ -193,12 +193,30 @@ form.wpgmza .default-radius-units
 	transition: none !important;
 }
 
-#wpgmza-markers-tab.add-marker button.update-marker
+#wpgmza-markers-tab.add-marker button.update-marker,
+	#wpgmza-markers-tab.add-marker button.delete-marker,
+	#polygons.add-polygon button.update-polygon,
+	#polygons.add-polygon button.delete-polygon
 {
 	display: none;
 }
 
-#wpgmza-markers-tab.update-marker button#add-marker
+#wpgmza-markers-tab.update-marker button#add-marker,
+	#polygons.update-polygon button#draw-polygon
 {
 	display: none;
+}
+
+#marker-buttons, #polygon-buttons
+{
+	text-align: center;
+}
+
+button.delete-marker,
+	button.delete-polygon
+{
+	background: red !important;
+	border-color: #a00 !important;
+	text-shadow: 0 -1px 1px #996700, 1px 0 1px #996700, 0 1px 1px #996700, -1px 0 1px #996700 !important;
+	box-shadow: 0 1px 0 #996700 !important;
 }

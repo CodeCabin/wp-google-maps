@@ -20,6 +20,8 @@
 		if(!(element instanceof HTMLElement))
 			throw new Error("Argument must be a HTMLElement");
 		
+		WPGMZA.maps.push(this);
+		
 		this.element = element;
 		this.markers = [];
 		this.polygons = [];
@@ -61,8 +63,8 @@
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
 		
-		this.map = new google.maps.Map(this.element, options);
-		google.maps.event.addListener(this.map, "bounds_changed", function() { self.onBoundsChanged(); });
+		this.googleMap = new google.maps.Map(this.element, options);
+		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { self.onBoundsChanged(); });
 		
 		$(this.element).trigger("wpgmza_loaded");
 	}
@@ -129,7 +131,7 @@
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
 		
 		marker.map = this;
-		marker.marker.setMap(this.map);
+		marker.googleMarker.setMap(this.googleMap);
 		
 		this.markers.push(marker);
 		this.dispatchEvent({type: "markeradded", marker: marker});
@@ -144,15 +146,45 @@
 			throw new Error("Wrong map error");
 		
 		marker.map = null;
-		marker.marker.setMap(null);
+		marker.googleMarker.setMap(null);
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
 	}
 	
+	/**
+	 * Adds the specified polygon to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		polygon.map = this;
+		polygon.googlePolygon.setMap(this.googleMap);
+		
+		this.polygons.push(polygon);
+		this.dispatchEvent({type: "polygonadded", polygon: polygon});
+	}
+	
+	WPGMZA.Map.prototype.deletePolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		if(polygon.map !== this)
+			throw new Error("Wrong map error");
+		
+		polygon.map = null;
+		polygon.googlePolygon.setMap(null);
+		
+		this.polygons.splice(this.polygons.indexOf(polygon), 1);
+		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
+	}
 	
 	/* 
-	TODO: I'm a little bit worried that these delegate functions might end up being hard to maintain. I think it might be better to name this.maps this.googleMap to differentiate between the WPGMZA Map and the native Google Map
+	TODO: I'm a little bit worried that these delegate functions might end up being hard to maintain
 	*/
 	
 	/**
@@ -161,7 +193,7 @@
 	 */
 	WPGMZA.Map.prototype.getCenter = function()
 	{
-		return this.map.getCenter();
+		return this.googleMap.getCenter();
 	}
 	
 	/**
@@ -170,7 +202,7 @@
 	 */
 	WPGMZA.Map.prototype.setCenter = function(latLng)
 	{
-		this.map.setCenter(latLng);
+		this.googleMap.setCenter(latLng);
 	}
 	
 	/**
@@ -179,7 +211,7 @@
 	 */
 	WPGMZA.Map.prototype.getZoom = function()
 	{
-		return this.map.getZoom();
+		return this.googleMap.getZoom();
 	}
 	
 	/**
@@ -188,7 +220,7 @@
 	 */
 	WPGMZA.Map.prototype.setZoom = function(value)
 	{
-		return this.map.setZoom(value);
+		return this.googleMap.setZoom(value);
 	}
 	
 	/**
@@ -201,7 +233,7 @@
 		var data = {
 			map_id:	this.element.getAttribute("data-map-id"),
 			action:	"wpgmza_map_fetch",
-			bounds: this.map.getBounds().toUrlValue(7),
+			bounds: this.googleMap.getBounds().toUrlValue(7),
 			sid:	this.sessionID
 		};
 		
@@ -222,6 +254,13 @@
 					var marker = new WPGMZA.Marker(json.markers[i]);
 					marker.modified = false;
 					self.addMarker(marker);
+				}
+				
+				for(i = 0; i < json.polygons.length; i++)
+				{
+					var polygon = new WPGMZA.Polygon(json.polygons[i]);
+					polygon.modified = false;
+					self.addPolygon(polygon);
 				}
 			}
 		});

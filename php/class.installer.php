@@ -159,6 +159,7 @@ class Installer
           ohopacity VARCHAR(3) NOT NULL,
           polyname VARCHAR(100) NOT NULL,
 		  points POLYGON,
+		  settings TEXT,
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 	}
