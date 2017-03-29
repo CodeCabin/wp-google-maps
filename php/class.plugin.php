@@ -424,6 +424,7 @@ class Plugin
 					$_GET['sid']
 				);
 				
+				// TODO: Use Smart\AjaxResponse to send proper headers
 				echo json_encode($obj);
 				break;
 		}

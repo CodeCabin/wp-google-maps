@@ -22,6 +22,8 @@
 		
 		WPGMZA.maps.push(this);
 		
+		this.id = element.getAttribute("data-map-id");
+		
 		this.element = element;
 		this.markers = [];
 		this.polygons = [];
@@ -116,7 +118,7 @@
 		
 		this.ajaxTimeoutID = setTimeout(function() {
 			self.fetch();
-		}, 500);
+		}, 300);
 		
 		this.dispatchEvent({type: "bounds_changed"});
 	}
@@ -183,6 +185,37 @@
 		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
 	}
 	
+	/**
+	 * Adds the specified polyline to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		polyline.map = this;
+		polyline.googlePolyline.setMap(this.googleMap);
+		
+		this.polylines.push(polyline);
+		this.dispatchEvent({type: "polylineadded", polyline: polyline});
+	}
+	
+	WPGMZA.Map.prototype.deletePolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		if(polyline.map !== this)
+			throw new Error("Wrong map error");
+		
+		polyline.map = null;
+		polyline.googlePolyline.setMap(null);
+		
+		this.polylines.splice(this.polylines.indexOf(polyline), 1);
+		this.dispatchEvent({type: "polylineremoved", polyline: polyline});
+	}
+	
 	/* 
 	TODO: I'm a little bit worried that these delegate functions might end up being hard to maintain
 	*/
@@ -231,7 +264,7 @@
 	{
 		var self = this;
 		var data = {
-			map_id:	this.element.getAttribute("data-map-id"),
+			map_id:	this.id,
 			action:	"wpgmza_map_fetch",
 			bounds: this.googleMap.getBounds().toUrlValue(7),
 			sid:	this.sessionID
@@ -247,7 +280,8 @@
 				self.updateProgressBar();
 			},
 			success: function(response) {
-				var json = JSON.parse(response);
+				//var json = JSON.parse(response);
+				var json = response;
 				
 				for(var i = 0; i < json.markers.length; i++)
 				{
@@ -261,6 +295,13 @@
 					var polygon = new WPGMZA.Polygon(json.polygons[i]);
 					polygon.modified = false;
 					self.addPolygon(polygon);
+				}
+				
+				for(i = 0; i < json.polylines.length; i++)
+				{
+					var polyline = new WPGMZA.Polyline(json.polylines[i]);
+					polyline.modified = false;
+					self.addPolyline(polyline);
 				}
 			}
 		});

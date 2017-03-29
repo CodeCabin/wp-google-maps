@@ -241,6 +241,23 @@ class V7DatabaseMigrator
 			
 			$result = $wpdb->query("UPDATE $WPGMZA_TABLE_NAME_POLYLINES SET points=LineStringFromText('$wkt_linestring') WHERE id={$line->id}");
 		}
+		
+		$polylines = $wpdb->get_results("SELECT * FROM $WPGMZA_TABLE_NAME_POLYLINES");
+		foreach($polylines as $poly)
+		{
+			$settings = (object)array(
+				'strokeColor'		=> '#' . (empty($poly->linecolor) 		? '000000' : $poly->linecolor),
+				'strokeOpacity'		=> 		 (empty($poly->lineopacity) 	? '0.5' : $poly->lineopacity),
+				'strokeWeight'		=> 		 (empty($poly->linethickness)	? '4' : $poly->linethickness)
+			);
+			
+			$json = json_encode($settings);
+			$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_POLYLINES SET settings=%s WHERE id=%d", array(
+				$json,
+				$poly->id
+			));
+			$wpdb->query($stmt);
+		}
 	}
 	
 	// TODO: Will have to migrate other tables because useing JSON not maybe_serialize

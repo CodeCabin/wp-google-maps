@@ -38,10 +38,14 @@ class Map extends Smart\Document
 		$this->documentElement->setAttribute('data-settings', json_encode($this->settings));
 
 		// Global Settings
-		$data = clone Plugin::$settings;
-		if(is_admin())
-			$data->ajaxurl = admin_url('admin-ajax.php');
-		wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
+		if(!defined('WPGMZA_FAST_AJAX'))
+		{
+			$data = clone Plugin::$settings;
+			if(is_admin())
+				$data->ajaxurl = WPGMZA_BASE . 'php/ajax.fetch.php';
+				//$data->ajaxurl = admin_url('admin-ajax.php');
+			wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
+		}
 	}
 	
 	/**
@@ -122,8 +126,6 @@ class Map extends Smart\Document
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_POLYGONS;
 		
-		// TODO: Respect bounds instead of transmitting all polygons
-		
 		$exclusions = array();
 		
 		$qstr = "SELECT id, polyname AS name, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS";
@@ -140,6 +142,34 @@ class Map extends Smart\Document
 		}
 			
 		return $polygons;
+	}
+	
+	/**
+	 * Fetches all polylines
+	 * TODO: Optimize by only fetching polylines within bounds
+	 * @return array
+	 */
+	protected function fetchPolylines($bounds, $session_id=null)
+	{
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_POLYLINES;
+		
+		$exclusions = array();
+		
+		$qstr = "SELECT id, polyname AS name, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES";
+		
+		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
+			$qstr .= " WHERE id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
+		
+		$polylines = $wpdb->get_results($qstr);
+		
+		foreach($polylines as $p)
+		{
+			$p->settings = json_decode($p->settings);
+			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $p->id);
+		}
+			
+		return $polylines;
 	}
 	
 	/**
@@ -161,7 +191,8 @@ class Map extends Smart\Document
 		
 		$results = (object)array(
 			'markers'	=> $this->fetchMarkers($bounds, $session_id),
-			'polygons'	=> $this->fetchPolygons($bounds, $session_id)
+			'polygons'	=> $this->fetchPolygons($bounds, $session_id),
+			'polylines'	=> $this->fetchPolylines($bounds, $session_id)
 		);
 		
 		return $results;

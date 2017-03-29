@@ -14,6 +14,7 @@ class MapEditPage extends AdminPage
 		AdminPage::__construct();
 		
 		$this->enqueueScripts();
+		$this->enqueueStyles();
 		
 		try{
 			$this->map = new Map($_GET['map_id']);
@@ -32,6 +33,7 @@ class MapEditPage extends AdminPage
 		$this->populate($map);
 		$this->populate($map->settings);
 		
+		// TODO: Maybe do this stuff at migration time
 		// Split width and height into amount and units
 		$width_amount = intval($map->settings->width);
 		$height_amount = intval($map->settings->height);
@@ -64,6 +66,8 @@ class MapEditPage extends AdminPage
 	protected function enqueueScripts()
 	{
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'lib/eventDispatcher.min.js');
+		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
+		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
 		
 		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
 			'jquery',
@@ -82,9 +86,18 @@ class MapEditPage extends AdminPage
 		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
 			'wpgmza-map'
 		));
-		wp_enqueue_script('wpgmza-map-edit-page', WPGMZA_BASE . 'js/map-edit-page.js', array(
+		wp_enqueue_script('wpgmza-delete-menu', WPGMZA_BASE . 'js/delete-menu.js', array(
 			'wpgmza-map'
 		));
+		wp_enqueue_script('wpgmza-map-edit-page', WPGMZA_BASE . 'js/map-edit-page.js', array(
+			'wpgmza-map',
+			'wpgmza-delete-menu'
+		));
+	}
+	
+	protected function enqueueStyles()
+	{
+		wp_enqueue_style('wpgmza-color-picker', WPGMZA_BASE . 'lib/spectrum.css');
 	}
 	
 	protected function onFormSubmitted()

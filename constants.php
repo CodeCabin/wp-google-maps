@@ -22,16 +22,9 @@ $WPGMZA_TABLE_NAME_POLYLINES	 	= $wpdb->prefix.'wpgmza_polylines';
 $WPGMZA_TABLE_NAME_CATEGORIES		= $wpdb->prefix.'wpgmza_categories';
 $WPGMZA_TABLE_NAME_CATEGORY_MAPS	= $wpdb->prefix.'wpgmza_category_maps';
 
-$WPGMZA_MAP_TYPES = array(
-	1 => 'Roadmap',
-	2 => 'Satellite',
-	3 => 'Hybrid',
-	4 => 'Terrain'
-);
-
 define('WPGMZA_DIR', __DIR__ . '/');
 define('WPGMZA_BASE', plugins_url() . '/' . basename(__DIR__) . '/');
 
-define('WPGMZA_FORCE_V7_MIGRATE', true);
+// define('WPGMZA_FORCE_V7_MIGRATE', true);
 
 ?>
