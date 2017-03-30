@@ -15,7 +15,4 @@ namespace WPGMZA;
 require_once(__DIR__ . '/constants.php');
 require_once(__DIR__ . '/php/class.plugin.php');
 
-// TODO: Remove all v7 suffixes
-// TODO: Final check on ALL query points to ensure PHP or SQL injection is impossible
-
 ?>

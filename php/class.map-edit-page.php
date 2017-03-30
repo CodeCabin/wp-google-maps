@@ -57,7 +57,10 @@ class MapEditPage extends AdminPage
 		);
 		$this->querySelector('#wpgmza-map-container')->setAttribute('data-right-click-marker-image', WPGMZA_BASE . 'images/right-click-marker.png');
 		
-		// TODO: perhaps for any settings etc. that don't have a corresponding input element, add them as hidden inputs
+		// Add marker table
+		$this->querySelector('#marker-table-container')->import(
+			$this->map->tables->marker
+		);
 		
 		if(!empty($_POST))
 			$this->onFormSubmitted();
@@ -65,39 +68,34 @@ class MapEditPage extends AdminPage
 	
 	protected function enqueueScripts()
 	{
-		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'lib/eventDispatcher.min.js');
+		// Dependencies
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-slider');
+		wp_enqueue_script('jquery-ui-tabs');
+		wp_enqueue_script('jquery-ui-progressbar');
+		
 		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
+		wp_enqueue_script('datatables', '//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js', array('jquery'));
 		
-		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
-			'jquery',
-			'wpgmza-event-dispatcher'
-		));
-		wp_enqueue_script('wpgmza-marker', WPGMZA_BASE . 'js/marker.js', array(
-			'wpgmza-map'
-		));
-		wp_enqueue_script('wpgmza-polygon', WPGMZA_BASE . 'js/polygon.js', array(
-			'wpgmza-map'
-		));
-		wp_enqueue_script('wpgmza-polyline', WPGMZA_BASE . 'js/polyline.js', array(
-			'wpgmza-map'
-		));
-		
-		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
-			'wpgmza-map'
-		));
+		// WPGMZA
 		wp_enqueue_script('wpgmza-delete-menu', WPGMZA_BASE . 'js/delete-menu.js', array(
 			'wpgmza-map'
 		));
+		
 		wp_enqueue_script('wpgmza-map-edit-page', WPGMZA_BASE . 'js/map-edit-page.js', array(
 			'wpgmza-map',
-			'wpgmza-delete-menu'
+			'wpgmza-delete-menu',
+			'wpgmza-modernizr',
+			'wpgmza-spectrum',
+			'datatables'
 		));
 	}
 	
 	protected function enqueueStyles()
 	{
 		wp_enqueue_style('wpgmza-color-picker', WPGMZA_BASE . 'lib/spectrum.css');
+		wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 	}
 	
 	protected function onFormSubmitted()

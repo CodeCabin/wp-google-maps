@@ -7,6 +7,8 @@ require_once(__DIR__ . '/class.settings.php');
 require_once(__DIR__ . '/class.statistics.php');
 require_once(__DIR__ . '/../lib/smart/class.document.php');
 
+use Smart;
+
 class Plugin
 {
 	public static $version;
@@ -43,6 +45,7 @@ class Plugin
 		// Hooks for AJAX requests
 		add_action('wp_ajax_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
 		add_action('wp_ajax_nopriv_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
+		add_action('wp_ajax_wpgmza_list_markers', array($this, 'handleAjaxRequest'));
 	}
 	
 	/**
@@ -87,10 +90,6 @@ class Plugin
 		global $wp_scripts;
 		
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-ui-core');
-		wp_enqueue_script('jquery-ui-slider');
-		wp_enqueue_script('jquery-ui-tabs');
-		wp_enqueue_script('jquery-ui-progressbar');
 		
 		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/wpgmza_style.css');
 		wp_enqueue_style('wpgmza_v7_admin_style', WPGMZA_BASE . 'css/wp-google-maps-admin.css');
@@ -112,9 +111,6 @@ class Plugin
 				// Enqueue stylesheets
 				wp_enqueue_style('wpgmza_admin_style', WPGMZA_BASE . 'css/wpgmza_style.css', array(), (string)Plugin::$version.'b');
 				wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
-				
-				// Datatables
-				wp_enqueue_script('wpgmza_admin_datatables', WPGMZA_BASE . 'js/jquery.dataTables.min.js', null, (string)Plugin::$version . 'b');
 				
 				if(!empty($_POST))
 					ob_start();
@@ -412,20 +408,38 @@ class Plugin
 	 */
 	public function handleAjaxRequest()
 	{
-		$action = ($_GET['action'] | $_POST['action']);
+		require_once(WPGMZA_DIR . 'lib/smart/class.ajax-response.php');
+		
+		if(isset($_GET['action']))
+			$action = $_GET['action'];
+		else if(isset($_POST['action']))
+			$action = $_POST['action'];
+		else
+			throw new \Exception('No action specified');
 		
 		switch($action)
 		{
 			case 'wpgmza_map_fetch':
 				require_once(__DIR__ . '/class.map.php');
+				
 				$map = new Map($_GET['map_id']);
 				$obj = $map->fetch(
 					explode(',',$_GET['bounds']),
 					$_GET['sid']
 				);
 				
-				// TODO: Use Smart\AjaxResponse to send proper headers
-				echo json_encode($obj);
+				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
+				$response->send($obj);
+				break;
+				
+			case 'wpgmza_list_markers':
+				require_once(__DIR__ . '/class.map.php');
+				
+				$map = new Map($_POST['map_id']);
+				$obj = $map->tables->marker->handleAjaxRequest($_POST);
+				
+				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
+				$response->send($obj);
 				break;
 		}
 		

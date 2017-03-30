@@ -280,8 +280,12 @@
 				self.updateProgressBar();
 			},
 			success: function(response) {
-				//var json = JSON.parse(response);
-				var json = response;
+				var json;
+				
+				if(typeof response === "string")
+					json = JSON.parse(response);
+				else
+					json = response;
 				
 				for(var i = 0; i < json.markers.length; i++)
 				{

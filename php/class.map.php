@@ -4,11 +4,15 @@ namespace WPGMZA;
 
 use Smart;
 
+require_once(WPGMZA_DIR . '/php/class.marker-table.php');
+
 class Map extends Smart\Document
 {
+	// TODO: Make all these private and expose them through __get and __set
 	public $id;
 	public $title;
 	public $settings;
+	public $tables;
 	
 	public function __construct($id)
 	{
@@ -16,6 +20,8 @@ class Map extends Smart\Document
 		global $WPGMZA_TABLE_NAME_MAPS;
 		
 		Smart\Document::__construct();
+		
+		$this->enqueueScripts();
 		
 		$this->loadXML('<div class="wpgmza-map"></div>');
 		
@@ -33,19 +39,65 @@ class Map extends Smart\Document
 		$this->shortcode 	= "[wpgmza id=\"{$this->id}\"]";
 		$this->settings 	= json_decode($obj->settings);
 
+		// Init tables
+		$this->loadTables();
+		
 		// Pass data to Javascript
 		$this->documentElement->setAttribute('data-map-id', $this->id);
 		$this->documentElement->setAttribute('data-settings', json_encode($this->settings));
-
+	}
+	
+	/**
+	 * Static method to enqueue any scripts the map needs, front or backend
+	 * @return void
+	 */
+	public function enqueueScripts()
+	{
+		// Map scripts
+		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'lib/eventDispatcher.min.js');
+		
+		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
+			'jquery',
+			'wpgmza-event-dispatcher'
+		));
+		wp_enqueue_script('wpgmza-marker', WPGMZA_BASE . 'js/marker.js', array(
+			'wpgmza-map'
+		));
+		wp_enqueue_script('wpgmza-polygon', WPGMZA_BASE . 'js/polygon.js', array(
+			'wpgmza-map'
+		));
+		wp_enqueue_script('wpgmza-polyline', WPGMZA_BASE . 'js/polyline.js', array(
+			'wpgmza-map'
+		));
+		
+		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
+			'wpgmza-map'
+		));
+		
 		// Global Settings
 		if(!defined('WPGMZA_FAST_AJAX'))
 		{
 			$data = clone Plugin::$settings;
-			if(is_admin())
-				$data->ajaxurl = WPGMZA_BASE . 'php/ajax.fetch.php';
-				//$data->ajaxurl = admin_url('admin-ajax.php');
+			
+			$data->ajaxurl 		= admin_url('admin-ajax.php');
+			$data->fast_ajaxurl	= WPGMZA_BASE . 'php/ajax.fetch.php';
+			
 			wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
 		}
+	}
+	
+	/**
+	 * Load tables, if we're on the admin page (other conditions on pro version)
+	 * @return void
+	 */
+	protected function loadTables()
+	{
+		if(!is_admin())
+			return;
+		
+		$this->tables = (object)array(
+			'marker'	=> new MarkerTable($this->id)
+		);
 	}
 	
 	/**

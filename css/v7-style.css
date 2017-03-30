@@ -247,3 +247,27 @@ button.delete-marker,
 {
 	background: #eee;
 }
+
+form.wpgmza #marker-table-container table
+{
+	width: 100% !important;
+	border-collapse: collapse;
+}
+
+form.wpgmza #marker-table-container th:first-child,
+	form.wpgmza #marker-table-container td:first-child,
+	form.wpgmza #marker-table-container th:last-child,
+	form.wpgmza #marker-table-container td:last-child
+{
+	width: 16px !important;
+}
+
+form.wpgmza #marker-table-container td
+{
+	text-align: center;
+}
+
+form.wpgmza #marker-table-container td.address
+{
+	text-align: left;
+}

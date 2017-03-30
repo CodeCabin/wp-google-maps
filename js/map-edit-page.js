@@ -6,6 +6,7 @@
 	var editPolylineTarget;
 	var drawingManager;
 	var deleteMenu;
+	var markerTable;
 	
 	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin (eg to make their own editor or similar). In other words, the marker object should be responsible for updating its own googleMarker on property change
 	
@@ -498,6 +499,41 @@
 		
 		$("#zoom-level-slider").slider("value", zoom);
 	}
+
+	/**
+	 * This function adds the mark checkboxes and edit controls to the marker list, extending it beyond its front end default setup
+	 * @return void
+	 */
+	function loadMarkerTable()
+	{
+		// Add admin controls to marker table
+		var element = $("#marker-table-container .wpgmza-datatable")[0];
+		markerTable = new WPGMZA.DataTable(element, {
+			"ajax": {
+				"data":	function(data) {
+					var exclusions
+					
+					return $.extend({}, data, {
+						"action": $(element).attr("data-ajax-action"),
+						"map_id": $(element).attr("data-map-id")
+					});
+				}
+			},
+			"createdRow": function(row, data, index) {
+				$(row).find("td:nth-child(2)").addClass("address");
+				
+				$(row).prepend(
+					$("<td><input type='checkbox' class='mark'/></td>")
+				);
+				$(row).append(
+					$("<td><button type='button' class='button button-primary'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></button> <button type='button' class='button button-primary'><i class='fa fa-trash-o' aria-hidden='true'></i></button></td>")
+				);
+			}
+		});
+		
+		$("#marker-table-container").find("thead>tr, tfoot>tr").prepend("<th>Mark</th>");
+		$("#marker-table-container").find("thead>tr, tfoot>tr").append("<th>Actions</th>");
+	}
 	
 	/**
 	 * Called when the form submits. This function puts all the markers, 
@@ -630,6 +666,9 @@
 		
 		// Right click delete menu for polygon and polyline points
 		deleteMenu = new WPGMZA.DeleteMenu();
+		
+		// Marker table
+		loadMarkerTable();
 		
 		// Polyfill for color pickers
 		if(!window.Modernizr || !Modernizr.inputtypes.color)
