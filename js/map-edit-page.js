@@ -7,6 +7,13 @@
 	var drawingManager;
 	var deleteMenu;
 	var markerTable;
+	var onFetchEditMarkerID;
+	
+	var deleteIDs = {
+		markers: [],
+		polygons: [],
+		polylines: []
+	};
 	
 	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin (eg to make their own editor or similar). In other words, the marker object should be responsible for updating its own googleMarker on property change
 	
@@ -111,16 +118,24 @@
 	}
 	
 	/**
+	 * Called when user deletes a marker
+	 * @return void
+	 */
+	function deleteMarkerByID(id)
+	{
+		deleteIDs.markers.push(id);
+		map.deleteMarkerByID(id);
+	}
+	
+	/**
 	 * Called when the user clicks delete marker in the markers tab
 	 * @return void
 	 */
 	function onDeleteMarker(event)
 	{
-		var id = editMarkerTarget.id;
-		
-		$("form.wpgmza").append($("<input type='hidden' name='delete_markers[]' value='" + id + "'/>"));
-		map.deleteMarker(editMarkerTarget);
+		deleteMarkerByID(editMarkerTarget.id);
 		editMarker(null);
+		markerTable.refresh();
 	}
 	
 	/**
@@ -500,6 +515,7 @@
 		$("#zoom-level-slider").slider("value", zoom);
 	}
 
+	// Marker list functions //////////////////
 	/**
 	 * This function adds the mark checkboxes and edit controls to the marker list, extending it beyond its front end default setup
 	 * @return void
@@ -511,11 +527,10 @@
 		markerTable = new WPGMZA.DataTable(element, {
 			"ajax": {
 				"data":	function(data) {
-					var exclusions
-					
 					return $.extend({}, data, {
-						"action": $(element).attr("data-ajax-action"),
-						"map_id": $(element).attr("data-map-id")
+						"action": 		$(element).attr("data-ajax-action"),
+						"map_id": 		$(element).attr("data-map-id"),
+						"exclude_ids":	deleteIDs.markers.join(",")
 					});
 				}
 			},
@@ -525,14 +540,81 @@
 				$(row).prepend(
 					$("<td><input type='checkbox' class='mark'/></td>")
 				);
-				$(row).append(
-					$("<td><button type='button' class='button button-primary'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></button> <button type='button' class='button button-primary'><i class='fa fa-trash-o' aria-hidden='true'></i></button></td>")
-				);
+				
+				var td = $('<td/>');
+				
+				$(td).attr("data-marker-id", data[0]);
+				$(td).attr("data-lat", data[data.length - 2]);
+				$(td).attr("data-lng", data[data.length - 1]);
+				
+				$(td).append("<button type='button' class='button button-primary edit-marker'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></button>");
+				
+				$(td).append(" ");
+				
+				$(td).append("<button type='button' class='button button-primary delete-marker'><i class='fa fa-trash-o' aria-hidden='true'></i></button>");
+				
+				$(row).append(td);
 			}
 		});
 		
+		$("#marker-table-container").on("click", ".edit-marker", onTableRowEditMarker);
+		$("#marker-table-container").on("click", ".delete-marker", onTableRowDeleteMarker);
+		
 		$("#marker-table-container").find("thead>tr, tfoot>tr").prepend("<th>Mark</th>");
 		$("#marker-table-container").find("thead>tr, tfoot>tr").append("<th>Actions</th>");
+	}
+	
+	/**
+	 * Called when the user clicks to edit a marker in the marker table
+	 * @return void
+	 */
+	function onTableRowEditMarker(event)
+	{
+		var td = $(event.target).closest("td");
+		var id = td.attr("data-marker-id");
+		
+		var latLng = new google.maps.LatLng({
+			lat: parseFloat(td.attr("data-lat")),
+			lng: parseFloat(td.attr("data-lng"))
+		});
+		
+		var marker;
+		if(marker = map.getMarkerByID(id))
+			editMarker(marker);	// Marker loaded, go straight to editing it
+		else
+			onFetchEditMarkerID = id; // Marker not loaded, remember to edit it once fetch completes
+		
+		map.setCenter(latLng);
+	}
+	
+	/**
+	 * Called when the user clicks to delete a marker in the marker table
+	 * @return void
+	 */
+	function onTableRowDeleteMarker(event)
+	{
+		var td = $(event.target).closest("td");
+		var id = td.attr("data-marker-id");
+		
+		// Add the marker to the list of markers to be deleted
+		deleteMarkerByID(id);
+		
+		// If the marker is open in the edit menu, finish editing
+		if(editMarkerTarget && editMarkerTarget.id == id)
+			editMarker(null);
+		
+		// Refresh the table
+		markerTable.refresh();
+	}
+	
+	function onMapFetchSuccess(event)
+	{
+		if(!onFetchEditMarkerID)
+			return;
+		
+		editMarker(map.getMarkerByID(onFetchEditMarkerID));
+		
+		onFetchEditMarkerID = null;
 	}
 	
 	/**
@@ -547,7 +629,8 @@
 		var data = {
 			markers: [],
 			polygons: [],
-			polylines: []
+			polylines: [],
+			deleteMarkerIDs: deleteMarkerIDs
 		};
 		
 		for(var i = 0; i < map.markers.length; i++)
@@ -604,6 +687,7 @@
 		map.addEventListener("markeradded", onMarkerAdded);
 		map.addEventListener("polygonadded", onPolygonAdded);
 		map.addEventListener("polylineadded", onPolylineAdded);
+		map.addEventListener("fetchsuccess", onMapFetchSuccess);
 		
 		// Listen for bounds change
 		map.addEventListener("bounds_changed", onBoundsChanged);

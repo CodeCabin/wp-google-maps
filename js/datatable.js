@@ -7,6 +7,8 @@
 		
 		var columns = [];
 		
+		this.element = element;
+		
 		$(element).find("[data-column-key]").each(function(index, el) {
 			columns.push({
 				"data": $(el).attr("[data-column-key]")
@@ -33,6 +35,11 @@
 			$.extend(true, settings, options);
 		
 		$(element).DataTable(settings);
+	}
+	
+	WPGMZA.DataTable.prototype.refresh = function()
+	{
+		$(this.element).DataTable().ajax.reload();
 	}
 	
 })(jQuery);

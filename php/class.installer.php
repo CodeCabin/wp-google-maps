@@ -45,13 +45,13 @@ class Installer
 		delete_option("WPGMZA");
 		update_option("wpgmza_temp_api",'AIzaSyChPphumyabdfggISDNBuGOlGVBgEvZnGE');
 		
-		if(empty(get_option("wpgmza_xml_location")))
+		/*if(empty(get_option("wpgmza_xml_location")))
 			add_option("wpgmza_xml_location",'{uploads_dir}/wp-google-maps/');
 		if(empty(get_option("wpgmza_xml_url")))
 			add_option("wpgmza_xml_url",'{uploads_url}/wp-google-maps/');
 		
 		if(empty(get_option("wpgmza_db_version")))
-			update_option("wpgmza_db_version", $WPGMZA_VERSION);
+			update_option("wpgmza_db_version", $WPGMZA_VERSION);*/
 	}
 	
 	/**

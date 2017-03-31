@@ -25,9 +25,17 @@
 		this.id = element.getAttribute("data-map-id");
 		
 		this.element = element;
+		
 		this.markers = [];
 		this.polygons = [];
 		this.polylines = [];
+		
+		// Please use ID for the *key*, do NOT use push, eg this.excludeIDs.markers[id] = true
+		this.excludeIDs = {
+			markers: [],
+			polygons: [],
+			polylines: []
+		};
 		
 		// This session ID is unique to the map on this visit, as opposed to the PHP session ID. This is used server side to remember which markers have already been sent
 		this.sessionID = generateUUID();	
@@ -152,6 +160,27 @@
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
+	}
+	
+	WPGMZA.Map.prototype.getMarkerByID = function(id)
+	{
+		for(var i = 0; i < this.markers.length; i++)
+		{
+			if(this.markers[i].id == id)
+				return this.markers[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deleteMarkerByID = function(id)
+	{
+		var marker = this.getMarkerByID(id);
+		
+		if(!marker)
+			throw new Error("No marker found / marker not loaded");
+		
+		this.deleteMarker(marker);
 	}
 	
 	/**
@@ -289,6 +318,9 @@
 				
 				for(var i = 0; i < json.markers.length; i++)
 				{
+					if(self.excludeIDs.markers[json.markers[i].id])
+						continue;
+					
 					var marker = new WPGMZA.Marker(json.markers[i]);
 					marker.modified = false;
 					self.addMarker(marker);
@@ -296,6 +328,9 @@
 				
 				for(i = 0; i < json.polygons.length; i++)
 				{
+					if(self.excludeIDs.polygons[json.polygons[i].id])
+						continue;
+					
 					var polygon = new WPGMZA.Polygon(json.polygons[i]);
 					polygon.modified = false;
 					self.addPolygon(polygon);
@@ -303,10 +338,15 @@
 				
 				for(i = 0; i < json.polylines.length; i++)
 				{
+					if(self.excludeIDs.polylines[json.polylines[i].id])
+						continue;
+					
 					var polyline = new WPGMZA.Polyline(json.polylines[i]);
 					polyline.modified = false;
 					self.addPolyline(polyline);
 				}
+				
+				self.dispatchEvent({type: "fetchsuccess"});
 			}
 		});
 	}

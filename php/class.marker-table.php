@@ -35,9 +35,10 @@ class MarkerTable extends DataTable
 		$total_markers = $wpdb->get_var("SELECT COUNT(id) FROM $WPGMZA_TABLE_NAME_MARKERS");
 		
 		// Get markers
+		// NB: !!! IMPORTANT !!! Please leave lat and lng as the last parameters, the front end depends on it
 		$keys = array_keys($this->columns);
 		$imploded = implode(',', $keys);
-		$qstr = "SELECT SQL_CALC_FOUND_ROWS $imploded FROM $WPGMZA_TABLE_NAME_MARKERS ";
+		$qstr = "SELECT SQL_CALC_FOUND_ROWS $imploded, Y(latlng) AS lat, X(latlng) AS lng FROM $WPGMZA_TABLE_NAME_MARKERS ";
 		$clauses = array('map_id=%d');
 		$params = array($this->map_id);
 		
@@ -63,6 +64,21 @@ class MarkerTable extends DataTable
 		
 		$qstr .= 'WHERE ' . implode(' AND ', $clauses);
 		
+		$numExcludedIDs = 0;
+		if(!empty($_POST['exclude_ids']))
+		{
+			$raw_ids = explode(',', $_POST['exclude_ids']);
+			
+			// Sanitize IDs by calling intval on all of them
+			$exclude_ids = array_map('intval', $raw_ids);
+			$exclude_ids_string = implode(',', $exclude_ids);
+			
+			// Remember the number of excluded IDs and remove them from the count
+			$numExcludedIDs = count($exclude_ids);
+			
+			$qstr .= " AND id NOT IN ($exclude_ids_string)";
+		}
+		
 		$qstr .= " ORDER BY $order_column $order_dir LIMIT $start, $length";
 		
 		$stmt = $wpdb->prepare($qstr, $params);
@@ -79,7 +95,7 @@ class MarkerTable extends DataTable
 		
 		$data = (object)array(
 			'draw' => (int)$_POST['draw'],
-			'recordsTotal' => $total_markers,
+			'recordsTotal' => $total_markers - $numExcludedIDs,
 			'recordsFiltered' => $found_rows,
 			'data' => $rows
 		);

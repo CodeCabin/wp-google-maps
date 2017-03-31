@@ -77,6 +77,8 @@ class Map extends Smart\Document
 		// Global Settings
 		if(!defined('WPGMZA_FAST_AJAX'))
 		{
+			// TODO: Hackish... create an instance like $wpgmza = new WPGMZA\Plugin in ajax.fetch.php
+			
 			$data = clone Plugin::$settings;
 			
 			$data->ajaxurl 		= admin_url('admin-ajax.php');
