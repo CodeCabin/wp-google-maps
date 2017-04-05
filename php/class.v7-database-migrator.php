@@ -13,6 +13,8 @@ class V7DatabaseMigrator
 	{
 		global $wpdb;
 		
+		set_time_limit(-1);
+		
 		$this->migrateOptions();
 		$this->migrateStats();
 		$this->migrateMaps();
@@ -145,11 +147,50 @@ class V7DatabaseMigrator
 		// Copy data into a new table (with _markers prefix)
 		$wpdb->query("INSERT INTO $WPGMZA_TABLE_NAME_MARKERS 
 			SELECT *,
+			NULL,
 			PointFromText(CONCAT('POINT(',$oldtable.lng,' ',$oldtable.lat,')'))
 			FROM $oldtable 
 			ON DUPLICATE KEY UPDATE $WPGMZA_TABLE_NAME_MARKERS.id=$WPGMZA_TABLE_NAME_MARKERS.id
 		");
+		
+		// Convert columns into settings JSON
+		$markers = $wpdb->get_results("SELECT * FROM $WPGMZA_TABLE_NAME_MARKERS");
+		foreach($markers as $marker)
+		{
+			$settings = (object)array();
 			
+			$names = array(
+				'description'	=> 'description',
+				'pic'			=> 'pic',
+				'link'			=> 'link',
+				'icon'			=> 'icon',
+				'anim'			=> 'animation',
+				'title'			=> 'title',
+				'infoopen'		=> 'infoopen',
+				'retina'		=> 'retina',
+				'type'			=> 'type',
+				'did'			=> 'deviceID'
+			);
+			
+			foreach($names as $old_key => $new_key)
+				if(!empty($marker->{$old_key}))
+					$settings->{$new_key} = $marker->{$old_key};
+					
+			$other_data = maybe_unserialize($marker->other_data);
+			if(is_object($other_data) || is_array($other_data))
+				foreach($other_data as $key => $value)
+					$settings->{$key} = $value;
+			
+			// TODO: Insert into wpgmza_markers_has_categories
+			
+			$json = json_encode($settings);
+			$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_MARKERS SET settings=%s WHERE id=%d", array(
+				$json,
+				$marker->id
+			));
+			$wpdb->query($stmt);
+		}
+		
 		$auto_increment = $wpdb->get_var("SELECT MAX(id)+1 FROM $WPGMZA_TABLE_NAME_MARKERS");
 		$wpdb->query("ALTER TABLE $WPGMZA_TABLE_NAME_MARKERS AUTO_INCREMENT=$auto_increment");
 	}

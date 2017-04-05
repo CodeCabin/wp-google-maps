@@ -4,6 +4,9 @@ namespace WPGMZA;
 
 use Smart;
 
+require_once(WPGMZA_DIR . '/php/class.marker.php');
+require_once(WPGMZA_DIR . '/php/class.polygon.php');
+require_once(WPGMZA_DIR . '/php/class.polyline.php');
 require_once(WPGMZA_DIR . '/php/class.marker-table.php');
 
 class Map extends Smart\Document
@@ -163,6 +166,9 @@ class Map extends Smart\Document
 			// Unset latlng spatial field because it breaks json_encode
 			unset($m->latlng);
 			
+			// Encode settings
+			$m->settings = json_decode($m->settings);
+			
 			// Remember we have sent this marker already
 			array_push($_SESSION['wpgmza_transmitted-marker-ids'], $m->id);
 		}
@@ -252,16 +258,25 @@ class Map extends Smart\Document
 		return $results;
 	}
 	
+	protected function getClassFromPlural($plural)
+	{
+		return __NAMESPACE__ . '\\' . ucfirst(
+			rtrim($plural, 's')
+		);
+	}
+	
 	/**
 	 * Saves map to database
 	 * @return void
 	 */
-	public function save($file)
+	public function save($map_object_data)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MAPS;
 		
-		// TODO: Check privledges here
+		file_put_contents('post-debug.log', print_r($_POST, true));
+		
+		// TODO: Check your privledges here
 		
 		$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_MAPS SET title=%s, settings=%s WHERE id=%d", array(
 			$this->title,
@@ -269,6 +284,49 @@ class Map extends Smart\Document
 			$this->id
 		));
 		$wpdb->query($stmt);
+		
+		// Create and update
+		foreach($map_object_data as $key => $arr)
+		{
+			switch($key)
+			{
+				case 'markers':
+				case 'polygons':
+				case 'polylines':
+					$class = $this->getClassFromPlural($key);
+				
+					foreach($arr as $data)
+					{
+						$data->write_only = true;
+						if($data->id == -1)
+							$data->map_id = $this->id;
+						
+						$instance = new $class((array)$data);
+						
+						if($data->id != -1)
+							$instance->save();
+					}
+					break;
+				
+				default:
+					break;
+			}
+		}
+		
+		// Delete
+		foreach($map_object_data->deleteIDs as $key => $arr)
+		{
+			$class = $this->getClassFromPlural($key);
+			
+			foreach($arr as $id)
+			{				
+				$instance = new $class(array(
+					'id' => $id,
+					'write_only' => true
+				));
+				$instance->remove();
+			}
+		}
 	}
 }
 

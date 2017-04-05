@@ -113,7 +113,9 @@ class MapEditPage extends AdminPage
 			'width_units',
 			'height_amount',
 			'height_units',
-			'wpgmza_savemap'
+			'wpgmza_savemap',
+			'map-objects',
+			'map_id'
 		);
 		
 		$map->title = stripslashes($_POST['title']);
@@ -128,7 +130,64 @@ class MapEditPage extends AdminPage
 			$map->settings->{$key} = stripslashes($value);
 		}
 		
-		$map->save();
+		$map_objects = json_decode(stripslashes($_POST['map-objects']));
+		if(!$map_objects)
+		{
+			switch(json_last_error())
+			{
+				case JSON_ERROR_NONE:
+					$msg = 'No error';
+					break;
+					
+				case JSON_ERROR_DEPTH:
+					$msg = 'Depth error';
+					break;
+					
+				case JSON_ERROR_STATE_MISMATCH:
+					$msg = 'State mismatch';
+					break;
+					
+				case JSON_ERROR_CTRL_CHAR:
+					$msg = 'Control character error';
+					break;
+					
+				case JSON_ERROR_SYNTAX:
+					$msg = 'Syntax error';
+					break;
+					
+				case JSON_ERROR_UTF8:
+					$msg = 'Malformed UTF-8';
+					break;
+					
+				case JSON_ERROR_RECURSION:
+					$msg = 'Recursion error';
+					break;
+					
+				case JSON_ERROR_INF_OR_NAN:
+					$msg = 'One or more NaN or INF values to be encoded';
+					break;
+					
+				case JSON_ERROR_UNSUPPORTED_TYPE:
+					$msg = 'Unsupported type';
+					break;
+					
+				case JSON_ERROR_INVALID_PROPERTY_NAME:
+					$msg = 'Invalid property name';
+					break;
+				
+				case JSON_ERROR_UTF16:
+					$msg = 'Malformed UTF-16';
+					break;
+					
+				default:
+					$msg = 'Unknown error';
+					break;
+			}
+			
+			throw new \Exception('Error decoding JSON data: ' . $msg);
+		}
+		
+		$map->save($map_objects);
 		
 		wp_redirect($_SERVER['REQUEST_URI']);
 		exit;

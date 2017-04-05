@@ -23,8 +23,9 @@
 		WPGMZA.maps.push(this);
 		
 		this.id = element.getAttribute("data-map-id");
-		
 		this.element = element;
+		
+		this.loader = $(element).closest(".wpgmza-map-container").find(".wpgmza-loader");
 		
 		this.markers = [];
 		this.polygons = [];
@@ -45,7 +46,6 @@
 		
 		this.loadSettings();
 		this.loadGoogleMap();
-		this.loadProgressBar();
 	}
 	
 	/**
@@ -80,40 +80,6 @@
 	}
 	
 	/**
-	 * Creates a progress bar for the map
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.loadProgressBar = function()
-	{
-		this.progressBar = $("<div class='wpgmza-progress'><div/></div>");
-		$(this.element).append(this.progressBar);
-	}
-	
-	/**
-	 * Updates the progress bar
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.updateProgressBar = function()
-	{
-		var val = 1 / (this.pendingAJAXRequests + 1);
-		var el = $(this.element).find(".wpgmza-progress");
-		var inner = el.find("div");
-		
-		if(el[0].progressAmount > val)
-			el.addClass("notransition");
-		el[0].progressAmount = val;
-		
-		inner.css({
-			width: Math.round(val * 100) + "%"
-		});
-		el.css({
-			display: (val == 1 ? "none" : "block")
-		});
-		
-		el.removeClass("notransition");
-	}
-	
-	/**
 	 * Fired when map bounds are initially set or change
 	 * @return void
 	 */
@@ -126,7 +92,7 @@
 		
 		this.ajaxTimeoutID = setTimeout(function() {
 			self.fetch();
-		}, 300);
+		}, 500);
 		
 		this.dispatchEvent({type: "bounds_changed"});
 	}
@@ -178,7 +144,7 @@
 		var marker = this.getMarkerByID(id);
 		
 		if(!marker)
-			throw new Error("No marker found / marker not loaded");
+			return;
 		
 		this.deleteMarker(marker);
 	}
@@ -300,13 +266,13 @@
 		};
 		
 		this.pendingAJAXRequests++;
-		this.updateProgressBar();
+		$(this.loader).show();
 		
 		$.ajax(this.settings.ajaxurl, {
 			data: data,
 			complete: function() {
-				self.pendingAJAXRequests--;
-				self.updateProgressBar();
+				if(--self.pendingAJAXRequests == 0)
+					$(self.loader).hide();
 			},
 			success: function(response) {
 				var json;

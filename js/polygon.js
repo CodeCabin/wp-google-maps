@@ -1,16 +1,18 @@
 (function($) {
-	WPGMZA.Polygon = function(options, googlePolygon)
+	WPGMZA.Polygon = function(row, googlePolygon)
 	{
 		var self = this;
 		
 		this.id = -1;
-		this.modified = true;
+		this.modified = false;
 		this.settings = {};
-		this.name = options.name;
 		this.paths = null;
 		
-		if(options && options.settings)
-			this.settings = options.settings;
+		if(row)
+		{
+			for(var name in row)
+				this[name] = row[name];
+		}
 		
 		if(googlePolygon)
 		{
@@ -22,7 +24,7 @@
 			this.googlePolygon.wpgmzaPolygon = this;
 			
 			var points;
-			if(options && (points = options.points))
+			if(row && (points = row.points))
 			{
 				var stripped, pairs, coords, paths = [];
 				stripped = points.replace(/[^ ,\d\.\-+e]/g, "");
@@ -42,10 +44,35 @@
 				this.googlePolygon.setOptions({paths: paths});
 			}
 		}
+		
+		this.googlePolygon.wpgmzaPolygon = this;
 			
 		google.maps.event.addListener(this.googlePolygon, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
+	}
+	
+	WPGMZA.Polygon.prototype.toJSON = function()
+	{
+		var result = {
+			id: 		this.id,
+			name:		this.name,
+			points:		[],
+			settings: 	this.settings
+		};
+		
+		// TODO: Support holes using multiple paths
+		var path = this.googlePolygon.getPath();
+		for(var i = 0; i < path.getLength(); i++)
+		{
+			var latLng = path.getAt(i);
+			result.points.push({
+				lat: latLng.lat(),
+				lng: latLng.lng()
+			});
+		}
+		
+		return result;
 	}
 	
 	eventDispatcher.apply(WPGMZA.Polygon.prototype);

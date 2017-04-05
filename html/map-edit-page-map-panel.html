@@ -1,6 +1,4 @@
 <div id="wpgmza_map_panel">
-	<input name="spatial-json" type="hidden"/>
-
 	<p>
 		<?php
 		_e("Tip: Use your mouse to change the layout of your map. When you have positioned the map to your desired location, press \"Save Map\" to keep your settings.","wp-google-maps");
@@ -75,7 +73,7 @@
 						_e("Animation","wp-google-maps");
 						?>
 					</label>
-					<select name="anim">
+					<select name="animation">
 						<option value="0">
 							<?php
 							_e("None","wp-google-maps");
@@ -519,7 +517,7 @@
 			</div>
 		</div>
 		
-		<div id="wpgmza-map-container">
+		<div id="wpgmza-map-container" class="wpgmza-map-container">
 			<div id="wpgmza-load-failed" class="update-nag" style="text-align:center;">
 				<small>
 					<strong>
@@ -531,6 +529,7 @@
 					?>
 				</small>
 			</div>
+			<div class="wpgmza-loader map-loading"/>
 		</div>
 	</div>
 </div>

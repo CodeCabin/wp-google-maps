@@ -45,13 +45,13 @@ class Installer
 		delete_option("WPGMZA");
 		update_option("wpgmza_temp_api",'AIzaSyChPphumyabdfggISDNBuGOlGVBgEvZnGE');
 		
-		/*if(empty(get_option("wpgmza_xml_location")))
+		if(empty(get_option("wpgmza_xml_location")))
 			add_option("wpgmza_xml_location",'{uploads_dir}/wp-google-maps/');
 		if(empty(get_option("wpgmza_xml_url")))
 			add_option("wpgmza_xml_url",'{uploads_url}/wp-google-maps/');
 		
 		if(empty(get_option("wpgmza_db_version")))
-			update_option("wpgmza_db_version", $WPGMZA_VERSION);*/
+			update_option("wpgmza_db_version", $WPGMZA_VERSION);
 	}
 	
 	/**
@@ -105,6 +105,7 @@ class Installer
           type tinyint(1) DEFAULT '0',
           did varchar(500) NOT NULL,
           other_data LONGTEXT NOT NULL,
+		  settings LONGTEXT NULL,
 		  latlng POINT NOT NULL,
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");

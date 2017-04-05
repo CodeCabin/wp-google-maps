@@ -9,7 +9,12 @@
 		_e("Create your Map","wp-google-maps");
 		?>
 	</h2>
-	<form method="POST" class="wpgmza">
+	
+	<div class="wpgmza-preloader main-preloader">
+		<div class="wpgmza-loader">Loading...</div>
+	</div>
+	
+	<form method="POST" class="wpgmza" style="display: none;">
 		<input type="hidden" name="action" value="wpgmza_save_map"/>
 	
 		<div smart:import-php="<?php 
@@ -19,6 +24,10 @@
 		<div smart:import-php="<?php
 			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html';
 		?>"></div>
+		
+		<p class="wpgmza-big-save">
+			<button type="submit" class="button button-primary">Save Map</button>
+		</p>
 		
 		<div smart:import-php="<?php
 			echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';

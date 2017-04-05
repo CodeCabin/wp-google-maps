@@ -8,6 +8,7 @@
 	var deleteMenu;
 	var markerTable;
 	var onFetchEditMarkerID;
+	var unloadListenerBound = false;
 	
 	var deleteIDs = {
 		markers: [],
@@ -30,7 +31,7 @@
 	
 	function enableMarkerButtons(enable)
 	{
-		$(".marker-buttons button").prop("disabled", !enable);
+		$("#marker-buttons button").prop("disabled", !enable);
 	}
 	
 	/**
@@ -46,11 +47,19 @@
 			marker = new WPGMZA.Marker();
 		
 		$("#wpgmza-markers-tab").find("input, select, textarea").each(function(index, el) {
-			marker[$(this).attr("name")] = $(el).val();
+			var name = $(this).attr("name");
+			var value = $(el).val();;
+			
+			if(marker.hasOwnProperty(name))
+				marker[name] = value;
+			else
+				marker.settings[name] = value;
 		});
 		
 		marker.lat = latLng.lat();
 		marker.lng = latLng.lng();
+		marker.googleMarker.setPosition(latLng);
+		marker.googleMarker.setAnimation(marker.settings.animation);
 		
 		if(!marker.map)
 			map.addMarker(marker);
@@ -62,6 +71,8 @@
 		rightClickCursor.setMap(null);
 		
 		editMarker(marker);
+		marker.modified = true;
+		bindUnloadListener();
 	}
 	
 	/**
@@ -95,7 +106,11 @@
 		
 		// Fill the form with markers data
 		$("#wpgmza-markers-tab").find("input, select, textarea").each(function(index, el) {
-			var val = marker[$(el).attr("name")];
+			var name = $(el).attr("name"), val;
+			if(marker.hasOwnProperty(name))
+				val = marker[name];
+			else
+				val = marker.settings[name];
 			
 			$(el).val(val);
 			
@@ -136,6 +151,7 @@
 		deleteMarkerByID(editMarkerTarget.id);
 		editMarker(null);
 		markerTable.refresh();
+		bindUnloadListener();
 	}
 	
 	/**
@@ -164,13 +180,13 @@
 		var self = this;
 		var address = $("form.wpgmza input[name='address']").val();
 		
-		enableMarkerButtons(false);
 		$("#geocoder-error").hide();
 		
 		if(!isLatLngString(address))
 		{
 			var geocoder = new google.maps.Geocoder();
 			geocoder.geocode({address: address}, onGeocoderResponse);
+			enableMarkerButtons(false);
 		}
 		else
 		{
@@ -301,6 +317,9 @@
 		var fields = getPolygonFields();
 		var polygon = new WPGMZA.Polygon({settings: fields}, googlePolygon);
 		
+		polygon.modified = true;
+		bindUnloadListener();
+		
 		drawingManager.setDrawingMode(null);
 		map.addPolygon(polygon);
 		
@@ -324,9 +343,16 @@
 	{
 		var id = editPolygonTarget.id;
 		
-		$("form.wpgmza").append($("<input type='hidden' name='delete_polygons[]' value='" + id + "'/>"));
+		deleteIDs.polygons.push(id);
 		map.deletePolygon(editPolygonTarget);
 		editPolygon(null);
+		bindUnloadListener();
+	}
+	
+	function onPolygonModified(vertex)
+	{
+		editPolygonTarget.modified = true;
+		bindUnloadListener();
 	}
 	
 	function onPolygonAdded(event)
@@ -335,8 +361,15 @@
 		var polygon = event.polygon;
 		
 		polygon.addEventListener("click", onPolygonClicked);
+		
 		google.maps.event.addListener(polygon.googlePolygon, "rightclick", function(e) {
 			deleteMenu.open(map.googleMap, polygon.googlePolygon.getPath(), e.vertex);
+		});
+		
+		polygon.googlePolygon.getPaths().forEach(function(path, index) {
+			google.maps.event.addListener(path, "insert_at", onPolygonModified);
+			google.maps.event.addListener(path, "remove_at", onPolygonModified);
+			google.maps.event.addListener(path, "set_at", onPolygonModified);
 		});
 	}
 	
@@ -428,6 +461,9 @@
 		var fields = getPolylineFields();
 		var polyline = new WPGMZA.Polyline({settings: fields}, googlePolyline);
 		
+		polyline.modified = true;
+		bindUnloadListener();
+		
 		drawingManager.setDrawingMode(null);
 		map.addPolyline(polyline);
 		
@@ -443,9 +479,10 @@
 	{
 		var id = editPolylineTarget.id;
 		
-		$("form.wpgmza").append($("<input type='hidden' name='delete_polylines[]' value='" + id + "'/>"));
-		map.deletePolygon(editPolylineTarget);
+		deleteIDs.polylines.push(id);
+		map.deletePolyline(editPolylineTarget);
 		editPolyline(null);
+		bindUnloadListener();
 	}
 	
 	function onPolylineSettingChanged(event)
@@ -464,6 +501,12 @@
 		editPolylineTarget.googlePolyline.setOptions(options);
 	}
 	
+	function onPolylineModified(vertex)
+	{
+		editPolylineTarget.modified = true;
+		bindUnloadListener();
+	}
+	
 	function onPolylineAdded(event)
 	{
 		// TODO: Unbind on remove
@@ -473,6 +516,11 @@
 		google.maps.event.addListener(polyline.googlePolyline, "rightclick", function(e) {
 			deleteMenu.open(map.googleMap, polyline.googlePolyline.getPath(), e.vertex);
 		});
+		
+		var path = polyline.googlePolyline.getPath();
+		google.maps.event.addListener(path, "insert_at", onPolylineModified);
+		google.maps.event.addListener(path, "remove_at", onPolylineModified);
+		google.maps.event.addListener(path, "set_at", onPolylineModified);
 	}
 	
 	function onPolylineClicked(event)
@@ -515,6 +563,41 @@
 		$("#zoom-level-slider").slider("value", zoom);
 	}
 
+	function onBeforeUnload(event)
+	{
+		var confirmationMessage = "Are you sure you want to leave without saving your changes?";
+		
+		event.preventDefault();
+		event.returnValue = confirmationMessage;
+		
+		return confirmationMessage;
+	}
+	
+	function bindUnloadListener(event)
+	{
+		if(unloadListenerBound)
+			return;
+		
+		window.addEventListener("beforeunload", onBeforeUnload);
+	}
+	
+	function applyThemeData()
+	{
+		var str = $("textarea[name='styling_data']").val();
+		
+		try{
+			var json = JSON.parse(str);
+		}catch(e) {
+			alert(e.message);
+			return;
+		}
+		
+		var data = $.extend(json, {name: "Styled Map"});
+		var styledMapType = new google.maps.StyledMapType(data);
+		map.googleMap.mapTypes.set("styled_map", styledMapType);
+		map.googleMap.setMapTypeId("styled_map");
+	}
+	
 	// Marker list functions //////////////////
 	/**
 	 * This function adds the mark checkboxes and edit controls to the marker list, extending it beyond its front end default setup
@@ -562,6 +645,9 @@
 		
 		$("#marker-table-container").find("thead>tr, tfoot>tr").prepend("<th>Mark</th>");
 		$("#marker-table-container").find("thead>tr, tfoot>tr").append("<th>Actions</th>");
+		
+		$("#marker-bulk-buttons .select-all").on("click", onSelectAllMarkers);
+		$("#marker-bulk-buttons .bulk-delete").on("click", onBulkDeleteMarkers);
 	}
 	
 	/**
@@ -605,6 +691,8 @@
 		
 		// Refresh the table
 		markerTable.refresh();
+		
+		bindUnloadListener();
 	}
 	
 	function onMapFetchSuccess(event)
@@ -617,20 +705,40 @@
 		onFetchEditMarkerID = null;
 	}
 	
+	function onSelectAllMarkers(event)
+	{
+		$("#marker-table-container .wpgmza-datatable input[type='checkbox']").prop("checked", true);
+	}
+	
+	function onBulkDeleteMarkers(event)
+	{
+		$("#marker-table-container tbody>tr").each(function(index, el) {
+			if($(el).find(".mark").prop("checked") == false)
+				return;
+			
+			var marker_id = $(el).find("[data-marker-id]").attr("data-marker-id");
+			deleteMarkerByID(marker_id);
+		});
+		
+		markerTable.refresh();
+		bindUnloadListener();
+	}
+	
 	/**
 	 * Called when the form submits. This function puts all the markers, 
 	 * polygons and polylines in an array to be sent along with the rest 
 	 * of the from data. Any deleted markers, polygons and polylines are 
-	 * sent as hidden array input fields (see onDeleteMarker etc.)
+	 * sent in deleteIDs
 	 * @return void
 	 */
 	function onSubmit(event)
 	{
+		// Map Objects
 		var data = {
 			markers: [],
 			polygons: [],
 			polylines: [],
-			deleteMarkerIDs: deleteMarkerIDs
+			deleteIDs: deleteIDs
 		};
 		
 		for(var i = 0; i < map.markers.length; i++)
@@ -641,14 +749,26 @@
 			if(map.polygons[i].modified)
 				data.polygons.push(map.polygons[i].toJSON());
 			
-		for(i = 0; i < map.polygons.length; i++)
-			if(map.polygons[i].modified)
-				data.polygons.push(map.polygons[i].toJSON());
+		for(i = 0; i < map.polylines.length; i++)
+			if(map.polylines[i].modified)
+				data.polylines.push(map.polylines[i].toJSON());
 		
-		// TODO: Send map lat and lng
+		var input = $("<input name='map-objects'/>");
+		input.val(JSON.stringify(data));
+		$("form.wpgmza").append(input);
 		
-		$("input[name='spatial-json']").val(JSON.stringify(data));
+		for(var i = 0; i < data.markers.length; i++)
+			if(data.markers[i].settings.address)
+			{
+				alert("Address in settings");
+				event.preventDefault();
+				return false;
+			}
+			
+		window.removeEventListener("beforeunload", onBeforeUnload);
 	}
+	
+	
 	
 	$(document).ready(function() {		
 		// Main tabs
@@ -668,12 +788,26 @@
 			}
 		});
 		
-		// Set up radio buttons
+		// Set up theme radio buttons
 		$("#themes input[type='radio']").on("change", function() {
+			// Grab JSON from the radio button
 			var str = $(this).attr("data-theme-json");
-			var json = JSON.parse(str);
+			json = JSON.parse(str);
+			
+			// Pretty print the JSON
 			str = JSON.stringify(json, undefined, 4);
+			
+			// Set the value into text field
 			$("textarea[name='styling_data']").val(str);
+			
+			applyThemeData();
+		});
+		
+		// Preview custom theme button
+		$("#preview-custom-theme").on("click", function() {
+			$("#themes input[type='radio']").prop("checked", false);
+			
+			applyThemeData();
 		});
 		
 		// Create map
@@ -754,11 +888,29 @@
 		// Marker table
 		loadMarkerTable();
 		
+		// Listen for changes on "live" polygon and polyline forms (markers are flagged as modified by updateMarker, that form is not "live")
+		$("#polygons").find("input, select, textarea").on("change", function(event) {
+			if(editPolygonTarget)
+				editPolygonTarget.modified = true;
+		});
+		$("#polylines").find("input, select, textarea").on("change", function(event) {
+			if(editPolylineTarget)
+				editPolylineTarget.modified = true;
+		});
+		
+		$("form.wpgmza").on("change", function(event) {
+			bindUnloadListener();
+		});
+		
 		// Polyfill for color pickers
 		if(!window.Modernizr || !Modernizr.inputtypes.color)
 			$("input[type='color']").spectrum();
 		
 		// Form submission
 		$("form.wpgmza").submit(onSubmit);
+		
+		// Hide preloader
+		$(".main-preloader").hide();
+		$("form.wpgmza").show();
 	});
 })(jQuery);

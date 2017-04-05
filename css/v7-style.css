@@ -1,3 +1,89 @@
+.wpgmza-loader,
+.wpgmza-loader:after {
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+}
+.wpgmza-loader {
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(0,0,0, 0.2);
+  border-right: 1.1em solid rgba(0,0,0, 0.2);
+  border-bottom: 1.1em solid rgba(0,0,0, 0.2);
+  border-left: 1.1em solid #000000;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.wpgmza-preloader.main-preloader>.wpgmza-loader
+{
+	margin: 2em auto;
+}
+
+.wpgmza-loader
+{
+	overflow: hidden;
+}
+
+.wpgmza-map-container
+{
+	position: relative;
+}
+
+.wpgmza-map-container .wpgmza-loader
+{
+	position: absolute;
+	z-index: 99;
+	bottom: 1em;
+	left: 1em;
+}
+
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
 form.wpgmza fieldset>*:not(.switch)
 {
 	display: inline-block;
@@ -153,46 +239,6 @@ form.wpgmza .default-radius-units
 	font-size: 18px;
 }
 
-.wpgmza-map .wpgmza-progress
-{
-	position: absolute;
-	bottom: 0.5em;
-	left: 0.5em;
-	z-index: 999;
-	background: #E8E8E8;
-	border-radius: 32px;
-	overflow: hidden;
-	width: 10vw;
-	height: 1em;
-	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
-	opacity: 0.8;
-}
-
-.wpgmza-map .wpgmza-progress>div
-{
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b8e1fc+0,a9d2f3+10,90bae4+25,90bcea+37,90bff0+50,6ba8e5+51,a2daf5+83,bdf3fd+100;Blue+Gloss+%231 */
-	background: #b8e1fc; /* Old browsers */
-	background: -moz-linear-gradient(top,  #b8e1fc 0%, #a9d2f3 10%, #90bae4 25%, #90bcea 37%, #90bff0 50%, #6ba8e5 51%, #a2daf5 83%, #bdf3fd 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  #b8e1fc 0%,#a9d2f3 10%,#90bae4 25%,#90bcea 37%,#90bff0 50%,#6ba8e5 51%,#a2daf5 83%,#bdf3fd 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  #b8e1fc 0%,#a9d2f3 10%,#90bae4 25%,#90bcea 37%,#90bff0 50%,#6ba8e5 51%,#a2daf5 83%,#bdf3fd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e1fc', endColorstr='#bdf3fd',GradientType=0 ); /* IE6-9 */
-
-	-webkit-transition: width 0.5s;
-	-moz-transition: width 0.5s;
-	-o-transition: width 0.5s;
-	transition: width 0.5s;
-	
-	border-radius: 32px;
-	height: 100%;
-}
-
-.notransition {
-	-webkit-transition: none !important;
-	-moz-transition: none !important;
-	-o-transition: none !important;
-	transition: none !important;
-}
-
 #wpgmza-markers-tab.add-marker button.update-marker,
 	#wpgmza-markers-tab.add-marker button.delete-marker,
 	
@@ -270,4 +316,9 @@ form.wpgmza #marker-table-container td
 form.wpgmza #marker-table-container td.address
 {
 	text-align: left;
+}
+
+.wpgmza-big-save, .centre
+{
+	text-align: center;
 }

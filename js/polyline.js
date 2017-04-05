@@ -1,16 +1,18 @@
 (function($) {
-	WPGMZA.Polyline = function(options, googlePolyline)
+	WPGMZA.Polyline = function(row, googlePolyline)
 	{
 		var self = this;
 		
 		this.id = -1;
-		this.modified = true;
+		this.modified = false;
 		this.settings = {};
-		this.name = options.name;
-		this.path = null;
+		this.name = null;
 		
-		if(options && options.settings)
-			this.settings = options.settings;
+		if(row)
+		{
+			for(var name in row)
+				this[name] = row[name];
+		}
 		
 		if(googlePolyline)
 		{
@@ -22,7 +24,7 @@
 			this.googlePolyline.wpgmzaPolyline = this;
 			
 			var points;
-			if(options && (points = options.points))
+			if(row && (points = row.points))
 			{
 				var stripped, pairs, coords, path = [];
 				stripped = points.replace(/[^ ,\d\.\-+e]/g, "");
@@ -37,8 +39,6 @@
 					});
 				}
 				
-				this.path = path;
-				
 				this.googlePolyline.setOptions({path: path});
 			}
 		}
@@ -47,6 +47,29 @@
 			self.dispatchEvent({type: "click"});
 		});
 		
-		eventDispatcher.apply(WPGMZA.Polyline.prototype);
 	}
+	
+	WPGMZA.Polyline.prototype.toJSON = function()
+	{
+		var result = {
+			id:			this.id,
+			name:		this.name,
+			points:		[],
+			settings:	this.settings
+		};
+		
+		var path = this.googlePolyline.getPath();
+		for(var i = 0; i < path.getLength(); i++)
+		{
+			var latLng = path.getAt(i);
+			result.points.push({
+				lat: latLng.lat(),
+				lng: latLng.lng()
+			});
+		}
+		
+		return result;
+	}
+	
+	eventDispatcher.apply(WPGMZA.Polyline.prototype);
 })(jQuery);

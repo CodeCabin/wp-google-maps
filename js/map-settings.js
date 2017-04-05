@@ -12,9 +12,14 @@
 	{
 		var latLngCoords = (this.start_location && this.start_location.length ? this.start_location.split(",") : [36.7783, 119.4179]);
 		
+		function formatCoord(coord)
+		{
+			return parseFloat(coord.replace(/[\(\)\s]/, ""));
+		}
+		
 		var latLng = new google.maps.LatLng(
-			latLngCoords[0],
-			latLngCoords[1]
+			formatCoord(latLngCoords[0]),
+			formatCoord(latLngCoords[1])
 		);
 		
 		var options = {
@@ -60,6 +65,9 @@
 				options.mapTypeId = google.maps.MapTypeId.ROADMAP;
 				break;
 		}
+		
+		if(this.styling_data && this.styling_data.length > 0)
+			options.styles = JSON.parse(this.styling_data);
 		
 		return options;
 	}
