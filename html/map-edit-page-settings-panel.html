@@ -218,11 +218,11 @@
 		<div class="update-nag update-att">
 			<i class="fa fa-arrow-circle-right"></i>
 			<a target="_blank" href="<?php
-			echo urlencode(WPGMZA\Plugin::getProLink(array(
+			echo WPGMZA\Plugin::getProLink(array(
 				'utm_source'	=> 'plugin',
 				'utm_medium'	=> 'link',
 				'utm_campaign'	=> 'directions'
-			)));
+			));
 			?>">
 				<?php
 				_e("Enable directions", "wp-google-maps");
@@ -530,18 +530,7 @@
 		<fieldset>
 			<label><?php _e("Default radius", "wp-google-maps"); ?></label>
 			<div>
-				<select name="store_locator_default_radius">
-					<option value="1"><?php _e("1", "wp-google-maps"); ?></option>
-					<option value="5"><?php _e("5", "wp-google-maps"); ?></option>
-					<option value="10"><?php _e("10", "wp-google-maps"); ?></option>
-					<option value="25"><?php _e("25", "wp-google-maps"); ?></option>
-					<option value="50"><?php _e("50", "wp-google-maps"); ?></option>
-					<option value="75"><?php _e("75", "wp-google-maps"); ?></option>
-					<option value="100"><?php _e("100", "wp-google-maps"); ?></option>
-					<option value="150"><?php _e("150", "wp-google-maps"); ?></option>
-					<option value="200"><?php _e("200", "wp-google-maps"); ?></option>
-					<option value="300"><?php _e("300", "wp-google-maps"); ?></option>
-				</select>
+				<input name="store_locator_default_radius" type="number" min="1" max="300" value="10"/>
 				
 				<span class="default-radius-units"></span>
 			</div>
@@ -612,8 +601,12 @@
 			</div>
 		</fieldset>
 		<fieldset>
-			<label><?php _e("Maximum Zoom Level", "wp-google-maps"); ?></label>
-			<input type="number" min="1" max="21" name="max_zoom"/>
+			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
+			
+			<input name="min_zoom" type="hidden" value="1"/>
+			<input name="max_zoom" type="hidden" value="21"/>
+		
+			<div id="zoom-range-slider"/>
 		</fieldset>
 		<fieldset>
 			<label for="show_points_of_interest">
@@ -632,11 +625,11 @@
 			?>
 			
 			<a href="<?php
-			echo urlencode(WPGMZA\Plugin::getProLink(array(
+			echo WPGMZA\Plugin::getProLink(array(
 				'utm_source'	=> 'plugin',
 				'utm_medium'	=> 'link',
 				'utm_campaign'	=> 'advanced'
-			)));
+			));
 			?>">
 				$39.99 <?php _e('once off', 'wp-google-maps'); ?>
 			</a>
@@ -687,11 +680,11 @@
 			?>
 			
 			<a href="<?php
-			echo urlencode(WPGMZA\Plugin::getProLink(array(
+			echo WPGMZA\Plugin::getProLink(array(
 				'utm_source'	=> 'plugin',
 				'utm_medium'	=> 'link',
 				'utm_campaign'	=> 'advanced'
-			)));
+			));
 			?>">
 				<?php _e('Pro version for only $39.99 once off.', 'wp-google-maps'); ?>
 			</a>
@@ -903,11 +896,11 @@
 				<br />
 				
 				<a href="<?php
-					echo urlencode(WPGMZA\Plugin::getProLink(array(
+					echo WPGMZA\Plugin::getProLink(array(
 						'utm_source'	=> 'plugin',
 						'utm_medium'	=> 'link',
 						'utm_campaign'	=> 'upgradenow'
-					)));
+					));
 					?>"
 					
 					title="Upgrade now for only $39.99 once off"

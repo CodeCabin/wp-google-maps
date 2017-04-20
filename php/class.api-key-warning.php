@@ -11,7 +11,19 @@ class APIKeyWarning extends Smart\Document
 		Smart\Document::__construct();
 		$this->loadPHPFile(WPGMZA_DIR . 'html/api-key-warning.html');
 		
-		// TODO: Accept $_POST here
+		if(isset($_POST['wpgmza_google_maps_api_key']) && is_admin())
+		{
+			$url = 'http' . 
+				(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] ? 's' : '') .
+				'://' .
+				$_SERVER['HTTP_HOST'] .
+				$_SERVER['REQUEST_URI'];
+				
+			Plugin::$settings->google_maps_api_key = $_POST['wpgmza_google_maps_api_key'];
+			
+			wp_redirect($url);
+			exit;
+		}
 	}
 	
 	/**

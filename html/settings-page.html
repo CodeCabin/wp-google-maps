@@ -90,7 +90,7 @@
 						
 						<div>
 							<div class="switch">
-								<input name="map_type" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<input name="disable_map_type_controls" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
 								<label></label>
 							</div>
 							<?php
@@ -310,11 +310,11 @@
 				<div class="update-nag update-att wpgmza-free-version-only">
 					<i class="fa fa-arrow-circle-right"></i>
 					<a target="_blank" href="<?php 
-						echo urlencode( WPGMZA\Plugin::getProLink(array(
+						echo WPGMZA\Plugin::getProLink(array(
 							'utm_source'	=> 'plugin',
 							'utm_medium'	=> 'link',
 							'utm_campaign'	=> 'mlisting_settings'
-						)) );
+						));
 						?>">
 						<?php
 						_e('Add Beautiful Marker Listings', 'wp-google-maps');

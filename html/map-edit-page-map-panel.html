@@ -6,7 +6,7 @@
 	</p>
 	
 	<div class="two-col">
-		<div class="wpgmza-tabs">
+		<div id="map-edit-tabs" class="wpgmza-tabs">
 			<ul>
 				<li>
 					<a href="#wpgmza-markers-tab">
@@ -136,11 +136,11 @@
 				<div class="update-nag update-att">
 					<i class="fa fa-arrow-circle-right"></i>
 					<a target="_blank" href="<?php
-					echo urlencode(WPGMZA\Plugin::getProLink(array(
+					echo WPGMZA\Plugin::getProLink(array(
 						'utm_source'	=> 'plugin',
 						'utm_medium'	=> 'link',
 						'utm_campaign'	=> 'advanced_markers'
-					)));
+					));
 					?>">
 						<?php
 						_e("Add advanced markers","wp-google-maps");
@@ -276,11 +276,11 @@
 					
 					"<a target="_blank"
 						href="<?php
-						echo urlencode(WPGMZA\Plugin::getProLink(array(
+						echo WPGMZA\Plugin::getProLink(array(
 							'utm_source'	=> 'plugin',
 							'utm_medium'	=> 'link',
 							'utm_campaign'	=> 'below_marker'
-						)));
+						));
 					?>"><?php 
 						_e("Pro Edition","wp-google-maps");
 					?></a>"
@@ -295,11 +295,11 @@
 				<div class="update-nag update-att">
 					<a target="_blank"
 						href="<?php
-						echo urlencode(WPGMZA\Plugin::getProLink(array(
+						echo WPGMZA\Plugin::getProLink(array(
 							'utm_source'	=> 'plugin',
 							'utm_medium'	=> 'link',
 							'utm_campaign'	=> 'csv_link'
-						)));
+						));
 					?>"><?php 
 						_e("Purchase the Pro Edition","wp-google-maps");
 					?></a>
@@ -326,11 +326,11 @@
 						?>"/>
 						<br/>
 						<a href="<?php 
-								echo urlencode(WPGMZA\Plugin::getProLink(array(
+								echo WPGMZA\Plugin::getProLink(array(
 									'utm_source'	=> 'plugin',
 									'utm_medium'	=> 'link',
 									'utm_campaign'	=> 'polygons'
-								)));
+								));
 							?>">
 							<?php
 							_e("Get the Pro add-on", "wp-google-maps");
@@ -517,19 +517,56 @@
 			</div>
 		</div>
 		
-		<div id="wpgmza-map-container" class="wpgmza-map-container">
-			<div id="wpgmza-load-failed" class="update-nag" style="text-align:center;">
-				<small>
-					<strong>
-						<?php _e("The map could not load.","wp-google-maps"); ?>
-					</strong>
-					<br/>
-					<?php 
-					_e("This is normally caused by a conflict with another plugin or a JavaScript error that is preventing our plugin's Javascript from executing. Please try disable all plugins one by one and see if this problem persists.","wp-google-maps");
+		<div id="polygon-instructions" class="update-nag update-blue update-slim">
+			<ul>
+				<li>
+					<?php
+					_e('Click on the map to insert a vertex', 'wp-google-maps');
 					?>
-				</small>
-			</div>
-			<div class="wpgmza-loader map-loading"/>
+				</li>
+				<li>
+					<?php
+					_e('Right click on a vertex to delete it', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Drag a vertex to move it', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Close the polygon to finish', 'wp-google-maps');
+					?>
+				</li>
+			</ul>
 		</div>
+		
+		<div id="polyline-instructions" class="update-nag update-blue update-slim">
+			<ul>
+				<li>
+					<?php
+					_e('Click on the map to insert a vertex', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Right click on a vertex to delete it', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Drag a vertex to move it', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Click your last vertex twice to finish', 'wp-google-maps');
+					?>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="wpgmza-map-container"/>
 	</div>
 </div>

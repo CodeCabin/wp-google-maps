@@ -43,7 +43,7 @@ class SettingsPage extends AdminPage
 			Plugin::$settings->{$key} = stripslashes($value);
 		}
 		
-		$checkboxes = $this->querySelectorAll('input[type="checkbox"]');
+		$checkboxes = $this->querySelectorAll('input[type="checkbox"][name]');
 		foreach($checkboxes as $input)
 		{
 			$name = $input->getAttribute('name');

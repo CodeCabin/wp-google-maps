@@ -46,6 +46,7 @@ class Document extends \DOMDocument
 		ob_start();
 		include $src;
 		$html = ob_get_clean();
+		
 		$result = $this->loadHTML($html);
 		
 		$this->src_file = $src;
@@ -142,7 +143,7 @@ class Document extends \DOMDocument
 			return;
 		}
 		
-		throw new \Exception("Failed to import page \"$import\" in {$this->src_file} on line " . $node->getLineNo());
+		throw new \Exception("Failed to import page \"$subject\" in {$this->src_file} on line " . $node->getLineNo());
 	}
 	
 	protected function onEvaluateSmartNodes()

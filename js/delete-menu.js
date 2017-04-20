@@ -3,14 +3,19 @@
 	* A menu that lets a user delete a selected vertex of a path.
 	* @constructor
 	*/
-	function DeleteMenu() {
+	function DeleteMenu(mapEditPage) {
 		this.div_ = document.createElement('div');
 		this.div_.className = 'wpgmza-delete-vertex-menu';
 		this.div_.innerHTML = 'Delete';
+		this.mapEditPage = mapEditPage;
 
 		var menu = this;
-		google.maps.event.addDomListener(this.div_, 'click', function() {
+		google.maps.event.addDomListener(this.div_, 'click', function(event) {
 		  menu.removeVertex();
+		  
+		  event.preventDefault();
+		  event.stopPropagation();
+		  return false;
 		});
 	}
 	
@@ -74,15 +79,17 @@
 	* Deletes the vertex from the path.
 	*/
 	DeleteMenu.prototype.removeVertex = function() {
-		var path = this.get('path');
-		var vertex = this.get('vertex');
+		var self = this;
+		
+		var path = self.get('path');
+		var vertex = self.get('vertex');
 
 		if (!path || vertex == undefined) {
-		  this.close();
+		  self.close();
 		  return;
 		}
 
 		path.removeAt(vertex);
-		this.close();
+		self.close();
 	};
 })(jQuery);

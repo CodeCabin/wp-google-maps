@@ -1,10 +1,6 @@
 <?php
 
 namespace WPGMZA;
-function debug($str)
-		{
-			file_put_contents('map-object-debug.log', $str . "\r\n", FILE_APPEND);
-		}
 
 class MapObject
 {

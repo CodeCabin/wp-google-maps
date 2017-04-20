@@ -16,7 +16,7 @@
 		polylines: []
 	};
 	
-	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin (eg to make their own editor or similar). In other words, the marker object should be responsible for updating its own googleMarker on property change
+	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin (eg to make their own editor or similar). In other words, the marker object should be responsible for updating its own googleMarker on property change, and this should be a wrapper
 	
 	/**
 	 * Utility function returns true is string is a latitude and longitude
@@ -63,7 +63,7 @@
 		
 		if(!marker.map)
 			map.addMarker(marker);
-		map.setCenter(latLng);
+		map.googleMap.panTo(latLng);
 		
 		$("input[name='address']").val("");
 		enableMarkerButtons(true);
@@ -99,10 +99,12 @@
 			active: 0
 		});
 		
-		// TODO: Stop editing polygon
+		// Stop editing polygons / polylins
+		editPolygon(null);
+		editPolyline(null);
 		
 		// Center on the marker
-		map.setCenter(marker.googleMarker.getPosition());
+		map.googleMap.panTo(marker.googleMarker.getPosition());
 		
 		// Fill the form with markers data
 		$("#wpgmza-markers-tab").find("input, select, textarea").each(function(index, el) {
@@ -226,6 +228,15 @@
 	{
 		// TODO: Unbind on remove
 		event.marker.addEventListener("click", onMarkerClicked);
+	}
+	
+	/**
+	 * Callback for when a WPGMZA marker is removed
+	 * @return void
+	 */
+	function onMarkerRemoved(event)
+	{
+		event.marker.removeEventListener("click", onMarkerClicked);
 	}
 	
 	/**
@@ -362,7 +373,7 @@
 		
 		polygon.addEventListener("click", onPolygonClicked);
 		
-		google.maps.event.addListener(polygon.googlePolygon, "rightclick", function(e) {
+		polygon.rightClickListener = google.maps.event.addListener(polygon.googlePolygon, "rightclick", function(e) {
 			deleteMenu.open(map.googleMap, polygon.googlePolygon.getPath(), e.vertex);
 		});
 		
@@ -371,6 +382,13 @@
 			google.maps.event.addListener(path, "remove_at", onPolygonModified);
 			google.maps.event.addListener(path, "set_at", onPolygonModified);
 		});
+	}
+	
+	function onPolygonRemoved(event)
+	{
+		event.polygon.removeEventListener("click", onPolygonClicked);
+		google.maps.event.removeListener(event.polygon.rightClickListener);
+		delete polygon.rightClickListener;
 	}
 	
 	function onPolygonClicked(event)
@@ -509,11 +527,10 @@
 	
 	function onPolylineAdded(event)
 	{
-		// TODO: Unbind on remove
 		var polyline = event.polyline;
 		
 		polyline.addEventListener("click", onPolylineClicked);
-		google.maps.event.addListener(polyline.googlePolyline, "rightclick", function(e) {
+		polyline.rightClickListener = google.maps.event.addListener(polyline.googlePolyline, "rightclick", function(e) {
 			deleteMenu.open(map.googleMap, polyline.googlePolyline.getPath(), e.vertex);
 		});
 		
@@ -521,6 +538,12 @@
 		google.maps.event.addListener(path, "insert_at", onPolylineModified);
 		google.maps.event.addListener(path, "remove_at", onPolylineModified);
 		google.maps.event.addListener(path, "set_at", onPolylineModified);
+	}
+	
+	function onPolylineRemoved(event)
+	{
+		polyline.removeEventListener("click", onPolylineClicked);
+		google.maps.event.removeListener(polyline.rightClickListener);
 	}
 	
 	function onPolylineClicked(event)
@@ -546,6 +569,8 @@
 			label.attr("data-on") :
 			label.attr("data-off")
 		);
+		
+		map.storeLocator.setUnits(input.prop("checked"));
 	}
 	
 	/**
@@ -670,7 +695,7 @@
 		else
 			onFetchEditMarkerID = id; // Marker not loaded, remember to edit it once fetch completes
 		
-		map.setCenter(latLng);
+		map.googleMap.panTo(latLng);
 	}
 	
 	/**
@@ -757,26 +782,57 @@
 		input.val(JSON.stringify(data));
 		$("form.wpgmza").append(input);
 		
-		for(var i = 0; i < data.markers.length; i++)
-			if(data.markers[i].settings.address)
-			{
-				alert("Address in settings");
-				event.preventDefault();
-				return false;
-			}
-			
 		window.removeEventListener("beforeunload", onBeforeUnload);
 	}
 	
 	
 	
-	$(document).ready(function() {		
+	$(document).ready(function() {
 		// Main tabs
-		$(".wpgmza-tabs").tabs();
+		/*var options = {};
+		if(window.localStorage)
+			options = {
+				active: localStorage.getItem(this.id),
+				activate: function(event, ui) {
+					localStorage.setItem(this.id, $(this).tabs("option", "active"));
+				}
+			};
+			
+		$(".wpgmza-tabs").tabs(options);*/
+		
+		$(".wpgmza-tabs").each(function(index, el) {
+			var options = {};
+			
+			var active = 0;
+			if(window.localStorage)
+				active = parseInt(localStorage.getItem(el.id));
+			
+			options = {
+				active: active,
+				activate: function(event, ui) {
+					$("#polygon-instructions, #polyline-instructions").hide();
+					
+					switch(ui.newPanel.attr("id"))
+					{
+						case "polygons":
+							$("#polygon-instructions").show();
+							break;
+						
+						case "polylines":
+							$("#polyline-instructions").show();
+							break;
+					}
+					
+					if(window.localStorage)
+						localStorage.setItem(this.id, $(this).tabs("option", "active"));
+				}
+			};
+				
+			$(el).tabs(options);
+		});
 		
 		// Map start zoom slider
 		$("#zoom-level-slider").slider({
-			range: "max",
 			min: 1,
 			max: 21,
 			value: $("input[name='start_zoom']").val(),
@@ -810,16 +866,14 @@
 			applyThemeData();
 		});
 		
-		// Create map
-		var element = $(".wpgmza-map")[0];
-		$(element).on("wpgmza_loaded", function() {
-			$("#wpgmza-load-failed").remove();
-		});
-		map = new WPGMZA.Map(element);
+		// Get map instance
+		map = WPGMZA.maps[0];
 		
 		// Listen for markers, polygons and polylines being added
 		map.addEventListener("markeradded", onMarkerAdded);
+		map.addEventListener("markerremoved", onMarkerRemoved);
 		map.addEventListener("polygonadded", onPolygonAdded);
+		map.addEventListener("polygonremoved", onPolygonRemoved);
 		map.addEventListener("polylineadded", onPolylineAdded);
 		map.addEventListener("fetchsuccess", onMapFetchSuccess);
 		
@@ -883,7 +937,7 @@
 		google.maps.event.addListener(drawingManager, "polylinecomplete", onPolylineComplete);
 		
 		// Right click delete menu for polygon and polyline points
-		deleteMenu = new WPGMZA.DeleteMenu();
+		deleteMenu = new WPGMZA.DeleteMenu(this);
 		
 		// Marker table
 		loadMarkerTable();
@@ -900,6 +954,65 @@
 		
 		$("form.wpgmza").on("change", function(event) {
 			bindUnloadListener();
+		});
+		
+		// Hide / show store locator dynamically
+		$("input[name='store_locator']").on("change", function(event) {
+			$(".wpgmza-map .store-locator").css({
+				display: $(event.target).prop("checked") ? "block" : "none"
+			});
+		});
+		
+		// Zoom limit slider
+		$("#zoom-range-slider").slider({
+			range: true,
+			min: 1,
+			max: 21,
+			values: [
+				$("input[name='min_zoom']").val(), 
+				$("input[name='max_zoom']").val()
+			],
+			slide: function(event, ui) {
+				$("input[name='min_zoom']").val(
+					ui.values[0]
+				);
+				$("input[name='max_zoom']").val(
+					ui.values[1]
+				);
+				
+				map.googleMap.setOptions({
+					minZoom: ui.values[0],
+					maxZoom: ui.values[1]
+				});
+			}
+		});
+		
+		// Move polygon and polyline instructions from map edit panel into map element
+		$(".wpgmza-google-map").append(
+			$("#polygon-instructions")
+		);
+		
+		$(".wpgmza-google-map").append(
+			$("#polyline-instructions")
+		);
+		
+		// Dynamic show/hide layers and points of interest
+		$("input[name='bicycle']").on("change", function(event) {
+			map.enableBicycleLayer(event.target.checked);
+		});
+		$("input[name='traffic']").on("change", function(event) {
+			map.enableTrafficLayer(event.target.checked);
+		});
+		$("input[name='transport']").on("change", function(event) {
+			map.enablePublicTransportLayer(event.target.checked);
+		});
+		$("input[name='show_points_of_interest']").on("change", function(event) {
+			map.showPointsOfInterest(event.target.checked);
+		});
+		
+		// Alignment and dimensions
+		$("select[name='map_align']").on("change", function(event) {
+			map.setAlignment(event.target.value);
 		});
 		
 		// Polyfill for color pickers

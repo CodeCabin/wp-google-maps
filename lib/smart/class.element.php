@@ -139,7 +139,7 @@ class Element extends \DOMElement
 				throw new \Exception('Document is empty');
 			
 			$node = $this->ownerDocument->importNode($subject->documentElement, true);
-			$this->appendChild($node);
+
 		}
 		else if($subject instanceof \DOMNode)
 		{
@@ -149,12 +149,13 @@ class Element extends \DOMElement
 		{
 			if(!file_exists($subject))
 				throw new \Exception('HTML file not found');
-
+			
 			$temp = new Document('1.0', 'UTF-8');
 			if($forcePHP)
 				$temp->loadPHPFile($subject);
 			else
 				$temp->load($subject);
+			
 			$node = $this->ownerDocument->importNode($temp->documentElement, true);
 		}
 		else if(is_string($subject))
@@ -183,7 +184,26 @@ class Element extends \DOMElement
 		else
 			throw new \Exception('Don\'t know how to import "' . print_r($subject, true) . '" in ' . $this->ownerDocument->documentURI . ' on line ' . $this->getLineNo());
 		
-		$this->appendChild($node);
+		if($node->querySelector("body"))
+		{
+			//var_dump("importing body children");
+			
+			foreach($node->querySelectorAll("body>*") as $child)
+			{
+				/*var_dump("Importing {$child->nodeName}<br/>");
+				
+				var_dump(
+					$this->ownerDocument->saveXML($child)
+				);*/
+				
+				$this->appendChild($child);
+			}
+		}
+		else
+			$this->appendChild($node);
+		
+		if($this->querySelector('html'))
+			throw new \Exception('NOO');
 		
 		return $this;
 	}

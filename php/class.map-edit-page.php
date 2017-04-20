@@ -55,7 +55,8 @@ class MapEditPage extends AdminPage
 		$this->querySelector('#wpgmza-map-container')->import(
 			$this->map
 		);
-		$this->querySelector('#wpgmza-map-container')->setAttribute('data-right-click-marker-image', WPGMZA_BASE . 'images/right-click-marker.png');
+		
+		$this->querySelector('.wpgmza-map')->setAttribute('data-right-click-marker-image', WPGMZA_BASE . 'images/right-click-marker.png');
 		
 		// Add marker table
 		$this->querySelector('#marker-table-container')->import(
@@ -130,6 +131,12 @@ class MapEditPage extends AdminPage
 			$map->settings->{$key} = stripslashes($value);
 		}
 		
+		foreach($this->querySelectorAll('input[type="checkbox"][name]') as $input)
+		{
+			$name = $input->getAttribute('name');
+			$map->settings->{$name} = isset($_POST[$name]);
+		}
+		
 		$map_objects = json_decode(stripslashes($_POST['map-objects']));
 		if(!$map_objects)
 		{
@@ -188,6 +195,8 @@ class MapEditPage extends AdminPage
 		}
 		
 		$map->save($map_objects);
+		
+		Plugin::trackUsage();
 		
 		wp_redirect($_SERVER['REQUEST_URI']);
 		exit;

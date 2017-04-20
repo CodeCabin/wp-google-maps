@@ -3,16 +3,9 @@
 	{
 		var self = this;
 		
-		this.id = -1;
-		this.modified = false;
-		this.settings = {};
 		this.paths = null;
 		
-		if(row)
-		{
-			for(var name in row)
-				this[name] = row[name];
-		}
+		WPGMZA.MapObject.apply(this, arguments);
 		
 		if(googlePolygon)
 		{
@@ -52,6 +45,9 @@
 		});
 	}
 	
+	WPGMZA.Polygon.prototype = Object.create(WPGMZA.MapObject.prototype);
+	WPGMZA.Polygon.prototype.constructor = WPGMZA.Polygon;
+	
 	WPGMZA.Polygon.prototype.toJSON = function()
 	{
 		var result = {
@@ -75,5 +71,4 @@
 		return result;
 	}
 	
-	eventDispatcher.apply(WPGMZA.Polygon.prototype);
 })(jQuery);

@@ -3,16 +3,7 @@
 	{
 		var self = this;
 		
-		this.id = -1;
-		this.modified = false;
-		this.settings = {};
 		this.name = null;
-		
-		if(row)
-		{
-			for(var name in row)
-				this[name] = row[name];
-		}
 		
 		if(googlePolyline)
 		{
@@ -43,11 +34,16 @@
 			}
 		}
 		
+		WPGMZA.MapObject.apply(this, arguments);
+		
 		google.maps.event.addListener(this.googlePolyline, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
 		
 	}
+	
+	WPGMZA.Polyline.prototype = Object.create(WPGMZA.MapObject.prototype);
+	WPGMZA.Polyline.prototype.constructor = WPGMZA.Polyline;
 	
 	WPGMZA.Polyline.prototype.toJSON = function()
 	{
@@ -71,5 +67,5 @@
 		return result;
 	}
 	
-	eventDispatcher.apply(WPGMZA.Polyline.prototype);
+	
 })(jQuery);

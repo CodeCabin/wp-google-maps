@@ -15,16 +15,15 @@ class Installer
 	 */
 	public function run()
 	{
-		// Install options, db and directory
+		// Install options, db and directory if necessary
 		$this->installOptions();
 		$this->installDB();
 		
 		// Compare versions and migrate if necessary
 		$db_version = new Version( get_option('wpgmza_db_version') );
 		
-		if(Plugin::$version->isLessThan($db_version) || defined('WPGMZA_FORCE_V7_MIGRATE'))
+		if(Plugin::isMigrationRequired() || defined('WPGMZA_FORCE_V7_INSTALL'))
 		{
-			
 			require_once(__DIR__ . '/class.v7-database-migrator.php');
 			$migrator = new V7DatabaseMigrator();
 			$migrator->migrate();
@@ -42,15 +41,13 @@ class Installer
 	 */
 	protected function installOptions()
 	{
+		global $WPGMZA_VERSION;
+		
 		delete_option("WPGMZA");
 		update_option("wpgmza_temp_api",'AIzaSyChPphumyabdfggISDNBuGOlGVBgEvZnGE');
 		
-		if(empty(get_option("wpgmza_xml_location")))
-			add_option("wpgmza_xml_location",'{uploads_dir}/wp-google-maps/');
-		if(empty(get_option("wpgmza_xml_url")))
-			add_option("wpgmza_xml_url",'{uploads_url}/wp-google-maps/');
-		
-		if(empty(get_option("wpgmza_db_version")))
+		$db_version = get_option("wpgmza_db_version");
+		if(empty($db_version))
 			update_option("wpgmza_db_version", $WPGMZA_VERSION);
 	}
 	
@@ -250,7 +247,8 @@ class Installer
 		if($numMaps > 0)
 			return;
 		
-		$title = __("My first map","wp-google-maps");
+		$title = __("My first map", "wp-google-maps");
+		
 		$settings = json_encode(array(
 		   'width' => '100%',
 		   'height' => '400px',
@@ -290,6 +288,7 @@ class Installer
 			$title,
 			$settings
 		));
+		
 		$wpdb->query($stmt);
 	}
 }

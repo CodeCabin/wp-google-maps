@@ -4,28 +4,31 @@ namespace WPGMZA;
 
 class Version
 {
-	private $_major = 0;
-	private $_minor = 0;
-	private $_patch = 0;
+	public $major = 0;
+	public $minor = 0;
+	public $patch = 0;
 	
 	public function __construct($string)
 	{
 		if(!is_string($string))
 			throw new \Exception('Input must be a string');
 		
+		if(empty($string))
+			return;
+		
 		if(!preg_match('/(\d+)\.(\d+)\.(\d+)/', $string, $m))
 			throw new \Exception('Version string must be in semantic versioning format');
 		
-		$this->_major = (int)$m[1];
-		$this->_minor = (int)$m[2];
-		$this->_patch = (int)$m[3];
+		$this->major = (int)$m[1];
+		$this->minor = (int)$m[2];
+		$this->patch = (int)$m[3];
 	}
 	
 	public function isLessThan($other)
 	{
-		if($this->_major < $other->major ||
-			$this->_minor < $other->minor ||
-			$this->_minor < $other->minor)
+		if($this->major < $other->major ||
+			$this->minor < $other->minor ||
+			$this->minor < $other->minor)
 			return true;
 			
 		return false;
@@ -33,9 +36,9 @@ class Version
 	
 	public function isGreaterThan($other)
 	{
-		if($this->_major > $other->major ||
-			$this->_minor > $other->minor ||
-			$this->_minor > $other->minor)
+		if($this->major > $other->major ||
+			$this->minor > $other->minor ||
+			$this->minor > $other->minor)
 			return true;
 			
 		return false;

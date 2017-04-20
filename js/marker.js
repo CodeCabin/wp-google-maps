@@ -7,18 +7,11 @@
 	{
 		var self = this;
 		
-		this.id = -1;
-		this.modified = false;
 		this.lat = "36.778261";
 		this.lng = "-119.4179323999";
 		this.address = "California";
-		this.settings = {};
 		
-		if(row)
-		{
-			for(var name in row)
-				this[name] = row[name];
-		}
+		WPGMZA.MapObject.apply(this, arguments);
 		
 		this.googleMarker = new google.maps.Marker(this.settings);
 		this.googleMarker.wpgmzaMarker = this;
@@ -27,10 +20,15 @@
 			lng: parseFloat(this.lng)
 		}));
 		
+		this.infoWindow = new WPGMZA.InfoWindow(this);
+		
 		google.maps.event.addListener(this.googleMarker, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
 	}
+	
+	WPGMZA.Marker.prototype = Object.create(WPGMZA.MapObject.prototype);
+	WPGMZA.Marker.prototype.constructor = WPGMZA.Marker;
 	
 	WPGMZA.Marker.prototype.toJSON = function()
 	{
@@ -45,5 +43,5 @@
 		return result;
 	}
 	
-	eventDispatcher.apply(WPGMZA.Marker.prototype);
+	
 })(jQuery);

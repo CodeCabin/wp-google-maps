@@ -14,7 +14,7 @@ global $WPGMZA_TABLE_NAME_POLYLINES;
 global $WPGMZA_TABLE_NAME_CATEGORIES;	
 global $WPGMZA_TABLE_NAME_CATEGORY_MAPS;
 
-$WPGMZA_VERSION						= '7.0.00';
+$WPGMZA_VERSION						= '7.0.0';
 $WPGMZA_TABLE_NAME_MAPS				= $wpdb->prefix.'wpgmza_maps';
 $WPGMZA_TABLE_NAME_MARKERS			= $wpdb->prefix.'wpgmza_markers';
 $WPGMZA_TABLE_NAME_POLYGONS			= $wpdb->prefix.'wpgmza_polygons';
@@ -25,6 +25,7 @@ $WPGMZA_TABLE_NAME_CATEGORY_MAPS	= $wpdb->prefix.'wpgmza_category_maps';
 define('WPGMZA_DIR', __DIR__ . '/');
 define('WPGMZA_BASE', plugins_url() . '/' . basename(__DIR__) . '/');
 
-// define('WPGMZA_FORCE_V7_MIGRATE', true);
+// NB: IMPORTANT: If you leave this enabled, any changes you make in the map editor will appear to be IGNORED, as they are overwritten by V6 data being migrated in
+// define('WPGMZA_FORCE_V7_INSTALL', true);
 
 ?>

@@ -20,7 +20,14 @@ class MapListPage extends AdminPage
 		
 		$this->loadPHPFile(WPGMZA_DIR . 'html/map-list-page.html');
 		
-		$results = $wpdb->get_results($wpdb->prepare("SELECT id, title, settings FROM $WPGMZA_TABLE_NAME_MAPS WHERE `active` = %d ORDER BY `id` DESC",0));
+		// Feedback thank you
+		if(!(isset($_COOKIE['wpgmza_feedback_thanks']) && $_COOKIE['wpgmza_feedback_thanks'] == 'true')
+			&& $elem = $this->querySelector('#feedback-thanks')
+			)
+			$elem->remove();
+		
+		// List of maps
+		$results = $wpdb->get_results("SELECT id, title, settings FROM $WPGMZA_TABLE_NAME_MAPS ORDER BY `id` DESC");
 		
 		$container = $this->querySelector('.wpgmza-listing>tbody');
 		
@@ -31,9 +38,14 @@ class MapListPage extends AdminPage
 		{
 			$item->settings = json_decode($item->settings);
 			
-			$item->width = $item->settings->width;
-			$item->height = $item->settings->height;
-			$item->type = $WPGMZA_MAP_TYPES[$item->settings->type];
+			if(isset($item->settings->width))
+				$item->width = $item->settings->width;
+			if(isset($item->settings->height))
+				$item->height = $item->settings->height;
+			
+			if(isset($item->settings->type))
+				$item->type = $WPGMZA_MAP_TYPES[$item->settings->type];
+			
 			$item->shortcode = "[wpgmza id=\"{$item->id}\"]";
 			
 			$row = $template->cloneNode(true);

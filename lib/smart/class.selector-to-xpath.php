@@ -224,12 +224,12 @@ class Tokenizer
 		$length = strlen($str);
 		
 		$cursor = 0;
-		$flags = (object)[
+		$flags = (object)array(
 			'brackets'	 		=> 0,
 			'parentheses'		=> array(),
 			'string'			=> false,
 			'escaped'			=> false
-		];
+		);
 
 		$this->tokens = array();
 		

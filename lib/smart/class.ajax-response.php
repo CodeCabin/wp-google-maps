@@ -30,7 +30,8 @@ class AjaxResponse
 	
 	public function send($object, $code=200)
 	{
-		http_response_code($code);
+		header("HTTP/1.1 $code");
+		//http_response_code($code);	// NB: Not supported by PHP 5.3
 		
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

@@ -49,12 +49,12 @@
 	overflow: hidden;
 }
 
-.wpgmza-map-container
+.wpgmza-map
 {
 	position: relative;
 }
 
-.wpgmza-map-container .wpgmza-loader
+.wpgmza-map .wpgmza-loader
 {
 	position: absolute;
 	z-index: 99;
@@ -321,4 +321,28 @@ form.wpgmza #marker-table-container td.address
 .wpgmza-big-save, .centre
 {
 	text-align: center;
+}
+
+.wpgmza-datatable td:not(.address)
+{
+	white-space: nowrap;
+}
+
+.wpgmza-map fieldset.store_locator_radius .store_locator_radius_units
+{
+	padding-left: 0.5em;
+}
+
+form.wpgmza #polygon-instructions, 
+	form.wpgmza #polyline-instructions
+{
+	position: absolute;
+	left: 6px;
+	bottom: 6px;
+	display: none;
+}
+
+form.wpgmza .ui-slider-range.ui-widget-header
+{
+	background: #008CD0 !important;
 }

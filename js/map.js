@@ -23,9 +23,16 @@
 		WPGMZA.maps.push(this);
 		
 		this.id = element.getAttribute("data-map-id");
-		this.element = element;
+		if(!/\d+/.test(this.id))
+			throw new Error("Map ID must be an integer");
 		
-		this.loader = $(element).closest(".wpgmza-map-container").find(".wpgmza-loader");
+		this.element = element;
+		this.googleElement = $(this.element).find(".wpgmza-google-map")[0];
+		
+		if(!jQuery.fn.jquery.match(/1\.([0-7])\.([0-9])/))
+			$(this.element).find("#wpgmza-jquery-error").remove();
+		
+		this.loader = $(element).find(".wpgmza-loader");
 		
 		this.markers = [];
 		this.polygons = [];
@@ -46,7 +53,16 @@
 		
 		this.loadSettings();
 		this.loadGoogleMap();
+		
+		this.storeLocator = new WPGMZA.StoreLocator(this);
+		
+		$(element).find(".wpgmza-load-failed").remove();
 	}
+	
+	WPGMZA.Map.ALIGN_LEFT 		= 1;
+	WPGMZA.Map.ALIGN_CENTER 	= 2;
+	WPGMZA.Map.ALIGN_RIGHT		= 3;
+	WPGMZA.Map.ALIGN_NONE		= 4;
 	
 	/**
 	 * Loads all the settings from the data-settings attribute of the element
@@ -60,8 +76,9 @@
 		$.extend(localizedSettings, WPGMZA.settings, localSettings);
 		
 		this.settings = localizedSettings;
-		
-		this.element.style.height = this.settings.height;
+
+		this.setDimensions(this.settings.width, this.settings.height);
+		this.setAlignment(this.settings.map_align);
 	}
 	
 	/**
@@ -73,10 +90,16 @@
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
 		
-		this.googleMap = new google.maps.Map(this.element, options);
+		this.googleMap = new google.maps.Map(this.googleElement, options);
 		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { self.onBoundsChanged(); });
 		
-		$(this.element).trigger("wpgmza_loaded");
+		if(this.settings.bicycle)
+			this.enableBicycleLayer(true);
+		if(this.settings.traffic)
+			this.enableTrafficLayer(true);
+		if(this.settings.transport)
+			this.enablePublicTransportLayer(true);
+		this.showPointsOfInterest(this.settings.show_points_of_interest);
 	}
 	
 	/**
@@ -111,6 +134,7 @@
 		
 		this.markers.push(marker);
 		this.dispatchEvent({type: "markeradded", marker: marker});
+		marker.dispatchEvent({type: "added"});
 	}
 	
 	WPGMZA.Map.prototype.deleteMarker = function(marker)
@@ -126,6 +150,7 @@
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
+		marker.dispatchEvent({type: "removed"});
 	}
 	
 	WPGMZA.Map.prototype.getMarkerByID = function(id)
@@ -252,6 +277,66 @@
 	}
 	
 	/**
+	 * Gets the distance between two latLngs in kilometers
+	 * NB: Static function
+	 * @return number
+	 */
+	var earthRadiusMeters = 6378137;
+	var piTimes360 = Math.PI / 360;
+	
+	WPGMZA.Map.getGeographicDistance = function(lat1, lng1, lat2, lng2)
+	{
+		var clat = Math.cos((lat1 + lng1) * piTimes360),
+			dlat = (lat2 - lat1) * piTimes360,
+			dlon = (lng2 - lng1) * piTimes360,
+			f = dlat * dlat + clat * clat + dlon * dlon,
+			c = 2 * Math.atan2(Math.sqrt(f), Math.sqrt(1 - f));
+		return (earthRadiusMeters * c) / 1000;
+	}
+	
+	/**
+	 * Get closeset marker, used by store locator
+	 * TODO: A binary tree or  quadtree would speed this up massively
+	 * @param latLng
+	 * @return WPGMZA.Marker
+	 */
+	WPGMZA.Map.prototype.getClosestMarker = function(latLng)
+	{
+		var dist;
+		var closestIndex;
+		var closestDistance = Infinity;
+		
+		var x1 = latLng.lng();
+		var y1 = latLng.lat();
+		var x2, y2, dx, dy;
+		var position;
+		var count = this.markers.length;
+		
+		if(count == 0)
+			return null;
+		
+		for(var i = 0; i < count; i++)
+		{
+			// IMPORTANT: Please do NOT use this formula for getting the distance between two latLngs, it is ONLY good for a quick and dirty way to find the closest marker. It does not account for the curvature of the earth.
+			position = this.markers[i].googleMarker.getPosition();
+			x2 = position.lng();
+			y2 = position.lat();
+			dx = x2 - x1;
+			dy = y2 - y1;
+			
+			dist = Math.sqrt(dx * dx + dy * dy);
+			
+			if(dist < closestDistance)
+			{
+				closestDistance = dist;
+				closestIndex = i;
+			}
+		}
+		
+		return this.markers[closestIndex];
+	}
+	
+	/**
 	 * Fetches all markers, polygons and polylines within viewport bounds
 	 * @return void
 	 */
@@ -316,6 +401,136 @@
 			}
 		});
 	}
+	
+	/**
+	 * Enables / disables the bicycle layer
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.enableBicycleLayer = function(enable)
+	{
+		if(!this.bicycleLayer)
+			this.bicycleLayer = new google.maps.BicyclingLayer();
+		
+		this.bicycleLayer.setMap(
+			enable ? this.googleMap : null
+		);
+	}
+	
+	/**
+	 * Enables / disables the bicycle layer
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.enableTrafficLayer = function(enable)
+	{
+		if(!this.trafficLayer)
+			this.trafficLayer = new google.maps.TrafficLayer();
+		
+		this.trafficLayer.setMap(
+			enable ? this.googleMap : null
+		);
+	}
+	
+	/**
+	 * Enables / disables the bicycle layer
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.enablePublicTransportLayer = function(enable)
+	{
+		if(!this.publicTransportLayer)
+			this.publicTransportLayer = new google.maps.TransitLayer();
+		
+		this.publicTransportLayer.setMap(
+			enable ? this.googleMap : null
+		);
+	}
+	
+	/**
+	 * Shows / hides points of interest
+	 * @param show boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.showPointsOfInterest = function(show)
+	{
+		var styles = [
+			{
+				featureType: "poi",
+				stylers: [
+					{
+						visibility: (show ? "on" : "off")
+					}
+				]
+			}
+		];
+		
+		this.googleMap.setOptions({styles: styles});
+	}
+	
+	/**
+	 * Sets the dimensions of the map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.setDimensions = function(width, height)
+	{
+		$(this.element).css({
+			width: width,
+			height: height
+		});
+		
+		$(this.googleElement).css({
+			width: "100%",
+			height: height
+		});
+	}
+	
+	/**
+	 * Changes the alignment of the map
+	 * @param align 1 = Left, 2 = Center, 3 = Right, 4 = None
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.setAlignment = function(align)
+	{
+		var css;
+		switch(align)
+		{
+			case WPGMZA.Map.ALIGN_LEFT:
+				css = {
+					"float": "left"
+				};
+				break;
+			case WPGMZA.Map.ALIGN_CENTER:
+				css = {
+					"margin-left":	"auto",
+					"margin-right": "auto",
+					"float":		"none"
+				};
+				break;
+			case WPGMZA.Map.ALIGN_RIGHT:
+				css = {
+					"float": "right"
+				};
+				break;
+			default:
+				css = {
+					"float": "none"
+				};
+				break;
+		}
+		
+		if(css)
+			$(this.element).css(css);
+	}
+	
+	$(document).ready(function() {
+		if(false != WPGMZA.settings.autoCreateMaps)
+		{
+			$(".wpgmza-map").each(function(index, el) {
+				new WPGMZA.Map(el);
+			});
+		}
+	});
 	
 	eventDispatcher.apply(WPGMZA.Map.prototype);
 })(jQuery);

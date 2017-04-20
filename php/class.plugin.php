@@ -5,6 +5,7 @@ namespace WPGMZA;
 require_once(__DIR__ . '/class.version.php');
 require_once(__DIR__ . '/class.settings.php');
 require_once(__DIR__ . '/class.statistics.php');
+require_once(__DIR__ . '/class.map.php');
 require_once(__DIR__ . '/../lib/smart/class.document.php');
 
 use Smart;
@@ -15,9 +16,6 @@ class Plugin
 	public static $settings;
 	public static $statistics;
 	
-	//protected $deregisterOtherGoogleMaps = false;	// TODO: Set this flag when the shortcode is called
-	// WARNING: deregister script is never called because $posts is never set in wpgmza_check_shortcode. I've left this commented for the time being
-	
 	public function __construct()
 	{
 		// Init
@@ -25,7 +23,6 @@ class Plugin
 		
 		// Admin enqueue script hook
 		add_action('admin_enqueue_scripts', array($this, 'adminEnqueueScripts'));
-		add_action('admin_head', array($this, 'adminHead'), 19);
 		
 		// Admin menu hook
 		add_action('admin_menu', array($this, 'adminMenu'));
@@ -46,13 +43,16 @@ class Plugin
 		add_action('wp_ajax_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
 		add_action('wp_ajax_nopriv_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
 		add_action('wp_ajax_wpgmza_list_markers', array($this, 'handleAjaxRequest'));
+		
+		// Shortcode hook
+		add_shortcode('wpgmza', array($this, 'handleShortcode'));
 	}
 	
 	/**
-	 * Activation hook
+	 * Installs the plugin
 	 * @return void
 	 */
-	public static function activate()
+	public static function install()
 	{
 		require_once(__DIR__ . '/class.installer.php');
 		$installer = new Installer();
@@ -65,20 +65,24 @@ class Plugin
 	 */
 	public function init()
 	{
-		$db_version = get_option('wpgmza_db_version');
+		if(Plugin::isMigrationRequired())
+			return;	// Hold off installing etc. and let the user go through the migration wizard
 		
-		if(empty($db_version) || 
-			(new Version($db_version))->isLessThan(Plugin::$version) ||
-			defined('WPGMZA_FORCE_V7_MIGRATE'))
-			Plugin::activate();
+		$db_version = get_option('wpgmza_db_version');
+		if(!empty($db_version))
+			$db_version = new Version($db_version);
+		
+		if(empty($db_version) || defined('WPGMZA_FORCE_V7_INSTALL'))
+			Plugin::install();
 		
 		// Load settings and statistics
 		Plugin::$settings 	= new Settings();
 		Plugin::$statistics = new Statistics();
 		
 		$this->handleFirstTime();
+		$this->loadJQuery();
 		
-		wp_enqueue_script('wpgmza-maps-list', WPGMZA_BASE . 'js/core.js');
+		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
 	}
 	
 	/**
@@ -91,10 +95,12 @@ class Plugin
 		
 		wp_enqueue_script('jquery');
 		
-		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/wpgmza_style.css');
+		wp_enqueue_style('wpgmza_v7_legacy_style', WPGMZA_BASE . 'css/wpgmza_style.css');
 		wp_enqueue_style('wpgmza_v7_admin_style', WPGMZA_BASE . 'css/wp-google-maps-admin.css');
 		
-		wp_enqueue_style('wpgmza_v7_admin', WPGMZA_BASE . 'css/v7-style.css');
+		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/v7-style.css');
+		if(!empty(Plugin::$settings->custom_css))
+			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
 		
 		switch($page)
 		{
@@ -109,7 +115,7 @@ class Plugin
 				wp_enqueue_style('fontawesome');
 			
 				// Enqueue stylesheets
-				wp_enqueue_style('wpgmza_admin_style', WPGMZA_BASE . 'css/wpgmza_style.css', array(), (string)Plugin::$version.'b');
+				//wp_enqueue_style('wpgmza_admin_style', WPGMZA_BASE . 'css/wpgmza_style.css', array(), (string)Plugin::$version.'b');
 				wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
 				
 				if(!empty($_POST))
@@ -135,75 +141,16 @@ class Plugin
 		}
 	}
 	
-	public function adminHead()
-	{
-		if(!isset($_GET['page']) || $_GET['page'] != 'wp-google-maps-menu')
-			return;
-		
-		$this->loadGoogleMaps();
-	}
-	
-	public function loadGoogleMaps()
-	{
-		if(Plugin::$settings->remove_api)
-			return;
-		
-		// Locale
-		$locale = get_locale();
-		$suffix = '.com';
-		
-		switch($locale)
-		{
-			case 'he_IL':
-				// Hebrew correction
-				$locale = 'iw';
-				break;
-			
-			case 'zh_CN':
-				// Chinese integration
-				$suffix = '.cn';
-				break;
-		}
-		
-		$locale = substr($locale, 0, 2);
-		
-		// Default params
-		$params = array(
-			'v' 		=> '3.exp',
-			'key'		=> Plugin::$settings->temp_api,
-			'language'	=> $locale
-		);
-		
-		// API Version
-		if(!empty(Plugin::$settings->api_version))
-			$params['v'] = Plugin::$settings->api_version;
-		
-		// API Key
-		if(!empty(Plugin::$settings->google_maps_api_key))
-			$params['key'] = Plugin::$settings->google_maps_api_key;
-		
-		if(is_admin())
-			$params['libraries'] = 'drawing';
-		
-		wp_enqueue_script('wpgmza_api_call', '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params));
-	}
-	
 	/**
 	 * Prevent any other Google Maps API script from loading
 	 * @return void
 	 */
 	public function deregisterScripts()
 	{
-		global $wp_scripts;
-		$map_handle = '';
-		
 		// WARNING: In v6 this function never runs through so I'm going to put this return here to create the same outcome, even though it's not desired
 		return;
 		
-		//if(!$this->deregisterOtherGoogleMaps)
-			//return;
-		
-		if(!isset($wp_scripts->registered) || !is_array($wp_scripts->registered))
+		/*if(!isset($wp_scripts->registered) || !is_array($wp_scripts->registered))
 			return;
 		
 		foreach ( $wp_scripts->registered as $script) {             
@@ -225,7 +172,7 @@ class Plugin
 					break;
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -253,6 +200,19 @@ class Plugin
 			wp_redirect(get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&action=welcome_page");
 			exit;
 		}
+	}
+	
+	/**
+	 * If the override jQuery setting is checked, and not on admin page, force jQuery 1.11.13
+	 * @return void
+	 */
+	public function loadJQuery()
+	{
+		if(is_admin() || empty(Plugin::$settings->force_jquery))
+			return;
+		
+		wp_deregister_script('jquery');
+		wp_register_script('jquery', '//code.jquery.com/jquery-1.11.3.min.js', false, "1.11.3");
 	}
 	
 	/**
@@ -321,7 +281,7 @@ class Plugin
 	 */
 	public function adminMenu()
 	{
-		$access_level = Plugin::$settings->access_level;
+		$access_level = (isset(Plugin::$settings->access_level) ? Plugin::$settings->access_level : 'manage_options');
 		
 		add_menu_page(
 			'WP Google Maps', 
@@ -331,18 +291,6 @@ class Plugin
 			array($this, 'mapsPage'),
 			WPGMZA_BASE . 'images/map_app_small.png'
 		);
-		
-		/*
-		// NB: I ported this over from the previous version, but it doesn't appear to do anything as the if block expression is never true (at least not in the free version)
-		add_submenu_page(
-			'wp-google-maps-menu', 
-			'WP Google Maps - Advanced Options', 
-			__('Advanced','wp-google-maps'), 
-			$access_level, 
-			'wp-google-maps-menu-advanced', 
-			'function'
-		);
-		*/
 		
 		add_submenu_page(
 			'wp-google-maps-menu', 
@@ -378,8 +326,17 @@ class Plugin
 	 */
 	public function settingsPage()
 	{
-		require_once(WPGMZA_DIR . 'php/class.settings-page.php');
-		$document = new SettingsPage();
+		if(Plugin::isMigrationRequired())
+		{
+			require_once(WPGMZA_DIR . 'php/class.migration-wizard.php');
+			$document = new MigrationWizard();
+		}
+		else
+		{
+			require_once(WPGMZA_DIR . 'php/class.settings-page.php');
+			$document = new SettingsPage();
+		}
+		
 		echo $document->saveHTML($document->querySelector('body>*'));
 	}
 	
@@ -389,17 +346,41 @@ class Plugin
 	 */
 	public function mapsPage()
 	{
-		if(!isset($_GET['action']))
+		if(Plugin::isMigrationRequired())
 		{
-			require_once(WPGMZA_DIR . 'php/class.map-list-page.php');
-			$document = new MapListPage();
+			require_once(WPGMZA_DIR . 'php/class.migration-wizard.php');
+			$document = new MigrationWizard();
 		}
 		else
 		{
-			require_once(WPGMZA_DIR . 'php/class.map-edit-page.php');
-			$document = new MapEditPage();
+			$action = (isset($_GET['action']) ? $_GET['action'] : null);
+			
+			switch($action)
+			{
+				case 'welcome_page':
+					require_once(WPGMZA_DIR . 'php/class.welcome-page.php');
+					$document = new WelcomePage();
+					break;
+					
+				case 'credits':
+					$document = new Smart\Document();
+					$document->loadPHPFile(WPGMZA_DIR . 'html/credits.html');
+					break;
+					
+				case 'edit':
+					require_once(WPGMZA_DIR . 'php/class.map-edit-page.php');
+					$document = new MapEditPage();
+					break;
+				
+				default:
+					require_once(WPGMZA_DIR . 'php/class.map-list-page.php');
+					$document = new MapListPage();
+					break;
+			}
 		}
-		echo $document->saveHTML($document->querySelector('body>*'));
+
+		foreach($document->querySelectorAll('body>*') as $node)
+			echo $document->saveHTML($node);
 	}
 	
 	/**
@@ -447,6 +428,158 @@ class Plugin
 	}
 	
 	/**
+	 * Get usage tracking data
+	 * @return array
+	 */
+	protected static function getUsageTrackingData()
+	{
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_MAPS;
+		global $WPGMZA_TABLE_NAME_MARKERS;
+		global $WPGMZA_TABLE_NAME_POLYGONS;
+		global $WPGMZA_TABLE_NAME_POLYLINES;
+		
+		$theme = wp_get_theme();
+		
+		$global_settings = array();
+		foreach(Plugin::$settings as $key => $value)
+			$global_settings[$key] = $value;
+		
+		$maps = $wpdb->get_results("SELECT * FROM $WPGMZA_TABLE_NAME_MAPS", ARRAY_A);
+		foreach($maps as &$map)
+		{
+			$id = $map['id'];
+			
+			$map['marker_count']		= $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS WHERE map_id=$id");
+			$map['polygon_count']		= $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE map_id=$id");
+			$map['polyline_count']	= $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_POLYLINES WHERE map_id=$id");
+		}
+		
+		$data = array(
+			// Maps
+			'maps'					=> $maps,
+			'map_count'				=> $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MAPS"),
+			'total_markers'			=> $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS"),
+			
+			// WP
+			'wp_version'			=> get_bloginfo("version"),
+			'basic_version'			=> (string)Plugin::$version,
+			'pro_version'			=> 'unknown',
+			'global_settings'		=> $global_settings,
+			'current_theme_name'	=> ($theme ? $theme->get('Name') : 'unknown'),
+			'current_theme_version'	=> ($theme ? $theme->get('Version') : 'unknown'),
+			
+			// System (set below)
+			'phpversion'			=> 'unknown',
+			'allocated_memory'		=> 'unknown',
+			'wp_debug'				=> 'unknown',
+			'locale'				=> 'unknown'
+		);
+		
+		unset($data['global_settings']['google_maps_api_key']);
+		
+		if(function_exists('phpversion'))
+			$data['php_version'] = phpversion();
+		
+		if(defined('WP_MEMORY_LIMIT'))
+			$data['allocated_memory'] = WP_MEMORY_LIMIT;
+		
+		if(defined('WP_DEBUG'))
+			$data['wp_debug'] = WP_DEBUG;
+		
+		if(function_exists('get_locale'))
+			$data['locale'] = get_locale();
+		
+		return (object)$data;
+	}
+	
+	/**
+	 * Send usage tracking data, if the user has that setting enabled
+	 * @return void
+	 */
+	public static function trackUsage()
+	{
+		if(empty(Plugin::$settings->enable_usage_tracking))
+			return;
+		
+		if(!function_exists('curl_version'))
+			return;
+		
+		$data = (array)Plugin::getUsageTrackingData();
+		
+		$json = json_encode($data);
+		$params = array(
+			'usage_data' => $json
+		);
+		$payload = http_build_query($params);
+	
+		$request_url = "http://ccplugins.co/usage-tracking/record_comprehensive-v7.php";
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $request_url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+		curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_HOST']);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		
+		$output = curl_exec($ch);
+		
+		curl_close($ch);
+	}
+	
+	/**
+	 * Request a discount coupon for Sola Plugins
+	 * @return void
+	 */
+	public function requestCoupon()
+	{
+		$email = wp_get_current_user()->user_email;
+		
+		if(!function_exists('curl_version'))
+		{
+			$body = "Usage tracking has been enabled by $email";
+			wp_mail('nick@wpgmaps.com', 'Coupon Code Request', $body);
+			return;
+		}
+		
+		$request_url = "http://ccplugins.co/usage-tracking/coupons.php";
+		
+		$data = array(
+			'action'	=> 'request_coupon',
+			'email'		=> $email,
+			'status'	=> true
+		);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $request_url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_HOST']);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		
+		$output = curl_exec($ch);                            
+		curl_close($ch);
+	}
+	
+	/**
+	 * Handle shortcode
+	 * @return void
+	 */
+	public function handleShortcode($atts)
+	{
+		if(!isset($atts['id']))
+			return "<p class='error'>" . __('No map ID specified', 'wp-google-maps') . "</p>";
+		
+		try{
+			$map = new Map($atts['id']);
+		}catch(Exception $e) {
+			return "<p class='error'>" . __($e->message, 'wp-google-maps') . "</p>";
+		}
+		
+		return $map->saveHTML($map->querySelector('body>*'));
+	}
+	
+	/**
 	 * Utility function, returns TRUE if the plugin is pro version
 	 * @return boolean
 	 */
@@ -468,13 +601,32 @@ class Plugin
 	}
 	
 	/**
+	 * Returns true if the database needs to be migrated
+	 * @return boolean
+	 */
+	public static function isMigrationRequired()
+	{
+		if(defined('WPGMZA_FORCE_V7_INSTALL') && WPGMZA_FORCE_V7_INSTALL)
+			return true;
+		
+		$current_db_version = get_option('wpgmza_db_version');
+		
+		if(!$current_db_version)
+			return false;	// WPGMZA not installed
+		
+		$current_db_version = new Version($current_db_version);
+		
+		return $current_db_version->major < Plugin::$version->major;
+	}
+	
+	/**
 	 * Utility function, get pro link
 	 * @param array Query string parameters to append to link
 	 * @return string
 	 */
 	public static function getProLink($params)
 	{
-		return 'https://www.wpgmaps.com/purchase-professional-version/?' . http_build_query($params);
+		return 'https://www.wpgmaps.com/purchase-professional-version/?' . preg_replace('/&/', '&amp;', http_build_query($params));
 	}
 }
 

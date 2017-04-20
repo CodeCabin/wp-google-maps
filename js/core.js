@@ -27,11 +27,22 @@ var WPGMZA = {
 			}, 1500);
 		});
 		
-		$(".switch label").on("click", function(event) {
+		$("form.wpgmza .switch label").on("click", function(event) {
 			var input = $(this).prev(".cmn-toggle");
-			var val = input.prop("checked");
-			input.prop("checked", !val);
+			
+			var val = !input.prop("checked");
+			
+			input.prop("checked", val);
+			
+			if(val)
+				input.attr("checked", "checked");
+			else
+				input.removeAttr("checked");
+			
 			input.trigger("change");
 		});
+		
+		document.cookie = "wpgmza_feedback_thanks=false; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+		
 	});
 })(jQuery);

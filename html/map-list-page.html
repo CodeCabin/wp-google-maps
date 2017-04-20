@@ -7,16 +7,22 @@
 	<div id="warning-container"></div>
 	<div id="nag-container"></div>
 	
+	<div id="feedback-thanks" class="wpgm_notice_message">
+		<?php
+		_e("Thank you for your feedback!", "wp-google-maps");
+		?>
+	</div>
+	
 	<p class="wpgmza_upgrade_nag">
 		<i>
 			<a target="_blank" 
 				title="<?php _e('Pro Version', 'wp-google-maps'); ?>" 
 				href="<?php 
-				echo urlencode(WPGMZA\Plugin::getProLink(array(
+				echo WPGMZA\Plugin::getProLink(array(
 					'utm_source'	=> 'plugin',
 					'utm_medium'	=> 'link',
 					'utm_campagin'	=> 'mappage_1'
-				)));
+				));
 			?>">
 				<?php
 				_e("Create unlimited maps","wp-google-maps");
@@ -30,11 +36,11 @@
 			<a target="_blank" 
 				title="<?php _e('Pro Version', 'wp-google-maps'); ?>" 
 				href="<?php 
-				echo urlencode(WPGMZA\Plugin::getProLink(array(
+				echo WPGMZA\Plugin::getProLink(array(
 					'utm_source'	=> 'plugin',
 					'utm_medium'	=> 'link',
 					'utm_campagin'	=> 'mappage_2'
-				)));
+				));
 			?>">
 				<?php
 				_e("Pro Version","wp-google-maps");

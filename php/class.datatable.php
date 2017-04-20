@@ -2,6 +2,8 @@
 
 namespace WPGMZA;
 
+require_once(__DIR__ . '/../lib/smart/class.document.php');
+
 use Smart;
 
 class DataTable extends Smart\Document

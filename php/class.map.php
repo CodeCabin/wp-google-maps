@@ -26,7 +26,8 @@ class Map extends Smart\Document
 		
 		$this->enqueueScripts();
 		
-		$this->loadXML('<div class="wpgmza-map"></div>');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/map.html');
+		$this->root = $this->querySelector('.wpgmza-map');
 		
 		// Fetch map data from database
 		$stmt = $wpdb->prepare("SELECT id, title, settings FROM $WPGMZA_TABLE_NAME_MAPS WHERE id=%d", array($id));
@@ -42,39 +43,105 @@ class Map extends Smart\Document
 		$this->shortcode 	= "[wpgmza id=\"{$this->id}\"]";
 		$this->settings 	= json_decode($obj->settings);
 
+		// Load store locator
+		$storeLocator = new Smart\Document();
+		$storeLocator->loadPHPFile(WPGMZA_DIR . 'html/store-locator.html');
+		$storeLocator->populate($this->settings);
+		$this->querySelector(".store-locator-container")->import($storeLocator);
+		
 		// Init tables
 		$this->loadTables();
 		
 		// Pass data to Javascript
-		$this->documentElement->setAttribute('data-map-id', $this->id);
-		$this->documentElement->setAttribute('data-settings', json_encode($this->settings));
+		$this->root->setAttribute('data-map-id', $this->id);
+		$this->root->setAttribute('data-settings', json_encode($this->settings));
+	}
+	
+	public function loadGoogleMaps()
+	{
+		if(Plugin::$settings->remove_api)
+			return;
+		
+		// Locale
+		$locale = get_locale();
+		$suffix = '.com';
+		
+		switch($locale)
+		{
+			case 'he_IL':
+				// Hebrew correction
+				$locale = 'iw';
+				break;
+			
+			case 'zh_CN':
+				// Chinese integration
+				$suffix = '.cn';
+				break;
+		}
+		
+		$locale = substr($locale, 0, 2);
+		
+		// Default params
+		$params = array(
+			'v' 		=> '3.exp',
+			'key'		=> Plugin::$settings->temp_api,
+			'language'	=> $locale
+		);
+		
+		// API Version
+		if(!empty(Plugin::$settings->api_version))
+			$params['v'] = Plugin::$settings->api_version;
+		
+		// API Key
+		if(!empty(Plugin::$settings->google_maps_api_key))
+			$params['key'] = Plugin::$settings->google_maps_api_key;
+		
+		if(is_admin())
+			$params['libraries'] = 'drawing';
+		
+		wp_enqueue_script('wpgmza_api_call', '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params));
 	}
 	
 	/**
-	 * Static method to enqueue any scripts the map needs, front or backend
+	 * Enqueue any scripts the map needs, front or backend
 	 * @return void
 	 */
 	public function enqueueScripts()
 	{
+		$this->loadGoogleMaps();
+		
 		// Map scripts
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'lib/eventDispatcher.min.js');
+	
+		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
+			'wpgmza_api_call',
+			'wpgmza-core'
+		));
 		
 		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
-			'jquery',
+			'wpgmza-event-dispatcher',
+			'wpgmza-map-settings'
+		));
+		wp_enqueue_script('wpgmza-map-object', WPGMZA_BASE . 'js/map-object.js', array(
 			'wpgmza-event-dispatcher'
 		));
 		wp_enqueue_script('wpgmza-marker', WPGMZA_BASE . 'js/marker.js', array(
-			'wpgmza-map'
+			'wpgmza-map',
+			'wpgmza-map-object'
 		));
 		wp_enqueue_script('wpgmza-polygon', WPGMZA_BASE . 'js/polygon.js', array(
-			'wpgmza-map'
+			'wpgmza-map',
+			'wpgmza-map-object'
 		));
 		wp_enqueue_script('wpgmza-polyline', WPGMZA_BASE . 'js/polyline.js', array(
+			'wpgmza-map',
+			'wpgmza-map-object'
+		));
+		wp_enqueue_script('wpgmza-store-locator', WPGMZA_BASE . 'js/store-locator.js', array(
 			'wpgmza-map'
 		));
-		
-		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
-			'wpgmza-map'
+		wp_enqueue_script('wpgmza-info-window', WPGMZA_BASE . 'js/info-window.js', array(
+			'wpgmza-core'
 		));
 		
 		// Global Settings
@@ -86,6 +153,11 @@ class Map extends Smart\Document
 			
 			$data->ajaxurl 		= admin_url('admin-ajax.php');
 			$data->fast_ajaxurl	= WPGMZA_BASE . 'php/ajax.fetch.php';
+
+			$data->localized_strings = array(
+				'miles'			=> __('Miles', 'wp-google-maps'),
+				'kilometers'	=> __('Kilometers', 'wp-google-maps')
+			);
 			
 			wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
 		}
@@ -113,8 +185,27 @@ class Map extends Smart\Document
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MARKERS;
-		
+
 		$exclusions = array();
+		
+		if(isset($_SESSION['wpgmza_transmitted-marker-ids']))
+		{
+			// A session ID is created for each page visit, so that we know which markers have been transmitted already. If $session_id doesn't match the one we have stored, forget the old session, and start a fresh new one
+			if($_SESSION['wpgmza_map-session-id'] != $session_id)
+			{
+				unset($_SESSION['wpgmza_transmitted-marker-ids']);
+				$_SESSION['wpgmza_map-session-id'] = $session_id;
+			}
+			else
+			{
+				$deflated = $_SESSION['wpgmza_transmitted-marker-ids'];
+				
+				$exclusionsString = gzinflate($deflated);	// Keep this string handy so we don't have to implode it into the query
+				
+				if(!empty($exclusionsString))
+					$exclusions = explode(',', $exclusionsString);
+			}
+		}
 		
 		/* 
 		The following statement will fetch all markers between specified latitude, and longitude even if the longitude crosses the 180th meridian / anti-meridian
@@ -148,12 +239,11 @@ class Map extends Smart\Document
 		);
 		
 		// If we've got a list of markers that have already been transmitted, don't send them again
-		if(!empty($_SESSION['wpgmza_transmitted-marker-ids']))
-			$qstr .= ' AND id NOT IN (' . implode(',', $_SESSION['wpgmza_transmitted-marker-ids']) . ')';
-		else
-			$_SESSION['wpgzma_transmitted-ids'] = array();
+		if(!empty($exclusionsString))
+			$qstr .= ' AND id NOT IN (' . $exclusionsString . ')';
 		
 		$stmt = $wpdb->prepare($qstr, $params);
+		
 		$markers = $wpdb->get_results($stmt);
 		
 		foreach($markers as $m)
@@ -166,11 +256,14 @@ class Map extends Smart\Document
 			// Unset latlng spatial field because it breaks json_encode
 			unset($m->latlng);
 			
-			// Encode settings
-			$m->settings = json_decode($m->settings);
-			
 			// Remember we have sent this marker already
-			array_push($_SESSION['wpgmza_transmitted-marker-ids'], $m->id);
+			array_push($exclusions, $m->id);
+		}
+		
+		if(!empty($exclusions))
+		{
+			$string = implode(',', $exclusions);		
+			$_SESSION['wpgmza_transmitted-marker-ids'] = gzdeflate($string);
 		}
 		
 		return $markers;
@@ -196,10 +289,7 @@ class Map extends Smart\Document
 		$polygons = $wpdb->get_results($qstr);
 		
 		foreach($polygons as $p)
-		{
-			$p->settings = json_decode($p->settings);
 			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $p->id);
-		}
 			
 		return $polygons;
 	}
@@ -224,10 +314,7 @@ class Map extends Smart\Document
 		$polylines = $wpdb->get_results($qstr);
 		
 		foreach($polylines as $p)
-		{
-			$p->settings = json_decode($p->settings);
 			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $p->id);
-		}
 			
 		return $polylines;
 	}
@@ -238,8 +325,11 @@ class Map extends Smart\Document
 	 */
 	public function fetch($bounds, $session_id=null)
 	{
-		if(empty(session_id()))
+		$php_session_id = session_id();
+		if(empty($php_session_id))
 			session_start();
+		
+		ini_set("zlib.output_compression", "On");
 		
 		if(!isset($_SESSION['wpgmza_map-session-id']) || $session_id != $_SESSION['wpgmza_map-session-id'])
 		{
@@ -273,8 +363,6 @@ class Map extends Smart\Document
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MAPS;
-		
-		file_put_contents('post-debug.log', print_r($_POST, true));
 		
 		// TODO: Check your privledges here
 		

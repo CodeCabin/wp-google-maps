@@ -26,13 +26,24 @@ class V7DatabaseMigrator
 	protected function migrateOptions()
 	{
 		$options = get_option('WPGMZA_OTHER_SETTINGS');
-		$parsed = maybe_unserialize($options);
 		
+		if(!$options)
+			return;
+		
+		$parsed = maybe_unserialize($options);
 		$standardised = (object)array();
 		
 		foreach($parsed as $key => $value)
 		{
 			$key = preg_replace('/^wpgmza_(settings_)?/', '', $key);
+			
+			switch($key)
+			{
+				case 'map_type':
+					$key = "disable_map_type_controls";
+					break;
+			}
+			
 			$standardised->{$key} = $value;
 		}
 		
@@ -104,7 +115,19 @@ class V7DatabaseMigrator
 				{
 					case 'width':
 					case 'height':
-						$settings[$name] .= stripslashes($map->{"map_{$name}_type"});
+						$value = $map->{"map_{$name}_type"};
+						$settings[$name] .= stripslashes($value);
+						
+						if(empty($settings[$name]))
+							$settings[$name] = ($name == 'width' ? '100%' : '400px');
+						
+						break;
+						
+					case 'alignment':
+						$value = $map->alignment;
+						if(empty($value))
+							$value = '4';
+						$settings['alignment'] = $value;
 						break;
 						
 					case 'styling_data':
@@ -124,10 +147,14 @@ class V7DatabaseMigrator
 				}
 			}
 			
+			$title = $map->map_title;
+			if(empty($title))
+				$title = 'Untitled Map';
+			
 			$wpdb->update(
 				$WPGMZA_TABLE_NAME_MAPS,
 				array(
-					'title'		=> $map->map_title,
+					'title'		=> $title,
 					'settings' 	=> json_encode($settings)
 				),
 				array(
@@ -300,10 +327,6 @@ class V7DatabaseMigrator
 			$wpdb->query($stmt);
 		}
 	}
-	
-	// TODO: Will have to migrate other tables because useing JSON not maybe_serialize
-	
-	
 }
 
 ?>
