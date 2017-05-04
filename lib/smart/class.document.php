@@ -277,6 +277,16 @@ class Document extends \DOMDocument
 		$span->addClass('error');
 		return $span;
 	}
+	
+	public function saveInnerBody()
+	{
+		$result = '';
+		
+		foreach($this->querySelectorAll('body>*') as $node)
+			$result .= $this->saveHTML($node);
+			
+		return $result;
+	}
 }
 
 ?>

@@ -604,6 +604,8 @@
 			return;
 		
 		window.addEventListener("beforeunload", onBeforeUnload);
+		
+		unloadListenerBound = true;
 	}
 	
 	function applyThemeData()
@@ -789,17 +791,6 @@
 	
 	$(document).ready(function() {
 		// Main tabs
-		/*var options = {};
-		if(window.localStorage)
-			options = {
-				active: localStorage.getItem(this.id),
-				activate: function(event, ui) {
-					localStorage.setItem(this.id, $(this).tabs("option", "active"));
-				}
-			};
-			
-		$(".wpgmza-tabs").tabs(options);*/
-		
 		$(".wpgmza-tabs").each(function(index, el) {
 			var options = {};
 			

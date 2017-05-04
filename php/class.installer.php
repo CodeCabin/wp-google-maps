@@ -26,10 +26,10 @@ class Installer
 		{
 			require_once(__DIR__ . '/class.v7-database-migrator.php');
 			$migrator = new V7DatabaseMigrator();
-			$migrator->migrate();
-			
-			update_option('wpgmza_db_version', (string)Plugin::$version);
+			$migrator->migrate();	
 		}
+		
+		update_option('wpgmza_db_version', (string)Plugin::$version);
 		
 		// Install the default map
 		$this->installDefaultMap();

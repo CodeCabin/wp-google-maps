@@ -15,4 +15,25 @@ namespace WPGMZA;
 require_once(__DIR__ . '/constants.php');
 require_once(__DIR__ . '/php/class.plugin.php');
 
+include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+$wpgmza = null;
+
+function wpgmza_create_instance()
+{
+	global $wpgmza;
+	
+	include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+	
+	if(is_plugin_active('wp-google-maps-pro/wp-google-maps-pro.php'))
+	{
+		require_once(WPGMZA_PRO_DIR . 'php/class.pro-plugin.php');
+		$wpgmza = new ProPlugin();
+	}
+	else
+		$wpgmza = new Plugin();
+}
+
+add_action('plugins_loaded', 'WPGMZA\\wpgmza_create_instance');
+
 ?>

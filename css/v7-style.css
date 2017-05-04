@@ -265,12 +265,16 @@ form.wpgmza .default-radius-units
 
 button.delete-marker,
 	button.delete-polygon,
-	button.delete-polyline
+	button.delete-polyline,
+	button.delete
 {
 	background: red !important;
 	border-color: #a00 !important;
+	color: white;
 	text-shadow: 0 -1px 1px #996700, 1px 0 1px #996700, 0 1px 1px #996700, -1px 0 1px #996700 !important;
 	box-shadow: 0 1px 0 #996700 !important;
+	border: 0;
+	padding: 5px 10px;
 }
 
 .wpgmza-delete-vertex-menu
@@ -345,4 +349,14 @@ form.wpgmza #polygon-instructions,
 form.wpgmza .ui-slider-range.ui-widget-header
 {
 	background: #008CD0 !important;
+}
+
+form.wpgmza table
+{
+	width: 100%;
+}
+
+form.wpgmza table th
+{
+	text-align: left;
 }

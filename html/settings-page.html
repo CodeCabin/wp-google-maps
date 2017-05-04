@@ -130,6 +130,8 @@
 					</div>
 				</fieldset>
 				
+				<div class="wpgmza-pro-settings-panel-container"></div>
+				
 				<fieldset>
 					<label><?php _e("Troubleshooting Options","wp-google-maps"); ?></label>
 					<div>
@@ -339,7 +341,7 @@
 					<div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_icon" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -349,7 +351,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_title" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -359,7 +361,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_address" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -369,7 +371,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_category" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -378,7 +380,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_description" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -386,6 +388,21 @@
 							?>
 						</div>
 					</div>
+				</fieldset>
+				<fieldset>
+					<label>
+						<?php
+						_e('Show X items by default', 'wp-google-maps');
+						?>
+					</label>
+					<select name="default_items">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="-1">ALL</option>
+					</select>
 				</fieldset>
 				
 				<h4>
@@ -399,9 +416,14 @@
 						_e("Theme selection","wp-google-maps");
 						?>
 					</label>
-					<select disabled>
-						<!-- NB: Only included this option since disabled selects can be opened anyway -->
-						<option><?php _e('Sky', 'wp-google-maps'); ?></option>
+					<select name="carousel_markerlist_theme" disabled>
+						<option value="sky" selected="">Sky</option>
+						<option value="sun">Sun</option>
+						<option value="earth">Earth</option>
+						<option value="monotone">Monotone</option>
+						<option value="pinkpurple">PinkPurple</option>
+						<option value="white">White</option>
+						<option value="black">Black</option>
 					</select>
 				</fieldset>
 				<fieldset>
@@ -413,7 +435,7 @@
 					<div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_image" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -422,7 +444,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_title" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -431,7 +453,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_icon" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -440,7 +462,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_address" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -449,7 +471,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_description" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -458,7 +480,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_marker_link" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -467,7 +489,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_directions" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -477,7 +499,7 @@
 						<br/>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_lazyload" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -486,7 +508,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_autoheight" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -495,7 +517,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_pagination" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -504,7 +526,7 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_navigation" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -512,21 +534,16 @@
 							?>
 						</div>
 						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
-								<label></label>
-							</div>
+							<input type="number" name="carousel_items" min="1" value="5" disabled/>
+							<label></label>
 							<?php
 							_e("Items","wp-google-maps");
 							?>
 						</div>
 						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" disabled/>
-								<label></label>
-							</div>
+							<input type="number" name="carousel_autoplay" min="1" disabled/>
 							<?php
-							_e("Autolay after x milliseconds (1000 = 1 second)", "wp-google-maps");
+							_e("Autoplay after x milliseconds (1000 = 1 second)", "wp-google-maps");
 							?>
 						</div>
 					</div>

@@ -17,7 +17,7 @@ class Map extends Smart\Document
 	public $settings;
 	public $tables;
 	
-	public function __construct($id)
+	public function __construct($id, $shortcode_atts=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MAPS;
@@ -55,6 +55,8 @@ class Map extends Smart\Document
 		// Pass data to Javascript
 		$this->root->setAttribute('data-map-id', $this->id);
 		$this->root->setAttribute('data-settings', json_encode($this->settings));
+		if(!empty($shortcode_atts))
+			$this->root->setAttribute('data-shortcode-attributes', json_encode($shortcode_atts));
 	}
 	
 	public function loadGoogleMaps()
@@ -81,9 +83,9 @@ class Map extends Smart\Document
 		
 		$locale = substr($locale, 0, 2);
 		
-		// Default params
+		// Default params for google maps
 		$params = array(
-			'v' 		=> '3.exp',
+			'v' 		=> '3.26',
 			'key'		=> Plugin::$settings->temp_api,
 			'language'	=> $locale
 		);
@@ -143,24 +145,6 @@ class Map extends Smart\Document
 		wp_enqueue_script('wpgmza-info-window', WPGMZA_BASE . 'js/info-window.js', array(
 			'wpgmza-core'
 		));
-		
-		// Global Settings
-		if(!defined('WPGMZA_FAST_AJAX'))
-		{
-			// TODO: Hackish... create an instance like $wpgmza = new WPGMZA\Plugin in ajax.fetch.php
-			
-			$data = clone Plugin::$settings;
-			
-			$data->ajaxurl 		= admin_url('admin-ajax.php');
-			$data->fast_ajaxurl	= WPGMZA_BASE . 'php/ajax.fetch.php';
-
-			$data->localized_strings = array(
-				'miles'			=> __('Miles', 'wp-google-maps'),
-				'kilometers'	=> __('Kilometers', 'wp-google-maps')
-			);
-			
-			wp_localize_script('wpgmza-map', 'WPGMZA_global_settings', $data);
-		}
 	}
 	
 	/**

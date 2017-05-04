@@ -34,6 +34,7 @@ class AdminPage extends Smart\Document
 				$container->import(new ReviewNag());
 		}
 		
+		// TODO: There must be a better way to do this, localize it with WP perhaps
 		$this->querySelector('body>*')->setAttribute('data-shortcode-copy-string', __('Copied to clipboard', 'wp-google-maps'));
 	}
 }

@@ -222,7 +222,7 @@ class V7DatabaseMigrator
 		$wpdb->query("ALTER TABLE $WPGMZA_TABLE_NAME_MARKERS AUTO_INCREMENT=$auto_increment");
 	}
 	
-	protected function parsePolydata($polydata)
+	public static function parsePolydata($polydata)
 	{
 		$parts = preg_split('/[()\s,]/', $polydata, null, PREG_SPLIT_NO_EMPTY);
 			
@@ -260,7 +260,7 @@ class V7DatabaseMigrator
 		$oldpolygons = $wpdb->get_results("SELECT id, polydata FROM $oldtable");
 		foreach($oldpolygons as $oldpoly)
 		{
-			$coords = $this->parsePolydata($oldpoly->polydata);
+			$coords = V7DatabaseMigrator::parsePolydata($oldpoly->polydata);
 			
 			// Close polygon
 			array_push($coords, $coords[0]);
@@ -303,7 +303,7 @@ class V7DatabaseMigrator
 		$polylines = $wpdb->get_results("SELECT id, polydata FROM $WPGMZA_TABLE_NAME_POLYLINES");
 		foreach($polylines as $line)
 		{
-			$coords = $this->parsePolydata($line->polydata);
+			$coords = V7DatabaseMigrator::parsePolydata($line->polydata);
 			
 			$wkt_linestring = 'LINESTRING(' . implode(',', $coords) . ')';
 			

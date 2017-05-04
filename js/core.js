@@ -1,6 +1,18 @@
 var WPGMZA = {
 	maps: [],
-	settings: "Not Loaded"
+	settings: "Not Loaded",
+	
+	guid: function() { // Public Domain/MIT
+	  var d = new Date().getTime();
+		if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+			d += performance.now(); //use high-precision timer if available
+		}
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			var r = (d + Math.random() * 16) % 16 | 0;
+			d = Math.floor(d / 16);
+			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		});
+	}
 };
 
 (function($) {
@@ -27,8 +39,11 @@ var WPGMZA = {
 			}, 1500);
 		});
 		
-		$("form.wpgmza .switch label").on("click", function(event) {
+		$("form.wpgmza").on("click", ".switch label", function(event) {
 			var input = $(this).prev(".cmn-toggle");
+			
+			if(input.prop("disabled"))
+				return;
 			
 			var val = !input.prop("checked");
 			

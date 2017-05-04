@@ -7,6 +7,7 @@ require_once(__DIR__ . '/class.settings.php');
 require_once(__DIR__ . '/class.statistics.php');
 require_once(__DIR__ . '/class.map.php');
 require_once(__DIR__ . '/../lib/smart/class.document.php');
+require_once(__DIR__ . '/class.widget.php');
 
 use Smart;
 
@@ -22,7 +23,12 @@ class Plugin
 		add_action( 'init', array($this, 'init') );
 		
 		// Admin enqueue script hook
-		add_action('admin_enqueue_scripts', array($this, 'adminEnqueueScripts'));
+		if(
+			(isset($_GET['page']) && preg_match('/^wp-google-maps/', $_GET['page']))
+			||
+			preg_match('/plugins\.php/', $_SERVER['REQUEST_URI'])
+			)
+			add_action('admin_enqueue_scripts', array($this, 'adminEnqueueScripts'));
 		
 		// Admin menu hook
 		add_action('admin_menu', array($this, 'adminMenu'));
@@ -83,8 +89,20 @@ class Plugin
 		$this->loadJQuery();
 		
 		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
+		
+		$data = clone Plugin::$settings;
+			
+		$data->ajaxurl 		= admin_url('admin-ajax.php');
+		$data->fast_ajaxurl	= WPGMZA_BASE . 'php/ajax.fetch.php';
+
+		$data->localized_strings = array(
+			'miles'			=> __('Miles', 'wp-google-maps'),
+			'kilometers'	=> __('Kilometers', 'wp-google-maps')
+		);
+		
+		wp_localize_script('wpgmza-core', 'WPGMZA_global_settings', $data);
 	}
-	
+
 	/**
 	 * Hook for enqueing scripts on the admin backend
 	 * @return void
@@ -102,25 +120,22 @@ class Plugin
 		if(!empty(Plugin::$settings->custom_css))
 			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
 		
+		// FontAwesome
+		wp_register_style('fontawesome', WPGMZA_BASE . 'css/font-awesome.min.css');
+		wp_enqueue_style('fontawesome');
+	
+		// Datatables
+		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
+		
+		// TODO: Might not be the best place for this... wrap this in the same place as the code to force redirect to migrate page (eg before any WPGM pages are displayed)
+		if(!empty($_POST))
+			ob_start();
+		
 		switch($page)
 		{
 			case 'maps_page_wp-google-maps-menu-settings':
 				wp_enqueue_script('wpgmza_settings_page', WPGMZA_BASE . 'js/settings-page.js', array('jquery-ui-tabs'));
 			
-			case 'toplevel_page_wp-google-maps-menu':
-			case 'maps_page_wp-google-maps-menu-support':
-			case 'maps_page_wp-google-maps-menu':
-				// FontAwesome
-				wp_register_style('fontawesome', WPGMZA_BASE . 'css/font-awesome.min.css');
-				wp_enqueue_style('fontawesome');
-			
-				// Enqueue stylesheets
-				//wp_enqueue_style('wpgmza_admin_style', WPGMZA_BASE . 'css/wpgmza_style.css', array(), (string)Plugin::$version.'b');
-				wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
-				
-				if(!empty($_POST))
-					ob_start();
-				
 			case 'plugins.php':
 				// Subscribe to newsletter scripts
 				wp_register_script( 'wpgmza_newsletter_js', WPGMZA_BASE.'js/newsletter-signup.js', array( 'jquery-ui-core' ) );
@@ -275,40 +290,50 @@ class Plugin
 		}
 	}
 	
+	protected function getAdminSubMenuItems()
+	{
+		$access_level = Plugin::getAccessLevel();
+		
+		return array(
+			array(
+				'wp-google-maps-menu', 
+				'WP Google Maps - Settings', 
+				__('Settings','wp-google-maps'), 
+				$access_level, 
+				'wp-google-maps-menu-settings', 
+				array($this, 'settingsPage')
+			),
+			
+			array(
+				'wp-google-maps-menu', 
+				'WP Google Maps - Support', 
+				__('Support','wp-google-maps'), 
+				$access_level, 
+				'wp-google-maps-menu-support',
+				array($this, 'supportPage')
+			)
+		);
+	}
+	
 	/**
 	 * Admin menu hook
 	 * @return void
 	 */
 	public function adminMenu()
 	{
-		$access_level = (isset(Plugin::$settings->access_level) ? Plugin::$settings->access_level : 'manage_options');
-		
 		add_menu_page(
 			'WP Google Maps', 
 			__('Maps', 'wp-google-maps'), 
-			$access_level, 
+			Plugin::getAccessLevel(),
 			'wp-google-maps-menu',
 			array($this, 'mapsPage'),
 			WPGMZA_BASE . 'images/map_app_small.png'
 		);
 		
-		add_submenu_page(
-			'wp-google-maps-menu', 
-			'WP Google Maps - Settings', 
-			__('Settings','wp-google-maps'), 
-			$access_level, 
-			'wp-google-maps-menu-settings', 
-			array($this, 'settingsPage')
-		);
+		$items = $this->getAdminSubMenuItems();
 		
-		add_submenu_page(
-			'wp-google-maps-menu', 
-			'WP Google Maps - Support', 
-			__('Support','wp-google-maps'), 
-			$access_level, 
-			'wp-google-maps-menu-support',
-			array($this, 'supportPage')
-		);
+		foreach($items as $arr)
+			call_user_func_array('add_submenu_page', $arr);
 	}
 	
 	/**
@@ -333,11 +358,19 @@ class Plugin
 		}
 		else
 		{
-			require_once(WPGMZA_DIR . 'php/class.settings-page.php');
-			$document = new SettingsPage();
+			if(!$this->isProVersion())
+			{
+				require_once(WPGMZA_DIR . 'php/class.settings-page.php');
+				$document = new SettingsPage();
+			}
+			else
+			{
+				require_once(WPGMZA_PRO_DIR . 'php/class.pro-settings-page.php');
+				$document = new ProSettingsPage();
+			}
 		}
 		
-		echo $document->saveHTML($document->querySelector('body>*'));
+		echo $document->saveInnerBody();
 	}
 	
 	/**
@@ -379,8 +412,7 @@ class Plugin
 			}
 		}
 
-		foreach($document->querySelectorAll('body>*') as $node)
-			echo $document->saveHTML($node);
+		echo $document->saveInnerBody();
 	}
 	
 	/**
@@ -568,15 +600,15 @@ class Plugin
 	public function handleShortcode($atts)
 	{
 		if(!isset($atts['id']))
-			return "<p class='error'>" . __('No map ID specified', 'wp-google-maps') . "</p>";
+			return "<div class='error'>" . __('No map ID specified', 'wp-google-maps') . "</div>";
 		
 		try{
-			$map = new Map($atts['id']);
-		}catch(Exception $e) {
-			return "<p class='error'>" . __($e->message, 'wp-google-maps') . "</p>";
+			$map = new Map($atts['id'], $atts);
+		}catch(\Exception $e) {
+			return "<div class='error'>" . __($e->getMessage(), 'wp-google-maps') . "</div>";
 		}
 		
-		return $map->saveHTML($map->querySelector('body>*'));
+		return $map->saveInnerBody();
 	}
 	
 	/**
@@ -620,6 +652,15 @@ class Plugin
 	}
 	
 	/**
+	 * Gets access level
+	 * @return string
+	 */
+	public static function getAccessLevel()
+	{
+		return (isset(Plugin::$settings->access_level) ? Plugin::$settings->access_level : 'manage_options');
+	}
+	
+	/**
 	 * Utility function, get pro link
 	 * @param array Query string parameters to append to link
 	 * @return string
@@ -631,8 +672,5 @@ class Plugin
 }
 
 Plugin::$version = new Version($WPGMZA_VERSION);
-
-// TODO: Delay this until later. Pro will need to be loaded and subclass this plugin before you create the instance
-$wpgmza = new Plugin();
 
 ?>

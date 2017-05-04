@@ -54,6 +54,9 @@
 		this.loadSettings();
 		this.loadGoogleMap();
 		
+		if($(element).attr("data-shortcode-attributes"))
+			this.loadShortcodeAttributes();
+		
 		this.storeLocator = new WPGMZA.StoreLocator(this);
 		
 		$(element).find(".wpgmza-load-failed").remove();
@@ -79,6 +82,26 @@
 
 		this.setDimensions(this.settings.width, this.settings.height);
 		this.setAlignment(this.settings.map_align);
+	}
+	
+	/**
+	 * Loads the shortcode attributes
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.loadShortcodeAttributes = function()
+	{
+		var src = $(this.element).attr("data-shortcode-attributes");
+		var atts = JSON.parse(src);
+		
+		// Dimensions
+		var width = (atts.width ? atts.width : this.settings.width);
+		var height = (atts.height ? atts.height : this.settings.height);
+		if(atts.width || atts.height)
+			this.setDimensions(width, height);
+		
+		// Zoom
+		if(atts.zoom)
+			this.googleMap.setZoom(Number(atts.zoom));
 	}
 	
 	/**
