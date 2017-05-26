@@ -42,7 +42,7 @@
 				?>
 			</a>
 		</li>
-		<li class="pro-upgrade">
+		<li class="pro-upgrade wpgmza-free-version-only">
 			<a href="#pro-upgrade">
 				<?php
 				_e("Pro Upgrade","wp-google-maps");
@@ -117,7 +117,7 @@
 					?>
 				</option>
 			</select>
-			<span class="height-warning">
+			<span class="wpgmza-warning">
 				<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 				<?php
 				_e("We recommend that you leave your height in PX. Depending on your theme, using % for the height may break your map.", "wp-google-maps");
@@ -157,39 +157,39 @@
 		<ul class="presets">
 			<li>
 				<label>
-					<input type="radio" name="theme" value="0" data-theme-json='[ "visibility", "invert_lightness", "color", "weight", "hue", "saturation", "lightness", "gamma"]'/>
+					<input type="radio" name="theme_selection" value="0" data-theme-json='[ "visibility", "invert_lightness", "color", "weight", "hue", "saturation", "lightness", "gamma"]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_0.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="1" data-theme-json='[{"featureType": "administrative","elementType": "labels.text.fill","stylers": [{"color": "#444444"}]},{"featureType": "landscape","elementType": "all","stylers": [{"color": "#f2f2f2"}]},{"featureType": "poi","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "road","elementType": "all","stylers": [{"saturation": -100},{"lightness": 45}]},{"featureType": "road.highway","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "road.arterial","elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "water","elementType": "all","stylers": [{"color": "#46bcec"},{"visibility": "on"}]}]'/>
+					<input type="radio" name="theme_selection" value="1" data-theme-json='[{"featureType": "administrative","elementType": "labels.text.fill","stylers": [{"color": "#444444"}]},{"featureType": "landscape","elementType": "all","stylers": [{"color": "#f2f2f2"}]},{"featureType": "poi","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "road","elementType": "all","stylers": [{"saturation": -100},{"lightness": 45}]},{"featureType": "road.highway","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "road.arterial","elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "water","elementType": "all","stylers": [{"color": "#46bcec"},{"visibility": "on"}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_1.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="2" data-theme-json='[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1df"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e3b4"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"geometry","stylers":[{"color":"#fbd3da"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ab"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffe15f"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#efd151"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"black"}]},{"featureType":"transit.station.airport","elementType":"geometry.fill","stylers":[{"color":"#cfb2db"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a2daf2"}]}]'/>
+					<input type="radio" name="theme_selection" value="2" data-theme-json='[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1df"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e3b4"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"geometry","stylers":[{"color":"#fbd3da"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ab"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffe15f"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#efd151"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"black"}]},{"featureType":"transit.station.airport","elementType":"geometry.fill","stylers":[{"color":"#cfb2db"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a2daf2"}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_2.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="3" data-theme-json='[{"featureType":"landscape","stylers":[{"saturation":-100},{"lightness":65},{"visibility":"on"}]},{"featureType":"poi","stylers":[{"saturation":-100},{"lightness":51},{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"saturation":-100},{"lightness":30},{"visibility":"on"}]},{"featureType":"road.local","stylers":[{"saturation":-100},{"lightness":40},{"visibility":"on"}]},{"featureType":"transit","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"administrative.province","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":-25},{"saturation":-100}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffff00"},{"lightness":-25},{"saturation":-97}]}]'/>
+					<input type="radio" name="theme_selection" value="3" data-theme-json='[{"featureType":"landscape","stylers":[{"saturation":-100},{"lightness":65},{"visibility":"on"}]},{"featureType":"poi","stylers":[{"saturation":-100},{"lightness":51},{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"saturation":-100},{"lightness":30},{"visibility":"on"}]},{"featureType":"road.local","stylers":[{"saturation":-100},{"lightness":40},{"visibility":"on"}]},{"featureType":"transit","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"administrative.province","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":-25},{"saturation":-100}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffff00"},{"lightness":-25},{"saturation":-97}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_3.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="4" data-theme-json='[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]'/>
+					<input type="radio" name="theme_selection" value="4" data-theme-json='[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_4.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="5" data-theme-json='[{"stylers": [ {"hue": "#890000"}, {"visibility": "simplified"}, {"gamma": 0.5}, {"weight": 0.5} ] }, { "elementType": "labels", "stylers": [{"visibility": "off"}] }, { "featureType": "water", "stylers": [{"color": "#890000"}] } ]'/>
+					<input type="radio" name="theme_selection" value="5" data-theme-json='[{"stylers": [ {"hue": "#890000"}, {"visibility": "simplified"}, {"gamma": 0.5}, {"weight": 0.5} ] }, { "elementType": "labels", "stylers": [{"visibility": "off"}] }, { "featureType": "water", "stylers": [{"color": "#890000"}] } ]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_5.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="6" data-theme-json='[{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]'/>
+					<input type="radio" name="theme_selection" value="6" data-theme-json='[{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_6.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="7" data-theme-json='[{"featureType":"administrative.locality","elementType":"all","stylers":[{"hue":"#2c2e33"},{"saturation":7},{"lightness":19},{"visibility":"on"}]},{"featureType":"landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":-2},{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"hue":"#e9ebed"},{"saturation":-90},{"lightness":-8},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":10},{"lightness":69},{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":-78},{"lightness":67},{"visibility":"simplified"}]}]'/>
+					<input type="radio" name="theme_selection" value="7" data-theme-json='[{"featureType":"administrative.locality","elementType":"all","stylers":[{"hue":"#2c2e33"},{"saturation":7},{"lightness":19},{"visibility":"on"}]},{"featureType":"landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":-2},{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"hue":"#e9ebed"},{"saturation":-90},{"lightness":-8},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":10},{"lightness":69},{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":-78},{"lightness":67},{"visibility":"simplified"}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_7.jpg"/>
 				</label>
 				<label>
-					<input type="radio" name="theme" value="8" data-theme-json='[{"featureType":"administrative","stylers":[{"visibility":"off"}]},{"featureType":"poi","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]'/>
+					<input type="radio" name="theme_selection" value="8" data-theme-json='[{"featureType":"administrative","stylers":[{"visibility":"off"}]},{"featureType":"poi","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]'/>
 					<img src="<?php echo WPGMZA_BASE; ?>images/theme_8.jpg"/>
 				</label>
 			</li>
@@ -208,14 +208,14 @@
 				_e("Paste your custom theme data here", "wp-google-maps");
 				?>
 			</p>
-			<textarea name="styling_data"></textarea>
+			<textarea name="theme_data"></textarea>
 			<p class="centre">
 				<button id="preview-custom-theme" class="button button-primary" type="button">Preview Custom Theme</button>
 			</p>
 		</div>
 	</div>
 	<div id="directions">
-		<div class="update-nag update-att">
+		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"></i>
 			<a target="_blank" href="<?php
 			echo WPGMZA\Plugin::getProLink(array(
@@ -236,29 +236,57 @@
 		<fieldset>
 			<label><?php _e("Enable Directions?", "wp-google-maps"); ?></label>
 			<div class="switch grey-out">
-				<input type="checkbox" class="cmn-toggle cmn-toggle-yes-no disabled"/>
+				<input name="directions_box_enabled" type="checkbox" class="cmn-toggle cmn-toggle-yes-no disabled"/>
 				<label class="cmn-override-big"
-					data-on="<?php _e('No', "wp-google-maps"); ?>"
+					data-on="<?php _e('Yes', "wp-google-maps"); ?>"
 					data-off="<?php _e('No', "wp-google-maps"); ?>">
 				</label>
 			</div>
 		</fieldset>
 		<fieldset>
 			<label><?php _e("Directions Box Open by Default?", "wp-google-maps"); ?></label>
-			<select disabled>
-				<option><?php _e("No", "wp-google-maps"); ?></option>
+			<select name="directions_box_placement" class="postform" disabled>
+				<option value="1">No</option>
+				<option value="2">Yes, on the left</option>
+				<option value="3">Yes, on the right</option>
+				<option value="4">Yes, above</option>
+				<option value="5">Yes, below</option>
 			</select>
 		</fieldset>
 		<fieldset>
 			<label><?php _e("Directions Box Width", "wp-google-maps"); ?></label>
-			<input type="number" disabled> px
+			
+			<!-- <input name="directions_box_width -->
+			
+			<input type="number" name="directions_box_width" value="100" disabled/>
+			<select name="dbox_width_type" disabled>
+				<option value="px">
+					<?php
+					_e("px", "wp-google-maps");
+					?>
+				</option>
+				<option value="%" selected>
+					<?php
+					_e("%", "wp-google-maps");
+					?>
+				</option>
+			</select>
+		</fieldset>
+		<fieldset>
+			<label><?php _e("Default 'To' address", "wp-google-maps"); ?></label>
+			<input name="default_to" disabled/>
 		</fieldset>
 	</div>
 	<div id="store-locator">
+		<h3>
+			<?php
+			_e('General Options', 'wp-google-maps');
+			?>
+		</h3>
 		<fieldset>
 			<label><?php _e("Enable Store Locator", "wp-google-maps"); ?></label>
 			<div class="switch">
-				<input type="checkbox" name="store_locator" class="postform cmn-toggle cmn-toggle-yes-no"/>
+				<input type="checkbox" name="store_locator_enabled" class="postform cmn-toggle cmn-toggle-yes-no"/>
 				<label class="cmn-override-big"
 					data-on="<?php _e('Yes', "wp-google-maps"); ?>"
 					data-off="<?php _e('No', "wp-google-maps"); ?>">
@@ -547,7 +575,7 @@
 			<label><?php _e("Not found message", "wp-google-maps"); ?></label>
 			<input name="store_locator_not_found_message"/>
 		</fieldset>
-		<fieldset>
+		<fieldset class="wpgmza-free-version-only">
 			<label><?php _e("Show bouncing icon", "wp-google-maps"); ?></label>
 			<div class="switch">
 				<input type="checkbox" name="store_locator_bounce" class="postform cmn-toggle cmn-toggle-round-flat"/>
@@ -557,7 +585,7 @@
 				</label>
 			</div>
 		</fieldset>
-		<p>
+		<p class="wpgmza-free-version-only">
 			<em>
 				<?php _e('View', 'wp-google-maps'); ?>
 				<a href="http://wpgmaps.com/documentation/store-locator" target="_blank">
@@ -617,7 +645,7 @@
 			<input type="checkbox" name="show_points_of_interest"/>
 		</fieldset>
 		
-		<div class="update-nag update-att">
+		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"> </i>
 			
 			<?php
@@ -641,13 +669,14 @@
 		
 		<fieldset>
 			<label><?php _e("Default Marker Image", "wp-google-maps"); ?></label>
-			<input type="file" disabled/>
+			<input class="wpgmza-free-version-only" type="file" disabled/>
+			<div class="wpgmza-marker-image-picker wpgmza-pro-version-only" data-input-name="upload_default_marker"/>
 		</fieldset>
 		
 		<fieldset>
 			<label><?php _e("Show User's Location", "wp-google-maps"); ?></label>
-			<div class="switch grey-out">
-				<input type="checkbox" class="cmn-toggle cmn-toggle-yes-no" disabled/>
+			<div class="switch grey-out wpgmza-geolocation-setting">
+				<input type="checkbox" name="show_user_location" class="cmn-toggle cmn-toggle-yes-no" disabled/>
 				<label class="cmn-override-big" 
 					for="transport"
 					data-on="<?php _e('Yes', 'wp-google-maps'); ?>" 
@@ -655,24 +684,47 @@
 				</label>
 			</div>
 		</fieldset>
+		<fieldset>
+			<label><?php _e("Default User Location Icon","wp-google-maps"); ?></label>
+			<input class="wpgmza-free-version-only" type="file" disabled/>
+			<div class="wpgmza-marker-image-picker wpgmza-pro-version-only" data-input-name="upload_default_ul_marker"/>
+		</fieldset>
 		
 		<fieldset>
 			<label><?php _e("KML/GeoRSS URL", "wp-google-maps"); ?></label>
-			<input type="url" disabled/> 
-			<?php
-			_e("The KML/GeoRSS layer will over-ride most of your map settings","wp-google-maps");
-			?>
+			<div>
+				<input name="kml" disabled/> 
+				<div>
+					<?php
+					_e("The KML/GeoRSS layer will over-ride most of your map settings","wp-google-maps");
+					?>
+					<br/>
+					<?php
+					_e("For multiple sources, separate each one by a comma","wp-google-maps");
+					?>
+				</div>
+			</div>
 		</fieldset>
 		
 		<fieldset>
 			<label><?php _e("Fusion table ID", "wp-google-maps"); ?></label>
-			<?php
-			_e("Read data directly from your Fusion Table.","wp-google-maps");
-			?>
+			<div>
+				<input name="fusion" disabled/>
+				<div>
+					<?php
+					_e("Read data directly from your Fusion Table. For more information, see <a href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-api.html</a>","wp-google-maps");
+					?>
+				</div>
+			</div>
+		</fieldset>
+		
+		<fieldset>
+			<label><?php _e('Infowindow Style', 'wp-google-maps'); ?></label>
+			<div class="wpgmza-info-window-picker"/>
 		</fieldset>
 	</div>
 	<div id="marker-listing-options">
-		<div class="update-nag update-att">
+		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"> </i>
 			
 			<?php
@@ -697,32 +749,90 @@
 		<fieldset>
 			<label><?php _e("List Markers", "wp-google-maps"); ?></label>
 			<div>
-				<input type="radio" disabled/><?php _e(" None", "wp-google-maps"); ?><br/>
-				<input type="radio" disabled/><?php _e(" Basic table", "wp-google-maps"); ?><br/>
-				<input type="radio" disabled/><?php _e(" Advanced table with real time search and filtering", "wp-google-maps"); ?><br/>
-				<input type="radio" disabled/> Carousel (beta)
+				<ul class="marker-listing-styles grey-out">
+					<li>
+						<label>
+							<input type="radio" name="listmarkers_by" value="0" checked/>
+							<img 
+								src="<?php echo WPGMZA_BASE; ?>images/marker_list_0.png" 
+								title="<?php _e('No marker listing', 'wp-google-maps'); ?>"
+								/>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="radio" name="listmarkers_by" value="1"/>
+							<img 
+								src="<?php echo WPGMZA_BASE; ?>images/marker_list_1.png"
+								title="<?php _e('Basic table', 'wp-google-maps'); ?>"
+								/>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="radio" name="listmarkers_by" value="4"/>
+							<img 
+								src="<?php echo WPGMZA_BASE; ?>images/marker_list_2.png"
+								title="<?php _e('Basic list', 'wp-google-maps'); ?>"
+								/>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="radio" name="listmarkers_by" value="2"/>
+							<img 
+								src="<?php echo WPGMZA_BASE; ?>images/marker_list_3.png"
+								title="<?php _e('Advanced table', 'wp-google-maps'); ?>"
+								/>
+						</label>
+					</li>
+					<li>
+						<label>
+							<input type="radio" name="listmarkers_by" value="3"/>
+							<img 
+								src="<?php echo WPGMZA_BASE; ?>images/marker_list_4.png"
+								title="<?php _e('Carousel', 'wp-google-maps'); ?>"
+								/>
+						</label>
+					</li>
+				</ul>
+				
+				<div>
+					<?php
+					_e('Your selection', 'wp-google-maps');
+					?>:
+					<strong class="wpgmza-marker-listing-style">
+						<?php 
+						_e('No marker listing', 'wp-google-maps'); 
+						?>
+					</strong>
+				</div>
 			</div>
 		</fieldset>
+		
 		<fieldset>
-			<label><?php _e("Filter by category", "wp-google-maps"); ?></label>
-			<div>
-				<div class='switch'>
-					<input type='checkbox' class='cmn-toggle cmn-toggle-round-flat' disabled /> 
-					<label for='wpgmza_filterbycat'></label> 
-				</div>
-				<?php 
-				_e("Allow users to filter by category?","wp-google-maps"); 
-				?>
+			<label><?php _e('Marker Listing Placement', 'wp-google-maps'); ?></label>
+			<div class="switch">
+				<input type="checkbox" name="marker_listing_position" class="postform cmn-toggle cmn-toggle-yes-no"/>
+				<label class="cmn-override-big-wide" 
+					for="marker_listing_position" 
+					data-on="<?php _e('Above Map', 'wp-google-maps'); ?>" 
+					data-off="<?php _e('Below Map', 'wp-google-maps'); ?>"/>
 			</div>
 		</fieldset>
 		<fieldset>
 			<label><?php _e("Order markers by", "wp-google-maps"); ?></label>
 			<div>
-				<select disabled>
-					<option><?php _e("ID", "wp-google-maps"); ?></option>
+				<select disabled name="order_markers_by">
+					<option value="1"><?php _e("ID", "wp-google-maps"); ?></option>
+					<option value="2"><?php _e("Title", "wp-google-maps"); ?></option>
+					<option value="3"><?php _e("Address", "wp-google-maps"); ?></option>
+					<option value="4"><?php _e("Description", "wp-google-maps"); ?></option>
+					<option value="5"><?php _e("Category", "wp-google-maps"); ?></option>
 				</select>
-				<select disabled>
-					<option><?php _e("Ascending", "wp-google-maps"); ?></option>
+				<select disabled name="order_markers_choice">
+					<option value="1"><?php _e("Ascending", "wp-google-maps"); ?></option>
+					<option value="2"><?php _e("Descending", "wp-google-maps"); ?></option>
 				</select>
 			</div>
 		</fieldset>
@@ -731,7 +841,7 @@
 			<div>
 				<div>
 					<div class='switch'>
-						<input disabled type='checkbox' value='1' class='cmn-toggle cmn-toggle-round-flat' /> <label></label>
+						<input disabled type='checkbox' value='1' class='cmn-toggle cmn-toggle-round-flat' name="push_in_map"/> <label></label>
 					</div>
 					<?php
 					_e("Move your marker list inside the map area","wp-google-maps");
@@ -739,16 +849,56 @@
 				</div>
 				<div>
 					<?php
-					_e("Placement: ","wp-google-maps");
+					_e("Placement", "wp-google-maps");
 					?>
-					<select disabled>
-						<option><?php _e("Top Center", "wp-google-maps"); ?></option>
+					<select name="push_in_map_placement">
+						<option value="1">Top Center</option>
+						<option value="2">Top Left</option>
+						<option value="3">Top Right</option>
+						<option value="4">Left Top </option>
+						<option value="5">Right Top</option>
+						<option value="6">Left Center</option>
+						<option value="7">Right Center</option>
+						<option value="8">Left Bottom</option>
+						<option value="9">Right Bottom</option>
+						<option value="10">Bottom Center</option>
+						<option value="11">Bottom Left</option>
+						<option value="12">Bottom Right</option>
 					</select>
 				</div>
-				</div>v
+				<div>
+					<?php
+					_e('Container Width', 'wp-google-maps');
+					?>
+					<input name="push_in_map_width" placeholder="<?php _e('% or px', 'wp-google-maps'); ?>" value="50%"/>
+					<em>
+						<?php
+						_e('Set as % or px, eg. 30% or 400px', 'wp-google-maps');
+						?>
+					</em>
+				</div>
+				<div>
+					<?php
+					_e('Container Height', 'wp-google-maps');
+					?>
+					<input name="push_in_map_height" placeholder="<?php _e('% or px', 'wp-google-maps'); ?>" value="50%"/>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset>
+			<label><?php _e("Filter by category", "wp-google-maps"); ?></label>
+			<div>
+				<div class='switch'>
+					<input type='checkbox' class='cmn-toggle cmn-toggle-round-flat' disabled name="marker_listing_filter_by_category"/> 
+					<label for='marker_listing_filter_by_category'></label> 
+				</div>
+				<?php 
+				_e("Allow users to filter by category?","wp-google-maps"); 
+				?>
+			</div>
 		</fieldset>
 		
-		<div class="feature-section three-col">
+		<div class="feature-section three-col wpgmza-free-version-only">
 			<div class="col">
 				<div class="wpgmza-promo">
 					<img src="<?php echo WPGMZA_BASE . "images/marker-listing-basic.jpg" ?>"/>
@@ -790,7 +940,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="pro-upgrade">
+	<div id="pro-upgrade" class="wpgmza-free-version-only">
 		<div id="tabs-6" style="font-family:sans-serif;">
 			<h1 style="font-weight:200;"><?php _e("12 Amazing Reasons to Upgrade to our Pro Version", "wp-google-maps"); ?></h1>
 			<p style="font-size:16px; line-height:28px;"><?php _e("We've spent over two years upgrading our plugin to ensure that it is the most user-friendly and comprehensive map plugin in the WordPress directory. Enjoy the peace of mind knowing that you are getting a truly premium product for all your mapping requirements. Did we also mention that we have fantastic support?", "wp-google-maps"); ?></p>

@@ -10,9 +10,9 @@ class MapObject
 	/**
 	 * Constructor. Options
 	 * @param $options
-	 * @param $options['id'] The markers ID, optional. Will create a new marker if -1 or not set
-	 * @param $options['map_id'] The map a newly created marker belongs to. This must be set when creating a marker
-	 * @param $options['write_only'] When set, the marker will read from the DB. Use this option to increase performance when you don't need to read any data from the marker
+	 * @param $options['id'] The markers ID, optional. Will create a new map object if -1 or not set
+	 * @param $options['map_id'] The map a newly created map object belongs to. This must be set when creating a map object
+	 * @param $options['write_only'] When set, the map object will read from the DB. Use this option to increase performance when you don't need to read any data from the map object
 	 */
 	public function __construct($options)
 	{
@@ -81,6 +81,10 @@ class MapObject
 					$assignment .= "LineStringFromText(%s)";
 					break;
 					
+				case 'multipoint':
+					$assignment .= "MultiPointFromText(%s)";
+					break;
+					
 				default:
 					if(preg_match('/^int/', $col->Type))
 						$assignment .= '%d';
@@ -143,6 +147,8 @@ class MapObject
 		
 		$stmt = $this->mapOptionsToDB('INSERT', (array)$this)->statement;
 		$wpdb->query($stmt);
+		
+		echo "Setting mapObject ID to {$wpdb->insert_id}";
 		$this->id = $wpdb->insert_id;
 	}
 	

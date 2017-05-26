@@ -4,6 +4,9 @@
 		var self = this;
 		
 		this.paths = null;
+		this.title = null;
+		this.name = null;
+		this.link = null;
 		
 		WPGMZA.MapObject.apply(this, arguments);
 		
@@ -16,24 +19,9 @@
 			this.googlePolygon = new google.maps.Polygon(this.settings);
 			this.googlePolygon.wpgmzaPolygon = this;
 			
-			var points;
-			if(row && (points = row.points))
+			if(row && row.points)
 			{
-				var stripped, pairs, coords, paths = [];
-				stripped = points.replace(/[^ ,\d\.\-+e]/g, "");
-				pairs = stripped.split(",");
-				
-				for(var i = 0; i < pairs.length; i++)
-				{
-					coords = pairs[i].split(" ");
-					paths.push({
-						lat: parseFloat(coords[1]),
-						lng: parseFloat(coords[0])
-					});
-				}
-				
-				this.paths = paths;
-				
+				var paths = this.parseGeometry(row.points);
 				this.googlePolygon.setOptions({paths: paths});
 			}
 		}
@@ -53,6 +41,8 @@
 		var result = {
 			id: 		this.id,
 			name:		this.name,
+			title:		this.title,
+			link:		this.link,
 			points:		[],
 			settings: 	this.settings
 		};

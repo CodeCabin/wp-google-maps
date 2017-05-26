@@ -3,6 +3,17 @@
 		<label name="store_locator_query_string"></label>
 		<div>
 			<input name="store_locator_address"/>
+			<button 
+				id="sl_use_my_location_2" 
+				class="sl_use_loc wpgmza-use-my-location wpgmza-pro-version-only" 
+				type="button"
+				mid="2" 
+				title="<?php _e('Use my location', 'wp-google-maps'); ?>">
+				<img src="<?php echo WPGMZA_BASE . '/images/mylocation.png'; ?>" 
+					title="<?php _e('Use my location', 'wp-google-maps'); ?>" 
+					width="15"/>
+			</button>
+			
 			<p class="error">
 				<i class="fa fa-ban" aria-hidden="true"></i>
 				<?php
@@ -15,6 +26,10 @@
 			</p>
 		</div>
 	</fieldset>
+	<fieldset class="wpgmza-pro-version-only wpgmza_store_locator_title_search">
+		<label name="store_locator_name_string"></label>
+		<input name="store_locator_title_search_term"/>
+	</fieldset>
 	<fieldset class="store_locator_radius">
 		<label>
 			<?php _e('Radius', 'wp-google-maps'); ?>:
@@ -26,8 +41,11 @@
 	</fieldset>
 	<fieldset>
 		<label></label>
-		<button type="button" class="button button-primary">
+		<button type="button" class="button button-primary wpgmza-submit">
 			<?php _e('Search', 'wp-google-maps'); ?>
+		</button>
+		<button type="button" class="button button-primary wpgmza-reset">
+			<?php _e('Reset', 'wp-google-maps'); ?>
 		</button>
 	</fieldset>
 </div>

@@ -26,7 +26,7 @@ class Installer
 		{
 			require_once(__DIR__ . '/class.v7-database-migrator.php');
 			$migrator = new V7DatabaseMigrator();
-			$migrator->migrate();	
+			$migrator->migrate();
 		}
 		
 		update_option('wpgmza_db_version', (string)Plugin::$version);
@@ -91,17 +91,8 @@ class Installer
           pic varchar(700) NOT NULL,
           link varchar(700) NOT NULL,
           icon varchar(700) NOT NULL,
-          lat varchar(100) NOT NULL,
-          lng varchar(100) NOT NULL,
-          anim varchar(3) NOT NULL,
           title varchar(700) NOT NULL,
-          infoopen varchar(3) NOT NULL,
-          category varchar(500) NOT NULL,
           approved tinyint(1) DEFAULT '1',
-          retina tinyint(1) DEFAULT '0',
-          type tinyint(1) DEFAULT '0',
-          did varchar(500) NOT NULL,
-          other_data LONGTEXT NOT NULL,
 		  settings LONGTEXT NULL,
 		  latlng POINT NOT NULL,
           PRIMARY KEY  (id)
@@ -144,18 +135,9 @@ class Installer
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_POLYGONS` (
           id int(11) NOT NULL AUTO_INCREMENT,
           map_id int(11) NOT NULL,
-          polydata LONGTEXT NOT NULL,
-          innerpolydata LONGTEXT NOT NULL,
-          linecolor VARCHAR(7) NOT NULL,
-          lineopacity VARCHAR(7) NOT NULL,
-          fillcolor VARCHAR(7) NOT NULL,
-          opacity VARCHAR(3) NOT NULL,
+          name VARCHAR(250) NOT NULL,
           title VARCHAR(250) NOT NULL,
           link VARCHAR(700) NOT NULL,
-          ohfillcolor VARCHAR(7) NOT NULL,
-          ohlinecolor VARCHAR(7) NOT NULL,
-          ohopacity VARCHAR(3) NOT NULL,
-          polyname VARCHAR(100) NOT NULL,
 		  points POLYGON,
 		  settings TEXT,
           PRIMARY KEY  (id)
@@ -173,11 +155,7 @@ class Installer
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_POLYLINES` (
           id int(11) NOT NULL AUTO_INCREMENT,
           map_id int(11) NOT NULL,
-          polydata LONGTEXT NOT NULL,
-          linecolor VARCHAR(7) NOT NULL,
-          linethickness VARCHAR(3) NOT NULL,
-          opacity VARCHAR(3) NOT NULL,
-          polyname VARCHAR(100) NOT NULL,
+		  title VARCHAR(250) NOT NULL,
 		  points LINESTRING,
 		  settings TEXT,
           PRIMARY KEY  (id)
@@ -203,22 +181,6 @@ class Installer
 	}
 	
 	/**
-	 * Install database category maps table
-	 * @return void
-	 */
-	protected function installDBCategoryMaps()
-	{
-		global $WPGMZA_TABLE_NAME_CATEGORY_MAPS;
-		
-		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_CATEGORY_MAPS` (
-          id int(11) NOT NULL AUTO_INCREMENT,
-          cat_id INT(11) NOT NULL,
-          map_id INT(11) NOT NULL,
-          PRIMARY KEY  (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
-	}
-	
-	/**
 	 * Install database tables
 	 * @return void
 	 */
@@ -230,9 +192,7 @@ class Installer
 		$this->installDBMarkers();
 		$this->installDBPolygons();
 		$this->installDBPolylines();
-		$this->installDBCategories();
-		$this->installDBCategoryMaps();
-		
+		$this->installDBCategories();		
 	}
 	
 	/**
@@ -249,44 +209,12 @@ class Installer
 		
 		$title = __("My first map", "wp-google-maps");
 		
-		$settings = json_encode(array(
-		   'width' => '100%',
-		   'height' => '400px',
-		   'start_location' => '45.950464398418106,-109.81550500000003',
-		   'start_zoom' => '2',
-		   'default_marker' => '0',
-		   'type' => '1',
-		   'alignment' => '1',
-		   'directions_enabled' => '1',
-		   'styling_enabled' => '0',
-		   'styling_data' => NULL,
-		   'active' => '1',
-		   'kml' => '',
-		   'bicycle' => '2',
-		   'traffic' => '2',
-		   'directions_box_enabled' => '1',
-		   'directions_box_width' => '100',
-		   'list_markers' => '0',
-		   'list_markers_advanced' => '0',
-		   'filter_by_category' => '0',
-		   'ugm_enabled' => '0',
-		   'ugm_category_enabled' => '0',
-		   'fusion' => '',
-		   'mass_marker_support' => '1',
-		   'ugm_access' => '0',
-		   'order_markers_by' => '1',
-		   'order_markers_choice' => '2',
-		   'show_user_location' => '0',
-		   'default_to' => '',
-		   'map_max_zoom' => '1',
-		   'transport_layer' => 2,
-		   'wpgmza_theme_data' => '',
-		   'wpgmza_show_points_of_interest' => 1
-		));
+		require_once(WPGMZA_DIR . 'php/class.map.php');
+		$settings = Map::getDefaultSettings();
 		
 		$stmt = $wpdb->prepare("INSERT INTO $WPGMZA_TABLE_NAME_MAPS (title, settings) VALUES (%s, %s)", array(
 			$title,
-			$settings
+			json_encode($settings)
 		));
 		
 		$wpdb->query($stmt);

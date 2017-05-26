@@ -88,7 +88,8 @@ form.wpgmza fieldset>*:not(.switch)
 {
 	display: inline-block;
 	vertical-align: top;
-	max-width: 500px;
+	max-width: calc(100% - 280px);
+	/* max-width: 700px; */
 }
 
 form.wpgmza fieldset
@@ -123,25 +124,48 @@ form.wpgmza .pro-upgrade
 	font-weight: bold;
 }
 
-form.wpgmza #themes img
+form.wpgmza #themes img,
+	form.wpgmza #marker-listing-options img
 {
 	width: 200px;
 	height: auto;
 	margin: 4px;
 }
 
-form.wpgmza #themes input[type="radio"]
+form.wpgmza #marker-listing-options img
+{
+	width: 128px;
+}
+
+form.wpgmza #themes input[type="radio"],
+	form.wpgmza #marker-listing-options input[type="radio"]
 {
 	display: none;
 }
 
-form.wpgmza #themes input[type="radio"]:checked + img
+form.wpgmza #themes input[type="radio"]:checked + img,
+	form.wpgmza #marker-listing-options input[type="radio"]:checked + img
 {
 	border-left: 4px solid #0073aa;
 	border-radius: 2px;
 	position: relative;
 	left: -4px;
 	margin-right: 0px;
+}
+
+form.wpgmza .marker-listing-styles>li
+{
+	display: inline;
+}
+
+form.wpgmza .marker-listing-styles.grey-out
+{
+	pointer-events: none;
+	-webkit-filter: grayscale(100%);
+    -moz-filter:    grayscale(100%);
+    -ms-filter:     grayscale(100%);
+    -o-filter:      grayscale(100%);
+    filter: gray;
 }
 
 form.wpgmza .three-col
@@ -185,7 +209,7 @@ form.wpgmza .ui-slider
 	width: 33vw;
 }
 
-form.wpgmza .height-warning
+.wpgmza-warning
 {
 	margin-left: 0.5em;
 	background: yellow;
@@ -266,7 +290,8 @@ form.wpgmza .default-radius-units
 button.delete-marker,
 	button.delete-polygon,
 	button.delete-polyline,
-	button.delete
+	button.delete-heatmap,
+	form.wpgmza button.delete
 {
 	background: red !important;
 	border-color: #a00 !important;
@@ -275,6 +300,11 @@ button.delete-marker,
 	box-shadow: 0 1px 0 #996700 !important;
 	border: 0;
 	padding: 5px 10px;
+}
+
+button.delete-heatmap
+{
+	padding: 0 10px !important;
 }
 
 .wpgmza-delete-vertex-menu
@@ -325,6 +355,7 @@ form.wpgmza #marker-table-container td.address
 .wpgmza-big-save, .centre
 {
 	text-align: center;
+	clear: both;
 }
 
 .wpgmza-datatable td:not(.address)
@@ -337,8 +368,7 @@ form.wpgmza #marker-table-container td.address
 	padding-left: 0.5em;
 }
 
-form.wpgmza #polygon-instructions, 
-	form.wpgmza #polyline-instructions
+form.wpgmza .wpgmza-google-map *[id$='instructions']
 {
 	position: absolute;
 	left: 6px;
@@ -359,4 +389,65 @@ form.wpgmza table
 form.wpgmza table th
 {
 	text-align: left;
+}
+
+.store-locator
+{
+	margin-bottom: 1em;
+}
+
+.wpgmza-datatable.wpgmza-marker-listing .wpgmza-marker-icon
+{
+	max-width: 64px;
+	max-height: 64px;
+}
+
+.wpgmza-info-window-circular
+{
+	width: 266px;
+	height: 266px;
+	overflow: hidden;
+	border-radius: 100%;
+}
+
+.wpgmza-info-window-circular
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.wpgmza-info-window-circular>*
+{
+	flex: 1;
+}
+
+.wpgmza-info-window-circular .wpgmza-info-window-button-container
+{
+	display: block;
+}
+
+.wpgmza-info-window-circular .wpgmza-info-window-button-container>a
+{
+	display: block;
+}
+
+.wpgmza-info-window-circular .wpgmza-middle
+{
+	padding: 0.33em 1.25em;
+}
+
+.wpgmza-info-window-circular [name='title']
+{
+	font-size: 1.5em;
+}
+
+.wpgmza-info-window-circular [name='address']
+{
+	font-size: 0.8em;
+}
+
+.wpgmza-info-window-circular [name='description']
+{
+	max-height: 4em;
+	overflow-y: scroll;
 }

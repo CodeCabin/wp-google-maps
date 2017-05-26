@@ -25,16 +25,43 @@
 		
 		<fieldset>
 			<label>
-				Automatically report any errors
+				<?php
+				_e('Automatically report any errors', 'wp-google-maps');
+				?>
 			</label>
 			<input type="checkbox" name="report-errors" checked="checked"/> 
 		</fieldset>
 		
 		<fieldset>
 			<label>
-				Include this address in any reports
+				<?php
+				_e('Include this address in any reports', 'wp-google-maps');
+				?>
 			</label>
 			<input name="user_email"/>
+		</fieldset>
+		
+		<fieldset>
+			<label>
+				<?php
+				_e('Use Legacy HTML', 'wp-google-maps');
+				?>
+			</label>
+			<div>
+				<input type="checkbox" name="use_legacy_html" checked/>
+				<p>
+					<small>
+						<?php
+						_e('We recommend you leave this checked if you are using any custom CSS with our plugin and you would like to preserve the appearance.', 'wp-google-maps');
+						?>
+						<strong>
+							<?php
+							_e('Please note custom JS written for WP Google Maps V6 is not compatible with WP Google Maps V7. Please roll-back to V6 and <a href="https://www.wpgmaps.com/support/">Contact Us</a> for world-class support');
+							?>
+						</strong>
+					</small>
+				</p>
+			</div>
 		</fieldset>
 		
 		<p>

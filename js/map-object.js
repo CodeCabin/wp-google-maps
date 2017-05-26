@@ -4,6 +4,8 @@
 	{
 		var self = this;
 		
+		WPGMZA.EventDispatcher.call(this);
+		
 		this.id = -1;
 		this.modified = false;
 		this.settings = {};
@@ -39,16 +41,27 @@
 					this[name] = row[name];
 			}
 		}
-		
-		this.addEventListener("added", function(event) { self.onAdded(event); });
 	}
 	
-	eventDispatcher.apply(WPGMZA.MapObject.prototype);
+	WPGMZA.MapObject.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
+	WPGMZA.MapObject.prototype.constructor = WPGMZA.MapObject;
 	
-	WPGMZA.MapObject.prototype.onAdded = function(event)
+	WPGMZA.MapObject.prototype.parseGeometry = function(string)
 	{
-		if(this.settings.infoopen)
-			this.infoWindow.open(event);
+		var stripped, pairs, coords, results = [];
+		stripped = string.replace(/[^ ,\d\.\-+e]/g, "");
+		pairs = stripped.split(",");
+		
+		for(var i = 0; i < pairs.length; i++)
+		{
+			coords = pairs[i].split(" ");
+			results.push(new google.maps.LatLng(
+				parseFloat(coords[1]),
+				parseFloat(coords[0])
+			));
+		}
+				
+		return results;
 	}
 	
 })(jQuery);

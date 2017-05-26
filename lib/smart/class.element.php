@@ -223,7 +223,16 @@ class Element extends \DOMElement
 		if(!$this->hasAttribute('style'))
 			return;
 		$style = $this->getAttribute('style');
-		$this->setAttribute('style', preg_replace("/\s*$name:.*?((;\s*)|$)/", '', $style));
+		
+		$rules = preg_split('/\s*;\s*/', $style);
+		
+		for($i = count($rules) - 1; $i >= 0; $i--)
+		{
+			if(preg_match("/^$name\s*:/", $rules[$i]))
+				unset($rules[$i]);
+		}
+		
+		$this->setAttribute('style', implode(';', $rules));
 	}
 	
 	public function hasInlineStyle($name)
@@ -480,7 +489,7 @@ class Element extends \DOMElement
 						break;
 						
 					case 'checkbox':
-						if($value != false)
+						if(!empty($value) && $value != false)
 							$this->setAttribute('checked', 'checked');
 						else
 							$this->removeAttribute('checked');

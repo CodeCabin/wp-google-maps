@@ -51,6 +51,7 @@ class DataTable extends Smart\Document
 	
 	public function enqueueScripts()
 	{
+		wp_enqueue_script('datatables', '//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js', array('jquery'));
 		wp_enqueue_script('wpgmza-datatable', WPGMZA_BASE . 'js/datatable.js', array(
 			'jquery',
 			'datatables'

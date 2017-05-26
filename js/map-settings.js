@@ -79,8 +79,14 @@
 				break;
 		}
 		
-		if(this.styling_data && this.styling_data.length > 0)
-			options.styles = JSON.parse(this.styling_data);
+		if(this.theme_data && this.theme_data.length > 0)
+		{
+			try{
+				options.styles = JSON.parse(this.theme_data);
+			}catch(e) {
+				alert("Your theme data is not valid JSON and has been ignored");
+			}
+		}
 		
 		return options;
 	}

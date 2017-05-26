@@ -11,18 +11,25 @@ require_once(WPGMZA_DIR . '/php/class.marker-table.php');
 
 class Map extends Smart\Document
 {
+	private static $googleAPILoadCalled = false;
+	
 	// TODO: Make all these private and expose them through __get and __set
 	public $id;
 	public $title;
 	public $settings;
 	public $tables;
 	
+	public $shortcode_atts = array();
+	
 	public function __construct($id, $shortcode_atts=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MAPS;
+		global $WPGMZA_TABLE_NAME_MARKERS;
 		
 		Smart\Document::__construct();
+		
+		$this->shortcode_atts = $shortcode_atts;
 		
 		$this->enqueueScripts();
 		
@@ -41,13 +48,18 @@ class Map extends Smart\Document
 		$this->id 			= $obj->id;
 		$this->title 		= $obj->title;
 		$this->shortcode 	= "[wpgmza id=\"{$this->id}\"]";
+		
+		// Load settings
 		$this->settings 	= json_decode($obj->settings);
+		if(!$this->settings)
+			$this->settings = (object)array();
+		
+		// Override settings with shortcode attributes
+		$this->handleParameters($shortcode_atts);
 
-		// Load store locator
-		$storeLocator = new Smart\Document();
-		$storeLocator->loadPHPFile(WPGMZA_DIR . 'html/store-locator.html');
-		$storeLocator->populate($this->settings);
-		$this->querySelector(".store-locator-container")->import($storeLocator);
+		// Add the store locator
+		if(!empty($this->settings->store_locator_enabled))
+			$this->addStoreLocator($this);
 		
 		// Init tables
 		$this->loadTables();
@@ -55,15 +67,76 @@ class Map extends Smart\Document
 		// Pass data to Javascript
 		$this->root->setAttribute('data-map-id', $this->id);
 		$this->root->setAttribute('data-settings', json_encode($this->settings));
+		
 		if(!empty($shortcode_atts))
 			$this->root->setAttribute('data-shortcode-attributes', json_encode($shortcode_atts));
 	}
 	
-	public function loadGoogleMaps()
+	public static function getDefaultSettings()
 	{
-		if(Plugin::$settings->remove_api)
+		return (object)array(
+			'width'						=> '100%',
+			'height'					=> '400px',
+			'start_location'			=> '51.29091499999999,-2.920355500143068',
+			'start_zoom'				=> '2',
+			'alignment'					=> '4',
+			'show_points_of_interest'	=> '1'
+		);
+	}
+	
+	/**
+	 * This function handles shortcode attributes
+	 * @return void
+	 */
+	protected function handleParameters($shortcode_atts)
+	{
+		if(!$shortcode_atts)
 			return;
 		
+		$remap = array(
+			'zoom'					=> 'start_zoom',
+			'enable_directions'		=> 'directions_box_enabled',
+			'enable_category'		=> 'store_locator_enabled'
+		);
+		
+		foreach($shortcode_atts as $key => $value)
+		{
+			if(isset($remap[$key]))
+				$this->settings->{$remap[$key]} = $value;
+			else
+				$this->settings->{$key} = $value;
+		}
+		
+		if(isset($shortcode_atts['marker']))
+			$this->setCenterByMarkerID($shortcode_atts['marker']);
+	}
+	
+	/**
+	 * Sets the start location by marker ID
+	 * @return boolean false if the marker ID is not found
+	 */
+	protected function setCenterByMarkerID($markerID)
+	{
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_MARKERS;
+		
+		$stmt = $wpdb->prepare("SELECT X(latLng) AS lng, Y(latLng) AS lat FROM $WPGMZA_TABLE_NAME_MARKERS WHERE id=%d", array($markerID));
+		$results = $wpdb->get_results($stmt);
+		if(!empty($results))
+		{
+			$this->settings->start_location = "{$results[0]->lat},{$results[0]->lng}";
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Gets the parameters to be sent to the Google Maps API load call
+	 * @return array
+	 */
+	protected function getGoogleMapsAPIParams()
+	{
 		// Locale
 		$locale = get_locale();
 		$suffix = '.com';
@@ -81,13 +154,15 @@ class Map extends Smart\Document
 				break;
 		}
 		
+		
 		$locale = substr($locale, 0, 2);
 		
 		// Default params for google maps
 		$params = array(
 			'v' 		=> '3.26',
 			'key'		=> Plugin::$settings->temp_api,
-			'language'	=> $locale
+			'language'	=> $locale,
+			'suffix'	=> $suffix
 		);
 		
 		// API Version
@@ -101,7 +176,29 @@ class Map extends Smart\Document
 		if(is_admin())
 			$params['libraries'] = 'drawing';
 		
+		return $params;
+	}
+	
+	/**
+	 * This function loads the Google API if it hasn't been called already
+	 * @return void
+	 */
+	public function loadGoogleMaps()
+	{
+		if(Plugin::$settings->remove_api)
+			return;
+		
+		if(Map::$googleAPILoadCalled)
+			return;
+		
+		$params = $this->getGoogleMapsAPIParams();
+		
+		$suffix = $params['suffix'];
+		unset($params['suffix']);
+		
 		wp_enqueue_script('wpgmza_api_call', '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params));
+		
+		Map::$googleAPILoadCalled = true;
 	}
 	
 	/**
@@ -113,7 +210,8 @@ class Map extends Smart\Document
 		$this->loadGoogleMaps();
 		
 		// Map scripts
-		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'lib/eventDispatcher.min.js');
+		wp_enqueue_script('wpgmza-event', WPGMZA_BASE . 'js/event.js');
+		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'js/event-dispatcher.js');
 	
 		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
 			'wpgmza_api_call',
@@ -139,12 +237,23 @@ class Map extends Smart\Document
 			'wpgmza-map',
 			'wpgmza-map-object'
 		));
-		wp_enqueue_script('wpgmza-store-locator', WPGMZA_BASE . 'js/store-locator.js', array(
-			'wpgmza-map'
-		));
+		
 		wp_enqueue_script('wpgmza-info-window', WPGMZA_BASE . 'js/info-window.js', array(
 			'wpgmza-core'
 		));
+	}
+	
+	/**
+	 * Adds the store locator
+	 * @return void
+	 */
+	protected function addStoreLocator()
+	{
+		// Load store locator
+		require_once(WPGMZA_DIR . 'php/class.store-locator.php');
+		$storeLocator = new StoreLocator();
+		$storeLocator->populate($this->settings);
+		$this->querySelector('.wpgmza-above-map')->import($storeLocator);
 	}
 	
 	/**
@@ -157,15 +266,24 @@ class Map extends Smart\Document
 			return;
 		
 		$this->tables = (object)array(
-			'marker'	=> new MarkerTable($this->id)
+			'marker'	=> new MarkerTable($this)
 		);
+	}
+	
+	/**
+	 * Returns the map_id part of the WHERE clause for fetch functions
+	 * @return string
+	 */
+	protected function getFetchWhereClause($table)
+	{
+		return "map_id=" . (int)$this->id;
 	}
 	
 	/**
 	 * Fetches all markers within specified bounds, that haven't been fetched already in this session
 	 * @return array
 	 */
-	protected function fetchMarkers($bounds, $session_id=null)
+	protected function fetchMarkers($bounds, $session_id=null, $options=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MARKERS;
@@ -194,10 +312,14 @@ class Map extends Smart\Document
 		/* 
 		The following statement will fetch all markers between specified latitude, and longitude even if the longitude crosses the 180th meridian / anti-meridian
 		*/
+		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options);
+		$approvedClause = (is_admin() ? '' : 'approved = 1');
+		
+		$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
+		
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
 			FROM $WPGMZA_TABLE_NAME_MARKERS
-			WHERE map_id = %d AND
-			approved = 1 AND
+			WHERE $clauses
 			(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
 				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
 				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
@@ -211,7 +333,6 @@ class Map extends Smart\Document
 		$lng2 = $bounds[3];
 		
 		$params = array(
-			$this->id,
 			$lng1,
 			$lng2,
 			$lng1,
@@ -258,22 +379,24 @@ class Map extends Smart\Document
 	 * TODO: Optimize by only fetching polygons within bounds
 	 * @return array
 	 */
-	protected function fetchPolygons($bounds, $session_id=null)
+	protected function fetchPolygons($bounds, $session_id=null, $options=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_POLYGONS;
 		
-		$exclusions = array();
+		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYGONS, $options);
 		
-		$qstr = "SELECT id, polyname AS name, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS";
+		$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
 		
 		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
-			$qstr .= " WHERE id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
+			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
 		
-		$polygons = $wpdb->get_results($qstr);
+		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		foreach($polygons as $p)
-			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $p->id);
+		$polygons = $wpdb->get_results($stmt);
+		
+		foreach($polygons as $polygon)
+			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $polygon->id);
 			
 		return $polygons;
 	}
@@ -283,50 +406,62 @@ class Map extends Smart\Document
 	 * TODO: Optimize by only fetching polylines within bounds
 	 * @return array
 	 */
-	protected function fetchPolylines($bounds, $session_id=null)
+	protected function fetchPolylines($bounds, $session_id=null, $options=null)
 	{
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_POLYLINES;
 		
-		$exclusions = array();
+		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYLINES, $options);
 		
-		$qstr = "SELECT id, polyname AS name, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES";
+		$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES WHERE $mapIDClause";
 		
 		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
-			$qstr .= " WHERE id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
+			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
-		$polylines = $wpdb->get_results($qstr);
+		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		foreach($polylines as $p)
-			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $p->id);
+		$polylines = $wpdb->get_results($stmt);
+		
+		foreach($polylines as $polyline)
+			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $polyline->id);
 			
 		return $polylines;
+	}
+	
+	/**
+	 * Starts a new session, forgetting transmitted IDs from the last
+	 * @return void
+	 */
+	protected function sessionStart()
+	{
+		$_SESSION['wpgmza_transmitted-marker-ids'] = gzdeflate("");
+		$_SESSION['wpgmza_transmitted-polygon-ids'] = array();
+		$_SESSION['wpgmza_transmitted-polyline-ids'] = array();
 	}
 	
 	/**
 	 * Fetches all markers, polygons and polylines within the specified bounds
 	 * @return object
 	 */
-	public function fetch($bounds, $session_id=null)
+	public function fetch($bounds, $session_id=null, $options=null)
 	{
 		$php_session_id = session_id();
 		if(empty($php_session_id))
 			session_start();
 		
-		ini_set("zlib.output_compression", "On");
+		// TODO: Turn this back on and figure out why it bugs in functions.php. May be to do with the plugin starting output buffering with POST set, and not with no ob_start. It seems to be one or the other, possibly because the AJAX call uses GET and the dataTables call uses POST
+		// ini_set("zlib.output_compression", "On");
 		
 		if(!isset($_SESSION['wpgmza_map-session-id']) || $session_id != $_SESSION['wpgmza_map-session-id'])
 		{
-			$_SESSION['wpgmza_transmitted-marker-ids'] = array();
-			$_SESSION['wpgmza_transmitted-polygon-ids'] = array();
-			$_SESSION['wpgmza_transmitted-polyline-ids'] = array();
 			$_SESSION['wpgmza_map-session-id'] = $session_id;
+			$this->sessionStart();
 		}
 		
 		$results = (object)array(
-			'markers'	=> $this->fetchMarkers($bounds, $session_id),
-			'polygons'	=> $this->fetchPolygons($bounds, $session_id),
-			'polylines'	=> $this->fetchPolylines($bounds, $session_id)
+			'markers'	=> $this->fetchMarkers($bounds, $session_id, $options),
+			'polygons'	=> $this->fetchPolygons($bounds, $session_id, $options),
+			'polylines'	=> $this->fetchPolylines($bounds, $session_id, $options)
 		);
 		
 		return $results;
@@ -358,25 +493,32 @@ class Map extends Smart\Document
 		$wpdb->query($stmt);
 		
 		// Create and update
-		foreach($map_object_data as $key => $arr)
+		foreach($map_object_data as $key => &$arr)
 		{
 			switch($key)
 			{
 				case 'markers':
 				case 'polygons':
 				case 'polylines':
+				case 'heatmaps':
 					$class = $this->getClassFromPlural($key);
 				
-					foreach($arr as $data)
+					foreach($arr as &$data)
 					{
+						// Set write only so the instance doesn't waste cycles fetching the object
 						$data->write_only = true;
+						
+						// If we're creating this object, assign map_id
 						if($data->id == -1)
 							$data->map_id = $this->id;
 						
 						$instance = new $class((array)$data);
 						
+						// Only call save if we haven't just INSERTed, because the "create" method will have inserted/updated the data already
 						if($data->id != -1)
 							$instance->save();
+						else
+							$data->id = $instance->id;	// Remember the ID on our form data for inserting many-to-many relationships
 					}
 					break;
 				

@@ -47,6 +47,8 @@ class Document extends \DOMDocument
 		include $src;
 		$html = ob_get_clean();
 		
+		if(empty($html))
+			throw new \Exception("$src is empty");
 		$result = $this->loadHTML($html);
 		
 		$this->src_file = $src;

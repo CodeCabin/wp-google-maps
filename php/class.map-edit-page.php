@@ -17,7 +17,7 @@ class MapEditPage extends AdminPage
 		$this->enqueueStyles();
 		
 		try{
-			$this->map = new Map($_GET['map_id']);
+			$this->map = $this->createMapInstance($_GET['map_id']);
 		}catch(Exception $e) {
 			$this->loadXML('<p class="error">
 				'.__('There was a problem loading the specified map', 'wp-google-maps').'
@@ -25,7 +25,7 @@ class MapEditPage extends AdminPage
 			return;
 		}
 		
-		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
+		$this->loadHTMLContent();
 		
 		// Populate form
 		$map = $this->map;
@@ -34,7 +34,7 @@ class MapEditPage extends AdminPage
 		$this->populate($map->settings);
 		
 		// TODO: Maybe do this stuff at migration time
-		// Split width and height into amount and units
+
 		$width_amount = intval($map->settings->width);
 		$height_amount = intval($map->settings->height);
 		$width_units = $height_units = null;
@@ -64,7 +64,21 @@ class MapEditPage extends AdminPage
 		);
 		
 		if(!empty($_POST))
+		{
 			$this->onFormSubmitted();
+			wp_redirect($_SERVER['REQUEST_URI']);
+			exit;
+		}
+	}
+	
+	protected function loadHTMLContent()
+	{
+		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
+	}
+	
+	protected function createMapInstance($id)
+	{
+		return new Map($id);
 	}
 	
 	protected function enqueueScripts()
@@ -77,7 +91,6 @@ class MapEditPage extends AdminPage
 		
 		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
-		wp_enqueue_script('datatables', '//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js', array('jquery'));
 		
 		// WPGMZA
 		wp_enqueue_script('wpgmza-delete-menu', WPGMZA_BASE . 'js/delete-menu.js', array(
@@ -98,7 +111,7 @@ class MapEditPage extends AdminPage
 		wp_enqueue_style('wpgmza-color-picker', WPGMZA_BASE . 'lib/spectrum.css');
 		wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 	}
-	
+
 	protected function onFormSubmitted()
 	{
 		$form = $this->querySelector('form');
@@ -116,7 +129,8 @@ class MapEditPage extends AdminPage
 			'height_units',
 			'wpgmza_savemap',
 			'map-objects',
-			'map_id'
+			'map_id',
+			'localized_strings'
 		);
 		
 		$map->title = stripslashes($_POST['title']);
@@ -197,9 +211,6 @@ class MapEditPage extends AdminPage
 		$map->save($map_objects);
 		
 		Plugin::trackUsage();
-		
-		wp_redirect($_SERVER['REQUEST_URI']);
-		exit;
 	}
 }
 

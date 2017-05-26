@@ -25,10 +25,6 @@ class MigrationWizard extends \Smart\Document
 				$today				= date('Y-m-d H-i-s');
 				$report 			= "Error Report - $today\r\n\r\n$readable";
 				
-				// Write the report to a file
-				$filename = "wpgmza-error-report_$today.log";
-				file_put_contents(WPGMZA_DIR . $filename, $report);
-				
 				// Show the report to the user
 				$this->querySelector('#wpgzma-report')->appendText($readable);
 				
@@ -39,7 +35,18 @@ class MigrationWizard extends \Smart\Document
 					wp_mail('nick@codecabin.co.za', 'WPGM V7 Error Report', $report, array('Reply-To: ' . $follow_up_email));
 				}
 				
+				// Write the report to a file
+				$filename = "wpgmza-error-report_$today.log";
+				file_put_contents(WPGMZA_DIR . $filename, $report);
+				
 				return;
+			}
+			
+			if(isset($_POST['use_legacy_html']))
+			{
+				// NB: We have to create the settings object here because the plugin hasn't initialized
+				$settings = new Settings();
+				$settings->use_legacy_html = 1;
 			}
 			
 			wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu&action=welcome_page');

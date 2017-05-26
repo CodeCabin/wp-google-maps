@@ -21,7 +21,7 @@
 		this.noResults = $(this.element).find(".no-results");
 		
 		$(this.element).css({
-			display: map.settings.store_locator ? "block" : "none"
+			display: map.settings.store_locator_enabled ? "block" : "none"
 		})
 		
 		this.address.val(
@@ -35,8 +35,12 @@
 		
 		this.setUnits(map.settings.store_locator_distance);
 		
-		$(this.element).find("button").on("click", function(event) {
+		$(this.element).find(".wpgmza-submit").on("click", function(event) {
 			self.onSearch(event);
+		});
+		
+		$(this.element).find(".wpgmza-reset").on("click", function(event) {
+			self.onReset(event);
 		});
 		
 		$(this.element).find("input").on("keydown", function(event) {
@@ -54,7 +58,7 @@
 	}
 	
 	/**
-	 * Clears the store locator - takes the circle off the map and reverts the last markre to its original animation, and hides the error and no results messages
+	 * Clears the store locator - takes the circle off the map and reverts the last marker to its original animation, and hides the error and no results messages
 	 * @return void
 	 */
 	WPGMZA.StoreLocator.prototype.clear = function()
@@ -148,7 +152,6 @@
 	{
 		var self = this;
 		var restrict = this.map.settings.store_locator_restrict;
-		var zoom = this.getZoomFromRadius();
 		var geocoder = new google.maps.Geocoder();
 		
 		var options = {
@@ -167,54 +170,74 @@
 		
 		geocoder.geocode(options, function(results, status) {
 			if(status != google.maps.GeocoderStatus.OK)
-				self.error.show();
-			else
 			{
-				var latLng = results[0].geometry.location;
-				var marker = self.map.getClosestMarker(latLng);
-				
-				self.circle = new google.maps.Circle({
-					strokeColor: "#ff0000",
-					strokeCopacity: 0.25,
-					strokeWeight: 2,
-					fillColor: "#ff0000",
-					map: self.map.googleMap,
-					center: latLng,
-					clickable: false,
-					radius: self.getRadiusInMeters()
-				});
-				
-				// Add the circle and pan to it
-				self.map.googleMap.setZoom(zoom);
-				self.map.googleMap.panTo(latLng);
-				
-				// Is "show bouncing icon" set?
-				if(self.map.settings.store_locator_bounce)
-				{
-					self.closestMarker = marker;
-					
-					if(!marker)
-						return;
-					
-					var position = marker.googleMarker.getPosition();
-					var distance = WPGMZA.Map.getGeographicDistance(
-						position.lat(),
-						position.lng(),
-						latLng.lat(),
-						latLng.lng()
-					) / 1000;
-					var maximum = self.getRadiusInKm();
-					
-					if(distance > maximum)
-					{
-						self.noResults.show();
-						return;
-					}
-					
-					marker.googleMarker.setAnimation(google.maps.Animation.BOUNCE);
-				}
+				self.error.show();
+				return;
 			}
+			
+			self.onGeocodeSuccess(results, status);
 		});
+	}
+	
+	/**
+	 * Called when the geocoder finds the specified address
+	 * @return void
+	 */
+	WPGMZA.StoreLocator.prototype.onGeocodeSuccess = function(results, status)
+	{
+		var latLng = results[0].geometry.location;
+		var zoom = this.getZoomFromRadius();
+		var marker = this.map.getClosestMarker(latLng);
+		
+		this.circle = new google.maps.Circle({
+			strokeColor: "#ff0000",
+			strokeCopacity: 0.25,
+			strokeWeight: 2,
+			fillColor: "#ff0000",
+			map: this.map.googleMap,
+			center: latLng,
+			clickable: false,
+			radius: this.getRadiusInMeters()
+		});
+		
+		// Add the circle and pan to it
+		this.map.googleMap.setZoom(zoom);
+		this.map.googleMap.panTo(latLng);
+		
+		// Is "show bouncing icon" set?
+		/*if(self.map.settings.store_locator_bounce)
+		{
+			self.closestMarker = marker;
+			
+			if(!marker)
+				return;
+			
+			var position = marker.googleMarker.getPosition();
+			var distance = WPGMZA.Map.getGeographicDistance(
+				position.lat(),
+				position.lng(),
+				latLng.lat(),
+				latLng.lng()
+			);
+			var maximum = self.getRadiusInKm();
+			
+			if(distance > maximum)
+			{
+				self.noResults.show();
+				return;
+			}
+			
+			marker.googleMarker.setAnimation(google.maps.Animation.BOUNCE);
+		}*/
+	}
+	
+	/**
+	 * Called when the user clicks reset
+	 * @return void
+	 */
+	WPGMZA.StoreLocator.prototype.onReset = function(event)
+	{
+		this.clear();
 	}
 	
 })(jQuery);

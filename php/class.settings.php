@@ -53,7 +53,8 @@ class Settings implements \IteratorAggregate, \JsonSerializable
 		$this->vars = array(
 			'access_level'			=> 'manage_options',
 			'api_version'			=> '3.25',
-			'map_open_marker_by'	=> '1'
+			'info_window_open_by'	=> '1',
+			'info_window_link_text'	=> __('More details', 'wp-google-maps')
 		);
 	}
 	
@@ -100,8 +101,6 @@ class Settings implements \IteratorAggregate, \JsonSerializable
 		if($explicit_option)
 		{
 			// Set the setting in wp_options
-			// echo "Setting $name to " . print_r($value, true) . " in wp_options<br/>";
-			
 			$this->vars[$name] = $value;
 			
 			update_option('wpgmza_' . $name, $value);
@@ -111,8 +110,6 @@ class Settings implements \IteratorAggregate, \JsonSerializable
 		else
 		{
 			// Set the setting in wp_options wpgmza_settings
-			// echo "Setting $name to " . print_r($value, true) . " in wpgmza_settings<Br/>";
-			
 			$this->vars[$name] = $value;
 			
 			$settings = get_option('wpgmza_settings');

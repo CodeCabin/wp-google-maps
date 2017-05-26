@@ -3,7 +3,7 @@
 	{
 		var self = this;
 		
-		this.name = null;
+		this.title = null;
 		
 		if(googlePolyline)
 		{
@@ -14,22 +14,9 @@
 			this.googlePolyline = new google.maps.Polyline(this.settings);
 			this.googlePolyline.wpgmzaPolyline = this;
 			
-			var points;
-			if(row && (points = row.points))
+			if(row && row.points)
 			{
-				var stripped, pairs, coords, path = [];
-				stripped = points.replace(/[^ ,\d\.\-+e]/g, "");
-				pairs = stripped.split(",");
-				
-				for(var i = 0; i < pairs.length; i++)
-				{
-					coords = pairs[i].split(" ");
-					path.push({
-						lat: parseFloat(coords[1]),
-						lng: parseFloat(coords[0])
-					});
-				}
-				
+				var path = this.parseGeometry(row.points);
 				this.googlePolyline.setOptions({path: path});
 			}
 		}
@@ -49,7 +36,7 @@
 	{
 		var result = {
 			id:			this.id,
-			name:		this.name,
+			title:		this.title,
 			points:		[],
 			settings:	this.settings
 		};

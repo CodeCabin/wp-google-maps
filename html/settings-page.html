@@ -4,7 +4,7 @@
 	<form method="POST" class="wpgmza">
 		<input type="hidden" name="action" value="wpgmza_save_settings"/>
 	
-		<div id="wpgmza_tabs">
+		<div id="wpgmza-settings-tabs">
 			<ul>
 				<li>
 					<a href="#maps">
@@ -173,9 +173,11 @@
 						?>
 					</label>
 					<select name="api_version">
-						<option value="3.25">3.25</option>
-						<option value="3.26">3.26</option>
-						<option value="3.exp">3.exp</option>
+						<option value="3.25">3.25 <?php _e('(Retired)', 'wp-google-maps'); ?></option>
+						<option value="3.26">3.26 <?php _e('(Retired)', 'wp-google-maps'); ?></option>
+						<option value="3.27">3.27 <?php _e('(Frozen)', 'wp-google-maps'); ?></option>
+						<option value="3.28">3.28</option>
+						<option value="3.exp">3.29 <?php _e('(Experimental)', 'wp-google-maps'); ?></option>
 					</select>
 				</fieldset>
 				
@@ -281,10 +283,10 @@
 					</label>
 					<div>
 						<div>
-							<input type="radio" name="map_open_marker_by" value="1"/> Click
+							<input type="radio" name="info_window_open_by" value="1"/> Click
 						</div>
 						<div>
-							<input type="radio" name="map_open_marker_by" value="2"/>
+							<input type="radio" name="info_window_open_by" value="2"/>
 							Hover
 						</div>
 					</div>
@@ -341,7 +343,7 @@
 					<div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_icon" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_icon" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -351,7 +353,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_title" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_title" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -361,7 +363,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_address" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_address" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -371,7 +373,7 @@
 						<div>
 							
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_category" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_categories" disabled/>
 								<label></label>
 							</div>
 							<?php
@@ -380,11 +382,39 @@
 						</div>
 						<div>
 							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_description" disabled/>
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_description" disabled/>
 								<label></label>
 							</div>
 							<?php
 							_e("Hide the Description column","wp-google-maps");
+							?>
+						</div>
+						
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_link" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Marker Link","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_directions" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Directions Link","wp-google-maps");
+							?>
+						</div>
+						<div>
+							<div class="switch">
+								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="marker_listing_hide_pic" disabled/>
+								<label></label>
+							</div>
+							<?php
+							_e("Hide the Image","wp-google-maps");
 							?>
 						</div>
 					</div>
@@ -395,7 +425,7 @@
 						_e('Show X items by default', 'wp-google-maps');
 						?>
 					</label>
-					<select name="default_items">
+					<select name="marker_listing_default_num_items">
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="25">25</option>
@@ -424,6 +454,7 @@
 						<option value="pinkpurple">PinkPurple</option>
 						<option value="white">White</option>
 						<option value="black">Black</option>
+						<option value="glass">Glass</option>
 					</select>
 				</fieldset>
 				<fieldset>
@@ -433,70 +464,6 @@
 						?>
 					</label>
 					<div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_image" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Image","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_title" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Title","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_icon" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Marker Icon","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_address" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Address","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_description" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Description","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_markerlist_marker_link" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Marker Link","wp-google-maps");
-							?>
-						</div>
-						<div>
-							<div class="switch">
-								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="markerlist_directions" disabled/>
-								<label></label>
-							</div>
-							<?php
-							_e("Hide the Directions Link","wp-google-maps");
-							?>
-						</div>
-						<br/>
 						<div>
 							<div class="switch">
 								<input type="checkbox" class="cmn-toggle cmn-toggle-round-flat" name="carousel_lazyload" disabled/>
@@ -583,6 +550,23 @@
 					<!-- TODO: v6 calls stripslashes on custom_css, is this still necessary? Might need to do it at migration stage -->
 					<textarea name="custom_css"></textarea>
 				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Use Legacy HTML", "wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input name="use_legacy_html" type="checkbox"/>
+						<div>
+							<?php
+							_e('Use this setting if you have been using Custom CSS for earlier versions of WP Google Maps and would like to preserve the plugins appearance', 'wp-google-maps');
+							?>
+						</div>
+					</div>
+				</fieldset>
+				
 			</div>
 			<div id="errorlog">
 				<h3>

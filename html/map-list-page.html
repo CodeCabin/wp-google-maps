@@ -4,6 +4,20 @@
 		_e("My Maps",'wp-google-maps');
 		?>
 	</h2>
+	
+	<form method="POST">
+		<input type="hidden" name="action" value="new"/>
+		<input type="submit" value="<?php
+			_e('Add New', 'wp-google-maps');
+			?>" class="add-new-h2 wpgmza-pro-version-only"/>
+			
+		<a href="admin.php?page=wp-google-maps-menu&amp;action=wizard" class="add-new-h2 wpgmza-pro-version-only">
+			<?php
+			_e('Wizard', 'wp-google-maps');
+			?>
+		</a>
+	</form>
+	
 	<div id="warning-container"></div>
 	<div id="nag-container"></div>
 	
@@ -13,7 +27,7 @@
 		?>
 	</div>
 	
-	<p class="wpgmza_upgrade_nag">
+	<p class="wpgmza_upgrade_nag wpgmza-free-version-only">
 		<i>
 			<a target="_blank" 
 				title="<?php _e('Pro Version', 'wp-google-maps'); ?>" 
@@ -90,7 +104,7 @@
 				</th>
 			</tr>
 		</thead>
-		<tbody id="the-list" class="list:wp_list_text_link">
+		<tbody id="the-list" class="list:wp_list_text_link wpgmza-map-list">
 			<tr class="template">
 				<td name="id"></td>
 				<td>
@@ -100,6 +114,20 @@
 							<br/>
 						</big>
 						<a class="edit"></a>
+						<span class="wpgmza-pro-version-only">
+							|
+							<form method="POST" class="wpgmza-trash-map">
+								<input type="hidden" name="action" value="trash"/>
+								<input type="hidden" name="id"/>
+								<input type="submit" value="<? _e('Trash', 'wp-google-maps'); ?>"/>
+							</form>
+							|
+							<form method="POST">
+								<input type="hidden" name="action" value="duplicate"/>
+								<input type="hidden" name="id"/>
+								<input type="submit" value="<? _e('Duplicate', 'wp-google-maps'); ?>"/>
+							</form>
+						</span>
 					</strong>
 				</td>
 				<td name="width"></td>

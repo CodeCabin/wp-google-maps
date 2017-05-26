@@ -36,14 +36,6 @@ class Plugin
 		// E-Mail subscribe hooks
 		add_action('wp_ajax_wpgmza_subscribe', array($this, 'ajaxSubscribe'));
 		add_filter('plugin_row_meta', array($this, 'adminNewsletterSignupRow'), 4, 10);
-		
-		// Prevent any other sources adding Google Maps script
-		foreach(array('wp_enqueue_scripts', 
-			'wp_head', 
-			'init', 
-			'wp_footer', 
-			'wp_print_scripts') as $action)
-			add_action($action, array($this, 'deregisterScripts'), 999);
 			
 		// Hooks for AJAX requests
 		add_action('wp_ajax_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
@@ -83,6 +75,8 @@ class Plugin
 		
 		// Load settings and statistics
 		Plugin::$settings 	= new Settings();
+		Plugin::$settings->is_admin = is_admin();
+		
 		Plugin::$statistics = new Statistics();
 		
 		$this->handleFirstTime();
@@ -90,6 +84,17 @@ class Plugin
 		
 		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
 		
+		// Localize data
+		$data = $this->getLocalizedData();
+		wp_localize_script('wpgmza-core', 'WPGMZA_global_settings', $data);
+	}
+
+	/**
+	 * Localizes settings and strings for translation and passing settings to JS
+	 * @return object
+	 */
+	protected function getLocalizedData()
+	{
 		$data = clone Plugin::$settings;
 			
 		$data->ajaxurl 		= admin_url('admin-ajax.php');
@@ -100,9 +105,9 @@ class Plugin
 			'kilometers'	=> __('Kilometers', 'wp-google-maps')
 		);
 		
-		wp_localize_script('wpgmza-core', 'WPGMZA_global_settings', $data);
+		return $data;
 	}
-
+	
 	/**
 	 * Hook for enqueing scripts on the admin backend
 	 * @return void
@@ -154,40 +159,6 @@ class Plugin
 				
 				break;
 		}
-	}
-	
-	/**
-	 * Prevent any other Google Maps API script from loading
-	 * @return void
-	 */
-	public function deregisterScripts()
-	{
-		// WARNING: In v6 this function never runs through so I'm going to put this return here to create the same outcome, even though it's not desired
-		return;
-		
-		/*if(!isset($wp_scripts->registered) || !is_array($wp_scripts->registered))
-			return;
-		
-		foreach ( $wp_scripts->registered as $script) {             
-			if($script->handle == 'wpgmza_api_call')
-				continue;
-			
-			if (strpos($script->src, 'maps.google.com/maps/api/js') !== false || 
-				strpos($script->src, 'maps.googleapis.com/maps/api') !== false || 
-				strpos($script->src, 'maps.googleapis') !== false || 
-				strpos($script->src, 'maps.google') !== false) {
-				if (!isset($script->handle) || $script->handle == '') {
-					$script->handle = 'remove-this-map-call';
-				}
-				unset($script->src);
-				$map_handle = $script->handle;
-				if ($map_handle != '') {
-					$wp_scripts->remove( $map_handle );
-					$map_handle = '';
-					break;
-				}
-			}
-		}*/
 	}
 	
 	/**
@@ -301,7 +272,7 @@ class Plugin
 				__('Settings','wp-google-maps'), 
 				$access_level, 
 				'wp-google-maps-menu-settings', 
-				array($this, 'settingsPage')
+				array($this, 'showAdminPage')
 			),
 			
 			array(
@@ -310,9 +281,72 @@ class Plugin
 				__('Support','wp-google-maps'), 
 				$access_level, 
 				'wp-google-maps-menu-support',
-				array($this, 'supportPage')
+				array($this, 'showAdminPage')
 			)
 		);
+	}
+	
+	/**
+	 * Called when user is on any WPGM admin page, echos the relevant page, or forces the migration page if required
+	 * @return void
+	 */
+	public function showAdminPage()
+	{
+		$m = null;
+		
+		if($_GET['page'] != 'wp-google-maps-menu' && !preg_match('/^wp-google-maps-menu-(.+)$/', $_GET['page'], $m))
+			return;
+		
+		$page = ($_GET['page'] == 'wp-google-maps-menu' ? 'default' : $m[1]);
+		
+		if(Plugin::isMigrationRequired())
+		{
+			require_once(WPGMZA_DIR . 'php/class.migration-wizard.php');
+			$document = new MigrationWizard();
+		}
+		else
+		{
+			$document = new Smart\Document();
+			
+			if($this->isProVersion() && isset($_GET['action']) && $_GET['action'] == 'wizard')
+			{
+				require_once(WPGMZA_PRO_DIR . 'php/class.wizard.php');
+				$document = new Wizard();
+			}
+			else
+				switch($page)
+				{
+					case 'settings':
+						if(!$this->isProVersion())
+						{
+							require_once(WPGMZA_DIR . 'php/class.settings-page.php');
+							$document = new SettingsPage();
+						}
+						else
+						{
+							require_once(WPGMZA_PRO_DIR . 'php/class.pro-settings-page.php');
+							$document = new ProSettingsPage();
+						}
+						break;
+					
+					case 'support':
+						$document->loadHTML(WPGMZA_DIR . 'html/support-menu.html');
+						break;
+						
+					default:
+						$document = $this->getMapsPage();
+						break;
+				}
+		}
+		
+		if($this->isProVersion())
+			foreach($document->querySelectorAll('.wpgmza-free-version-only') as $node)
+				$node->remove();
+		else
+			foreach($document->querySelectorAll('.wpgmza-pro-version-only') as $node)
+				$node->remove();
+		
+		echo $document->saveInnerBody();
 	}
 	
 	/**
@@ -326,7 +360,7 @@ class Plugin
 			__('Maps', 'wp-google-maps'), 
 			Plugin::getAccessLevel(),
 			'wp-google-maps-menu',
-			array($this, 'mapsPage'),
+			array($this, 'showAdminPage'),
 			WPGMZA_BASE . 'images/map_app_small.png'
 		);
 		
@@ -337,82 +371,53 @@ class Plugin
 	}
 	
 	/**
-	 * Echos the support menu page
-	 * @return void
-	 */
-	public function supportPage()
-	{
-		echo Plugin::evaluateHTMLFile(WPGMZA_DIR . 'html/support-menu.html');
-	}
-	
-	/**
-	 * Echos the settings page
-	 * @return void
-	 */
-	public function settingsPage()
-	{
-		if(Plugin::isMigrationRequired())
-		{
-			require_once(WPGMZA_DIR . 'php/class.migration-wizard.php');
-			$document = new MigrationWizard();
-		}
-		else
-		{
-			if(!$this->isProVersion())
-			{
-				require_once(WPGMZA_DIR . 'php/class.settings-page.php');
-				$document = new SettingsPage();
-			}
-			else
-			{
-				require_once(WPGMZA_PRO_DIR . 'php/class.pro-settings-page.php');
-				$document = new ProSettingsPage();
-			}
-		}
-		
-		echo $document->saveInnerBody();
-	}
-	
-	/**
 	 * Echos the maps page
 	 * @return void
 	 */
-	public function mapsPage()
+	public function getMapsPage()
 	{
-		if(Plugin::isMigrationRequired())
+		$action = (isset($_GET['action']) ? $_GET['action'] : null);
+		
+		switch($action)
 		{
-			require_once(WPGMZA_DIR . 'php/class.migration-wizard.php');
-			$document = new MigrationWizard();
-		}
-		else
-		{
-			$action = (isset($_GET['action']) ? $_GET['action'] : null);
-			
-			switch($action)
-			{
-				case 'welcome_page':
-					require_once(WPGMZA_DIR . 'php/class.welcome-page.php');
-					$document = new WelcomePage();
-					break;
-					
-				case 'credits':
-					$document = new Smart\Document();
-					$document->loadPHPFile(WPGMZA_DIR . 'html/credits.html');
-					break;
-					
-				case 'edit':
+			case 'welcome_page':
+				require_once(WPGMZA_DIR . 'php/class.welcome-page.php');
+				$document = new WelcomePage();
+				break;
+				
+			case 'credits':
+				$document = new Smart\Document();
+				$document->loadPHPFile(WPGMZA_DIR . 'html/credits.html');
+				break;
+				
+			case 'edit':
+				if($this->isProVersion())
+				{
+					require_once(WPGMZA_PRO_DIR . 'php/class.pro-map-edit-page.php');
+					$document = new ProMapEditPage();
+				}
+				else
+				{
 					require_once(WPGMZA_DIR . 'php/class.map-edit-page.php');
 					$document = new MapEditPage();
-					break;
-				
-				default:
+				}
+				break;
+			
+			default:
+				if($this->isProVersion())
+				{
+					require_once(WPGMZA_PRO_DIR . 'php/class.pro-map-list-page.php');
+					$document = new ProMapListPage();
+				}
+				else
+				{
 					require_once(WPGMZA_DIR . 'php/class.map-list-page.php');
 					$document = new MapListPage();
-					break;
-			}
+				}
+				break;
 		}
 
-		echo $document->saveInnerBody();
+		return $document;
 	}
 	
 	/**
@@ -435,10 +440,18 @@ class Plugin
 			case 'wpgmza_map_fetch':
 				require_once(__DIR__ . '/class.map.php');
 				
-				$map = new Map($_GET['map_id']);
+				$id = $_GET['map_id'];
+				
+				$atts = (isset($_GET['shortcodeAttributes']) ? $_GET['shortcodeAttributes'] : array());
+				if(isset($atts['parent_id']))
+					$id = $atts['parent_id'];
+				
+				$map = $this->createMapInstance($_GET['map_id']);
+				
 				$obj = $map->fetch(
 					explode(',',$_GET['bounds']),
-					$_GET['sid']
+					$_GET['sid'],
+					$atts
 				);
 				
 				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
@@ -448,7 +461,8 @@ class Plugin
 			case 'wpgmza_list_markers':
 				require_once(__DIR__ . '/class.map.php');
 				
-				$map = new Map($_POST['map_id']);
+				$map = $this->createMapInstance($_POST['map_id']);
+				
 				$obj = $map->tables->marker->handleAjaxRequest($_POST);
 				
 				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
@@ -456,7 +470,7 @@ class Plugin
 				break;
 		}
 		
-		wp_die();
+		exit;
 	}
 	
 	/**
@@ -594,6 +608,21 @@ class Plugin
 	}
 	
 	/**
+	 * Creates a map instance
+	 * @return void
+	 */
+	public function createMapInstance($id, $shortcode_atts=null)
+	{
+		if($this->isProVersion())
+		{
+			require_once(WPGMZA_PRO_DIR . 'php/class.pro-map.php');
+			return new ProMap($id, $shortcode_atts);
+		}
+		
+		return new Map($id, $shortcode_atts);
+	}
+	
+	/**
 	 * Handle shortcode
 	 * @return void
 	 */
@@ -603,7 +632,7 @@ class Plugin
 			return "<div class='error'>" . __('No map ID specified', 'wp-google-maps') . "</div>";
 		
 		try{
-			$map = new Map($atts['id'], $atts);
+			$map = $this->createMapInstance($atts['id'], $atts);
 		}catch(\Exception $e) {
 			return "<div class='error'>" . __($e->getMessage(), 'wp-google-maps') . "</div>";
 		}

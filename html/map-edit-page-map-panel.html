@@ -15,7 +15,7 @@
 						?>
 					</a>
 				</li>
-				<li>
+				<li class="wpgmza-free-version-only">
 					<a href="#advanced-markers">
 						<?php
 						_e("Advanced markers","wp-google-maps");
@@ -45,6 +45,14 @@
 				</li>
 			</ul>
 			<div id="wpgmza-markers-tab" class="add-marker">
+				<fieldset class="wpgmza-pro-version-only">
+					<label>
+						<?php
+						_e("Title","wp-google-maps");
+						?>
+					</label>
+					<input name="title"/>
+				</fieldset>
 				<fieldset>
 					<label>
 						<?php
@@ -132,7 +140,7 @@
 					</button>
 				</fieldset>
 			</div>
-			<div id="advanced-markers">
+			<div id="advanced-markers" class="wpgmza-free-version-only">
 				<div class="update-nag update-att">
 					<i class="fa fa-arrow-circle-right"></i>
 					<a target="_blank" href="<?php
@@ -215,7 +223,7 @@
 						_e("Description","wp-google-maps");
 						?>
 					</label>
-					<textarea class="marker-description" disabled></textarea>
+					<textarea id="description" class="description" disabled></textarea>
 				</fieldset>
 				<fieldset>
 					<label>
@@ -225,7 +233,11 @@
 					</label>
 					<div>
 						<input disabled/>
-						<input disabled type="file"/>
+						<button type="button" class="wpgmza-upload-marker-picture" disabled>
+							<?php
+							_e('Upload Image', 'wp-google-maps');
+							?>
+						</button>
 					</div>
 				</fieldset>
 				<fieldset>
@@ -325,7 +337,7 @@
 							placeholder="<?php _e("Pro version only", "wp-google-maps"); 
 						?>"/>
 						<br/>
-						<a href="<?php 
+						<a class="wpgmza-free-version-only" href="<?php 
 								echo WPGMZA\Plugin::getProLink(array(
 									'utm_source'	=> 'plugin',
 									'utm_medium'	=> 'link',
@@ -388,20 +400,23 @@
 					<label>
 						<?php _e("On Hover Line Color", "wp-google-maps"); ?>
 					</label>
-					<input name="polygon-hoverStrokeColor" disabled placeholder="Pro version only"/>
+					<input class="wpgmza-free-version-only" name="polygon-hoverStrokeColor" disabled placeholder="Pro version only"/>
+					<input class="wpgmza-pro-version-only" name="polygon-hoverStrokeColor" type="color" value="#333333"/>
 				</fieldset>
 				<fieldset>
 					<label>
 						<?php _e("On Hover Fill Color", "wp-google-maps"); ?>
 					</label>
-					<input name="polygon-hoverFillColor" disabled placeholder="Pro version only"/>
+					<input class="wpgmza-free-version-only" name="polygon-hoverFillColor" disabled placeholder="Pro version only"/>
+					<input class="wpgmza-pro-version-only" name="polygon-hoverFillColor" type="color" value="#ff0000"/>
 				</fieldset>
 				<fieldset>
 					<label>
 						<?php _e("On Hover Opacity", "wp-google-maps"); ?>
 					</label>
 					<div>
-						<input name="polygon-hoverOpacity" disabled placeholder="Pro version only"/>
+						<input class="wpgmza-free-version-only" name="polygon-hoverOpacity" disabled placeholder="Pro version only"/>
+						<input class="wpgmza-pro-version-only" name="polygon-hoverOpacity" type="number" min="0" max="1" step="0.01" value="1.0"/>
 						<p>
 							<small>
 								0 - 1.0 <?php _e("eg 0.5 for 50%", "wp-google-maps"); ?>
@@ -431,10 +446,10 @@
 				<fieldset>
 					<label>
 						<?php
-						_e("Name", "wp-google-maps");
+						_e("Title", "wp-google-maps");
 						?>
 					</label>
-					<input name="polyline-name"/>
+					<input name="polyline-title"/>
 				</fieldset>
 				<fieldset>
 					<label>
@@ -491,8 +506,8 @@
 					</button>
 				</fieldset>
 			</div>
-			<div id="heatmaps">
-				<div class="update-nag update-att">
+			<div id="heatmaps" class="add-heatmap">
+				<div class="update-nag update-att wpgmza-free-version-only">
 					<a target="_blank"
 						href="<?php
 						echo urlencode(WPGMZA\Plugin::getProLink(array(
@@ -521,6 +536,11 @@
 			<ul>
 				<li>
 					<?php
+					_e('Click "Draw Polygon" to start drawing', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
 					_e('Click on the map to insert a vertex', 'wp-google-maps');
 					?>
 				</li>
@@ -544,6 +564,11 @@
 		
 		<div id="polyline-instructions" class="update-nag update-blue update-slim">
 			<ul>
+				<li>
+					<?php
+					_e('Click "Draw Polyline" to start drawing', 'wp-google-maps');
+					?>
+				</li>
 				<li>
 					<?php
 					_e('Click on the map to insert a vertex', 'wp-google-maps');
