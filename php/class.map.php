@@ -274,7 +274,7 @@ class Map extends Smart\Document
 	 * Returns the map_id part of the WHERE clause for fetch functions
 	 * @return string
 	 */
-	protected function getFetchWhereClause($table)
+	protected function getFetchWhereClause($table, $options=null)
 	{
 		return "map_id=" . (int)$this->id;
 	}
