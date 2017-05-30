@@ -35,6 +35,9 @@
 			
 			options = {
 				active: active,
+				beforeActivate: function(event, ui) {
+					self.finishEditing();
+				},
 				activate: function(event, ui) {
 					self.onMapPanelTabActivated(event, ui);
 				}
@@ -300,6 +303,12 @@
 			this.showMapInstructions(id.replace(/s$/, ""));
 		}
 		
+		// Escape key finishes editing
+		$(document).on("keyup", function(event) {
+			if(event.keyCode == 27)
+				self.finishEditing();
+		});
+		
 		// Hide preloader
 		$(".main-preloader").hide();
 		$("form.wpgmza").show();
@@ -431,7 +440,7 @@
 			active: 0
 		});
 		
-		// Stop editing polygons / polylins
+		// Stop editing polygons / polylines
 		this.editPolygon(null);
 		this.editPolyline(null);
 		
@@ -1019,14 +1028,6 @@
 		var target = event.target;
 		if(window.localStorage)
 			localStorage.setItem(target.id, $(target).tabs("option", "active"));
-		
-		// When the user clicks polylines, stop editing polygons, etc.
-		var newPanelID = ui.newPanel.attr("id");
-		
-		if(newPanelID != "polygons")
-			this.editPolygon(null);
-		if(newPanelID != "polylines")
-			this.editPolyline(null);
 	}
 	
 	// Marker list functions //////////////////
@@ -1155,6 +1156,19 @@
 		
 		this.markerTable.refresh();
 		this.bindUnloadListener();
+	}
+	
+	// General functions //////////////////////
+	
+	/**
+	 * This function will cancel any editing taking place, useful when switching tabs, pressing ESC, etc.
+	 * @return void
+	 */
+	WPGMZA.MapEditPage.prototype.finishEditing = function()
+	{
+		this.editMarker(null);
+		this.editPolygon(null);
+		this.editPolyline(null);
 	}
 	
 	/**

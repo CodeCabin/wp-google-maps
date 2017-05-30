@@ -148,7 +148,6 @@ class MapObject
 		$stmt = $this->mapOptionsToDB('INSERT', (array)$this)->statement;
 		$wpdb->query($stmt);
 		
-		echo "Setting mapObject ID to {$wpdb->insert_id}";
 		$this->id = $wpdb->insert_id;
 	}
 	

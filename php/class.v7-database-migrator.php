@@ -26,6 +26,7 @@ class V7DatabaseMigrator
 		'carousel_markerlist_image'			=> 'marker_listing_hide_pic',
 		
 		// Marker listing settings		
+		'list_markers_by'					=> 'marker_listing_style',
 		'markerlist_icon'					=> 'marker_listing_hide_icon',
 		'markerlist_title'					=> 'marker_listing_hide_title',
 		'markerlist_address'				=> 'marker_listing_hide_address',

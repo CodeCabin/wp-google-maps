@@ -567,6 +567,22 @@
 					</div>
 				</fieldset>
 				
+				<fieldset>
+					<label>
+						<?php
+						_e("Always load scripts", "wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input name="always_load_scripts" type="checkbox"/>
+						<div>
+							<?php
+							_e('Use this setting if you have any pages which my load the map as part of an AJAX call. The scripts will need to be loaded in order for the map to load', 'wp-google-maps');
+							?>
+						</div>
+					</div>
+				</fieldset>
+				
 			</div>
 			<div id="errorlog">
 				<h3>

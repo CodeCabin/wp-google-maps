@@ -135,7 +135,7 @@ class Map extends Smart\Document
 	 * Gets the parameters to be sent to the Google Maps API load call
 	 * @return array
 	 */
-	protected function getGoogleMapsAPIParams()
+	protected static function getGoogleMapsAPIParams()
 	{
 		// Locale
 		$locale = get_locale();
@@ -183,7 +183,7 @@ class Map extends Smart\Document
 	 * This function loads the Google API if it hasn't been called already
 	 * @return void
 	 */
-	public function loadGoogleMaps()
+	public static function loadGoogleMaps()
 	{
 		if(Plugin::$settings->remove_api)
 			return;
@@ -191,7 +191,7 @@ class Map extends Smart\Document
 		if(Map::$googleAPILoadCalled)
 			return;
 		
-		$params = $this->getGoogleMapsAPIParams();
+		$params = Map::getGoogleMapsAPIParams();
 		
 		$suffix = $params['suffix'];
 		unset($params['suffix']);
@@ -205,9 +205,11 @@ class Map extends Smart\Document
 	 * Enqueue any scripts the map needs, front or backend
 	 * @return void
 	 */
-	public function enqueueScripts()
+	public static function enqueueScripts()
 	{
-		$this->loadGoogleMaps();
+		Map::loadGoogleMaps();
+		
+		wp_enqueue_script('jquery');
 		
 		// Map scripts
 		wp_enqueue_script('wpgmza-event', WPGMZA_BASE . 'js/event.js');
@@ -241,6 +243,17 @@ class Map extends Smart\Document
 		wp_enqueue_script('wpgmza-info-window', WPGMZA_BASE . 'js/info-window.js', array(
 			'wpgmza-core'
 		));
+		
+		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/v7-style.css');
+		if(!empty(Plugin::$settings->custom_css))
+			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
+		
+		// FontAwesome
+		wp_register_style('fontawesome', WPGMZA_BASE . 'css/font-awesome.min.css');
+		wp_enqueue_style('fontawesome');
+	
+		// Datatables
+		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
 	}
 	
 	/**

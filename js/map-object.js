@@ -7,7 +7,7 @@
 		WPGMZA.EventDispatcher.call(this);
 		
 		this.id = -1;
-		this.modified = false;
+		this.modified = true;
 		this.settings = {};
 		
 		if(row)

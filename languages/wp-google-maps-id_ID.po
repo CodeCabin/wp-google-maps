@@ -1,0 +1,3934 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wpgmaps\n"
+"POT-Creation-Date: 2016-07-18 13:42+0200\n"
+"PO-Revision-Date: 2016-07-18 13:42+0200\n"
+"Last-Translator: \n"
+"Language-Team: janaloka <janaloka.com@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps\n"
+"X-Poedit-SearchPath-1: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps-gold\n"
+"X-Poedit-SearchPath-2: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps-pro\n"
+"X-Poedit-SearchPath-3: C:\\wamp\\www\\wordpress38\\wp-content\\plugins\\wp-"
+"google-maps-ugm\n"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:243
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3712
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:764
+#, fuzzy
+msgid "settings"
+msgstr "Pengaturan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:244
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3713
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:765
+#, php-format
+msgid ""
+"Your Google Maps API key has been successfully saved. This API key can be "
+"changed in the %s page"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:720
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:839
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:4217
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:4341
+msgid "Geocode was not successful for the following reason"
+msgstr "Kode Geografis (Geocode) tidak berhasil untuk beberapa alasan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1173
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1335
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2550
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3636
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:4704
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:4867
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5825
+msgid "More details"
+msgstr "Lihat lebih detail"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1595
+msgid "Advanced Map Settings"
+msgstr "Pengaturan Peta Lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1600
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1950
+msgid "Enable Mass Marker Support"
+msgstr "Mengizinkan Dukungan Tanda Bersama"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1603
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1843
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1953
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1537
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1594
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1791
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1803
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1878
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1881
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1884
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2207
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3861
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3976
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4174
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4181
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4212
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4931
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4971
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5012
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5030
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5039
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5050
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5103
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5107
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5396
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5451
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:178
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:196
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:205
+msgid "Yes"
+msgstr "Ya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1604
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1843
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1954
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1538
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1551
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1594
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1791
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1803
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1878
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1881
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1884
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2206
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3861
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3976
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4174
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4181
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4212
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4930
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4934
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4944
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4971
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5012
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5030
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5039
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5050
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5102
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5107
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5395
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5450
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:179
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:197
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:206
+msgid "No"
+msgstr "Tidak"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1610
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6677
+#, fuzzy
+msgid "Save"
+msgstr "Simpan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1689
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5375
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:551
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+"Sebuah kesalahan HTTP terjadi  saat meminta API. </p> <p><a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Ulangi Lagi</a>"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1694
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5380
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:556
+msgid "An unknown error occurred"
+msgstr "Sebuah kesalahan yang tidak diketahui terjadi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1756
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6186
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6562
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3193
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3445
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3623
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3807
+msgid "Your settings have been saved."
+msgstr "Pengaturan anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1811
+msgid "Location Tracking"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1838
+msgid "Real time location tracking"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1841
+#, fuzzy
+msgid "Enable Location Tracking"
+msgstr "Aktifkan Lokasi Toko"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1849
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1796
+msgid "Default User Location Icon"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1850
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1670
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1797
+#, fuzzy
+msgid "Upload Icon"
+msgstr "Upload gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1854
+msgid "Show"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1856
+msgid "Route"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1856
+#, fuzzy
+msgid "Last Location"
+msgstr "Lokasi data penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1862
+msgid "Route Styling"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1870
+msgid "Route Colour - Normal"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1877
+msgid "Route Colour - Hover"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1884
+#, fuzzy
+msgid "Route Opacity"
+msgstr "Transparansi garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1891
+#, fuzzy
+msgid "Route Thickness"
+msgstr "Ketebalan garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1906
+msgid "Devices"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1924
+#, fuzzy
+msgid "Marker Clustering"
+msgstr "List penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1984
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1987
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1990
+msgid "Real Time Location Tracking"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:1995
+msgid ""
+"Track your location via our app and plot your current location on a map, "
+"publicly or privately."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2004
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:182
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:221
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:264
+#, fuzzy
+msgid "Create Map"
+msgstr "Buat Peta Anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2049
+#, php-format
+msgid "Location as at %1$s"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2131
+msgid "Successfully accepted the device. Thank you"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2172
+msgid "Device has been removed. Thank you"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2193
+#, fuzzy
+msgid "Marker Data Cleared."
+msgstr "Lokasi data penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2230
+msgid "A new device needs your approval to enable real time location tracking."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2231
+msgid "Device ID:"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2232
+#, php-format
+msgid "To accept this device, Please follow this link: %1$s"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2238
+msgid "To reject the device, simply ignore this email."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2239
+msgid ""
+"A new device needs your approval to enable real time location tracking - WP "
+"Google Maps"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-gold/wp-google-maps-gold.php:2369
+msgid "No devices"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1051
+msgid "including Pro &amp; Gold add-ons"
+msgstr "Termasuk add-ons Pro &amp; Gold"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1051
+msgid "including Pro add-on"
+msgstr "Termasuk add-on Pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1056
+msgid ""
+"Please <a href='update-core.php'>update your WP Google Maps GOLD version</"
+"a>. Your current Gold version is not compatible with the current Pro version."
+msgstr ""
+"Silahkan <a href='update-core.php'>Perbaharui Versi WP Google Maps GOLD "
+"Anda</a>.  Versi GOLD anda sekarang tidak sesuai dengan versi Pro sekarang."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1139
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6983
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2991
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4619
+msgid "ZIP / Address:"
+msgstr "ZIP / Alamat:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1140
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6984
+msgid "Title / Description:"
+msgstr "Judul / Deskripsi:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1189
+msgid "No marker list"
+msgstr "Tidak ada daftar penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1192
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6915
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5145
+msgid "Basic table"
+msgstr "Tabel dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1195
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6914
+msgid "Basic list"
+msgstr "Daftar dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1198
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6916
+msgid "Advanced table"
+msgstr "Tabel lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1201
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6912
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:255
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5147
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5227
+msgid "Carousel"
+msgstr "Carousel"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1280
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5845
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6917
+msgid "Default Infowindow"
+msgstr "Jendela Info Dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1282
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5847
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6918
+msgid "Modern Infowindow"
+msgstr "Jendela Info Terbaru"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1284
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5849
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6920
+#, fuzzy
+msgid "Modern Plus Infowindow"
+msgstr "Jendela Info Terbaru"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1286
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5851
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6921
+#, fuzzy
+msgid "Circular Infowindow"
+msgstr "Jendela Info Dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1288
+msgid "Currently using your selection chosen in the global settings"
+msgstr "Sedang menggunakan pengaturan global yang telah anda pilih"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1353
+msgid "Download this as a CSV file"
+msgstr "Unduh ini sebagai file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1353
+msgid "Download this data as a CSV file"
+msgstr "Unduh data ini sebagai file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1365
+msgid "Please update your basic version to use this function."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1367
+#, fuzzy
+msgid "Add a New Dataset"
+msgstr "Tambahkan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1381
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4762
+msgid "Create your Map"
+msgstr "Buat Peta Anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1381
+#, fuzzy
+msgid "New"
+msgstr "Tambahkan hal baru:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1388
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4767
+msgid "General Settings"
+msgstr "Pengaturan Umum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1389
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:30
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4768
+msgid "Themes"
+msgstr "Tema"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1390
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2596
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2846
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3645
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:197
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:200
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:278
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:369
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4769
+msgid "Directions"
+msgstr "Arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1391
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:138
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:141
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:30
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:23
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4770
+msgid "Store Locator"
+msgstr "Lokasi Toko"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1392
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5595
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4294
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4771
+msgid "Advanced Settings"
+msgstr "Pengaturan Lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1393
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4772
+msgid "Marker Listing Options"
+msgstr "Pilihan list Penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1431
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4805
+msgid "Short code"
+msgstr "Short code"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1432
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4806
+msgid "copy this into your post or page to display the map"
+msgstr "Salin ini di halaman atau halaman tulisan untuk menampakkan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1436
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4809
+msgid "Map Name"
+msgstr "Nama Peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1440
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4835
+msgid "Zoom Level"
+msgstr "Level Pembesaran"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1447
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7208
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4510
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4813
+msgid "Width"
+msgstr "Lebar"
+
+# eror in translate, just try to several way but couldn't find why.
+# The translate would be:
+# Set pada 100% untuk peta yang responsif.
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1454
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4820
+#, php-format
+msgid "Set to 100% for a responsive map"
+msgstr "Set to 100% for a responsive map"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1459
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7209
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4511
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4825
+msgid "Height"
+msgstr "Tinggi"
+
+# eror in translate, just try to several way but couldn't find why.
+# The translate would be:
+# Kami merekomendasikan kepada anda untuk membiarkan tinggi pada skala ukuran px. Bergantung pada tema anda, namun penggunaan % untuk tinggi dapat menyebabkan kerusakan pada peta anda.
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1464
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4830
+#, php-format
+msgid ""
+"We recommend that you leave your height in PX. Depending on your theme, "
+"using % for the height may break your map."
+msgstr ""
+"We recommend that you leave your height in PX. Depending on your theme, "
+"using % for the height may break your map."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1476
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4864
+msgid "Select a theme for your map"
+msgstr "Pilih tema untuk peta anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1513
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4898
+msgid "Or use a custom theme"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1514
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4899
+msgid "Browse the theme directory"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1515
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4900
+#, fuzzy
+msgid "Paste your custom theme data here:"
+msgstr "Tambahkan data JSON disini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1517
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4902
+#, fuzzy
+msgid "Preview"
+msgstr "Sebelumnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1535
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4928
+msgid "Enable Directions?"
+msgstr "Tunjukkan Arah?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1547
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4940
+msgid "Directions Box Open by Default?"
+msgstr "Pentunjuk arah terbuka secara otomatis?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1552
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4945
+msgid "Yes, on the left"
+msgstr "Ya, pada kiri"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1553
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4946
+msgid "Yes, on the right"
+msgstr "Ya, pada kanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1554
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4947
+msgid "Yes, above"
+msgstr "Ya, Diatas"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1555
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4948
+msgid "Yes, below"
+msgstr "Ya, Dibawah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1561
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4954
+msgid "Directions Box Width"
+msgstr "Arah Lebar Kotak"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1566
+msgid "px"
+msgstr "px"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1567
+msgid "%"
+msgstr "%"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1572
+msgid "Default 'To' address"
+msgstr "Standar 'ke' alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1588
+msgid "General options"
+msgstr "Pilihan Umum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1592
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4968
+msgid "Enable Store Locator"
+msgstr "Aktifkan Lokasi Toko"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1599
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4976
+msgid "Restrict to country"
+msgstr "Batasi per negara"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1608
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4982
+#, fuzzy
+msgid "No country selected"
+msgstr "Izinkan pilihan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1620
+msgid "Insert country TLD. For example, use DE for Germany."
+msgstr "Masukkan TLD negara. Misalkan IDN untuk Indonesia."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1620
+msgid "Leave blank for no restrictions."
+msgstr "Kosongkan, jika ingin tanpa batasan."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1626
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4996
+msgid "Show distance in"
+msgstr "Tunjukkan jarak pada"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1629
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:153
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4999
+msgid "Miles"
+msgstr "Mil"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1629
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:153
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4999
+msgid "Kilometers"
+msgstr "Kilometer"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1635
+#, fuzzy
+msgid "Store Locator Placement"
+msgstr "Dokumentasi lokasi toko"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1638
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2036
+msgid "Below Map"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1638
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2036
+#, fuzzy
+msgid "Above Map"
+msgstr "Simpan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1644
+msgid "Allow category selection"
+msgstr "Izinkan pilihan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1652
+msgid "Allow users to use their location as the starting point"
+msgstr ""
+"Izinkan pengguna untuk menggunakan lokasi mereka sebagai poin permulaan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1657
+msgid ""
+"Please ensure that \"show user's location\" is enabled in the \"Advanced "
+"Settings\" tab."
+msgstr ""
+"Pastikan bahwa \"Tunjukkan lokasi pengguna\" dalam kondisi aktif pada tab "
+"\"Pengaturan Lanjutan\"."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1661
+msgid "Show center point as an icon"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1669
+#, fuzzy
+msgid "Default Icon"
+msgstr "Jendela Info Dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1674
+msgid "Hide all markers until a search is done"
+msgstr "Sembunyikan semua penanda hingga pencarian selesai"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1688
+msgid "Query String"
+msgstr "Query String"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1693
+msgid "Enable title search"
+msgstr "Aktifkan pencarian judul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1702
+msgid "Title search String"
+msgstr "String pencarian judul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1707
+msgid "Style options"
+msgstr "Pilihan penggaya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1712
+msgid "Line color"
+msgstr "Warna garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1720
+msgid "Line opacity"
+msgstr "Transparansi garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1723
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1739
+msgid "(0 - 1.0) example: 0.5 for 50%"
+msgstr "(0 - 1.0) contoh: 0.5 untuk 50%"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1728
+msgid "Fill color"
+msgstr "Isi warna"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1736
+msgid "Fill opacity"
+msgstr "Isi transparansi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1748
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5019
+msgid "View"
+msgstr "Lihat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1748
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5019
+msgid "Store Locator Documentation"
+msgstr "Dokumentasi lokasi toko"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1761
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5095
+msgid "Default Marker Image"
+msgstr "Standar gambar penggaya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1762
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2180
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2184
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:101
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:183
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5096
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5463
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5467
+msgid "Upload Image"
+msgstr "Upload gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1762
+#, fuzzy
+msgid ""
+"Get great map markers <a href='http://www.wpgmaps.com/marker-icons/' "
+"target='_BLANK' title='Great Google Map Markers'>here</a>"
+msgstr ""
+"Dapatkan penanda besar peta <a href='http://mapicons.nicolasmollet.com/' "
+"target='_BLANK' title='Great Google Map Markers'>disini</a>"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1766
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4851
+msgid "Map type"
+msgstr "Tipe peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1768
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7217
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4519
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4853
+msgid "Roadmap"
+msgstr "Peta jalan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1769
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7218
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4520
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4854
+msgid "Satellite"
+msgstr "Peta Satelit"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1770
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7219
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4521
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4855
+msgid "Hybrid"
+msgstr "Peta Hybrid"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1771
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7220
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4522
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4856
+msgid "Terrain"
+msgstr "Peta tanah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1777
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4841
+msgid "Map Alignment"
+msgstr "Perataan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1779
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4843
+msgid "Left"
+msgstr "Kiri"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1780
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4844
+msgid "Center"
+msgstr "Tengah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1781
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4845
+msgid "Right"
+msgstr "Kanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1782
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2197
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4846
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5144
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5384
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5439
+msgid "None"
+msgstr "Tidak ada"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1788
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5100
+msgid "Show User's Location?"
+msgstr "Tunjukkan lokasi pengguna?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1800
+msgid "Click marker opens link"
+msgstr "Klik penanda untuk membuka link"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1811
+#, fuzzy
+msgid "Maximum Zoom Out Level"
+msgstr "Level perbesaran maksimal"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1840
+#, fuzzy
+msgid "Maximum Zoom In Level"
+msgstr "Level perbesaran maksimal"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1875
+msgid "Enable Layers"
+msgstr "Aktifkan Layers"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1879
+msgid "Bicycle Layer"
+msgstr "Layer Sepeda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1882
+msgid "Traffic Layer"
+msgstr "Layer lalu lintas"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1885
+msgid "Transit Layer"
+msgstr "Layer transit"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1891
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5119
+msgid "KML/GeoRSS URL"
+msgstr "KML/GeoRSS URL"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1893
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5121
+msgid "The KML/GeoRSS layer will over-ride most of your map settings"
+msgstr "Layer KML/GeoRSSakan mengganti hampir semua pengaturan peta anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1893
+msgid "For multiple sources, separate each one by a comma."
+msgstr "Untuk beberapa sumber, pisahkan satu persatu dengan menggunakan koma."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1897
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5125
+msgid "Fusion table ID"
+msgstr "tabel Fusion ID"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1899
+msgid ""
+"Read data directly from your Fusion Table. For more information, see <a "
+"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
+"maps-api.html</a>"
+msgstr ""
+"Baca data langsung dari tabel fusion anda. Untuk info lebih banyak, lihat <a "
+"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
+"maps-api.html</a>"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1909
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5874
+msgid "Infowindow Style"
+msgstr "Penggaya jendela info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1927
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2024
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5894
+msgid "Your selection:"
+msgstr "Pilihan anda:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1960
+#, fuzzy
+msgid "Infowindow Colors"
+msgstr "Penggaya jendela info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1964
+#, fuzzy
+msgid "Primary Color"
+msgstr "Warna garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1972
+#, fuzzy
+msgid "Accent Color"
+msgstr "Warna garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:1980
+#, fuzzy
+msgid "Text Color"
+msgstr "Warna garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2003
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:247
+msgid "Marker Listing Style"
+msgstr "Penggaya list penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2033
+#, fuzzy
+msgid "Marker Listing Placement"
+msgstr "Penggaya list penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2042
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5161
+msgid "Order markers by"
+msgstr "Urutkan penanda dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2045
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7206
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7395
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:527
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:470
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:491
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:414
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:673
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:657
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4508
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4562
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5164
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5581
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5867
+msgid "ID"
+msgstr "ID"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2046
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2161
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6597
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6682
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7207
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:416
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:441
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:464
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/widget_module.class.php:42
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4509
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4565
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5165
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5455
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5869
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5888
+msgid "Title"
+msgstr "Judul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2047
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:418
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:443
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:466
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4566
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5166
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5871
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5890
+msgid "Address"
+msgstr "Alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2048
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2171
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:419
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:444
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:467
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5167
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5460
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5872
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5891
+msgid "Description"
+msgstr "Deskripsi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2049
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2188
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7050
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:528
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:417
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:442
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:465
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3039
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5168
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5469
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5870
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5889
+msgid "Category"
+msgstr "Kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2052
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5171
+msgid "Ascending"
+msgstr "Ascending"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2053
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5172
+msgid "Descending"
+msgstr "Descending"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2064
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5184
+msgid "Move list inside map"
+msgstr "Pindahkan list kedalam peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2067
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5187
+msgid "Move your marker list inside the map area"
+msgstr "Pindahkan list penanda nada kedalam area peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2067
+msgid "(still in beta)"
+msgstr "(Masih pada versi beta)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2088
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5189
+msgid "Placement: "
+msgstr "Penempatan:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2090
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5191
+msgid "Top Center"
+msgstr "Atas tengah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2091
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5192
+msgid "Top Left"
+msgstr "Atas kiri"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2092
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5193
+msgid "Top Right"
+msgstr "Atas kanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2093
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5194
+msgid "Left Top "
+msgstr "Kiri atas"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2094
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5195
+msgid "Right Top"
+msgstr "Kanan atas"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2095
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5196
+msgid "Left Center"
+msgstr "kiri tengah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2096
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5197
+msgid "Right Center"
+msgstr "Kanan tengah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2097
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5198
+msgid "Left Bottom"
+msgstr "Kiri bawah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2098
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5199
+msgid "Right Bottom"
+msgstr "Kanan bawah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2099
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5200
+msgid "Bottom Center"
+msgstr "Bawah tengah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2100
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5201
+msgid "Bottom Left"
+msgstr "Bawah kiri"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2101
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5202
+msgid "Bottom Right"
+msgstr "Bawah kanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2103
+msgid "Container Width: "
+msgstr "Lebar kontainer:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2104
+msgid "Container Height: "
+msgstr "Tinggi kontainer:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2114
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5153
+msgid "Filter by Category"
+msgstr "Filter berdasarkan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2117
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5156
+msgid "Allow users to filter by category?"
+msgstr "Izinkan pengguna untuk melakukan filter berdasarkan kategori?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2136
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5352
+msgid "Save Map"
+msgstr "Simpan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2138
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5355
+msgid ""
+"Tip: Use your mouse to change the layout of your map. When you have "
+"positioned the map to your desired location, press \"Save Map\" to keep your "
+"settings."
+msgstr ""
+"Tip: gunakan \"mouse\" anda untuk merubah tampilan peta anda. Ketika anda "
+"telah memposisikan peta di lokasi yang anda inginkan, pilih \"simpan peta\" "
+"untuk menyimpan pengaturan anda."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2148
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5362
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5371
+msgid "Markers"
+msgstr "Penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2149
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:35
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5489
+msgid "Polygons"
+msgstr "Poligon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2150
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:40
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:35
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5365
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5494
+msgid "Polylines"
+msgstr "Polylines"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2151
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5366
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5499
+msgid "Heatmaps"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2156
+msgid "Add a marker"
+msgstr "Tambahkan penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2166
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5375
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5430
+msgid "Address/GPS"
+msgstr "Alamat/GPS"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2167
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5376
+msgid "Or right click on the map"
+msgstr "Atau klik kanan pada peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2179
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5462
+msgid "Pic URL"
+msgstr "pilih URL"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2181
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5464
+msgid "Link URL"
+msgstr "Link URL"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2182
+msgid "Format: http://www.domain.com"
+msgstr "Format: http://www.domain.com"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2183
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5466
+msgid "Custom Marker"
+msgstr "Modifikasi penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2184
+msgid "ignore if you want to use the default marker"
+msgstr "Abaikan jika anda ingin menggunakan penanda standar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2185
+msgid "This is a retina ready marker"
+msgstr "Penanda anda memiliki pilihan \"retina ready\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2194
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5381
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5436
+msgid "Animation"
+msgstr "Animasi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2198
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5385
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5440
+msgid "Bounce"
+msgstr "Tipe \"Bounce\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2199
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5386
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5441
+msgid "Drop"
+msgstr "Jatuhkan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2203
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5392
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5447
+msgid "InfoWindow open by default"
+msgstr "Jendela info terbuka sesuai standar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2213
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5402
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5478
+msgid "Add Marker"
+msgstr "Tambahkan penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2213
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5402
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:352
+msgid "Adding"
+msgstr "Tambahkan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2214
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5403
+msgid "Save Marker"
+msgstr "Simpa Penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2214
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5403
+msgid "Saving"
+msgstr "Simpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2217
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5406
+msgid "Remember to save your marker"
+msgstr "Selalu ingat untuk menyimpan penanda anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2227
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6588
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6672
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:25
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:29
+msgid "Add a Polygon"
+msgstr "Tambahkan Polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2228
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5490
+msgid "Add a New Polygon"
+msgstr "Tambahkan polygon baru"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2232
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:25
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:28
+msgid "Add a Polyline"
+msgstr "Tambahkan Polyline"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2233
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5495
+msgid "Add a New Polyline"
+msgstr "Tambahkan Polyline baru"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2237
+#, fuzzy
+msgid "Add a dataset"
+msgstr "Tambahkan penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2251
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5517
+msgid "Remember to save your map!"
+msgstr "Ingat untuk selalu menyimpan peta anda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2259
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5530
+msgid "Your Markers"
+msgstr "Penanda anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2269
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5553
+msgid ""
+"WP Google Maps encourages you to make use of the amazing icons created by "
+"Nicolas Mollet's Maps Icons Collection"
+msgstr ""
+"WP Google Maps mendukung anda untuk menggunakan ikon seru yang dibuat oleh "
+"Nicolas Mollet's Maps Icons Collection"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2269
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5553
+msgid "and to credit him when doing so."
+msgstr "dan berikan kredit kepadanya jika anda melakukan hal tersebut."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2442
+#, fuzzy
+msgid ""
+"The map ID you have entered does not exist. Please enter a map ID that "
+"exists."
+msgstr "Folder ini tidak ada. Silahkan buat."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2647
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2648
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7000
+msgid "Use my location"
+msgstr "Gunakan lokasi saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2677
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2684
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2692
+msgid "Filter by"
+msgstr "Filter dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2846
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:278
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:369
+msgid "Get directions to"
+msgstr "Dapatkan arah ke"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2877
+msgid "Get Directions"
+msgstr "Dapatkan arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2882
+msgid "For"
+msgstr "Untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2886
+msgid "Driving"
+msgstr "Mengemudi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2887
+msgid "Walking"
+msgstr "Berjalan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2888
+msgid "Bicycling"
+msgstr "Naik sepeda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2891
+msgid "show options"
+msgstr "Tunjukkan pilihan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2892
+msgid "hide options"
+msgstr "Sembunyikan pilihan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2894
+msgid "Avoid Tolls"
+msgstr "Hindari jalan Tol"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2895
+msgid "Avoid Highways"
+msgstr "Hindari jalan besar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2901
+msgid "From"
+msgstr "Dari"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2909
+msgid "To"
+msgstr "Ke"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2919
+msgid "Go"
+msgstr "Pergi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2962
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2995
+msgid "Fetching directions..."
+msgstr "Dapatkan arah ..."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2965
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2997
+msgid "Reset directions"
+msgstr "Ulangi arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2967
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:2999
+msgid "Print directions"
+msgstr "Print arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3073
+msgid "Thank you. Your marker is awaiting approval."
+msgstr "Terima kasih. Penanda anda menunggu untuk diesetujui."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3641
+msgid "Get directions"
+msgstr "Dapatkan arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3642
+msgid "My location"
+msgstr "Lokasi saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3643
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2114
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2255
+msgid "km away"
+msgstr "km lagi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3644
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2112
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2253
+msgid "miles away"
+msgstr "Mil lagi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3648
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3650
+#, fuzzy
+msgid "Please fill out both the \"from\" and \"to\" fields"
+msgstr "Mil lagi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3653
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3655
+msgid "Getting your current location address..."
+msgstr "dapatkan lokasi alamat anda sekarang ..."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3659
+msgid "Show _MENU_ entries"
+msgstr "Tunjukkan catatan _MENU_"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3660
+msgid "Nothing found - sorry"
+msgstr "Tidak ada yang ditemukan - maaf"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3661
+msgid "Showing _START_ to _END_ of _TOTAL_ records"
+msgstr "Tunjukkan _START_ hingga _END_ dari _TOTAL_ penyimpanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3662
+msgid "Showing 0 to 0 of 0 records"
+msgstr "Tunjukkan 0 ke 0 dari 0 penyimpanan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3663
+msgid "(filtered from _MAX_ total records)"
+msgstr "(difilter dari _MAX_ total penyimpanan)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3664
+msgid "First"
+msgstr "Pertama"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3665
+msgid "Last"
+msgstr "Terakhir"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3666
+msgid "Next"
+msgstr "Selanjutnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3667
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3668
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7070
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3046
+msgid "Search"
+msgstr "Cari"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:3673
+msgid "Please prove that you are human by checking the checkbox above"
+msgstr ""
+"Silahkan buktikan bahwa anda adalah manusia dengan memilih kotak diatas"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5020
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/widget_module.class.php:7
+msgid "WP Google Maps"
+msgstr "WP Google Maps"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5020
+msgid ""
+"Please ensure you have <strong>both</strong> the <strong>Basic</strong> and "
+"<strong>Pro</strong> versions of WP Google Maps installed and activated at "
+"the same time in order for the plugin to function correctly."
+msgstr ""
+"Pastikan Anda memiliki <strong > semua < / strong> <strong > Versi Dasar < / "
+"strong> dan <strong > Versi Pro < / strong> dari WP Google Maps yang "
+"terinstal dan diaktifkan pada saat yang sama agar plugin untuk berfungsi "
+"dengan benar."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5067
+msgid "Download ALL marker data to a CSV file"
+msgstr "Unduh SEMUA data penanda untuk file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5068
+#, fuzzy
+msgid "Download ALL map data to a CSV file"
+msgstr "Unduh SEMUA data penanda untuk file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5069
+#, fuzzy
+msgid "Download ALL polygon data to a CSV file"
+msgstr "Unduh SEMUA data penanda untuk file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5070
+#, fuzzy
+msgid "Download ALL polyline data to a CSV file"
+msgstr "Unduh SEMUA data penanda untuk file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5072
+msgid "Advanced Options"
+msgstr "Pilihan Lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5087
+#, fuzzy
+msgid "Map Data"
+msgstr "Nama Peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5088
+#, fuzzy
+msgid "Marker Data"
+msgstr "Lokasi data penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5089
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:471
+msgid "Polygon Data"
+msgstr "Data polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5090
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:492
+msgid "Polyline Data"
+msgstr "Data Polyline"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5095
+#, fuzzy
+msgid "Upload Map CSV File"
+msgstr "Upload file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5103
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5117
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5139
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5158
+msgid "Replace existing data with data in file"
+msgstr "Ganti data yang ada dengan data dalam file"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5106
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5123
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5142
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5161
+msgid "Upload File"
+msgstr "Upload File"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5107
+msgid "Download Map Data"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5113
+#, fuzzy
+msgid "Upload Marker CSV File"
+msgstr "Upload file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5118
+msgid ""
+"Automatically geocode addresses to GPS co-ordinates if none are supplied"
+msgstr ""
+"Otomatisasi alamat geocode ke koordinat GPS jika tidak ada yang diberikan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5120
+msgid "Google API Key (Required)"
+msgstr "Google API Key (Perlu)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5121
+#, fuzzy
+msgid ""
+"You will need a Google Maps Geocode API key for this to work. See <a "
+"href='https://developers.google.com/maps/documentation/geocoding/"
+"#Limits'>Geocoding Documentation</a>"
+msgstr ""
+"Anda akan membutuhkan Google Maps Geocode API key agar dapat bekerja. Lihat "
+"https://developers.google.com/maps/documentation/geocoding/#Limits"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5121
+msgid "There is a 0.12second delay between each request"
+msgstr "Ada delay 0.12 detik antar tiap permintaan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5124
+#, fuzzy
+msgid "Download Marker Data"
+msgstr "Unduh SEMUA data penanda untuk file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5131
+#, fuzzy
+msgid "Upload Polygon CSV File"
+msgstr "Upload file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5143
+#, fuzzy
+msgid "Download Polygon Data"
+msgstr "Data polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5150
+#, fuzzy
+msgid "Upload Polyline CSV File"
+msgstr "Upload file CSV"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5162
+#, fuzzy
+msgid "Download Polyline Data"
+msgstr "Data Polyline"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5166
+msgid "Need help? Read the documentation."
+msgstr "Butuh bantuan? Baca dokumentasi ini."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5175
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6471
+msgid "WP Google Maps Support"
+msgstr "Dukungan WP Google Maps"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5178
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6474
+msgid "Documentation"
+msgstr "Dokumentasi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5180
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6476
+msgid ""
+"Getting started? Read through some of these articles to help you along your "
+"way."
+msgstr ""
+"Ingin Memulai? Baca seksama beberapa artikel berikut untuk membantu anda "
+"lebih paham."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5181
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6477
+msgid "Documentation:"
+msgstr "Dokumentasi:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5183
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6479
+msgid "Creating your first map"
+msgstr "Buat peta pertama anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5184
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6480
+msgid "Using your map as a Widget"
+msgstr "Gunakan peta anda sebagai Widget"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5185
+msgid "Exporting and Importing your map markers"
+msgstr "Ekspor dan Impor penanda peta anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5186
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6481
+msgid "Changing the Google Maps language"
+msgstr "Rubah bahasa Google maps anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5187
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6482
+msgid "WP Google Maps Documentation"
+msgstr "Dokumentasi Google Maps anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5187
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6482
+msgid "View all documentation."
+msgstr "Lihat seluruh dokumentasi."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5191
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6486
+msgid "Troubleshooting"
+msgstr "Troubleshooting"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5193
+msgid ""
+"WP Google Maps Pro has a diverse and wide range of features which may, from "
+"time to time, run into conflicts with the thousands of themes and other "
+"plugins on the market."
+msgstr ""
+"WP Google Maps Pro memiliki beragam dan macam fitur yang dapat, dari waktu "
+"ke waktu, mengalami konflik dengan ribuan tema dan plugin lainnya di pasar "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5194
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6489
+msgid "Common issues:"
+msgstr "Isu yang sering terjadi:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5196
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6491
+msgid "My map is not showing on my website"
+msgstr "Peta saya tidak muncul di website"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5197
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6492
+msgid "My markers are not showing on my map in the front-end"
+msgstr "Penanda anda tidak muncul di peta saya di halaman muka (Front-end)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5198
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6493
+msgid "I'm getting jQuery errors showing on my website"
+msgstr "Saya mendapatkan masalah jQuery yang muncul di website saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5202
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:40
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:45
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3831
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6497
+msgid "Support"
+msgstr "Dukungan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5204
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6499
+msgid "Still need help? Use one of these links below."
+msgstr "Masih butuh bantuan? Gunakan salah satu link dibawah ini."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5206
+#, fuzzy
+msgid "Support desk"
+msgstr "Dukungan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5207
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6502
+msgid "Contact us"
+msgstr "Hubungi kami"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5223
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4015
+msgid "WP Google Map Settings"
+msgstr "Pengaturan WP Google Map"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5247
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3826
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4149
+msgid "Maps"
+msgstr "Peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5248
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4150
+msgid "InfoWindows"
+msgstr "Jendela Info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5249
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:236
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:239
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4151
+msgid "Marker Listing"
+msgstr "List penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5250
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3829
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4152
+msgid "Advanced"
+msgstr "Lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5251
+msgid "Visitor Generated Markers"
+msgstr "Pengunjung memberikan penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5252
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4153
+msgid "Error Log"
+msgstr "Log eror"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5270
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4373
+msgid "WP Google Maps Error log"
+msgstr "WP Google Maps Error Log"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5271
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4374
+msgid ""
+"Having issues? Perhaps something below can give you a clue as to what's "
+"wrong. Alternatively, email this through to nick@wpgmaps.com for help!"
+msgstr ""
+"Mengalami masalah? Mungkin beberapa hal dibawah dapat memberikan anda info "
+"tentang sesuatu yang salah. Solusi lain, kirimkan email ke nick@wpgmaps.com "
+"untuk bantuan!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5284
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4381
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:212
+msgid "Save Settings"
+msgstr "Simpan pengaturan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5393
+msgid "Visitor Generated Markers Settings"
+msgstr "Pengaturan pengguna untuk penambahan penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5394
+msgid "Purchase the Visitor Generated Markers Add-on"
+msgstr "Beli add-on untuk penambahan penanda dari pengguna"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5394
+msgid ""
+"to enable this feature. <br /><br />If you have already purchased it please "
+"ensure that you have uploaded activated the plugin."
+msgstr ""
+"Untuk mengaktifkan alat ini. <br /><br />Jika anda telah membeli produk ini, "
+"pastikan bahwa anda telah mengupload plugin yang teraktivasi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5469
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4233
+msgid "Marker Listing Settings"
+msgstr "Pengaturan list penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5470
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4234
+msgid ""
+"Changing these settings will alter the way the marker list appears on your "
+"website."
+msgstr ""
+"Mengganti pengaturan ini akan mengubah cara list penanda muncul dalam "
+"website anda."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5473
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4240
+msgid "Advanced Marker Listing"
+msgstr "List penanda lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5473
+msgid "Basic Marker Listings"
+msgstr "List penanda dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5476
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4243
+msgid "Column settings"
+msgstr "Pengaturan kolom"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5478
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4245
+msgid "Hide the Icon column"
+msgstr "Sembunyikan kolom ikon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5479
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4246
+msgid "Hide the Title column"
+msgstr "Sembunyikan kolom judul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5480
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4247
+msgid "Hide the Address column"
+msgstr "Sembunyikan kolom alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5481
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4248
+msgid "Hide the Category column"
+msgstr "Sembunyikan kolom kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5482
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4249
+msgid "Hide the Description column"
+msgstr "Sembunyikan kolom deskripsi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5486
+msgid "Show X items by default"
+msgstr "Tunjukkan x item secara standar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5501
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4255
+msgid "Carousel Marker Listing"
+msgstr "List penanda dengan carousel"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5504
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4258
+msgid "Theme selection"
+msgstr "Pilihan tema"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5507
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4261
+msgid "Sky"
+msgstr "Langit"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5508
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4262
+msgid "Sun"
+msgstr "Matahari"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5509
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4263
+msgid "Earth"
+msgstr "Bumi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5510
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4264
+msgid "Monotone"
+msgstr "Monotone"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5511
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4265
+msgid "PinkPurple"
+msgstr "PinkPurple"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5512
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4266
+msgid "White"
+msgstr "Putih"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5513
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4267
+msgid "Black"
+msgstr "Hitam"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5518
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4272
+msgid "Carousel settings"
+msgstr "Pengaturan carousel"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5520
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4274
+msgid "Hide the Image"
+msgstr "Simpan gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5521
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4275
+msgid "Hide the Title"
+msgstr "Simpan judul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5522
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4276
+msgid "Hide the Marker Icon"
+msgstr "Simpan penanda ikon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5523
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4277
+msgid "Hide the Address"
+msgstr "Simpan alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5524
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4278
+msgid "Hide the Description"
+msgstr "Simpan deskripsi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5525
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4279
+msgid "Hide the Marker Link"
+msgstr "Simpan link penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5526
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4280
+msgid "Hide the Directions Link"
+msgstr "Simpan link arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5527
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4281
+msgid "Resize Images with Timthumb"
+msgstr "Sesuaikan ukuran gambar dengan Timthumb"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5528
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4282
+msgid "Enable lazyload of images"
+msgstr "Aktifkan \"lazyload\" untuk gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5529
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4283
+msgid "Enable autoheight"
+msgstr "Aktifkan tinggi otomatis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5530
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4284
+msgid "Enable pagination"
+msgstr "Aktifkan pagination"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5531
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4285
+msgid "Enable navigation"
+msgstr "Aktifkan navigasi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5532
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4286
+msgid "Items"
+msgstr "Item"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5533
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4287
+msgid "Autoplay after x milliseconds (1000 = 1 second)"
+msgstr "Memutar otomatis setelah x milidetik (1000 = 1 detik)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5548
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5549
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4311
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4321
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4342
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4352
+msgid "You can use the following"
+msgstr "Anda bisa menggunakan hal berikut"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5577
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4127
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6457
+msgid "This folder does not exist. Please create it."
+msgstr "Folder ini tidak ada. Silahkan buat."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5583
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4130
+msgid "File Permissions:"
+msgstr "izin file:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5583
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4130
+msgid ""
+" - The plugin does not have write access to this folder. Please CHMOD this "
+"folder to 755 or 777, or change the location"
+msgstr ""
+"- Plugin tidak memiliki akses untuk melakukan tindakan di folder ini. "
+"Silahkan CHMOD folder ini ke 755 atau 777, atau ganti lokasi."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5601
+#, fuzzy
+msgid "Google Maps API Key (optional)"
+msgstr "Google API Key (Perlu)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5604
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4305
+msgid ""
+"This API key can be obtained from the <a href='https://console.developers."
+"google.com' target='_BLANK'>Google Developers Console</a>. Our <a "
+"href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"target='_BLANK'>documentation</a> provides a full guide on how to obtain "
+"this. "
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5610
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4336
+msgid ""
+"We suggest that you change the two fields below ONLY if you are experiencing "
+"issues when trying to save the marker XML files."
+msgstr ""
+"Kami menyarankan untuk anda merubah dua kolom dibawah HANYA JIKA anda "
+"mengalami isu ketika mencoba untuk menyimpan file penanda XML"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5613
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4330
+msgid "Pull marker data from"
+msgstr "Tarik data penanda dari"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5615
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4332
+msgid "Database (Great for small amounts of markers)"
+msgstr "Database (Bagus untuk jumlah penanda yang kecil)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5616
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4333
+msgid "XML File  (Great for large amounts of markers)"
+msgstr "XML File (Bagus untuk jumlah penanda yang besar)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5620
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4307
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4338
+msgid "Marker data XML directory"
+msgstr "Direktori penanda data XML"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5626
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5636
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4312
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4322
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4343
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4353
+msgid "Currently using"
+msgstr "Sedang digunakan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5630
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4316
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4347
+msgid "Marker data XML URL"
+msgstr "Penanda data XML URL"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5640
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5643
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4357
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4360
+msgid "Custom CSS"
+msgstr "Custom CSS"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5725
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4156
+msgid "Map Settings"
+msgstr "Pengaturan peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5732
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4159
+msgid "General Map Settings"
+msgstr "Pengaturan peta umum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5734
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4161
+msgid "Disable StreetView"
+msgstr "Non aktifkan StreetView"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5735
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4162
+msgid "Disable Zoom Controls"
+msgstr "Non aktifkan kontrol pembesaran"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5736
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4163
+msgid "Disable Pan Controls"
+msgstr "Non aktifkatn kontrol geser"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5737
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4164
+msgid "Disable Map Type Controls"
+msgstr "Non aktifkan kontrol tipe peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5738
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4165
+msgid "Disable Mouse Wheel Zoom"
+msgstr "Non aktifkan Pembesaran dengan \"Mouse wheel\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5739
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4166
+msgid "Disable Mouse Dragging"
+msgstr "Non aktifkan penyeretan dengan Mouse"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5740
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4167
+msgid "Disable Mouse Double Click Zooming"
+msgstr "Non aktifkan perbesaran dengan double klik dari \"Mouse\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5744
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4224
+msgid "Open Marker InfoWindows by"
+msgstr "Buka penanda jendela informasi dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5748
+msgid "Filter by category displayed as"
+msgstr "Filter berdasarkan kategori ditampilkan dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5750
+msgid "Dropdown"
+msgstr "Dropdown"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5751
+msgid "Checkboxes"
+msgstr "Checkboxes"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5757
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4172
+msgid "Troubleshooting Options"
+msgstr "Pilihan penyelesaian masalah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4174
+#, fuzzy
+msgid ""
+"Over-ride current jQuery with version 1.11.3 (Tick this box if you are "
+"receiving jQuery related errors after updating to WordPress 4.5)"
+msgstr ""
+"mengubah jQuery sekarang dengan versi 1.8.3 ( Centang kotak ini jika Anda "
+"menerima kesalahan jQuery terkait )"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4181
+msgid ""
+"Do not load the Google Maps API (Only check this if your theme loads the "
+"Google Maps API by default)"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5771
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4186
+msgid "Use Google Maps API"
+msgstr "Gunakan Google Maps API"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5782
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4197
+msgid "Lowest level of access to the map editor"
+msgstr "Level akses terendah untuk melakukan edit peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5794
+msgid "Retina Icon Width"
+msgstr "Lebar \"Retina Icon\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5798
+msgid "Retina Icon Height"
+msgstr "Tinggi \"Retina Icon\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5853
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5855
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6922
+#, fuzzy
+msgid "No Global Setting"
+msgstr "Pengaturan Umum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5868
+msgid "InfoWindow Settings"
+msgstr "Pengaturan Jendela Info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5904
+msgid "Image Thumbnails"
+msgstr "Gambar Thumbnails"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5906
+msgid "Do not use TimThumb"
+msgstr "Jangan gunakan TimThum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5907
+msgid ""
+"(Timthumb support will be discontinued in the next pro version release. "
+"Please check this box and make the necessary changes to your images using "
+"the settings below.)"
+msgstr ""
+"( Dukungan Timthumb akan dihentikan pada rilis versi pro berikutnya . "
+"Silakan periksa kotak ini dan membuat perubahan yang diperlukan untuk gambar "
+"Anda dengan menggunakan pengaturan di bawah . )"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5912
+msgid "Resize Images"
+msgstr "Ubah ukuran gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5914
+msgid "Resize all images to the below sizes"
+msgstr "Ubah ukuran seluruh gambar hingga dibawah ukuran standar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5918
+msgid "Default Image Width"
+msgstr "Standar lebar gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5919
+msgid "(can be left blank - max width will be limited to max infowindow width)"
+msgstr ""
+"(  dapat dibiarkan kosong - lebar maksimum akan dibatasi dengan lebar "
+"maksimum jendela info )"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5922
+msgid "Default Image Height"
+msgstr "Standar tinggi gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5923
+msgid ""
+"(can be left blank - leaving both the width and height blank will revert to "
+"full size images being used)"
+msgstr ""
+"( dapat dibiarkan kosong - mengosongkan ukuran lebar dan tinggi akan "
+"mengembalikan gambar ukuran besar yang digunakan )"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5926
+msgid "Max InfoWindow Width"
+msgstr "Lebar maksimum Jendala info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5927
+msgid "(Minimum: 200px)"
+msgstr "(Minimum: 200px)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5930
+msgid "Other settings"
+msgstr "Pengaturan lain"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5932
+msgid "Open links in a new window"
+msgstr "Buka links di jendela baru"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5933
+msgid "(Tick this if you want to open your links in a new window)"
+msgstr "(Pilih ini, jika anda ingin membukan link anda di jendela baru)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5934
+msgid "Hide the address field"
+msgstr "Sembunyikan kolom alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:5938
+msgid "Link text"
+msgstr "Teks link"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6215
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3217
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3651
+msgid "Your marker location has been saved."
+msgstr "Lokasi penanda anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6270
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3270
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3682
+msgid "Your polygon has been created."
+msgstr "Polygon anda telah dibuat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6330
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3326
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3714
+msgid "Your polygon has been saved."
+msgstr "Polygon anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6364
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3369
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3745
+msgid "Your polyline has been created."
+msgstr "Polyline anda telah dibuat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6399
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3411
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3777
+msgid "Your polyline has been saved."
+msgstr "Polyline anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6442
+#, fuzzy
+msgid "Your dataset has been created."
+msgstr "Kategori anda telah dibuat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6487
+#, fuzzy
+msgid "Your dataset has been saved."
+msgstr "Kategori anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6594
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6679
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7396
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8007
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8095
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:35
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:121
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:674
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:34
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:119
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:658
+msgid "Name"
+msgstr "Nama"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6600
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6685
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:421
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:41
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:127
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4569
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5874
+msgid "Link"
+msgstr "Link"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6603
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6688
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:28
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:44
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:130
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:42
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:127
+msgid "Line Color"
+msgstr "Warna garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6606
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6691
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:47
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:133
+msgid "Line Opacity"
+msgstr "Transparansi garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6609
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6694
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:29
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:50
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:136
+msgid "Fill Color"
+msgstr "Berikan warna"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6612
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6697
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8023
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8111
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:30
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:53
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:139
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:50
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:135
+msgid "Opacity"
+msgstr "Transparansi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6615
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6700
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:56
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:142
+msgid "On Hover Line Color"
+msgstr "Saat "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6618
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6703
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:59
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:145
+msgid "On Hover Fill Color"
+msgstr "Warna saat dipilih"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6621
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6706
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:62
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:148
+msgid "On Hover Opacity"
+msgstr "Transparansi saat dipilih"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6630
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6714
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:73
+msgid "Click on the map to insert a vertex."
+msgstr "Klik pada peta untuk memasukkan vertex"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6631
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6715
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:74
+msgid "Click on a vertex to remove it."
+msgstr "klik pada vertex untuk menghapusnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6632
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6716
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:75
+msgid "Drag a vertex to move it."
+msgstr "Tarik vertex untuk memindahkannya."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6640
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6724
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:42
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:90
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:81
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:167
+msgid "Save Polygon"
+msgstr "Simpan Polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6913
+msgid "No marker listing"
+msgstr "Tidak ada list penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:6919
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5641
+msgid "Copied to clipboard"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7015
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8031
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8119
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3004
+msgid "Radius"
+msgstr "Radius"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7021
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3010
+msgid "1mi"
+msgstr "1mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7022
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3011
+msgid "5mi"
+msgstr "5mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7023
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3012
+msgid "10mi"
+msgstr "10mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7024
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3013
+msgid "25mi"
+msgstr "25mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7025
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3014
+msgid "50mi"
+msgstr "50mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7026
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3015
+msgid "75mi"
+msgstr "75mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7027
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3016
+msgid "100mi"
+msgstr "100mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7028
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3017
+msgid "150mi"
+msgstr "150mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7029
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3018
+msgid "200mi"
+msgstr "200mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7030
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3019
+msgid "300mi"
+msgstr "300mi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7032
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3021
+msgid "1km"
+msgstr "1km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7033
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3022
+msgid "5km"
+msgstr "5km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7034
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3023
+msgid "10km"
+msgstr "10km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7035
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3024
+msgid "25km"
+msgstr "10km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7036
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3025
+msgid "50km"
+msgstr "50km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7037
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3026
+msgid "75km"
+msgstr "75km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7038
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3027
+msgid "100km"
+msgstr "100km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7039
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3028
+msgid "150km"
+msgstr "150km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7040
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3029
+msgid "200km"
+msgstr "200km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7041
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3030
+msgid "300km"
+msgstr "300km"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7071
+msgid "Reset"
+msgstr "Reset"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7210
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4512
+msgid "Type"
+msgstr "Tipe"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7211
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4513
+#, fuzzy
+msgid "Shortcode"
+msgstr "Short code"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7221
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:536
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4524
+msgid "Trash"
+msgstr "Sampah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7222
+msgid "Duplicate"
+msgstr "Duplikasi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7225
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7416
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:540
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:495
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:516
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:701
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:685
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4530
+msgid "Edit"
+msgstr "Edit"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7397
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:472
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:493
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:422
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:675
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:659
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5875
+msgid "Action"
+msgstr "Aksi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:7417
+#, fuzzy
+msgid "Delete this dataset"
+msgstr "Hapus penanda ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8001
+msgid "Add heatmap data"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8015
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8103
+msgid "Gradient"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8018
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8106
+msgid "Default"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8018
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8106
+msgid "Blue"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8056
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8142
+#, fuzzy
+msgid "Save Dataset"
+msgstr "Simpan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro.php:8088
+msgid "Edit Dataset"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:15
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:18
+msgid "Marker Categories"
+msgstr "Kategori penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:15
+msgid "Add New Category"
+msgstr "Tambahkan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4468
+msgid "Pro Version"
+msgstr "Versi Pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+msgid "Create marker categories"
+msgstr "Buat kategori penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4468
+msgid "with the"
+msgstr "Dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4468
+msgid "of WP Google Maps for only"
+msgstr "Hanya untuk WP Google Maps"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:24
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4489
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4549
+msgid "Problems with the plugin? See the troubleshooting manual."
+msgstr "Masalah dengan plugin? lihat manual penyelesaian masalah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:32
+msgid "There was a problem deleting the category."
+msgstr "Ada masalah ketika menghapus kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+msgid "Delete your Category"
+msgstr "Hapus kategori anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+msgid "Are you sure you want to delete the category"
+msgstr "Anda yakin ingin menghapus kategori ini?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:85
+msgid "Add a Marker Category"
+msgstr "Tambahkan kategori penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:89
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:171
+msgid "Category Name"
+msgstr "Nama Kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:99
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:181
+msgid "Category Marker"
+msgstr "Penanda kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:101
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:183
+msgid ""
+"Get great map markers <a href='http://mapicons.nicolasmollet.com/' "
+"target='_BLANK' title='Great Google Map Markers'>here</a>"
+msgstr ""
+"Dapatkan penanda besar peta <a href='http://mapicons.nicolasmollet.com/' "
+"target='_BLANK' title='Great Google Map Markers'>disini</a>"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:104
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:186
+msgid "Retina Ready"
+msgstr "Retina Ready"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:105
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:187
+msgid "This marker is a retina-ready marker"
+msgstr "Penanda ini memiliku tipe penanda \"retina-ready\""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:114
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:196
+msgid "Assigned to "
+msgstr "Di siapkan untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:127
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:210
+msgid "Save Category"
+msgstr "Simpan kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:166
+#, fuzzy
+msgid "Edit a Marker Category"
+msgstr "Tambahkan kategori penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:292
+msgid "Your category has been created."
+msgstr "Kategori anda telah dibuat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:364
+msgid "Your category has been saved."
+msgstr "Kategori anda telah disimpan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:374
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:408
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:439
+msgid "All"
+msgstr "Semua"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:412
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:463
+msgid "<em><small>No categories found</small></em>"
+msgstr "<em><small>Tidak ada kategori yang ditemukan</small></em>"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:498
+msgid "All maps"
+msgstr "Semua peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:529
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:415
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4563
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5868
+msgid "Icon"
+msgstr "Ikon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_categories.php:530
+msgid "Linked maps"
+msgstr "Peta terhubung"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:255
+msgid "Header 1 should be 'id', not"
+msgstr "\"Header 1\" harus dalam \"id\", bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:256
+msgid "Header 2 should be 'map_id', not"
+msgstr "\"Header 2\" harus dalam 'map_id', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:257
+msgid "Header 3 should be 'address', not"
+msgstr "\"Header 3\" harus dalam 'address', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:258
+msgid "Header 4 should be 'description', not"
+msgstr "\"Header 4\" harus dalam 'description', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:259
+msgid "Header 5 should be 'pic', not"
+msgstr "\"Header 5\" harus dalam 'pic', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:260
+msgid "Header 6 should be 'link', not"
+msgstr "\"Header 6\" harus dalam 'link', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:261
+msgid "Header 7 should be 'icon', not"
+msgstr "\"Header 7\" harus dalam 'icon', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:262
+msgid "Header 8 should be 'lat', not"
+msgstr "\"Header 8\" harus dalam 'lat', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:263
+msgid "Header 9 should be 'lng', not"
+msgstr "\"Header 9\" harus dalam 'lng', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:264
+msgid "Header 10 should be 'anim', not"
+msgstr "\"Header 10\" harus dalam'anim', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:265
+msgid "Header 11 should be 'title', not"
+msgstr "\"Header 11\" harus dalam 'title', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:266
+msgid "Header 12 should be 'infoopen', not"
+msgstr "\"Header 12\" harus dalam 'infoopen', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:267
+msgid "Header 13 should be 'category', not"
+msgstr "\"Header 13\" harus dalam 'category', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:268
+msgid "Header 14 should be 'approved', not"
+msgstr "\"Header 14\" harus dalam 'approved', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:269
+msgid "Header 15 should be 'retina', not"
+msgstr "\"Header 15\" harus dalam 'retina', bukan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:271
+msgid "CSV import failed"
+msgstr "Impor CSV gagal"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:341
+#, php-format
+msgid "Cannot import line %d as the LAT and/or LNG is not defined."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:370
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:501
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:581
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:662
+msgid "Your CSV file has been successfully imported"
+msgstr "CSV anda telah berhasil diimpor"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:73
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:114
+msgid "Edit Polygon"
+msgstr "Edit Polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:496
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:702
+msgid "Delete this polygon"
+msgstr "Hapus polygon ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polygons.php:496
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:517
+msgid "Delete"
+msgstr "Hapus"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:42
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:90
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:81
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:164
+msgid "Save Polyline"
+msgstr "Simpan polyline"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:73
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:112
+msgid "Edit Polyline"
+msgstr "Edit polyline"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_polylines.php:517
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:686
+msgid "Delete this polyline"
+msgstr "Hapus polyline ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:13
+msgid "Select a Map Type (beta)"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:149
+#, fuzzy
+msgid "Show distance in:"
+msgstr "Tunjukkan jarak pada"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:159
+#, fuzzy
+msgid "Show bouncing icon:"
+msgstr "Tunjukkan ikon memantul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:169
+#, fuzzy
+msgid "Hide markers until search is done:"
+msgstr "Sembunyikan semua penanda hingga pencarian selesai"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:209
+#, fuzzy
+msgid "Default 'To' Address:"
+msgstr "Standar 'ke' alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:213
+#, fuzzy
+msgid "Enter Address"
+msgstr "Alamat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:252
+#, fuzzy
+msgid "Basic Table"
+msgstr "Tabel dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:253
+#, fuzzy
+msgid "Basic List"
+msgstr "Daftar dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:254
+#, fuzzy
+msgid "Advanced Table"
+msgstr "Tabel lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wp-google-maps-pro_wizard.php:279
+msgid "Blank Map"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:221
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5829
+msgid "View this link"
+msgstr "Lihat link ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:234
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:235
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5843
+msgid "Edit this marker"
+msgstr "Edit penanda ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:237
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5846
+msgid "Approve this marker"
+msgstr "Setujui penanda ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:239
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5848
+msgid "Delete this marker"
+msgstr "Hapus penanda ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps-pro/wpgmza.php:420
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5873
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:327
+msgid "Image"
+msgstr "Gambar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:22
+msgid "Welcome to"
+msgstr "Selamat datang di"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:24
+msgid ""
+"Amazing maps. Simple interface. Powerful functionality. World Class Support."
+msgstr ""
+"Peta yang luar biasa. Muka yang mudah. Fungsi yang hebat. Dukungan yang top."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:26
+msgid "What's new?"
+msgstr "Apa yang terbaru?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:31
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:24
+msgid "Let users search for products, branches and stores near them"
+msgstr "Biarkan pengguna mencari produk, cabang dan toko di dekat mereka"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:36
+msgid "Create service areas or coverage maps with polygons"
+msgstr "Buat area layanan atau peta layanan dengan polygons"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:41
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:36
+msgid "Create custom routes or outlines using polylines"
+msgstr "Buat rute modifikasi atau rute baru dengan polylines"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:53
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:49
+msgid "How did you find out about us?"
+msgstr "Bagaimana anda menemukan kami?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:60
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:56
+msgid "WordPress.org plugin repository"
+msgstr "WordPress.org plugin repository"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:61
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:57
+msgid "What search term did you use?"
+msgstr "Apa kata kunci pencarian anda?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:65
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:61
+msgid "Google or other search engine"
+msgstr "Google atau mesin pencari lain"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:69
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:65
+msgid "Friend recommendation"
+msgstr "Rekomendasi teman"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:73
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:69
+msgid "Other"
+msgstr "Lainnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:74
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:70
+msgid "Please explain"
+msgstr "Tolong jelaskan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:96
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:92
+msgid "New to WP Google Maps?"
+msgstr "Baru di WP Google Maps?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:93
+msgid "You may want to"
+msgstr "Mungkin, anda ingin untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:93
+msgid "review our documentation"
+msgstr "Pelajari dokumentasi kami"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:93
+msgid ""
+"before you get started. If you're a tech-savvy individual, you may skip this "
+"step."
+msgstr ""
+"Sebelum anda mulai. Jika anda seorang tech-savvy, mungkin anda mau "
+"melangkahi proses ini."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:100
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:96
+msgid "Help me!"
+msgstr "Bantu saya!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:101
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:97
+msgid "Visit our"
+msgstr "Kunjungi"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:101
+msgid "Support Forum"
+msgstr "Forum dukungan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:101
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:97
+msgid "for quick and friendly help. We'll answer your request within 24hours."
+msgstr ""
+"Untuk bantuan cepat dan bersahabat. Kami akan menjawab permintaan anda dalam "
+"24 jam."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:104
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:100
+msgid "Feedback"
+msgstr "Imbal balik"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:101
+msgid "We need you to help us make this plugin better."
+msgstr "Kami membutuhkan anda untuk membuat plugin ini menjadi lebih baik."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:101
+msgid "Send us your feedback"
+msgstr "Kirim komentar anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:101
+msgid "and we'll act on it as soon as humanly possible."
+msgstr "Dan kami akan memberikan respon secepat mungkin."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/WPGM_templates.php:109
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:105
+msgid "OK! Let's start"
+msgstr "Ok! Ayo mulai"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/widget_module.class.php:9
+msgid "Add your map as a widget"
+msgstr "Tambahkan peta anda sebagai widget"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/classes/widget_module.class.php:47
+msgid "Select your map:"
+msgstr "Pilih peta anda:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:3
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:4
+#, fuzzy
+msgid "Welcome to WP Google Maps version 6.3"
+msgstr "Baru di WP Google Maps?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:5
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:6
+msgid ""
+"Thank you for updating! WP Google Maps version 6 helps you build amazing "
+"maps through a simple interface and powerful functionality along with world "
+"class support."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:10
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:11
+#, fuzzy
+msgid "Welcome"
+msgstr "Selamat datang di"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:11
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:12
+msgid "Credits"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:15
+msgid "WP Google Maps is created by an international team of developers."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:16
+msgid "Project Leaders"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:22
+msgid "Founder &amp; Lead Developer"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:25
+msgid "Contributers"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:30
+msgid "Developer"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:35
+msgid "Developer &amp; Support"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:50
+#, fuzzy
+msgid "Marketing"
+msgstr "List penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:55
+msgid "Security suggestions"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:59
+msgid "Want to see your name on this page?"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/credits.php:59
+msgid "Get involved on GitHub."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:18
+#, fuzzy
+msgid "Unlimited Markers"
+msgstr "List penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:19
+#, fuzzy
+msgid "Create as many markers as you like"
+msgstr "Buat kategori penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:31
+msgid ""
+"Select from various <a href='http://wpgmaps.com/map-themes/' "
+"target='_BLANK'>map themes</a>, or make your own."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/welcome.php:97
+#, fuzzy
+msgid "Support Desk"
+msgstr "Dukungan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:56
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:59
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:62
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:142
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:145
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:148
+msgid "Pro version only"
+msgstr "Hanya untuk Versi Pro saja"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+msgid "Get the Pro add-on"
+msgstr "Dapatkan pro add-on"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:58
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/base/includes/wp-google-maps-polylines.php:143
+msgid "Line Thickness"
+msgstr "Ketebalan garis"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:320
+msgid "My first map"
+msgstr "Peta pertama saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:543
+msgid ""
+"<strong>WP Google Maps cannot find the directory it uses to save marker data "
+"to. Please confirm that <em>"
+msgstr ""
+"<strong > WP Google Maps tidak dapat menemukan direktori yang digunakan "
+"untuk menyimpan data penanda untuk . Silahkan konfirmasi bahwa < em >"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:543
+msgid ""
+"</em>exists. Please also ensure that you assign file permissions of 755 (or "
+"777) to this directory."
+msgstr ""
+"< / em > ada. Harap juga memastikan bahwa Anda menetapkan hak akses file "
+"dari 755 ( atau 777 ) ke direktori ini ."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:549
+msgid ""
+"Timthumb does not have 'write' permission for the cache directory. Please "
+"enable 'write' permissions (755 or 777) for "
+msgstr ""
+"Timthumb tidak memiliki izin \"mengakses\" untuk direktori cache . Mohon "
+"aktifkan izin ( 755 atau 777 ) untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:551
+msgid "in order for images to show up while using Timthumb. Please see "
+msgstr "Agar gambar dapat tampil ketika menggunakan Timthumb. Silahkan lihat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:553
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6027
+msgid "this page"
+msgstr "Halaman ini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:555
+msgid ""
+"for help on how to do it. Alternatively, you can disable the use of Timthumb "
+"in Maps->Settings"
+msgstr ""
+"Untuk membantu bagaimana cara untuk melakukannya. Anda bisa tidak "
+"mengaktifkan Timthumb pada peta -> pengaturan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2436
+msgid "DOMDocument is not enabled"
+msgstr "DOMDocument tidak aktif"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2540
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2550
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2555
+msgid "Could not save XML file"
+msgstr "Tidak dapat menyimpan file XML"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2894
+msgid "Error: The map ID"
+msgstr "Error: The map ID"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:2894
+msgid "does not exist"
+msgstr "Tidak ada"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3228
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3283
+msgid "You cannot save a blank polygon"
+msgstr "Anda tidak bisa menyimpan polygon kosong"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3338
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3382
+msgid "You cannot save a blank polyline"
+msgstr "Anda tidak bisa menyimpan polyline kosong"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3478
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3482
+msgid "Thank you for your feedback!"
+msgstr "Terima kasih atas komentar balik anda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3828
+msgid "Categories"
+msgstr "Kategori"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3830
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3850
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3963
+msgid "Experiencing problems with the plugin?"
+msgstr "Mengalami masalah dengan plugin?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3850
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3963
+msgid "See the troubleshooting manual."
+msgstr "Lihat manual penyelesaian masalah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3850
+msgid "Or ask a question on our "
+msgstr "Atau tanyakan pertanyaan pada "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3850
+msgid "Support forum."
+msgstr "Forum dukungan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3857
+msgid "There was a problem deleting the map."
+msgstr "Ada masalah ketika anda menghapus peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3861
+msgid "Delete your map"
+msgstr "Hapus peta anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3861
+msgid "Are you sure you want to delete the map"
+msgstr "Anda yakin ingin menghapus peta?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3870
+msgid "There was a problem duplicating the map."
+msgstr "Ada masalah saat menduplikasi peta."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3972
+msgid "There was a problem deleting the marker."
+msgstr "Ada masalah ketikan menghapus penanda."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3976
+msgid "Delete Marker"
+msgstr "Hapus penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3976
+msgid "Are you sure you want to delete this marker:"
+msgstr "Amda yakin ingin menghapus penanda ini:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:3997
+msgid ""
+"We have detected a conflict between your current theme's version and our "
+"plugin. Should you be experiencing issues with your maps displaying, please "
+"update Avada to version 3.9.4 or check the checkbox labelled 'Over-ride "
+"current jQuery with version 1.11.3'."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4210
+#, fuzzy
+msgid "Enable Usage Tracking"
+msgstr "Aktifkan pagination"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4212
+msgid ""
+"Allow us to anonymously track how you use your maps and we will send you a "
+"15% Sola Plugins coupon as a token of our gratitude (Coupon will be sent to "
+"the administrator's email address)"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4221
+msgid "Marker InfoWindow Settings"
+msgstr "Pengaturan penanda jendela info"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4296
+#, fuzzy
+msgid "Google Maps API Key"
+msgstr "Gunakan Google Maps API"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4300
+#, fuzzy
+msgid "Google Maps API Key (required)"
+msgstr "Google API Key (Perlu)"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4327
+msgid "Marker Data Location"
+msgstr "Lokasi data penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4421
+#, php-format
+msgid ""
+"<h3>We need your love!</h3><p>If you are enjoying our plugin, please "
+"consider <a href=\"%1$s\" target=\"_blank\" class=\"button button-primary"
+"\">reviewing WP Google Maps</a>. It would mean the world to us! If you are "
+"experiencing issues with the plugin, please <a href=\"%2$s\" target=\"_blank"
+"\"  class=\"button button-secondary\">contact us</a> and we will help you as "
+"soon as humanly possible!</p>"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4426
+msgid "We will not nag you again, promise!"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4426
+msgid "Close"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4446
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4467
+msgid "My Maps"
+msgstr "Peta saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4446
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4546
+msgid "Add New"
+msgstr "Tambahkan hal baru:"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4446
+msgid "Wizard"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4458
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4480
+msgid ""
+"We have detected a conflict between your current theme's version and our "
+"plugin. Should you be experiencing issues with your maps displaying, please "
+"update Avada to version 3.9.4 or go to <a href='"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4468
+msgid "Create unlimited maps"
+msgstr "Buat banyak peta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4546
+msgid "My Markers"
+msgstr "Penanda saya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4564
+msgid "Linked to"
+msgstr "Terhubung dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4567
+msgid "GPS"
+msgstr "GPS"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4568
+msgid "Pic"
+msgstr "Gbr"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4705
+msgid ""
+"Add custom icons, titles, descriptions, pictures and links to your markers "
+"with the"
+msgstr ""
+"tambahkan modifikasi ikon, judul, deskripsi, gambar dan link ke penanda anda "
+"dengan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4705
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4706
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5542
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5546
+msgid "Pro Edition"
+msgstr "Edisi pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4705
+msgid "of this plugin for just"
+msgstr "dari plugin ini hanya untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4706
+msgid "Purchase the Pro Edition"
+msgstr "Beli Edisi Pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4706
+msgid "of WP Google Maps and save your markers to a CSV file!"
+msgstr "Dari WP Google Maps dan simpan penanda anda ke file CSV!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4731
+msgid "Please note"
+msgstr "Tolong catat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4731
+msgid ""
+"We've noticed that you are using W3 Total Cache and that you have CDN "
+"enabled.<br /><br />In order for the markers to show up on your map, you "
+"need to add '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' to the "
+"'<strong>rejected files</strong>' list in the <a href='admin.php?"
+"page=w3tc_cdn#advanced'>CDN settings page</a> of W3 Total Cache"
+msgstr ""
+"Kami memperhatikan bahwa Anda menggunakan W3 Total Cache dan bahwa CDN Anda "
+"telah aktif. <br /> <br /> Agar penanda muncul di peta Anda , Anda perlu "
+"menambahkan ' <strong > < em > { uploads_dir } / wp - google - peta * < / "
+"strong> < / em > ' ke ' <strong > file yang ditolak < / strong> ' daftar di "
+"<a href='admin.php?page=w3tc_cdn#advanced'> CDN halaman pengaturan </a> dari "
+"W3 total Cache"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:4773
+msgid "Pro Upgrade"
+msgstr "Pro Upgrade"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5004
+msgid "Query string"
+msgstr "Query string"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5009
+msgid "Show bouncing icon"
+msgstr "Tunjukkan ikon memantul"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5026
+msgid "Enable Bicycle Layer?"
+msgstr "Aktifkan layer pesepeda?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5035
+msgid "Enable Traffic Layer?"
+msgstr "Aktifkan layer lalu lintas?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5046
+msgid "Enable Public Transport Layer?"
+msgstr "Aktifkan layer transportasi publik?"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5057
+msgid "Maximum Zoom Level"
+msgstr "Level perbesaran maksimal"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5089
+#, fuzzy
+msgid ""
+"Get the rest of these advanced features with the Pro version for only <a "
+"href=\"http://www.wpgmaps.com/purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">$39.99 once off</"
+"a>. Support and updates included forever."
+msgstr ""
+"Dapatkan sisa fitur canggih dengan versi Pro hanya <a href=\"http://www."
+"wpgmaps.com/purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">$19.99 sekali "
+"seumur hidup</a>. Dukungan dan pembaruan sudah termasuk, dan dapat digunakan "
+"selamanya."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5127
+msgid "Read data directly from your Fusion Table."
+msgstr "Baca data langsung dari tabel fusion anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5135
+#, fuzzy
+msgid ""
+"Enable Marker Listing with the <a href=\"http://www.wpgmaps.com/purchase-"
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">Pro version "
+"for only $39.99 once off</a>. Support and updates included forever."
+msgstr ""
+"Aktifkan list penanda dengan <a href=\"http://www.wpgmaps.com/purchase-"
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versi Pro, "
+"hanya $ 19,99 sekali seumur hidup </a> . Dukungan dan pembaruan sudah "
+"termasuk, dan dapat digunakan selamanya."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5141
+msgid "List Markers"
+msgstr "List penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5146
+msgid "Advanced table with real time search and filtering"
+msgstr "Tabel lanjutan dengan pencarian dan filter waktu nyata"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5147
+msgid "beta"
+msgstr "beta"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5218
+msgid "Basic"
+msgstr "Dasar"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5219
+msgid "Show a basic list of your markers"
+msgstr "Tunjukkan list dasar dari penanda anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5228
+msgid "Beautiful, responsive, mobile-friendly carousel marker listing"
+msgstr "Menarik, Responsif, mobile-friendly carousel list penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5236
+msgid "Tabular"
+msgstr "Tabular"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5237
+msgid "Advanced, tabular marker listing functionality with real time filtering"
+msgstr "Jauh ke depan, list penanda berfungsi secara waktu nyata dengan filter"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5363
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5424
+msgid "Advanced markers"
+msgstr "Penanda lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5364
+msgid "Polygon"
+msgstr "Polygon"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5412
+msgid "Please add the current marker before trying to add another marker"
+msgstr ""
+"Silahkan tambahkan penanda sekarang sebelum menambahkan penanda lainnya"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5426
+msgid "Add advanced markers"
+msgstr "Tambahkan penanda lanjutan"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5426
+msgid "with the Pro version"
+msgstr "Dengan Versi Pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5472
+msgid "Select"
+msgstr "Pilih"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5500
+msgid "Add dynamic heatmap data"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5500
+#, fuzzy
+msgid "with the Pro version."
+msgstr "Dengan Versi Pro"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5501
+#, fuzzy
+msgid "View a demo."
+msgstr "Lihat seluruh dokumentasi."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5510
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5606
+msgid "The map could not load."
+msgstr "Peta tidak dapat dibuka."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5510
+msgid ""
+"This is normally caused by a conflict with another plugin or a JavaScript "
+"error that is preventing our plugin's Javascript from executing. Please try "
+"disable all plugins one by one and see if this problem persists."
+msgstr ""
+"Hal ini biasanya disebabkan oleh konflik dengan plugin lain atau kesalahan "
+"JavaScript yang mencegah Plugin kami mengeksekusi Javascript. Silakan coba "
+"menonaktifkan semua plugin satu per satu dan lihat apakah masalah ini "
+"berlanjut "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5537
+msgid "Add detailed information to your markers!"
+msgstr "Tambahkan informasi detail pada penanda anda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5537
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5541
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5545
+msgid "Add custom markers to your map!"
+msgstr "Tambahkan penanda dengan modifikasi ke peta anda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5538
+msgid "Add detailed information to your markers for only"
+msgstr "Tambahkan informasi detail hanya pada penanda anda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5538
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5542
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5546
+msgid "Click"
+msgstr "Klik"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5538
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5542
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5546
+msgid "here"
+msgstr "Disini"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5542
+msgid ""
+"Add different marker icons, or your own icons to make your map really stand "
+"out!"
+msgstr ""
+"Tambahkan ikon penanda berbeda, atau ikon anda sendiri untuk membuat peta "
+"anda berbeda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5546
+msgid "Allow your visitors to get directions to your markers!"
+msgstr "Izinkan pengunjung untuk mendapatkan arah ke penanda anda!"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5581
+msgid "Edit Marker Location"
+msgstr "Edit lokasi penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5590
+msgid "Marker Latitude"
+msgstr "Latitude penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5594
+msgid "Marker Longitude"
+msgstr "Longitude penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5599
+msgid "Save Marker Location"
+msgstr "Simpan lokasi penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5600
+msgid ""
+"Tip: Use your mouse to change the location of the marker. Simply click and "
+"drag it to your desired location."
+msgstr ""
+"Tip: Gunakan \"mouse\" anda untuk merubah lokasi penanda anda. Untuk "
+"memudahkan, klik dan tarik penanda tersebut ke lokasi yang anda inginkan."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5606
+msgid ""
+"This is normally caused by a conflict with another plugin or a JavaScript "
+"error that is preventing our plugin's Javascript from executing. Please try "
+"disable all plugins one by one and see if this problem persists. If it "
+"persists, please contact nick@wpgmaps.com for support."
+msgstr ""
+"Hal ini biasanya disebabkan oleh konflik dengan plugin lain atau kesalahan "
+"JavaScript yang mencegah Plugin kami mengeksekusi javascript. Silakan coba "
+"menonaktifkan semua plugin satu per satu dan lihat apakah masalah ini "
+"berlanjut. Jika berlanjut, hubungi nick@wpgmaps.com untuk dukungan."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5778
+msgid ""
+"There are too many markers to make use of the live edit function. The "
+"maximum amount for this functionality is 5000 markers. Anything more than "
+"that could crash your browser. In order to edit your markers, you would need "
+"to download the table in CSV format, edit it and re-upload it."
+msgstr ""
+"Ada terlalu banyak penanda untuk memanfaatkan fungsi edit. Jumlah maksimum "
+"untuk fungsi ini adalah 5000 penanda. Sesuatu yang lebih dari jumlah "
+"tersebut, dapat membuat \"crash\" browser Anda. Untuk mengedit penanda Anda, "
+"Anda akan perlu untuk mengunduh tabel dalam format CSV , edit dan re - "
+"upload."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:5844
+#, fuzzy
+msgid "Edit this marker location"
+msgstr "Edit lokasi penanda"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6023
+msgid ""
+"The plugin directory does not have 'write' permissions. Please enable "
+"'write' permissions (755) for "
+msgstr ""
+"Direktori plugin tidak memiliki izin \"kewenangan\". Silahkan aktifkan izin "
+"\"kewenangan\" (755) untuk"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6025
+msgid "in order for this plugin to work! Please see "
+msgstr "Agar plugin ini dapat bekerja! Silahkan lihat"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6029
+msgid "for help on how to do it."
+msgstr "Untuk membantu pada bagaimana cara melakukannya."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6460
+msgid ""
+"WP Google Maps does not have write permission to the marker location "
+"directory. This is required to store marker data. Please CHMOD the folder "
+msgstr ""
+"WP Google Maps tidak memiliki izin tertulis untuk mengakses direktori "
+"penanda lokasi. Hal ini dibutuhkan untuk menyimpan data penanda. Silahkan "
+"CHMOD folder"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6460
+msgid ""
+" to 755 or 777, or change the directory in the Maps->Settings page. (Current "
+"file permissions are "
+msgstr ""
+"ke 755 atau 777, atau ganti direktori di peta -> halaman pengaturan . ( Izin "
+"permisi sekarang adalah "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6488
+msgid ""
+"WP Google Maps has a diverse and wide range of features which may, from time "
+"to time, run into conflicts with the thousands of themes and other plugins "
+"on the market."
+msgstr ""
+"WP Google Maps memiliki beragam dan macam fitur yang dapat, dari waktu ke "
+"waktu, mengalami konflik dengan ribuan tema dan plugin lainnya di pasar "
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6501
+msgid "Support forum"
+msgstr "Dukungan forum"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6658
+msgid "United States of America"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6668
+#, fuzzy
+msgid "View the instruction video"
+msgstr "Simpan link arah"
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6669
+#, fuzzy
+msgid "Read the documentation"
+msgstr "Butuh bantuan? Baca dokumentasi ini."
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6670
+msgid "Important Notification"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6671
+msgid "You can read more about that here."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6672
+msgid ""
+"Before you begin please note that *ALL* Google Maps now require an API key "
+"to function."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6673
+msgid "Create an API key now (free)"
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6674
+msgid "Once created, simply paste your API key here and press save."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6675
+#, php-format
+msgid "Need help? %s or %s."
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6676
+msgid "Google Maps JavaScript API Key: "
+msgstr ""
+
+#: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-maps/wpGoogleMaps.php:6678
+msgid "Once saved, it may take up to 5 minutes for your map to display."
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:169
+#, fuzzy
+msgid "Visitor Generated Markers - Settings"
+msgstr "Pengaturan pengguna untuk penambahan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:175
+#, fuzzy
+msgid "Enable Visitor Generated Markers?"
+msgstr "Pengunjung memberikan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:184
+#, fuzzy
+msgid "Who can add markers?"
+msgstr "Penanda lanjutan"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:187
+msgid "Everyone"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:188
+msgid "Registered Users"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:193
+#, fuzzy
+msgid "Allow users to select a marker category?"
+msgstr "Izinkan pengguna untuk melakukan filter berdasarkan kategori?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:202
+#, fuzzy
+msgid "Allow users to upload images?"
+msgstr "Izinkan pengguna untuk melakukan filter berdasarkan kategori?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:306
+#, fuzzy
+msgid "Add your own marker"
+msgstr "Tambahkan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:314
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:315
+#, fuzzy
+msgid "Marker Title"
+msgstr "Latitude penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:318
+#, fuzzy
+msgid "Marker Address or GPS Location"
+msgstr "Lokasi data penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:319
+#, fuzzy
+msgid "Marker Address"
+msgstr "Alamat"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:319
+#, fuzzy
+msgid "Or click on the map and drag to add a marker"
+msgstr "Klik pada peta untuk memasukkan vertex"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:322
+#, fuzzy
+msgid "Marker Description"
+msgstr "Deskripsi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:338
+#, fuzzy
+msgid "Marker Category"
+msgstr "Kategori penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:348
+msgid "Please tick this box to prove you are human"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:352
+#, fuzzy
+msgid "Add marker"
+msgstr "Tambahkan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:456
+msgid "A new marker has been submitted for your map"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:588
+#, fuzzy
+msgid ""
+"Please <a href='./update-core.php'>update</a> your Pro Add-on to at least "
+"version 5.50 to allow for these settings"
+msgstr ""
+"Silahkan <a href='update-core.php'>Perbaharui Versi WP Google Maps GOLD "
+"Anda</a>.  Versi GOLD anda sekarang tidak sesuai dengan versi Pro sekarang."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:592
+#, fuzzy
+msgid "Visitor Generated Marker Settings"
+msgstr "Pengaturan pengguna untuk penambahan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:596
+#, fuzzy
+msgid "Visitor Marker Input Settings"
+msgstr "Pengaturan pengguna untuk penambahan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:598
+msgid "Strip all HTML tags in descriptions and titles"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:599
+#, fuzzy
+msgid "Automatically approve visitor generated markers"
+msgstr "Pengunjung memberikan penanda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:600
+msgid "Email me whenever there is a new marker"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:600
+msgid "Email address:"
+msgstr ""
+
+#~ msgid ""
+#~ "Use the <a href='http://gmaps-samples-v3.googlecode.com/svn/trunk/"
+#~ "styledmaps/wizard/index.html' target='_BLANK'>Google Maps API Styled Map "
+#~ "Wizard</a> to get your style settings"
+#~ msgstr ""
+#~ "Gunakan <a href='http://gmaps-samples-v3.googlecode.com/svn/trunk/"
+#~ "styledmaps/wizard/index.html' target='_BLANK'>Alat Penggaya Peta Google "
+#~ "Maps API</a> untuk mendapatkan tema pengaturan gaya"
+
+#~ msgid "Enable Advanced Styling"
+#~ msgstr "Izinkan Penggaya Lanjutan"
+
+#~ msgid "Save Style Settings"
+#~ msgstr "Simpan Pengaturan Penggaya"
+
+#~ msgid "Weather Layer"
+#~ msgstr "layer cuaca"
+
+#~ msgid "Show in Degrees Celsius"
+#~ msgstr "Tunjukkan dengan celcius"
+
+#~ msgid "Show in Degrees Fahrenheit"
+#~ msgstr "Tunjukkan dengan fareinheit"
+
+#~ msgid "Cloud Layer"
+#~ msgstr "Layer awan"
+
+#~ msgid "OR"
+#~ msgstr "ATAU"
+
+#~ msgid ""
+#~ "Dont have time to wait? Jump the queue with <a href='http://www.wpgmaps."
+#~ "com/priority-support/' title='Priority Support' target='_BLANK'>priority "
+#~ "support</a>. Receive a response in less than 20 minutes (7am to 4pm <a "
+#~ "href='http://time.is/UTC+2' target='_BLANK'>UTC+2</a>)"
+#~ msgstr ""
+#~ "Tidak punya waktu untuk menunggu ? Langsung lompat antrian dengan <a "
+#~ "href='http://www.wpgmaps.com/priority-support/' title='Priority Support' "
+#~ "target='_blank'> dukungan prioritas </a> . Menerima respon dalam waktu "
+#~ "kurang dari 20 menit ( 7:00-04:00 <a href='http://time.is/UTC+2' "
+#~ "target='_blank'> UTC + 2 </a> )"

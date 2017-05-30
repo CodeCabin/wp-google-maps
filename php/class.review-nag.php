@@ -14,7 +14,11 @@ class ReviewNag extends Smart\Document
 		$now = new \DateTime();
 		
 		if(isset($_GET['action2']) && $_GET['action2'] == 'close_review')
+		{
 			Plugin::$settings->review_nag = $now->format('Y-m-d H:i:s');
+			foreach($this->querySelectorAll('body>*') as $element)
+				$element->setInlineStyle('display', 'none');
+		}
 	}
 	
 	public static function shouldBeDisplayed()

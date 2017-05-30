@@ -87,6 +87,18 @@ class Plugin
 		// Localize data
 		$data = $this->getLocalizedData();
 		wp_localize_script('wpgmza-core', 'WPGMZA_global_settings', $data);
+		
+		// Load scripts if "always load scripts" is on
+		if(!empty(Plugin::$settings->always_load_scripts))
+		{
+			if($this->isProVersion())
+			{
+				require_once(WPGMZA_PRO_DIR . 'php/class.pro-map.php');
+				ProMap::enqueueScripts();
+			}
+			else
+				Map::enqueueScripts();
+		}
 	}
 
 	/**
@@ -119,18 +131,7 @@ class Plugin
 		wp_enqueue_script('jquery');
 		
 		wp_enqueue_style('wpgmza_v7_legacy_style', WPGMZA_BASE . 'css/wpgmza_style.css');
-		wp_enqueue_style('wpgmza_v7_admin_style', WPGMZA_BASE . 'css/wp-google-maps-admin.css');
-		
-		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/v7-style.css');
-		if(!empty(Plugin::$settings->custom_css))
-			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
-		
-		// FontAwesome
-		wp_register_style('fontawesome', WPGMZA_BASE . 'css/font-awesome.min.css');
-		wp_enqueue_style('fontawesome');
-	
-		// Datatables
-		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
+		wp_enqueue_style('wpgmza_v7_legacy_admin_style', WPGMZA_BASE . 'css/wp-google-maps-admin.css');
 		
 		// TODO: Might not be the best place for this... wrap this in the same place as the code to force redirect to migrate page (eg before any WPGM pages are displayed)
 		if(!empty($_POST))

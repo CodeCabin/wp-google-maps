@@ -582,11 +582,17 @@
 	}
 	
 	$(document).ready(function() {
-		if(false != WPGMZA.settings.autoCreateMaps)
+		function createMaps()
 		{
 			$(".wpgmza-map").each(function(index, el) {
-				WPGMZA.createMapInstance(el);
+				if(!el.wpgmzaMap)
+					WPGMZA.createMapInstance(el);
 			});
 		}
+		
+		createMaps();
+		
+		// Call again each second to load AJAX maps
+		setInterval(createMaps, 1000);
 	});
 })(jQuery);
