@@ -20,6 +20,10 @@ class SettingsPage extends AdminPage
 		
 		add_action('admin_post_wmgpza_save_settings', array($this, 'onFormSubmitted'));
 		
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-slider');
+		wp_enqueue_script('jquery-ui-tabs');
+		
 		if(!empty($_POST))
 			$this->onFormSubmitted();
 	}

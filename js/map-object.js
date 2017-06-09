@@ -55,10 +55,10 @@
 		for(var i = 0; i < pairs.length; i++)
 		{
 			coords = pairs[i].split(" ");
-			results.push(new google.maps.LatLng(
-				parseFloat(coords[1]),
-				parseFloat(coords[0])
-			));
+			results.push({
+				lat: parseFloat(coords[1]),
+				lng: parseFloat(coords[0])
+			});
 		}
 				
 		return results;

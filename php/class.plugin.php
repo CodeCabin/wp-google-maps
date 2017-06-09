@@ -109,8 +109,9 @@ class Plugin
 	{
 		$data = clone Plugin::$settings;
 			
-		$data->ajaxurl 		= admin_url('admin-ajax.php');
-		$data->fast_ajaxurl	= WPGMZA_BASE . 'php/ajax.fetch.php';
+		$data->ajaxurl 			= admin_url('admin-ajax.php');
+		$data->fast_ajaxurl		= WPGMZA_BASE . 'php/ajax.fetch.php';
+		$data->is_pro_version	= $this->isProVersion();
 
 		$data->localized_strings = array(
 			'miles'			=> __('Miles', 'wp-google-maps'),
@@ -614,13 +615,25 @@ class Plugin
 	 */
 	public function createMapInstance($id, $shortcode_atts=null)
 	{
-		if($this->isProVersion())
+		switch(Plugin::$settings->engine)
 		{
-			require_once(WPGMZA_PRO_DIR . 'php/class.pro-map.php');
-			return new ProMap($id, $shortcode_atts);
+			case 'google-maps':
+				require_once(WPGMZA_DIR . 'php/google-maps/class.google-map.php');
+			
+				if($this->isProVersion())
+				{
+					require_once(WPGMZA_PRO_DIR . 'php/google-maps/class.google-pro-map.php');
+					return new GoogleProMap($id, $shortcode_atts);
+				}
+				
+				return new GoogleMap($id, $shortcode_atts);
+				break;
+				
+			default:
+				echo "OSM not yet implemented";
+				exit;
+				break;
 		}
-		
-		return new Map($id, $shortcode_atts);
 	}
 	
 	/**

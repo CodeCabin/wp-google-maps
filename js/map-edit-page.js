@@ -10,14 +10,12 @@
 		
 		this.map = null;
 		this.rightClickCursor = null;
-		this.editMarkerTarget = null;
-		this.editPolygonTarget = null;
-		this.editPolylineTarget = null;
+		this.editMapObjectTarget = null;
 		this.drawingManager = null;
-		this.deleteMenu = null;
 		this.markerTable = null;
 		this.onFetchEditMarkerID = null;
 		this.unloadListenerBound = false;
+		this.initialBoundsChanged = true;
 		
 		this.deleteIDs = {
 			markers: [],
@@ -36,7 +34,7 @@
 			options = {
 				active: active,
 				beforeActivate: function(event, ui) {
-					self.finishEditing();
+					self.finishEditingMapObject();
 				},
 				activate: function(event, ui) {
 					self.onMapPanelTabActivated(event, ui);
@@ -105,36 +103,26 @@
 		});
 		
 		// Listen for bounds change
-		this.map.addEventListener("bounds_changed", function(event) {
+		this.map.addEventListener("boundschanged", function(event) {
 			self.onBoundsChanged(event);
 		});
 		
 		// When the user clicks cancel edit button or blank space on the map, cancel editing marker
-		google.maps.event.addListener(this.map.googleMap, "click", function(event) {
-			self.onCancelEditMarker(event);
-		});
-		google.maps.event.addListener(this.map.googleMap, "click", function(event) {
-			self.onFinishEditingPolygon(event);
-		});
-		google.maps.event.addListener(this.map.googleMap, "click", function(event) {
-			self.onFinishEditingPolyline(event);
+		this.map.addEventListener("click", function(event) {
+			self.finishEditingMapObject();
 		});
 		
 		// Set up right click marker adding
-		this.rightClickCursor = new google.maps.Marker({
-			draggable: true,
-			icon: {
-				url: $("[data-right-click-marker-image]").attr("data-right-click-marker-image"),
-				anchor: new google.maps.Point(14, 39),
-			}
+		this.rightClickCursor = this.map.createMarkerInstance({
+			draggable: true
 		});
 		
-		google.maps.event.addListener(this.rightClickCursor, 'dragend', function(event) {
+		function placeRightClickMarker(event) {
 			self.onRightClickMap(event);
-		});
-		google.maps.event.addListener(this.map.googleMap, 'rightclick', function(event) {
-			self.onRightClickMap(event);
-		});
+		}
+		
+		this.map.addEventListener("rightclick", placeRightClickMarker);
+		this.rightClickCursor.addEventListener("dragend", placeRightClickMarker);
 		
 		// Bind listener to update form on changes
 		$("form.wpgmza").on("change", function(event) {
@@ -147,7 +135,7 @@
 			self.onSaveMarker(event); 
 		});
 		$("#cancel-marker-edit").on("click", function(event) { 
-			self.onCancelEditMarker(event); 
+			self.finishEditingMapObject();
 		});
 		$("#delete-marker").on("click", function(event) { 
 			self.onDeleteMarker(event); 
@@ -158,7 +146,7 @@
 			self.onDrawPolygon(event); 
 		});
 		$("#finish-editing-polygon").on("click", function(event) { 
-			self.onFinishEditingPolygon(event); 
+			self.finishEditingMapObject();
 		});
 		$("#delete-polygon").on("click", function(event) { 
 			self.onDeletePolygon(event);
@@ -186,37 +174,28 @@
 		});
 		
 		// Drawing manager for polygons and polylines
-		this.drawingManager = new google.maps.drawing.DrawingManager({
-			drawingControl: false,
-			polygonOptions: {
-				editable: true
-			},
-			polylineOptions: {
-				editable: true
-			}
-		});
-		this.drawingManager.setMap(this.map.googleMap);
-		google.maps.event.addListener(this.drawingManager, "polygoncomplete", function(event) {
+		this.drawingManager = WPGMZA.DrawingManager.createInstance(this.map);
+		this.drawingManager.addEventListener("polygonclosed", function(event) {
 			self.onPolygonClosed(event);
 		});
-		google.maps.event.addListener(this.drawingManager, "polylinecomplete", function(event) {
+		this.drawingManager.addEventListener("polylinecomplete", function(event) {
 			self.onPolylineComplete(event);
 		});
 		
 		// Right click delete menu for polygon and polyline points
-		this.deleteMenu = new WPGMZA.DeleteMenu(this);
+		this.vertexContextMenu = this.createVertexContextMenuInstance();
 		
 		// Marker table
 		this.loadMarkerTable();
 		
 		// Listen for changes on "live" polygon and polyline forms (markers are flagged as modified by updateMarker, that form is not "live")
 		$("#polygons").find("input, select, textarea").on("change", function(event) { 
-			if(self.editPolygonTarget)
-				self.editPolygonTarget.modified = true;
+			if(self.editMapObjectTarget instanceof WPGMZA.Polygon)
+				self.editMapObjectTarget.modified = true;
 		});
 		$("#polylines").find("input, select, textarea").on("change", function(event) {
-			if(self.editPolylineTarget)
-				self.editPolylineTarget.modified = true;
+			if(self.editMapObjectTarget)
+				self.editMapObjectTarget.modified = true;
 		});
 		
 		$("form.wpgmza").on("change", function(event) {
@@ -240,26 +219,16 @@
 				$("input[name='max_zoom']").val()
 			],
 			slide: function(event, ui) {
-				$("input[name='min_zoom']").val(
-					ui.values[0]
-				);
-				$("input[name='max_zoom']").val(
-					ui.values[1]
-				);
-				
-				self.map.googleMap.setOptions({
-					minZoom: ui.values[0],
-					maxZoom: ui.values[1]
-				});
+				self.onZoomLimitsChanged(event. ui);
 			}
 		});
 		
 		// Move polygon and polyline instructions from map edit panel into map element
-		$(".wpgmza-google-map").append(
+		$(".wpgmza-engine-map").append(
 			$("#polygon-instructions")
 		);
 		
-		$(".wpgmza-google-map").append(
+		$(".wpgmza-engine-map").append(
 			$("#polyline-instructions")
 		);
 		
@@ -306,15 +275,73 @@
 		// Escape key finishes editing
 		$(document).on("keyup", function(event) {
 			if(event.keyCode == 27)
-				self.finishEditing();
+				self.finishEditingMapObject();
 		});
 		
 		// Hide preloader
 		$(".main-preloader").hide();
 		$("form.wpgmza").show();
 	}
+	
+	/**
+	 * Gets the name of an input without it's prefix
+	 * @return string
+	 */
+	WPGMZA.MapEditPage.prototype.getInputNameWithoutPrefix = function(name)
+	{
+		return name.replace(/^.+?-/, "");
+	}
+	
+	/**
+	 * Gets the value of a field
+	 * @return mixed
+	 */
+	WPGMZA.MapEditPage.prototype.getFieldValue = function(input)
+	{
+		var type = input.type.toLowerCase();
+		var value;
+		
+		switch(type)
+		{
+			case "checkbox":
+			case "radio":
+				value = $(input).prop("checked");
+				break;
+			
+			default:
+				value = $(input).val();
+				break;
+		}
+		
+		return value;
+	}
 
-	// TODO: Shouldn't touch googleMarker or googlePolygon here, it will be more code but the class should update those things itself, so that our users don't have to if they extend the plugin (eg to make their own editor or similar). In other words, the marker object should be responsible for updating its own googleMarker on property change, and this should be a wrapper
+	/**
+	 * Puts the value of the input into the settings or directly on to the specified map object
+	 * Removes the inputs prefix if it has one, and correctly gets the value of select elements
+	 * @return string the value
+	 */
+	WPGMZA.MapEditPage.prototype.inputValueToMapObjectProperty = function(input, mapObject)
+	{
+		var name = this.getInputNameWithoutPrefix(input.name);
+		var value = this.getFieldValue(input);
+		
+		if(mapObject.hasOwnProperty(name))
+			mapObject[name] = value;
+		else
+			mapObject.settings[name] = value;
+		
+		return value;
+	}
+	
+	/**
+	 * Returns an instance of the vertex context menu
+	 * @return void
+	 */
+	WPGMZA.MapEditPage.prototype.createVertexContextMenuInstance = function()
+	{
+		throw new Error("Abstract function called");
+	}
 	
 	/**
 	 * Returns the index of the tab with specified ID, used to switch tabs programatically
@@ -345,30 +372,27 @@
 	 */
 	WPGMZA.MapEditPage.prototype.updateMarker = function(latLng, preventRefreshControls)
 	{
+		var self = this;
 		var marker;
-		if(this.editMarkerTarget)
-			marker = this.editMarkerTarget;
+		
+		if(this.editMapObjectTarget && !(this.editMapObjectTarget instanceof WPGMZA.Marker))
+			finishEditingMapObject();
+		
+		if(!this.editMapObjectTarget)
+			marker = this.map.createMarkerInstance();
 		else
-			marker = WPGMZA.createMarkerInstance();
+			marker = this.editMapObjectTarget;
 		
 		$("#wpgmza-markers-tab").find("input[name], select[name], textarea[name]").each(function(index, el) {
-			var name = $(this).attr("name");
-			var value = $(el).val();
-			
-			if(marker.hasOwnProperty(name))
-				marker[name] = value;
-			else
-				marker.settings[name] = value;
+			self.inputValueToMapObjectProperty(el, marker);
 		});
 		
-		marker.lat = latLng.lat();
-		marker.lng = latLng.lng();
-		marker.googleMarker.setPosition(latLng);
-		marker.googleMarker.setAnimation(marker.settings.animation);
+		marker.setPosition(latLng);
+		marker.setAnimation(marker.settings.animation);
 		
 		if(!marker.map)
 			this.map.addMarker(marker);
-		this.map.googleMap.panTo(latLng);
+		this.map.panTo(latLng);
 		
 		$("input[name='address']").val("");
 		this.enableMarkerButtons(true);
@@ -421,31 +445,19 @@
 	 */
 	WPGMZA.MapEditPage.prototype.editMarker = function(marker)
 	{
-		// Stop right click add if that was happening
-		this.rightClickCursor.setMap(null);
-		
-		// Set edit marker target
-		this.editMarkerTarget = marker;
-		
-		if(!marker)
-		{
-			// Clear marker fields
-			this.clearMarkerFields();
-			$("#wpgmza-markers-tab").removeClass("update-marker").addClass("add-marker");
-			return;
-		}
-		
 		// Select the marker tab
 		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
 			active: 0
 		});
 		
-		// Stop editing polygons / polylines
-		this.editPolygon(null);
-		this.editPolyline(null);
+		if(!marker)
+			return;
+		
+		// Set edit marker target
+		this.editMapObjectTarget = marker;
 		
 		// Center on the marker
-		this.map.googleMap.panTo(marker.googleMarker.getPosition());
+		this.map.panTo(marker.getPosition());
 		
 		// Fill the form with markers data
 		$("#wpgmza-markers-tab").find("input, select, textarea").each(function(index, el) {
@@ -485,7 +497,7 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onCancelEditMarker = function(event)
 	{
-		this.editMarker(null);
+		this.finishEditingMapObject();
 	}
 	
 	/**
@@ -504,8 +516,11 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onDeleteMarker = function(event)
 	{
-		this.deleteMarkerByID(this.editMarkerTarget.id);
-		this.editMarker(null);
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Marker))
+			return;
+		
+		this.deleteMarkerByID(this.editMapObjectTarget.id);
+		this.finishEditingMapObject();
 		this.markerTable.refresh();
 		this.bindUnloadListener();
 	}
@@ -517,13 +532,16 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onRightClickMap = function(event)
 	{
-		// Stop editing marker, do this before setting the address input value as it clears it
-		this.editMarker(null);
+		// Switch to the marker tab
+		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
+			active: this.getTabIndexByID("wpgmza-markers-tab")
+		});
 		
-		var value = event.latLng.toString().replace(/[() ]/g, "");
+		// Put lat/lng into the address box
+		var value = (event.latLng.lat + ", " + event.latLng.lng).replace(/[() ]/g, "");
 		$("input[name='address']").val(value);
 		
-		this.rightClickCursor.setMap(this.map.googleMap);
+		// Set the position of the right click marker
 		this.rightClickCursor.setPosition(event.latLng);
 	}
 	
@@ -533,44 +551,34 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onSaveMarker = function()
 	{
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Marker))
+			return;
+		
 		var self = this;
 		var address = $("form.wpgmza input[name='address']").val();
+		var marker = this.editMapObjectTarget;
 		
 		$("#geocoder-error").hide();
 		
-		if(!WPGMZA.isLatLngString(address))
-		{
-			var geocoder = new google.maps.Geocoder();
-			geocoder.geocode({address: address}, function(results, status) {
-				self.onGeocoderResponse(results, status);
-			});
-			this.enableMarkerButtons(false);
-		}
-		else
-		{
-			var parts = address.split(",");
-			var latLng = new google.maps.LatLng(parts[0], parts[1]);
-			this.updateMarker(latLng);
-		}
+		marker.setPositionFromAddress(address, function(latLng) {
+			self.onGeocoderResponse(latLng);
+		});
 	}
 	
 	/**
 	 * Called when the geocoder returns a response from save / add marker
 	 * @return void
 	 */
-	WPGMZA.MapEditPage.prototype.onGeocoderResponse = function(results, status)
+	WPGMZA.MapEditPage.prototype.onGeocoderResponse = function(latLng)
 	{
 		this.enableMarkerButtons(true);
 		
-		if(status != google.maps.GeocoderStatus.OK)
+		if(latLng == null)
 		{
 			$("#geocoder-error").show();
 			$("input[name='address']").focus().select();
 			return;
 		}
-		
-		var result = results[0];
-		var latLng = result.geometry.location;
 		
 		this.updateMarker(latLng);
 	}
@@ -633,27 +641,19 @@
 	 */
 	WPGMZA.MapEditPage.prototype.editPolygon = function(polygon)
 	{
-		var prevTarget = this.editPolygonTarget;
-		this.editPolygonTarget = polygon;
-		
-		if(prevTarget)
-			prevTarget.googlePolygon.setOptions({editable: false});
-		
-		if(!polygon)
-		{
-			$("#polygons input:not([type])").val("");
-			$("#polygons").removeClass("update-polygon").addClass("add-polygon");
-			this.drawingManager.setDrawingMode(null);
-			return;
-		}
+		var self = this;
 		
 		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
 			active: this.getTabIndexByID("polygons")
 		});
 		
-		// TODO: Fit polygon bounds?
+		if(!polygon)
+			return;
+
+		this.editMapObjectTarget = polygon;
 		
-		polygon.googlePolygon.setOptions({editable: true});
+		// TODO: Fit polygon bounds?
+		polygon.setEditable(true);
 		
 		$("input[name='polygon-name']").val(polygon.name);
 		
@@ -661,8 +661,13 @@
 			if($(el).prop("disabled"))
 				return;
 			
-			var nameWithoutPrefix = $(el).attr("name").replace(/^polygon-/, "");
-			$(el).val(polygon.settings[nameWithoutPrefix]);
+			var name = self.getInputNameWithoutPrefix(el.name);
+			var value = self.getFieldValue(el);
+			
+			if(name in polygon)
+				$(el).val(polygon[name]);
+			else
+				$(el).val(polygon.settings[name]);
 		});
 		
 		$("#polygons").removeClass("add-polygon").addClass("update-polygon");
@@ -675,23 +680,25 @@
 	WPGMZA.MapEditPage.prototype.onDrawPolygon = function(event)
 	{
 		var fields = this.getPolygonFields();
-		this.drawingManager.setOptions({
-			polygonOptions: fields
-		});
-		this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+		this.drawingManager.setOptions(fields);
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_POLYGON);
 	}
 	
-	WPGMZA.MapEditPage.prototype.onPolygonClosed = function(googlePolygon)
+	/**
+	 * Called when the user closes a polygon when drawing
+	 * @return void
+	 */
+	WPGMZA.MapEditPage.prototype.onPolygonClosed = function(event)
 	{
 		var fields = this.getPolygonFields();
-		var polygon = WPGMZA.createPolygonInstance({settings: fields}, googlePolygon);
+		var polygon = this.map.createPolygonInstance({settings: fields}, event.enginePolygon);
 		
 		polygon.modified = true;
 		this.bindUnloadListener();
 		
-		this.drawingManager.setDrawingMode(null);
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_NONE);
 		this.map.addPolygon(polygon);
-		
+
 		this.editPolygon(polygon);
 	}
 	
@@ -701,7 +708,7 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onFinishEditingPolygon = function(event)
 	{
-		this.editPolygon(null);
+		this.finishEditingMapObject();
 	}
 	
 	/**
@@ -710,17 +717,23 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onDeletePolygon = function(event)
 	{
-		var id = this.editPolygonTarget.id;
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polygon))
+			return;
+		
+		var id = this.editMapObjectTarget.id;
 		
 		this.deleteIDs.polygons.push(id);
-		this.map.deletePolygon(this.editPolygonTarget);
-		this.editPolygon(null);
+		this.map.deletePolygon(this.editMapObjectTarget);
+		this.finishEditingMapObject();
 		this.bindUnloadListener();
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolygonModified = function(vertex)
 	{
-		this.editPolygonTarget.modified = true;
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polygon))
+			return;
+		
+		this.editMapObjectTarget.modified = true;
 		this.bindUnloadListener();
 	}
 	
@@ -733,29 +746,10 @@
 		polygon.addEventListener("click", function(event) {
 			self.onPolygonClicked(event);
 		});
-		
-		polygon.rightClickListener = google.maps.event.addListener(polygon.googlePolygon, "rightclick", function(e) {
-			self.deleteMenu.open(self.map.googleMap, polygon.googlePolygon.getPath(), e.vertex);
-		});
-		
-		polygon.googlePolygon.getPaths().forEach(function(path, index) {
-			google.maps.event.addListener(path, "insert_at", function(event) {
-				self.onPolygonModified(event);
-			});
-			google.maps.event.addListener(path, "remove_at", function(event) {
-				self.onPolygonModified(event);
-			})
-			google.maps.event.addListener(path, "set_at", function(event) {
-				self.onPolygonModified(event);
-			});
-		});
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolygonRemoved = function(event)
 	{
-		event.polygon.removeEventListener("click", onPolygonClicked);
-		google.maps.event.removeListener(event.polygon.rightClickListener);
-		delete polygon.rightClickListener;
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolygonClicked = function(event)
@@ -765,21 +759,10 @@
 	
 	WPGMZA.MapEditPage.prototype.onPolygonSettingChanged = function(event)
 	{
-		if(!this.editPolygonTarget)
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polygon))
 			return;
 		
-		var name = event.target.name.replace(/^polygon-/, "");
-		var value = $(event.target).val();
-		
-		if(this.editPolygonTarget.hasOwnProperty(name))
-			this.editPolygonTarget[name] = value;
-		else
-			this.editPolygonTarget.settings[name] = value;
-		
-		// NB: Options have to be passed like this so that the property name is a literal and not a string
-		var options = {};
-		options[name] = value;
-		this.editPolygonTarget.googlePolygon.setOptions(options);
+		return this.inputValueToMapObjectProperty(event.target, this.editMapObjectTarget);
 	}
 	
 	// Polyline Functions /////////////////////
@@ -797,27 +780,17 @@
 	
 	WPGMZA.MapEditPage.prototype.editPolyline = function(polyline)
 	{
-		var prevTarget = this.editPolylineTarget;
-		this.editPolylineTarget = polyline;
-		
-		if(prevTarget)
-			prevTarget.googlePolyline.setOptions({editable: false});
-		
-		if(!polyline)
-		{
-			$("input[name='polyline-name']").val("");
-			$("#polylines").removeClass("update-polyline").addClass("add-polyline");
-			this.drawingManager.setDrawingMode(null);
-			return;
-		}
-		
 		$("#wpgmza_map_panel .wpgmza-tabs").tabs({
 			active: this.getTabIndexByID("polylines")
 		});
 		
-		// TODO: Fit polyline bounds
+		if(!polyline)
+			return;
 		
-		polyline.googlePolyline.setOptions({editable: true});
+		this.editMapObjectTarget = polyline;
+		
+		// TODO: Fit polyline bounds?
+		polyline.setEditable(true);
 		
 		$("#polylines input").each(function(index, el) {
 			if($(el).prop("disabled"))
@@ -838,18 +811,18 @@
 		this.drawingManager.setOptions({
 			polylineOptions: fields
 		});
-		this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYLINE);
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_POLYLINE);
 	}
 	
-	WPGMZA.MapEditPage.prototype.onPolylineComplete = function(googlePolyline)
+	WPGMZA.MapEditPage.prototype.onPolylineComplete = function(event)
 	{
 		var fields = this.getPolylineFields();
-		var polyline = new WPGMZA.Polyline({settings: fields}, googlePolyline);
+		var polyline = this.map.createPolylineInstance({settings: fields}, event.enginePolyline);
 		
 		polyline.modified = true;
 		this.bindUnloadListener();
 		
-		this.drawingManager.setDrawingMode(null);
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_NONE);
 		this.map.addPolyline(polyline);
 		
 		this.editPolyline(polyline);
@@ -857,41 +830,36 @@
 	
 	WPGMZA.MapEditPage.prototype.onFinishEditingPolyline = function(event)
 	{
-		this.editPolyline(null);
+		this.finishEditingMapObject();
 	}
 	
 	WPGMZA.MapEditPage.prototype.onDeletePolyline = function(event)
 	{
-		var id = this.editPolylineTarget.id;
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polyline))
+			return;
+		
+		var id = this.editMapObjectTarget.id;
 		
 		this.deleteIDs.polylines.push(id);
-		this.map.deletePolyline(this.editPolylineTarget);
-		this.editPolyline(null);
+		this.map.deletePolyline(this.editMapObjectTarget);
+		this.finishEditingMapObject();
 		this.bindUnloadListener();
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolylineSettingChanged = function(event)
 	{
-		if(!this.editPolylineTarget)
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polyline))
 			return;
 		
-		var name = event.target.name.replace(/^polyline-/, "");
-		var value = $(event.target).val();
-		
-		if(this.editPolylineTarget.hasOwnProperty(name))
-			this.editPolylineTarget[name] = value;
-		else
-			this.editPolylineTarget.settings[name] = value;
-		
-		// NB: Options have to be passed like this so that the property name is a literal and not a string
-		var options = {};
-		options[name] = value;
-		this.editPolylineTarget.googlePolyline.setOptions(options);
+		return this.inputValueToMapObjectProperty(event.target, this.editMapObjectTarget);
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolylineModified = function(vertex)
 	{
-		this.editPolylineTarget.modified = true;
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polyline))
+			return;
+		
+		this.editMapObjectTarget.modified = true;
 		this.bindUnloadListener();
 	}
 	
@@ -903,26 +871,11 @@
 		polyline.addEventListener("click", function(event) {
 			self.onPolylineClicked(event);
 		});
-		polyline.rightClickListener = google.maps.event.addListener(polyline.googlePolyline, "rightclick", function(e) {
-			deleteMenu.open(self.map.googleMap, polyline.googlePolyline.getPath(), e.vertex);
-		});
-		
-		var path = polyline.googlePolyline.getPath();
-		google.maps.event.addListener(path, "insert_at", function(event) {
-			self.onPolylineModified(event);
-		});
-		google.maps.event.addListener(path, "remove_at", function(event) {
-			self.onPolylineModified(event);
-		});
-		google.maps.event.addListener(path, "set_at", function(event) {
-			self.onPolylineModified(event);
-		});
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolylineRemoved = function(event)
 	{
 		polyline.removeEventListener("click", onPolylineClicked);
-		google.maps.event.removeListener(polyline.rightClickListener);
 	}
 	
 	WPGMZA.MapEditPage.prototype.onPolylineClicked = function(event)
@@ -982,6 +935,13 @@
 	
 	WPGMZA.MapEditPage.prototype.bindUnloadListener = function(event)
 	{
+		if(this.initialBoundsChanged)
+		{
+			// Don't bind the unload listener on the first boundchanged event, it fires when the map initializes
+			this.initialBoundsChanged = false;
+			return;
+		}
+		
 		if(this.unloadListenerBound)
 			return;
 		
@@ -992,29 +952,12 @@
 	
 	WPGMZA.MapEditPage.prototype.applyThemeData = function()
 	{
-		var str = $("textarea[name='theme_data']").val();
 		
-		try{
-			var json = JSON.parse(str);
-		}catch(e) {
-			alert(e.message);
-			return;
-		}
-		
-		var data = $.extend(json, {name: "Styled Map"});
-		var styledMapType = new google.maps.StyledMapType(data);
-		this.map.googleMap.mapTypes.set("styled_map", styledMapType);
-		this.map.googleMap.setMapTypeId("styled_map");
-		
-		// Respect points of interest stylers after applying the theme
-		this.map.showPointsOfInterest(
-			$("input[name='show_points_of_interest]").prop("checked")
-		);
 	}
 	
 	WPGMZA.MapEditPage.prototype.showMapInstructions = function(type)
 	{
-		$(".wpgmza-google-map *[id$='instructions']").hide();
+		$(".wpgmza-engine-map *[id$='instructions']").hide();
 		$("#" + type + "-instructions").show();
 	}
 	
@@ -1093,10 +1036,10 @@
 		var td = $(event.target).closest("td");
 		var id = td.attr("data-marker-id");
 		
-		var latLng = new google.maps.LatLng({
+		var latLng = {
 			lat: parseFloat(td.attr("data-lat")),
 			lng: parseFloat(td.attr("data-lng"))
-		});
+		};
 		
 		var marker;
 		if(marker = this.map.getMarkerByID(id))
@@ -1104,7 +1047,7 @@
 		else
 			this.onFetchEditMarkerID = id; // Marker not loaded, remember to edit it once fetch completes
 		
-		this.map.googleMap.panTo(latLng);
+		this.map.panTo(latLng);
 	}
 	
 	/**
@@ -1120,8 +1063,8 @@
 		this.deleteMarkerByID(id);
 		
 		// If the marker is open in the edit menu, finish editing
-		if(this.editMarkerTarget && this.editMarkerTarget.id == id)
-			this.editMarker(null);
+		if(this.editMapObjectTarget && this.editMapObjectTarget.id == id)
+			this.finishEditingMapObject();
 		
 		// Refresh the table
 		this.markerTable.refresh();
@@ -1160,15 +1103,54 @@
 	
 	// General functions //////////////////////
 	
+	WPGMZA.MapEditPage.prototype.onZoomLimitsChanged = function(event, ui)
+	{
+		var min = ui.values[0];
+		var max = ui.values[1];
+		
+		$("input[name='min_zoom']").val(min);
+		$("input[name='max_zoom']").val(max);
+		
+		this.map.setMinZoom(min);
+		this.map.setMaxZoom(max);
+	}
+	
+	/**
+	 * This function returns an array of the editing functions, used by finishEditingMapObject to avoid infinite recursion
+	 * @return void
+	 */
+	WPGMZA.MapEditPage.prototype.getEditFunctionNames = function()
+	{
+		return [
+			"editMarker",
+			"editPolygon",
+			"editPolyline"
+		];
+	}
+	
 	/**
 	 * This function will cancel any editing taking place, useful when switching tabs, pressing ESC, etc.
 	 * @return void
 	 */
-	WPGMZA.MapEditPage.prototype.finishEditing = function()
+	WPGMZA.MapEditPage.prototype.finishEditingMapObject = function()
 	{
-		this.editMarker(null);
-		this.editPolygon(null);
-		this.editPolyline(null);
+		if(!this.editMapObjectTarget)
+			return;
+		
+		this.clearMarkerFields();
+		$("#wpgmza-markers-tab").removeClass("update-marker").addClass("add-marker");
+		
+		$("#polygons input:not([type])").val("");
+		$("#polygons").removeClass("update-polygon").addClass("add-polygon");
+		
+		$("input[name='polyline-title']").val("");
+		$("#polylines").removeClass("update-polyline").addClass("add-polyline");
+		
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_NONE);
+		
+		if(this.editMapObjectTarget.setEditable)
+			this.editMapObjectTarget.setEditable(false);
+		this.editMapObjectTarget = null;
 	}
 	
 	/**
@@ -1223,9 +1205,16 @@
 	}
 	
 	$(document).ready(function() {
-		if(WPGMZA.ProMapEditPage)
-			WPGMZA.mapEditPage = new WPGMZA.ProMapEditPage();
-		else
-			WPGMZA.mapEditPage = new WPGMZA.MapEditPage();
+		var pro = WPGMZA.isProVersion();
+		
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				WPGMZA.mapEditPage = (pro ? new WPGMZA.GoogleProMapEditPage() : new WPGMZA.GoogleMapEditPage());
+				break;
+			
+			default:
+				break;
+		}
 	});
 })(jQuery);

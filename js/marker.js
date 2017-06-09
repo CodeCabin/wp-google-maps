@@ -21,22 +21,62 @@
 		
 		WPGMZA.MapObject.apply(this, arguments);
 		
-		this.googleMarker = new google.maps.Marker(this.settings);
-		this.googleMarker.wpgmzaMarker = this;
-		this.googleMarker.setPosition(new google.maps.LatLng({
-			lat: parseFloat(this.lat),
-			lng: parseFloat(this.lng)
-		}));
-		
-		this.infoWindow = WPGMZA.createInfoWindowInstance(this);
-		
-		google.maps.event.addListener(this.googleMarker, "click", function() {
-			self.dispatchEvent({type: "click"});
+		this.addEventListener("added", function(event) {
+			self.onAdded(event);
 		});
 	}
 	
 	WPGMZA.Marker.prototype = Object.create(WPGMZA.MapObject.prototype);
 	WPGMZA.Marker.prototype.constructor = WPGMZA.Marker;
+	
+	WPGMZA.Marker.ANIMATION_NONE			= "0";
+	WPGMZA.Marker.ANIMATION_BOUNCE			= "1";
+	WPGMZA.Marker.ANIMATION_DROP			= "2";
+	
+	WPGMZA.Marker.prototype.onAdded = function(event)
+	{
+		this.infoWindow = this.createInfoWindowInstance(this);
+	}
+	
+	/**
+	 * Sets the position of the marker
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.setPosition = function(latLng)
+	{
+		this.lat = latLng.lat;
+		this.lng = latLng.lng;
+	}
+	
+	/**
+	 * Set the marker animation
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.getAnimation = function(animation)
+	{
+		return this.settings.animation;
+	}
+	
+	/**
+	 * Set the marker animation
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.setAnimation = function(animation)
+	{
+		this.settings.animation = animation;
+	}
+	
+	/**
+	 * Creates info window for this marker
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.createInfoWindowInstance = function(mapObject)
+	{
+		if(WPGMZA.isProVersion())
+			return new WPGMZA.ProInfoWindow(mapObject);
+		
+		return new WPGMZA.InfoWindow(mapObject);
+	}
 	
 	/**
 	 * Returns the marker as a JSON object

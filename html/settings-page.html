@@ -44,7 +44,14 @@
 			</ul>
 			
 			<div id="maps">
-				<h3><?php _e('Map Settings'); ?></h3>
+				<h3><?php _e('Map Settings', 'wp-google-maps'); ?></h3>
+				<fieldset>
+					<label><?php _e('Engine', 'wp-google-maps'); ?></label>
+					<select name="engine">
+						<option selected value="open-street-map">OpenStreetMap</option>
+						<option value="google-maps">Google Maps</option>
+					</select>
+				</fieldset>
 				<fieldset>
 					<label><?php _e("General Map Settings","wp-google-maps") ?></label>
 					<div>

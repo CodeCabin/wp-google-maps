@@ -1,6 +1,7 @@
-WPGMZA.Event = function(type)
+WPGMZA.Event = function(options)
 {
-	this.type = type;
+	if(typeof options == "string")
+		this.type = options;
 	
 	this.bubbles		= true;
 	this.cancelable		= true;
@@ -8,6 +9,10 @@ WPGMZA.Event = function(type)
 	this.target			= null;
 	
 	this._cancelled = false;
+	
+	if(typeof options == "object")
+		for(var name in options)
+			this[name] = options[name];
 }
 
 WPGMZA.Event.CAPTURING_PHASE		= 0;

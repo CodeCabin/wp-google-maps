@@ -1,6 +1,6 @@
 var WPGMZA = {
 	maps: [],
-	settings: "Not Loaded",
+	settings: window.WPGMZA_global_settings,
 	loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 	
 	/**
@@ -28,10 +28,18 @@ var WPGMZA = {
 		return str.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/);
 	},
 	
+	/**
+	 * Returns true if running the Pro version of the plugin
+	 * @return void
+	 */
+	isProVersion: function()
+	{
+		return this.settings.is_pro_version;
+	},
+	
 	openMediaDialog: function(callback) {
 		// Media upload
 		var file_frame;
-		event.preventDefault();
 		
 		// If the media frame already exists, reopen it.
 		if ( file_frame ) {
@@ -64,38 +72,32 @@ var WPGMZA = {
 	},
 	
 	createMapInstance: function(element) {
-		if(WPGMZA.ProMap)
-			return new WPGMZA.ProMap(element);
-		
-		return new WPGMZA.Map(element);
-	},
-	
-	createMarkerInstance: function(row) {
-		if(WPGMZA.ProMarker)
-			return new WPGMZA.ProMarker(row);
-		
-		return new WPGMZA.Marker(row);
-	},
-	
-	createPolygonInstance: function(row, googlePolygon) {
-		if(WPGMZA.ProPolygon)
-			return new WPGMZA.ProPolygon(row, googlePolygon);
-		
-		return WPGMZA.Polygon(row, googlePolygon);
-	},
-	
-	createInfoWindowInstance: function(mapObject) {
-		if(WPGMZA.ProInfoWindow)
-			return new WPGMZA.ProInfoWindow(mapObject);
-		
-		return new WPGMZA.InfoWindow(mapObject);
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.GoogleProMap(element);
+				
+				return new WPGMZA.GoogleMap(element);
+				break;
+				
+			default:
+				alert("OSM not yet implemented");
+				break;
+		}
 	}
 };
 
 (function($) {
 	$(document).ready(function(event) {
-		WPGMZA.settings = window.WPGMZA_global_settings;
-		
+		// Check for multiple jQuery versions
+		var elements = $("script").filter(function() {
+			return this.src.match(/(^|\/)jquery\.(min\.)?js(\?|$)/i);
+		});
+
+		if(elements.length > 1)
+			console.warn("Multiple jQuery versions detected: ", elements);
+	
 		// Shortcode boxes
 		$(".wpgmza_copy_shortcode").on("click", function() {
 			var temp = $("<input>");

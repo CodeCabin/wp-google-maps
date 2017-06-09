@@ -1,15 +1,4 @@
 (function($) {
-	function generateUUID () { // Public Domain/MIT
-		var d = new Date().getTime();
-		if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
-			d += performance.now(); //use high-precision timer if available
-		}
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-		});
-	}
 	
 	/**
 	 * Constructor
@@ -31,7 +20,7 @@
 		this.element = element;
 		this.element.wpgmzaMap = this;
 		
-		this.googleElement = $(this.element).find(".wpgmza-google-map")[0];
+		this.engineElement = $(this.element).find(".wpgmza-engine-map")[0];
 		
 		if(!jQuery.fn.jquery.match(/1\.([0-7])\.([0-9])/))
 			$(this.element).find("#wpgmza-jquery-error").remove();
@@ -55,18 +44,17 @@
 		};
 		
 		// This session ID is unique to the map on this visit, as opposed to the PHP session ID. This is used server side to remember which markers have already been sent
-		this.sessionID = generateUUID();	
+		this.sessionID = WPGMZA.guid();
 		
 		this.ajaxTimeoutID = null;
 		this.pendingAJAXRequests = 0;
 		
 		this.loadSettings();
-		this.loadGoogleMap();
 		
 		// Store locator
 		if(this.settings.store_locator_enabled)
 		{
-			if(WPGMZA.ProStoreLocator)
+			if(WPGMZA.isProVersion())
 				this.storeLocator = new WPGMZA.ProStoreLocator(this);
 			else
 				this.storeLocator = new WPGMZA.StoreLocator(this);
@@ -100,30 +88,6 @@
 	}
 	
 	/**
-	 * Creates the Google Maps map
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.loadGoogleMap = function()
-	{
-		var self = this;
-		var options = this.settings.toGoogleMapsOptions();
-		
-		this.googleMap = new google.maps.Map(this.googleElement, options);
-		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { self.onBoundsChanged(); });
-		
-		if(this.settings.bicycle)
-			this.enableBicycleLayer(true);
-		if(this.settings.traffic)
-			this.enableTrafficLayer(true);
-		if(this.settings.transport)
-			this.enablePublicTransportLayer(true);
-		this.showPointsOfInterest(this.settings.show_points_of_interest);
-		
-		// Move the loading wheel into the map element (it has to live outside in the HTML file because it'll be overwritten by Google otherwise)
-		$(this.googleElement).append($(this.element).find(".wpgmza-loader"));
-	}
-	
-	/**
 	 * Fired when map bounds are initially set or change
 	 * @return void
 	 */
@@ -138,7 +102,7 @@
 			self.fetch();
 		}, 500);
 		
-		this.dispatchEvent({type: "bounds_changed"});
+		this.dispatchEvent({type: "boundschanged"});
 	}
 	
 	/**
@@ -151,13 +115,16 @@
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
 		
 		marker.map = this;
-		marker.googleMarker.setMap(this.googleMap);
 		
 		this.markers.push(marker);
 		this.dispatchEvent({type: "markeradded", marker: marker});
 		marker.dispatchEvent({type: "added"});
 	}
 	
+	/**
+	 * Removes the specified marker from this map
+	 * @return void
+	 */
 	WPGMZA.Map.prototype.deleteMarker = function(marker)
 	{
 		if(!(marker instanceof WPGMZA.Marker))
@@ -167,7 +134,6 @@
 			throw new Error("Wrong map error");
 		
 		marker.map = null;
-		marker.googleMarker.setMap(null);
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
@@ -205,12 +171,16 @@
 			throw new Error("Argument must be an instance of WPGMZA.Polygon");
 		
 		polygon.map = this;
-		polygon.googlePolygon.setMap(this.googleMap);
+		
 		
 		this.polygons.push(polygon);
 		this.dispatchEvent({type: "polygonadded", polygon: polygon});
 	}
 	
+	/**
+	 * Removes the specified polygon from this map
+	 * @return void
+	 */
 	WPGMZA.Map.prototype.deletePolygon = function(polygon)
 	{
 		if(!(polygon instanceof WPGMZA.Polygon))
@@ -220,7 +190,6 @@
 			throw new Error("Wrong map error");
 		
 		polygon.map = null;
-		polygon.googlePolygon.setMap(null);
 		
 		this.polygons.splice(this.polygons.indexOf(polygon), 1);
 		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
@@ -236,12 +205,15 @@
 			throw new Error("Argument must be an instance of WPGMZA.Polyline");
 		
 		polyline.map = this;
-		polyline.googlePolyline.setMap(this.googleMap);
 		
 		this.polylines.push(polyline);
 		this.dispatchEvent({type: "polylineadded", polyline: polyline});
 	}
 	
+	/**
+	 * Removes the specified polygon from this map
+	 * @return void
+	 */
 	WPGMZA.Map.prototype.deletePolyline = function(polyline)
 	{
 		if(!(polyline instanceof WPGMZA.Polyline))
@@ -251,50 +223,9 @@
 			throw new Error("Wrong map error");
 		
 		polyline.map = null;
-		polyline.googlePolyline.setMap(null);
 		
 		this.polylines.splice(this.polylines.indexOf(polyline), 1);
 		this.dispatchEvent({type: "polylineremoved", polyline: polyline});
-	}
-	
-	/* 
-	TODO: I'm a little bit worried that these delegate functions might end up being hard to maintain
-	*/
-	
-	/**
-	 * Delegate for google maps getCenter
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.getCenter = function()
-	{
-		return this.googleMap.getCenter();
-	}
-	
-	/**
-	 * Delegate for google maps setCenter
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.setCenter = function(latLng)
-	{
-		this.googleMap.setCenter(latLng);
-	}
-	
-	/**
-	 * Delegate for google maps getCenter
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.getZoom = function()
-	{
-		return this.googleMap.getZoom();
-	}
-	
-	/**
-	 * Delegate for google maps getZoom
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.setZoom = function(value)
-	{
-		return this.googleMap.setZoom(value);
 	}
 	
 	/**
@@ -335,14 +266,14 @@
 	 * @param latLng
 	 * @return WPGMZA.Marker
 	 */
-	WPGMZA.Map.prototype.getClosestMarker = function(latLng)
+	WPGMZA.Map.prototype.getClosestMarker = function(lat, lng)
 	{
 		var dist;
 		var closestIndex;
 		var closestDistance = Infinity;
 		
-		var x1 = latLng.lng();
-		var y1 = latLng.lat();
+		var x1 = lng;
+		var y1 = lat;
 		var x2, y2, dx, dy;
 		var position;
 		var count = this.markers.length;
@@ -353,9 +284,9 @@
 		for(var i = 0; i < count; i++)
 		{
 			// IMPORTANT: Please do NOT use this formula for getting the distance between two latLngs, it is ONLY good for a quick and dirty way to find the closest marker. It does not account for the curvature of the earth.
-			position = this.markers[i].googleMarker.getPosition();
-			x2 = position.lng();
-			y2 = position.lat();
+			position = this.markers[i].getPosition();
+			x2 = position.lng;
+			y2 = position.lat;
 			dx = x2 - x1;
 			dy = y2 - y1;
 			
@@ -380,7 +311,6 @@
 		return {
 			map_id:	this.id,
 			action:	"wpgmza_map_fetch",
-			bounds: this.googleMap.getBounds().toUrlValue(7),
 			sid:	this.sessionID
 		};
 	}
@@ -427,7 +357,7 @@
 			if(this.excludeIDs.markers[json.markers[i].id])
 				continue;
 			
-			var marker = WPGMZA.createMarkerInstance(json.markers[i]);
+			var marker = this.createMarkerInstance(json.markers[i]);
 			marker.modified = false;
 			this.addMarker(marker);
 		}
@@ -437,7 +367,7 @@
 			if(this.excludeIDs.polygons[json.polygons[i].id])
 				continue;
 			
-			var polygon = WPGMZA.createPolygonInstance(json.polygons[i]);
+			var polygon = this.createPolygonInstance(json.polygons[i]);
 			polygon.modified = false;
 			this.addPolygon(polygon);
 		}
@@ -447,84 +377,12 @@
 			if(this.excludeIDs.polylines[json.polylines[i].id])
 				continue;
 			
-			var polyline = new WPGMZA.Polyline(json.polylines[i]);
+			var polyline = this.createPolylineInstance(json.polylines[i]);
 			polyline.modified = false;
 			this.addPolyline(polyline);
 		}
 		
 		this.dispatchEvent({type: "fetchsuccess"});
-	}
-	
-	
-	/**
-	 * Enables / disables the bicycle layer
-	 * @param enable boolean, enable or not
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.enableBicycleLayer = function(enable)
-	{
-		if(!this.bicycleLayer)
-			this.bicycleLayer = new google.maps.BicyclingLayer();
-		
-		this.bicycleLayer.setMap(
-			enable ? this.googleMap : null
-		);
-	}
-	
-	/**
-	 * Enables / disables the bicycle layer
-	 * @param enable boolean, enable or not
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.enableTrafficLayer = function(enable)
-	{
-		if(!this.trafficLayer)
-			this.trafficLayer = new google.maps.TrafficLayer();
-		
-		this.trafficLayer.setMap(
-			enable ? this.googleMap : null
-		);
-	}
-	
-	/**
-	 * Enables / disables the bicycle layer
-	 * @param enable boolean, enable or not
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.enablePublicTransportLayer = function(enable)
-	{
-		if(!this.publicTransportLayer)
-			this.publicTransportLayer = new google.maps.TransitLayer();
-		
-		this.publicTransportLayer.setMap(
-			enable ? this.googleMap : null
-		);
-	}
-	
-	/**
-	 * Shows / hides points of interest
-	 * @param show boolean, enable or not
-	 * @return void
-	 */
-	WPGMZA.Map.prototype.showPointsOfInterest = function(show)
-	{
-		var text = $("textarea[name='theme_data']").val();
-		
-		if(!text)
-			return;
-		
-		var styles = JSON.parse(text);
-		
-		styles.push({
-			featureType: "poi",
-			stylers: [
-				{
-					visibility: (show ? "on" : "off")
-				}
-			]
-		});
-		
-		this.googleMap.setOptions({styles: styles});
 	}
 	
 	/**
@@ -537,7 +395,7 @@
 			width: width
 		});
 		
-		$(this.googleElement).css({
+		$(this.engineElement).css({
 			width: "100%",
 			height: height
 		});

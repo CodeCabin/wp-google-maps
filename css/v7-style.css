@@ -307,7 +307,7 @@ button.delete-heatmap
 	padding: 0 10px !important;
 }
 
-.wpgmza-delete-vertex-menu
+.wpgmza-vertex-context-menu
 {
 	position: absolute;
 	background: white;
@@ -323,7 +323,7 @@ button.delete-heatmap
 	cursor: pointer;
 }
 
-.wpgmza-delete-vertex-menu:hover
+.wpgmza-vertex-context-menu:hover
 {
 	background: #eee;
 }
@@ -368,12 +368,17 @@ form.wpgmza #marker-table-container td.address
 	padding-left: 0.5em;
 }
 
-form.wpgmza .wpgmza-google-map *[id$='instructions']
+form.wpgmza .wpgmza-map *[id$='instructions']
 {
 	position: absolute;
 	left: 6px;
 	bottom: 6px;
 	display: none;
+
+	display: block;	
+	
+	background: rgba(255,255,255,0.85);
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 form.wpgmza .ui-slider-range.ui-widget-header

@@ -49,6 +49,8 @@ class Document extends \DOMDocument
 		
 		if(empty($html))
 			throw new \Exception("$src is empty");
+		
+		$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
 		$result = $this->loadHTML($html);
 		
 		$this->src_file = $src;

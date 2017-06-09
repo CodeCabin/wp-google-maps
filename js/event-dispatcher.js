@@ -7,6 +7,15 @@ WPGMZA.EventDispatcher.prototype.addEventListener = function(type, listener, thi
 {
 	var arr;
 	
+	var types = type.split(/\s+/);
+	if(types.length > 1)
+	{
+		for(var i = 0; i < types.length; i++)
+			this.addEventListener(types[i], listener, thisObject, useCapture);
+		
+		return;
+	}
+	
 	if(!(listener instanceof Function))
 		throw new Error("Listener must be a function");
 
@@ -55,10 +64,15 @@ WPGMZA.EventDispatcher.prototype.dispatchEvent = function(event)
 {
 	if(!(event instanceof WPGMZA.Event))
 	{
-		var src = event;
-		event = new WPGMZA.Event();
-		for(var name in src)
-			event[name] = src[name];
+		if(typeof event == "string")
+			event = new WPGMZA.Event(event);
+		else
+		{
+			var src = event;
+			event = new WPGMZA.Event();
+			for(var name in src)
+				event[name] = src[name];
+		}
 	}
 
 	event.target = this;

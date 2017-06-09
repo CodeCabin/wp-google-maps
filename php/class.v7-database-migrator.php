@@ -113,6 +113,8 @@ class V7DatabaseMigrator
 			$standardised->{$key} = $value;
 		}
 		
+		$standardised->engine = 'google-maps';
+		
 		$json = json_encode($standardised);
 		update_option('wpgmza_settings', $json);
 	}

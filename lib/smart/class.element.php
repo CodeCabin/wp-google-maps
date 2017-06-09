@@ -186,24 +186,11 @@ class Element extends \DOMElement
 		
 		if($node->querySelector("body"))
 		{
-			//var_dump("importing body children");
-			
 			foreach($node->querySelectorAll("body>*") as $child)
-			{
-				/*var_dump("Importing {$child->nodeName}<br/>");
-				
-				var_dump(
-					$this->ownerDocument->saveXML($child)
-				);*/
-				
 				$this->appendChild($child);
-			}
 		}
 		else
 			$this->appendChild($node);
-		
-		if($this->querySelector('html'))
-			throw new \Exception('NOO');
 		
 		return $this;
 	}
@@ -296,13 +283,6 @@ class Element extends \DOMElement
 		if(!($target instanceof \DOMElement))
 			throw new \Exception('Argument must be a DOMElement');
 		
-		if($target->hasAttributeNS(SMART_NAMESPACE_URI, 'html'))
-		{
-			$target->clear();
-			$target->import($value);
-			return;
-		}
-		
 		switch(strtolower($target->nodeName))
 		{
 			case 'textarea':
@@ -327,7 +307,7 @@ class Element extends \DOMElement
 				if($this->hasAttributeNS(SMART_NAMESPACE_URI, 'populate-clear') && $this->getAttribute(SMART_NAMESPACE_URI, 'populate-clear') == false)
 					$target->clear();
 				
-				$target->appendText( $value );
+				$target->import( $value );
 				
 				break;
 		}

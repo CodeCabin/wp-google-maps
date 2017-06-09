@@ -11,8 +11,6 @@ require_once(WPGMZA_DIR . '/php/class.marker-table.php');
 
 class Map extends Smart\Document
 {
-	private static $googleAPILoadCalled = false;
-	
 	// TODO: Make all these private and expose them through __get and __set
 	public $id;
 	public $title;
@@ -93,6 +91,7 @@ class Map extends Smart\Document
 		if(!$shortcode_atts)
 			return;
 		
+		// TODO: Use remap from the migrator class
 		$remap = array(
 			'zoom'					=> 'start_zoom',
 			'enable_directions'		=> 'directions_box_enabled',
@@ -132,83 +131,11 @@ class Map extends Smart\Document
 	}
 	
 	/**
-	 * Gets the parameters to be sent to the Google Maps API load call
-	 * @return array
-	 */
-	protected static function getGoogleMapsAPIParams()
-	{
-		// Locale
-		$locale = get_locale();
-		$suffix = '.com';
-		
-		switch($locale)
-		{
-			case 'he_IL':
-				// Hebrew correction
-				$locale = 'iw';
-				break;
-			
-			case 'zh_CN':
-				// Chinese integration
-				$suffix = '.cn';
-				break;
-		}
-		
-		
-		$locale = substr($locale, 0, 2);
-		
-		// Default params for google maps
-		$params = array(
-			'v' 		=> '3.26',
-			'key'		=> Plugin::$settings->temp_api,
-			'language'	=> $locale,
-			'suffix'	=> $suffix
-		);
-		
-		// API Version
-		if(!empty(Plugin::$settings->api_version))
-			$params['v'] = Plugin::$settings->api_version;
-		
-		// API Key
-		if(!empty(Plugin::$settings->google_maps_api_key))
-			$params['key'] = Plugin::$settings->google_maps_api_key;
-		
-		if(is_admin())
-			$params['libraries'] = 'drawing';
-		
-		return $params;
-	}
-	
-	/**
-	 * This function loads the Google API if it hasn't been called already
-	 * @return void
-	 */
-	public static function loadGoogleMaps()
-	{
-		if(Plugin::$settings->remove_api)
-			return;
-		
-		if(Map::$googleAPILoadCalled)
-			return;
-		
-		$params = Map::getGoogleMapsAPIParams();
-		
-		$suffix = $params['suffix'];
-		unset($params['suffix']);
-		
-		wp_enqueue_script('wpgmza_api_call', '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params));
-		
-		Map::$googleAPILoadCalled = true;
-	}
-	
-	/**
 	 * Enqueue any scripts the map needs, front or backend
 	 * @return void
 	 */
-	public static function enqueueScripts()
+	public function enqueueScripts()
 	{
-		Map::loadGoogleMaps();
-		
 		wp_enqueue_script('jquery');
 		
 		// Map scripts
@@ -216,13 +143,13 @@ class Map extends Smart\Document
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'js/event-dispatcher.js');
 	
 		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
-			'wpgmza_api_call',
 			'wpgmza-core'
 		));
 		
 		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
 			'wpgmza-event-dispatcher',
-			'wpgmza-map-settings'
+			'wpgmza-map-settings',
+			'wpgmza_api_call'
 		));
 		wp_enqueue_script('wpgmza-map-object', WPGMZA_BASE . 'js/map-object.js', array(
 			'wpgmza-event-dispatcher'
@@ -264,7 +191,7 @@ class Map extends Smart\Document
 	{
 		// Load store locator
 		require_once(WPGMZA_DIR . 'php/class.store-locator.php');
-		$storeLocator = new StoreLocator();
+		$storeLocator = new StoreLocator($this);
 		$storeLocator->populate($this->settings);
 		$this->querySelector('.wpgmza-above-map')->import($storeLocator);
 	}
@@ -399,7 +326,7 @@ class Map extends Smart\Document
 		
 		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYGONS, $options);
 		
-		$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
+		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
 		
 		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";

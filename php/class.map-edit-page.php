@@ -11,13 +11,15 @@ class MapEditPage extends AdminPage
 	
 	public function __construct()
 	{
+		global $wpgmza;
+		
 		AdminPage::__construct();
 		
 		$this->enqueueScripts();
 		$this->enqueueStyles();
 		
 		try{
-			$this->map = $this->createMapInstance($_GET['map_id']);
+			$this->map = $wpgmza->createMapInstance($_GET['map_id']);
 		}catch(Exception $e) {
 			$this->loadXML('<p class="error">
 				'.__('There was a problem loading the specified map', 'wp-google-maps').'
@@ -76,13 +78,10 @@ class MapEditPage extends AdminPage
 		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
 	}
 	
-	protected function createMapInstance($id)
-	{
-		return new Map($id);
-	}
-	
 	protected function enqueueScripts()
-	{
+	{	
+		global $wpgmza;
+	
 		// Dependencies
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-slider');
@@ -93,17 +92,39 @@ class MapEditPage extends AdminPage
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
 		
 		// WPGMZA
-		wp_enqueue_script('wpgmza-delete-menu', WPGMZA_BASE . 'js/delete-menu.js', array(
-			'wpgmza-map'
-		));
+		
+		
 		
 		wp_enqueue_script('wpgmza-map-edit-page', WPGMZA_BASE . 'js/map-edit-page.js', array(
 			'wpgmza-map',
-			'wpgmza-delete-menu',
+			'wpgmza-vertex-context-menu',
 			'wpgmza-modernizr',
 			'wpgmza-spectrum',
 			'datatables'
 		));
+		
+		// Generic drawing manager and context menu
+		wp_enqueue_script('wpgmza-drawing-manager', WPGMZA_BASE . "js/drawing-manager.js", array('wpgmza-event-dispatcher'));
+		wp_enqueue_script('wpgmza-vertex-context-menu', WPGMZA_BASE . 'js/vertex-context-menu.js', array('wpgmza-event-dispatcher'));
+		
+		// Engine specific code
+		switch(Plugin::$settings->engine)
+		{
+			case 'google-maps':
+				wp_enqueue_script('wpgmza-google-vertex-context-menu', WPGMZA_BASE . "js/google-maps/google-vertex-context-menu.js", array('wpgmza-vertex-context-menu'));
+				
+				wp_enqueue_script('wpgmza-engine-drawing-manager', WPGMZA_BASE . "js/google-maps/google-drawing-manager.js", array('wpgmza-drawing-manager'));
+				
+				$dependencies = array('wpgmza-map-edit-page');
+				if($wpgmza->isProVersion())
+					$dependencies[] = 'wpgmza-pro-map-edit-page';
+				wp_enqueue_script('wpgmza-google-map-edit-page', WPGMZA_BASE . "js/google-maps/google-map-edit-page.js", $dependencies);
+				break;
+				
+			default:
+				throw new \Exception('Not yet implemented');
+				break;
+		}
 	}
 	
 	protected function enqueueStyles()
