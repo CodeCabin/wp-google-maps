@@ -24,7 +24,6 @@ jQuery(document).ready(function(){
         } else {
             var enabled = false;
         }
-        console.log(enabled);
         var email = jQuery("#wpgmza_admin_email_coupon").val();
 
         var data = {
@@ -33,9 +32,26 @@ jQuery(document).ready(function(){
             status: enabled
         }
         jQuery.post(ajaxurl, data, function(response){
-            console.log(response);                
         });
 
+    });
+
+    var radiusStoreLocator      = jQuery('.wpgmza-store-locator-default-radius'),
+        radiusStoreLocatorKm    = jQuery('#wpgmza_store_locator_default_radius_km'),
+        radiusStoreLocatorMi    = jQuery('#wpgmza_store_locator_default_radius_mi');
+
+    radiusStoreLocator.on('change', function() {
+        radiusStoreLocator.val(jQuery(this).val());
+    });
+
+    jQuery('#wpgmza_store_locator_distance').on('change', function() {
+        radiusStoreLocator.removeClass('active');
+
+        if (jQuery(this).attr('checked')){
+            radiusStoreLocatorMi.addClass('active');
+        } else {
+            radiusStoreLocatorKm.addClass('active');
+        }
     });
 
 });

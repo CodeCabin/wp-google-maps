@@ -2,10 +2,23 @@
     border:0;
     
 }
+
 .wpgmza_hide_input { display:none !important; }
 .wpgmza_theme_selection { margin-right:20px; margin-bottom:20px; cursor:pointer; border-radius:4px; }
 
+.wpgmza-not-found-msg {
+    display: none;
+    margin-top: 20px;
+    color: #777;
+}
 
+.wpgmza-not-found-msg.is-active {
+    display: block;
+}
+
+.wpgmza-not-found-msg p {
+    margin-bottom: 0;
+}
 .wpgmza_map img {
     border: none !important;
     background-color:transparent !important;
@@ -368,4 +381,48 @@ ul.wpgmza_marker_list_class {
 }
 .toplevel_page_wp-google-maps-menu .about-text {
     max-width: 600px;
+}
+
+
+.wpgmza-clearfix {
+    zoom: 1;
+}
+
+.wpgmza-clearfix:before,
+.wpgmza-clearfix:after {
+    content: '';
+    display: table;
+    table-layout: fixed;
+}
+
+.wpgmza-clearfix:after {
+    clear: both;
+}
+
+.wpgmza_sl_main_div {
+    overflow: hidden;
+    position: relative;
+    top: 10px;
+}
+
+.wpgmza_sl_query_div,
+.wpgmza_sl_radius_div {
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.wpgmza_sl_radius_div {
+    margin-bottom: 20px;
+}
+
+
+
+.wpgmaps_fullscreen {
+    position: fixed !important;
+    top:0;
+    left:0;
+    width:100% !important;
+    height: 100% !important;
+    z-index:9999;
+
 }
