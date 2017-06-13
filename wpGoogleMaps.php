@@ -663,8 +663,6 @@ function wpgmza_plugin_action_links( $links ) {
 add_action( 'wp_ajax_wpgmza_subscribe','wpgmza_ajax_subscribe');
 add_action( 'wp_ajax_wpgmza_subscribe_hide','wpgmza_ajax_subscribe'); 
 
-
-
 function wpgmza_ajax_subscribe() {
     $check = check_ajax_referer( 'wpgmza_subscribe', 'security' );
     if ( $check == 1 ) {
@@ -673,7 +671,6 @@ function wpgmza_ajax_subscribe() {
             update_user_meta( $uid, 'wpgmza_subscribed', true);
 
         }
-
         if ( $_POST['action'] == 'wpgmza_subscribe_hide' ) { 
             $uid = get_current_user_id(); 
             update_user_meta( $uid, 'wpgmza_subscribed', true); 
@@ -5477,7 +5474,6 @@ function wpgmaps_admin_scripts() {
     */
 }
 function wpgmaps_user_styles() {
-    
     if (!function_exists('wpgmaps_admin_styles_pro')) {
         global $wpgmza_version;
         global $short_code_active;
@@ -5486,7 +5482,6 @@ function wpgmaps_user_styles() {
             wp_enqueue_style( 'wpgmaps-style' );
         }
     }
-    
     do_action("wpgooglemaps_hook_user_styles");
 
 

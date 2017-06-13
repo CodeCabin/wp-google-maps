@@ -1,5 +1,3 @@
-
-
 (function($) {
     var placeSearch, autocomplete;
     var wpgmza_table_length;
@@ -11,7 +9,6 @@
     var WPGM_Path_Polygon = new Array();
     var WPGM_Path = new Array();
     var saveReminderBound = false;
-
 
 	if ('undefined' == typeof window.jQuery) {
 		alert("jQuery is not installed. WP Google Maps requires jQuery in order to function properly. Please ensure you have jQuery installed.")
@@ -344,7 +341,6 @@
 
                     marker_id = returned_data.marker_id;
                     marker_data = returned_data.marker_data[marker_id];
-
                     if (typeof wpgmaps_localize_marker_data !== "undefined") { wpgmaps_localize_marker_data[marker_id] = marker_data; }
                     marker_data.map = MYMAP.map;
 
