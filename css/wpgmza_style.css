@@ -6,7 +6,19 @@
 .wpgmza_hide_input { display:none !important; }
 .wpgmza_theme_selection { margin-right:20px; margin-bottom:20px; cursor:pointer; border-radius:4px; }
 
+.wpgmza-not-found-msg {
+    display: none;
+    margin-top: 20px;
+    color: #777;
+}
 
+.wpgmza-not-found-msg.is-active {
+    display: block;
+}
+
+.wpgmza-not-found-msg p {
+    margin-bottom: 0;
+}
 .wpgmza_map img {
     border: none !important;
     background-color:transparent !important;
@@ -426,3 +438,4 @@ ul.wpgmza_marker_list_class {
     z-index:9999;
 
 }
+

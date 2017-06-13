@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.7
+Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2
 
@@ -213,6 +213,18 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 6.4.05 - 2017-06-13 - Medium priority =
+* Fixed the bug that caused JS errors to show up in the map editor
+* Fixed a bug that caused the XML File option (for markers) to cause issues when trying to add a marker in the backend
+* Allowed users to hide the subscribe feature in the plugins page
+* New feature: Bulk delete markers
+* Autocomplete now works when adding markers
+* Autocomplete now works for the store locator on the front end
+* Fixed a bug that caused the map to not load in the map editor for new installations
+
+= 6.4.04 - 2017-06-08 - Low priority =
+* Tested on WordPress 4.8
 
 = 6.4.03 - 2017-02-17 - Low priority =
 * Added the ability for affiliates to make use of their affiliate IDs in the pro links

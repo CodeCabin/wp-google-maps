@@ -1,15 +1,14 @@
 (function($) {
-
-	var placeSearch, autocomplete;
-	var wpgmza_table_length;
-	var wpgmzaTable;
-	var marker_added = false;
-	var wpgmaps_markers_array = [];
-	var infoWindow = new Array();
-	var tmp_marker;
-	var WPGM_Path_Polygon = new Array();
-	var WPGM_Path = new Array();
-	var saveReminderBound = false;
+    var placeSearch, autocomplete;
+    var wpgmza_table_length;
+    var wpgmzaTable;
+    var marker_added = false;
+    var wpgmaps_markers_array = [];
+    var infoWindow = new Array();
+    var tmp_marker;
+    var WPGM_Path_Polygon = new Array();
+    var WPGM_Path = new Array();
+    var saveReminderBound = false;
 
 	if ('undefined' == typeof window.jQuery) {
 		alert("jQuery is not installed. WP Google Maps requires jQuery in order to function properly. Please ensure you have jQuery installed.")
@@ -342,7 +341,7 @@
 
                     marker_id = returned_data.marker_id;
                     marker_data = returned_data.marker_data[marker_id];
-                    wpgmaps_localize_marker_data[marker_id] = marker_data;
+                    if (typeof wpgmaps_localize_marker_data !== "undefined") { wpgmaps_localize_marker_data[marker_id] = marker_data; }
                     marker_data.map = MYMAP.map;
 
                     marker_data.point = new google.maps.LatLng(wpgm_lat,wpgm_lng);
@@ -395,7 +394,7 @@
 
                             marker_id = returned_data.marker_id;
                             marker_data = returned_data.marker_data[marker_id];
-                            wpgmaps_localize_marker_data[marker_id] = marker_data;
+                            if (typeof wpgmaps_localize_marker_data !== "undefined") { wpgmaps_localize_marker_data[marker_id] = marker_data; }
                             marker_data.map = MYMAP.map;
 
                             marker_data.point = new google.maps.LatLng(wpgm_lat,wpgm_lng);
@@ -482,7 +481,7 @@
                         returned_data = JSON.parse(response);
                         marker_id = returned_data.marker_id;
                         marker_data = returned_data.marker_data[marker_id];
-                        wpgmaps_localize_marker_data[marker_id] = marker_data;
+                        if (typeof wpgmaps_localize_marker_data !== "undefined") {  wpgmaps_localize_marker_data[marker_id] = marker_data; }
                         marker_data.map = MYMAP.map;
 
                         marker_data.point = new google.maps.LatLng(wpgm_lat,wpgm_lng);
@@ -528,7 +527,7 @@
                         marker_id = returned_data.marker_id;
                         marker_data = returned_data.marker_data[marker_id];
                         
-                        wpgmaps_localize_marker_data[marker_id] = marker_data;
+                        if (typeof wpgmaps_localize_marker_data !== "undefined") { wpgmaps_localize_marker_data[marker_id] = marker_data; }
                         marker_data.map = MYMAP.map;
 
                         marker_data.point = new google.maps.LatLng(wpgm_lat,wpgm_lng);
@@ -556,7 +555,7 @@
         });
     });
 
-var MYMAP = {
+MYMAP = {
     map: null,
     bounds: null
 }
@@ -697,7 +696,7 @@ MYMAP.init = function(selector, latLng, zoom) {
 }
 
 
-if (typeof wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "undefined" && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "") { infoWindow.setOptions({maxWidth:wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']}); }
+if (typeof wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "undefined" && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "" && typeof infoWindow !== "undefined" && typeof infoWindow.setOptions !== "undefined") { infoWindow.setOptions({maxWidth:wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']}); }
 
 google.maps.event.addDomListener(window, 'resize', function() {
     var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
@@ -996,18 +995,21 @@ function add_polygon(polygonid) {
     polygon_center = bounds.getCenter();
 
     if (tmp_data['title'] !== "") {
-     infoWindow_poly[polygonid] = new google.maps.InfoWindow();
-     google.maps.event.addListener(WPGM_Path_Polygon[polygonid], 'click', function(event) {
-         infoWindow_poly[polygonid].setPosition(event.latLng);
-         content = "";
-         if (tmp_data['link'] !== "") {
-             var content = "<a href='"+tmp_data['link']+"'>"+tmp_data['title']+"</a>";
-         } else {
-             var content = tmp_data['title'];
-         }
-         infoWindow_poly[polygonid].setContent(content);
-         infoWindow_poly[polygonid].open(MYMAP.map,this.position);
-     }); 
+        if(!window.infoWindow_poly) {
+            infoWindow_poly = {};
+        }
+        infoWindow_poly[polygonid] = new google.maps.InfoWindow();
+        google.maps.event.addListener(WPGM_Path_Polygon[polygonid], 'click', function(event) {
+             infoWindow_poly[polygonid].setPosition(event.latLng);
+             content = "";
+             if (tmp_data['link'] !== "") {
+                 var content = "<a href='"+tmp_data['link']+"'>"+tmp_data['title']+"</a>";
+             } else {
+                 var content = tmp_data['title'];
+             }
+             infoWindow_poly[polygonid].setContent(content);
+             infoWindow_poly[polygonid].open(MYMAP.map,this.position);
+        }); 
     }
 
 

@@ -333,7 +333,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
     } else { 
 	
         if (Object.keys(wpgmaps_localize_marker_data).length > 0) {
-            var markerStoreLocatorsNum = 0;
+          var markerStoreLocatorsNum = 0;
 
           if (typeof wpgmaps_localize_marker_data !== "undefined") {
 
