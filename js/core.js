@@ -19,13 +19,15 @@ var WPGMZA = {
 		});
 	},
 	
+	latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
+	
 	/**
 	 * Utility function returns true is string is a latitude and longitude
 	 * @return string
 	 */
 	isLatLngString: function(str)
 	{
-		return str.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/);
+		return str.match(WPGMZA.latLngRegexp);
 	},
 	
 	/**
@@ -82,9 +84,27 @@ var WPGMZA = {
 				break;
 				
 			default:
-				alert("OSM not yet implemented");
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.OSMProMap(element);
+				
+				return new WPGMZA.OSMMap(element);
 				break;
 		}
+	},
+	
+	runCatchableTask: function(callback, friendlyErrorContainer) {
+		
+		if(WPGMZA.settings.developer_mode)
+			callback();
+		else
+			try{
+				callback();
+			}catch(e) {
+				var friendlyError = new WPGMZA.FriendlyError(e);
+				$(friendlyErrorContainer).html("");
+				$(friendlyErrorContainer).append(friendlyError);
+				$(friendlyErrorContainer).show();
+			}
 	}
 };
 
@@ -141,7 +161,7 @@ var WPGMZA = {
 		// Geolocation warnings
 		if(window.location.protocol != 'https:')
 		{
-			var warning = '<span class="wpgmza-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ' + WPGMZA.settings.localized_strings.unsecure_geolocation + "</span>";
+			var warning = '<span class="wpgmza-warning">' + WPGMZA.settings.localized_strings.unsecure_geolocation + "</span>";
 			
 			$(".wpgmza-geolocation-setting").after(
 				$(warning)

@@ -37,6 +37,7 @@
 		parentConstructor = WPGMZA.ProMapEditPage;
 	else
 		parentConstructor = WPGMZA.MapEditPage;
+	
 	WPGMZA.GoogleMapEditPage.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.GoogleMapEditPage.prototype.constructor = WPGMZA.GoogleMapEditPage;
 	

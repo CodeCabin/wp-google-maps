@@ -444,7 +444,11 @@
 		{
 			$(".wpgmza-map").each(function(index, el) {
 				if(!el.wpgmzaMap)
-					WPGMZA.createMapInstance(el);
+				{
+					WPGMZA.runCatchableTask(function() {
+						WPGMZA.createMapInstance(el);
+					}, el);
+				}
 			});
 		}
 		

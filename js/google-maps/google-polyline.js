@@ -35,4 +35,23 @@
 		this.googlePolyline.setOptions({editable: value});
 	}
 	
+	WPGMZA.GooglePolyline.prototype.getJSON = function()
+	{
+		var result = WPGMZA.Polyline.prototype.getJSON.call(this);
+		
+		result.points = [];
+		
+		var path = this.googlePolyline.getPath();
+		for(var i = 0; i < path.getLength(); i++)
+		{
+			var latLng = path.getAt(i);
+			result.points.push({
+				lat: latLng.lat(),
+				lng: latLng.lng()
+			});
+		}
+		
+		return result;
+	}
+	
 })(jQuery);

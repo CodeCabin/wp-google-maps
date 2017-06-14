@@ -24,6 +24,8 @@ class SettingsPage extends AdminPage
 		wp_enqueue_script('jquery-ui-slider');
 		wp_enqueue_script('jquery-ui-tabs');
 		
+		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/v7-style.css');
+		
 		if(!empty($_POST))
 			$this->onFormSubmitted();
 	}

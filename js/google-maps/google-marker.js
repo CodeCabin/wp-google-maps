@@ -1,10 +1,12 @@
 (function($) {
 	
+	var parentConstructor;
+	
 	WPGMZA.GoogleMarker = function(row)
 	{
 		var self = this;
 		
-		WPGMZA.Marker.call(this, row);
+		parentConstructor.call(this, row);
 		
 		this.googleMarker = new google.maps.Marker(this.settings);
 		this.googleMarker.wpgmzaMarker = this;
@@ -19,24 +21,11 @@
 	}
 	
 	if(WPGMZA.isProVersion())
-		WPGMZA.GoogleMarker.prototype = Object.create(WPGMZA.ProMarker.prototype);
+		parentConstructor = WPGMZA.ProMarker;
 	else
-		WPGMZA.GoogleMarker.prototype = Object.create(WPGMZA.Marker.prototype);
+		parentConstructor = WPGMZA.Marker;
+	WPGMZA.GoogleMarker.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.GoogleMarker.prototype.constructor = WPGMZA.GoogleMarker;
-	
-	/**
-	 * Gets the position of the marker
-	 * @return void
-	 */
-	WPGMZA.GoogleMarker.prototype.getPosition = function()
-	{
-		var latLng = this.googleMarker.getPosition();
-		
-		return {
-			lat: latLng.lat(),
-			lng: latLng.lng()
-		};
-	}
 	
 	/**
 	 * Sets the position of the marker
@@ -44,49 +33,8 @@
 	 */
 	WPGMZA.GoogleMarker.prototype.setPosition = function(latLng)
 	{
-		WPGMZA.Marker.prototype.setPosition.call(this, latLng);
+		parentConstructor.prototype.setPosition.call(this, latLng);
 		this.googleMarker.setPosition(latLng);
-	}
-	
-	/**
-	 * Geocodes the supplied address and then moves the marker
-	 * @return void
-	 */
-	WPGMZA.GoogleMarker.prototype.setPositionFromAddress = function(address, callback)
-	{
-		var self = this;
-		var latLng = null;
-		
-		function finish()
-		{
-			self.dispatchEvent("geocodecomplete");
-			if(callback)
-				callback(latLng);
-		}
-		
-		if(WPGMZA.isLatLng(address))
-		{
-			var parts = address.split(",");
-			this.setPosition({
-				lat: parts[0],
-				lng: parts[1]
-			});
-			finish();
-			return;
-		}
-		
-		var geocoder = new google.maps.Geocoder();
-		geocoder.geocode({address: address}, function(results, status) {
-			if(status == google.maps.GeocoderStatus.OK)
-			{
-				var location = results[0].geometry.location;
-				latLng = {
-					lat: location.lat(),
-					lng: location.lng()
-				};
-			}
-			finish();
-		});
 	}
 	
 	/**
@@ -95,12 +43,20 @@
 	 */
 	WPGMZA.GoogleMarker.prototype.setAnimation = function(animation)
 	{
-		WPGMZA.Marker.prototype.setAnimation.call(this, animation);
+		parentConstructor.prototype.setAnimation.call(this, animation);
 		this.googleMarker.setAnimation(animation);
+	}
+	
+	/**
+	 * Sets the visibility of the marker
+	 * @return void
+	 */
+	WPGMZA.GoogleMarker.prototype.setVisible = function(visible)
+	{
+		this.googleMarker.setVisible(visible);
 	}
 	
 	// createInfoWindow
 	// setPositionFromAddress
-	// setVisibility
 	
 })(jQuery);

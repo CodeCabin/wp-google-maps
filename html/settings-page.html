@@ -65,7 +65,7 @@
 							?>
 						</div>
 						
-						<div>
+						<div class="wpgmza-engine-not-open-street-map">
 							<div class="switch">
 								<input name="map_streetview" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
 								<label></label>
@@ -85,9 +85,9 @@
 							?>
 						</div>
 						
-						<div>
+						<div class="wpgmza-engine-not-open-street-map">
 							<div class="switch">
-								<input name="map_zoom" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
+								<input name="map_pan" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
 								<label></label>
 							</div>
 							<?php
@@ -95,7 +95,7 @@
 							?>
 						</div>
 						
-						<div>
+						<div class="wpgmza-engine-not-open-street-map">
 							<div class="switch">
 								<input name="disable_map_type_controls" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
 								<label></label>
@@ -125,7 +125,7 @@
 							?>
 						</div>
 						
-						<div>
+						<div class="wpgmza-engine-not-open-street-map">
 							<div class="switch">
 								<input name="map_clickzoom" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" value="yes"/>
 								<label></label>
@@ -585,6 +585,22 @@
 						<div>
 							<?php
 							_e('Use this setting if you have any pages which my load the map as part of an AJAX call. The scripts will need to be loaded in order for the map to load', 'wp-google-maps');
+							?>
+						</div>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+					<label>
+						<?php
+						_e("Developer mode", "wp-google-maps");
+						?>
+					</label>
+					<div>
+						<input name="developer_mode" type="checkbox"/>
+						<div>
+							<?php
+							_e('Disable Friendly Errors and allow the development tools to catch the error instead. This setting is intended for developers only', 'wp-google-maps');
 							?>
 						</div>
 					</div>

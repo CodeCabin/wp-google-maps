@@ -7,17 +7,24 @@ class GoogleMapsLoader
 	private static $googleAPILoadCalled = false;
 	
 	/**
-	 * Override for enqueueScripts
+	 * Enqueue scripts
 	 * @return void
 	 */
 	public function enqueueScripts()
 	{
 		$this->loadGoogleMaps();
 		
-		wp_enqueue_script('wpgmza-google-map', WPGMZA_BASE . 'js/google-maps/google-map.js', array('wpgmza-core'));
-		wp_enqueue_script('wpgmza-google-marker', WPGMZA_BASE . 'js/google-maps/google-marker.js', array('wpgmza-core'));
-		wp_enqueue_script('wpgmza-google-polygon', WPGMZA_BASE . 'js/google-maps/google-polygon.js', array('wpgmza-core'));
-		wp_enqueue_script('wpgmza-google-polyline', WPGMZA_BASE . 'js/google-maps/google-polyline.js', array('wpgmza-core'));
+		$files = glob(WPGMZA_DIR . 'js/google-maps/*.js');
+		foreach($files as $file)
+		{
+			if(preg_match('/-map-edit-page\.js$/i', $file))
+				continue;
+			
+			$basename = basename($file);
+			$handle = basename($file, '.js');
+			
+			wp_enqueue_script($handle, WPGMZA_BASE . "js/google-maps/$basename", array('wpgmza-core'));
+		}
 	}
 	
 	/**

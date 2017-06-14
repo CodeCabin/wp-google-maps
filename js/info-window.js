@@ -4,6 +4,8 @@
 	{
 		var self = this;
 		
+		return; // TODO: Sort
+		
 		this.mapObject = mapObject;
 		
 		if(mapObject instanceof WPGMZA.Marker)
@@ -67,7 +69,7 @@
 	
 	WPGMZA.InfoWindow.prototype.onMapObjectAdded = function()
 	{
-		if(this.mapObject.settings.infoopen)
+		if(this.mapObject.settings.infoopen == 1)
 			this.open();
 	}
 	

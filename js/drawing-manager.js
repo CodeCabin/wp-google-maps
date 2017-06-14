@@ -24,7 +24,7 @@
 				break;
 				
 			default:
-				console.log("Not yet implemented");
+				return new WPGMZA.OSMDrawingManager(map);
 				break;
 		}
 	}

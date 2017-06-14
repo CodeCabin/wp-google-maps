@@ -1,11 +1,13 @@
 <div id="wpgmza_map_panel">
-	<p>
+	<!--<p>
 		<?php
 		_e("Tip: Use your mouse to change the layout of your map. When you have positioned the map to your desired location, press \"Save Map\" to keep your settings.","wp-google-maps");
 		?>
-	</p>
+	</p>-->
 	
-	<div class="two-col">
+	<div>
+		<div id="wpgmza-map-container"/>
+	
 		<div id="map-edit-tabs" class="wpgmza-tabs">
 			<ul>
 				<li>
@@ -43,8 +45,15 @@
 						?>
 					</a>
 				</li>
+				<li>
+					<a href="#settings">
+						<?php
+						_e("Settings","wp-google-maps");
+						?>
+					</a>
+				</li>
 			</ul>
-			<div id="wpgmza-markers-tab" class="add-marker">
+			<div id="wpgmza-markers-tab" class="add-marker no-submit">
 				<fieldset class="wpgmza-pro-version-only">
 					<label>
 						<?php
@@ -139,8 +148,12 @@
 						<?php _e("Delete Marker", "wp-google-maps"); ?>
 					</button>
 				</fieldset>
+				
+				<div smart:import-php="<?php
+					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';
+				?>"></div>
 			</div>
-			<div id="advanced-markers" class="wpgmza-free-version-only">
+			<div id="advanced-markers" class="wpgmza-free-version-only no-submit">
 				<div class="update-nag update-att">
 					<i class="fa fa-arrow-circle-right"></i>
 					<a target="_blank" href="<?php
@@ -321,7 +334,7 @@
 					?>
 				</div>
 			</div>
-			<div id="polygons" class="add-polygon">
+			<div id="polygons" class="add-polygon no-submit">
 				<fieldset>
 					<label>
 						<?php _e("Name", "wp-google-maps"); ?>
@@ -442,7 +455,7 @@
 					</button>
 				</fieldset>
 			</div>
-			<div id="polylines" class="add-polyline">
+			<div id="polylines" class="add-polyline no-submit">
 				<fieldset>
 					<label>
 						<?php
@@ -506,7 +519,7 @@
 					</button>
 				</fieldset>
 			</div>
-			<div id="heatmaps" class="add-heatmap">
+			<div id="heatmaps" class="add-heatmap no-submit">
 				<div class="update-nag update-att wpgmza-free-version-only">
 					<a target="_blank"
 						href="<?php
@@ -530,6 +543,10 @@
 					</a>
 				</div>
 			</div>
+			
+			<div id="settings" smart:import-php="<?php 
+				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html'; 
+			?>"></div>
 		</div>
 		
 		<div id="polygon-instructions" class="update-nag update-blue update-slim">
@@ -591,7 +608,5 @@
 				</li>
 			</ul>
 		</div>
-		
-		<div id="wpgmza-map-container"/>
 	</div>
 </div>

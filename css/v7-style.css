@@ -110,7 +110,7 @@ form.wpgmza p:first-child
 form.wpgmza textarea
 {
 	width: 100%;
-	height: 50vh;
+	height: 20vh;
 }
 
 form.wpgmza input[type='number']
@@ -207,19 +207,6 @@ form.wpgmza textarea.marker-description
 form.wpgmza .ui-slider
 {
 	width: 33vw;
-}
-
-.wpgmza-warning
-{
-	margin-left: 0.5em;
-	background: yellow;
-	text-shadow: 0px -1px 0px white;
-	padding: 5px;
-	border-radius: 5px;
-	color: black;
-	box-shadow: 2px 2px 2px white inset,
-		-2px -2px 2px rgba(0,0,0,0.5) inset,
-		3px 3px 7px rgba(0,0,0,0.5);
 }
 
 form.wpgmza .default-radius-units
@@ -455,4 +442,143 @@ form.wpgmza table th
 {
 	max-height: 4em;
 	overflow-y: scroll;
+}
+
+#wpgmza-map-edit-page form.wpgmza
+{
+	padding-right: 1em;
+}
+
+#map-edit-tabs>.ui-tabs-panel
+{
+	border-top: 3px solid #0073AA;
+}
+
+#map-edit-tabs>ul.ui-tabs-nav>li
+{
+	border-top-right-radius: 6px;
+}
+
+#wpgmza-map-edit-page .wpgmza-accordion>h3
+{
+	margin: 0;
+	border-bottom: 1px solid lightgrey;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+/*#wpgmza-map-edit-page .wpgmza-accordion>h3>.fa-minus-square,
+	#wpgmza-map-edit-page .wpgmza-accordion>h3.ui-accordion-header-active>.fa-plus-square
+{
+	display: none;
+}*/
+
+#wpgmza-map-edit-page .wpgmza-accordion>h3.ui-accordion-header-active>.fa-plus-square
+{
+	display: none;
+}
+
+#wpgmza-map-edit-page .wpgmza-accordion>h3:not(.ui-accordion-header-active)>.fa-minus-square
+{
+	display: none;
+}
+
+#map-edit-tabs>.ui-tabs-panel
+{
+	padding: 0;
+}
+
+#wpgmza-map-edit-page .ui-accordion-content-active+.ui-accordion-header
+{
+	border-top: 1px solid lightgrey;
+}
+
+.wpgmza-accordion .ui-accordion-content
+{
+	padding: 1em;
+}
+
+.wpgmza-accordion .ui-accordion-header-active
+{
+	color: white;
+	background: #0073AA;
+}
+
+.wpgmza-accordion .ui-accordion-content-active
+{
+	border-left: 1px solid lightgrey;
+	border-right: 1px solid lightgrey;
+}
+
+#wpgmza-top-save
+{
+	float:right;
+	font-weight: normal;
+	font-size: 1.2em;
+	padding: 0.32em 0.67em;
+	background: #0073AA;
+	color: white;
+	border: none;
+}
+
+#wpgmza-map-edit-page .wpgmza-map
+{
+	margin: 0.5em 0;
+}
+
+.wpgmza-warning, .wpgmza-halt
+{
+	position: relative;
+	padding: 0.5em 0.5em 0.5em 48px;
+	border-radius: 2em;
+	min-height: 36px;
+}
+
+.wpgmza-warning
+{
+	background: rgba(255,255,0,0.75) url('../images/warning.png') 12px center no-repeat;
+	color: black;
+	text-shadow: 0px -1px 0px rgba(255,255,255,0.5);
+}
+
+.wpgmza-halt
+{
+	background: rgba(255,0,0,0.75) url('../images/no-entry.png') 6px center no-repeat;
+	color: white;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.5);
+}
+
+.wpgmza-halt a, .wpgmza-warning a
+{
+	text-shadow: none;
+	color: #00f;
+}
+
+.wpgmza-warning:after
+{
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 1em;
+	width: calc(100% - 2em);
+	height: 45%;
+	background: black;
+	border-radius: 999px;
+	background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.35));
+}
+
+.wpgmza-halt:after
+{
+	content: "";
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 50%;
+	background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+}
+
+#map-edit-tabs>div:not(#settings)
+{
+	padding: 1em; 0;
 }

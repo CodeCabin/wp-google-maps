@@ -1,4 +1,10 @@
 (function($) {
+	
+	function empty(name)
+	{
+		return !self[name] || !self[name].length;
+	}
+	
 	WPGMZA.MapSettings = function(element)
 	{
 		var str = element.getAttribute("data-settings");
@@ -13,6 +19,36 @@
 				
 			this[key] = value;
 		}
+	}
+	
+	WPGMZA.MapSettings.prototype.toOSMViewOptions = function()
+	{
+		var options = {
+			center: ol.proj.fromLonLat([36.7783, 119.4179]),
+			zoom: 4
+		};
+		
+		// Start location
+		var coords = this.start_location.replace(/^\(|\)$/g, "").split(",");
+		if(coords.length == 2)
+			options.center = ol.proj.fromLonLat([
+				parseFloat(coords[1]),
+				parseFloat(coords[0])
+			]);
+		else
+			console.warn("Invalid start location");
+		
+		// Start zoom
+		options.zoom = parseInt(this.start_zoom);
+		
+		// Zoom limits
+		// TODO: This matches the Google code, so some of these could be potentially put on a parent class
+		if(!empty("min_zoom"))
+			options.minZoom = parseInt(this.min_zoom);
+		if(!empty("max_zoom"))
+			options.maxZoom = parseInt(this.max_zoom);
+		
+		return options;
 	}
 	
 	WPGMZA.MapSettings.prototype.toGoogleMapsOptions = function()
@@ -37,11 +73,6 @@
 			center:			latLng
 		};
 		
-		function empty(name)
-		{
-			return !self[name] || !self[name].length;
-		}
-		
 		if(!empty("min_zoom"))
 			options.minZoom = parseInt(this.min_zoom);
 		if(!empty("max_zoom"))
@@ -52,10 +83,11 @@
 		options.panControl 				= !(this.map_pan == true);
 		options.mapTypeControl			= !(this.disable_map_type_controls == true);
 		options.streetViewControl		= !(this.map_streetview == true);
+		options.fullscreenControl		= !(this.map_full_screen_control == true);
+		
 		options.draggable				= !(this.map_draggable == true);
 		options.disableDoubleClickZoom	= !(this.map_clickzoom == true);
 		options.scrollwheel				= !(this.map_scroll == true);
-		options.fullscreenControl		= !(this.map_full_screen_control == true);
 		
 		if(this.force_greedy_gestures)
 			options.gestureHandling = "greedy";

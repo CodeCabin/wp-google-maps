@@ -147,9 +147,7 @@ class Map extends Smart\Document
 		));
 		
 		wp_enqueue_script('wpgmza-map', WPGMZA_BASE . 'js/map.js', array(
-			'wpgmza-event-dispatcher',
-			'wpgmza-map-settings',
-			'wpgmza_api_call'
+			'wpgmza-event-dispatcher'
 		));
 		wp_enqueue_script('wpgmza-map-object', WPGMZA_BASE . 'js/map-object.js', array(
 			'wpgmza-event-dispatcher'
@@ -165,6 +163,10 @@ class Map extends Smart\Document
 		wp_enqueue_script('wpgmza-polyline', WPGMZA_BASE . 'js/polyline.js', array(
 			'wpgmza-map',
 			'wpgmza-map-object'
+		));
+		
+		wp_enqueue_script('wpgmza-geocoder', WPGMZA_BASE . 'js/geocoder.js', array(
+			'wpgmza-core'
 		));
 		
 		wp_enqueue_script('wpgmza-info-window', WPGMZA_BASE . 'js/info-window.js', array(
@@ -288,7 +290,6 @@ class Map extends Smart\Document
 			$qstr .= ' AND id NOT IN (' . $exclusionsString . ')';
 		
 		$stmt = $wpdb->prepare($qstr, $params);
-		
 		$markers = $wpdb->get_results($stmt);
 		
 		foreach($markers as $m)

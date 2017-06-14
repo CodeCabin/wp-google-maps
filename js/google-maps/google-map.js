@@ -101,7 +101,7 @@
 	{
 		marker.googleMarker.setMap(this.googleMap);
 		
-		WPGMZA.Map.prototype.addMarker.call(this, marker);
+		parentConstructor.prototype.addMarker.call(this, marker);
 	}
 	
 	/**
@@ -112,7 +112,7 @@
 	{
 		marker.googleMarker.setMap(null);
 		
-		WPGMZA.Map.prototype.deleteMarker.call(this, marker);
+		parentConstructor.prototype.deleteMarker.call(this, marker);
 	}
 	
 	/**
@@ -123,7 +123,7 @@
 	{
 		polygon.googlePolygon.setMap(this.googleMap);
 		
-		WPGMZA.Map.prototype.addPolygon.call(this, polygon);
+		parentConstructor.prototype.addPolygon.call(this, polygon);
 	}
 	
 	/**
@@ -134,7 +134,7 @@
 	{
 		polygon.googlePolygon.setMap(null);
 		
-		WPGMZA.Map.prototype.deletePolygon.call(this, polygon);
+		parentConstructor.prototype.deletePolygon.call(this, polygon);
 	}
 	
 	/**
@@ -145,7 +145,7 @@
 	{
 		polyline.googlePolyline.setMap(this.googleMap);
 		
-		WPGMZA.Map.prototype.addPolyline.call(this, polyline);
+		parentConstructor.prototype.addPolyline.call(this, polyline);
 	}
 	
 	/**
@@ -156,7 +156,7 @@
 	{
 		polyline.googlePolyline.setMap(null);
 		
-		WPGMZA.Map.prototype.deletePolyline.call(this, polyline);
+		parentConstructor.prototype.deletePolyline.call(this, polyline);
 	}
 	
 	/**
@@ -210,7 +210,7 @@
 	 */
 	WPGMZA.GoogleMap.prototype.getFetchParameters = function()
 	{
-		var data = WPGMZA.Map.prototype.getFetchParameters.call(this);
+		var data = parentConstructor.prototype.getFetchParameters.call(this);
 		data.bounds = this.googleMap.getBounds().toUrlValue(7);
 		return data;
 	}

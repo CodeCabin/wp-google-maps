@@ -87,42 +87,40 @@ class MapEditPage extends AdminPage
 		wp_enqueue_script('jquery-ui-slider');
 		wp_enqueue_script('jquery-ui-tabs');
 		wp_enqueue_script('jquery-ui-progressbar');
+		wp_enqueue_script('jquery-ui-accordion');
 		
 		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
 		
 		// WPGMZA
-		
-		
-		
 		wp_enqueue_script('wpgmza-map-edit-page', WPGMZA_BASE . 'js/map-edit-page.js', array(
-			'wpgmza-map',
-			'wpgmza-vertex-context-menu',
-			'wpgmza-modernizr',
-			'wpgmza-spectrum',
-			'datatables'
+			'wpgmza-map'
 		));
 		
 		// Generic drawing manager and context menu
 		wp_enqueue_script('wpgmza-drawing-manager', WPGMZA_BASE . "js/drawing-manager.js", array('wpgmza-event-dispatcher'));
 		wp_enqueue_script('wpgmza-vertex-context-menu', WPGMZA_BASE . 'js/vertex-context-menu.js', array('wpgmza-event-dispatcher'));
 		
+		$dependencies = array('wpgmza-map-edit-page');
+		if($wpgmza->isProVersion())
+			$dependencies[] = 'wpgmza-pro-map-edit-page';
+		
 		// Engine specific code
 		switch(Plugin::$settings->engine)
 		{
 			case 'google-maps':
-				wp_enqueue_script('wpgmza-google-vertex-context-menu', WPGMZA_BASE . "js/google-maps/google-vertex-context-menu.js", array('wpgmza-vertex-context-menu'));
+				wp_enqueue_script('wpgmza-google-vertex-context-menu', WPGMZA_BASE . "js/google-maps/google-vertex-context-menu.js", array('wpgmza_api_call', 'wpgmza-vertex-context-menu'));
 				
 				wp_enqueue_script('wpgmza-engine-drawing-manager', WPGMZA_BASE . "js/google-maps/google-drawing-manager.js", array('wpgmza-drawing-manager'));
 				
-				$dependencies = array('wpgmza-map-edit-page');
-				if($wpgmza->isProVersion())
-					$dependencies[] = 'wpgmza-pro-map-edit-page';
+				
 				wp_enqueue_script('wpgmza-google-map-edit-page', WPGMZA_BASE . "js/google-maps/google-map-edit-page.js", $dependencies);
 				break;
 				
 			default:
-				throw new \Exception('Not yet implemented');
+				wp_enqueue_script('wpgmza-engine-drawing-manager', WPGMZA_BASE . "js/open-street-map/osm-drawing-manager.js", $dependencies);
+			
+				wp_enqueue_script('wpgmza-osm-map-edit-page', WPGMZA_BASE . "js/open-street-map/osm-map-edit-page.js", $dependencies);
 				break;
 		}
 	}

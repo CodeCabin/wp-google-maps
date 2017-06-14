@@ -44,6 +44,22 @@
 			$(el).tabs(options);
 		});
 		
+		// Settings accordion
+		var active = 0;
+		if(window.localStorage)
+			active = parseInt(localStorage.getItem("wpgmza-map-edit-page-accordion"));
+		$(".wpgmza-accordion").accordion({
+			heightStyle: "content",
+			autoHeight: false,
+			clearStyle: true,
+			collapsible: true,
+			active: active,
+			activate: function(event, ui) {
+				if(window.localStorage)
+					localStorage.setItem("wpgmza-map-edit-page-accordion", $(event.target).accordion("option", "active"));
+			}
+		});
+		
 		// Map start zoom slider
 		$("#zoom-level-slider").slider({
 			min: 1,
@@ -188,7 +204,7 @@
 		// Marker table
 		this.loadMarkerTable();
 		
-		// Listen for changes on "live" polygon and polyline forms (markers are flagged as modified by updateMarker, that form is not "live")
+		// Listen for changes on "live" polygon and polyline forms (markers are flagged as modified by createOrUpdateMarker, that form is not "live")
 		$("#polygons").find("input, select, textarea").on("change", function(event) { 
 			if(self.editMapObjectTarget instanceof WPGMZA.Polygon)
 				self.editMapObjectTarget.modified = true;
@@ -219,7 +235,7 @@
 				$("input[name='max_zoom']").val()
 			],
 			slide: function(event, ui) {
-				self.onZoomLimitsChanged(event. ui);
+				self.onZoomLimitsChanged(event, ui);
 			}
 		});
 		
@@ -340,7 +356,7 @@
 	 */
 	WPGMZA.MapEditPage.prototype.createVertexContextMenuInstance = function()
 	{
-		throw new Error("Abstract function called");
+		
 	}
 	
 	/**
@@ -370,7 +386,7 @@
 	 * Creates a marker at the specified coordinates, and puts the data from the markers tab into it
 	 * @return WPGMZA.Marker
 	 */
-	WPGMZA.MapEditPage.prototype.updateMarker = function(latLng, preventRefreshControls)
+	WPGMZA.MapEditPage.prototype.createOrUpdateMarker = function(latLng, preventRefreshControls)
 	{
 		var self = this;
 		var marker;
@@ -392,18 +408,19 @@
 		
 		if(!marker.map)
 			this.map.addMarker(marker);
-		this.map.panTo(latLng);
 		
 		$("input[name='address']").val("");
 		this.enableMarkerButtons(true);
 		
-		this.rightClickCursor.setMap(null);
+		this.rightClickCursor.setVisible(false);
 		
 		marker.modified = true;
 		this.bindUnloadListener();
 		
 		if(!preventRefreshControls)
 			this.editMarker(marker);
+		else
+			this.map.panTo(latLng);
 		
 		return marker;
 	}
@@ -551,16 +568,19 @@
 	 */
 	WPGMZA.MapEditPage.prototype.onSaveMarker = function()
 	{
-		if(!(this.editMapObjectTarget instanceof WPGMZA.Marker))
-			return;
-		
 		var self = this;
 		var address = $("form.wpgmza input[name='address']").val();
-		var marker = this.editMapObjectTarget;
 		
 		$("#geocoder-error").hide();
 		
-		marker.setPositionFromAddress(address, function(latLng) {
+		var geocoder = WPGMZA.Geocoder.createInstance();
+		geocoder.getLatLngFromAddress(address, function(latLng) {
+			if(!latLng)
+			{
+				alert(WPGMZA.settings.localized_strings.geocode_failed);
+				return;
+			}
+			
 			self.onGeocoderResponse(latLng);
 		});
 	}
@@ -580,7 +600,7 @@
 			return;
 		}
 		
-		this.updateMarker(latLng);
+		this.createOrUpdateMarker(latLng);
 	}
 	
 	
@@ -1183,7 +1203,7 @@
 	}
 	
 	/**
-	 * Called when the form submits. This WPGMZA.MapEditPage.prototype.puts = function all the markers, 
+	 * Called when the form submits. This WPGMZA.MapEditPage.prototype puts all the markers, 
 	 * polygons and polylines in an array to be sent along with the rest 
 	 * of the from data. Any deleted markers, polygons and polylines are 
 	 * sent in deleteIDs
@@ -1198,7 +1218,7 @@
 		$("form.wpgmza").append(input);
 		
 		// Disable marker, polygon, polyline and heatmap inputs so they don't get sent to the server, they conflict with other inputs
-		$("#wpgmza_map_panel *:input").prop("disabled", true);
+		$("form.wpgmza .no-submit *:input").prop("disabled", true);
 		
 		// Unbind the beforeunload listener
 		window.removeEventListener("beforeunload", this.onBeforeUnload);
@@ -1207,14 +1227,17 @@
 	$(document).ready(function() {
 		var pro = WPGMZA.isProVersion();
 		
-		switch(WPGMZA.settings.engine)
-		{
-			case "google-maps":
-				WPGMZA.mapEditPage = (pro ? new WPGMZA.GoogleProMapEditPage() : new WPGMZA.GoogleMapEditPage());
-				break;
-			
-			default:
-				break;
-		}
+		WPGMZA.runCatchableTask(function() {
+			switch(WPGMZA.settings.engine)
+			{
+				case "google-maps":
+					WPGMZA.mapEditPage = (pro ? new WPGMZA.GoogleProMapEditPage() : new WPGMZA.GoogleMapEditPage());
+					break;
+				
+				default:
+					WPGMZA.mapEditPage = (pro ? new WPGMZA.OSMProMapEditPage() : new WPGMZA.OSMMapEditPage());
+					break;
+			}
+		}, $("form.wpgmza"));
 	});
 })(jQuery);

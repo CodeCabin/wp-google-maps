@@ -38,6 +38,23 @@
 		this.infoWindow = this.createInfoWindowInstance(this);
 	}
 	
+	WPGMZA.Marker.prototype.getIcon = function()
+	{
+		return WPGMZA.settings.default_marker_icon;
+	}
+	
+	/**
+	 * Gets the position of the marker
+	 * @return object
+	 */
+	WPGMZA.Marker.prototype.getPosition = function()
+	{
+		return {
+			lat: this.lat,
+			lng: this.lng
+		};
+	}
+	
 	/**
 	 * Sets the position of the marker
 	 * @return void

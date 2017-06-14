@@ -41,6 +41,7 @@ class Plugin
 		add_action('wp_ajax_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
 		add_action('wp_ajax_nopriv_wpgmza_map_fetch', array($this, 'handleAjaxRequest'));
 		add_action('wp_ajax_wpgmza_list_markers', array($this, 'handleAjaxRequest'));
+		add_action('wp_ajax_wpgmza_query_nominatim_cache', array($this, 'handleAjaxRequest'));
 		
 		// Shortcode hook
 		add_shortcode('wpgmza', array($this, 'handleShortcode'));
@@ -75,7 +76,9 @@ class Plugin
 		
 		// Load settings and statistics
 		Plugin::$settings 	= new Settings();
+		
 		Plugin::$settings->is_admin = is_admin();
+		Plugin::$settings->default_marker_icon = WPGMZA_BASE . 'images/marker.png';
 		
 		Plugin::$statistics = new Statistics();
 		
@@ -83,6 +86,7 @@ class Plugin
 		$this->loadJQuery();
 		
 		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
+		wp_enqueue_script('wpgmza-friendly-error', WPGMZA_BASE . 'js/friendly-error.js', array('wpgmza-core'));
 		
 		// Localize data
 		$data = $this->getLocalizedData();
@@ -115,7 +119,11 @@ class Plugin
 
 		$data->localized_strings = array(
 			'miles'			=> __('Miles', 'wp-google-maps'),
-			'kilometers'	=> __('Kilometers', 'wp-google-maps')
+			'kilometers'	=> __('Kilometers', 'wp-google-maps'),
+			
+			'unsecure_geolocation' => __('Many browsers are no longer allowing geolocation from unsecured origins. You will need to secure your site with an SSL certificate (HTTPS) or this feature may not work for your visitors', 'wp-google-maps'),
+			
+			'friendly_error' => __('We\'re sorry, a technical fault has occured. Technical details are below. Please <a href="https://www.wpgmaps.com/support/">visit our support page</a> for help.', 'wp-google-maps')
 		);
 		
 		return $data;
@@ -332,7 +340,7 @@ class Plugin
 						break;
 					
 					case 'support':
-						$document->loadHTML(WPGMZA_DIR . 'html/support-menu.html');
+						$document->loadPHPFile(WPGMZA_DIR . 'html/support-menu.html');
 						break;
 						
 					default:
@@ -347,6 +355,20 @@ class Plugin
 		else
 			foreach($document->querySelectorAll('.wpgmza-pro-version-only') as $node)
 				$node->remove();
+		
+		$engine = (empty(Plugin::$settings->engine) ? 'open-street-map' : Plugin::$settings->engine);
+		foreach($document->querySelectorAll("[class^='wpgmza-engine-']") as $element)
+		{
+			if(preg_match('/wpgmza-engine-((not-[\w-]+)|([\w-]+-only))/', $element->getAttribute('class'), $m))
+			{
+				if(
+					preg_match('/^not-(.+)/', $m[1], $submatch) && $engine == $submatch[1]
+					||
+					preg_match('/(.+)-only/', $m[1], $submatch) && $engine != $submatch[1]
+					)
+					$element->remove();
+			}
+		}
 		
 		echo $document->saveInnerBody();
 	}
@@ -469,6 +491,27 @@ class Plugin
 				
 				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
 				$response->send($obj);
+				break;
+				
+			case 'wpgmza_query_nominatim_cache':
+				require_once(__DIR__ . '/open-street-map/class.nominatim-geocode-cache.php');
+				
+				header('Content-type: application/json');
+				$cache = new NominatimGeocodeCache();
+				
+				if(!empty($_POST))
+					$cache->set($_POST['query'], stripslashes($_POST['response']));
+				else
+				{
+					$response = $cache->get($_GET['query']);
+
+					if(!$response)
+						echo '[]';
+					else
+						echo $response;
+				}
+				
+				exit;
 				break;
 		}
 		
@@ -630,8 +673,15 @@ class Plugin
 				break;
 				
 			default:
-				echo "OSM not yet implemented";
-				exit;
+				require_once(WPGMZA_DIR . 'php/open-street-map/class.osm-map.php');
+				
+				if($this->isProVersion())
+				{
+					require_once(WPGMZA_PRO_DIR . 'php/open-street-map/class.osm-pro-map.php');
+					return new OSMProMap($id, $shortcode_atts);
+				}
+				
+				return new OSMMap($id, $shortcode_atts);
 				break;
 		}
 	}
