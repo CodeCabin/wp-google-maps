@@ -24,13 +24,13 @@
 	WPGMZA.MapSettings.prototype.toOSMViewOptions = function()
 	{
 		var options = {
-			center: ol.proj.fromLonLat([36.7783, 119.4179]),
+			center: ol.proj.fromLonLat([-119.4179, 36.7783]),
 			zoom: 4
 		};
 		
 		// Start location
 		var coords = this.start_location.replace(/^\(|\)$/g, "").split(",");
-		if(coords.length == 2)
+		if(WPGMZA.isLatLngString(this.start_location))
 			options.center = ol.proj.fromLonLat([
 				parseFloat(coords[1]),
 				parseFloat(coords[0])

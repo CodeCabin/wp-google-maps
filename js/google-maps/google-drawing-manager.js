@@ -66,7 +66,10 @@
 	
 	WPGMZA.GoogleDrawingManager.prototype.setOptions = function(options)
 	{
-		this.googleDrawingManager.setOptions(options);
+		this.googleDrawingManager.setOptions({
+			polygonOptions: options,
+			polylineOptions: options
+		});
 	}
 	
 	WPGMZA.GoogleDrawingManager.prototype.onMarkerPlaced = function(googleMarker)

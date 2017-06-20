@@ -172,7 +172,6 @@
 		
 		polygon.map = this;
 		
-		
 		this.polygons.push(polygon);
 		this.dispatchEvent({type: "polygonadded", polygon: polygon});
 	}

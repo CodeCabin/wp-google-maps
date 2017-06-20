@@ -19,15 +19,38 @@ var WPGMZA = {
 		});
 	},
 	
+	/**
+	 * Takes a hex string and opacity value and converts it to Openlayers RGBA format
+	 * @return array RGBA whre color components are 0-255 and opacity is 0.0-1.0
+	 */
+	hexOpacityToRGBA: function(colour, opacity)
+	{
+		hex = parseInt(colour.replace(/^#/, ""), 16);
+		return [
+			(hex & 0xFF0000) >> 16,
+			(hex & 0xFF00) >> 8,
+			hex & 0xFF,
+			parseFloat(opacity)
+		];
+	},
+	
 	latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
 	
 	/**
 	 * Utility function returns true is string is a latitude and longitude
-	 * @return string
+	 * @return array the matched latitude and longitude or null if no match
 	 */
 	isLatLngString: function(str)
 	{
-		return str.match(WPGMZA.latLngRegexp);
+		var m = str.match(WPGMZA.latLngRegexp);
+		
+		if(!m)
+			return null;
+		
+		return {
+			lat: parseFloat(m[1]),
+			lng: parseFloat(m[3])
+		};
 	},
 	
 	/**

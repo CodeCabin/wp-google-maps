@@ -700,8 +700,8 @@
 	WPGMZA.MapEditPage.prototype.onDrawPolygon = function(event)
 	{
 		var fields = this.getPolygonFields();
-		this.drawingManager.setOptions(fields);
 		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_POLYGON);
+		this.drawingManager.setOptions(fields);
 	}
 	
 	/**
@@ -828,9 +828,7 @@
 	WPGMZA.MapEditPage.prototype.onDrawPolyline = function(event)
 	{
 		var fields = this.getPolylineFields();
-		this.drawingManager.setOptions({
-			polylineOptions: fields
-		});
+		this.drawingManager.setOptions(fields);
 		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_POLYLINE);
 	}
 	
@@ -1154,6 +1152,8 @@
 	 */
 	WPGMZA.MapEditPage.prototype.finishEditingMapObject = function()
 	{
+		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_NONE);
+		
 		if(!this.editMapObjectTarget)
 			return;
 		
@@ -1165,8 +1165,6 @@
 		
 		$("input[name='polyline-title']").val("");
 		$("#polylines").removeClass("update-polyline").addClass("add-polyline");
-		
-		this.drawingManager.setDrawingMode(WPGMZA.DrawingManager.MODE_NONE);
 		
 		if(this.editMapObjectTarget.setEditable)
 			this.editMapObjectTarget.setEditable(false);

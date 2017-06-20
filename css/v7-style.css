@@ -519,6 +519,7 @@ form.wpgmza table th
 	background: #0073AA;
 	color: white;
 	border: none;
+	cursor: pointer;
 }
 
 #wpgmza-map-edit-page .wpgmza-map

@@ -1,0 +1,58 @@
+@keyframes bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+@-webkit-keyframes bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+
+@keyframes drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+@-webkit-keyframes drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+.osm-marker
+{
+	position: relative;
+}
+
+.osm-marker>img
+{
+	position: absolute;
+	bottom: 0px;
+	transform: translateX(-50%);
+}
+
+.osm-marker[data-anim='bounce']>img
+{
+	animation: bounce 0.3s infinite alternate;
+	-webkit-animation: bounce 0.3s infinite alternate;
+}
+
+.osm-marker[data-anim='drop']>img
+{
+	animation: drop 0.3s;
+	-webkit-animation: drop 0.3s;
+}

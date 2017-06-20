@@ -1,18 +1,89 @@
 (function($) {
 	
-	WPGMZA.OSMPolyline = function(row)
+	var parentConstructor;
+	
+	WPGMZA.OSMPolyline = function(row, osmFeature)
 	{
 		var self = this;
 		
 		WPGMZA.Polyline.call(this, row);
+		
+		this.osmStyle = new ol.style.Style();
+		
+		if(osmFeature)
+		{
+			this.osmFeature = osmFeature;
+		}
+		else
+		{
+			this.osmFeature = new ol.Feature();
+			
+			var coordinates = [];
+			
+			if(row && row.points)
+			{
+				var path = this.parseGeometry(row.points);
+				
+				for(var i = 0; i < path.length; i++)
+					coordinates.push(ol.proj.fromLonLat([
+						parseFloat(path[i].lng),
+						parseFloat(path[i].lat)
+					]));
+			}
+			
+			var params = {};
+			
+			if(this.settings.strokeOpacity)
+				params.stroke = new ol.style.Stroke({
+					color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity),
+					width: parseInt(this.settings.strokeWeight)
+				});
+			
+			this.osmStyle = new ol.style.Style(params);
+		}
+		
+		this.osmFeature = new ol.Feature({
+			geometry: new ol.geom.LineString(coordinates)
+		});
+		
+		this.osmFeature.wpgmzaPolyline = this;
+		
+		this.layer = new ol.layer.Vector({
+			source: new ol.source.Vector({
+				features: [this.osmFeature]
+			}),
+			style: this.osmStyle
+		});
 	}
 	
-	WPGMZA.OSMPolyline.prototype
-	
-	if(WPGMZA.isProVersion())
-		WPGMZA.OSMPolyline.prototype = Object.create(WPGMZA.ProPolyline.prototype);
-	else
-		WPGMZA.OSMPolyline.prototype = Object.create(WPGMZA.Polyline.prototype);
+	parentConstructor = WPGMZA.Polyline;
+		
+	WPGMZA.OSMPolyline.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMPolyline.prototype.constructor = WPGMZA.OSMPolyline;
+	
+	WPGMZA.OSMPolyline.prototype.setEditable = function(editable)
+	{
+		WPGMZA.OSMMapEditPage.setPolyEditable(this, editable);
+	}
+	
+	WPGMZA.OSMPolyline.prototype.toJSON = function()
+	{
+		var result = parentConstructor.prototype.toJSON.call(this);
+		var coordinates = this.osmFeature.getGeometry().getCoordinates();
+		
+		result.points = [];
+		
+		for(var i = 0; i < coordinates.length; i++)
+		{
+			var lonLat = ol.proj.toLonLat(coordinates[i]);
+			var latLng = {
+				lat: lonLat[1],
+				lng: lonLat[0]
+			};
+			result.points.push(latLng);
+		}
+		
+		return result;
+	}
 	
 })(jQuery);

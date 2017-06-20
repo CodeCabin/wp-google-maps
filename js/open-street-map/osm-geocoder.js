@@ -58,6 +58,13 @@
 	{
 		var self = this;
 		
+		var latLng;
+		if(latLng = WPGMZA.isLatLngString(address))
+		{
+			callback(latLng);
+			return;
+		}
+		
 		function finish(response)
 		{
 			var latLng = self.extractLatLng(response[0]);

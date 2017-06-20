@@ -37,6 +37,8 @@ class OSMLoader
 		
 		wp_enqueue_style('wpgmza-osm-base-style', 'https://openlayers.org/en/v4.1.1/css/ol.css');
 		wp_enqueue_script('wpgmza-osm-api-call', 'https://openlayers.org/en/v4.1.1/build/ol.js');
+		
+		wp_enqueue_style('wpgmza-osm-style', WPGMZA_BASE . 'css/open-street-map.css');
 	}
 }
 

@@ -21,7 +21,7 @@ class GoogleMapsLoader
 				continue;
 			
 			$basename = basename($file);
-			$handle = basename($file, '.js');
+			$handle = 'wpgmza-' . basename($file, '.js');
 			
 			wp_enqueue_script($handle, WPGMZA_BASE . "js/google-maps/$basename", array('wpgmza-core'));
 		}

@@ -2,7 +2,12 @@
 
 namespace Smart;
 
+if(defined('SMART_DOCUMENT_LOADED'))
+	return;
+
 define('SMART_NAMESPACE_URI', 'http://www.rylancecreativestudios.co.uk/Smart/');
+define('SMART_LIBRARY_DIR', __DIR__);
+define('SMART_DOCUMENT_LOADED', true);
 
 require_once(__DIR__ . '/class.element.php');
 

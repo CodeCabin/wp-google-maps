@@ -53,6 +53,18 @@
 		});
 		this.osmMap.addLayer(this.markerLayer);
 		
+		// Click event
+		/*this.osmMap.on("click", function(event) {
+			var feature;
+			self.osmMap.forEachFeatureAtPixel(event.pixel, function(target) {
+				feature = target;
+			});
+			if(feature)
+				feature.wpgmzaObject.dispatchEvent("click");
+			else
+				this.dispatchEvent("click");
+		});*/
+		
 		// Listen for bounds changing
 		this.osmMap.getView().on("change", function() {
 			self.onBoundsChanged();
@@ -110,7 +122,8 @@
 			center: ol.proj.fromLonLat([
 				parseFloat(latLng.lng),
 				parseFloat(latLng.lat),
-			])
+			]),
+			duration: 500
 		});
 	}
 	
@@ -144,11 +157,50 @@
 		this.osmMap.getView().setMaxZoom(value);
 	}
 	
+	/**
+	 * TODO: Consider moving all these functions to their respective classes, same on google map (DO IT!!! It's very misleading having them here)
+	 */
 	WPGMZA.OSMMap.prototype.addMarker = function(marker)
 	{
-		this.osmMap.addLayer(marker.vectorLayer);
+		// this.osmMap.addLayer(marker.layer);
+		this.osmMap.addOverlay(marker.overlay);
 		
 		parentConstructor.prototype.addMarker.call(this, marker);
+	}
+	
+	WPGMZA.OSMMap.prototype.deleteMarker = function(marker)
+	{
+		this.osmMap.removeOverlay(marker.overlay);
+		
+		parentConstructor.prototype.deleteMarker.call(this, marker);
+	}
+	
+	WPGMZA.OSMMap.prototype.addPolygon = function(polygon)
+	{
+		this.osmMap.addLayer(polygon.layer);
+		
+		parentConstructor.prototype.addPolygon.call(this, polygon);
+	}
+	
+	WPGMZA.OSMMap.prototype.deletePolygon = function(polygon)
+	{
+		this.osmMap.removeLayer(polygon.layer);
+		
+		parentConstructor.prototype.deletePolygon.call(this, polygon);
+	}
+	
+	WPGMZA.OSMMap.prototype.addPolyline = function(polyline)
+	{
+		this.osmMap.addLayer(polyline.layer);
+		
+		parentConstructor.prototype.addPolyline.call(this, polyline);
+	}
+	
+	WPGMZA.OSMMap.prototype.deletePolyline = function(polyline)
+	{
+		this.osmMap.removeLayer(polyline.layer);
+		
+		parentConstructor.prototype.deletePolyline.call(this, polyline);
 	}
 	
 	WPGMZA.OSMMap.prototype.getFetchParameters = function()

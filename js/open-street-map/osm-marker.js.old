@@ -7,24 +7,36 @@
 		var self = this;
 		
 		parentConstructor.call(this, row);
-
+		
 		var origin = ol.proj.fromLonLat([
 			parseFloat(this.lng),
 			parseFloat(this.lat)
 		]);
 		
-		this.element = $("<div class='osm-marker'><img src='" + WPGMZA.settings.default_marker_image + "'/></div>")[0];
+		this.feature = new ol.Feature({
+			geometry: new ol.geom.Point(origin)
+		});
+		this.feature.wpgmzaObject = this;
 		
-		$(this.element).on("click", function(event) {
-			self.dispatchEvent("click");
+		var iconStyle = new ol.style.Style({
+			image: new ol.style.Icon({
+				anchor: [0.5, 1],
+				anchorXUnits: "fraction",
+				anchorYUnits: "fraction",
+				opacity: 1,
+				src: this.getIcon()
+			})
 		});
 		
-		this.overlay = new ol.Overlay({
-			element: this.element
-		});
-		this.overlay.setPosition(origin);
+		this.feature.setStyle(iconStyle);
 		
-		this.setAnimation(this.settings.animation);
+		this.vectorSource = new ol.source.Vector({
+			features: [this.feature]
+		});
+		
+		this.layer = new ol.layer.Vector({
+			source: this.vectorSource
+		});
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -36,9 +48,7 @@
 	
 	WPGMZA.OSMMarker.prototype.setVisible = function(visible)
 	{
-		parentConstructor.prototype.setVisible(visible);
-		
-		this.overlay.setVisible(visible);
+		this.layer.setVisible(visible);
 	}
 	
 	WPGMZA.OSMMarker.prototype.setPosition = function(latLng)
@@ -49,28 +59,15 @@
 			parseFloat(this.lng),
 			parseFloat(this.lat)
 		]);
-	
-		this.overlay.setPosition(origin);
+		
+		this.feature.setGeometry(new ol.geom.Point(origin));
 	}
 	
 	WPGMZA.OSMMarker.prototype.setAnimation = function(anim)
 	{
-		parentConstructor.prototype.setAnimation.call(this, anim);
+		parentConstructor.prototype.setAnimation.call(this, animation);
 		
-		switch(anim)
-		{
-			case WPGMZA.Marker.ANIMATION_NONE:
-				$(this.element).removeAttr("data-anim");
-				break;
-			
-			case WPGMZA.Marker.ANIMATION_BOUNCE:
-				$(this.element).attr("data-anim", "bounce");
-				break;
-			
-			case WPGMZA.Marker.ANIMATION_DROP:
-				$(this.element).attr("data-anim", "drop");
-				break;
-		}
+		console.log(anim);
 	}
 	
 })(jQuery);

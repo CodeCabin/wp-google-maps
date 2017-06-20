@@ -20,6 +20,8 @@
 			},
 			draggable: true
 		});
+		
+		// Right click marker drag
 		google.maps.event.addListener(this.rightClickCursor.googleMarker, "dragend", function(event) {
 			var wpgmzaEvent = new WPGMZA.Event({
 				type: "dragend",

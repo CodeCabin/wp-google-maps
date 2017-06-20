@@ -84,6 +84,24 @@
 	}
 	
 	/**
+	 * Get the marker visibility
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.getVisible = function(visible)
+	{
+		
+	}
+	
+	/**
+	 * Set the marker visibility. This is used by the store locator etc. and is not a setting
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.setVisible = function(visible)
+	{
+		
+	}
+	
+	/**
 	 * Creates info window for this marker
 	 * @return void
 	 */

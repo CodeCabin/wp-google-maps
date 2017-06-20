@@ -13,7 +13,7 @@
 	WPGMZA.DrawingManager.MODE_NONE				= null;
 	WPGMZA.DrawingManager.MODE_MARKER			= "marker";
 	WPGMZA.DrawingManager.MODE_POLYGON			= "polygon";
-	WPGMZA.DrawingManager.MODE_POLYLINE			= "marker";
+	WPGMZA.DrawingManager.MODE_POLYLINE			= "polyline";
 	
 	WPGMZA.DrawingManager.createInstance = function(map)
 	{

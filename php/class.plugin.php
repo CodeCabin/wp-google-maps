@@ -123,7 +123,9 @@ class Plugin
 			
 			'unsecure_geolocation' => __('Many browsers are no longer allowing geolocation from unsecured origins. You will need to secure your site with an SSL certificate (HTTPS) or this feature may not work for your visitors', 'wp-google-maps'),
 			
-			'friendly_error' => __('We\'re sorry, a technical fault has occured. Technical details are below. Please <a href="https://www.wpgmaps.com/support/">visit our support page</a> for help.', 'wp-google-maps')
+			'friendly_error' => __('We\'re sorry, a technical fault has occured. Technical details are below. Please <a href="https://www.wpgmaps.com/support/">visit our support page</a> for help.', 'wp-google-maps'),
+			
+			'geocode_failed' => __('We couldn\'t find that address, please try again', 'wp-google-maps')
 		);
 		
 		return $data;
