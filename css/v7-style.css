@@ -583,3 +583,8 @@ form.wpgmza table th
 {
 	padding: 1em; 0;
 }
+
+.wpgmza-glow
+{
+	box-shadow: 0px 0px 2px yellow !important;
+}

@@ -21,13 +21,18 @@
 		});
 	}
 	
-	WPGMZA.OSMGeocoder.prototype.getResponseFromNominatim = function(address, callback)
+	WPGMZA.OSMGeocoder.prototype.getResponseFromNominatim = function(options, callback)
 	{
+		var data = {
+			q: options.address,
+			format: "json"
+		};
+		
+		if(options.country)
+			data.countrycodes = options.country;
+		
 		$.ajax("https://nominatim.openstreetmap.org/search/", {
-			data: {
-				q: address,
-				format: "json"
-			},
+			data: data,
 			success: function(response, xhr, status) {
 				callback(response);
 			}
@@ -49,14 +54,15 @@
 	WPGMZA.OSMGeocoder.prototype.extractLatLng = function(item)
 	{
 		return {
-			lat: item.lat,
-			lng: item.lon
+			lat: parseFloat(item.lat),
+			lng: parseFloat(item.lon)
 		};
 	}
 	
-	WPGMZA.OSMGeocoder.prototype.getLatLngFromAddress = function(address, callback)
+	WPGMZA.OSMGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
 		var self = this;
+		var address = options.address;
 		
 		var latLng;
 		if(latLng = WPGMZA.isLatLngString(address))
@@ -78,7 +84,7 @@
 				return;
 			}
 			
-			self.getResponseFromNominatim(address, function(response) {
+			self.getResponseFromNominatim(options, function(response) {
 				if(response.length == 0)
 				{
 					callback(null);

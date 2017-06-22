@@ -32,7 +32,7 @@ class APIKeyWarning extends Smart\Document
 	 */
 	public static function shouldBeDisplayed()
 	{
-		return empty(Plugin::$settings->google_maps_api_key) && (isset(Plugin::$settings->engine) && Plugin::$setting->engine == "google-maps");
+		return empty(Plugin::$settings->google_maps_api_key) && (isset(Plugin::$settings->engine) && Plugin::$settings->engine == "google-maps");
 	}
 }
 

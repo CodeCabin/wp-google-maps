@@ -42,6 +42,10 @@ var WPGMZA = {
 	 */
 	isLatLngString: function(str)
 	{
+		// Remove outer brackets
+		if(str.match(/^\(.+\)$/))
+			str = str.replace(/^\(|\)$/, "");
+		
 		var m = str.match(WPGMZA.latLngRegexp);
 		
 		if(!m)
@@ -51,6 +55,20 @@ var WPGMZA = {
 			lat: parseFloat(m[1]),
 			lng: parseFloat(m[3])
 		};
+	},
+	
+	/**
+	 * Utility function returns a latLng literal given a valid latLng string
+	 * @return latLng
+	 */
+	stringToLatLng: function(str)
+	{
+		var result = isLatLngString(str);
+		
+		if(!result)
+			throw new Error("Not a valid latLng");
+		
+		return 
 	},
 	
 	/**

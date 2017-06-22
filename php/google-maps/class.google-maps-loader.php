@@ -17,7 +17,7 @@ class GoogleMapsLoader
 		$files = glob(WPGMZA_DIR . 'js/google-maps/*.js');
 		foreach($files as $file)
 		{
-			if(preg_match('/-map-edit-page\.js$/i', $file))
+			if(preg_match('/(-map-edit-page|-drawing-manager)\.js$/i', $file))
 				continue;
 			
 			$basename = basename($file);

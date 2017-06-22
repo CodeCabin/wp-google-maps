@@ -50,8 +50,8 @@
 	WPGMZA.Marker.prototype.getPosition = function()
 	{
 		return {
-			lat: this.lat,
-			lng: this.lng
+			lat: parseFloat(this.lat),
+			lng: parseFloat(this.lng)
 		};
 	}
 	
@@ -61,8 +61,8 @@
 	 */
 	WPGMZA.Marker.prototype.setPosition = function(latLng)
 	{
-		this.lat = latLng.lat;
-		this.lng = latLng.lng;
+		this.lat = parseFloat(latLng.lat);
+		this.lng = parseFloat(latLng.lng);
 	}
 	
 	/**

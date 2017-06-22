@@ -67,7 +67,7 @@
 			this.circle.setMap(null);
 		
 		if(this.closestMarker)
-			this.closestMarker.googleMarker.setAnimation(
+			this.closestMarker.setAnimation(
 				this.closestMarker.settings.animation
 			);
 		this.closestMarker = null;
@@ -152,30 +152,27 @@
 	{
 		var self = this;
 		var restrict = this.map.settings.store_locator_restrict;
-		var geocoder = new google.maps.Geocoder();
-		
+		var geocoder = WPGMZA.Geocoder.createInstance();
 		var options = {
-			address: this.address.val()
-		};1
+			address: $(this.element).find("[name='store_locator_address']").val()
+		};
 		
 		if(restrict && restrict.length)
-			options.componentRestrictions = {
-				country: restrict
-			};
+			options.country = restrict;
 			
 		if(this.circle)
 			this.circle.setMap(null);
 		
 		this.clear();
 		
-		geocoder.geocode(options, function(results, status) {
-			if(status != google.maps.GeocoderStatus.OK)
+		geocoder.getLatLngFromAddress(options, function(latLng) {
+			if(!latLng)
 			{
 				self.error.show();
 				return;
 			}
 			
-			self.onGeocodeSuccess(results, status);
+			self.onGeocodeSuccess(latLng);
 		});
 	}
 	
@@ -183,9 +180,8 @@
 	 * Called when the geocoder finds the specified address
 	 * @return void
 	 */
-	WPGMZA.StoreLocator.prototype.onGeocodeSuccess = function(results, status)
+	WPGMZA.StoreLocator.prototype.onGeocodeSuccess = function(latLng)
 	{
-		var latLng = results[0].geometry.location;
 		var zoom = this.getZoomFromRadius();
 		var marker = this.map.getClosestMarker(latLng);
 		

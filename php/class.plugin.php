@@ -78,6 +78,7 @@ class Plugin
 		Plugin::$settings 	= new Settings();
 		
 		Plugin::$settings->is_admin = is_admin();
+		Plugin::$settings->url_base = WPGMZA_BASE;
 		Plugin::$settings->default_marker_icon = WPGMZA_BASE . 'images/marker.png';
 		
 		Plugin::$statistics = new Statistics();
