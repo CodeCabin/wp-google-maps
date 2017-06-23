@@ -108,6 +108,9 @@ class Map extends Smart\Document
 		
 		if(isset($shortcode_atts['marker']))
 			$this->setCenterByMarkerID($shortcode_atts['marker']);
+		
+		if(isset($shortcode_atts['lat']) && isset($shortcode_atts['lng']))
+			$this->settings->start_location = $shortcode_atts['lat'] . ", " . isset($shortcode_atts['lng']);
 	}
 	
 	/**

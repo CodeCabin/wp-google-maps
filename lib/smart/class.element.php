@@ -13,8 +13,10 @@ class Element extends \DOMElement
 		\DOMElement::__construct();
 	}
 	
-	/*
-	 * DOM Traversal
+	/**
+	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelector
+	 * @param string $query a CSS selector
+	 * @return mixed The first descendant \Smart\Element that matches the selector, or NULL if there is no match
 	 */
 	public function querySelector($query)
 	{
@@ -24,6 +26,10 @@ class Element extends \DOMElement
 		return $results[0];
 	}
 	
+	/**
+	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelectorAll
+	 * @return mixed Any descendant \Smart\Element's that match the selector, or NULL if there is no match
+	 */
 	public function querySelectorAll($query)
 	{
 		$xpath 		= new \DOMXPath($this->ownerDocument);
@@ -40,6 +46,10 @@ class Element extends \DOMElement
 		return $results;
 	}
 	
+	/**
+	 * Traverses from this node up it's ancestors and returns the first node that matches the given selector
+	 * @param mixed $selector Either this node the first ancestor that matches this selector, or NULL if no match is found
+	 */
 	public function closest($selector)
 	{
 		if($this === $this->ownerDocument->documentElement)
@@ -55,6 +65,11 @@ class Element extends \DOMElement
 		return null;
 	}
 	
+	/**
+	 * Test if this element comes before the other element in the DOM tree
+	 * @param \Smart\Element $other the element to compare against
+	 * @return boolean TRUE if this element comes before the other, FALSE if not
+	 */
 	public function isBefore($other)
 	{
 		if($this->parentNode === $other->parentNode)
@@ -95,6 +110,10 @@ class Element extends \DOMElement
 		}
 	}
 	
+	/**
+	 * Returns the breadth (sometimes called child index) of this node in regards to it's siblings
+	 * @return int The index of this node
+	 */
 	public function getBreadth()
 	{
 		$breadth = 0;
@@ -103,6 +122,10 @@ class Element extends \DOMElement
 		return $breadth;
 	}
 	
+	/**
+	 * Returns the depth of this node in regards to it's ancestors
+	 * @return int The depth of this node
+	 */
 	public function getDepth()
 	{
 		$depth = 0;
@@ -111,11 +134,19 @@ class Element extends \DOMElement
 		return $depth;
 	}
 	
+	/**
+	 * @internal sort function for DOM position sort
+	 */
 	private static function sortByDOMPosition($a, $b)
 	{
 		return ($a->isBefore($b) ? -1 : 1);
 	}
 	
+	/**
+	 * @internal Calls the CSS to XPath converter on the specified selector
+	 * @param string $selector The CSS selector
+	 * @return string The resulting XPath expression
+	 */
 	public static function selectorToXPath($selector)
 	{
 		if(!Element::$xpathConverter)
@@ -126,8 +157,11 @@ class Element extends \DOMElement
 		return $xpath;
 	}
 
-	/*
-	 * Content
+	/**
+	 * Imports the supplied subject into this node.
+	 * @param mixed $subject. Either a \DOMDocument, \DOMNode, .html filename, or string containing HTML/text. The function will attempt to detect which. If you import HTML that contains a <body> element, it will only import the inner body
+	 * @throws \Exception the subject was not recognised as any of the types above
+	 * @return \Smart\Element this element
 	 */
 	public function import($subject, $forcePHP=false)
 	{
@@ -195,16 +229,25 @@ class Element extends \DOMElement
 		return $this;
 	}
 	
-	/*
-	 * Inline styling
+	/**
+	 * Sets an inline CSS style on this element. If it's already set, the old value will be removed first
+	 * @param string $name the CSS property name eg 'background-color'
+	 * @param string $value the value of the property eg '#ff4400'
+	 * @return \Smart\Element this node
 	 */
 	public function setInlineStyle($name, $value)
 	{
 		$this->removeInlineStyle($name);
 		$style = $this->getAttribute('style');
 		$this->setAttribute('style', $style . $name . ':' . $value . ';');
+		return $this;
 	}
 	
+	/**
+	 * Removes the inline CSS style specified by name
+	 * @param string $name the name of the CSS property eg 'background-color'
+	 * @return \Smart\Element this node
+	 */
 	public function removeInlineStyle($name)
 	{
 		if(!$this->hasAttribute('style'))
@@ -220,8 +263,13 @@ class Element extends \DOMElement
 		}
 		
 		$this->setAttribute('style', implode(';', $rules));
+		return $this;
 	}
 	
+	/**
+	 * Check if this element has an inline style by name
+	 * @param string $name the name of the CSS property to test for
+	 */
 	public function hasInlineStyle($name)
 	{
 		if(!$this->hasAttribute('style'))
@@ -229,6 +277,11 @@ class Element extends \DOMElement
 		return preg_match("/\s*$name:.*?((;\s*)|$)/", $this->getAttribute('style'));
 	}
 	
+	/**
+	 * Gets the value of the inline style by name
+	 * @param string $name the name of the CSS property you want the value for
+	 * @return mixed FALSE if there is no style property or no style with that name exists, or a string containing the property value if it does
+	 */
 	public function getInlineStyle($name)
 	{
 		if(!$this->hasAttribute('style'))
@@ -241,8 +294,10 @@ class Element extends \DOMElement
 		return $m[1];
 	}
 	
-	/*
-	 * Class
+	/**
+	 * Adds a class to this elements class attribute. It will be ignored if the class already exists
+	 * @param string $name The classname
+	 * @return \Smart\Element this node
 	 */
 	public function addClass($name)
 	{
@@ -251,8 +306,15 @@ class Element extends \DOMElement
 			
 		$class = ($this->hasAttribute('class') ? $this->getAttribute('class') : '');
 		$this->setAttribute('class', $class . (strlen($class) > 0 ? ' ' : '') . $name);
+		
+		return $this;
 	}
 	
+	/**
+	 * Removes the specified class from this nodes class attribute
+	 * @param string $name The classname
+	 * @return \Smart\Element this node
+	 */
 	public function removeClass($name)
 	{
 		if(!$this->hasAttribute('class'))
@@ -265,8 +327,15 @@ class Element extends \DOMElement
 			);
 			
 		$this->setAttribute('class', $class);
+		
+		return $this;
 	}
 	
+	/**
+	 * Tests if the specified class exists on this elements class attribute
+	 * @param string $name The classname
+	 * @return boolean FALSE if no such class existst, TRUE if it does
+	 */
 	public function hasClass($name)
 	{
 		if(!$this->hasAttribute('class'))
@@ -275,8 +344,13 @@ class Element extends \DOMElement
 		return preg_match('/\\b' . $name . '\\b/', $this->getAttribute('class'));
 	}
 	
-	/*
-	 * Population
+	/**
+	 * Populates the target element. If it is a form element, the value will be set according to the elements type/nodeName. If not, the value will be imported instead.
+	 * @param \Smart\Element $target The target element. Usually a descendant of this element
+	 * @param string $key the key of the value we're populating with, used for formatting
+	 * @param string $value the value to populate with
+	 * @param array $formatters an array associative of functions to format certain values with, functions should be specified by key
+	 * @return void
 	 */
 	protected function populateElement($target, $key, $value, $formatters)
 	{
@@ -313,8 +387,11 @@ class Element extends \DOMElement
 		}
 	}
 	
-	/*
-	 * Populate
+	/**
+	 * Takes a source object or associative array and optional array of formatting functions, and populates descendant named elements with the values from that source.
+	 * @param mixed $src Associative array or object with the keys and values
+	 * @param array $formatters Optional associative array of functions to format values with. The keys on this array correspond with the keys on $src
+	 * @return \Smart\Element This element
 	 */
 	public function populate($src=null, $formatters=null)
 	{
@@ -350,12 +427,12 @@ class Element extends \DOMElement
 			throw new \Exception("Populate source cannot be null for {$this->nodeName} on line " . $this->getLineNo() . " in {$this->ownerDocument->documentURI}");*/
 		
 		if($src === null)
-			return;
+			return $this;
 		
 		if(is_scalar($src))
 		{
 			$this->appendText($src);
-			return;
+			return $this;
 		}
 		
 		foreach($src as $key => $value)
@@ -390,10 +467,13 @@ class Element extends \DOMElement
 					$this->populateElement($m->item($i), $key, $value, $formatters);
 			}
 		}
+		
+		return $this;
 	}
 	
-	/*
-	 * Form validation
+	/**
+	 * Gets the value of this element
+	 * @return mixed A string if the element a text input, textarea or plain node, a boolean if the element is a checkbox or radio, or the value of the selected option if this element is a select
 	 */
 	public function getValue()
 	{
@@ -428,6 +508,12 @@ class Element extends \DOMElement
 		}
 	}
 	 
+	/**
+	 * Sets the value of this element. Intended for form elements only. If this element is a textarea, it will be appended as plain text. If this element is a select, it will attempt to select the option with the specified value. If the input is a radio or checkbox, it will set it accordingly. Otherwise, the value will be put into the value attribute
+	 * @throws \Exception If this element is a select, SMART_STRICT_MODE is declared and no option with that value exists
+	 * @throws \Exception If you call this method on a non-form element
+	 * @return \Smart\Element This element
+	 */
 	public function setValue($value)
 	{
 		switch(strtolower($this->nodeName))
@@ -443,14 +529,17 @@ class Element extends \DOMElement
 					$d->removeAttribute('selected');
 				
 				if($value === null)
-					return;
+					return $this;
 				
 				$option = $this->querySelector('option[value="' . $value . '"]');
 				
 				if(!$option)
-					throw new \Exception('Option with value "' . $value . '" not found in "' . ($this->getAttribute('name')) . '"');
-				
-				$option->setAttribute('selected', 'selected');
+				{
+					if(defined('SMART_STRICT_MODE'))
+						throw new \Exception('Option with value "' . $value . '" not found in "' . ($this->getAttribute('name')) . '"');
+				}
+				else
+					$option->setAttribute('selected', 'selected');
 				break;
 				
 			case 'input':
@@ -489,8 +578,19 @@ class Element extends \DOMElement
 				$this->nodeValue = $value;
 				break;
 		}
+		
+		return $this;
 	}
 	
+	/**
+	 * Checks if this element has a valid value, for form validation.
+	 * @uses attribute required if this element is required / cannot be blanmk
+	 * @uses attribute pattern if this element must match a regexp pattern
+	 * @uses smart:repeat for password repetition
+	 * @uses classname .g-recaptcha for reCAPTCHAs. RECAPTCHA_SECRET must be defined. Do NOT pass this as an attribute, it would be exposed to the client. cURL must be available.
+	 * @uses smart:html if you are anticipating HTML content from an untrusted source. HTMLPurifier will be run on the element
+	 * @return boolean TRUE if the element is valid, FALSE if not
+	 */
 	public function isValid()
 	{
 		if($this->hasAttribute('exclude-from-validation') && strtolower($this->getAttribute('exclude-from-validation')) == 'true')
@@ -640,6 +740,11 @@ class Element extends \DOMElement
 		return true;
 	}
 	
+	/**
+	 * Validates the form. Any invalid elements will have an error element appended after them.
+	 * @throws \Exception if this is not a form element
+	 * @return TRUE if all elements are valid, FALSE if not
+	 */
 	public function validate()
 	{
 		if(!preg_match('/form/i', $this->nodeName))
@@ -667,25 +772,39 @@ class Element extends \DOMElement
 		return true;
 	}
 	
-	/*
-	 * Utility functions
+	/**
+	 * Appends the specified text to this element, shorthand utility function
+	 * @return \Smart\Element This element 
 	 */
 	public function appendText($text)
 	{
 		$this->appendChild( $this->ownerDocument->createTextNode( $text ) );
+		return $this;
 	}
 
-	public function insertAfter($elem, $after)
+	/**
+	 * Utility function to append the specified element after one of this elements children. Will append at the end if after is null
+	 * @param \Smart\Element the element to insert
+	 * @param \Smart\Element one of this elements children, or null
+	 * *@return \Smart\Element this element
+	 */
+	public function insertAfter($elem, $after=null)
 	{
-		if($after->parentNode !== $this)
+		if($after->parentNode && $after->parentNode !== $this)
 			throw new \Exception('Hierarchy error');
 		
 		if($after->nextSibling)
 			$this->insertBefore($elem, $after->nextSibling);
 		else
 			$this->appendChild($elem);
+		
+		return $this;
 	}
 	
+	/**
+	 * Clears this element, completely removing all it's contents
+	 * @return \Smart\Element This element
+	 */
 	public function clear()
 	{
 		while($this->childNodes->length)
@@ -693,6 +812,10 @@ class Element extends \DOMElement
 		return $this;
 	}
 	 
+	/**
+	 * Removes this element from it's parent
+	 * @return \Smart\Element This element
+	 */
 	public function remove()
 	{
 		if($this->parentNode)
