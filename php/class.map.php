@@ -258,32 +258,40 @@ class Map extends Smart\Document
 		$approvedClause = (is_admin() ? '' : 'approved = 1');
 		
 		$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
-		
+
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
 			FROM $WPGMZA_TABLE_NAME_MARKERS
 			WHERE $clauses
-			(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
+			";
+
+		if ( empty(Plugin::$settings->load_all_markers) ) {
+			$qstr .= "(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
 				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
 				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
 			END)
-			
 			AND Y(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))";
+		}
 		
 		$lat1 = $bounds[0];
 		$lng1 = $bounds[1];
 		$lat2 = $bounds[2];
 		$lng2 = $bounds[3];
-		
-		$params = array(
-			$lng1,
-			$lng2,
-			$lng1,
-			$lng2,
-			$lng1,
-			$lng2,
-			$lat1,
-			$lat2
-		);
+
+		$params = array();
+
+		if ( empty( Plugin::$settings->load_all_markers ) ) {
+			array_push( $params,
+				$lng1,
+				$lng2,
+				$lng1,
+				$lng2,
+				$lng1,
+				$lng2,
+				$lat1,
+				$lat2
+			);
+
+		}
 		
 		// If we've got a list of markers that have already been transmitted, don't send them again
 		if(!empty($exclusionsString))

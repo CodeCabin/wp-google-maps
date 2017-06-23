@@ -275,6 +275,29 @@
 						</div>
 					</div>
 				</fieldset>
+
+				<fieldset>
+					<label>
+						<?php
+						_e("Load all markers by default","wp-google-maps");
+						?>
+					</label>
+					<div>
+						<div class="switch">
+							<input name="load_all_markers" type="checkbox" class="cmn-toggle cmn-toggle-yes-no" value="yes"/>
+							<label for="load_all_markers"
+								   data-on="<?php _e("Yes", "wp-google-maps"); ?>"
+							data-off="<?php _e("No", "wp-google-maps"); ?>">
+							</label>
+						</div>
+
+						<div>
+							<?php
+							_e("Please note this is not recommended for maps with a large number of markers", "wp-google-maps");
+							?>
+						</div>
+					</div>
+				</fieldset>
 			</div>
 			<div id="infowindows">
 				<h3>
