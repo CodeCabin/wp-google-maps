@@ -15,7 +15,7 @@
 		
 		if(options.country)
 			options.componentRestrictions = {
-				country: options.country;
+				country: options.country
 			};
 		
 		var geocoder = new google.maps.Geocoder();
