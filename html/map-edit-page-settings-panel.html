@@ -159,6 +159,16 @@
 				<option value="4"><?php _e("Terrain", "wp-google-maps"); ?></option>
 			</select>
 		</fieldset>
+		<fieldset>
+			<label><?php _e("Lock map start viewport", "wp-google-maps"); ?></label>
+			<div class="switch">
+				<input type="checkbox" name="lock_start_viewport" class="postform cmn-toggle cmn-toggle-yes-no" id="lock_start_viewport"/>
+				<label class="cmn-override-big"
+					   data-on="<?php _e('Yes', "wp-google-maps"); ?>"
+				data-off="<?php _e('No', "wp-google-maps"); ?>">
+				</label>
+			</div>
+		</fieldset>
 	</div>
 	
 	<h3>

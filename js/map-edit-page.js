@@ -139,7 +139,18 @@
 		
 		this.map.addEventListener("rightclick", placeRightClickMarker);
 		this.rightClickCursor.addEventListener("dragend", placeRightClickMarker);
-		
+
+		// Lock start viewport
+		function lockStartViewport(event) {
+            $("input[name='start_location'], input[name='start_zoom']").prop("disabled",
+                $("input[name='lock_start_viewport']").prop("checked")
+            );
+        }
+
+        lockStartViewport();
+
+        $("#lock_start_viewport").on("change", lockStartViewport);
+
 		// Bind listener to update form on changes
 		$("form.wpgmza").on("change", function(event) {
 			self.onFormChanged(event);
