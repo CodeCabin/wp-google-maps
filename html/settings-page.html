@@ -565,7 +565,7 @@
 					</label>
 					<input name="google_maps_api_key"/>
 				</fieldset>
-				
+
 				<h4>
 					<?php
 					_e("Custom CSS","wp-google-maps");
@@ -579,6 +579,20 @@
 					</label>
 					<!-- TODO: v6 calls stripslashes on custom_css, is this still necessary? Might need to do it at migration stage -->
 					<textarea name="custom_css"></textarea>
+				</fieldset>
+
+				<h4>
+					<?php
+					_e("Custom JavaScript","wp-google-maps");
+					?>
+				</h4>
+				<fieldset>
+					<label>
+						<?php
+						_e("Custom JavaScript","wp-google-maps");
+						?>
+					</label>
+					<textarea name="custom_js"></textarea>
 				</fieldset>
 				
 				<fieldset>

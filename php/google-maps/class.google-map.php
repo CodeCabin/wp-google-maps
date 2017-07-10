@@ -15,7 +15,7 @@ class GoogleMap extends Map
 {
 	public function __construct($id, $shortcode_atts=null)
 	{
-		Map::__construct($id, $shortcode_atts=null);
+		Map::__construct($id, $shortcode_atts);
 		
 		$loader = new GoogleMapsLoader();
 		$loader->enqueueScripts();

@@ -139,7 +139,18 @@
 		
 		this.map.addEventListener("rightclick", placeRightClickMarker);
 		this.rightClickCursor.addEventListener("dragend", placeRightClickMarker);
-		
+
+		// Lock start viewport
+		function lockStartViewport(event) {
+            $("input[name='start_location'], input[name='start_zoom']").prop("disabled",
+                $("input[name='lock_start_viewport']").prop("checked")
+            );
+        }
+
+        lockStartViewport();
+
+        $("#lock_start_viewport").on("change", lockStartViewport);
+
 		// Bind listener to update form on changes
 		$("form.wpgmza").on("change", function(event) {
 			self.onFormChanged(event);
@@ -158,7 +169,10 @@
 		});
 		
 		// Polygon buttons
-		$("#draw-polygon").on("click", function(event) { 
+		$("#draw-polygon").on("click", function(event) {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 500);
 			self.onDrawPolygon(event); 
 		});
 		$("#finish-editing-polygon").on("click", function(event) { 
@@ -169,8 +183,11 @@
 		});
 		
 		// Polyline buttons
-		$("#draw-polyline").on("click", function(event) { 
-			self.onDrawPolyline(event); 
+		$("#draw-polyline").on("click", function(event) {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 500);
+			self.onDrawPolyline(event);
 		});
 		$("#finish-editing-polyline").on("click", function(event) { 
 			self.onFinishEditingPolyline(event); 
