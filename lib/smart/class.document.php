@@ -15,6 +15,10 @@ class Document extends \DOMDocument
 {
 	private $src_file;
 	
+	/**
+	 * Constructor
+	 * @see http://php.net/manual/en/class.domdocument.php
+	 */
 	public function __construct($version='1.0', $encoding='UTF-8')
 	{
 		parent::__construct($version, $encoding);
@@ -22,16 +26,31 @@ class Document extends \DOMDocument
 		$this->onReady();
 	}
 	
+	/**
+	 * Fired after construction when the Document is initialized
+	 * @return void
+	 */
 	protected function onReady()
 	{
 		
 	}
 	
+	/**
+	 * Fired after content has been loaded
+	 * @return void
+	 */
 	protected function onLoaded()
 	{
 		
 	}
 	
+	/**
+	 * Loads the specified file and evaulates smart nodes
+	 * @see http://php.net/manual/en/domdocument.load.php
+	 * @param string $src The file you want to load
+	 * @param int $options See http://php.net/manual/en/domdocument.load.php
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
 	public function load($src, $options=null)
 	{
 		if(!is_string($src))
@@ -46,6 +65,12 @@ class Document extends \DOMDocument
 		return $result;
 	}
 	
+	/**
+	 * Loads the specified file and parses any PHP
+	 * @param string $src The file you want to load
+	 * @param int $options See http://php.net/manual/en/domdocument.load.php
+	 * @return boolean TRUE on success, FALSE otherwise
+	 */
 	public function loadPHPFile($src, $options=null)
 	{
 		ob_start();
@@ -66,17 +91,11 @@ class Document extends \DOMDocument
 		return $result;
 	}
 	
-	public function redirect($url)
-	{
-		$this->loadHTML('<div><h2>Redirecting</h2><p>Please <a>click here</a> if you are not redirected shortly</div>');
-		$this->querySelector('a')->setAttribute('href', $url);
-		header('Location: ' . $url);
-	}
-	
+	/**
+	 * @internal evaulates an inline variable
+	 */
 	protected function evaluateInlineVariable($str, $node)
 	{
-		global $user, $db, $fb, $document;
-		
 		$class = get_class($node);
 		$line = $node->getLineNo();
 		$name = $node->nodeName;
@@ -101,10 +120,11 @@ class Document extends \DOMDocument
 		return $result;
 	}
 	
+	/**
+	 * @internal Handles imports based on the content
+	 */
 	protected function handleImport($subject, $node, $forcePHP=false)
 	{
-		global $db, $user;
-		
 		if(preg_match('/\.html$/i', $subject))
 		{
 			if(!file_exists($subject))
@@ -155,6 +175,9 @@ class Document extends \DOMDocument
 		throw new \Exception("Failed to import page \"$subject\" in {$this->src_file} on line " . $node->getLineNo());
 	}
 	
+	/**
+	 * @internal gathers and handles any smart nodes
+	 */
 	protected function onEvaluateSmartNodes()
 	{
 		$xpath = new \DOMXPath($this);
@@ -186,12 +209,22 @@ class Document extends \DOMDocument
 			$this->onEvaluateNode($el);
 	}
 	
+	/**
+	 * Evaluates smart nodes
+	 * Available nodes:
+	 * eval: (inside attribute) evaluate PHP code
+	 * smart:filter (attribute) if the content of this attribute evaulates to 0 (or FALSE, or NULL) the node will be removed. You can use eval: or PHP inside this node if loading with loadPHPFile
+	 * smart:import (attribute) imports the specified HTML file
+	 * smart:import-php (attribute) imports the specified HTML file but parses PHP inside it. Do NOT use with ANY HTML that has been generated from user input, this would cause a critical security vulnerability
+	 * smart:populate (attribute) populates named elements (elements with 'name' attribute) with the data inside. Must be an object or array in PHP format. Again, do NOT use with ANY values that have been near user input
+	 * smart:fill (attribute) fills the element with the specified text. Useful for filling nodes with dynamic text.
+	 * smart:list (attribute) (beta) takes an array of PHP objects/subarrays/DOMDocuments and imports them to the element
+	 * @param \Smart\Element $node the node to evaluate
+	 * @return void
+	 */
 	protected function onEvaluateNode($node)
 	{
-		global $db, $user;
-		
 		//echo "Evaluating {$node->nodeName} on line {$node->getLineNo()} in {$this->documentURI}<br/>";
-		
 		
 		foreach($node->attributes as $attr)
 		{
@@ -258,6 +291,11 @@ class Document extends \DOMDocument
 		}
 	}
 	
+	/**
+	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelector
+	 * @param string $query a CSS selector
+	 * @return mixed The first descendant \Smart\Element that matches the selector, or NULL if there is no match
+	 */
 	public function querySelector($query)
 	{
 		if(!$this->documentElement)
@@ -265,6 +303,10 @@ class Document extends \DOMDocument
 		return $this->documentElement->querySelector($query);
 	}
 	
+	/**
+	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelectorAll
+	 * @return mixed Any descendant \Smart\Element's that match the selector, or NULL if there is no match
+	 */
 	public function querySelectorAll($query)
 	{
 		if(!$this->documentElement)
@@ -272,6 +314,11 @@ class Document extends \DOMDocument
 		return $this->documentElement->querySelectorAll($query);
 	}
 	
+	/**
+	 * Takes an associative array or object, and populates this element with it
+	 * @param mixed $src Object or associative array
+	 * @return void
+	 */
 	public function populate($src, $formatters=null)
 	{
 		if(!$this->documentElement)
@@ -279,6 +326,11 @@ class Document extends \DOMDocument
 		return $this->documentElement->populate($src, $formatters);
 	}
 	
+	/**
+	 * Utility function to create an error element
+	 * @param string $message The error message
+	 * @return \Smart\Element
+	 */
 	public function createErrorElement($message)
 	{
 		$span = $this->createElement('span');
@@ -287,6 +339,10 @@ class Document extends \DOMDocument
 		return $span;
 	}
 	
+	/**
+	 * This function saves only the inside of the <body> element of this document. This is useful when you want to import a HTML document into another, but you don't want to end up with nested <html> elements
+	 * @return string The HTML string
+	 */
 	public function saveInnerBody()
 	{
 		$result = '';

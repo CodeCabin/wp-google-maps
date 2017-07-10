@@ -34,6 +34,11 @@
 	WPGMZA.OSMMarker.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMMarker.prototype.constructor = WPGMZA.OSMMarker;
 	
+	WPGMZA.OSMMarker.prototype.addLabel = function()
+	{
+		
+	}
+	
 	WPGMZA.OSMMarker.prototype.setVisible = function(visible)
 	{
 		parentConstructor.prototype.setVisible(visible);

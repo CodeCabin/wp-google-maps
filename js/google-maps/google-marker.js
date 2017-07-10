@@ -10,11 +10,12 @@
 		
 		this.googleMarker = new google.maps.Marker(this.settings);
 		this.googleMarker.wpgmzaMarker = this;
+		
 		this.googleMarker.setPosition(new google.maps.LatLng({
 			lat: parseFloat(this.lat),
 			lng: parseFloat(this.lng)
 		}));
-		
+				
 		google.maps.event.addListener(this.googleMarker, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
@@ -26,6 +27,26 @@
 		parentConstructor = WPGMZA.Marker;
 	WPGMZA.GoogleMarker.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.GoogleMarker.prototype.constructor = WPGMZA.GoogleMarker;
+	
+	WPGMZA.GoogleMarker.prototype.addLabel = function()
+	{
+		var map = this.map;
+		var labels = map.settings.marker_label_characters;
+		var length = labels.length;
+		
+		if(length == 0)
+			return;
+		
+		if(!("currentMarkerLabelIndex" in map))
+			map.currentMarkerLabelIndex = 0;
+		
+		var label = labels.substr(map.currentMarkerLabelIndex % length, 1);
+		map.currentMarkerLabelIndex++;
+		
+		this.googleMarker.setLabel({
+			text: label
+		});
+	}
 	
 	/**
 	 * Sets the position of the marker

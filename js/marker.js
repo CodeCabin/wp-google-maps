@@ -36,6 +36,9 @@
 	WPGMZA.Marker.prototype.onAdded = function(event)
 	{
 		this.infoWindow = this.createInfoWindowInstance(this);
+		
+		if(this.map.settings.enable_marker_labels)
+			this.addLabel();
 	}
 	
 	WPGMZA.Marker.prototype.getIcon = function()

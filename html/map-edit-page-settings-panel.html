@@ -739,6 +739,17 @@
 		</fieldset>
 		
 		<fieldset>
+			<label><?php _e("Enable Marker Labels", "wp-google-maps"); ?></label>
+			<input name="enable_marker_labels" type="checkbox"/>
+		</fieldset>
+		<fieldset>
+			<label><?php _e("Marker Label Characters", "wp-google-maps"); ?></label>
+			<input name="marker_label_characters" type="text" value="123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#x3B1;&#x3B2;&#x3B3;&#x3B4;&#x3B5;&#x3B6;&#x3B7;&#x3B8;&#x3B9;&#x3BA;&#x3BB;&#x3BC;&#x3BE;&#x3C0;&#x3C1;&#x3C3;&#x3C4;&#x3C5;&#x3C6;&#x3C7;&#x3C8;&#x3C9;&#x393;&#x394;&#x398;&#x39B;&#x39E;&#x3A0;&#x3A3;&#x3A6;&#x3A8;&#x3A9;"/>
+			
+			<!-- αβγδεζηθικλμξπρστυφχψωΓΔΘΛΞΠΣΦΨΩ -->
+		</fieldset>
+		
+		<fieldset>
 			<label><?php _e("Show User's Location", "wp-google-maps"); ?></label>
 			<div class="switch grey-out wpgmza-geolocation-setting">
 				<input type="checkbox" name="show_user_location" class="cmn-toggle cmn-toggle-yes-no" disabled/>
@@ -1015,13 +1026,5 @@
 		</div>
 	</div>
 	
-	
-	
-	
-	<p>
-		<input type='submit' 
-			name='wpgmza_savemap' 
-			class='button-primary' 
-			value='<?php _e("Save Map","wp-google-maps");?> &raquo;'/>
-	</p>
+
 </div>
