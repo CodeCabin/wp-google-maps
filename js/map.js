@@ -53,12 +53,7 @@
 		
 		// Store locator
 		if(this.settings.store_locator_enabled)
-		{
-			if(WPGMZA.isProVersion())
-				this.storeLocator = new WPGMZA.ProStoreLocator(this);
-			else
-				this.storeLocator = new WPGMZA.StoreLocator(this);
-		}
+			this.storeLocator = WPGMZA.StoreLocator.createInstance(this);
 		
 		$(element).find(".wpgmza-load-failed").remove();
 	}

@@ -18,6 +18,9 @@
 		$(this.element).on("click", function(event) {
 			self.dispatchEvent("click");
 		});
+		$(this.element).on("mouseover", function(event) {
+			self.dispatchEvent("mouseover");
+		});
 		
 		this.overlay = new ol.Overlay({
 			element: this.element
@@ -43,7 +46,7 @@
 	{
 		parentConstructor.prototype.setVisible(visible);
 		
-		this.overlay.setVisible(visible);
+		this.overlay.getElement().style.display = (visible ? "block" : "none");
 	}
 	
 	WPGMZA.OSMMarker.prototype.setPosition = function(latLng)

@@ -57,14 +57,28 @@
 		this.clear();
 	}
 	
+	WPGMZA.StoreLocator.createInstance = function(map)
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				return new WPGMZA.GoogleStoreLocator(map);
+				break;
+				
+			default:
+				return new WPGMZA.OSMStoreLocator(map);
+				break;
+		}
+	}
+	
 	/**
 	 * Clears the store locator - takes the circle off the map and reverts the last marker to its original animation, and hides the error and no results messages
 	 * @return void
 	 */
 	WPGMZA.StoreLocator.prototype.clear = function()
 	{
-		if(this.circle)
-			this.circle.setMap(null);
+		this.showCircle(false);
+		this.showCenterMarker(false);
 		
 		if(this.closestMarker)
 			this.closestMarker.setAnimation(
@@ -145,6 +159,31 @@
 	}
 	
 	/**
+	 * Shows the circle at the specified location, or hides it
+	 * @return void
+	 */
+	WPGMZA.StoreLocator.prototype.showCircle = function(options)
+	{
+		
+	}
+	
+	/**
+	 * Shows/hides a marker at the center point of the search radius
+	 * @return void
+	 */
+	WPGMZA.StoreLocator.prototype.showCenterMarker = function(latLng)
+	{
+		if(!this.centerMarker)
+			this.centerMarker = this.map.createMarkerInstance();
+		
+		if(latLng)
+		{
+			this.centerMarker.setPosition(latLng);
+			this.centerMarker.setAnimation(WPGMZA.Marker.ANIMATION_BOUNCE);
+		}
+	}
+	
+	/**
 	 * Triggered when the user presses "search" or presses enter
 	 * @return void
 	 */
@@ -160,8 +199,7 @@
 		if(restrict && restrict.length)
 			options.country = restrict;
 			
-		if(this.circle)
-			this.circle.setMap(null);
+		this.showCircle(false);
 		
 		this.clear();
 		
@@ -185,20 +223,14 @@
 		var zoom = this.getZoomFromRadius();
 		var marker = this.map.getClosestMarker(latLng);
 		
-		this.circle = new google.maps.Circle({
-			strokeColor: "#ff0000",
-			strokeCopacity: 0.25,
-			strokeWeight: 2,
-			fillColor: "#ff0000",
-			map: this.map.googleMap,
-			center: latLng,
-			clickable: false,
-			radius: this.getRadiusInMeters()
-		});
+		this.showCircle(latLng);
+		
+		if(this.map.settings.store_locator_bounce)
+			this.showCenterMarker(latLng);
 		
 		// Add the circle and pan to it
-		this.map.googleMap.setZoom(zoom);
-		this.map.googleMap.panTo(latLng);
+		this.map.setZoom(zoom);
+		this.map.panTo(latLng);
 		
 		// Is "show bouncing icon" set?
 		/*if(self.map.settings.store_locator_bounce)

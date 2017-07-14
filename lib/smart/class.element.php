@@ -200,9 +200,9 @@ class Element extends \DOMElement
 			$subject = mb_convert_encoding($subject, 'HTML-ENTITIES', 'UTF-8');
 			
 			$temp = new Document('1.0', 'UTF-8');
-			$temp->loadHTML($subject);
+			$temp->loadHTML("<div id='smart-import-payload'>" . $subject . "</div>");
 			
-			$body = $temp->querySelector('body');
+			$body = $temp->querySelector('#smart-import-payload');
 			for($child = $body->firstChild; $child != null; $child = $child->nextSibling)
 			{
 				$node = $this->ownerDocument->importNode($child, true);
