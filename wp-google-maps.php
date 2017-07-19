@@ -23,16 +23,22 @@ include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
 $wpgmza = null;
 
-function wpgmza_create_instance()
+function wpgmza_create_instance_filter()
+{
+	if(is_plugin_active('wp-google-maps-pro/wp-google-maps-pro.php'))
+		return new ProPlugin();
+	else
+		return new Plugin();
+}
+
+function wpgmza_create_instance_delegate()
 {
 	global $wpgmza;
 	
-	if(is_plugin_active('wp-google-maps-pro/wp-google-maps-pro.php'))
-		$wpgmza = new ProPlugin();
-	else
-		$wpgmza = new Plugin();
+	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
 }
 
-add_action('plugins_loaded', 'WPGMZA\\wpgmza_create_instance');
+add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\wpgmza_create_instance_filter');
+add_action('plugins_loaded', 'WPGMZA\\wpgmza_create_instance_delegate');
 
 ?>

@@ -10,7 +10,10 @@
 	
 	WPGMZA.GoogleGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
-		if(WPGMZA.isLatLngString(address))
+		if(!options || !options.address)
+			throw new Error("No address specified");
+		
+		if(WPGMZA.isLatLngString(options.address))
 			return WPGMZA.Geocoder.prototype.call.getLatLngFromAddress(options.address, callback);
 		
 		if(options.country)

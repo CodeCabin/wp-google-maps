@@ -48,6 +48,7 @@
 				
 			case WPGMZA.DrawingManager.MODE_MARKER:
 				type = "Point";
+				endEventType = "markerplaced";
 				break;
 			
             case WPGMZA.DrawingManager.MODE_POLYGON:
@@ -77,6 +78,17 @@
 			
 			switch(mode)
 			{
+				case WPGMZA.DrawingManager.MODE_MARKER:
+					var lonLat = ol.proj.toLonLat(event.feature.getGeometry().getCoordinates());
+				
+					wpgmzaEvent.engineMarker = event.feature;
+					wpgmzaEvent.latLng = {
+						lat: lonLat[1],
+						lng: lonLat[0]
+					};
+					
+					break;
+				
 				case WPGMZA.DrawingManager.MODE_POLYGON:
 					wpgmzaEvent.enginePolygon = event.feature;
 					break;

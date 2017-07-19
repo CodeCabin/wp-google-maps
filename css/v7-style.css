@@ -566,6 +566,7 @@ form.wpgmza table th
 	background: black;
 	border-radius: 999px;
 	background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.35));
+	pointer-events: none;
 }
 
 .wpgmza-halt:after
@@ -577,6 +578,7 @@ form.wpgmza table th
 	width: 100%;
 	height: 50%;
 	background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+	pointer-events: none;
 }
 
 #map-edit-tabs>div:not(#settings)
@@ -587,4 +589,59 @@ form.wpgmza table th
 .wpgmza-glow
 {
 	box-shadow: 0px 0px 2px yellow !important;
+}
+
+#map-edit-page .wpgmza-map.floating
+{
+	
+}
+
+.wpgmza-engine-map
+{
+	position: relative;
+}
+
+.osm-info-window-plain
+{
+	position: absolute;
+	bottom: 53px;
+	left: 0px;
+	transform: translateX(-50%);
+	
+	background: white;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+	border: 1px solid lightgray;
+	padding: 0.5em;
+}
+
+.osm-info-window-plain:after
+{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-top-color: white;
+	border-bottom: 0;
+	margin-left: -8px;
+	margin-bottom: -8px;
+}
+
+.osm-info-window-close
+{
+	float: right;
+	margin: 0 0 3px 3px;
+	cursor: pointer;
+}
+
+.osm-marker
+{
+	z-index: 1;
+}
+
+.osm-info-window-container
+{
+	z-index: 999999;
 }

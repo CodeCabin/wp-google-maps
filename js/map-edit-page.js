@@ -591,7 +591,7 @@
 		$("#geocoder-error").hide();
 		
 		var geocoder = WPGMZA.Geocoder.createInstance();
-		geocoder.getLatLngFromAddress(address, function(latLng) {
+		geocoder.getLatLngFromAddress({address: address}, function(latLng) {
 			if(!latLng)
 			{
 				alert(WPGMZA.settings.localized_strings.geocode_failed);
@@ -950,7 +950,7 @@
 		var latLng = this.map.getCenter();
 		var zoom = this.map.getZoom();
 		
-		$("input[name='start_location']").val(latLng.toString());
+		$("input[name='start_location']").val(latLng.lat + ", " + latLng.lng);
 		$("input[name='start_zoom']").val(zoom);
 		
 		$("#zoom-level-slider").slider("value", zoom);

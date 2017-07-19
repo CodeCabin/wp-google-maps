@@ -21,8 +21,19 @@
 		
 		WPGMZA.MapObject.apply(this, arguments);
 		
+		if(row && row.heatmap)
+			return; // Don't listen for these events on heatmap markers.
+		
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);
+		});
+		
+		this.addEventListener("click", function(event) {
+			self.onClick(event);
+		});
+		
+		this.addEventListener("mouseover", function(event) {
+			self.onMouseOver(event);
 		});
 	}
 	
@@ -35,10 +46,22 @@
 	
 	WPGMZA.Marker.prototype.onAdded = function(event)
 	{
-		this.infoWindow = this.createInfoWindowInstance(this);
+		this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
 		
 		if(this.map.settings.enable_marker_labels)
 			this.addLabel();
+	}
+	
+	WPGMZA.Marker.prototype.onClick = function(event)
+	{
+		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_CLICK)
+			this.infoWindow.open();
+	}
+	
+	WPGMZA.Marker.prototype.onMouseOver = function(event)
+	{
+		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_HOVER)
+			this.infoWindow.open();
 	}
 	
 	WPGMZA.Marker.prototype.getIcon = function()
@@ -102,18 +125,6 @@
 	WPGMZA.Marker.prototype.setVisible = function(visible)
 	{
 		
-	}
-	
-	/**
-	 * Creates info window for this marker
-	 * @return void
-	 */
-	WPGMZA.Marker.prototype.createInfoWindowInstance = function(mapObject)
-	{
-		if(WPGMZA.isProVersion())
-			return new WPGMZA.ProInfoWindow(mapObject);
-		
-		return new WPGMZA.InfoWindow(mapObject);
 	}
 	
 	/**

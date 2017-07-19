@@ -165,7 +165,12 @@
 	 */
 	WPGMZA.GoogleMap.prototype.getCenter = function()
 	{
-		return this.googleMap.getCenter();
+		var latLng = this.googleMap.getCenter();
+		
+		return {
+			lat: latLng.lat(),
+			lng: latLng.lng()
+		};
 	}
 	
 	/**

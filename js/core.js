@@ -42,6 +42,9 @@ var WPGMZA = {
 	 */
 	isLatLngString: function(str)
 	{
+		if(typeof str != "string")
+			return null;
+		
 		// Remove outer brackets
 		if(str.match(/^\(.+\)$/))
 			str = str.replace(/^\(|\)$/, "");
@@ -134,6 +137,8 @@ var WPGMZA = {
 	},
 	
 	runCatchableTask: function(callback, friendlyErrorContainer) {
+		
+		var $ = jQuery;
 		
 		if(WPGMZA.settings.developer_mode)
 			callback();

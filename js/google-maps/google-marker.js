@@ -17,7 +17,11 @@
 		}));
 				
 		google.maps.event.addListener(this.googleMarker, "click", function() {
-			self.dispatchEvent({type: "click"});
+			self.dispatchEvent("click");
+		});
+		
+		google.maps.event.addListener(this.googleMarker, "mouseover", function() {
+			self.dispatchEvent("mouseover");
 		});
 	}
 	
