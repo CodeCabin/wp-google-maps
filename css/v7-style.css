@@ -641,7 +641,8 @@ form.wpgmza table th
 	z-index: 1;
 }
 
-.osm-info-window-container
+.osm-info-window-container,
+	.wpgmza-pro-info-window-container
 {
 	z-index: 999999;
 }
