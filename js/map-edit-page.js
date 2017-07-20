@@ -311,6 +311,43 @@
 				self.finishEditingMapObject();
 		});
 		
+		// Large polyline warning dialog
+		$("#wpgmza-big-polyline-dialog").remodal();
+		
+		// Layout system
+		var mouseX, mouseY;
+		
+		$(".wpgmza-map>*").each(function(index, el) {
+			$(el).append($("<div class='wpgmza-layout-handle'><i class='fa fa-arrows' aria-hidden='true'></i></div>"));
+		});
+		
+		$(document).on("mousemove", function(event) {
+			mouseX = event.clientX;
+			mouseY = event.clientY;
+		});
+		
+		$(".wpgmza-map").sortable({
+			handle: ".wpgmza-layout-handle",
+			start: function(event, ui) {
+				$("#wpgmza-map-container").addClass("wpgmza-layout-dragging");
+			},
+			stop: function(event, ui) {
+				var el = document.elementFromPoint(mouseX, mouseY);
+				
+				$("#wpgmza-map-container").removeClass("wpgmza-layout-dragging");
+				
+				if(!$(el).hasClass("wpgmza-cell") || $(el).attr("data-grid-postiion") == "center")
+					return;
+				
+				if($(el).children().length)
+					return;
+				
+				$(el).append(ui.item);
+			}
+		});
+		
+		$(".wpgmza-engine-map").append($(".wpgmza-in-map-grid"));
+		
 		// Hide preloader
 		$(".main-preloader").hide();
 		$("form.wpgmza").show();
@@ -915,6 +952,13 @@
 	
 	WPGMZA.MapEditPage.prototype.onPolylineClicked = function(event)
 	{
+		if(WPGMZA.settings.engine == "google-maps" && event.target.getPoints().length > 1000)
+		{
+			this.warningPolyline = event.target;
+			$("#wpgmza-big-polyline-dialog").remodal().open();
+			return;
+		}
+		
 		this.editPolyline(event.target);
 	}
 	
@@ -1189,6 +1233,32 @@
 	}
 	
 	/**
+	 * Gets the layout information for serialization
+	 * @return void
+	 */
+	WPGMZA.MapEditPage.prototype.getLayout = function()
+	{
+		var elements = $("[data-wpgmza-layout-element]");
+		var data = {
+			order: [],
+			grid: {}
+		};
+		
+		for(var i = 0; i < elements.length; i++)
+		{
+			var grid = $(elements[i]).closest(".wpgmza-in-map-grid");
+			var name = $(elements[i]).attr("data-wpgmza-layout-element");
+			
+			if(grid.length)
+				data.grid[ $(elements[i]).closest(".wpgmza-cell").attr("data-grid-position") ] = name;
+			else
+				data.order.push(name);
+		}
+		
+		return data;
+	}
+	
+	/**
 	 * Gets all map object data as JSON to be submitted
 	 * @return void
 	 */
@@ -1228,9 +1298,14 @@
 	{
 		// Get the map object data
 		var data = this.getMapObjectData();
-		var input = $("<input name='map-objects'/>");
+		var input = $("<input name='map-objects' type='hidden'/>");
 		input.val(JSON.stringify(data));
 		$("form.wpgmza").append(input);
+		
+		// Send layout
+		var layout = $("<input name='layout' type='hidden'/>");
+		layout.val(JSON.stringify(this.getLayout()));
+		$("form.wpgmza").append(layout);
 		
 		// Disable marker, polygon, polyline and heatmap inputs so they don't get sent to the server, they conflict with other inputs
 		$("form.wpgmza .no-submit *:input").prop("disabled", true);

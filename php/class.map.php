@@ -200,9 +200,11 @@ class Map extends Smart\Document
 	{
 		// Load store locator
 		require_once(WPGMZA_DIR . 'php/class.store-locator.php');
+		
 		$storeLocator = new StoreLocator($this);
 		$storeLocator->populate($this->settings);
-		$this->querySelector('.wpgmza-above-map')->import($storeLocator);
+		
+		$this->querySelector('.wpgmza-map')->import($storeLocator);
 	}
 	
 	/**

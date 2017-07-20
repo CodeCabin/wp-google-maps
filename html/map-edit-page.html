@@ -194,9 +194,44 @@
 					<?php
 					_e('Ask a question on our support forum', "wp-google-maps");
 					?>
-				</a>.
+				</a>
 			</div>
 		</div>
+	</div>
+	
+	<div id="wpgmza-big-polyline-dialog">
+		<i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+		<p>
+			<?php
+			_e('This polyline has a very large number of points. The Google Maps engine may become unresponsive if you attempt to edit this polygon. We recommend using the OpenStreetMap engine under Maps -> Settings, which significantly outperforms Google Maps editing large polylines.', 'wp-google-maps');
+			?>
+		</p>
+		<p>
+			<button 
+				class="button button-primary"
+				onclick="window.open( jQuery('[href$=\'page=wp-google-maps-menu-settings\']').attr('href') )"
+				type="button">
+				<?php
+				_e('Open Settings', 'wp-google-maps');
+				?>
+			</button>
+			<button 
+				class="button button-primary"
+				onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close();"
+				type="button">
+				<?php
+				_e('Cancel Editing', 'wp-google-maps');
+				?>
+			</button>
+			<button 
+				class="button button-primary"
+				onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close(); WPGMZA.mapEditPage.editPolyline(WPGMZA.mapEditPage.warningPolyline);" 
+				type="button">
+				<?php
+				_e('Ignore and Edit', 'wp-google-maps');
+				?>
+			</button>
+		</p>
 	</div>
 	
 	<?php

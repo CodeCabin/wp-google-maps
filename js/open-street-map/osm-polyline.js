@@ -66,6 +66,26 @@
 		WPGMZA.OSMMapEditPage.setPolyEditable(this, editable);
 	}
 	
+	WPGMZA.OSMPolyline.prototype.setPoints = function(points)
+	{
+		if(this.osmFeature)
+			this.layer.getSource().removeFeature(this.osmFeature);
+		
+		var coordinates = [];
+		
+		for(var i = 0; i < points.length; i++)
+			coordinates.push(ol.proj.fromLonLat([
+				parseFloat(points[i].lng),
+				parseFloat(points[i].lat)
+			]));
+		
+		this.osmFeature = new ol.Feature({
+			geometry: new ol.geom.LineString(coordinates)
+		});
+		
+		this.layer.getSource().addFeature(this.osmFeature);
+	}
+	
 	WPGMZA.OSMPolyline.prototype.toJSON = function()
 	{
 		var result = parentConstructor.prototype.toJSON.call(this);

@@ -18,7 +18,7 @@
 			if(row && row.points)
 			{
 				var path = this.parseGeometry(row.points);
-				this.googlePolyline.setOptions({path: path});
+				this.setPoints(path);
 			}
 		}
 		
@@ -35,9 +35,14 @@
 		this.googlePolyline.setOptions({editable: value});
 	}
 	
-	WPGMZA.GooglePolyline.prototype.getJSON = function()
+	WPGMZA.GooglePolyline.prototype.setPoints = function(points)
 	{
-		var result = WPGMZA.Polyline.prototype.getJSON.call(this);
+		this.googlePolyline.setOptions({path: points});
+	}
+	
+	WPGMZA.GooglePolyline.prototype.toJSON = function()
+	{
+		var result = WPGMZA.Polyline.prototype.toJSON.call(this);
 		
 		result.points = [];
 		

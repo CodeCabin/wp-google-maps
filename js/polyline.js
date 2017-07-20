@@ -11,6 +11,11 @@
 	WPGMZA.Polyline.prototype = Object.create(WPGMZA.MapObject.prototype);
 	WPGMZA.Polyline.prototype.constructor = WPGMZA.Polyline;
 	
+	WPGMZA.Polyline.prototype.getPoints = function()
+	{
+		return this.toJSON().points;
+	}
+	
 	WPGMZA.Polyline.prototype.toJSON = function()
 	{
 		var result = {
