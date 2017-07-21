@@ -263,7 +263,18 @@ class Map extends Smart\Document
 		*/
 		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options);
 		$approvedClause = (is_admin() ? '' : 'approved = 1');
-		
+
+		if ( '' !== $approvedClause ) {
+			$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
+		} else {
+			$clauses = $mapIDClause;
+		}
+
+		$totalMarkers = $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS WHERE $clauses");
+		if ( count( $exclusions ) == $totalMarkers ) {
+			return null;    // Every marker has already been transmitted
+		}
+
 		$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
 
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
