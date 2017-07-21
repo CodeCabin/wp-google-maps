@@ -261,21 +261,21 @@ class Map extends Smart\Document
 		/* 
 		The following statement will fetch all markers between specified latitude, and longitude even if the longitude crosses the 180th meridian / anti-meridian
 		*/
-		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options);
-		$approvedClause = (is_admin() ? '' : 'approved = 1');
+		$clauseArray = array(
+			$this->getFetchWhereClause( $WPGMZA_TABLE_NAME_MARKERS, $options )
+		);
 
-		if ( '' !== $approvedClause ) {
-			$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
-		} else {
-			$clauses = $mapIDClause;
+		if ( '' !== is_admin() ) {
+			$clauseArray[] = 'approved = 1';
 		}
 
-		$totalMarkers = $wpdb->get_var("SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS WHERE $clauses");
+		$clauses = implode( ' AND ', $clauseArray );
+
+		$totalMarkers = $wpdb->get_var( "SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS WHERE $clauses" );
+
 		if ( count( $exclusions ) == $totalMarkers ) {
 			return null;    // Every marker has already been transmitted
 		}
-
-		$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
 
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
 			FROM $WPGMZA_TABLE_NAME_MARKERS
@@ -283,7 +283,7 @@ class Map extends Smart\Document
 			";
 
 		if ( empty(Plugin::$settings->load_all_markers) ) {
-			$qstr .= "(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
+			$qstr .= " AND (CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
 				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
 				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
 			END)
