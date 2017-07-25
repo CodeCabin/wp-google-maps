@@ -327,8 +327,10 @@
 				<input name="directions_box_template_id" type="hidden"/>
 				<button 
 					type="button" 
-					class="cc-open-template-picker wpgmza-glow button" 
-					data-template-picker-target="directions_box_template_id">
+					class="wpgmza-open-template-picker wpgmza-glow button" 
+					data-template-picker-target="directions_box_template_id"
+					data-template-picker-type="directions-box"
+					>
 					<?php
 					_e('Select Template', 'wp-google-maps');
 					?>
@@ -911,7 +913,9 @@
 						</label>
 					</li>
 					<li>
-						<label class="cc-open-template-picker wpgmza-glow" data-template-picker-target="marker_listing_template_id">
+						<label class="wpgmza-open-template-picker wpgmza-glow" data-template-picker-target="marker_listing_template_id"
+						data-template-picker-type="marker-listing"
+						>
 							<input type="radio" name="marker_listing_style" value="template"/>
 							<img src="<?php echo WPGMZA_BASE; ?>images/marker-listing-template.png"
 								title="<?php _e('Use Template', 'wp-google-maps'); ?>"/>

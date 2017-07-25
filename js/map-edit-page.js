@@ -317,8 +317,9 @@
 		// Layout system
 		var mouseX, mouseY;
 		
-		$(".wpgmza-map>*").each(function(index, el) {
-			$(el).append($("<div class='wpgmza-layout-handle'><i class='fa fa-arrows' aria-hidden='true'></i></div>"));
+		$("[data-wpgmza-layout-element]").each(function(index, el) {
+			console.log(el);
+			$(el).append($("<div class='wpgmza-layout-handle' data-for='" + $(el).attr("data-wpgmza-layout-element") + "'><i class='fa fa-arrows' aria-hidden='true'></i></div>"));
 		});
 		
 		$(document).on("mousemove", function(event) {
@@ -328,6 +329,7 @@
 		
 		$(".wpgmza-map").sortable({
 			handle: ".wpgmza-layout-handle",
+			items: "[data-wpgmza-layout-element]",
 			start: function(event, ui) {
 				$("#wpgmza-map-container").addClass("wpgmza-layout-dragging");
 			},
@@ -340,6 +342,9 @@
 					return;
 				
 				if($(el).children().length)
+					return;
+				
+				if($.contains(ui.item[0], el))
 					return;
 				
 				$(el).append(ui.item);

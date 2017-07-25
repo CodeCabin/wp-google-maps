@@ -461,7 +461,7 @@ class Element extends \DOMElement
 			}
 			else
 			{
-				$m = $x->query('descendant-or-self::*[@name="' . $key . '"]', $this);
+				$m = $x->query('descendant-or-self::*[@name="' . $key . '" or @data-name="' . $key . '"]', $this);
 				
 				for($i = 0; $i < $m->length; $i++)
 					$this->populateElement($m->item($i), $key, $value, $formatters);

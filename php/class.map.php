@@ -263,10 +263,14 @@ class Map extends Smart\Document
 		/* 
 		The following statement will fetch all markers between specified latitude, and longitude even if the longitude crosses the 180th meridian / anti-meridian
 		*/
-		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options);
-		$approvedClause = (is_admin() ? '' : 'approved = 1');
+		$clauseArray = array(
+			$this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options)
+		);
 		
-		$clauses = implode(' AND ', array($mapIDClause, $approvedClause));
+		if(is_admin())
+			$clauseArray[] = 'approved = 1';
+		
+		$clauses = implode(' AND ', $clauseArray);
 
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
 			FROM $WPGMZA_TABLE_NAME_MARKERS
