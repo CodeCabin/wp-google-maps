@@ -12,19 +12,22 @@ class GoogleMapsLoader
 	 */
 	public function enqueueScripts()
 	{
+		global $wpgmza;
+		
 		$this->loadGoogleMaps();
 		
-		$files = glob(WPGMZA_DIR . 'js/google-maps/*.js');
-		foreach($files as $file)
-		{
-			if(preg_match('/(-map-edit-page|-drawing-manager)\.js$/i', $file))
-				continue;
-			
-			$basename = basename($file);
-			$handle = 'wpgmza-' . basename($file, '.js');
-			
-			wp_enqueue_script($handle, WPGMZA_BASE . "js/google-maps/$basename", array('wpgmza-core'));
-		}
+		$dependencyVersion = ($wpgmza->isProVersion() ? 'pro-' : '');
+		
+		wp_enqueue_script('wpgmza-google-drawing-manager', 	WPGMZA_BASE . 'js/google-maps/google-drawing-manager.js', 	array('wpgmza-drawing-manager'));
+		wp_enqueue_script('wpgmza-google-geocoder', 		WPGMZA_BASE . 'js/google-maps/google-geocoder.js', 			array('wpgmza-geocoder'));
+		wp_enqueue_script('wpgmza-google-info-window', 		WPGMZA_BASE . 'js/google-maps/google-info-window.js', 		array("wpgmza-{$dependencyVersion}info-window"));
+		wp_enqueue_script('wpgmza-google-map-edit-page', 	WPGMZA_BASE . 'js/google-maps/google-map-edit-page.js',  	array("wpgzma-{$dependencyVersion}map-edit-page"));
+		wp_enqueue_script('wpgmza-google-map', 				WPGMZA_BASE . 'js/google-maps/google-map.js', 				array("wpgmza-{$dependencyVersion}map"));
+		wp_enqueue_script('wpgmza-google-marker', 			WPGMZA_BASE . 'js/google-maps/google-marker.js', 			array("wpgmza-{$dependencyVersion}marker"));
+		wp_enqueue_script('wpgmza-google-polygon', 			WPGMZA_BASE . 'js/google-maps/google-polygon.js', 			array("wpgmza-{$dependencyVersion}polygon"));
+		wp_enqueue_script('wpgmza-google-polyline', 		WPGMZA_BASE . 'js/google-maps/google-polyline.js', 			array('wpgmza-polyline'));
+		wp_enqueue_script('wpgmza-google-store-locator', 	WPGMZA_BASE . 'js/google-maps/google-store-locator.js', 	array('wpgmza-store-locator'));
+		wp_enqueue_script('wpgmza-google-drawing-manager', 	WPGMZA_BASE . 'js/google-maps/google-drawing-manager.js',	array('wpgmza-core'));
 	}
 	
 	/**

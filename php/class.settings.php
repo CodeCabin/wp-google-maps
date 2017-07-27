@@ -83,7 +83,7 @@ class Settings implements \IteratorAggregate, \JsonSerializable
 		global $wpdb;
 		
 		// Has the user just enabled usage tracking?
-		if($name == 'enable_usage_tracking')
+		if($name == 'enable_usage_tracking' && $value == 'yes')
 			Plugin::requestCoupon();
 		
 		// Force these options to be stored in wp_options, and NOT in wpgmza_settings

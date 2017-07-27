@@ -104,6 +104,11 @@
 		$.extend(localizedSettings, WPGMZA.settings, localSettings);
 		this.settings = localizedSettings;
 
+		if(!this.settings.width)
+			this.settings.width = "100%";
+		if(!this.settings.height)
+			this.settings.height = "400px";
+		
 		this.setDimensions(this.settings.width, this.settings.height);
 		this.setAlignment(this.settings.map_align);
 	}
@@ -462,6 +467,7 @@
 	$(document).ready(function() {
 		function createMaps()
 		{
+			// TODO: Test that this works for maps off screen (which borks google)
 			$(".wpgmza-map").each(function(index, el) {
 				if(!el.wpgmzaMap)
 				{

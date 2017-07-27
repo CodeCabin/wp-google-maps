@@ -9,11 +9,10 @@
 <div> \
 ';
 	
-	WPGMZA.FriendlyError = function(nativeError, container)
+	WPGMZA.FriendlyError = function(nativeError)
 	{
 		this.element = $(template);
 		this.element.find("pre").html(nativeError.message + "\r\n" + nativeError.stack + "\r\n\r\n on " + window.location.href);
-		$(container).append(this.element);
 	}
 	
 })(jQuery);

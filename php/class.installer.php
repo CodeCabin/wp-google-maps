@@ -4,9 +4,57 @@ namespace WPGMZA;
 
 class Installer
 {
+	public static $MARKER_COLUMNS = array(
+		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
+		'map_id'		=> 'int(11) NOT NULL',
+		'address'		=> 'varchar(700) NOT NULL',
+		'description'	=> 'mediumtext NOT NULL',
+		'pic'			=> 'varchar(700) NOT NULL',
+		'link'			=> 'varchar(700) NOT NULL',
+		'icon'			=> 'varchar(700) NOT NULL',
+		'title'			=> 'varchar(700) NOT NULL',
+		'approved'		=> "tinyint(1) DEFAULT '1'",
+		'settings'		=> 'LONGTEXT NULL',
+		'latlng'		=> 'POINT NOT NULL'
+	);
+	
+	public static $MAP_COLUMNS = array(
+		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
+		'title'			=> 'VARCHAR(55) NOT NULL',
+		'settings'		=> 'LONGTEXT'
+	);
+	
+	public static $POLYGON_COLUMNS = array(
+		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
+		'map_id'		=> 'int(11) NOT NULL',
+		'name'			=> 'VARCHAR(250) NOT NULL',
+		'title'			=> 'VARCHAR(250) NOT NULL',
+		'link'			=> 'VARCHAR(700) NOT NULL',
+		'points'		=> 'POLYGON',
+		'settings'		=> 'TEXT'
+	);
+	
+	public static $POLYLINE_COLUMNS = array(
+		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
+		'map_id'		=> 'int(11) NOT NULL',
+		'title'			=> 'VARCHAR(250) NOT NULL',
+		'points'		=> 'LINESTRING',
+		'settings'		=> 'TEXT'
+	);
+	
 	public function __construct()
 	{
 		
+	}
+	
+	protected function nameAndDefinitionArrayToSQL($columns)
+	{
+		$sql = '';
+		
+		foreach($columns as $name => $definition)
+			$sql .= "$name $definition,\r\n";
+		
+		return $sql;
 	}
 	
 	/**
@@ -60,13 +108,13 @@ class Installer
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MAPS;
 		
+		$mapSQL = $this->nameAndDefinitionArrayToSQL(Installer::$MAP_COLUMNS);
+		
 		/*
 		 * Install maps
 		 */
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_MAPS` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`title` VARCHAR(55) NOT NULL,
-			`settings` LONGTEXT,
+			$mapSQL
 			PRIMARY KEY  (id)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1");
 		
@@ -83,18 +131,10 @@ class Installer
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MARKERS;
 		 
+		$markerSQL = $this->nameAndDefinitionArrayToSQL(Installer::$MARKER_COLUMNS);
+		 
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_MARKERS` (
-          id int(11) NOT NULL AUTO_INCREMENT,
-          map_id int(11) NOT NULL,
-          address varchar(700) NOT NULL,
-          description mediumtext NOT NULL,
-          pic varchar(700) NOT NULL,
-          link varchar(700) NOT NULL,
-          icon varchar(700) NOT NULL,
-          title varchar(700) NOT NULL,
-          approved tinyint(1) DEFAULT '1',
-		  settings LONGTEXT NULL,
-		  latlng POINT NOT NULL,
+          $markerSQL
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 		 
@@ -132,14 +172,10 @@ class Installer
 	{
 		global $WPGMZA_TABLE_NAME_POLYGONS;
 		
+		$polygonSQL = $this->nameAndDefinitionArrayToSQL(Installer::$POLYGON_COLUMNS);
+		
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_POLYGONS` (
-          id int(11) NOT NULL AUTO_INCREMENT,
-          map_id int(11) NOT NULL,
-          name VARCHAR(250) NOT NULL,
-          title VARCHAR(250) NOT NULL,
-          link VARCHAR(700) NOT NULL,
-		  points POLYGON,
-		  settings TEXT,
+          $polygonSQL
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 	}
@@ -152,12 +188,10 @@ class Installer
 	{
 		global $WPGMZA_TABLE_NAME_POLYLINES;
 		
+		$polylineSQL = $this->nameAndDefinitionArrayToSQL(Installer::$POLYLINE_COLUMNS);
+		
 		dbDelta("CREATE TABLE `$WPGMZA_TABLE_NAME_POLYLINES` (
-          id int(11) NOT NULL AUTO_INCREMENT,
-          map_id int(11) NOT NULL,
-		  title VARCHAR(250) NOT NULL,
-		  points LINESTRING,
-		  settings TEXT,
+          $polylineSQL
           PRIMARY KEY  (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 	}

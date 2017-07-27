@@ -2,7 +2,7 @@
 	
 	/**
 	 * Map edit page constructor
-	 * TODO: Break this up a bit, it's huge
+	 * TODO: Break this up a bit into smaller functions, it's huge
 	 */
 	WPGMZA.MapEditPage = function()
 	{

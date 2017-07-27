@@ -270,6 +270,13 @@ class Map extends Smart\Document
 		if(is_admin())
 			$clauseArray[] = 'approved = 1';
 		
+		if(empty(Plugin::$settings->load_all_markers))
+			$clauseArray[] = "(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
+				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
+				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
+			END)
+			AND Y(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))";
+		
 		$clauses = implode(' AND ', $clauseArray);
 
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
@@ -277,22 +284,14 @@ class Map extends Smart\Document
 			WHERE $clauses
 			";
 
-		if ( empty(Plugin::$settings->load_all_markers) ) {
-			$qstr .= "(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
-				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
-				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
-			END)
-			AND Y(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))";
-		}
-		
-		$lat1 = $bounds[0];
-		$lng1 = $bounds[1];
-		$lat2 = $bounds[2];
-		$lng2 = $bounds[3];
-
 		$params = array();
 
 		if ( empty( Plugin::$settings->load_all_markers ) ) {
+			$lat1 = $bounds[0];
+			$lng1 = $bounds[1];
+			$lat2 = $bounds[2];
+			$lng2 = $bounds[3];
+			
 			array_push( $params,
 				$lng1,
 				$lng2,

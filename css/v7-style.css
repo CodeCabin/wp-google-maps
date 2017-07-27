@@ -689,6 +689,9 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 	
 	border: 1px solid lightgray;
 	
+	cursor: -webkit-grab;
+	cursor: grab;
+	
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
