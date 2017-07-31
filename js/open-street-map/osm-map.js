@@ -53,20 +53,14 @@
 		});
 		this.osmMap.addLayer(this.markerLayer);
 		
-		// Click event
-		/*this.osmMap.on("click", function(event) {
-			var feature;
-			self.osmMap.forEachFeatureAtPixel(event.pixel, function(target) {
-				feature = target;
-			});
-			if(feature)
-				feature.wpgmzaObject.dispatchEvent("click");
-			else
-				this.dispatchEvent("click");
-		});*/
+		// Listen for end of pan so we can wrap longitude if needs be
+		this.osmMap.on("moveend", function(event) {
+			self.wrapLongitude();
+		});
 		
 		// Listen for bounds changing
 		this.osmMap.getView().on("change", function() {
+			// Wrap longitude
 			self.onBoundsChanged();
 		});
 		self.onBoundsChanged();
@@ -95,6 +89,21 @@
 		return new WPGMZA.OSMPolyline(row, osmPolyline);
 	}
 	
+	WPGMZA.OSMMap.prototype.wrapLongitude = function()
+	{
+		var center = this.getCenter();
+		
+		if(center.lng >= -180 && center.lng <= 180)
+			return;
+		
+		center.lng = center.lng - 360 * Math.floor(center.lng / 360);
+		
+		if(center.lng > 180)
+			center.lng -= 360;
+		
+		this.setCenter(center);
+	}
+	
 	WPGMZA.OSMMap.prototype.getCenter = function()
 	{
 		var lonLat = ol.proj.toLonLat(
@@ -113,6 +122,7 @@
 			latLng.lng,
 			latLng.lat
 		]));
+		this.wrapLongitude();
 	}
 	
 	WPGMZA.OSMMap.prototype.panTo = function(latLng)

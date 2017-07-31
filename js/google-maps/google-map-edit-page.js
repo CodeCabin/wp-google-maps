@@ -92,7 +92,7 @@
 		parentConstructor.prototype.onPolygonRemoved.call(this, event);
 		
 		google.maps.event.removeListener(event.polygon.rightClickListener);
-		delete polygon.rightClickListener;
+		delete event.polygon.rightClickListener;
 	}
 	
 	WPGMZA.GoogleMapEditPage.prototype.onPolygonSettingChanged = function(event)

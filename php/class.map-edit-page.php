@@ -78,6 +78,7 @@ class MapEditPage extends AdminPage
 			$this->map->tables->marker
 		);
 		
+		// POST?
 		if(!empty($_POST))
 		{
 			$this->onFormSubmitted();
@@ -117,6 +118,11 @@ class MapEditPage extends AdminPage
 		$dependencies = array('wpgmza-map-edit-page');
 		if($wpgmza->isProVersion())
 			$dependencies[] = 'wpgmza-pro-map-edit-page';
+		
+		// Remodal dialog
+		wp_enqueue_script('remodal', WPGMZA_BASE . 'lib/remodal.min.js');
+		wp_enqueue_style('remodal', WPGMZA_BASE . 'lib/remodal.css');
+		wp_enqueue_style('remodal-default-theme', WPGMZA_BASE . 'lib/remodal-default-theme.css');
 		
 		// Engine specific code
 		switch(Plugin::$settings->engine)

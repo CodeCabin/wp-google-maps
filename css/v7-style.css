@@ -641,6 +641,11 @@ form.wpgmza table th
 	z-index: 1;
 }
 
+.osm-marker>img
+{
+	max-width: none !important;
+}
+
 .osm-info-window-container,
 	.wpgmza-pro-info-window-container
 {

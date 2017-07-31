@@ -148,14 +148,15 @@ class Plugin
 		$data->is_pro_version			= $this->isProVersion();
 
 		$data->localized_strings = array(
-			'miles'			=> __('Miles', 'wp-google-maps'),
-			'kilometers'	=> __('Kilometers', 'wp-google-maps'),
+			'miles'					=> __('Miles', 'wp-google-maps'),
+			'kilometers'			=> __('Kilometers', 'wp-google-maps'),
 			
-			'unsecure_geolocation' => __('Many browsers are no longer allowing geolocation from unsecured origins. You will need to secure your site with an SSL certificate (HTTPS) or this feature may not work for your visitors', 'wp-google-maps'),
+			'unsecure_geolocation' 	=> __('Many browsers are no longer allowing geolocation from unsecured origins. You will need to secure your site with an SSL certificate (HTTPS) or this feature may not work for your visitors', 'wp-google-maps'),
 			
-			'friendly_error' => __('We\'re sorry, a technical fault has occured. Technical details are below. Please <a href="https://www.wpgmaps.com/support/">visit our support page</a> for help.', 'wp-google-maps'),
+			'friendly_error' 		=> __('We\'re sorry, a technical fault has occured. Technical details are below. Please <a href="https://www.wpgmaps.com/support/">visit our support page</a> for help.', 'wp-google-maps'),
 			
-			'geocode_failed' => __('We couldn\'t find that address, please try again', 'wp-google-maps')
+			'geocode_failed' 		=> __('We couldn\'t find that address, please try again', 'wp-google-maps'),
+			'no_address_entered'	=> __('Please enter an address', 'wp-google-maps')
 		);
 		
 		return $data;
@@ -389,15 +390,14 @@ class Plugin
 				$node->remove();
 		
 		$engine = (empty(Plugin::$settings->engine) ? 'open-street-map' : Plugin::$settings->engine);
-		foreach($document->querySelectorAll("[class^='wpgmza-engine-']") as $element)
+		foreach($document->querySelectorAll("[class*='wpgmza-engine-']") as $element)
 		{
-			if(preg_match('/wpgmza-engine-((not-[\w-]+)|([\w-]+-only))/', $element->getAttribute('class'), $m))
+			if(preg_match('/wpgmza-engine(-not)?-(google-maps|open-street-map)/', $element->getAttribute('class'), $m))
 			{
-				if(
-					preg_match('/^not-(.+)/', $m[1], $submatch) && $engine == $submatch[1]
-					||
-					preg_match('/(.+)-only/', $m[1], $submatch) && $engine != $submatch[1]
-					)
+				$not = !empty($m[1]);
+				$match = $m[2];
+				
+				if(($engine == $match) == $not)
 					$element->remove();
 			}
 		}

@@ -19,14 +19,14 @@
 		}
 	}
 	
-	WPGMZA.Geocoder.getLatLngFromAddress = function(address, callback)
+	WPGMZA.Geocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
-		if(WPGMZA.isLatLngString(address))
+		if(WPGMZA.isLatLngString(options.address))
 		{
-			var parts = address.split(",");
+			var parts = options.address.split(/,\s*/);
 			var latLng = {
-				lat: parts[0],
-				lng: parts[1]
+				lat: parseFloat(parts[0]),
+				lng: parseFloat(parts[1])
 			}
 			callback(latLng);
 		}

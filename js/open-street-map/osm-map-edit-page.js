@@ -16,11 +16,15 @@
 			if(self.editMapObjectTarget instanceof WPGMZA.Heatmap)
 				return;
 			
-			self.finishEditingMapObject();
-			
 			for(var name in event.element)
+			{
 				if(event.element[name] instanceof WPGMZA.MapObject)
+				{
 					event.element[name].dispatchEvent("click");
+					
+					self.finishEditingMapObject();
+				}
+			}
 		});
 		this.map.osmMap.addInteraction(this.selectInteraction);
 		

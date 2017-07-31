@@ -380,6 +380,19 @@ class V7DatabaseMigrator
 		return $coords;
 	}
 	
+	public static function migratePolygonSettings($poly)
+	{
+		return (object)array(
+			'strokeColor'		=> '#' . (empty($poly->linecolor) 	? '000000' : $poly->linecolor),
+			'strokeOpacity'		=> 		 (empty($poly->lineopacity) ? '0.5' : $poly->lineopacity),
+			'fillColor'			=> '#' . (empty($poly->fillcolor) 	? '66ff00' : $poly->fillcolor),
+			'fillOpacity'		=> 		 (empty($poly->opacity) 	? '0.5' : $poly->opacity),
+			'hoverStrokeColor'	=> '#' . (empty($poly->ohlinecolor) ? '333333' : $poly->ohlinecolor),
+			'hoverFillColor'	=> '#' . (empty($poly->ohfillcolor) ? 'aaff00' : $poly->ohfillcolor),
+			'hoverOpacity'		=> 		 (empty($poly->ohopacity)	? '0.75' : $poly->ohopacity)
+		);
+	}
+	
 	protected function migratePolygons($ids=null)
 	{
 		global $wpdb;
@@ -445,15 +458,7 @@ class V7DatabaseMigrator
 		$polygons = $wpdb->get_results($query);
 		foreach($polygons as $poly)
 		{
-			$settings = (object)array(
-				'strokeColor'		=> '#' . (empty($poly->linecolor) 	? '000000' : $poly->linecolor),
-				'strokeOpacity'		=> 		 (empty($poly->lineopacity) ? '0.5' : $poly->lineopacity),
-				'fillColor'			=> '#' . (empty($poly->fillcolor) 	? '66ff00' : $poly->fillcolor),
-				'fillOpacity'		=> 		 (empty($poly->opacity) 	? '0.5' : $poly->opacity),
-				'hoverStrokeColor'	=> '#' . (empty($poly->ohlinecolor) ? '333333' : $poly->ohlinecolor),
-				'hoverFillColor'	=> '#' . (empty($poly->ohfillcolor) ? 'aaff00' : $poly->ohfillcolor),
-				'hoverOpacity'		=> 		 (empty($poly->ohopacity)	? '0.75' : $poly->ohopacity)
-			);
+			$settings = V7DatabaseMigrator::migratePolygonSettings($poly);
 			$json = json_encode($settings);
 			$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_POLYGONS SET settings=%s WHERE id=%d", array(
 				$json,
@@ -462,6 +467,15 @@ class V7DatabaseMigrator
 			if($wpdb->query($stmt) === false)
 				throw new \Exception($wpdb->last_error . ' (' . $wpdb->last_query . ')');
 		}
+	}
+	
+	public static function migratePolylineSettings($poly)
+	{
+		return (object)array(
+			'strokeColor'		=> '#' . (empty($poly->linecolor) 		? '000000' : $poly->linecolor),
+			'strokeOpacity'		=> 		 (empty($poly->lineopacity) 	? '0.5' : $poly->lineopacity),
+			'strokeWeight'		=> 		 (empty($poly->linethickness)	? '4' : $poly->linethickness)
+		);
 	}
 	
 	protected function migratePolylines($ids=null)
@@ -503,11 +517,7 @@ class V7DatabaseMigrator
 		$polylines = $wpdb->get_results($query);
 		foreach($polylines as $poly)
 		{
-			$settings = (object)array(
-				'strokeColor'		=> '#' . (empty($poly->linecolor) 		? '000000' : $poly->linecolor),
-				'strokeOpacity'		=> 		 (empty($poly->lineopacity) 	? '0.5' : $poly->lineopacity),
-				'strokeWeight'		=> 		 (empty($poly->linethickness)	? '4' : $poly->linethickness)
-			);
+			$settings = V7DatabaseMigrator::migratePolylineSettings($poly);
 			
 			$json = json_encode($settings);
 			$stmt = $wpdb->prepare("UPDATE $WPGMZA_TABLE_NAME_POLYLINES SET settings=%s WHERE id=%d", array(

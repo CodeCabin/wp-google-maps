@@ -66,10 +66,7 @@
 		
 		var latLng;
 		if(latLng = WPGMZA.isLatLngString(address))
-		{
-			callback(latLng);
-			return;
-		}
+			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(this, options, callback);
 		
 		function finish(response)
 		{

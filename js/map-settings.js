@@ -29,17 +29,21 @@
 		};
 		
 		// Start location
-		var coords = this.start_location.replace(/^\(|\)$/g, "").split(",");
-		if(WPGMZA.isLatLngString(this.start_location))
-			options.center = ol.proj.fromLonLat([
-				parseFloat(coords[1]),
-				parseFloat(coords[0])
-			]);
-		else
-			console.warn("Invalid start location");
+		if(typeof this.start_location == "string")
+		{
+			var coords = this.start_location.replace(/^\(|\)$/g, "").split(",");
+			if(WPGMZA.isLatLngString(this.start_location))
+				options.center = ol.proj.fromLonLat([
+					parseFloat(coords[1]),
+					parseFloat(coords[0])
+				]);
+			else
+				console.warn("Invalid start location");
+		}
 		
 		// Start zoom
-		options.zoom = parseInt(this.start_zoom);
+		if(this.start_zoom)
+			options.zoom = parseInt(this.start_zoom);
 		
 		// Zoom limits
 		// TODO: This matches the Google code, so some of these could be potentially put on a parent class
@@ -54,7 +58,7 @@
 	WPGMZA.MapSettings.prototype.toGoogleMapsOptions = function()
 	{
 		var self = this;
-		var latLngCoords = (this.start_location && this.start_location.length ? this.start_location.split(",") : [36.7783, 119.4179]);
+		var latLngCoords = (this.start_location && this.start_location.length ? this.start_location.split(",") : [36.7783, -119.4179]);
 		
 		function formatCoord(coord)
 		{
@@ -68,8 +72,10 @@
 			formatCoord(latLngCoords[1])
 		);
 		
+		var zoom = (this.start_zoom ? parseInt(this.start_zoom) : 4);
+		
 		var options = {
-			zoom:			parseInt(this.start_zoom),
+			zoom:			zoom,
 			center:			latLng
 		};
 		

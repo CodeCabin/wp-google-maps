@@ -14,7 +14,7 @@
 			throw new Error("No address specified");
 		
 		if(WPGMZA.isLatLngString(options.address))
-			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(options.address, callback);
+			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(this, options, callback);
 		
 		if(options.country)
 			options.componentRestrictions = {

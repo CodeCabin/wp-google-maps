@@ -132,6 +132,7 @@
 		this.rightClickCursor = this.map.createMarkerInstance({
 			draggable: true
 		});
+		this.rightClickCursor.setVisible(false);
 		
 		function placeRightClickMarker(event) {
 			self.onRightClickMap(event);
@@ -619,6 +620,7 @@
 		
 		// Set the position of the right click marker
 		this.rightClickCursor.setPosition(event.latLng);
+		this.rightClickCursor.setVisible(true);
 	}
 	
 	/**
@@ -629,6 +631,12 @@
 	{
 		var self = this;
 		var address = $("form.wpgmza input[name='address']").val();
+		
+		if(!address.length)
+		{
+			alert(WPGMZA.settings.localized_strings.no_address_entered);
+			return;
+		}
 		
 		$("#geocoder-error").hide();
 		
