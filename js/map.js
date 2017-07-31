@@ -55,6 +55,32 @@
 		if(this.settings.store_locator_enabled)
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this);
 		
+		// Layout
+		if(this.settings.layout && this.settings.layout.length)
+		{
+			layout = JSON.parse(this.settings.layout);
+			for(var i = 0; i < layout.order.length; i++)
+			{
+				var layoutElement = $("[data-wpgmza-layout-element='" + layout.order[i] + "']");
+				
+				if(layoutElement.length)
+					$(element).append(layoutElement);
+				else
+					console.warn("Element '" + name + "' not found for layout");
+			}
+			
+			for(var position in layout.grid)
+			{
+				var container = $(".wpgmza-in-map-grid [data-grid-position='" + position + "']");
+				var layoutElement = $("[data-wpgmza-layout-element='" + layout.grid[position] + "']");
+				
+				if(layoutElement.length)
+					$(container).append(layoutElement);
+				else
+					console.warn("Element '" + name + "' not found for layout");
+			}
+		}
+		
 		$(element).find(".wpgmza-load-failed").remove();
 	}
 	
@@ -78,6 +104,11 @@
 		$.extend(localizedSettings, WPGMZA.settings, localSettings);
 		this.settings = localizedSettings;
 
+		if(!this.settings.width)
+			this.settings.width = "100%";
+		if(!this.settings.height)
+			this.settings.height = "400px";
+		
 		this.setDimensions(this.settings.width, this.settings.height);
 		this.setAlignment(this.settings.map_align);
 	}
@@ -444,6 +475,7 @@
 	$(document).ready(function() {
 		function createMaps()
 		{
+			// TODO: Test that this works for maps off screen (which borks google)
 			$(".wpgmza-map").each(function(index, el) {
 				if(!el.wpgmzaMap)
 				{

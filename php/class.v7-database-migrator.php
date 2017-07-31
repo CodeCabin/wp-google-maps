@@ -26,7 +26,7 @@ class V7DatabaseMigrator
 		'carousel_markerlist_image'			=> 'marker_listing_hide_pic',
 		
 		// Marker listing settings		
-		'list_markers_by'					=> 'marker_listing_style',
+		'listmarkers_by'					=> 'marker_listing_style',
 		'markerlist_icon'					=> 'marker_listing_hide_icon',
 		'markerlist_title'					=> 'marker_listing_hide_title',
 		'markerlist_address'				=> 'marker_listing_hide_address',
@@ -231,10 +231,44 @@ class V7DatabaseMigrator
 				}
 			}
 			
+			// Map title
 			$title = $map->map_title;
 			if(empty($title))
 				$title = 'Untitled Map';
 			
+			// Migrate the layout
+			$layout = (object)array(
+				'order' => array(
+					'map'
+				),
+				'grid' => (object)array()
+			);
+			
+			// Marker listing above?
+			if(empty($settings->store_marker_listing_below))
+				array_unshift($layout->order, 'marker-listing');
+			
+			// Store locator above?
+			if(empty($settings->store_locator_below))
+				array_unshift($layout->order, 'store-locator');
+			
+			// Directions box above?
+			if(!empty($settings->directions_box_placement) && $settings->directions_box_placement == '4')
+				array_unshift($layout->order, 'directions-box');
+				
+			// Directions below?
+			if(!empty($settings->store_marker_listing_below) && $settings->store_marker_listing_below)
+				array_push($layout->order, 'directions-box');
+			
+			// Store locator below?
+			if(!empty($settings->store_locator_below))
+				array_push($layout->order, 'store-locator');
+			
+			// Marker listing below?
+			if(!empty($settings->store_marker_listing_below))
+				array_push($layout->order, 'marker-listing');
+			
+			// Update DB
 			$wpdb->update(
 				$WPGMZA_TABLE_NAME_MAPS,
 				array(

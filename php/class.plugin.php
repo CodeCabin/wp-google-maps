@@ -100,9 +100,38 @@ class Plugin
 			{
 				require_once(WPGMZA_PRO_DIR . 'php/class.pro-map.php');
 				ProMap::enqueueScripts();
+				
+				switch(Plugin::$settings->engine)
+				{
+					case 'google-maps':
+						require_once(WPGMZA_PRO_DIR . 'php/google-maps/class.google-pro-maps-loader.php');
+						$loader = new GoogleProMapsLoader();
+						break;
+						
+					default:
+						require_once(WPGMZA_PRO_DIR . 'php/open-street-map/class.osm-pro-loader.php');
+						$loader = new OSMProLoader();
+						break;
+				}
 			}
 			else
+			{
 				Map::enqueueScripts();
+				
+				switch(Plugin::$settings->engine)
+				{
+					case 'google-maps':
+						require_once(WPGMZA_PRO_DIR . 'php/google-maps/class.google-maps-loader.php');
+						$loader = new GoogleMapsLoader();
+						break;
+					default:
+						require_once(WPGMZA_PRO_DIR . 'php/open-street-map/class.osm-loader.php');
+						$loader = new OSMLoader();
+						break;
+				}
+			}
+			
+			$loader->enqueueScripts();
 		}
 	}
 
@@ -114,9 +143,9 @@ class Plugin
 	{
 		$data = clone Plugin::$settings;
 			
-		$data->ajaxurl 			= admin_url('admin-ajax.php');
-		$data->fast_ajaxurl		= WPGMZA_BASE . 'php/ajax.fetch.php';
-		$data->is_pro_version	= $this->isProVersion();
+		$data->ajaxurl 					= admin_url('admin-ajax.php');
+		$data->fast_ajaxurl				= WPGMZA_BASE . 'php/ajax.fetch.php';
+		$data->is_pro_version			= $this->isProVersion();
 
 		$data->localized_strings = array(
 			'miles'			=> __('Miles', 'wp-google-maps'),

@@ -322,6 +322,38 @@
 				<label><?php _e("Default 'To' address", "wp-google-maps"); ?></label>
 				<input name="default_to" disabled/>
 			</fieldset>
+			<fieldset>
+				<label><?php _e('Directions Box Template', 'wp-google-maps'); ?></label>
+				<input name="directions_box_template_id" type="hidden"/>
+				<button 
+					type="button" 
+					class="wpgmza-open-template-picker wpgmza-glow button" 
+					data-template-picker-target="directions_box_template_id"
+					data-template-picker-type="directions-box"
+					>
+					<?php
+					_e('Select Template', 'wp-google-maps');
+					?>
+					<strong>
+					<?php
+					_e('(New!)', 'wp-google-maps');
+					?>
+					</strong>
+				</button>
+				<button 
+					type="button" 
+					class="button"
+					id="wpgmza-reset-directions-box-template">
+					<?php _e('Reset', 'wp-google-maps'); ?>
+				</button>
+				<p>
+					<small>
+						<?php
+						_e('Please save and reload this page for template to take effect', 'wp-google-maps');
+						?>
+					</small>
+				</p>
+			</fieldset>
 		</div>
 	</div>
 	
@@ -879,6 +911,17 @@
 								title="<?php _e('Carousel', 'wp-google-maps'); ?>"
 								/>
 						</label>
+					</li>
+					<li>
+						<label class="wpgmza-open-template-picker wpgmza-glow" data-template-picker-target="marker_listing_template_id"
+						data-template-picker-type="marker-listing"
+						>
+							<input type="radio" name="marker_listing_style" value="template"/>
+							<img src="<?php echo WPGMZA_BASE; ?>images/marker-listing-template.png"
+								title="<?php _e('Use Template', 'wp-google-maps'); ?>"/>
+						</label>
+						
+						<input name="marker_listing_template_id" type="hidden"/>
 					</li>
 				</ul>
 				

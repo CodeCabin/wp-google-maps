@@ -200,9 +200,11 @@ class Map extends Smart\Document
 	{
 		// Load store locator
 		require_once(WPGMZA_DIR . 'php/class.store-locator.php');
+		
 		$storeLocator = new StoreLocator($this);
 		$storeLocator->populate($this->settings);
-		$this->querySelector('.wpgmza-above-map')->import($storeLocator);
+		
+		$this->querySelector('.wpgmza-map')->import($storeLocator);
 	}
 	
 	/**
@@ -262,42 +264,34 @@ class Map extends Smart\Document
 		The following statement will fetch all markers between specified latitude, and longitude even if the longitude crosses the 180th meridian / anti-meridian
 		*/
 		$clauseArray = array(
-			$this->getFetchWhereClause( $WPGMZA_TABLE_NAME_MARKERS, $options )
+			$this->getFetchWhereClause($WPGMZA_TABLE_NAME_MARKERS, $options)
 		);
-
-		if ( '' !== is_admin() ) {
+		
+		if(is_admin())
 			$clauseArray[] = 'approved = 1';
-		}
-
-		$clauses = implode( ' AND ', $clauseArray );
-
-		$totalMarkers = $wpdb->get_var( "SELECT COUNT(*) FROM $WPGMZA_TABLE_NAME_MARKERS WHERE $clauses" );
-
-		if ( count( $exclusions ) == $totalMarkers ) {
-			return null;    // Every marker has already been transmitted
-		}
+		
+		if(empty(Plugin::$settings->load_all_markers))
+			$clauseArray[] = "(CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
+				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
+				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
+			END)
+			AND Y(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))";
+		
+		$clauses = implode(' AND ', $clauseArray);
 
 		$qstr = "SELECT *, Y(latlng) AS lat, X(latlng) AS lng 
 			FROM $WPGMZA_TABLE_NAME_MARKERS
 			WHERE $clauses
 			";
 
-		if ( empty(Plugin::$settings->load_all_markers) ) {
-			$qstr .= " AND (CASE WHEN CAST(%s AS DECIMAL(11,7)) < CAST(%s AS DECIMAL(11,7))
-				THEN X(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
-				ELSE X(latlng) NOT BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))
-			END)
-			AND Y(latlng) BETWEEN CAST(%s AS DECIMAL(11,7)) AND CAST(%s AS DECIMAL(11,7))";
-		}
-		
-		$lat1 = $bounds[0];
-		$lng1 = $bounds[1];
-		$lat2 = $bounds[2];
-		$lng2 = $bounds[3];
-
 		$params = array();
 
 		if ( empty( Plugin::$settings->load_all_markers ) ) {
+			$lat1 = $bounds[0];
+			$lng1 = $bounds[1];
+			$lat2 = $bounds[2];
+			$lng2 = $bounds[3];
+			
 			array_push( $params,
 				$lng1,
 				$lng2,

@@ -23,6 +23,39 @@
 					event.element[name].dispatchEvent("click");
 		});
 		this.map.osmMap.addInteraction(this.selectInteraction);
+		
+		// Set the right click marker image and add it to the OSM map
+		$(this.rightClickCursor.element).find("img")[0].src = $(".wpgmza-map").attr("data-right-click-marker-image");
+		this.map.osmMap.addOverlay( this.rightClickCursor.overlay );
+		
+		// Bind listeners for rightClickCursor
+		$( ".wpgmza-engine-map" ).on("mousemove", function(event) {
+			var offset = $(this).offset();
+            var x = event.pageX - offset.left;
+            var y = event.pageY - offset.top;
+			
+            self.mouseCoordinates = {
+                x: x,
+                y: y
+            }
+        });
+		
+		$( ".wpgmza-engine-map" ).bind('contextmenu',function(e) {
+			
+            var conversion = self.map.osmMap.getCoordinateFromPixel( [self.mouseCoordinates.x, self.mouseCoordinates.y] );
+
+            var coordinates = ol.proj.toLonLat( [ conversion[0], conversion[1] ] );
+
+			self.map.dispatchEvent({
+				type: "rightclick",
+				latLng: {
+					lat: coordinates[1],
+					lng: coordinates[0]
+				}
+			});
+			
+            return false;
+        });
 	}
 	
 	// Inheritence

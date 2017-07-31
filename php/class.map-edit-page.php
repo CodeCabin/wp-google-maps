@@ -35,11 +35,24 @@ class MapEditPage extends AdminPage
 		$this->populate($map);
 		$this->populate($map->settings);
 		
-		// TODO: Maybe do this stuff at migration time
-
-		$width_amount = intval($map->settings->width);
-		$height_amount = intval($map->settings->height);
 		$width_units = $height_units = null;
+		
+		if(empty($map->settings->width))
+		{
+			$map->settings->width = "100%";
+			$width_amount = 100;
+		}
+		else
+			$width_amount = intval($map->settings->width);
+		
+		if(empty($map->settings->height))
+		{
+			$map->settings->height = "400px";
+			$height_amount = 400;
+		}
+		else
+			$height_amount = intval($map->settings->height);
+		
 		
 		if(preg_match('/%|vw|vh|px/i', $map->settings->width, $m))
 			$width_units = strtolower($m[0]);

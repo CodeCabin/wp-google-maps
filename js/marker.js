@@ -1,6 +1,7 @@
 (function($) {
 	/**
 	 * Constructor
+	 * IMPORTANT: Please note that heatmap markers and the right click marker are special cases.
 	 * @param json to load (optional)
 	 */
 	WPGMZA.Marker = function(row)
@@ -27,14 +28,6 @@
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);
 		});
-		
-		this.addEventListener("click", function(event) {
-			self.onClick(event);
-		});
-		
-		this.addEventListener("mouseover", function(event) {
-			self.onMouseOver(event);
-		});
 	}
 	
 	WPGMZA.Marker.prototype = Object.create(WPGMZA.MapObject.prototype);
@@ -46,7 +39,17 @@
 	
 	WPGMZA.Marker.prototype.onAdded = function(event)
 	{
+		var self = this;
+		
 		this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
+		
+		this.addEventListener("click", function(event) {
+			self.onClick(event);
+		});
+		
+		this.addEventListener("mouseover", function(event) {
+			self.onMouseOver(event);
+		});
 		
 		if(this.map.settings.enable_marker_labels)
 			this.addLabel();
