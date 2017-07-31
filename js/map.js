@@ -119,7 +119,11 @@
 	 */
 	WPGMZA.Map.prototype.onBoundsChanged = function()
 	{
-		var self = this;
+        if (this.allMarkersFetched) {
+            return;	// We've already got them all, don't make another call
+        }
+
+        var self = this;
 		
 		if(this.ajaxTimeoutID != null)
 			clearTimeout(this.ajaxTimeoutID);
@@ -377,16 +381,20 @@
 	 */
 	WPGMZA.Map.prototype.onFetchComplete = function(json)
 	{
-		for(var i = 0; i < json.markers.length; i++)
-		{
-			if(this.excludeIDs.markers[json.markers[i].id])
-				continue;
-			
-			var marker = this.createMarkerInstance(json.markers[i]);
-			marker.modified = false;
-			this.addMarker(marker);
-		}
-		
+        if (json.markers == null) {
+            this.allMarkersFetched = true;
+        } else {
+            for(var i = 0; i < json.markers.length; i++)
+            {
+                if(this.excludeIDs.markers[json.markers[i].id])
+                    continue;
+
+                var marker = this.createMarkerInstance(json.markers[i]);
+                marker.modified = false;
+                this.addMarker(marker);
+            }
+        }
+
 		for(i = 0; i < json.polygons.length; i++)
 		{
 			if(this.excludeIDs.polygons[json.polygons[i].id])
