@@ -140,7 +140,12 @@ var WPGMZA = {
 		
 		var $ = jQuery;
 		
-		if(WPGMZA.settings.developer_mode)
+		wpgmza_developer_mode_cookie = 0
+
+		if( typeof Cookies !== 'undefined' )
+			var wpgmza_developer_mode_cookie = Cookies.get( 'wpgmza-developer-mode' );
+
+		if(WPGMZA.settings.developer_mode || wpgmza_developer_mode_cookie === 1 )
 			callback();
 		else
 			try{
