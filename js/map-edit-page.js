@@ -172,7 +172,7 @@
 		// Polygon buttons
 		$("#draw-polygon").on("click", function(event) {
             $('html, body').animate({
-                scrollTop: 0
+                scrollTop: $('html').offset().top
             }, 500);
 			self.onDrawPolygon(event); 
 		});
@@ -186,7 +186,7 @@
 		// Polyline buttons
 		$("#draw-polyline").on("click", function(event) {
             $('html, body').animate({
-                scrollTop: 0
+                scrollTop: $('html').offset().top
             }, 500);
 			self.onDrawPolyline(event);
 		});
@@ -1328,6 +1328,25 @@
 	}
 	
 	$(document).ready(function() {
+
+		$('form.wpgmza').on('keydown', function( e ){
+			if (e.keyCode == 13 ) {
+				if( $(e.target).attr('name') == 'address' ){
+					if( $("#add-marker").lengh > 0 ){
+						$("#add-marker").click();
+						return false;
+					} else if( $("#update-marker").length > 0 ){
+						$("#update-marker").click();
+						$("#cancel-marker-edit").click();
+						return false;
+					}
+				} else if( e.target.nodeName.match(/input/i) ) {
+			        return false;
+			    }
+		    }	
+		});
+		 
+
 		var pro = WPGMZA.isProVersion();
 		
 		WPGMZA.runCatchableTask(function() {

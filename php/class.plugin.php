@@ -88,6 +88,7 @@ class Plugin
 		
 		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
 		wp_enqueue_script('wpgmza-friendly-error', WPGMZA_BASE . 'js/friendly-error.js', array('wpgmza-core'));
+		wp_enqueue_script( 'wpgmza-jquery-cookie', WPGMZA_BASE .'js/jquery-cookie.js', array( 'wpgmza-core', 'wpgmza-friendly-error' ) );
 		
 		// Localize data
 		$data = $this->getLocalizedData();
