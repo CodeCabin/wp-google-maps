@@ -319,7 +319,6 @@
 		var mouseX, mouseY;
 		
 		$("[data-wpgmza-layout-element]").each(function(index, el) {
-			console.log(el);
 			$(el).append($("<div class='wpgmza-layout-handle' data-for='" + $(el).attr("data-wpgmza-layout-element") + "'><i class='fa fa-arrows' aria-hidden='true'></i></div>"));
 		});
 		
@@ -1251,7 +1250,7 @@
 	 */
 	WPGMZA.MapEditPage.prototype.getLayout = function()
 	{
-		var elements = $("[data-wpgmza-layout-element]");
+		var elements = $(".wpgmza-map [data-wpgmza-layout-element]");
 		var data = {
 			order: [],
 			grid: {}

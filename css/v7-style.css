@@ -778,6 +778,21 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 	flex-flow: column wrap;
 }
 
+.wpgmza-cell>*
+{
+	max-height: 300%;
+}
+
+.wpgmza-cell[data-grid-position^="top"]>*
+{
+	top: 0px;
+}
+
+.wpgmza-cell[data-grid-position^="bottom"]>*
+{
+	bottom: 0px;
+}
+
 .wpgmza-in-map-grid .wpgmza-row:not(:last-child) .wpgmza-cell
 {
 	border-bottom: none !important;
@@ -808,4 +823,25 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 #wpgmza-map-container.wpgmza-layout-dragging .wpgmza-in-map-grid .wpgmza-cell
 {
 	border: 1px dashed grey;
+}
+
+.wpgmza-map.wpgmza-compact
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.wpgmza-map.wpgmza-compact>*
+{
+	flex-basis: 50%;
+}
+
+.wpgmza-map.wpgmza-compact>.wpgmza-engine-map
+{
+	flex-basis: 66%;
+}
+
+.wpgmza-map.wpgmza-compact>.wpgmza-engine-map+*
+{
+	flex-basis: 34%;
 }
