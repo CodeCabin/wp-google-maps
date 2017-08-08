@@ -105,8 +105,8 @@ class MapEditPage extends AdminPage
 		wp_enqueue_script('jquery-ui-progressbar');
 		wp_enqueue_script('jquery-ui-accordion');
 		
-		wp_enqueue_script('jquery-sortable');
-		wp_enqueue_script('jquery-draggable');
+		wp_enqueue_script('jquery-ui-sortable');
+		wp_enqueue_script('jquery-ui-draggable');
 		
 		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
