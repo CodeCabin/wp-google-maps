@@ -507,11 +507,16 @@ class Map extends Smart\Document
 		}
 	}
 	
+	protected function applyFilters()
+	{
+		apply_filters('wpgmza_output_filter', $this);
+	}
+	
 	public function saveInnerBody()
 	{
-		$result = apply_filters('wpgmza_output_filter', $this);
+		$this->applyFilters();
 		
-		return $result::saveInnerBody();
+		return Smart\Document::saveInnerBody();
 	}
 }
 

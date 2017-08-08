@@ -132,7 +132,7 @@
 		this.rightClickCursor = this.map.createMarkerInstance({
 			draggable: true
 		});
-		if(this instanceof WPGMZA.OSMMapEditPage)
+		if(WPGMZA.OSMMapEditPage && this instanceof WPGMZA.OSMMapEditPage)
 			$(this.rightClickCursor.element).addClass("wpgmza-right-click-marker");
 		this.rightClickCursor.setVisible(false);
 		
