@@ -369,6 +369,19 @@
 			}
 		});
 		
+		// When the user presses enter in the address input, 
+		$('form.wpgmza').on('keydown', function( e ){
+			if (e.keyCode == 13 && $(e.target).attr('name') == 'address') {
+				
+				if(!self.editMapObjectTarget || self.editMapObjectTarget.id == -1)
+					$("#add-marker").click();
+				else
+					$("#update-marker").click();
+				
+				return false;
+		    }	
+		});
+		
 		$(".wpgmza-engine-map").append($(".wpgmza-in-map-grid"));
 		
 		// Hide preloader
@@ -1358,24 +1371,6 @@
 	}
 	
 	$(document).ready(function() {
-
-		$('form.wpgmza').on('keydown', function( e ){
-			if (e.keyCode == 13 ) {
-				if( $(e.target).attr('name') == 'address' ){
-					if( $("#add-marker").lengh > 0 ){
-						$("#add-marker").click();
-						return false;
-					} else if( $("#update-marker").length > 0 ){
-						$("#update-marker").click();
-						$("#cancel-marker-edit").click();
-						return false;
-					}
-				} else if( e.target.nodeName.match(/input/i) ) {
-			        return false;
-			    }
-		    }	
-		});
-		 
 
 		var pro = WPGMZA.isProVersion();
 		

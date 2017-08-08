@@ -81,6 +81,8 @@ class Plugin
 		Plugin::$settings->url_base = WPGMZA_BASE;
 		Plugin::$settings->default_marker_icon = WPGMZA_BASE . 'images/marker.png';
 		
+		Plugin::$settings->api_version = '3.28';
+		
 		Plugin::$statistics = new Statistics();
 		
 		$this->handleFirstTime();

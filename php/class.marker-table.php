@@ -61,6 +61,8 @@ class MarkerTable extends DataTable
 		global $wpdb;
 		global $WPGMZA_TABLE_NAME_MARKERS;
 		
+		$params = array();
+		
 		// Get marker columns
 		$table_columns = $wpdb->get_results("SHOW COLUMNS FROM $WPGMZA_TABLE_NAME_MARKERS");
 		$table_column_names = array();
@@ -126,7 +128,10 @@ class MarkerTable extends DataTable
 		if($length > 0)
 			$qstr .= "LIMIT $start, $length";
 		
-		$stmt = $wpdb->prepare($qstr, $params);
+		if(!empty($params))
+			$stmt = $wpdb->prepare($qstr, $params);
+		else
+			$stmt = $qstr;
 		$rows = $wpdb->get_results($stmt);
 		
 		$this->filterResults($rows);

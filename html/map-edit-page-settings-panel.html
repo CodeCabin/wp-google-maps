@@ -304,16 +304,16 @@
 					</label>
 				</div>
 			</fieldset>
-			<!--<fieldset>
+			<fieldset>
 				<label><?php _e("Directions Box Open by Default?", "wp-google-maps"); ?></label>
-				<select name="directions_box_placement" class="postform" disabled>
-					<option value="1">No</option>
-					<option value="2">Yes, on the left</option>
-					<option value="3">Yes, on the right</option>
-					<option value="4">Yes, above</option>
-					<option value="5">Yes, below</option>
-				</select>
-			</fieldset>-->
+				<div class="switch grey-out">
+					<input name="directions_box_open_by_default" type="checkbox" class="cmn-toggle cmn-toggle-yes-no disabled"/>
+					<label class="cmn-override-big"
+						data-on="<?php _e('Yes', "wp-google-maps"); ?>"
+						data-off="<?php _e('No', "wp-google-maps"); ?>">
+					</label>
+				</div>
+			</fieldset>
 			<!--<fieldset>
 				<label><?php _e("Directions Box Width", "wp-google-maps"); ?></label>
 				

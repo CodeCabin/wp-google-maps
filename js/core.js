@@ -148,7 +148,7 @@ var WPGMZA = {
 			}catch(e) {
 				var friendlyError = new WPGMZA.FriendlyError(e);
 				$(friendlyErrorContainer).html("");
-				$(friendlyErrorContainer).append(friendlyError);
+				$(friendlyErrorContainer).append(friendlyError.element);
 				$(friendlyErrorContainer).show();
 			}
 	}
