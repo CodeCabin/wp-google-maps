@@ -248,4 +248,9 @@
 		}
 	}
 	
+	WPGMZA.OSMMap.prototype.onElementResized = function(event)
+	{
+		this.osmMap.updateSize();
+	}
+	
 })(jQuery);

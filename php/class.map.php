@@ -141,6 +141,9 @@ class Map extends Smart\Document
 	{
 		wp_enqueue_script('jquery');
 		
+		// Dependencies
+		wp_enqueue_script('wpgmza-resize-sensor', WPGMZA_BASE . 'lib/ResizeSensor.js');
+		
 		// Map scripts
 		wp_enqueue_script('wpgmza-event', WPGMZA_BASE . 'js/event.js');
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'js/event-dispatcher.js');
@@ -502,6 +505,13 @@ class Map extends Smart\Document
 				$instance->remove();
 			}
 		}
+	}
+	
+	public function saveInnerBody()
+	{
+		$result = apply_filters('wpgmza_output_filter', $this);
+		
+		return $result::saveInnerBody();
 	}
 }
 

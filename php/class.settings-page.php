@@ -26,6 +26,11 @@ class SettingsPage extends AdminPage
 		
 		wp_enqueue_style('wpgmza_v7_style', WPGMZA_BASE . 'css/v7-style.css');
 		
+		// Remodal dialog
+		wp_enqueue_script('remodal', WPGMZA_BASE . 'lib/remodal.min.js');
+		wp_enqueue_style('remodal', WPGMZA_BASE . 'lib/remodal.css');
+		wp_enqueue_style('remodal-default-theme', WPGMZA_BASE . 'lib/remodal-default-theme.css');
+		
 		if(!empty($_POST))
 			$this->onFormSubmitted();
 	}

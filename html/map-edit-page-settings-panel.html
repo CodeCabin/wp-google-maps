@@ -133,6 +133,19 @@
 			</span>
 		</fieldset>
 		
+		<fieldset>
+			<label>
+				<?php 
+				_e("General Layout", "wp-google-maps");
+				?>
+			</label>
+			<select name="general_layout">
+				<option value="">None</option>
+				<option value="wpgmza-compact"><?php _e("Compact", "wp-google-maps"); ?></option>
+				<option value="wpgmza-columns"><?php _e("Columns", "wp-google-maps"); ?></option>
+			</select>
+		</fieldset>
+		
 		<input name="start_location" type="hidden"/>
 		
 		<fieldset>

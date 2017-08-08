@@ -22,7 +22,7 @@
 		
 		$(this.element).css({
 			display: map.settings.store_locator_enabled ? "block" : "none"
-		})
+		});
 		
 		this.address.val(
 			map.settings.store_locator_default_address

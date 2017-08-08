@@ -512,6 +512,8 @@ class Plugin
 					$atts
 				);
 				
+				$obj = apply_filters('wpgmza_fetch_output_filter', $obj);
+				
 				$response = new \Smart\AjaxResponse(\Smart\AjaxResponse::JSON);
 				$response->send($obj);
 				break;

@@ -90,6 +90,8 @@ class MapEditPage extends AdminPage
 	protected function loadHTMLContent()
 	{
 		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
+		
+		apply_filters('wpgmza_output_filter', $this->map);
 	}
 	
 	protected function enqueueScripts()

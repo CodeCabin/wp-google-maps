@@ -45,6 +45,11 @@
 	transform: translateX(-50%);
 }
 
+.osm-marker.wpgmza-right-click-marker>img
+{
+	bottom: -7px;
+}
+
 .osm-marker[data-anim='bounce']>img
 {
 	animation: bounce 0.3s infinite alternate;

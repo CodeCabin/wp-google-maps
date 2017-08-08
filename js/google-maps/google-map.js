@@ -328,4 +328,13 @@
 		this.googleMap.setMaxZoom(value);
 	}
 	
+	/**
+	 * Handle the map element resizing
+	 * @return void
+	 */
+	WPGMZA.GoogleMap.prototype.onElementResized = function(event)
+	{
+		google.maps.event.trigger(this.googleMap, "resize");
+	}
+	
 })(jQuery);

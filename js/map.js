@@ -6,6 +6,8 @@
 	 */
 	WPGMZA.Map = function(element)
 	{
+		var self = this;
+		
 		WPGMZA.EventDispatcher.call(this);
 		
 		if(!(element instanceof HTMLElement))
@@ -56,30 +58,28 @@
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this);
 		
 		// Layout
+		if(this.settings.general_layout)
+			$(element).addClass(this.settings.general_layout);
+		
 		if(this.settings.layout && this.settings.layout.length)
 		{
 			layout = JSON.parse(this.settings.layout);
-			for(var i = 0; i < layout.order.length; i++)
-			{
-				var layoutElement = $("[data-wpgmza-layout-element='" + layout.order[i] + "']");
-				
-				if(layoutElement.length)
-					$(element).append(layoutElement);
-				else
-					console.warn("Element '" + name + "' not found for layout");
-			}
-			
-			for(var position in layout.grid)
-			{
-				var container = $(".wpgmza-in-map-grid [data-grid-position='" + position + "']");
-				var layoutElement = $("[data-wpgmza-layout-element='" + layout.grid[position] + "']");
-				
-				if(layoutElement.length)
-					$(container).append(layoutElement);
-				else
-					console.warn("Element '" + name + "' not found for layout");
-			}
+			this.setLayout(layout);
 		}
+		
+		var width, height, prevWidth, prevHeight;
+		setInterval(function() {
+			
+			width = $(self.engineElement).width();
+			height = $(self.engineElement).height();
+			
+			if(width != prevWidth || height != prevHeight)
+				self.onElementResized();
+			
+			prevWidth = width;
+			prevHeight = height;
+			
+		}, 1000);
 		
 		$(element).find(".wpgmza-load-failed").remove();
 	}
@@ -470,6 +470,71 @@
 		
 		if(css)
 			$(this.element).css(css);
+	}
+	
+	/**
+	 * Gets the layout information for serialization
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.getLayout = function()
+	{
+		var elements = $(this.element).find("[data-wpgmza-layout-element]");
+		var data = {
+			order: [],
+			grid: {}
+		};
+		
+		for(var i = 0; i < elements.length; i++)
+		{
+			var grid = $(elements[i]).closest(".wpgmza-in-map-grid");
+			var name = $(elements[i]).attr("data-wpgmza-layout-element");
+			
+			if(grid.length)
+				data.grid[ $(elements[i]).closest(".wpgmza-cell").attr("data-grid-position") ] = name;
+			else
+				data.order.push(name);
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * Sets the layout of the map
+	 * @return object
+	 */
+	WPGMZA.Map.prototype.setLayout = function(layout)
+	{
+		var element = this.element;
+		
+		for(var i = 0; i < layout.order.length; i++)
+		{
+			var layoutElement = $(element).find("[data-wpgmza-layout-element='" + layout.order[i] + "']");
+			
+			if(layoutElement.length)
+				$(element).append(layoutElement);
+			else
+				console.warn("Element '" + name + "' not found for layout");
+		}
+		
+		for(var position in layout.grid)
+		{
+			var container = $(element).find(".wpgmza-in-map-grid [data-grid-position='" + position + "']");
+			var layoutElement = $(element).find("[data-wpgmza-layout-element='" + layout.grid[position] + "']");
+			
+			if(layoutElement.length)
+				$(container).append(layoutElement);
+			else
+				console.warn("Element '" + name + "' not found for layout");
+		}
+	}
+	
+	/**
+	 * Listener for when the engine map div is resized
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.onElementResized = function(event)
+	{
+		
 	}
 	
 	$(document).ready(function() {
