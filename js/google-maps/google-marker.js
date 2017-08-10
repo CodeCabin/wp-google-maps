@@ -50,6 +50,18 @@
 		this.googleMarker.setLabel({
 			text: label
 		});
+		
+		var icon = this.googleMarker.getIcon();
+		
+		if(!icon)
+			icon = {};
+		
+		if(!icon.url)
+			icon.url = this.getIcon();
+		
+		//icon.labelOrigin = new google.maps.Point(0, -62);
+		
+		this.googleMarker.setIcon(icon);
 	}
 	
 	/**
@@ -80,8 +92,5 @@
 	{
 		this.googleMarker.setVisible(visible);
 	}
-	
-	// createInfoWindow
-	// setPositionFromAddress
 	
 })(jQuery);

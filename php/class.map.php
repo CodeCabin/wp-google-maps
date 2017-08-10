@@ -183,7 +183,7 @@ class Map extends Smart\Document
 		if(!empty(Plugin::$settings->custom_css))
 			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
 		
-		wp_enqueue_script('wpgmza_v7_custom_script', WPGMZA_BASE . 'js/v7-custom-script.js');
+		wp_enqueue_script('wpgmza_v7_custom_script', WPGMZA_BASE . 'js/v7-custom-script.js', array('wpgmza-core'));
 		if(!empty(Plugin::$settings->custom_js))
 			wp_add_inline_script('wpgmza_v7_custom_script', Plugin::$settings->custom_js);
 

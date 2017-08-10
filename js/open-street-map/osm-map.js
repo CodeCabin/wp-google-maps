@@ -118,11 +118,15 @@
 	WPGMZA.OSMMap.prototype.setCenter = function(latLng)
 	{
 		var view = this.osmMap.getView();
+		
 		view.setCenter(ol.proj.fromLonLat([
 			latLng.lng,
 			latLng.lat
 		]));
+		
 		this.wrapLongitude();
+
+		this.onBoundsChanged();
 	}
 	
 	WPGMZA.OSMMap.prototype.panTo = function(latLng)

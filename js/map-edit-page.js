@@ -469,7 +469,7 @@
 	// Marker Functions ///////////////////////
 	WPGMZA.MapEditPage.prototype.enableMarkerButtons = function(enable)
 	{
-		$("#marker-buttons button").prop("disabled", !enable);
+		$("#marker-buttons>button").prop("disabled", !enable);
 	}
 	
 	/**
@@ -671,6 +671,9 @@
 		$("#geocoder-error").hide();
 		
 		var geocoder = WPGMZA.Geocoder.createInstance();
+		
+		this.enableMarkerButtons(false);
+		
 		geocoder.getLatLngFromAddress({address: address}, function(latLng) {
 			if(!latLng)
 			{

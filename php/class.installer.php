@@ -54,7 +54,7 @@ class Installer
 		foreach($columns as $name => $definition)
 			$sql .= "$name $definition,\r\n";
 		
-		return $sql;
+		return rtrim($sql);
 	}
 	
 	/**

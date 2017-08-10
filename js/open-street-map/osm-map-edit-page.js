@@ -50,10 +50,13 @@
             self.mouseCoordinates = {
                 x: x,
                 y: y
-            }
+            };
         });
 		
-		$( ".wpgmza-engine-map" ).bind('contextmenu',function(e) {
+		$( ".wpgmza-engine-map" ).bind('contextmenu',function(event) {
+			if($(event.target).closest("[data-wpgmza-layout-element]:not(.wpgmza-engine-map)").length)
+				return true;
+			
             var conversion = self.map.osmMap.getCoordinateFromPixel( [self.mouseCoordinates.x, self.mouseCoordinates.y] );
             var coordinates = ol.proj.toLonLat( [ conversion[0], conversion[1] ] );
 

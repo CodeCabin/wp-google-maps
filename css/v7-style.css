@@ -782,6 +782,7 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 {
 	position: absolute;
 	pointer-events: all;
+	z-index: 2;
 }
 
 .wpgmza-in-map-grid .wpgmza-marker-listing

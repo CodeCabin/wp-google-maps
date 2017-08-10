@@ -202,7 +202,7 @@ class V7DatabaseMigrator
 						break;
 						
 					case 'directions_box_open_by_default':
-						$settings[$name] = (empty($settings[$name]) || $settings[$name] == ? "1" : 0 : 1);
+						$settings[$name] = (empty($settings[$name]) || $settings[$name] == "1" ? 0 : 1);
 						break;
 						
 					case 'wpgmza_settings_remove_api':

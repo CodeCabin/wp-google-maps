@@ -48,9 +48,9 @@
 			});
 		}
 		
-		this.osmFeature.setProperties(
+		this.osmFeature.setProperties({
 			wpgmzaPolygon: this
-		);
+		});
 		
 		this.layer = new ol.layer.Vector({
 			source: new ol.source.Vector({
