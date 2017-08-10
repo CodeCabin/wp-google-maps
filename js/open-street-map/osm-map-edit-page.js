@@ -16,16 +16,25 @@
 			if(self.editMapObjectTarget instanceof WPGMZA.Heatmap)
 				return;
 			
+			var features = self.selectInteraction.getFeatures();
+			console.log(features);
+			
 			for(var name in event.element)
 			{
 				if(event.element[name] instanceof WPGMZA.MapObject)
 				{
+					// TODO: Should these not be the other way around? Eg finish editing object then dispatch click?
 					event.element[name].dispatchEvent("click");
 					
 					self.finishEditingMapObject();
 				}
 			}
 		});
+		
+		this.selectInteraction.getFeatures().on("remove", function(event) {
+			console.log("feature removed");
+		});
+		
 		this.map.osmMap.addInteraction(this.selectInteraction);
 		
 		// Set the right click marker image and add it to the OSM map
@@ -45,9 +54,7 @@
         });
 		
 		$( ".wpgmza-engine-map" ).bind('contextmenu',function(e) {
-			
             var conversion = self.map.osmMap.getCoordinateFromPixel( [self.mouseCoordinates.x, self.mouseCoordinates.y] );
-
             var coordinates = ol.proj.toLonLat( [ conversion[0], conversion[1] ] );
 
 			self.map.dispatchEvent({
@@ -100,15 +107,28 @@
 		WPGMZA.mapEditPage.map.osmMap.addInteraction(osmModifyInteraction);
 	}
 	
+	WPGMZA.OSMMapEditPage.prototype.removeModifyInteraction = function()
+	{
+		if(!this.osmModifyInteraction)
+			return;
+
+		this.osmMap.removeInteraction(this.osmModifyInteraction);
+		this.osmModifyInteraction = null;
+	}
+	
+	WPGMZA.OSMMapEditPage.prototype.onPolygonClosed = function(event)
+	{
+		parentConstructor.prototype.onPolygonClosed.call(this, event);
+		
+		this.removeModifyInteraction();
+	}
+	
 	WPGMZA.OSMMapEditPage.prototype.finishEditingMapObject = function()
 	{
 		parentConstructor.prototype.finishEditingMapObject.call(this);
 		
-		if(this.osmModifyInteraction)
-		{
-			this.osmMap.removeInteraction(this.osmModifyInteraction);
-			this.osmModifyInteraction = null;
-		}
+		this.removeModifyInteraction();
+		WPGMZA.mapEditPage.selectInteraction.getFeatures().clear();
 	}
 	
 })(jQuery);

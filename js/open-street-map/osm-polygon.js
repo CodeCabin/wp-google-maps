@@ -16,8 +16,6 @@
 		}
 		else
 		{
-			this.osmFeature = new ol.Feature();
-			
 			var coordinates = [[]];
 			
 			if(row && row.points)
@@ -50,7 +48,9 @@
 			});
 		}
 		
-		this.osmFeature.wpgmzaPolygon = this;
+		this.osmFeature.setProperties(
+			wpgmzaPolygon: this
+		);
 		
 		this.layer = new ol.layer.Vector({
 			source: new ol.source.Vector({

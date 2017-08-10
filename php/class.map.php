@@ -379,9 +379,9 @@ class Map extends Smart\Document
 		
 		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYLINES, $options);
 		
-		/*$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES WHERE $mapIDClause";
+		$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES WHERE $mapIDClause";
 		
-		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
+		/*if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
 		$stmt = $wpdb->prepare($qstr, array($this->id));

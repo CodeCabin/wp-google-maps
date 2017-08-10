@@ -9,6 +9,9 @@
 	{
 		var self = this;
 		
+		if(!window.google)
+			throw new Error("Google API not loaded");
+		
 		parentConstructor.call(this, element);
 		
 		this.loadGoogleMap();

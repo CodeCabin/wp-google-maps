@@ -205,6 +205,10 @@ class V7DatabaseMigrator
 						$settings[$name] = (empty($settings[$name]) || $settings[$name] == ? "1" : 0 : 1);
 						break;
 						
+					case 'wpgmza_settings_remove_api':
+						$settings[$name] = ($settings[$name] == 'yes' ? 1 : 0);
+						break;
+						
 					case 'other_settings':
 						if(is_serialized($map->{$name}))
 						{

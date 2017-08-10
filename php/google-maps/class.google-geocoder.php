@@ -33,7 +33,7 @@ class GoogleGeocoder
 		if(!$json)
 		{
 			$urlWithKeyHidden = preg_replace('/key=[A-Za-z0-9_\-]+/', '[api key]', $url);
-			throw new \Exception("Failed to parse JSON response from $urlWithKeyHidden: " . $result);
+			throw new \Exception("Failed to parse JSON response from $urlWithKeyHidden: " . $result . " (cURL error: " . curl_error($ch) . ")");
 		}
 		
 		if(!property_exists($json, 'results'))
