@@ -131,6 +131,24 @@
 	}
 	
 	/**
+	 * Gets the label text for this marker
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.getLabelText = function()
+	{
+		var chars = this.map.settings.marker_label_characters;
+		var count = chars.length;
+		var index;
+		
+		if(this.id > -1)
+			index = this.map.markerLabelOrder.indexOf(parseInt(this.id));
+		else
+			index = this.map.markers.length;
+		
+		return chars[index % count];
+	}
+	
+	/**
 	 * Returns the marker as a JSON object
 	 * @return object
 	 */

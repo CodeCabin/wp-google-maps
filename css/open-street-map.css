@@ -62,3 +62,18 @@
 	-webkit-animation: drop 0.3s;
 }
 
+.osm-marker-label
+{
+	top: 1.5em;
+    position: relative;
+    transform: translateX(-50%);
+	text-shadow: 
+		0px 0px 1px white,
+		0px 0px 1px white,
+		0px 0px 1px white,
+		0px 0px 2px white,
+		0px 0px 2px white,
+		0px 0px 2px white,
+		0px 0px 3px white,
+		0px 0px 3px white;
+}

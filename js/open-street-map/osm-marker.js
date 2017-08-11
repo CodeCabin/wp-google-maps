@@ -39,7 +39,13 @@
 	
 	WPGMZA.OSMMarker.prototype.addLabel = function()
 	{
+		if(!this.label)
+		{
+			this.label = $("<div class='osm-marker-label'/>");
+			$(this.element).append(this.label);
+		}
 		
+		this.label.html(this.getLabelText());
 	}
 	
 	WPGMZA.OSMMarker.prototype.setVisible = function(visible)

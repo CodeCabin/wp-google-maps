@@ -57,6 +57,9 @@
 		if(this.settings.store_locator_enabled)
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this);
 		
+		// Parse marker IDs to get order for marker labels
+		this.markerLabelOrder = this.decodeIDs($(element).attr("data-marker-id-ranges"));
+		
 		// Layout
 		if(this.settings.general_layout)
 			$(element).addClass(this.settings.general_layout);
@@ -111,6 +114,33 @@
 		
 		this.setDimensions(this.settings.width, this.settings.height);
 		this.setAlignment(this.settings.map_align);
+	}
+	
+	/**
+	 * Decodes the marker IDs for label order
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.decodeIDs = function(ids)
+	{
+		var ranges = ids.split(",");
+		var result = [];
+		
+		for(var i = 0; i < ranges.length; i++)
+		{
+			var range = ranges[i];
+			var parts = range.split("-");
+			
+			if(parts.length == 1)
+				result.push(parseInt(parts[0], 36));
+			else
+			{
+				var end = parseInt(parts[1], 36);
+				for(var j = parseInt(parts[0], 36); j <= end; j++)
+					result.push(j);
+			}
+		}
+		
+		return result;
 	}
 	
 	/**

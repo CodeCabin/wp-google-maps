@@ -62,6 +62,12 @@ class Map extends Smart\Document
 		// Init tables
 		$this->loadTables();
 		
+		// Get ID ranges for marker labels
+		$stmt = $wpdb->prepare("SELECT id FROM $WPGMZA_TABLE_NAME_MARKERS WHERE map_id=%d", array($id));
+		$ids = $wpdb->get_col($stmt);
+		$range = $this->encodeIDs($ids);
+		$this->root->setAttribute('data-marker-id-ranges', $range);
+		
 		// Pass data to Javascript
 		$this->root->setAttribute('data-map-id', $this->id);
 		$this->root->setAttribute('data-settings', json_encode($this->settings));
@@ -222,6 +228,55 @@ class Map extends Smart\Document
 		$this->tables = (object)array(
 			'marker'	=> new MarkerTable($this)
 		);
+	}
+	
+	/**
+	 * Encodes an array of IDs into a compact form
+	 * @return string
+	 */
+	protected function encodeIDs($ids)
+	{
+		if(empty($ids))
+			return "";
+		
+		$len = count($ids);
+		$prev = null;
+		$parts = array();
+		$range = null;
+		$result = '';
+		
+		for($i = 0; $i < $len; $i++)
+		{
+			$value = $ids[$i];
+			
+			if($prev === null || $value > $prev + 1)
+			{
+				// Start new range
+				$range = (object)array(
+					'start' => $value,
+					'end' => $value
+				);
+				$parts[] = $range;
+			}
+			else
+			{
+				// Continue existing range
+				$parts[count($parts) - 1]->end = $value;
+			}
+			
+			$prev = $value;
+		}
+		
+		foreach($parts as $range)
+		{
+			if($range->start == $range->end)
+				$result .= base_convert($range->start, 10, 36);
+			else
+				$result .= base_convert($range->start, 10, 36) . '-' . base_convert($range->end, 10, 36);
+			$result .= ',';
+		}
+		
+		return rtrim($result, ',');
 	}
 	
 	/**
