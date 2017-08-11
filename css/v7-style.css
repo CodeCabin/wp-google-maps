@@ -853,3 +853,8 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 {
 	flex: 1;
 }
+
+.wpgmza-map .sl_use_loc
+{
+	float: none;
+}

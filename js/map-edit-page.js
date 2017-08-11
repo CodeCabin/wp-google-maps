@@ -261,6 +261,10 @@
 		
 		// Move polygon and polyline instructions from map edit panel into map element
 		$(".wpgmza-engine-map").append(
+			$("#wpgmza-markers-tab-instructions")
+		);
+		
+		$(".wpgmza-engine-map").append(
 			$("#polygon-instructions")
 		);
 		

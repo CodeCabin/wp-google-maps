@@ -100,10 +100,11 @@ class Plugin
 		// Load scripts if "always load scripts" is on
 		if(!empty(Plugin::$settings->always_load_scripts))
 		{
+			$this->map->enqueueScripts();
+			
 			if($this->isProVersion())
 			{
 				require_once(WPGMZA_PRO_DIR . 'php/class.pro-map.php');
-				ProMap::enqueueScripts();
 				
 				switch(Plugin::$settings->engine)
 				{
@@ -120,8 +121,6 @@ class Plugin
 			}
 			else
 			{
-				Map::enqueueScripts();
-				
 				switch(Plugin::$settings->engine)
 				{
 					case 'google-maps':

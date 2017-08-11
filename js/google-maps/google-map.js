@@ -28,6 +28,13 @@
 			};
 			self.dispatchEvent(wpgmzaEvent);
 		});
+		
+		var marker;
+		if(this.storeLocator && (marker = this.storeLocator.centerPointMarker))
+		{
+			this.storeLocator.centerPointMarker.googleMarker.setMap(this.googleMap);
+			marker.setVisible(false);
+		}
 	}
 	
 	// If we're running the Pro version, inherit from ProMap, otherwise, inherit from Map

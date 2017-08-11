@@ -12,8 +12,6 @@ Domain Path: /languages
 
 namespace WPGMZA;
 
-require_once(__DIR__ . '/example.php');
-
 require_once(__DIR__ . '/constants.php');
 require_once(__DIR__ . '/php/class.plugin.php');
 
