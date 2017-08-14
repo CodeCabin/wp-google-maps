@@ -38,8 +38,11 @@ class OSMLoader
 		if(OSMLoader::$osmAPILoadCalled)
 			return;
 		
-		wp_enqueue_style('wpgmza-osm-base-style', 'https://openlayers.org/en/v4.1.1/css/ol.css');
-		wp_enqueue_script('wpgmza-osm-api-call', 'https://openlayers.org/en/v4.1.1/build/ol.js');
+		wp_enqueue_style('wpgmza-osm-base-style', WPGMZA_BASE . 'lib/ol.css');
+		if(defined('SCRIPT_DEBUG') && SCRIPT_DEBUG)
+			wp_enqueue_script('wpgmza-osm-api-call', WPGMZA_BASE . 'lib/ol-debug.js');
+		else
+			wp_enqueue_script('wpgmza-osm-api-call', WPGMZA_BASE . 'lib/ol.js');
 		
 		wp_enqueue_style('wpgmza-osm-style', WPGMZA_BASE . 'css/open-street-map.css');
 	}

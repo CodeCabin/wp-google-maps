@@ -11,6 +11,13 @@ require_once(__DIR__ . '/class.widget.php');
 
 use Smart;
 
+add_filter('wpgmza_map_edit_page_big_button_save_filter', function($el) {
+	return "<span style='color: #FFC0CB'>SAVE ME</span>";
+});
+add_filter('wpgmza_map_edit_page_title_filter', function($el) {
+	return "Hi!!!";
+});
+
 class Plugin
 {
 	public static $version;
@@ -405,7 +412,43 @@ class Plugin
 			}
 		}
 		
+		$this->applyHooks($document);
+		
 		echo $document->saveInnerBody();
+	}
+	
+	public function applyHooks($document)
+	{
+		foreach($document->querySelectorAll('[data-wpgmza-wp-filter]') as $element)
+		{
+			$result = apply_filters($element->getAttribute('data-wpgmza-wp-filter'), $element);
+			
+			$element->clear();
+			
+			if($result !== $element)
+				$element->import($result);
+		}
+		
+		foreach($document->querySelectorAll('[data-wpgmza-wp-action-before]') as $element)
+		{
+			$prevLast = $content->lastChild;
+			$prevFirst = $content->firstChild;
+			
+			$content = do_action($element->getAttribute('data-wpgmza-wp-action-before'), $element);
+			$element->import($content);
+			
+			for($iter = $prevLast->nextSibling; $iter != null; $iter = $next)
+			{
+				$next = $iter->nextSibling;
+				$element->insertBefore($iter, $prevFirst);
+			}
+		}
+		
+		foreach($document->querySelectorAll('[data-wpgmza-wp-action-after]') as $element)
+		{
+			$content = do_action($element->getAttribute('data-wpgmza-wp-action-after'), $element);
+			$element->import($content);
+		}
 	}
 	
 	/**
@@ -737,6 +780,8 @@ class Plugin
 		}catch(\Exception $e) {
 			return "<div class='error'>" . __($e->getMessage(), 'wp-google-maps') . "</div>";
 		}
+		
+		$this->applyHooks($document);
 		
 		return $map->saveInnerBody();
 	}

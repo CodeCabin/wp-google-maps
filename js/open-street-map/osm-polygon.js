@@ -48,15 +48,15 @@
 			});
 		}
 		
-		this.osmFeature.setProperties({
-			wpgmzaPolygon: this
-		});
-		
 		this.layer = new ol.layer.Vector({
 			source: new ol.source.Vector({
 				features: [this.osmFeature]
 			}),
 			style: this.osmStyle
+		});
+		
+		this.layer.getSource().getFeatures()[0].setProperties({
+			wpgmzaPolygon: this
 		});
 	}
 	
@@ -70,7 +70,7 @@
 
 	WPGMZA.OSMPolygon.prototype.setEditable = function(editable)
 	{
-		WPGMZA.OSMMapEditPage.setPolyEditable(this, editable);
+		
 	}
 	
 	WPGMZA.OSMPolygon.prototype.toJSON = function()

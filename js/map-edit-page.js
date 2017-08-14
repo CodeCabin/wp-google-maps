@@ -173,8 +173,8 @@
 		
 		// Polygon buttons
 		$("#draw-polygon").on("click", function(event) {
-            $('html, body').animate({
-                scrollTop: $('html').offset().top
+            $('body').animate({
+                scrollTop: $('.wpgmza-engine-map').offset().top
             }, 500);
 			self.onDrawPolygon(event); 
 		});
@@ -187,8 +187,8 @@
 		
 		// Polyline buttons
 		$("#draw-polyline").on("click", function(event) {
-            $('html, body').animate({
-                scrollTop: $('html').offset().top
+            $('body').animate({
+                scrollTop: $('.wpgmza-engine-map').offset().top
             }, 500);
 			self.onDrawPolyline(event);
 		});

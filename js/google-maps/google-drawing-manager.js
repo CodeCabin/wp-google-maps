@@ -38,6 +38,8 @@
 	{
 		var googleMode;
 		
+		WPGMZA.DrawingManager.prototype.setDrawingMode.call(this, mode);
+		
 		switch(mode)
 		{
 			case WPGMZA.DrawingManager.MODE_NONE:

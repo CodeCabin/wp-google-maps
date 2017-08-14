@@ -407,17 +407,15 @@ class Map extends Smart\Document
 		
 		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
 		
-		/*if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
+		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
 		
 		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		$polygons = $wpdb->get_results($stmt);*/
+		$polygons = $wpdb->get_results($stmt);
 		
-		$polygons = $wpdb->get_results($qstr);
-		
-		/*foreach($polygons as $polygon)
-			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $polygon->id);*/
+		foreach($polygons as $polygon)
+			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $polygon->id);
 			
 		return $polygons;
 	}
@@ -436,17 +434,15 @@ class Map extends Smart\Document
 		
 		$qstr = "SELECT id, title, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYLINES WHERE $mapIDClause";
 		
-		/*if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
+		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
 		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		$polylines = $wpdb->get_results($stmt);*/
+		$polylines = $wpdb->get_results($stmt);
 		
-		$polylines = $wpdb->get_results($qstr);
-		
-		/*foreach($polylines as $polyline)
-			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $polyline->id);*/
+		foreach($polylines as $polyline)
+			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $polyline->id);
 			
 		return $polylines;
 	}
