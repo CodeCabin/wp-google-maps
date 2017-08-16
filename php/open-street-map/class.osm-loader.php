@@ -28,6 +28,9 @@ class OSMLoader
 		wp_enqueue_script('wpgmza-osm-polyline', 			WPGMZA_BASE . 'js/open-street-map/osm-polyline.js', 		array('wpgmza-polyline'));
 		wp_enqueue_script('wpgmza-osm-store-locator', 		WPGMZA_BASE . 'js/open-street-map/osm-store-locator.js', 	array('wpgmza-store-locator'));
 		wp_enqueue_script('wpgmza-osm-drawing-manager', 	WPGMZA_BASE . 'js/open-street-map/osm-drawing-manager.js',	array('wpgmza-core'));
+
+		do_action( 'wpgmza_osm_loader_scripts' );
+		
 	}
 	
 	public function loadOpenStreetMap()

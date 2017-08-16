@@ -15,7 +15,7 @@ class AvadaWarning extends Smart\Document
 		$theme = wp_get_theme();
 		
 		if($theme->get('Name') == 'Avada' && 
-			intval($theme->get('Version') == 393) &&
+			intval($theme->get('Version') == apply_filters('wpgmza_avada_warning_version_number', 393 ) ) &&
 			!isset(Plugin::$settings->force_jquery))
 			return true;
 		

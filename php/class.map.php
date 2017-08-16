@@ -79,12 +79,12 @@ class Map extends Smart\Document
 	public static function getDefaultSettings()
 	{
 		return (object)array(
-			'width'						=> '100%',
-			'height'					=> '400px',
-			'start_location'			=> '51.29091499999999,-2.920355500143068',
-			'start_zoom'				=> '2',
-			'alignment'					=> '4',
-			'show_points_of_interest'	=> '1'
+			'width'						=> apply_filters( 'wpgmza_map_default_settings_width', '100%' ),
+			'height'					=> apply_filters( 'wpgmza_map_default_settings_height', '400px' ),
+			'start_location'			=> apply_filters( 'wpgmza_map_default_settings_start_location', '51.29091499999999,-2.920355500143068' ),
+			'start_zoom'				=> apply_filters( 'wpgmza_map_default_settings_start_zoom', '2' ),
+			'alignment'					=> apply_filters( 'wpgmza_map_default_settings_alignment', '4' ),
+			'show_points_of_interest'	=> apply_filters( 'wpgmza_map_default_settings_show_poi', '1 ' )
 		);
 	}
 	
@@ -199,6 +199,9 @@ class Map extends Smart\Document
 	
 		// Datatables
 		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
+
+		do_action( 'wpgmza_enqueue_map_scripts_admin_frontend' );
+
 	}
 	
 	/**
@@ -405,12 +408,12 @@ class Map extends Smart\Document
 		
 		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYGONS, $options);
 		
-		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
-		
+		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";			
+
 		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
 		
-		//$stmt = $wpdb->prepare($qstr, array($this->id));
+		$qstr = apply_filters( 'wpgmza_basic_polygon_sql_query', $qstr );
 		
 		$polygons = $wpdb->get_results($qstr);
 		
@@ -437,8 +440,8 @@ class Map extends Smart\Document
 		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
-		//$stmt = $wpdb->prepare($qstr, array($this->id));
-		
+		$qstr = apply_filters( 'wpgmza_basic_polyline_sql_query', $qstr );
+
 		$polylines = $wpdb->get_results($qstr);
 		
 		foreach($polylines as $polyline)

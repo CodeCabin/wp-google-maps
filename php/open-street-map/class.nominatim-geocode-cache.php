@@ -27,6 +27,8 @@ class NominatimGeocodeCache
 		// Check the cache first, as per the nominatim usage policy
 		$stmt = $wpdb->prepare("SELECT response FROM {$this->table} WHERE query=%s LIMIT 1", array($query));
 		
+		$stmt = apply_filters( 'wpgmza_osm_nomination_cache_query_get', $stmt, $query );
+
 		return $wpdb->get_var($stmt);
 	}
 	
@@ -36,11 +38,14 @@ class NominatimGeocodeCache
 		
 		if(empty($query))
 			throw new \Exception("First argument cannot be empty");
-		
+				
 		$stmt = $wpdb->prepare("INSERT INTO {$this->table} (query, response) VALUES (%s, %s)", array(
 			$query,
 			$response
 		));
+
+		$stmt = apply_filters( 'wpgmza_osm_nomination_cache_query_set', $stmt, $query, $response );
+
 		$wpdb->query($stmt);
 	}
 }

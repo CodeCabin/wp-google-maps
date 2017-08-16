@@ -11,6 +11,13 @@ require_once(__DIR__ . '/class.widget.php');
 
 use Smart;
 
+add_filter('wpgmza_map_edit_page_big_button_save_filter', function($el) {
+	return "<span style='color: #FFC0CB'>SAVE ME</span>";
+});
+add_filter('wpgmza_map_edit_page_title_filter', function($el) {
+	return "Hi!!!";
+});
+
 class Plugin
 {
 	public static $version;
@@ -45,6 +52,8 @@ class Plugin
 		
 		// Shortcode hook
 		add_shortcode('wpgmza', array($this, 'handleShortcode'));
+
+		do_action( 'wpgmza_basic_plugin_constructor' );
 	}
 	
 	/**
@@ -81,6 +90,8 @@ class Plugin
 		Plugin::$settings->is_admin = is_admin();
 		Plugin::$settings->url_base = WPGMZA_BASE;
 		Plugin::$settings->default_marker_icon = WPGMZA_BASE . 'images/marker.png';
+		
+		Plugin::$settings->api_version = '3.28';
 		
 		Plugin::$statistics = new Statistics();
 		
@@ -135,6 +146,9 @@ class Plugin
 			
 			$loader->enqueueScripts();
 		}
+
+		do_action( 'wpgmza_basic_plugin_init' );
+
 	}
 
 	/**
@@ -149,7 +163,7 @@ class Plugin
 		$data->fast_ajaxurl				= WPGMZA_BASE . 'php/ajax.fetch.php';
 		$data->is_pro_version			= $this->isProVersion();
 
-		$data->localized_strings = array(
+		$data->localized_strings = apply_filters( 'wpgmza_basic_localized_strings', array(
 			'miles'					=> __('Miles', 'wp-google-maps'),
 			'kilometers'			=> __('Kilometers', 'wp-google-maps'),
 			
@@ -159,7 +173,7 @@ class Plugin
 			
 			'geocode_failed' 		=> __('We couldn\'t find that address, please try again', 'wp-google-maps'),
 			'no_address_entered'	=> __('Please enter an address', 'wp-google-maps')
-		);
+		) );
 		
 		return $data;
 	}
@@ -204,6 +218,9 @@ class Plugin
 				
 				break;
 		}
+
+		do_action( 'wpgmza_basic_admin_enqueue_scripts' );
+
 	}
 	
 	/**
@@ -310,7 +327,7 @@ class Plugin
 	{
 		$access_level = Plugin::getAccessLevel();
 		
-		return array(
+		return apply_filters( 'wpgmza_basic_admin_submenu_items', array(
 			array(
 				'wp-google-maps-menu', 
 				'WP Google Maps - Settings', 
@@ -328,7 +345,7 @@ class Plugin
 				'wp-google-maps-menu-support',
 				array($this, 'showAdminPage')
 			)
-		);
+		) );
 	}
 	
 	/**
@@ -441,14 +458,14 @@ class Plugin
 				$element->insertBefore($iter, $prevFirst);
 			}
 		}
-		
+
 		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-after]') as $element)
 		{
 			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-after'), $element, $this, $map);
 			
 			if($content === $element)
 				continue;
-			
+      
 			$element->import($content);
 		}
 	}
@@ -643,7 +660,7 @@ class Plugin
 			'current_theme_version'	=> ($theme ? $theme->get('Version') : 'unknown'),
 			
 			// System (set below)
-			'phpversion'			=> 'unknown',
+			'php_version'			=> 'unknown',
 			'allocated_memory'		=> 'unknown',
 			'wp_debug'				=> 'unknown',
 			'locale'				=> 'unknown'
@@ -662,6 +679,8 @@ class Plugin
 		
 		if(function_exists('get_locale'))
 			$data['locale'] = get_locale();
+
+		$data = apply_filters( 'wpgmza_usage_tracking_data', $data );
 		
 		return (object)$data;
 	}
@@ -777,13 +796,15 @@ class Plugin
 		if(!isset($atts['id']))
 			return "<div class='error'>" . __('No map ID specified', 'wp-google-maps') . "</div>";
 		
+		do_action( 'wpgmza_basic_handle_shortcode' );
+		
 		try{
 			$map = $this->createMapInstance($atts['id'], $atts);
 		}catch(\Exception $e) {
 			return "<div class='error'>" . __($e->getMessage(), 'wp-google-maps') . "</div>";
 		}
 		
-		$this->applyHooks($document, $map);
+		$this->applyHooks($map, $map);
 		
 		return $map->saveInnerBody();
 	}

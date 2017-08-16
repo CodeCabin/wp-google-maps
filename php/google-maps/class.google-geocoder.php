@@ -29,6 +29,8 @@ class GoogleGeocoder
 		$result = curl_exec($ch);
 		
 		$json = json_decode($result);
+
+		do_action( 'wpgmza_google_maps_geocoded_result', $json );
 		
 		if(!$json)
 		{
@@ -48,6 +50,8 @@ class GoogleGeocoder
 		$result = $json->results[0];
 		
 		$location = $result->geometry->location;
+
+		do_action( 'wpgmza_google_maps_geocoded_result_location', $location );
 		
 		return (object)array(
 			'lat' => $location->lat, 

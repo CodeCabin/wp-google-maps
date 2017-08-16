@@ -50,12 +50,12 @@ class Settings implements \IteratorAggregate, \JsonSerializable
 	
 	protected function setDefaults()
 	{
-		$this->vars = array(
+		$this->vars = apply_filters( 'wpgmza_basic_default_settings', array(
 			'access_level'			=> 'manage_options',
 			'api_version'			=> '3.28',
 			'info_window_open_by'	=> '1',
 			'info_window_link_text'	=> __('More details', 'wp-google-maps')
-		);
+		) );
 	}
 	
 	protected function standardizeName($name)

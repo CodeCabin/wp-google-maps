@@ -33,6 +33,9 @@ class SettingsPage extends AdminPage
 		
 		if(!empty($_POST))
 			$this->onFormSubmitted();
+
+		do_action( 'wpgmza_basic_settings_page_enqueue_scripts' );
+
 	}
 	
 	/**
