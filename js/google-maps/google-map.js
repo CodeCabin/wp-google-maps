@@ -9,6 +9,9 @@
 	{
 		var self = this;
 		
+		if(!window.google)
+			throw new Error("Google API not loaded");
+		
 		parentConstructor.call(this, element);
 		
 		this.loadGoogleMap();
@@ -25,6 +28,13 @@
 			};
 			self.dispatchEvent(wpgmzaEvent);
 		});
+		
+		var marker;
+		if(this.storeLocator && (marker = this.storeLocator.centerPointMarker))
+		{
+			this.storeLocator.centerPointMarker.googleMarker.setMap(this.googleMap);
+			marker.setVisible(false);
+		}
 	}
 	
 	// If we're running the Pro version, inherit from ProMap, otherwise, inherit from Map
@@ -326,6 +336,15 @@
 	WPGMZA.GoogleMap.prototype.setMaxZoom = function(value)
 	{
 		this.googleMap.setMaxZoom(value);
+	}
+	
+	/**
+	 * Handle the map element resizing
+	 * @return void
+	 */
+	WPGMZA.GoogleMap.prototype.onElementResized = function(event)
+	{
+		google.maps.event.trigger(this.googleMap, "resize");
 	}
 	
 })(jQuery);

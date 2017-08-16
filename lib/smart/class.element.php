@@ -30,7 +30,7 @@ class Element extends \DOMElement
 	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelectorAll
 	 * @return mixed Any descendant \Smart\Element's that match the selector, or NULL if there is no match
 	 */
-	public function querySelectorAll($query)
+	public function querySelectorAll($query, $sort=true)
 	{
 		$xpath 		= new \DOMXPath($this->ownerDocument);
 		$expr 		= Element::selectorToXPath($query);
@@ -41,7 +41,8 @@ class Element extends \DOMElement
 		for($i = 0; $i < $list->length; $i++)
 			array_push($results, $list->item($i));
 		
-		usort($results, array('Smart\Element', 'sortByDOMPosition'));
+		if($sort)
+			usort($results, array('Smart\Element', 'sortByDOMPosition'));
 		
 		return $results;
 	}

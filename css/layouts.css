@@ -1,0 +1,15 @@
+.wpgmza-map.wpgmza-compact
+{
+	display: flex;
+}
+
+.wpgmza-map.wpgmza-compact>*
+{
+	flex-basis: 50%;
+}
+
+.wpgmza-map.wpgmza-compact>.wpgmza-engine-map,
+	.wpgmza-map.wpgmza-compact>.wpgmza-marker-listing
+{
+	display: block;
+}

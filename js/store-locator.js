@@ -22,7 +22,7 @@
 		
 		$(this.element).css({
 			display: map.settings.store_locator_enabled ? "block" : "none"
-		})
+		});
 		
 		this.address.val(
 			map.settings.store_locator_default_address
@@ -59,16 +59,29 @@
 	
 	WPGMZA.StoreLocator.createInstance = function(map)
 	{
-		switch(WPGMZA.settings.engine)
-		{
-			case "google-maps":
-				return new WPGMZA.GoogleStoreLocator(map);
-				break;
-				
-			default:
-				return new WPGMZA.OSMStoreLocator(map);
-				break;
-		}
+		if(WPGMZA.isProVersion())
+			switch(WPGMZA.settings.engine)
+			{
+				case "google-maps":
+					return new WPGMZA.GoogleProStoreLocator(map);
+					break;
+					
+				default:
+					return new WPGMZA.OSMProStoreLocator(map);
+					break;
+			}
+
+		else
+			switch(WPGMZA.settings.engine)
+			{
+				case "google-maps":
+					return new WPGMZA.GoogleStoreLocator(map);
+					break;
+					
+				default:
+					return new WPGMZA.OSMStoreLocator(map);
+					break;
+			}
 	}
 	
 	/**
@@ -190,6 +203,7 @@
 	WPGMZA.StoreLocator.prototype.onSearch = function(event)
 	{
 		var self = this;
+		var button = $(this.element).find(".wpgmza-submit");
 		var restrict = this.map.settings.store_locator_restrict;
 		var geocoder = WPGMZA.Geocoder.createInstance();
 		var options = {
@@ -203,7 +217,11 @@
 		
 		this.clear();
 		
+		button.prop("disabled", true);
+		
 		geocoder.getLatLngFromAddress(options, function(latLng) {
+			button.prop("disabled", false);
+			
 			if(!latLng)
 			{
 				self.error.show();

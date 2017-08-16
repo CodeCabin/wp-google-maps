@@ -8,7 +8,7 @@
 		
 		parentConstructor.call(this, row);
 		
-		this.googleMarker = new google.maps.Marker(this.settings);
+		this.googleMarker = new google.maps.Marker(/*this.settings*/);
 		this.googleMarker.wpgmzaMarker = this;
 		
 		this.googleMarker.setPosition(new google.maps.LatLng({
@@ -34,21 +34,8 @@
 	
 	WPGMZA.GoogleMarker.prototype.addLabel = function()
 	{
-		var map = this.map;
-		var labels = map.settings.marker_label_characters;
-		var length = labels.length;
-		
-		if(length == 0)
-			return;
-		
-		if(!("currentMarkerLabelIndex" in map))
-			map.currentMarkerLabelIndex = 0;
-		
-		var label = labels.substr(map.currentMarkerLabelIndex % length, 1);
-		map.currentMarkerLabelIndex++;
-		
 		this.googleMarker.setLabel({
-			text: label
+			text: this.getLabelText()
 		});
 	}
 	
@@ -80,8 +67,5 @@
 	{
 		this.googleMarker.setVisible(visible);
 	}
-	
-	// createInfoWindow
-	// setPositionFromAddress
 	
 })(jQuery);

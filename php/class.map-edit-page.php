@@ -90,6 +90,8 @@ class MapEditPage extends AdminPage
 	protected function loadHTMLContent()
 	{
 		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
+		
+		apply_filters('wpgmza_output_filter', $this->map);
 	}
 	
 	protected function enqueueScripts()
@@ -102,6 +104,9 @@ class MapEditPage extends AdminPage
 		wp_enqueue_script('jquery-ui-tabs');
 		wp_enqueue_script('jquery-ui-progressbar');
 		wp_enqueue_script('jquery-ui-accordion');
+		
+		wp_enqueue_script('jquery-ui-sortable');
+		wp_enqueue_script('jquery-ui-draggable');
 		
 		wp_enqueue_script('wpgmza-spectrum', WPGMZA_BASE . 'lib/spectrum.js');
 		wp_enqueue_script('wpgmza-modernizr', WPGMZA_BASE . 'lib/modernizr-custom.js');
@@ -124,6 +129,8 @@ class MapEditPage extends AdminPage
 		wp_enqueue_style('remodal', WPGMZA_BASE . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', WPGMZA_BASE . 'lib/remodal-default-theme.css');
 		
+		do_action( 'wpgmza_map_edit_page_scripts' );
+
 		// Engine specific code
 		switch(Plugin::$settings->engine)
 		{
@@ -148,6 +155,7 @@ class MapEditPage extends AdminPage
 	{
 		wp_enqueue_style('wpgmza-color-picker', WPGMZA_BASE . 'lib/spectrum.css');
 		wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
+		do_action( 'wpgmza_map_edit_page_styling' );
 	}
 
 	protected function onFormSubmitted()
@@ -170,12 +178,12 @@ class MapEditPage extends AdminPage
 			'map_id',
 			'localized_strings'
 		);
-		
+		$exclude = apply_filters( 'wpgmza_form_submitted_excluded_array', $exclude );
 		$map->title = stripslashes($_POST['title']);
 		$map->settings->width = $_POST['width_amount'] . $_POST['width_units'];
 		$map->settings->height = $_POST['height_amount'] . $_POST['height_units'];
 		
-		foreach($_POST as $key => $value)
+		foreach( apply_filters( 'wpgmza_form_submitted_post_data', $_POST ) as $key => $value)
 		{
 			if(array_search($key, $exclude) !== false)
 				continue;

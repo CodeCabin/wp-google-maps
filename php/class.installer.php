@@ -17,12 +17,16 @@ class Installer
 		'settings'		=> 'LONGTEXT NULL',
 		'latlng'		=> 'POINT NOT NULL'
 	);
+
+	$MARKER_COLUMNS = apply_filters( 'wpgmza_installer_marker_columns_filter', $MARKER_COLUMNS );
 	
 	public static $MAP_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
 		'title'			=> 'VARCHAR(55) NOT NULL',
 		'settings'		=> 'LONGTEXT'
 	);
+
+	$MAP_COLUMNS = apply_filters( 'wpgmza_installer_map_columns_filter', $MAP_COLUMNS );
 	
 	public static $POLYGON_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
@@ -33,6 +37,8 @@ class Installer
 		'points'		=> 'POLYGON',
 		'settings'		=> 'TEXT'
 	);
+
+	$POLYGON_COLUMNS = apply_filters( 'wpgmza_installer_polygon_columns_filter', $POLYGON_COLUMNS );
 	
 	public static $POLYLINE_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
@@ -41,6 +47,8 @@ class Installer
 		'points'		=> 'LINESTRING',
 		'settings'		=> 'TEXT'
 	);
+
+	$POLYLINE_COLUMNS = apply_filters( 'wpgmza_installer_polyline_columns_filter', $POLYLINE_COLUMNS );
 	
 	public function __construct()
 	{
@@ -54,7 +62,7 @@ class Installer
 		foreach($columns as $name => $definition)
 			$sql .= "$name $definition,\r\n";
 		
-		return $sql;
+		return rtrim($sql);
 	}
 	
 	/**
@@ -227,6 +235,9 @@ class Installer
 		$this->installDBPolygons();
 		$this->installDBPolylines();
 		$this->installDBCategories();		
+
+		do_action( 'wpgmza_basic_db_installer' );
+
 	}
 	
 	/**
@@ -241,8 +252,8 @@ class Installer
 		if($numMaps > 0)
 			return;
 		
-		$title = __("My first map", "wp-google-maps");
-		
+		$title = apply_filters( 'wpgmza_basic_default_first_map_title', __("My first map", "wp-google-maps") );
+
 		require_once(WPGMZA_DIR . 'php/class.map.php');
 		$settings = Map::getDefaultSettings();
 		

@@ -16,8 +16,6 @@
 		}
 		else
 		{
-			this.osmFeature = new ol.Feature();
-			
 			var coordinates = [];
 			
 			if(row && row.points)
@@ -40,11 +38,11 @@
 				});
 			
 			this.osmStyle = new ol.style.Style(params);
+			
+			this.osmFeature = new ol.Feature({
+				geometry: new ol.geom.LineString(coordinates)
+			});
 		}
-		
-		this.osmFeature = new ol.Feature({
-			geometry: new ol.geom.LineString(coordinates)
-		});
 		
 		this.osmFeature.wpgmzaPolyline = this;
 		

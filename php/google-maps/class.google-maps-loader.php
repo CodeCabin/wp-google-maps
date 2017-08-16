@@ -28,6 +28,9 @@ class GoogleMapsLoader
 		wp_enqueue_script('wpgmza-google-polyline', 		WPGMZA_BASE . 'js/google-maps/google-polyline.js', 			array('wpgmza-polyline'));
 		wp_enqueue_script('wpgmza-google-store-locator', 	WPGMZA_BASE . 'js/google-maps/google-store-locator.js', 	array('wpgmza-store-locator'));
 		wp_enqueue_script('wpgmza-google-drawing-manager', 	WPGMZA_BASE . 'js/google-maps/google-drawing-manager.js',	array('wpgmza-core'));
+
+		do_action( 'wpgmza_google_maps_loader_scripts' );
+
 	}
 	
 	/**
@@ -74,6 +77,8 @@ class GoogleMapsLoader
 		
 		if(is_admin())
 			$params['libraries'] = 'drawing';
+
+		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
 		
 		return $params;
 	}

@@ -1,15 +1,15 @@
-<div id="wpgmza-map-edit-page">
+<div id="wpgmza-map-edit-page" data-wpgzma-wp-action-before="wpgmza_map_edit_page_before" data-wpgzma-wp-action-after="wpgmza_map_edit_page_after">
 	<div class="wpgmza-preloader main-preloader">
 		<div class="wpgmza-loader">Loading...</div>
 	</div>
 
 	<form method="POST" class="wpgmza" style="display: none;">
-		<button id="wpgmza-top-save" type="submit">
+		<button id="wpgmza-top-save" type="submit" >
 			<i class="fa fa-floppy-o" aria-hidden="true"></i>
 			Save Map
 		</button>
 
-		<h1>
+		<h1 data-wpgmza-wp-filter="wpgmza_map_edit_page_title_filter">
 			<?php
 			_e("WP Google Maps","wp-google-maps");
 			?>
@@ -29,13 +29,48 @@
 			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html';
 		?>"></div>
 	
-		<p class="wpgmza-big-save">
+		<p class="wpgmza-big-save" data-wpgmza-wp-filter="wpgmza_map_edit_page_big_button_save_filter">
 			<button type="submit" class="button button-primary">Save Map</button>
 		</p>
 		
 		<div smart:import-php="<?php
 			echo WPGMZA_DIR . 'html/map-edit-page-pro-advert.html';
 		?>"></div>
+		
+		<div id="wpgmza-big-polyline-dialog">
+			<i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+			<p>
+				<?php
+				_e('This polyline has a very large number of points. The Google Maps engine may become unresponsive if you attempt to edit this polygon. We recommend using the OpenStreetMap engine under Maps -> Settings, which significantly outperforms Google Maps editing large polylines.', 'wp-google-maps');
+				?>
+			</p>
+			<p>
+				<button 
+					class="button button-primary"
+					onclick="window.open( jQuery('[href$=\'page=wp-google-maps-menu-settings\']').attr('href') )"
+					type="button">
+					<?php
+					_e('Open Settings', 'wp-google-maps');
+					?>
+				</button>
+				<button 
+					class="button button-primary"
+					onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close();"
+					type="button">
+					<?php
+					_e('Cancel Editing', 'wp-google-maps');
+					?>
+				</button>
+				<button 
+					class="button button-primary"
+					onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close(); WPGMZA.mapEditPage.editPolyline(WPGMZA.mapEditPage.warningPolyline);" 
+					type="button">
+					<?php
+					_e('Ignore and Edit', 'wp-google-maps');
+					?>
+				</button>
+			</p>
+		</div>
 	</form>
 	
 	<div id="pro-upgrade" class="wpgmza-free-version-only">
@@ -197,41 +232,6 @@
 				</a>
 			</div>
 		</div>
-	</div>
-	
-	<div id="wpgmza-big-polyline-dialog">
-		<i class="fa fa-hand-paper-o" aria-hidden="true"></i>
-		<p>
-			<?php
-			_e('This polyline has a very large number of points. The Google Maps engine may become unresponsive if you attempt to edit this polygon. We recommend using the OpenStreetMap engine under Maps -> Settings, which significantly outperforms Google Maps editing large polylines.', 'wp-google-maps');
-			?>
-		</p>
-		<p>
-			<button 
-				class="button button-primary"
-				onclick="window.open( jQuery('[href$=\'page=wp-google-maps-menu-settings\']').attr('href') )"
-				type="button">
-				<?php
-				_e('Open Settings', 'wp-google-maps');
-				?>
-			</button>
-			<button 
-				class="button button-primary"
-				onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close();"
-				type="button">
-				<?php
-				_e('Cancel Editing', 'wp-google-maps');
-				?>
-			</button>
-			<button 
-				class="button button-primary"
-				onclick="jQuery('#wpgmza-big-polyline-dialog').remodal().close(); WPGMZA.mapEditPage.editPolyline(WPGMZA.mapEditPage.warningPolyline);" 
-				type="button">
-				<?php
-				_e('Ignore and Edit', 'wp-google-maps');
-				?>
-			</button>
-		</p>
 	</div>
 	
 	<?php

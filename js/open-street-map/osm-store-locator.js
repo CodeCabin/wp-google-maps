@@ -1,11 +1,15 @@
 (function($) {
 	
+	var parentConstructor;
+	
 	WPGMZA.OSMStoreLocator = function(map)
 	{
-		WPGMZA.StoreLocator.call(this, map);
+		parentConstructor.call(this, map);
 	}
 	
-	WPGMZA.OSMStoreLocator.prototype = Object.create(WPGMZA.StoreLocator.prototype);
+	parentConstructor = (WPGMZA.isProVersion() ? WPGMZA.ProStoreLocator : WPGMZA.StoreLocator);
+	
+	WPGMZA.OSMStoreLocator.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMStoreLocator.prototype.constructor = WPGMZA.OSMStoreLocator;
 	
 	/**

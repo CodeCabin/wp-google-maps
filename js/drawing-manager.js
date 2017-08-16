@@ -5,6 +5,7 @@
 		WPGMZA.EventDispatcher.call(this);
 		
 		this.map = map;
+		this.mode = WPGMZA.DrawingManager.MODE_NONE;
 	}
 	
 	WPGMZA.DrawingManager.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -27,6 +28,11 @@
 				return new WPGMZA.OSMDrawingManager(map);
 				break;
 		}
+	}
+	
+	WPGMZA.DrawingManager.prototype.setDrawingMode = function(mode)
+	{
+		this.mode = mode;
 	}
 	
 })(jQuery);

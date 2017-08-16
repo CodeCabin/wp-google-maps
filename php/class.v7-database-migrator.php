@@ -45,7 +45,7 @@ class V7DatabaseMigrator
 		'styling_json'						=> 'theme_data',
 		'directions'						=> 'directions_box_enabled',
 		'directions_enabled'				=> 'directions_box_enabled',
-		'dbox'								=> 'directions_box_placement',
+		'dbox'								=> 'directions_box_open_by_default',
 		'dbox_width'						=> 'directions_box_width',
 		'listmarkers'						=> 'list_markers',
 		'listmarkers_advanced'				=> 'list_markers_advanced',
@@ -199,6 +199,14 @@ class V7DatabaseMigrator
 					case 'traffic':
 						$original = $settings[$name];
 						$settings[$name] = ((int)$original == 2 ? 0 : 1);
+						break;
+						
+					case 'directions_box_open_by_default':
+						$settings[$name] = (empty($settings[$name]) || $settings[$name] == "1" ? 0 : 1);
+						break;
+						
+					case 'wpgmza_settings_remove_api':
+						$settings[$name] = ($settings[$name] == 'yes' ? 1 : 0);
 						break;
 						
 					case 'other_settings':

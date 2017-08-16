@@ -56,6 +56,9 @@ class DataTable extends Smart\Document
 			'jquery',
 			'datatables'
 		));
+
+		do_action( 'wpgmza_datatables_enqueue_script' );
+		
 	}
 	
 	public function handleAjaxRequests()

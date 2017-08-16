@@ -50,7 +50,7 @@ class Map extends Smart\Document
 		// Load settings
 		$this->settings 	= json_decode($obj->settings);
 		if(!$this->settings)
-			$this->settings = (object)array();
+			$this->settings = Map::getDefaultSettings();
 		
 		// Override settings with shortcode attributes
 		$this->handleParameters($shortcode_atts);
@@ -61,6 +61,12 @@ class Map extends Smart\Document
 		
 		// Init tables
 		$this->loadTables();
+		
+		// Get ID ranges for marker labels
+		$stmt = $wpdb->prepare("SELECT id FROM $WPGMZA_TABLE_NAME_MARKERS WHERE map_id=%d", array($id));
+		$ids = $wpdb->get_col($stmt);
+		$range = $this->encodeIDs($ids);
+		$this->root->setAttribute('data-marker-id-ranges', $range);
 		
 		// Pass data to Javascript
 		$this->root->setAttribute('data-map-id', $this->id);
@@ -73,12 +79,12 @@ class Map extends Smart\Document
 	public static function getDefaultSettings()
 	{
 		return (object)array(
-			'width'						=> '100%',
-			'height'					=> '400px',
-			'start_location'			=> '51.29091499999999,-2.920355500143068',
-			'start_zoom'				=> '2',
-			'alignment'					=> '4',
-			'show_points_of_interest'	=> '1'
+			'width'						=> apply_filters( 'wpgmza_map_default_settings_width', '100%' ),
+			'height'					=> apply_filters( 'wpgmza_map_default_settings_height', '400px' ),
+			'start_location'			=> apply_filters( 'wpgmza_map_default_settings_start_location', '51.29091499999999,-2.920355500143068' ),
+			'start_zoom'				=> apply_filters( 'wpgmza_map_default_settings_start_zoom', '2' ),
+			'alignment'					=> apply_filters( 'wpgmza_map_default_settings_alignment', '4' ),
+			'show_points_of_interest'	=> apply_filters( 'wpgmza_map_default_settings_show_poi', '1 ' )
 		);
 	}
 	
@@ -141,6 +147,9 @@ class Map extends Smart\Document
 	{
 		wp_enqueue_script('jquery');
 		
+		// Dependencies
+		wp_enqueue_script('wpgmza-resize-sensor', WPGMZA_BASE . 'lib/ResizeSensor.js');
+		
 		// Map scripts
 		wp_enqueue_script('wpgmza-event', WPGMZA_BASE . 'js/event.js');
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'js/event-dispatcher.js');
@@ -180,7 +189,7 @@ class Map extends Smart\Document
 		if(!empty(Plugin::$settings->custom_css))
 			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
 		
-		wp_enqueue_script('wpgmza_v7_custom_script', WPGMZA_BASE . 'js/v7-custom-script.js');
+		wp_enqueue_script('wpgmza_v7_custom_script', WPGMZA_BASE . 'js/v7-custom-script.js', array('wpgmza-core'));
 		if(!empty(Plugin::$settings->custom_js))
 			wp_add_inline_script('wpgmza_v7_custom_script', Plugin::$settings->custom_js);
 
@@ -190,6 +199,9 @@ class Map extends Smart\Document
 	
 		// Datatables
 		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
+
+		do_action( 'wpgmza_enqueue_map_scripts_admin_frontend' );
+
 	}
 	
 	/**
@@ -219,6 +231,55 @@ class Map extends Smart\Document
 		$this->tables = (object)array(
 			'marker'	=> new MarkerTable($this)
 		);
+	}
+	
+	/**
+	 * Encodes an array of IDs into a compact form
+	 * @return string
+	 */
+	protected function encodeIDs($ids)
+	{
+		if(empty($ids))
+			return "";
+		
+		$len = count($ids);
+		$prev = null;
+		$parts = array();
+		$range = null;
+		$result = '';
+		
+		for($i = 0; $i < $len; $i++)
+		{
+			$value = $ids[$i];
+			
+			if($prev === null || $value > $prev + 1)
+			{
+				// Start new range
+				$range = (object)array(
+					'start' => $value,
+					'end' => $value
+				);
+				$parts[] = $range;
+			}
+			else
+			{
+				// Continue existing range
+				$parts[count($parts) - 1]->end = $value;
+			}
+			
+			$prev = $value;
+		}
+		
+		foreach($parts as $range)
+		{
+			if($range->start == $range->end)
+				$result .= base_convert($range->start, 10, 36);
+			else
+				$result .= base_convert($range->start, 10, 36) . '-' . base_convert($range->end, 10, 36);
+			$result .= ',';
+		}
+		
+		return rtrim($result, ',');
 	}
 	
 	/**
@@ -347,11 +408,13 @@ class Map extends Smart\Document
 		
 		$mapIDClause = $this->getFetchWhereClause($WPGMZA_TABLE_NAME_POLYGONS, $options);
 		
-		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";
-		
+		$qstr = "SELECT id, name, title, link, AsText(points) AS points, settings FROM $WPGMZA_TABLE_NAME_POLYGONS WHERE $mapIDClause";			
+
 		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
 		
+		$qstr = apply_filters( 'wpgmza_basic_polygon_sql_query', $qstr );
+
 		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
 		$polygons = $wpdb->get_results($stmt);
@@ -379,6 +442,8 @@ class Map extends Smart\Document
 		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
+		$qstr = apply_filters( 'wpgmza_basic_polyline_sql_query', $qstr );
+
 		$stmt = $wpdb->prepare($qstr, array($this->id));
 		
 		$polylines = $wpdb->get_results($stmt);
@@ -502,6 +567,18 @@ class Map extends Smart\Document
 				$instance->remove();
 			}
 		}
+	}
+	
+	protected function applyFilters()
+	{
+		apply_filters('wpgmza_output_filter', $this);
+	}
+	
+	public function saveInnerBody()
+	{
+		$this->applyFilters();
+		
+		return Smart\Document::saveInnerBody();
 	}
 }
 

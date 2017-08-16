@@ -4,8 +4,8 @@
 	<form method="POST" class="wpgmza">
 		<input type="hidden" name="action" value="wpgmza_save_settings"/>
 	
-		<div id="wpgmza-settings-tabs">
-			<ul>
+		<div id="wpgmza-settings-tabs" data-wpgmza-wp-action-before="wpgmza_map_settings_container_before" data-wpgmza-wp-action-after="wpgmza_map_settings_container_after">
+			<ul data-wpgmza-wp-action-before="wpgmza_map_settings_tabs_before" data-wpgmza-wp-action-after="wpgmza_map_settings_tabs_after">
 				<li>
 					<a href="#maps">
 						<?php
@@ -43,7 +43,7 @@
 				</li>
 			</ul>
 			
-			<div id="maps">
+			<div id="maps" data-wpgmza-wp-action-before="wpgmza_map_settings_maps_before" data-wpgmza-wp-action-after="wpgmza_map_settings_maps_after">
 				<h3><?php _e('Map Settings', 'wp-google-maps'); ?></h3>
 				<fieldset>
 					<label><?php _e('Engine', 'wp-google-maps'); ?></label>
@@ -299,7 +299,7 @@
 					</div>
 				</fieldset>
 			</div>
-			<div id="infowindows">
+			<div id="infowindows" data-wpgmza-wp-action-before="wpgmza_map_settings_infowindows_before" data-wpgmza-wp-action-after="wpgmza_map_settings_infowindows_after">
 				<h3>
 					<?php
 					_e("Marker InfoWindow Settings");
@@ -330,7 +330,7 @@
 					<input name="disable_infowindows" type="checkbox" value="1"/>
 				</fieldset>
 			</div>
-			<div id="markerlisting">
+			<div id="markerlisting" data-wpgmza-wp-action-before="wpgmza_map_settings_markerlisting_before" data-wpgmza-wp-action-after="wpgmza_map_settings_markerlisting_after">
 				<h3>
 					<?php
 					_e("Marker Listing Settings","wp-google-maps");
@@ -546,7 +546,7 @@
 					</div>
 				</fieldset>
 			</div>
-			<div id="advanced">
+			<div id="advanced" data-wpgmza-wp-action-before="wpgmza_map_settings_advanced_before" data-wpgmza-wp-action-after="wpgmza_map_settings_advanced_after">
 				<h3>
 					<?php
 					_e("Advanced Settings","wp-google-maps");
@@ -644,7 +644,7 @@
 				</fieldset>
 				
 			</div>
-			<div id="errorlog">
+			<div id="errorlog" data-wpgmza-wp-action-before="wpgmza_map_settings_errorlog_before" data-wpgmza-wp-action-after="wpgmza_map_settings_errorlog_after">
 				<h3>
 					<?php
 					_e("WP Google Maps Error log","wp-google-maps");

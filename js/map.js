@@ -6,6 +6,8 @@
 	 */
 	WPGMZA.Map = function(element)
 	{
+		var self = this;
+		
 		WPGMZA.EventDispatcher.call(this);
 		
 		if(!(element instanceof HTMLElement))
@@ -55,31 +57,32 @@
 		if(this.settings.store_locator_enabled)
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this);
 		
+		// Parse marker IDs to get order for marker labels
+		this.markerLabelOrder = this.decodeIDs($(element).attr("data-marker-id-ranges"));
+		
 		// Layout
+		if(this.settings.general_layout)
+			$(element).addClass(this.settings.general_layout);
+		
 		if(this.settings.layout && this.settings.layout.length)
 		{
 			layout = JSON.parse(this.settings.layout);
-			for(var i = 0; i < layout.order.length; i++)
-			{
-				var layoutElement = $("[data-wpgmza-layout-element='" + layout.order[i] + "']");
-				
-				if(layoutElement.length)
-					$(element).append(layoutElement);
-				else
-					console.warn("Element '" + name + "' not found for layout");
-			}
-			
-			for(var position in layout.grid)
-			{
-				var container = $(".wpgmza-in-map-grid [data-grid-position='" + position + "']");
-				var layoutElement = $("[data-wpgmza-layout-element='" + layout.grid[position] + "']");
-				
-				if(layoutElement.length)
-					$(container).append(layoutElement);
-				else
-					console.warn("Element '" + name + "' not found for layout");
-			}
+			this.setLayout(layout);
 		}
+		
+		var width, height, prevWidth, prevHeight;
+		setInterval(function() {
+			
+			width = $(self.engineElement).width();
+			height = $(self.engineElement).height();
+			
+			if(width != prevWidth || height != prevHeight)
+				self.onElementResized();
+			
+			prevWidth = width;
+			prevHeight = height;
+			
+		}, 1000);
 		
 		$(element).find(".wpgmza-load-failed").remove();
 	}
@@ -111,6 +114,33 @@
 		
 		this.setDimensions(this.settings.width, this.settings.height);
 		this.setAlignment(this.settings.map_align);
+	}
+	
+	/**
+	 * Decodes the marker IDs for label order
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.decodeIDs = function(ids)
+	{
+		var ranges = ids.split(",");
+		var result = [];
+		
+		for(var i = 0; i < ranges.length; i++)
+		{
+			var range = ranges[i];
+			var parts = range.split("-");
+			
+			if(parts.length == 1)
+				result.push(parseInt(parts[0], 36));
+			else
+			{
+				var end = parseInt(parts[1], 36);
+				for(var j = parseInt(parts[0], 36); j <= end; j++)
+					result.push(j);
+			}
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -470,6 +500,71 @@
 		
 		if(css)
 			$(this.element).css(css);
+	}
+	
+	/**
+	 * Gets the layout information for serialization
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.getLayout = function()
+	{
+		var elements = $(this.element).find("[data-wpgmza-layout-element]");
+		var data = {
+			order: [],
+			grid: {}
+		};
+		
+		for(var i = 0; i < elements.length; i++)
+		{
+			var grid = $(elements[i]).closest(".wpgmza-in-map-grid");
+			var name = $(elements[i]).attr("data-wpgmza-layout-element");
+			
+			if(grid.length)
+				data.grid[ $(elements[i]).closest(".wpgmza-cell").attr("data-grid-position") ] = name;
+			else
+				data.order.push(name);
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * Sets the layout of the map
+	 * @return object
+	 */
+	WPGMZA.Map.prototype.setLayout = function(layout)
+	{
+		var element = this.element;
+		
+		for(var i = 0; i < layout.order.length; i++)
+		{
+			var layoutElement = $(element).find("[data-wpgmza-layout-element='" + layout.order[i] + "']");
+			
+			if(layoutElement.length)
+				$(element).append(layoutElement);
+			else
+				console.warn("Element '" + name + "' not found for layout");
+		}
+		
+		for(var position in layout.grid)
+		{
+			var container = $(element).find(".wpgmza-in-map-grid [data-grid-position='" + position + "']");
+			var layoutElement = $(element).find("[data-wpgmza-layout-element='" + layout.grid[position] + "']");
+			
+			if(layoutElement.length)
+				$(container).append(layoutElement);
+			else
+				console.warn("Element '" + name + "' not found for layout");
+		}
+	}
+	
+	/**
+	 * Listener for when the engine map div is resized
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.onElementResized = function(event)
+	{
+		
 	}
 	
 	$(document).ready(function() {

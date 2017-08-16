@@ -16,6 +16,8 @@ class StoreLocator extends FrontendUIElement
 		wp_enqueue_script('wpgmza-store-locator', WPGMZA_BASE . 'js/store-locator.js', array(
 			'wpgmza-core'
 		));
+
+		do_action( 'wpgmza_basic_load_store_locator')
 	}
 }
 
