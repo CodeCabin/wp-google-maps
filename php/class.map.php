@@ -410,9 +410,9 @@ class Map extends Smart\Document
 		if(!empty($_SESSION['wpgmza_transmitted-polygon-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polygon-ids']) . ")";
 		
-		$stmt = $wpdb->prepare($qstr, array($this->id));
+		//$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		$polygons = $wpdb->get_results($stmt);
+		$polygons = $wpdb->get_results($qstr);
 		
 		foreach($polygons as $polygon)
 			array_push($_SESSION['wpgmza_transmitted-polygon-ids'], $polygon->id);
@@ -437,9 +437,9 @@ class Map extends Smart\Document
 		if(!empty($_SESSION['wpgmza_transmitted-polyline-ids']))
 			$qstr .= " AND id NOT IN (" . implode(',', $_SESSION['wpgmza_transmitted-polyline-ids']) . ")";
 		
-		$stmt = $wpdb->prepare($qstr, array($this->id));
+		//$stmt = $wpdb->prepare($qstr, array($this->id));
 		
-		$polylines = $wpdb->get_results($stmt);
+		$polylines = $wpdb->get_results($qstr);
 		
 		foreach($polylines as $polyline)
 			array_push($_SESSION['wpgmza_transmitted-polyline-ids'], $polyline->id);
@@ -546,13 +546,13 @@ class Map extends Smart\Document
 			}
 		}
 		
-		// Delete
-		foreach($map_object_data->deleteIDs as $key => $arr)
+		// For some reason, this has to be cast to an array or else only the first element will be iterated over
+		foreach((array)$map_object_data->deleteIDs as $key => $arr)
 		{
 			$class = $this->getClassFromPlural($key);
 			
 			foreach($arr as $id)
-			{				
+			{
 				$instance = new $class(array(
 					'id' => $id,
 					'write_only' => true

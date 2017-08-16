@@ -1218,12 +1218,14 @@
 	
 	WPGMZA.MapEditPage.prototype.onBulkDeleteMarkers = function(event)
 	{
+		var self = this;
+		
 		$("#marker-table-container tbody>tr").each(function(index, el) {
 			if($(el).find(".mark").prop("checked") == false)
 				return;
 			
 			var marker_id = $(el).find("[data-marker-id]").attr("data-marker-id");
-			this.deleteMarkerByID(marker_id);
+			self.deleteMarkerByID(marker_id);
 		});
 		
 		this.markerTable.refresh();

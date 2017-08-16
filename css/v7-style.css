@@ -449,6 +449,11 @@ form.wpgmza table th
 	padding-right: 1em;
 }
 
+#map-edit-tabs
+{
+	clear: both;
+}
+
 #map-edit-tabs>.ui-tabs-panel
 {
 	border-top: 3px solid #0073AA;

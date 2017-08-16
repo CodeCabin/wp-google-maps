@@ -103,9 +103,29 @@
 		return false;
 	}
 	
+	WPGMZA.OSMMapEditPage.prototype.onPolygonSettingChanged = function(event)
+	{
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polygon))
+			return;
+		
+		parentConstructor.prototype.onPolygonSettingChanged.call(this, event);
+		
+		this.editMapObjectTarget.updateStyleFromSettings();
+	}
+	
 	WPGMZA.OSMMapEditPage.prototype.onFinishEditingPolygon = function(event)
 	{
 		this.selectInteraction.getFeatures().clear();
+	}
+	
+	WPGMZA.OSMMapEditPage.prototype.onPolylineSettingChanged = function(event)
+	{
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polyline))
+			return;
+		
+		parentConstructor.prototype.onPolylineSettingChanged.call(this, event);
+		
+		this.editMapObjectTarget.updateStyleFromSettings();
 	}
 	
 	WPGMZA.OSMMapEditPage.prototype.finishEditingMapObject = function(clearSelectInteraction)

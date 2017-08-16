@@ -308,7 +308,7 @@
 	 */
 	WPGMZA.GoogleMap.prototype.getMinZoom = function()
 	{
-		this.googleMap.getMinZoom();
+		return parseInt(this.settings.min_zoom);
 	}
 	
 	/**
@@ -317,7 +317,10 @@
 	 */
 	WPGMZA.GoogleMap.prototype.setMinZoom = function(value)
 	{
-		this.googleMap.setMinZoom(value);
+		this.googleMap.setOptions({
+			minZoom: value,
+			maxZoom: this.getMaxZoom()
+		});
 	}
 	
 	/**
@@ -326,7 +329,7 @@
 	 */
 	WPGMZA.GoogleMap.prototype.getMaxZoom = function()
 	{
-		this.googleMap.getMaxZoom();
+		return parseInt(this.settings.max_zoom);
 	}
 	
 	/**
@@ -335,7 +338,10 @@
 	 */
 	WPGMZA.GoogleMap.prototype.setMaxZoom = function(value)
 	{
-		this.googleMap.setMaxZoom(value);
+		this.googleMap.setOptions({
+			minZoom: this.getMinZoom(),
+			maxZoom: value
+		});
 	}
 	
 	/**

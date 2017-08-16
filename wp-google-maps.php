@@ -36,6 +36,7 @@ function wpgmza_create_instance_delegate()
 	global $wpgmza;
 	
 	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
+	do_action('wpgmza_create_addons');
 }
 
 add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\wpgmza_create_instance_filter');
