@@ -58,7 +58,11 @@ class V7DatabaseMigrator
 		'iw_primary_color'					=> 'info_window_primary_color',
 		'iw_accent_color'					=> 'info_window_accent_color',
 		'iw_text_color'						=> 'info_window_text_color',
-		'transport_layer'					=> 'transport'
+		'transport_layer'					=> 'transport',
+		
+		'rtlt_enabled'						=> 'user_location_tracking_enabled',
+		'upload_default_rtlt_marker'		=> 'user_location_tracking_icon',
+		'rtlt_route'						=> 'user_location_tracking_route'
 	);
 	
 	public function __construct()

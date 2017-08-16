@@ -52,4 +52,11 @@
 		});
 	}
 	
+	WPGMZA.OSMInfoWindow.prototype.close = function(event)
+	{
+		if(!self.overlay)
+			return;
+		self.mapObject.map.osmMap.removeOverlay(self.overlay);
+	}
+	
 })(jQuery);

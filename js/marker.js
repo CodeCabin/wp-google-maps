@@ -55,16 +55,36 @@
 			this.addLabel();
 	}
 	
+	/**
+	 * This function will hide the last info the user interacted with
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.hidePreviousInteractedInfoWindow = function()
+	{
+		if(!this.map.lastInteractedMarker)
+			return;
+		
+		this.map.lastInteractedMarker.infoWindow.close();
+	}
+	
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
 		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_CLICK)
+		{
+			this.hidePreviousInteractedInfoWindow();
 			this.infoWindow.open();
+			this.map.lastInteractedMarker = this;
+		}
 	}
 	
 	WPGMZA.Marker.prototype.onMouseOver = function(event)
 	{
 		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_HOVER)
+		{
+			this.hidePreviousInteractedInfoWindow();
 			this.infoWindow.open();
+			this.map.lastInteractedMarker = this;
+		}
 	}
 	
 	WPGMZA.Marker.prototype.getIcon = function()

@@ -224,7 +224,7 @@
 			
 			if(!latLng)
 			{
-				self.error.show();
+				self.onNoResults();
 				return;
 			}
 			
@@ -249,32 +249,15 @@
 		// Add the circle and pan to it
 		this.map.setZoom(zoom);
 		this.map.panTo(latLng);
-		
-		// Is "show bouncing icon" set?
-		/*if(self.map.settings.store_locator_bounce)
-		{
-			self.closestMarker = marker;
-			
-			if(!marker)
-				return;
-			
-			var position = marker.googleMarker.getPosition();
-			var distance = WPGMZA.Map.getGeographicDistance(
-				position.lat(),
-				position.lng(),
-				latLng.lat(),
-				latLng.lng()
-			);
-			var maximum = self.getRadiusInKm();
-			
-			if(distance > maximum)
-			{
-				self.noResults.show();
-				return;
-			}
-			
-			marker.googleMarker.setAnimation(google.maps.Animation.BOUNCE);
-		}*/
+	}
+	
+	/**
+	 * Called when there are no results
+	 * @return void
+	 */
+	WPGMZA.StoreLocator.prototype.onNoResults = function()
+	{
+		this.noResults.show();
 	}
 	
 	/**

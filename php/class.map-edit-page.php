@@ -87,6 +87,11 @@ class MapEditPage extends AdminPage
 		}
 	}
 	
+	public function getMap()
+	{
+		return $this->map;
+	}
+	
 	protected function loadHTMLContent()
 	{
 		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');

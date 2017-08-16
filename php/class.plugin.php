@@ -86,6 +86,7 @@ class Plugin
 		// Load settings and statistics
 		Plugin::$settings 	= new Settings();
 		
+		// TODO: Maybe move these onto a constants object, this will set them in the DB which is a bit misleading
 		Plugin::$settings->is_admin = is_admin();
 		Plugin::$settings->url_base = WPGMZA_BASE;
 		Plugin::$settings->default_marker_icon = WPGMZA_BASE . 'images/marker.png';
@@ -420,29 +421,35 @@ class Plugin
 			}
 		}
 		
-		$this->applyHooks($document);
+		$map = ($document instanceof MapEditPage ? $document->getMap() : null);
+		$this->applyHooks($document, $map);
 		
 		echo $document->saveInnerBody();
 	}
 	
-	public function applyHooks($document)
+	public function applyHooks($document, $map=null)
 	{
 		foreach($document->querySelectorAll('[data-wpgmza-wp-filter]') as $element)
 		{
-			$result = apply_filters($element->getAttribute('data-wpgmza-wp-filter'), $element);
+			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter'), $element, $this, $map);
+			
+			if($content === $element)
+				continue;
 			
 			$element->clear();
-			
-			if($result !== $element)
-				$element->import($result);
+			$element->import($content);
 		}
 		
-		foreach($document->querySelectorAll('[data-wpgmza-wp-action-before]') as $element)
+		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-before]') as $element)
 		{
-			$prevLast = $content->lastChild;
-			$prevFirst = $content->firstChild;
+			$prevLast = $element->lastChild;
+			$prevFirst = $element->firstChild;
 			
-			$content = do_action($element->getAttribute('data-wpgmza-wp-action-before'), $element);
+			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-before'), $element, $this, $map);
+			
+			if($content === $element)
+				continue;
+			
 			$element->import($content);
 			
 			for($iter = $prevLast->nextSibling; $iter != null; $iter = $next)
@@ -451,10 +458,14 @@ class Plugin
 				$element->insertBefore($iter, $prevFirst);
 			}
 		}
-		
-		foreach($document->querySelectorAll('[data-wpgmza-wp-action-after]') as $element)
+
+		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-after]') as $element)
 		{
-			$content = do_action($element->getAttribute('data-wpgmza-wp-action-after'), $element);
+			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-after'), $element, $this, $map);
+			
+			if($content === $element)
+				continue;
+      
 			$element->import($content);
 		}
 	}
@@ -793,7 +804,7 @@ class Plugin
 			return "<div class='error'>" . __($e->getMessage(), 'wp-google-maps') . "</div>";
 		}
 		
-		$this->applyHooks($document);
+		$this->applyHooks($map, $map);
 		
 		return $map->saveInnerBody();
 	}
