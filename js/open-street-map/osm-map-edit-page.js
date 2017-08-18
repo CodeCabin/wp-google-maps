@@ -1,8 +1,12 @@
 (function($) {
 	
 	var parentConstructor;
-	var osmModifyInteraction;
-	
+
+	/**
+	 * Constructor
+	 * NB: There is a bug in openlayers, so it's necessary to make the modify interaction inactive
+	 * please do not remove that code. See https://github.com/openlayers/openlayers/issues/6310
+	 */
 	WPGMZA.OSMMapEditPage = function()
 	{
 		var self = this;
@@ -12,28 +16,50 @@
 		this.map.osmMap.updateSize();
 		
 		this.selectInteraction = new ol.interaction.Select();
-		this.selectInteraction.getFeatures().on("add", function(event) {
-			if(self.editMapObjectTarget instanceof WPGMZA.Heatmap)
+		
+		this.selectInteraction.on("select", function(event) {
+			if(self.editMapObjectTarget instanceof WPGMZA.Heatmap || self.drawingManager.mode != WPGMZA.DrawingManager.MODE_NONE)
 				return;
 			
-			for(var name in event.element)
+			self.finishEditingMapObject(false);
+			
+			var features = event.target.getFeatures().getArray();
+			for(var i = 0; i < features.length; i++)
 			{
-				if(event.element[name] instanceof WPGMZA.MapObject)
-				{
-					event.element[name].dispatchEvent("click");
-					
-					self.finishEditingMapObject();
-				}
+				var properties = features[i].getProperties();
+				for(var name in properties)
+					if(properties[name] instanceof WPGMZA.MapObject)
+					{
+						properties[name].dispatchEvent("click");
+						self.modifyInteraction.setActive(true);
+						return;
+					}
 			}
 		});
+		
 		this.map.osmMap.addInteraction(this.selectInteraction);
+		
+		this.modifyInteraction = new ol.interaction.Modify({
+			features: this.selectInteraction.getFeatures(),
+			deleteCondition: function(event) {
+				return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
+			}
+		});
+		
+		this.modifyInteraction.on("modifyend", function(event) {
+			self.editMapObjectTarget.modified = true;
+		});
+		
+		this.modifyInteraction.setActive(false);
+		
+		this.map.osmMap.addInteraction(this.modifyInteraction);
 		
 		// Set the right click marker image and add it to the OSM map
 		$(this.rightClickCursor.element).find("img")[0].src = $(".wpgmza-map").attr("data-right-click-marker-image");
 		this.map.osmMap.addOverlay( this.rightClickCursor.overlay );
 		
 		// Bind listeners for rightClickCursor
-		$( ".wpgmza-engine-map" ).on("mousemove", function(event) {
+		$(".wpgmza-engine-map").on("mousemove", function(event) {
 			var offset = $(this).offset();
             var x = event.pageX - offset.left;
             var y = event.pageY - offset.top;
@@ -41,24 +67,11 @@
             self.mouseCoordinates = {
                 x: x,
                 y: y
-            }
+            };
         });
 		
-		$( ".wpgmza-engine-map" ).bind('contextmenu',function(e) {
-			
-            var conversion = self.map.osmMap.getCoordinateFromPixel( [self.mouseCoordinates.x, self.mouseCoordinates.y] );
-
-            var coordinates = ol.proj.toLonLat( [ conversion[0], conversion[1] ] );
-
-			self.map.dispatchEvent({
-				type: "rightclick",
-				latLng: {
-					lat: coordinates[1],
-					lng: coordinates[0]
-				}
-			});
-			
-            return false;
+		$(".wpgmza-engine-map").bind("contextmenu", function(event) {
+			return self.onRightClick(event);
         });
 	}
 	
@@ -71,44 +84,58 @@
 	WPGMZA.OSMMapEditPage.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMMapEditPage.prototype.constructor = WPGMZA.OSMMapEditPage;
 	
-	WPGMZA.OSMMapEditPage.setPolyEditable = function(poly, editable)
+	WPGMZA.OSMMapEditPage.prototype.onRightClick = function(event)
 	{
-		if(osmModifyInteraction)
-		{
-			WPGMZA.mapEditPage.map.osmMap.removeInteraction(osmModifyInteraction);
-			osmModifyInteraction = false;
-		}
+		if($(event.target).closest("[data-wpgmza-layout-element]:not(.wpgmza-engine-map)").length)
+			return true;
 		
-		if(!editable)
-			return;
-		
-		var collection = new ol.Collection();
-		collection.push(poly.osmFeature);
-		
-		osmModifyInteraction = new ol.interaction.Modify({
-			features: collection,
-			deleteCondition: function(event) {
-			  return ol.events.condition.shiftKeyOnly(event) &&
-				  ol.events.condition.singleClick(event);
+		var conversion = this.map.osmMap.getCoordinateFromPixel( [this.mouseCoordinates.x, this.mouseCoordinates.y] );
+		var coordinates = ol.proj.toLonLat( [ conversion[0], conversion[1] ] );
+
+		this.map.dispatchEvent({
+			type: "rightclick",
+			latLng: {
+				lat: coordinates[1],
+				lng: coordinates[0]
 			}
 		});
 		
-		osmModifyInteraction.on("modifystart", function(event) {
-			poly.modified = true;
-		});
-		
-		WPGMZA.mapEditPage.map.osmMap.addInteraction(osmModifyInteraction);
+		return false;
 	}
 	
-	WPGMZA.OSMMapEditPage.prototype.finishEditingMapObject = function()
+	WPGMZA.OSMMapEditPage.prototype.onPolygonSettingChanged = function(event)
+	{
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polygon))
+			return;
+		
+		parentConstructor.prototype.onPolygonSettingChanged.call(this, event);
+		
+		this.editMapObjectTarget.updateStyleFromSettings();
+	}
+	
+	WPGMZA.OSMMapEditPage.prototype.onFinishEditingPolygon = function(event)
+	{
+		this.selectInteraction.getFeatures().clear();
+	}
+	
+	WPGMZA.OSMMapEditPage.prototype.onPolylineSettingChanged = function(event)
+	{
+		if(!(this.editMapObjectTarget instanceof WPGMZA.Polyline))
+			return;
+		
+		parentConstructor.prototype.onPolylineSettingChanged.call(this, event);
+		
+		this.editMapObjectTarget.updateStyleFromSettings();
+	}
+	
+	WPGMZA.OSMMapEditPage.prototype.finishEditingMapObject = function(clearSelectInteraction)
 	{
 		parentConstructor.prototype.finishEditingMapObject.call(this);
 		
-		if(this.osmModifyInteraction)
-		{
-			this.osmMap.removeInteraction(this.osmModifyInteraction);
-			this.osmModifyInteraction = null;
-		}
+		this.modifyInteraction.setActive(false);
+		
+		if(clearSelectInteraction === undefined || clearSelectInteraction == true)
+			WPGMZA.mapEditPage.selectInteraction.getFeatures().clear();
 	}
 	
 })(jQuery);

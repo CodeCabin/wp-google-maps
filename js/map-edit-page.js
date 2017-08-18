@@ -132,6 +132,8 @@
 		this.rightClickCursor = this.map.createMarkerInstance({
 			draggable: true
 		});
+		if(WPGMZA.OSMMapEditPage && this instanceof WPGMZA.OSMMapEditPage)
+			$(this.rightClickCursor.element).addClass("wpgmza-right-click-marker");
 		this.rightClickCursor.setVisible(false);
 		
 		function placeRightClickMarker(event) {
@@ -171,8 +173,8 @@
 		
 		// Polygon buttons
 		$("#draw-polygon").on("click", function(event) {
-            $('html, body').animate({
-                scrollTop: $('html').offset().top
+            $('body').animate({
+                scrollTop: $('.wpgmza-engine-map').offset().top
             }, 500);
 			self.onDrawPolygon(event); 
 		});
@@ -185,8 +187,8 @@
 		
 		// Polyline buttons
 		$("#draw-polyline").on("click", function(event) {
-            $('html, body').animate({
-                scrollTop: $('html').offset().top
+            $('body').animate({
+                scrollTop: $('.wpgmza-engine-map').offset().top
             }, 500);
 			self.onDrawPolyline(event);
 		});
@@ -259,6 +261,10 @@
 		
 		// Move polygon and polyline instructions from map edit panel into map element
 		$(".wpgmza-engine-map").append(
+			$("#wpgmza-markers-tab-instructions")
+		);
+		
+		$(".wpgmza-engine-map").append(
 			$("#polygon-instructions")
 		);
 		
@@ -318,6 +324,10 @@
 		// Layout system
 		var mouseX, mouseY;
 		
+		$("select[name='general_layout']").on("change", function(event) {
+			self.onGeneralLayoutChanged(event);
+		});
+		
 		$("[data-wpgmza-layout-element]").each(function(index, el) {
 			$(el).append($("<div class='wpgmza-layout-handle' data-for='" + $(el).attr("data-wpgmza-layout-element") + "'><i class='fa fa-arrows' aria-hidden='true'></i></div>"));
 		});
@@ -336,6 +346,18 @@
 			stop: function(event, ui) {
 				var el = document.elementFromPoint(mouseX, mouseY);
 				
+				function removeStyle(elem, name)
+				{
+					if (elem.style.removeProperty)
+						elem.style.removeProperty(name);
+					else
+						elem.style.removeAttribute(name);
+				}
+				
+				removeStyle(ui.item[0], "position");
+				removeStyle(ui.item[0], "left");
+				removeStyle(ui.item[0], "top");
+				
 				$("#wpgmza-map-container").removeClass("wpgmza-layout-dragging");
 				
 				if(!$(el).hasClass("wpgmza-cell") || $(el).attr("data-grid-postiion") == "center")
@@ -349,6 +371,19 @@
 				
 				$(el).append(ui.item);
 			}
+		});
+		
+		// When the user presses enter in the address input, 
+		$('form.wpgmza').on('keydown', function( e ){
+			if (e.keyCode == 13 && $(e.target).attr('name') == 'address') {
+				
+				if(!self.editMapObjectTarget || self.editMapObjectTarget.id == -1)
+					$("#add-marker").click();
+				else
+					$("#update-marker").click();
+				
+				return false;
+		    }	
 		});
 		
 		$(".wpgmza-engine-map").append($(".wpgmza-in-map-grid"));
@@ -438,7 +473,7 @@
 	// Marker Functions ///////////////////////
 	WPGMZA.MapEditPage.prototype.enableMarkerButtons = function(enable)
 	{
-		$("#marker-buttons button").prop("disabled", !enable);
+		$("#marker-buttons>button").prop("disabled", !enable);
 	}
 	
 	/**
@@ -640,6 +675,9 @@
 		$("#geocoder-error").hide();
 		
 		var geocoder = WPGMZA.Geocoder.createInstance();
+		
+		this.enableMarkerButtons(false);
+		
 		geocoder.getLatLngFromAddress({address: address}, function(latLng) {
 			if(!latLng)
 			{
@@ -1180,12 +1218,14 @@
 	
 	WPGMZA.MapEditPage.prototype.onBulkDeleteMarkers = function(event)
 	{
+		var self = this;
+		
 		$("#marker-table-container tbody>tr").each(function(index, el) {
 			if($(el).find(".mark").prop("checked") == false)
 				return;
 			
 			var marker_id = $(el).find("[data-marker-id]").attr("data-marker-id");
-			this.deleteMarkerByID(marker_id);
+			self.deleteMarkerByID(marker_id);
 		});
 		
 		this.markerTable.refresh();
@@ -1244,31 +1284,44 @@
 		this.editMapObjectTarget = null;
 	}
 	
+	
 	/**
-	 * Gets the layout information for serialization
+	 * Called when the user changes the general layout
 	 * @return void
 	 */
-	WPGMZA.MapEditPage.prototype.getLayout = function()
+	WPGMZA.MapEditPage.prototype.onGeneralLayoutChanged = function(event)
 	{
-		var elements = $(".wpgmza-map [data-wpgmza-layout-element]");
-		var data = {
-			order: [],
-			grid: {}
-		};
+		var self = this;
+		var layout = $(event.target).val();
 		
-		for(var i = 0; i < elements.length; i++)
+		// Remove old layout classes
+		$("select[name='general_layout']>option").each(function(index, el) {
+			$(self.map.element).removeClass($(el).val());
+		});
+		
+		// Add new layout class
+		$(self.map.element).addClass(layout);
+		
+		switch(layout)
 		{
-			var grid = $(elements[i]).closest(".wpgmza-in-map-grid");
-			var name = $(elements[i]).attr("data-wpgmza-layout-element");
-			
-			if(grid.length)
-				data.grid[ $(elements[i]).closest(".wpgmza-cell").attr("data-grid-position") ] = name;
-			else
-				data.order.push(name);
+			case "wpgmza-compact":
+				var layout = this.map.getLayout();
+				var index;
+				
+				if((index = layout.order.indexOf("marker-listing")) != -1)
+					layout.order.splice(index, 1);
+				
+				for(var position in layout.grid)
+					if(layout.grid[position] == "marker-listing")
+						delete layout.grid[position];
+				
+				layout.grid["center-right"] = "marker-listing";
+				
+				this.map.setLayout(layout);
+				
+				break;
 		}
-		
-		return data;
-	}
+	};
 	
 	/**
 	 * Gets all map object data as JSON to be submitted
@@ -1316,7 +1369,7 @@
 		
 		// Send layout
 		var layout = $("<input name='layout' type='hidden'/>");
-		layout.val(JSON.stringify(this.getLayout()));
+		layout.val(JSON.stringify(this.map.getLayout()));
 		$("form.wpgmza").append(layout);
 		
 		// Disable marker, polygon, polyline and heatmap inputs so they don't get sent to the server, they conflict with other inputs
@@ -1327,24 +1380,6 @@
 	}
 	
 	$(document).ready(function() {
-
-		$('form.wpgmza').on('keydown', function( e ){
-			if (e.keyCode == 13 ) {
-				if( $(e.target).attr('name') == 'address' ){
-					if( $("#add-marker").lengh > 0 ){
-						$("#add-marker").click();
-						return false;
-					} else if( $("#update-marker").length > 0 ){
-						$("#update-marker").click();
-						$("#cancel-marker-edit").click();
-						return false;
-					}
-				} else if( e.target.nodeName.match(/input/i) ) {
-			        return false;
-			    }
-		    }	
-		});
-		 
 
 		var pro = WPGMZA.isProVersion();
 		

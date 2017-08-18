@@ -37,8 +37,13 @@
 		var self = this;
 		var type, endEventType;
 		
+		WPGMZA.DrawingManager.prototype.setDrawingMode.call(this, mode);
+		
 		if(this.interaction)
+		{
 			this.map.osmMap.removeInteraction(this.interaction);
+			this.interaction = null;
+		}
 		
 		switch(mode)
 		{
@@ -70,6 +75,7 @@
 			source: this.source,
 			type: type
 		});
+		
 		this.interaction.on("drawend", function(event) {
 			if(!endEventType)
 				return;

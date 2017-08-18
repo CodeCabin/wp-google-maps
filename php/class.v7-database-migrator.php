@@ -45,7 +45,7 @@ class V7DatabaseMigrator
 		'styling_json'						=> 'theme_data',
 		'directions'						=> 'directions_box_enabled',
 		'directions_enabled'				=> 'directions_box_enabled',
-		'dbox'								=> 'directions_box_placement',
+		'dbox'								=> 'directions_box_open_by_default',
 		'dbox_width'						=> 'directions_box_width',
 		'listmarkers'						=> 'list_markers',
 		'listmarkers_advanced'				=> 'list_markers_advanced',
@@ -58,7 +58,11 @@ class V7DatabaseMigrator
 		'iw_primary_color'					=> 'info_window_primary_color',
 		'iw_accent_color'					=> 'info_window_accent_color',
 		'iw_text_color'						=> 'info_window_text_color',
-		'transport_layer'					=> 'transport'
+		'transport_layer'					=> 'transport',
+		
+		'rtlt_enabled'						=> 'user_location_tracking_enabled',
+		'upload_default_rtlt_marker'		=> 'user_location_tracking_icon',
+		'rtlt_route'						=> 'user_location_tracking_route'
 	);
 	
 	public function __construct()
@@ -199,6 +203,14 @@ class V7DatabaseMigrator
 					case 'traffic':
 						$original = $settings[$name];
 						$settings[$name] = ((int)$original == 2 ? 0 : 1);
+						break;
+						
+					case 'directions_box_open_by_default':
+						$settings[$name] = (empty($settings[$name]) || $settings[$name] == "1" ? 0 : 1);
+						break;
+						
+					case 'wpgmza_settings_remove_api':
+						$settings[$name] = ($settings[$name] == 'yes' ? 1 : 0);
 						break;
 						
 					case 'other_settings':

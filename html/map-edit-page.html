@@ -1,15 +1,16 @@
-<div id="wpgmza-map-edit-page">
+<div id="wpgmza-map-edit-page" data-wpgzma-wp-action-before="wpgmza_map_edit_page_before" data-wpgzma-wp-action-after="wpgmza_map_edit_page_after">
 	<div class="wpgmza-preloader main-preloader">
 		<div class="wpgmza-loader">Loading...</div>
 	</div>
 
 	<form method="POST" class="wpgmza" style="display: none;">
-		<button id="wpgmza-top-save" type="submit">
+		<button id="wpgmza-top-save" type="submit" >
 			<i class="fa fa-floppy-o" aria-hidden="true"></i>
 			Save Map
 		</button>
 
-		<h1>
+		<h1 data-wpgmza-wp-filter="wpgmza_map_edit_page_title_filter">
+
 			<?php
 			_e("WP Google Maps","wp-google-maps");
 			?>
@@ -29,7 +30,7 @@
 			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html';
 		?>"></div>
 	
-		<p class="wpgmza-big-save">
+		<p class="wpgmza-big-save" data-wpgmza-wp-filter="wpgmza_map_edit_page_big_button_save_filter">
 			<button type="submit" class="button button-primary">Save Map</button>
 		</p>
 		

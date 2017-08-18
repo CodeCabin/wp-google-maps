@@ -55,16 +55,36 @@
 			this.addLabel();
 	}
 	
+	/**
+	 * This function will hide the last info the user interacted with
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.hidePreviousInteractedInfoWindow = function()
+	{
+		if(!this.map.lastInteractedMarker)
+			return;
+		
+		this.map.lastInteractedMarker.infoWindow.close();
+	}
+	
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
 		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_CLICK)
+		{
+			this.hidePreviousInteractedInfoWindow();
 			this.infoWindow.open();
+			this.map.lastInteractedMarker = this;
+		}
 	}
 	
 	WPGMZA.Marker.prototype.onMouseOver = function(event)
 	{
 		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_HOVER)
+		{
+			this.hidePreviousInteractedInfoWindow();
 			this.infoWindow.open();
+			this.map.lastInteractedMarker = this;
+		}
 	}
 	
 	WPGMZA.Marker.prototype.getIcon = function()
@@ -128,6 +148,24 @@
 	WPGMZA.Marker.prototype.setVisible = function(visible)
 	{
 		
+	}
+	
+	/**
+	 * Gets the label text for this marker
+	 * @return void
+	 */
+	WPGMZA.Marker.prototype.getLabelText = function()
+	{
+		var chars = this.map.settings.marker_label_characters;
+		var count = chars.length;
+		var index;
+		
+		if(this.id > -1)
+			index = this.map.markerLabelOrder.indexOf(parseInt(this.id));
+		else
+			index = this.map.markers.length;
+		
+		return chars[index % count];
 	}
 	
 	/**

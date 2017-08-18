@@ -1,4 +1,4 @@
-<div id="wpgmza_tabs" class="wpgmza-accordion">
+<div id="wpgmza_tabs" data-wpgzma-wp-action-before="wpgmza_settings_tabs_before" data-wpgzma-wp-action-after="wpgmza_settings_tabs_after" class="wpgmza-accordion">
 	<!--<ul>
 		<li>
 			<a href="#general-settings">
@@ -59,7 +59,7 @@
 		_e("General Settings","wp-google-maps");
 		?>
 	</h3>
-	<div id="general-settings">
+	<div id="general-settings" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_general_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_general_after">
 		<fieldset>
 			<label><?php _e("Short code","wp-google-maps"); ?></label>
 			<div>
@@ -133,12 +133,33 @@
 			</span>
 		</fieldset>
 		
+		<fieldset>
+			<label>
+				<?php 
+				_e("General Layout", "wp-google-maps");
+				?>
+			</label>
+			<select name="general_layout">
+				<option value="">None</option>
+				<option value="wpgmza-compact"><?php _e("Compact", "wp-google-maps"); ?></option>
+				<option value="wpgmza-columns"><?php _e("Columns", "wp-google-maps"); ?></option>
+			</select>
+		</fieldset>
+		
 		<input name="start_location" type="hidden"/>
 		
 		<fieldset>
 			<label><?php _e("Zoom Level","wp-google-maps"); ?></label>
 			<input name="start_zoom" type="hidden"/>
 			<div id="zoom-level-slider"></div>
+		</fieldset>
+		<fieldset>
+			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
+			
+			<input name="min_zoom" type="hidden" value="1"/>
+			<input name="max_zoom" type="hidden" value="21"/>
+		
+			<div id="zoom-range-slider"/>
 		</fieldset>
 		
 		<fieldset>
@@ -179,7 +200,7 @@
 		_e("Themes","wp-google-maps");
 		?>
 	</h3>
-	<div id="themes">
+	<div id="themes" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_themes_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_themes_after">
 		<h3><?php _e("Select a theme for your map", "wp-google-maps"); ?></h3>
 		
 		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
@@ -259,7 +280,7 @@
 		_e("Directions","wp-google-maps");
 		?>
 	</h3>
-	<div id="directions">
+	<div id="directions" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_directions_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_directions_after">
 		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
 	
 		<div class="update-nag update-att wpgmza-free-version-only">
@@ -291,16 +312,16 @@
 					</label>
 				</div>
 			</fieldset>
-			<!--<fieldset>
+			<fieldset>
 				<label><?php _e("Directions Box Open by Default?", "wp-google-maps"); ?></label>
-				<select name="directions_box_placement" class="postform" disabled>
-					<option value="1">No</option>
-					<option value="2">Yes, on the left</option>
-					<option value="3">Yes, on the right</option>
-					<option value="4">Yes, above</option>
-					<option value="5">Yes, below</option>
-				</select>
-			</fieldset>-->
+				<div class="switch grey-out">
+					<input name="directions_box_open_by_default" type="checkbox" class="cmn-toggle cmn-toggle-yes-no disabled"/>
+					<label class="cmn-override-big"
+						data-on="<?php _e('Yes', "wp-google-maps"); ?>"
+						data-off="<?php _e('No', "wp-google-maps"); ?>">
+					</label>
+				</div>
+			</fieldset>
 			<!--<fieldset>
 				<label><?php _e("Directions Box Width", "wp-google-maps"); ?></label>
 				
@@ -365,7 +386,7 @@
 		_e("Store Locator","wp-google-maps");
 		?>
 	</h3>
-	<div id="store-locator">
+	<div id="store-locator" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_store_locator_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_store_locator_after">
 		<h3>
 			<?php
 			_e('General Options', 'wp-google-maps');
@@ -691,7 +712,7 @@
 		_e("Advanced Settings","wp-google-maps");
 		?>
 	</h3>
-	<div id="advanced-settings">
+	<div id="advanced-settings" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_advanced_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_advanced_after">
 		<fieldset>
 			<label><?php _e("Enable Bicycle Layer?", "wp-google-maps"); ?></label>
 			<div class="switch">
@@ -724,14 +745,6 @@
 					data-off="<?php _e('No', 'wp-google-maps'); ?>">
 				</label>
 			</div>
-		</fieldset>
-		<fieldset>
-			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
-			
-			<input name="min_zoom" type="hidden" value="1"/>
-			<input name="max_zoom" type="hidden" value="21"/>
-		
-			<div id="zoom-range-slider"/>
 		</fieldset>
 		<fieldset class="wpgmza-engine-google-maps-only">
 			<label for="show_points_of_interest">
@@ -840,7 +853,7 @@
 		_e("Marker Listing Options","wp-google-maps");
 		?>
 	</h3>
-	<div id="marker-listing-options">
+	<div id="marker-listing-options" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_markerlisting_options_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_markerlisting_options_after">
 		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"> </i>
 			
@@ -951,7 +964,7 @@
 		<fieldset>
 			<label><?php _e("Order markers by", "wp-google-maps"); ?></label>
 			<div>
-				<select disabled name="order_markers_by">
+				<select disabled name="order_markers_by" data-wpgmza-wp-filter="wpgmza_order_markers_by_setting_filter">
 					<option value="1"><?php _e("ID", "wp-google-maps"); ?></option>
 					<option value="2"><?php _e("Title", "wp-google-maps"); ?></option>
 					<option value="3"><?php _e("Address", "wp-google-maps"); ?></option>

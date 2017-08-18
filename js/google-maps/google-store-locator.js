@@ -1,15 +1,19 @@
 (function($) {
 	
+	var parentConstructor;
+	
 	/**
 	 * Constructor
 	 * @param map The map this store locator is attached to
 	 */
 	WPGMZA.GoogleStoreLocator = function(map)
 	{
-		WPGMZA.StoreLocator.call(this, map);
+		parentConstructor.call(this, map);
 	}
 	
-	WPGMZA.GoogleStoreLocator.prototype = Object.create(WPGMZA.StoreLocator.prototype);
+	parentConstructor = (WPGMZA.isProVersion() ? WPGMZA.ProStoreLocator : WPGMZA.StoreLocator);
+	
+	WPGMZA.GoogleStoreLocator.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.GoogleStoreLocator.prototype.constructor = WPGMZA.GoogleStoreLocator;
 	
 	/**

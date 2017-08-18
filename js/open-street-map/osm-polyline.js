@@ -16,8 +16,6 @@
 		}
 		else
 		{
-			this.osmFeature = new ol.Feature();
-			
 			var coordinates = [];
 			
 			if(row && row.points)
@@ -31,28 +29,23 @@
 					]));
 			}
 			
-			var params = {};
-			
-			if(this.settings.strokeOpacity)
-				params.stroke = new ol.style.Stroke({
-					color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity),
-					width: parseInt(this.settings.strokeWeight)
-				});
-			
+			var params = this.getStyleFromSettings();
 			this.osmStyle = new ol.style.Style(params);
+			
+			this.osmFeature = new ol.Feature({
+				geometry: new ol.geom.LineString(coordinates)
+			});
 		}
-		
-		this.osmFeature = new ol.Feature({
-			geometry: new ol.geom.LineString(coordinates)
-		});
-		
-		this.osmFeature.wpgmzaPolyline = this;
 		
 		this.layer = new ol.layer.Vector({
 			source: new ol.source.Vector({
 				features: [this.osmFeature]
 			}),
 			style: this.osmStyle
+		});
+		
+		this.layer.getSource().getFeatures()[0].setProperties({
+			wpgmzaPolyling: this
 		});
 	}
 	
@@ -61,9 +54,30 @@
 	WPGMZA.OSMPolyline.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMPolyline.prototype.constructor = WPGMZA.OSMPolyline;
 	
+	WPGMZA.OSMPolyline.prototype.getStyleFromSettings = function()
+	{
+		var params = {};
+		
+		if(this.settings.strokeOpacity)
+			params.stroke = new ol.style.Stroke({
+				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity),
+				width: parseInt(this.settings.strokeWeight)
+			});
+			
+		return params;
+	}
+	
+	WPGMZA.OSMPolyline.prototype.updateStyleFromSettings = function()
+	{
+		// Re-create the style - working on it directly doesn't cause a re-render
+		var params = this.getStyleFromSettings();
+		this.osmStyle = new ol.style.Style(params);
+		this.layer.setStyle(this.osmStyle);
+	}
+	
 	WPGMZA.OSMPolyline.prototype.setEditable = function(editable)
 	{
-		WPGMZA.OSMMapEditPage.setPolyEditable(this, editable);
+		
 	}
 	
 	WPGMZA.OSMPolyline.prototype.setPoints = function(points)

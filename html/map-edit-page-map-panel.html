@@ -8,8 +8,8 @@
 	<div>
 		<div id="wpgmza-map-container"/>
 	
-		<div id="map-edit-tabs" class="wpgmza-tabs">
-			<ul>
+		<div id="map-edit-tabs" class="wpgmza-tabs" data-wpgzma-wp-action-before="wpgmza_map_editor_tab_container_before" data-wpgzma-wp-action-after="wpgmza_map_editor_tab_container_after">
+			<ul data-wpgzma-wp-action-before="wpgmza_map_editor_tab_before" data-wpgzma-wp-action-after="wpgmza_map_editor_tab_after">
 				<li>
 					<a href="#wpgmza-markers-tab">
 						<?php
@@ -53,7 +53,7 @@
 					</a>
 				</li>
 			</ul>
-			<div id="wpgmza-markers-tab" class="add-marker no-submit">
+			<div id="wpgmza-markers-tab" class="add-marker no-submit" data-wpgzma-wp-action-before="wpgmza_markers_tab_before" data-wpgzma-wp-action-after="wpgmza_markers_tab_after">
 				<fieldset class="wpgmza-pro-version-only">
 					<label>
 						<?php
@@ -139,8 +139,8 @@
 					</button>
 					
 					<button id="cancel-marker-edit" type="button" class="update-marker button button-primary">
-						<i class="fa fa-times" aria-hidden="true"></i>
-						<?php _e("Cancel Edit", "wp-google-maps"); ?>
+						<i class="fa fa-check-circle" aria-hidden="true"></i>
+						<?php _e("Finish Editing", "wp-google-maps"); ?>
 					</button>
 					
 					<button id="delete-marker" type="button" class="delete-marker button button-primary">
@@ -153,7 +153,7 @@
 					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';
 				?>"></div>
 			</div>
-			<div id="advanced-markers" class="wpgmza-free-version-only no-submit">
+			<div id="advanced-markers" class="wpgmza-free-version-only no-submit" data-wpgzma-wp-action-before="wpgmza_advanced_markers_before" data-wpgzma-wp-action-after="wpgmza_advanced_markers_after">
 				<div class="update-nag update-att">
 					<i class="fa fa-arrow-circle-right"></i>
 					<a target="_blank" href="<?php
@@ -334,7 +334,7 @@
 					?>
 				</div>
 			</div>
-			<div id="polygons" class="add-polygon no-submit">
+			<div id="polygons" class="add-polygon no-submit" data-wpgzma-wp-action-before="wpgmza_polygons_tab_before" data-wpgzma-wp-action-after="wpgmza_polygons_tab_after">
 				<fieldset>
 					<label>
 						<?php _e("Name", "wp-google-maps"); ?>
@@ -455,7 +455,7 @@
 					</button>
 				</fieldset>
 			</div>
-			<div id="polylines" class="add-polyline no-submit">
+			<div id="polylines" class="add-polyline no-submit" data-wpgzma-wp-action-before="wpgmza_polylines_tab_before" data-wpgzma-wp-action-before="wpgmza_polylines_tab_after">
 				<fieldset>
 					<label>
 						<?php
@@ -544,9 +544,39 @@
 				</div>
 			</div>
 			
-			<div id="settings" smart:import-php="<?php 
+			<div id="settings" data-wpgzma-wp-action-before="wpgmza_settings_tab_before" data-wpgzma-wp-action-after="wpgmza_settings_tab_after" smart:import-php="<?php 
 				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html'; 
 			?>"></div>
+		</div>
+		
+		<div id="wpgmza-markers-tab-instructions" class="update-nag update-blue update-slim">
+			<ul>
+				<li>
+					<?php
+					_e('Enter an address and click "add marker"', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Or right click on the map then "add marker"', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Click on any marker to edit it', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Save changes by clicking "Update Marker"', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Delete the marker using the button below', 'wp-google-maps');
+					?>
+				</li>
+			</ul>
 		</div>
 		
 		<div id="polygon-instructions" class="update-nag update-blue update-slim">
@@ -554,6 +584,11 @@
 				<li>
 					<?php
 					_e('Click "Draw Polygon" to start drawing', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Click on a polygon to edit it', 'wp-google-maps');
 					?>
 				</li>
 				<li>
@@ -581,6 +616,11 @@
 					_e('Close the polygon to finish', 'wp-google-maps');
 					?>
 				</li>
+				<li>
+					<?php
+					_e('To delete a polygon use the button below', 'wp-google-maps');
+					?>
+				</li>
 			</ul>
 		</div>
 		
@@ -589,6 +629,11 @@
 				<li>
 					<?php
 					_e('Click "Draw Polyline" to start drawing', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('Click on a polyline to edit it', 'wp-google-maps');
 					?>
 				</li>
 				<li>
@@ -614,6 +659,11 @@
 				<li>
 					<?php
 					_e('Click your last vertex twice to finish', 'wp-google-maps');
+					?>
+				</li>
+				<li>
+					<?php
+					_e('To delete a polyline use the button below', 'wp-google-maps');
 					?>
 				</li>
 			</ul>

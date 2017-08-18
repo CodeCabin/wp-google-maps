@@ -16,8 +16,6 @@
 		}
 		else
 		{
-			this.osmFeature = new ol.Feature();
-			
 			var coordinates = [[]];
 			
 			if(row && row.points)
@@ -30,19 +28,7 @@
 						parseFloat(paths[i].lat)
 					]));
 				
-				var params = {};
-				
-				if(this.settings.strokeOpacity)
-					params.stroke = new ol.style.Stroke({
-						color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity)
-					});
-				
-				if(this.settings.fillOpacity)
-					params.fill = new ol.style.Fill({
-						color: WPGMZA.hexOpacityToRGBA(this.settings.fillColor, this.settings.fillOpacity)
-					});
-			
-				this.osmStyle = new ol.style.Style(params);
+				this.osmStyle = new ol.style.Style(this.getStyleFromSettings());
 			}
 			
 			this.osmFeature = new ol.Feature({
@@ -50,13 +36,15 @@
 			});
 		}
 		
-		this.osmFeature.wpgmzaPolygon = this;
-		
 		this.layer = new ol.layer.Vector({
 			source: new ol.source.Vector({
 				features: [this.osmFeature]
 			}),
 			style: this.osmStyle
+		});
+		
+		this.layer.getSource().getFeatures()[0].setProperties({
+			wpgmzaPolygon: this
 		});
 	}
 	
@@ -68,9 +56,34 @@
 	WPGMZA.OSMPolygon.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMPolygon.prototype.constructor = WPGMZA.OSMPolygon;
 
+	WPGMZA.OSMPolygon.prototype.getStyleFromSettings = function()
+	{
+		var params = {};
+				
+		if(this.settings.strokeOpacity)
+			params.stroke = new ol.style.Stroke({
+				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity)
+			});
+		
+		if(this.settings.fillOpacity)
+			params.fill = new ol.style.Fill({
+				color: WPGMZA.hexOpacityToRGBA(this.settings.fillColor, this.settings.fillOpacity)
+			});
+			
+		return params;
+	}
+	
+	WPGMZA.OSMPolygon.prototype.updateStyleFromSettings = function()
+	{
+		// Re-create the style - working on it directly doesn't cause a re-render
+		var params = this.getStyleFromSettings();
+		this.osmStyle = new ol.style.Style(params);
+		this.layer.setStyle(this.osmStyle);
+	}
+	
 	WPGMZA.OSMPolygon.prototype.setEditable = function(editable)
 	{
-		WPGMZA.OSMMapEditPage.setPolyEditable(this, editable);
+		
 	}
 	
 	WPGMZA.OSMPolygon.prototype.toJSON = function()

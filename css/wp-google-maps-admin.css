@@ -441,7 +441,3 @@ input.cmn-toggle-yes-no:checked + label:after {
 #wpgmza_store_locator_default_radius_mi.active {
     display: block;
 }
-
-.osm-marker>img {
-  bottom: -7px !important;
-}

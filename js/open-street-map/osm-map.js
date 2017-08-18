@@ -64,6 +64,29 @@
 			self.onBoundsChanged();
 		});
 		self.onBoundsChanged();
+		
+		// Store locator center
+		var marker;
+		if(this.storeLocator && (marker = this.storeLocator.centerPointMarker))
+		{
+			this.osmMap.addOverlay(marker.overlay);
+			marker.setVisible(false);
+		}
+		
+		// When the user uses the mousewheel to zoom, temporarily disable pointer events on OSM markers
+		var mouseWheelTimeoutID;
+		
+		if(!WPGMZA.wheelZoomFixCSS)
+			WPGMZA.wheelZoomFixCSS = $("<style type='text/css'>.osm-marker { pointer-events: none; }</style>");
+		
+		$(this.element).on("mousewheel", function(event) {
+			$(document.head).append(WPGMZA.wheelZoomFixCSS);
+			
+			clearTimeout(mouseWheelTimeoutID);
+			mouseWheelTimeoutID = setTimeout(function() {
+				WPGMZA.wheelZoomFixCSS.remove();
+			}, 500);
+		});
 	}
 
 	if(WPGMZA.isProVersion())
@@ -118,11 +141,15 @@
 	WPGMZA.OSMMap.prototype.setCenter = function(latLng)
 	{
 		var view = this.osmMap.getView();
+		
 		view.setCenter(ol.proj.fromLonLat([
 			latLng.lng,
 			latLng.lat
 		]));
+		
 		this.wrapLongitude();
+
+		this.onBoundsChanged();
 	}
 	
 	WPGMZA.OSMMap.prototype.panTo = function(latLng)
@@ -246,6 +273,11 @@
 			
 			this.osmMap.removeLayer(this.bicycleLayer);
 		}
+	}
+	
+	WPGMZA.OSMMap.prototype.onElementResized = function(event)
+	{
+		this.osmMap.updateSize();
 	}
 	
 })(jQuery);

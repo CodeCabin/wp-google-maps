@@ -48,4 +48,9 @@
 		return true;
 	}
 	
+	WPGMZA.GoogleInfoWindow.prototype.close = function()
+	{
+		this.googleInfoWindow.close();
+	}
+	
 })(jQuery);
