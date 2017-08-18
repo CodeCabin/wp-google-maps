@@ -23,7 +23,7 @@ class Installer
 		'title'			=> 'VARCHAR(55) NOT NULL',
 		'settings'		=> 'LONGTEXT'
 	);
-	
+
 	public static $POLYGON_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
 		'map_id'		=> 'int(11) NOT NULL',
@@ -33,7 +33,7 @@ class Installer
 		'points'		=> 'POLYGON',
 		'settings'		=> 'TEXT'
 	);
-	
+
 	public static $POLYLINE_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
 		'map_id'		=> 'int(11) NOT NULL',
