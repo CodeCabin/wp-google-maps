@@ -34,13 +34,6 @@
 						?>
 					</a>
 				</li>
-				<li>
-					<a href="#errorlog">
-						<?php
-						_e('Error Log', 'wp-google-maps');
-						?>
-					</a>
-				</li>
 			</ul>
 			
 			<div id="maps" data-wpgmza-wp-action-before="wpgmza_map_settings_maps_before" data-wpgmza-wp-action-after="wpgmza_map_settings_maps_after">
@@ -643,23 +636,6 @@
 					</div>
 				</fieldset>
 				
-			</div>
-			<div id="errorlog" data-wpgmza-wp-action-before="wpgmza_map_settings_errorlog_before" data-wpgmza-wp-action-after="wpgmza_map_settings_errorlog_after">
-				<h3>
-					<?php
-					_e("WP Google Maps Error log","wp-google-maps");
-					?>
-				</h3>
-				<p>
-					<?php
-					_e("Having issues? Perhaps something below can give you a clue as to what's wrong. Alternatively, email this through to nick@wpgmaps.com for help!","wp-google-maps");
-					?>
-				</p>
-				<textarea style='width:100%; height:600px;' readonly>
-					<?php
-					// TODO: Get error log here (see wpgmza_return_error_log)
-					?>
-				</textarea>
 			</div>
 		</div>
 		

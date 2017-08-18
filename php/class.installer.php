@@ -18,15 +18,11 @@ class Installer
 		'latlng'		=> 'POINT NOT NULL'
 	);
 
-	$MARKER_COLUMNS = apply_filters( 'wpgmza_installer_marker_columns_filter', $MARKER_COLUMNS );
-	
 	public static $MAP_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
 		'title'			=> 'VARCHAR(55) NOT NULL',
 		'settings'		=> 'LONGTEXT'
 	);
-
-	$MAP_COLUMNS = apply_filters( 'wpgmza_installer_map_columns_filter', $MAP_COLUMNS );
 	
 	public static $POLYGON_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
@@ -37,8 +33,6 @@ class Installer
 		'points'		=> 'POLYGON',
 		'settings'		=> 'TEXT'
 	);
-
-	$POLYGON_COLUMNS = apply_filters( 'wpgmza_installer_polygon_columns_filter', $POLYGON_COLUMNS );
 	
 	public static $POLYLINE_COLUMNS = array(
 		'id'			=> 'int(11) NOT NULL AUTO_INCREMENT',
@@ -48,11 +42,12 @@ class Installer
 		'settings'		=> 'TEXT'
 	);
 
-	$POLYLINE_COLUMNS = apply_filters( 'wpgmza_installer_polyline_columns_filter', $POLYLINE_COLUMNS );
-	
 	public function __construct()
 	{
-		
+		Installer::$MARKER_COLUMNS = apply_filters( 'wpgmza_installer_marker_columns_filter', $MARKER_COLUMNS );
+		Installer::$MAP_COLUMNS = apply_filters( 'wpgmza_installer_map_columns_filter', $MAP_COLUMNS );
+		Installer::$POLYGON_COLUMNS = apply_filters( 'wpgmza_installer_polygon_columns_filter', $POLYGON_COLUMNS );
+		Installer::$POLYLINE_COLUMNS = apply_filters( 'wpgmza_installer_polyline_columns_filter', $POLYLINE_COLUMNS );
 	}
 	
 	protected function nameAndDefinitionArrayToSQL($columns)

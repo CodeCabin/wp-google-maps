@@ -452,6 +452,9 @@ class Plugin
 			
 			$element->import($content);
 			
+			if(!$prevLast)
+				continue;
+			
 			for($iter = $prevLast->nextSibling; $iter != null; $iter = $next)
 			{
 				$next = $iter->nextSibling;
