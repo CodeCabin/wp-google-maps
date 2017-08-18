@@ -17,7 +17,7 @@ class StoreLocator extends FrontendUIElement
 			'wpgmza-core'
 		));
 
-		do_action( 'wpgmza_basic_load_store_locator')
+		do_action( 'wpgmza_basic_load_store_locator');
 	}
 }
 

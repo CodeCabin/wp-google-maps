@@ -1,4 +1,4 @@
-<div id="wpgmza_tabs" data-wpgzma-wp-action-before="wpgmza_settings_tabs_before" data-wpgzma-wp-action-after="wpgmza_settings_tabs_after" class="wpgmza-accordion">
+<div id="wpgmza_tabs" data-wpgmza-wp-action-before="wpgmza_settings_tabs_before" data-wpgmza-wp-action-after="wpgmza_settings_tabs_after" class="wpgmza-accordion">
 	<!--<ul>
 		<li>
 			<a href="#general-settings">
@@ -59,7 +59,7 @@
 		_e("General Settings","wp-google-maps");
 		?>
 	</h3>
-	<div id="general-settings" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_general_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_general_after">
+	<div id="general-settings" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_general_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_general_after">
 		<fieldset>
 			<label><?php _e("Short code","wp-google-maps"); ?></label>
 			<div>
@@ -153,14 +153,6 @@
 			<input name="start_zoom" type="hidden"/>
 			<div id="zoom-level-slider"></div>
 		</fieldset>
-		<fieldset>
-			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
-			
-			<input name="min_zoom" type="hidden" value="1"/>
-			<input name="max_zoom" type="hidden" value="21"/>
-		
-			<div id="zoom-range-slider"/>
-		</fieldset>
 		
 		<fieldset>
 			<label><?php _e("Map Alignment","wp-google-maps"); ?></label>
@@ -200,7 +192,7 @@
 		_e("Themes","wp-google-maps");
 		?>
 	</h3>
-	<div id="themes" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_themes_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_themes_after">
+	<div id="themes" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_themes_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_themes_after">
 		<h3><?php _e("Select a theme for your map", "wp-google-maps"); ?></h3>
 		
 		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
@@ -280,7 +272,7 @@
 		_e("Directions","wp-google-maps");
 		?>
 	</h3>
-	<div id="directions" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_directions_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_directions_after">
+	<div id="directions" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_directions_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_directions_after">
 		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
 	
 		<div class="update-nag update-att wpgmza-free-version-only">
@@ -386,7 +378,7 @@
 		_e("Store Locator","wp-google-maps");
 		?>
 	</h3>
-	<div id="store-locator" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_store_locator_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_store_locator_after">
+	<div id="store-locator" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_store_locator_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_store_locator_after">
 		<h3>
 			<?php
 			_e('General Options', 'wp-google-maps');
@@ -712,7 +704,7 @@
 		_e("Advanced Settings","wp-google-maps");
 		?>
 	</h3>
-	<div id="advanced-settings" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_advanced_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_advanced_after">
+	<div id="advanced-settings" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_advanced_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_advanced_after">
 		<fieldset>
 			<label><?php _e("Enable Bicycle Layer?", "wp-google-maps"); ?></label>
 			<div class="switch">
@@ -745,6 +737,14 @@
 					data-off="<?php _e('No', 'wp-google-maps'); ?>">
 				</label>
 			</div>
+		</fieldset>
+		<fieldset>
+			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
+			
+			<input name="min_zoom" type="hidden" value="1"/>
+			<input name="max_zoom" type="hidden" value="21"/>
+		
+			<div id="zoom-range-slider"/>
 		</fieldset>
 		<fieldset class="wpgmza-engine-google-maps-only">
 			<label for="show_points_of_interest">
@@ -853,7 +853,7 @@
 		_e("Marker Listing Options","wp-google-maps");
 		?>
 	</h3>
-	<div id="marker-listing-options" data-wpgzma-wp-action-before="wpgmza_map_editor_settings_markerlisting_options_before" data-wpgzma-wp-action-after="wpgmza_map_editor_settings_markerlisting_options_after">
+	<div id="marker-listing-options" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_markerlisting_options_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_markerlisting_options_after">
 		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"> </i>
 			
