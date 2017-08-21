@@ -195,7 +195,7 @@
 	<div id="themes" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_themes_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_themes_after">
 		<h3><?php _e("Select a theme for your map", "wp-google-maps"); ?></h3>
 		
-		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
+		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html.php'; ?>"/>
 		
 		<div class="wpgmza-engine-google-maps-only">
 			<ul class="presets">
@@ -273,7 +273,7 @@
 		?>
 	</h3>
 	<div id="directions" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_directions_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_directions_after">
-		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
+		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html.php'; ?>"/>
 	
 		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"></i>

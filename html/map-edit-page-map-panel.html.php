@@ -150,7 +150,7 @@
 				</fieldset>
 				
 				<div smart:import-php="<?php
-					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';
+					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html.php';
 				?>"></div>
 			</div>
 			<div id="advanced-markers" class="wpgmza-free-version-only no-submit" data-wpgmza-wp-action-before="wpgmza_advanced_markers_before" data-wpgmza-wp-action-after="wpgmza_advanced_markers_after">
@@ -545,7 +545,7 @@
 			</div>
 			
 			<div id="settings" data-wpgmza-wp-action-before="wpgmza_settings_tab_before" data-wpgmza-wp-action-after="wpgmza_settings_tab_after" smart:import-php="<?php 
-				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html'; 
+				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html.php'; 
 			?>"></div>
 		</div>
 		

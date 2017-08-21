@@ -9,7 +9,7 @@ class APIKeyWarning extends Smart\Document
 	public function __construct()
 	{
 		Smart\Document::__construct();
-		$this->loadPHPFile(WPGMZA_DIR . 'html/api-key-warning.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/api-key-warning.html.php');
 		
 		if(isset($_POST['wpgmza_google_maps_api_key']) && is_admin())
 		{

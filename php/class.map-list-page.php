@@ -18,7 +18,7 @@ class MapListPage extends AdminPage
 		
 		Plugin::$statistics->touch('list_maps_basic');
 		
-		$this->loadPHPFile(WPGMZA_DIR . 'html/map-list-page.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/map-list-page.html.php');
 		
 		// Feedback thank you
 		if(!(isset($_COOKIE['wpgmza_feedback_thanks']) && $_COOKIE['wpgmza_feedback_thanks'] == 'true')

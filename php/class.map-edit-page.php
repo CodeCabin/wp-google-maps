@@ -73,6 +73,8 @@ class MapEditPage extends AdminPage
 		
 		$this->querySelector('.wpgmza-map')->setAttribute('data-right-click-marker-image', WPGMZA_BASE . 'images/right-click-marker.png');
 		
+		file_put_contents('debug.log.html', $this->saveHTML());
+		
 		// Add marker table
 		$this->querySelector('#marker-table-container')->import(
 			$this->map->tables->marker
@@ -94,8 +96,9 @@ class MapEditPage extends AdminPage
 	
 	protected function loadHTMLContent()
 	{
-		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/map-edit-page.html.php');
 		
+		apply_filters('wpgmza_map_edit_page_init', $this);
 		apply_filters('wpgmza_output_filter', $this->map);
 	}
 	
@@ -188,17 +191,25 @@ class MapEditPage extends AdminPage
 		$map->settings->width = $_POST['width_amount'] . $_POST['width_units'];
 		$map->settings->height = $_POST['height_amount'] . $_POST['height_units'];
 		
-		foreach( apply_filters( 'wpgmza_form_submitted_post_data', $_POST ) as $key => $value)
-		{
+		$data = apply_filters('wpgmza_form_submitted_post_data', $_POST);
+		foreach($data as $key => $value)
+		{			
 			if(array_search($key, $exclude) !== false)
 				continue;
 			
-			$map->settings->{$key} = stripslashes($value);
+			if(is_string($value))
+				$value = stripslashes($value);
+			
+			$map->settings->{$key} = $value;
 		}
 		
 		foreach($this->querySelectorAll('input[type="checkbox"][name]') as $input)
 		{
 			$name = $input->getAttribute('name');
+			
+			if(array_search($name, $exclude) !== false)
+				continue;
+			
 			$map->settings->{$name} = isset($_POST[$name]);
 		}
 		
@@ -260,6 +271,8 @@ class MapEditPage extends AdminPage
 		}
 		
 		$map->save($map_objects);
+		
+		do_action('wpgmza_map_edit_page_save', $this);
 		
 		Plugin::trackUsage();
 	}

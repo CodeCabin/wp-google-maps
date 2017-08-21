@@ -125,10 +125,10 @@ class Document extends \DOMDocument
 	 */
 	protected function handleImport($subject, $node, $forcePHP=false)
 	{
-		if(preg_match('/\.html$/i', $subject))
+		if(preg_match('/\.html(\.php)?$/i', $subject))
 		{
 			if(!file_exists($subject))
-				throw new \Exception("File '$subject' not found");
+				throw new \Exception("File '$subject' not found in {$this->src_file} line " . $node->getLineNo());
 			
 			$node->import($subject, $forcePHP);
 			
@@ -151,21 +151,18 @@ class Document extends \DOMDocument
 				$reflection = new \ReflectionClass($class);
 				$filename = $reflection->getFileName();
 				
-				if(realpath($filename) == realpath($page_php_filename))
+				if(realpath($filename) == realpath($subject))
 					array_push($classes_in_file, $class);
 			}
 			
 			if(empty($classes_in_file))
-				throw new \Exception("No classes defined in $page_php_filename to import");
-			
-			/*if(count($classes_in_file) > 1)
-				throw new \Exception("Don't know which class to import in $page_php_filename");*/
+				throw new \Exception('No classes found in file');
 			
 			$class_name = $classes_in_file[ count($classes_in_file) - 1 ];
 			$instance = new $class_name();
 			
 			if(!($instance instanceof Document))
-				throw new \Exception('Class must be an instance of Smart\\Page');
+				throw new \Exception('Class must be an instance of Smart\\Document');
 			
 			$node->import($instance);
 			

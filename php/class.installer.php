@@ -44,10 +44,10 @@ class Installer
 
 	public function __construct()
 	{
-		Installer::$MARKER_COLUMNS = apply_filters( 'wpgmza_installer_marker_columns_filter', $MARKER_COLUMNS );
-		Installer::$MAP_COLUMNS = apply_filters( 'wpgmza_installer_map_columns_filter', $MAP_COLUMNS );
-		Installer::$POLYGON_COLUMNS = apply_filters( 'wpgmza_installer_polygon_columns_filter', $POLYGON_COLUMNS );
-		Installer::$POLYLINE_COLUMNS = apply_filters( 'wpgmza_installer_polyline_columns_filter', $POLYLINE_COLUMNS );
+		Installer::$MARKER_COLUMNS = apply_filters( 'wpgmza_installer_marker_columns_filter', Installer::$MARKER_COLUMNS );
+		Installer::$MAP_COLUMNS = apply_filters( 'wpgmza_installer_map_columns_filter', Installer::$MAP_COLUMNS );
+		Installer::$POLYGON_COLUMNS = apply_filters( 'wpgmza_installer_polygon_columns_filter', Installer::$POLYGON_COLUMNS );
+		Installer::$POLYLINE_COLUMNS = apply_filters( 'wpgmza_installer_polyline_columns_filter', Installer::$POLYLINE_COLUMNS );
 	}
 	
 	protected function nameAndDefinitionArrayToSQL($columns)

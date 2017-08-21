@@ -13,7 +13,7 @@ class SettingsPage extends AdminPage
 	public function __construct()
 	{
 		Smart\Document::__construct();
-		$this->loadPHPFile(WPGMZA_DIR . 'html/settings-page.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/settings-page.html.php');
 		
 		do_action('wpgmza_init_settings_page', $this);
 		

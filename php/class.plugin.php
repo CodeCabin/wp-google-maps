@@ -301,7 +301,7 @@ class Plugin
 		if(get_user_meta(get_current_user_id(),"wpgmza_subscribed"))
 			return $links;
 		
-		$html = Plugin::evaluateHTMLFile(WPGMZA_DIR . 'html/newsletter-signup.html');
+		$html = Plugin::evaluateHTMLFile(WPGMZA_DIR . 'html/newsletter-signup.html.php');
 		
 		array_push($links, $html);
 		
@@ -392,7 +392,7 @@ class Plugin
 						break;
 					
 					case 'support':
-						$document->loadPHPFile(WPGMZA_DIR . 'html/support-menu.html');
+						$document->loadPHPFile(WPGMZA_DIR . 'html/support-menu.html.php');
 						break;
 						
 					default:
@@ -511,7 +511,7 @@ class Plugin
 				
 			case 'credits':
 				$document = new Smart\Document();
-				$document->loadPHPFile(WPGMZA_DIR . 'html/credits.html');
+				$document->loadPHPFile(WPGMZA_DIR . 'html/credits.html.php');
 				break;
 				
 			case 'edit':

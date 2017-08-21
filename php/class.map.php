@@ -31,7 +31,7 @@ class Map extends Smart\Document
 		
 		$this->enqueueScripts();
 		
-		$this->loadPHPFile(WPGMZA_DIR . 'html/map.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/map.html.php');
 		$this->root = $this->querySelector('.wpgmza-map');
 		
 		// Fetch map data from database

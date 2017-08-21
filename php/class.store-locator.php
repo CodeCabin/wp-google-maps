@@ -12,7 +12,7 @@ class StoreLocator extends FrontendUIElement
 		
 		$this->map = $map;
 		
-		$this->loadPHPFile($this->getHTMLFilename(WPGMZA_DIR, 'store-locator.html'));
+		$this->loadPHPFile($this->getHTMLFilename(WPGMZA_DIR, 'store-locator.html.php'));
 		wp_enqueue_script('wpgmza-store-locator', WPGMZA_BASE . 'js/store-locator.js', array(
 			'wpgmza-core'
 		));
