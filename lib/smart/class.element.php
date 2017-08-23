@@ -180,13 +180,13 @@ class Element extends \DOMElement
 		{
 			$node = $this->ownerDocument->importNode($subject, true);
 		}
-		else if(preg_match('/\.html$/i', $subject))
+		else if(preg_match('/(\.html|\.php)$/i', $subject, $m))
 		{
 			if(!file_exists($subject))
 				throw new \Exception('HTML file not found');
 			
 			$temp = new Document('1.0', 'UTF-8');
-			if($forcePHP)
+			if($forcePHP || preg_match('/\.php$/i', $m[1]))
 				$temp->loadPHPFile($subject);
 			else
 				$temp->load($subject);

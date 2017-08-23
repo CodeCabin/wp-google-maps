@@ -13,7 +13,9 @@ class SettingsPage extends AdminPage
 	public function __construct()
 	{
 		Smart\Document::__construct();
-		$this->loadPHPFile(WPGMZA_DIR . 'html/settings-page.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/settings-page.html.php');
+		
+		do_action('wpgmza_init_settings_page', $this);
 		
 		$this->form = $this->querySelector('form');
 		$this->form->populate(Plugin::$settings);
@@ -34,8 +36,7 @@ class SettingsPage extends AdminPage
 		if(!empty($_POST))
 			$this->onFormSubmitted();
 
-		do_action( 'wpgmza_basic_settings_page_enqueue_scripts' );
-
+		do_action('wpgmza_basic_settings_page_enqueue_scripts');
 	}
 	
 	/**

@@ -60,9 +60,23 @@ class V7DatabaseMigrator
 		'iw_text_color'						=> 'info_window_text_color',
 		'transport_layer'					=> 'transport',
 		
-		'rtlt_enabled'						=> 'user_location_tracking_enabled',
-		'upload_default_rtlt_marker'		=> 'user_location_tracking_icon',
-		'rtlt_route'						=> 'user_location_tracking_route'
+		'rtlt_enabled'						=> 'live_tracking_enabled',
+		'upload_default_rtlt_marker'		=> 'live_tracking_default_icon',
+		'rtlt_route'						=> 'live_tracking_route',
+		
+		// Gold add-on
+		'cluster_advanced_enabled'			=> 'marker_clustering_enabled',
+		'cluster_grid_size'					=> 'marker_clustering_grid_size',
+		'wpgmza_cluster_max_zoom'			=> 'marker_clustering_max_zoom',
+		'cluster_min_cluster_size'			=> 'marker_clustering_min_cluster_size',
+		'cluster_font_color'				=> 'marker_clustering_font_color',
+		'cluster_zoom_click'				=> 'marker_clustering_zoom_on_click',
+		
+		'cluster_level1'					=> 'marker_clustering_level_1_icon',
+		'cluster_level2'					=> 'marker_clustering_level_2_icon',
+		'cluster_level3'					=> 'marker_clustering_level_3_icon',
+		'cluster_level4'					=> 'marker_clustering_level_4_icon',
+		'cluster_level5'					=> 'marker_clustering_level_5_icon'
 	);
 	
 	public function __construct()
