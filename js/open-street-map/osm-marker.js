@@ -67,6 +67,13 @@
 		this.overlay.setPosition(origin);
 	}
 	
+	WPGMZA.OSMMarker.prototype.setOffset = function(x, y)
+	{
+		this.element.style.position = "relative";
+		this.element.style.left = x + "px";
+		this.element.style.top = y + "px";
+	}
+	
 	WPGMZA.OSMMarker.prototype.setAnimation = function(anim)
 	{
 		parentConstructor.prototype.setAnimation.call(this, anim);

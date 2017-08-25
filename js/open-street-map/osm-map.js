@@ -58,6 +58,11 @@
 			self.wrapLongitude();
 		});
 		
+		// Listen for zoom
+		this.osmMap.getView().on("change:resolution", function(event) {
+			self.dispatchEvent("zoomchanged");
+		});
+		
 		// Listen for bounds changing
 		this.osmMap.getView().on("change", function() {
 			// Wrap longitude
@@ -152,6 +157,25 @@
 		this.onBoundsChanged();
 	}
 	
+	WPGMZA.OSMMap.prototype.getBounds = function()
+	{
+		var bounds = this.osmMap.getView().calculateExtent(this.osmMap.getSize());
+		
+		var topLeft = ol.proj.toLonLat([bounds[0], bounds[1]]);
+		var bottomRight = ol.proj.toLonLat([bounds[2], bounds[3]]);
+		
+		return {
+			topLeft: {
+				lat: topLeft[1],
+				lng: topLeft[0]
+			},
+			bottomRight: {
+				lat: bottomRight[1],
+				lng: bottomRight[0]
+			}
+		};
+	}
+	
 	WPGMZA.OSMMap.prototype.panTo = function(latLng)
 	{
 		var view = this.osmMap.getView();
@@ -243,6 +267,7 @@
 	WPGMZA.OSMMap.prototype.getFetchParameters = function()
 	{
 		var result = WPGMZA.Map.prototype.getFetchParameters.call(this);
+		
 		var bounds = this.osmMap.getView().calculateExtent(this.osmMap.getSize());
 		
 		var topLeft = ol.proj.toLonLat([bounds[0], bounds[1]]);
@@ -251,6 +276,40 @@
 		result.bounds = topLeft[1] + "," + topLeft[0] + "," + bottomRight[1] + "," + bottomRight[0];
 		
 		return result;
+	}
+	
+	WPGMZA.OSMMap.prototype.pixelsToLatLng = function(x, y)
+	{
+		var coord = this.osmMap.getCoordinateFromPixel([x, y]);
+		
+		if(!coord)
+			return {
+				x: null,
+				y: null
+			};
+		
+		var lonLat = ol.proj.toLonLat(coord);
+		return {
+			lat: lonLat[1],
+			lng: lonLat[0]
+		};
+	}
+	
+	WPGMZA.OSMMap.prototype.latLngToPixels = function(latLng)
+	{
+		var coord = ol.proj.fromLonLat([latLng.lng, latLng.lat]);
+		var pixel = this.osmMap.getPixelFromCoordinate(coord);
+		
+		if(!pixel)
+			return {
+				x: null,
+				y: null
+			};
+		
+		return {
+			x: pixel[0],
+			y: pixel[1]
+		};
 	}
 	
 	WPGMZA.OSMMap.prototype.enableBicycleLayer = function(value)

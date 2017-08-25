@@ -73,8 +73,6 @@ class MapEditPage extends AdminPage
 		
 		$this->querySelector('.wpgmza-map')->setAttribute('data-right-click-marker-image', WPGMZA_BASE . 'images/right-click-marker.png');
 		
-		file_put_contents('debug.log.html', $this->saveHTML());
-		
 		// Add marker table
 		$this->querySelector('#marker-table-container')->import(
 			$this->map->tables->marker

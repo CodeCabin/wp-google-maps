@@ -151,9 +151,10 @@ class Map extends Smart\Document
 		wp_enqueue_script('wpgmza-resize-sensor', WPGMZA_BASE . 'lib/ResizeSensor.js');
 		
 		// Map scripts
+		
 		wp_enqueue_script('wpgmza-event', WPGMZA_BASE . 'js/event.js');
 		wp_enqueue_script('wpgmza-event-dispatcher', WPGMZA_BASE . 'js/event-dispatcher.js');
-	
+		
 		wp_enqueue_script('wpgmza-map-settings', WPGMZA_BASE . 'js/map-settings.js', array(
 			'wpgmza-core'
 		));
@@ -200,7 +201,7 @@ class Map extends Smart\Document
 		// Datatables
 		wp_enqueue_style('wpgmza_admin_datatables_style', WPGMZA_BASE . 'css/data_table.css',array(),(string)Plugin::$version.'b');
 
-		do_action( 'wpgmza_enqueue_map_scripts_admin_frontend' );
+		do_action( 'wpgmza_enqueue_map_scripts' );
 
 	}
 	
@@ -382,6 +383,10 @@ class Map extends Smart\Document
 				
 			// Unset latlng spatial field because it breaks json_encode
 			unset($m->latlng);
+			
+			// Do shortcodes in description
+			if(!empty($m->description))
+				$m->description = do_shortcode($m->description);
 			
 			// Remember we have sent this marker already
 			array_push($exclusions, $m->id);

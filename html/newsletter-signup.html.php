@@ -6,8 +6,8 @@
 			</label>
 		</p>
 		<span id="wpgmza_subscribe_div">
-			<input type="text" name="wpgmza_signup_newsletter" id="wpgmza_signup_newsletter" value="<?php echo get_option( 'admin_email' ); ?>"></input>
-			<input type="button" class="button button-primary"  id="wpgmza_signup_newsletter_btn" name="wpgmza_signup_newsletter_btn" value="<?php _e( 'Sign up', 'wp-google-maps' ); ?>"></input>
+			<!--<input type="text" name="wpgmza_signup_newsletter" id="wpgmza_signup_newsletter" value="<?php echo get_option( 'admin_email' ); ?>"></input>
+			<input type="button" class="button button-primary"  id="wpgmza_signup_newsletter_btn" name="wpgmza_signup_newsletter_btn" value="<?php _e( 'Sign up', 'wp-google-maps' ); ?>"></input>-->
 		</span>
 	</form>
 </div>

@@ -84,15 +84,31 @@
 }
 
 
+form.wpgmza fieldset>*:not(.switch):not(label)
+{
+	max-width: calc(100% - 280px);
+}
+
 form.wpgmza fieldset>*:not(.switch)
 {
 	display: inline-block;
 	vertical-align: top;
-	max-width: calc(100% - 280px);
-	/* max-width: 700px; */
 }
 
-form.wpgmza fieldset
+.wpgmza-map fieldset>*,
+	.wpgmza-directions-box fieldset>*
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpgmza-directions-box fieldset>label
+{
+	width: 160px;
+}
+
+form.wpgmza fieldset,
+	.wpgmza-map fieldset
 {
 	margin: 1em 0;
 }

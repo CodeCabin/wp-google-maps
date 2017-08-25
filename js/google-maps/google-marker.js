@@ -50,6 +50,39 @@
 	}
 	
 	/**
+	 * Sets the position offset of a marker
+	 * @return void
+	 */
+	WPGMZA.GoogleMarker.prototype.setOffset = function(x, y)
+	{
+		var self = this;
+		var icon = this.googleMarker.getIcon();
+		var img = new Image();
+		var params;
+		
+		if(typeof icon == "string")
+			params = {
+				url: icon
+			};
+		else
+			params = icon;
+		
+		img.onload = function()
+		{
+			var defaultAnchor = {
+				x: img.width / 2,
+				y: img.height
+			};
+			
+			params.anchor = new google.maps.Point(defaultAnchor.x - x, defaultAnchor.y - y);
+			
+			self.googleMarker.setIcon(params);
+		}
+		
+		img.src = params.url;
+	}
+	
+	/**
 	 * Set the marker animation
 	 * @return void
 	 */
