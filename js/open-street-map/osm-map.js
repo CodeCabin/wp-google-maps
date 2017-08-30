@@ -85,14 +85,12 @@
 		var mouseWheelTimeoutID;
 		
 		if(!WPGMZA.wheelZoomFixCSS)
-			WPGMZA.wheelZoomFixCSS = $("<style type='text/css'>.osm-marker { pointer-events: none; }</style>");
+			// WPGMZA.wheelZoomFixCSS = $("<style type='text/css'>.osm-marker { pointer-events: none; }</style>");
 		
 		$(this.element).on("mousewheel", function(event) {
-			$(document.head).append(WPGMZA.wheelZoomFixCSS);
-			
 			clearTimeout(mouseWheelTimeoutID);
 			mouseWheelTimeoutID = setTimeout(function() {
-				WPGMZA.wheelZoomFixCSS.remove();
+				$('.osm-marker>img').css('pointer-events', 'initial' );
 			}, 500);
 		});
 	}
