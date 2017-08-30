@@ -65,6 +65,7 @@ class V7DatabaseMigrator
 		'upload_default_rtlt_marker'		=> 'live_tracking_default_icon',
 		'rtlt_route'						=> 'live_tracking_route',
 		
+		'cluster_advanced_enabled'			=> 'marker_clustering_advanced_enabled',
 		'rtlt_route_col_normal'				=> 'live_tracking_route_color',
 		'rtlt_route_col_hover'				=> 'live_tracking_route_color_on_hover',
 		'rtlt_route_opacity'				=> 'live_tracking_route_opacity',

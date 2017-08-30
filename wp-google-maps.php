@@ -50,4 +50,10 @@ function wpgmza_create_instance_delegate()
 add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\wpgmza_create_instance_filter');
 add_action('plugins_loaded', 'WPGMZA\\wpgmza_create_instance_delegate');
 
-?>
+add_action( 'init', 'WPGMZA\\wpgmza_load_textdomain' );
+
+function wpgmza_load_textdomain(){
+
+	load_plugin_textdomain( 'wp-google-maps', false, 'wp-google-maps/languages/' ); 
+
+}
