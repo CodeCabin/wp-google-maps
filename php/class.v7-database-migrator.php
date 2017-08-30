@@ -60,11 +60,12 @@ class V7DatabaseMigrator
 		'iw_text_color'						=> 'info_window_text_color',
 		'transport_layer'					=> 'transport',
 		
-		// Gold add-on
+    // Gold add-on
 		'rtlt_enabled'						=> 'live_tracking_enabled',
 		'upload_default_rtlt_marker'		=> 'live_tracking_default_icon',
 		'rtlt_route'						=> 'live_tracking_route',
 		
+		'cluster_advanced_enabled'			=> 'marker_clustering_enabled',
 		'rtlt_route_col_normal'				=> 'live_tracking_route_color',
 		'rtlt_route_col_hover'				=> 'live_tracking_route_color_on_hover',
 		'rtlt_route_opacity'				=> 'live_tracking_route_opacity',
@@ -90,6 +91,7 @@ class V7DatabaseMigrator
 		'near_vicinity_line_color'			=> 'marker_separator_line_color',
 		'near_vicinity_line_opacity'		=> 'marker_separator_line_opacity',
 		'near_vicinity_line_thickness'		=> 'marker_separator_line_thickness'
+
 	);
 	
 	public function __construct()
