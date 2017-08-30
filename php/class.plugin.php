@@ -172,12 +172,15 @@ class Plugin
 	protected function getLocalizedData()
 	{
 		$data = clone Plugin::$settings;
-			
+		
+		$data = apply_filters('wpgmza_get_localized_data', $data);
+		
 		$data->ajaxurl 					= admin_url('admin-ajax.php');
 		$data->fast_ajaxurl				= WPGMZA_BASE . 'php/ajax.fetch.php';
 		$data->is_pro_version			= $this->isProVersion();
+		$data->is_user_logged_in		= is_user_logged_in();
 
-		$data->localized_strings = apply_filters( 'wpgmza_basic_localized_strings', array(
+		$data->localized_strings = apply_filters( 'wpgmza_get_localized_strings', array(
 			'miles'					=> __('Miles', 'wp-google-maps'),
 			'kilometers'			=> __('Kilometers', 'wp-google-maps'),
 			

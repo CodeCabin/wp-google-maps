@@ -39,6 +39,9 @@
 			this.storeLocator.centerPointMarker.googleMarker.setMap(this.googleMap);
 			marker.setVisible(false);
 		}
+		
+		// Put grid inside map
+		$(this.engineElement).append($(this.element).find(".wpgmza-in-map-grid"));
 	}
 	
 	// If we're running the Pro version, inherit from ProMap, otherwise, inherit from Map

@@ -125,7 +125,8 @@
 		
 		// When the user clicks cancel edit button or blank space on the map, cancel editing marker
 		this.map.addEventListener("click", function(event) {
-			self.finishEditingMapObject();
+			if(event.target instanceof WPGMZA.Map)
+				self.finishEditingMapObject();
 		});
 		
 		// Set up right click marker adding
@@ -385,8 +386,6 @@
 				return false;
 		    }	
 		});
-		
-		$(".wpgmza-engine-map").append($(".wpgmza-in-map-grid"));
 		
 		// Hide preloader
 		$(".main-preloader").hide();

@@ -12,6 +12,14 @@ Domain Path: /languages
 
 namespace WPGMZA;
 
+if(function_exists('session_status'))
+{
+	if(session_status() == PHP_SESSION_NONE)
+		session_start();
+}
+else if(empty(session_id()))
+	session_start();
+
 require_once(__DIR__ . '/constants.php');
 require_once(__DIR__ . '/php/class.plugin.php');
 

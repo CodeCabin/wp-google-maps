@@ -565,6 +565,11 @@
 			else
 				console.warn("Element '" + name + "' not found for layout");
 		}
+		
+		// Append any non layout elements to the end
+		var nonLayoutElements = $(element).children(":not([data-wpgmza-layout-element])");
+		for(var i = 0; i < nonLayoutElements.length; i++)
+			$(element).append(nonLayoutElements[i]);
 	}
 	
 	/**

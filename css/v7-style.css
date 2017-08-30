@@ -39,6 +39,11 @@
   }
 }
 
+.wpgmza-centered
+{
+	text-align: center;
+}
+
 .wpgmza-preloader.main-preloader>.wpgmza-loader
 {
 	margin: 2em auto;
@@ -833,7 +838,7 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 	border-right: none !important;
 }
 
-#wpgmza-map-container .wpgmza-in-map-grid
+.wpgmza-in-map-grid
 {
 	pointer-events: none;
 }

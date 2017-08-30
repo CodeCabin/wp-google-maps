@@ -89,7 +89,14 @@ class V7DatabaseMigrator
 		'near_vicinity_hide_line'			=> 'marker_separator_hide_lines',
 		'near_vicinity_line_color'			=> 'marker_separator_line_color',
 		'near_vicinity_line_opacity'		=> 'marker_separator_line_opacity',
-		'near_vicinity_line_thickness'		=> 'marker_separator_line_thickness'
+		'near_vicinity_line_thickness'		=> 'marker_separator_line_thickness',
+		
+		// UGM add-on
+		'settings_map_striptags'			=> 'ugm_strip_tags',
+		'settings_ugm_autoapprove'			=> 'ugm_auto_approve',
+		'settings_ugm_email_new_marker'		=> 'ugm_enable_email_notifications',
+		'settings_ugm_email_address'		=> 'ugm_notification_email_address'
+
 	);
 	
 	public function __construct()

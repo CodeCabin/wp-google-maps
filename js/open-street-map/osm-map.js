@@ -20,6 +20,9 @@
 			view: new ol.View(viewOptions)
 		});
 		
+		// Put grid inside map
+		$(this.engineElement).append($(this.element).find(".wpgmza-in-map-grid"));
+		
 		// Interactions
 		this.osmMap.getInteractions().forEach(function(interaction) {
 			

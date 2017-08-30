@@ -472,10 +472,6 @@ class Map extends Smart\Document
 	 */
 	public function fetch($bounds, $session_id=null, $options=null)
 	{
-		$php_session_id = session_id();
-		if(empty($php_session_id))
-			session_start();
-		
 		// TODO: Turn this back on and figure out why it bugs in functions.php. May be to do with the plugin starting output buffering with POST set, and not with no ob_start. It seems to be one or the other, possibly because the AJAX call uses GET and the dataTables call uses POST
 		// ini_set("zlib.output_compression", "On");
 		

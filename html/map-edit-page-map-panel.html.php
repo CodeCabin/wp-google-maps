@@ -70,7 +70,7 @@
 					</label>
 					<div>
 						<input name="address"/>
-						<div>
+						<div class="wpgmza-right-click-hint">
 							<small>
 								<?php
 								_e("Or right click on the map","wp-google-maps");
