@@ -11,13 +11,6 @@ require_once(__DIR__ . '/class.widget.php');
 
 use Smart;
 
-add_filter('wpgmza_map_edit_page_big_button_save_filter', function($el) {
-	return "<span style='color: #FFC0CB'>SAVE ME</span>";
-});
-add_filter('wpgmza_map_edit_page_title_filter', function($el) {
-	return "Hi!!!";
-});
-
 class Plugin
 {
 	public static $version;
@@ -76,6 +69,8 @@ class Plugin
 		if(Plugin::isMigrationRequired())
 			return;	// Hold off installing etc. and let the user go through the migration wizard
 		
+		$this->loadTextDomain();
+		
 		$db_version = get_option('wpgmza_db_version');
 		if(!empty($db_version))
 			$db_version = new Version($db_version);
@@ -99,7 +94,6 @@ class Plugin
 		$this->loadJQuery();
 		
 		wp_enqueue_script('wpgmza-jquery-cookie', WPGMZA_BASE .'lib/jquery-cookie.js');
-		
 		wp_enqueue_script('wpgmza-core', WPGMZA_BASE . 'js/core.js', array('jquery'));
 		wp_enqueue_script('wpgmza-friendly-error', WPGMZA_BASE . 'js/friendly-error.js', array('wpgmza-core'));
 		
@@ -147,8 +141,28 @@ class Plugin
 			$loader->enqueueScripts();
 		}
 
-		do_action( 'wpgmza_basic_plugin_init' );
+		do_action( 'wpgmza_plugin_init' );
 
+	}
+	
+	/**
+	 * Loads the text domain for the plugin
+	 * @return void
+	 */
+	protected function loadTextDomain()
+	{
+		$domain = "wp-google-maps";
+		$plugin_rel_path = 'wp-google-maps/languages/';
+		$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+		$mofile = 'wp-google-maps' . '-' . $locale . '.mo';
+		
+		if ( false !== $plugin_rel_path ) {
+		    $path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/' );
+		} else {
+		    $path = WP_PLUGIN_DIR;
+		}
+		
+		load_textdomain( $domain, $path . '/' . $mofile );
 	}
 
 	/**
@@ -433,7 +447,7 @@ class Plugin
 		{
 			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter'), $element, $this, $map);
 			
-			if($content === $element)
+			if($content === $element || $content == null)
 				continue;
 			
 			$element->clear();

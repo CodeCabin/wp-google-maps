@@ -77,14 +77,17 @@
 			height = $(self.engineElement).height();
 			
 			if(width != prevWidth || height != prevHeight)
+			{
+				prevWidth = width;
+				prevHeight = height;
 				self.onElementResized();
-			
-			prevWidth = width;
-			prevHeight = height;
+			}
 			
 		}, 1000);
 		
 		$(element).find(".wpgmza-load-failed").remove();
+		
+		WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
 	}
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -175,6 +178,7 @@
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
 		
 		marker.map = this;
+		marker.parent = this;
 		
 		this.markers.push(marker);
 		this.dispatchEvent({type: "markeradded", marker: marker});
@@ -194,6 +198,7 @@
 			throw new Error("Wrong map error");
 		
 		marker.map = null;
+		marker.parent = null;
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
@@ -411,6 +416,8 @@
 	 */
 	WPGMZA.Map.prototype.onFetchComplete = function(json)
 	{
+		var addedMarkers = [];
+		
         if (json.markers == null) {
             this.allMarkersFetched = true;
         } else {
@@ -422,9 +429,11 @@
                 var marker = this.createMarkerInstance(json.markers[i]);
                 marker.modified = false;
                 this.addMarker(marker);
+				
+				addedMarkers.push(marker);
             }
         }
-
+		
 		for(i = 0; i < json.polygons.length; i++)
 		{
 			if(this.excludeIDs.polygons[json.polygons[i].id])
@@ -445,7 +454,7 @@
 			this.addPolyline(polyline);
 		}
 		
-		this.dispatchEvent({type: "fetchsuccess"});
+		this.dispatchEvent({type: "fetchsuccess", markers: addedMarkers});
 	}
 	
 	/**

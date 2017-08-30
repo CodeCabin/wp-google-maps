@@ -155,6 +155,15 @@
 		</fieldset>
 		
 		<fieldset>
+			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
+			
+			<input name="min_zoom" type="hidden" value="1"/>
+			<input name="max_zoom" type="hidden" value="21"/>
+		
+			<div id="zoom-range-slider"/>
+		</fieldset>
+		
+		<fieldset>
 			<label><?php _e("Map Alignment","wp-google-maps"); ?></label>
 			<select name="map_align">
 				<option value="1"><?php _e("Left","wp-google-maps"); ?></option>
@@ -737,14 +746,6 @@
 					data-off="<?php _e('No', 'wp-google-maps'); ?>">
 				</label>
 			</div>
-		</fieldset>
-		<fieldset>
-			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
-			
-			<input name="min_zoom" type="hidden" value="1"/>
-			<input name="max_zoom" type="hidden" value="21"/>
-		
-			<div id="zoom-range-slider"/>
 		</fieldset>
 		<fieldset class="wpgmza-engine-google-maps-only">
 			<label for="show_points_of_interest">

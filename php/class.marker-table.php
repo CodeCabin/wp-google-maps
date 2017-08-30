@@ -11,7 +11,7 @@ class MarkerTable extends DataTable
 	
 	public function __construct($map, $columns=null)
 	{
-		$columns = apply_filters( 'wpgmza_basic_markertable_columns', $columns );
+		$columns = apply_filters( 'wpgmza_marker_table_columns', $columns );
 
 		if($columns == null)
 			$this->columns = array(
@@ -148,11 +148,11 @@ class MarkerTable extends DataTable
 		$found_rows = $wpdb->get_var('SELECT FOUND_ROWS()');
 		
 		$data = (object)array(
-			'draw' => apply_filters( 'wpgmza_basic_markertable_ajax_request_draw', (int)$_POST['draw'] ),
-			'recordsTotal' => apply_filters( 'wpgmza_basic_markertable_ajax_request_records_total', $total_markers - $numExcludedIDs ),
-			'recordsFiltered' => apply_filters( 'wpgmza_basic_markertable_ajax_request_records_filtered', $found_rows ),
-			'data' => apply_filters( 'wpgmza_basic_markertable_ajax_request_data', $rows ),
-			'query' => apply_filters( 'wpgmza_basic_markertable_ajax_request_query', $stmt )
+			'draw' => apply_filters( 'wpgmza_marker_table_ajax_request_draw', (int)$_POST['draw'] ),
+			'recordsTotal' => apply_filters( 'wpgmza_marker_table_ajax_request_records_total', $total_markers - $numExcludedIDs ),
+			'recordsFiltered' => apply_filters( 'wpgmza_marker_table_ajax_request_records_filtered', $found_rows ),
+			'data' => apply_filters( 'wpgmza_marker_table_ajax_request_data', $rows ),
+			'query' => apply_filters( 'wpgmza_marker_table_ajax_request_query', $stmt )
 		);
 		
 		return $data;

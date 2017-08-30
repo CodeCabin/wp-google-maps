@@ -27,7 +27,7 @@ class Widget extends \WP_Widget
      * @return void
      */
     public function widget( $args, $instance ) {
-        $title = apply_filters( 'widget_title', $instance['title'] );
+        $title = apply_filters( 'wpgmza_widget_title', $instance['title'] );
         
         echo $args['before_widget'];
         if ( ! empty( $title ) )

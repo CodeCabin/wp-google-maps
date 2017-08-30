@@ -1,5 +1,7 @@
 var WPGMZA = {
 	maps: [],
+	events: null,
+	
 	settings: window.WPGMZA_global_settings,
 	loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 	

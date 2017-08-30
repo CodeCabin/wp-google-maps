@@ -21,7 +21,7 @@ class Marker extends MapObject
 	public function mapOptionsToDB($method, $options)
 	{
 		if(isset($options['lat']) != isset($options['lng']))
-			throw new \Exception('You must assign both lat and lng together');
+			throw new \Exception('You must assign both lat and lng');
 		
 		if(isset($options['lat']) && isset($options['lng']))
 		{
@@ -32,6 +32,8 @@ class Marker extends MapObject
 			unset($options['lat']);
 			unset($options['lng']);
 		}
+		else
+			throw new \Exception('Marker must have a latitude and longitude');
 		
 		$result = MapObject::mapOptionsToDB($method, $options);
 		

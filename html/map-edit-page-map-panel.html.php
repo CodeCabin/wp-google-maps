@@ -84,7 +84,7 @@
 						</div>
 					</div>
 				</fieldset>
-				<fieldset>
+				<fieldset class="wpgmza-admin-only">
 					<label>
 						<?php
 						_e("Animation","wp-google-maps");
@@ -108,7 +108,7 @@
 						</option>
 					</select>
 				</fieldset>
-				<fieldset>
+				<fieldset class="wpgmza-admin-only">
 					<label>
 						<?php
 						_e("InfoWindow open by default","wp-google-maps");
@@ -127,7 +127,7 @@
 						</option>
 					</select>
 				</fieldset>
-				<fieldset id="marker-buttons">
+				<fieldset id="marker-buttons" class="wpgmza-admin-only">
 					<button id="add-marker" type="button" class="button button-primary">
 						<i class="fa fa-plus" aria-hidden="true"></i>
 						<?php _e("Add Marker","wp-google-maps"); ?>
@@ -149,7 +149,7 @@
 					</button>
 				</fieldset>
 				
-				<div smart:import-php="<?php
+				<div class="wpgmza-admin-only" smart:import-php="<?php
 					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html.php';
 				?>"></div>
 			</div>
