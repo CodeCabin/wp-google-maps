@@ -457,12 +457,12 @@ class Plugin
 			$element->import($content);
 		}
 		
-		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-before]') as $element)
+		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-prepend]') as $element)
 		{
 			$prevLast = $element->lastChild;
 			$prevFirst = $element->firstChild;
 			
-			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-before'), $element, $this, $map);
+			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-prepend'), $element, $this, $map);
 			
 			if($content === $element)
 				continue;
@@ -479,9 +479,9 @@ class Plugin
 			}
 		}
 
-		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-after]') as $element)
+		foreach($document->querySelectorAll('[data-wpgmza-wp-filter-append]') as $element)
 		{
-			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-after'), $element, $this, $map);
+			$content = apply_filters($element->getAttribute('data-wpgmza-wp-filter-append'), $element, $this, $map);
 			
 			if($content === $element)
 				continue;

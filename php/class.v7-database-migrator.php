@@ -15,7 +15,6 @@ class V7DatabaseMigrator
 		'infowindow_address'				=> 'info_window_hide_address',
 		'infowindow_link_text'				=> 'info_window_link_text',
 		'map_open_marker_by'				=> 'info_window_open_by',
-					
 		'map_type'							=> 'disable_map_type_controls',
 		
 		// Carousel listing merge
@@ -59,6 +58,7 @@ class V7DatabaseMigrator
 		'iw_accent_color'					=> 'info_window_accent_color',
 		'iw_text_color'						=> 'info_window_text_color',
 		'transport_layer'					=> 'transport',
+		'default_marker'					=> 'upload_default_marker',
 		
 		// Gold add-on
 		'rtlt_enabled'						=> 'live_tracking_enabled',

@@ -119,25 +119,6 @@ var WPGMZA = {
 		file_frame.open();
 	},
 	
-	createMapInstance: function(element) {
-		switch(WPGMZA.settings.engine)
-		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return new WPGMZA.GoogleProMap(element);
-				
-				return new WPGMZA.GoogleMap(element);
-				break;
-				
-			default:
-				if(WPGMZA.isProVersion())
-					return new WPGMZA.OSMProMap(element);
-				
-				return new WPGMZA.OSMMap(element);
-				break;
-		}
-	},
-	
 	runCatchableTask: function(callback, friendlyErrorContainer) {
 		
 		var $ = jQuery;

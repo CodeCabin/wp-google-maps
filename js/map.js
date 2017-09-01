@@ -93,6 +93,26 @@
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.Map.prototype.constructor = WPGMZA.Map;
 	
+	WPGMZA.Map.createInstance = function(element)
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.GoogleProMap(element);
+				
+				return new WPGMZA.GoogleMap(element);
+				break;
+				
+			default:
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.OSMProMap(element);
+				
+				return new WPGMZA.OSMMap(element);
+				break;
+		}
+	}
+	
 	WPGMZA.Map.ALIGN_LEFT 		= 1;
 	WPGMZA.Map.ALIGN_CENTER 	= 2;
 	WPGMZA.Map.ALIGN_RIGHT		= 3;
@@ -426,7 +446,7 @@
                 if(this.excludeIDs.markers[json.markers[i].id])
                     continue;
 
-                var marker = this.createMarkerInstance(json.markers[i]);
+                var marker = WPGMZA.Marker.createInstance(json.markers[i]);
                 marker.modified = false;
                 this.addMarker(marker);
 				
@@ -439,7 +459,7 @@
 			if(this.excludeIDs.polygons[json.polygons[i].id])
 				continue;
 			
-			var polygon = this.createPolygonInstance(json.polygons[i]);
+			var polygon = WPGMZA.Polygon.createInstance(json.polygons[i]);
 			polygon.modified = false;
 			this.addPolygon(polygon);
 		}
@@ -449,7 +469,7 @@
 			if(this.excludeIDs.polylines[json.polylines[i].id])
 				continue;
 			
-			var polyline = this.createPolylineInstance(json.polylines[i]);
+			var polyline = WPGMZA.Polyline.createInstance(json.polylines[i]);
 			polyline.modified = false;
 			this.addPolyline(polyline);
 		}
@@ -589,7 +609,7 @@
 				if(!el.wpgmzaMap)
 				{
 					WPGMZA.runCatchableTask(function() {
-						WPGMZA.createMapInstance(el);
+						WPGMZA.Map.createInstance(el);
 					}, el);
 				}
 			});

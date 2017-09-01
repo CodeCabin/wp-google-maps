@@ -80,19 +80,6 @@
 			this.osmMap.addOverlay(marker.overlay);
 			marker.setVisible(false);
 		}
-		
-		// When the user uses the mousewheel to zoom, temporarily disable pointer events on OSM markers
-		var mouseWheelTimeoutID;
-		
-		if(!WPGMZA.wheelZoomFixCSS)
-			// WPGMZA.wheelZoomFixCSS = $("<style type='text/css'>.osm-marker { pointer-events: none; }</style>");
-		
-		$(this.element).on("mousewheel", function(event) {
-			clearTimeout(mouseWheelTimeoutID);
-			mouseWheelTimeoutID = setTimeout(function() {
-				$('.osm-marker>img').css('pointer-events', 'initial' );
-			}, 500);
-		});
 	}
 
 	if(WPGMZA.isProVersion())
@@ -102,21 +89,6 @@
 	
 	WPGMZA.OSMMap.prototype = Object.create(parentConstructor.prototype);
 	WPGMZA.OSMMap.prototype.constructor = WPGMZA.OSMMap;
-	
-	WPGMZA.OSMMap.prototype.createMarkerInstance = function(row)
-	{
-		return new WPGMZA.OSMMarker(row);
-	}
-	
-	WPGMZA.OSMMap.prototype.createPolygonInstance = function(row, osmPolygon)
-	{
-		return new WPGMZA.OSMPolygon(row, osmPolygon);
-	}
-	
-	WPGMZA.OSMMap.prototype.createPolylineInstance = function(row, osmPolyline)
-	{
-		return new WPGMZA.OSMPolyline(row, osmPolyline);
-	}
 	
 	WPGMZA.OSMMap.prototype.wrapLongitude = function()
 	{

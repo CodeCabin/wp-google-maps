@@ -33,6 +33,24 @@
 	WPGMZA.Marker.prototype = Object.create(WPGMZA.MapObject.prototype);
 	WPGMZA.Marker.prototype.constructor = WPGMZA.Marker;
 	
+	WPGMZA.Marker.createInstance = function(row)
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.GoogleProMarker(row);
+				return new WPGMZA.GoogleMarker(row);
+				break;
+				
+			default:
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.OSMProMarker(row);
+				return new WPGMZA.OSMMarker(row);
+				break;
+		}
+	}
+	
 	WPGMZA.Marker.ANIMATION_NONE			= "0";
 	WPGMZA.Marker.ANIMATION_BOUNCE			= "1";
 	WPGMZA.Marker.ANIMATION_DROP			= "2";

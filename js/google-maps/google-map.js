@@ -58,33 +58,6 @@
 	WPGMZA.GoogleMap.prototype.constructor = WPGMZA.GoogleMap;
 	
 	/**
-	 * Create a marker, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createMarkerInstance = function(row)
-	{
-		return new WPGMZA.GoogleMarker(row);
-	}
-	
-	/**
-	 * Create a polygon, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createPolygonInstance = function(row, googlePolygon)
-	{
-		return new WPGMZA.GooglePolygon(row, googlePolygon);
-	}
-	
-	/**
-	 * Create a polyline, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createPolylineInstance = function(row, googlePolyline)
-	{
-		return new WPGMZA.GooglePolyline(row, googlePolyline);
-	}
-	
-	/**
 	 * Creates the Google Maps map
 	 * @return void
 	 */

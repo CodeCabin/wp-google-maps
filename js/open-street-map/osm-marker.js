@@ -17,19 +17,19 @@
 		
 		$(this.element).on("click", function(event) {
 			self.dispatchEvent("click");
-
-			$('.osm-marker>img').css('pointer-events', 'none' );
-
 		});
 
 		$(this.element).on("mouseover", function(event) {
 			self.dispatchEvent("mouseover");
-			$('.osm-marker>img').css('pointer-events', 'initial' );
 		});
-
-		$(this.element).on("mouseout", function(event) {
-			var target = $(this).attr('class');
-			$('.osm-marker>img').css('pointer-events', 'none' );
+		
+		$(this.element).on("mousewheel", function(event) {
+			var zoom = self.map.getZoom();
+			zoom += (event.deltaY > 0 ? 1 : -1);
+			self.map.setZoom(zoom);
+			
+			event.preventDefault();
+			return false;
 		});
 		
 		this.overlay = new ol.Overlay({
