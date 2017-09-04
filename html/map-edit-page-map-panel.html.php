@@ -70,7 +70,7 @@
 					</label>
 					<div>
 						<input name="address"/>
-						<div>
+						<div class="wpgmza-right-click-hint">
 							<small>
 								<?php
 								_e("Or right click on the map","wp-google-maps");
@@ -84,7 +84,7 @@
 						</div>
 					</div>
 				</fieldset>
-				<fieldset>
+				<fieldset class="wpgmza-admin-only">
 					<label>
 						<?php
 						_e("Animation","wp-google-maps");
@@ -108,7 +108,7 @@
 						</option>
 					</select>
 				</fieldset>
-				<fieldset>
+				<fieldset class="wpgmza-admin-only">
 					<label>
 						<?php
 						_e("InfoWindow open by default","wp-google-maps");
@@ -127,7 +127,7 @@
 						</option>
 					</select>
 				</fieldset>
-				<fieldset id="marker-buttons">
+				<fieldset id="marker-buttons" class="wpgmza-admin-only">
 					<button id="add-marker" type="button" class="button button-primary">
 						<i class="fa fa-plus" aria-hidden="true"></i>
 						<?php _e("Add Marker","wp-google-maps"); ?>
@@ -149,8 +149,8 @@
 					</button>
 				</fieldset>
 				
-				<div smart:import-php="<?php
-					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html';
+				<div class="wpgmza-admin-only" smart:import-php="<?php
+					echo WPGMZA_DIR . 'html/map-edit-page-marker-list.html.php';
 				?>"></div>
 			</div>
 			<div id="advanced-markers" class="wpgmza-free-version-only no-submit" data-wpgmza-wp-action-before="wpgmza_advanced_markers_before" data-wpgmza-wp-action-after="wpgmza_advanced_markers_after">
@@ -545,7 +545,7 @@
 			</div>
 			
 			<div id="settings" data-wpgmza-wp-action-before="wpgmza_settings_tab_before" data-wpgmza-wp-action-after="wpgmza_settings_tab_after" smart:import-php="<?php 
-				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html'; 
+				echo WPGMZA_DIR . 'html/map-edit-page-settings-panel.html.php'; 
 			?>"></div>
 		</div>
 		

@@ -18,8 +18,18 @@
 		$(this.element).on("click", function(event) {
 			self.dispatchEvent("click");
 		});
+
 		$(this.element).on("mouseover", function(event) {
 			self.dispatchEvent("mouseover");
+		});
+		
+		$(this.element).on("mousewheel", function(event) {
+			var zoom = self.map.getZoom();
+			zoom += (event.deltaY > 0 ? 1 : -1);
+			self.map.setZoom(zoom);
+			
+			event.preventDefault();
+			return false;
 		});
 		
 		this.overlay = new ol.Overlay({
@@ -65,6 +75,13 @@
 		]);
 	
 		this.overlay.setPosition(origin);
+	}
+	
+	WPGMZA.OSMMarker.prototype.setOffset = function(x, y)
+	{
+		this.element.style.position = "relative";
+		this.element.style.left = x + "px";
+		this.element.style.top = y + "px";
 	}
 	
 	WPGMZA.OSMMarker.prototype.setAnimation = function(anim)

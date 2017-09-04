@@ -12,7 +12,7 @@ class MigrationWizard extends \Smart\Document
 		
 		if(isset($_POST['wpgmza_confirm_migration']))
 		{
-			$this->loadPHPFile(WPGMZA_DIR . 'html/migration-wizard-result.html');
+			$this->loadPHPFile(WPGMZA_DIR . 'html/migration-wizard-result.html.php');
 			
 			if(!set_time_limit(-1))
 				$this->querySelector("#time-limit-warning")->setInlineStyle("display", "block");
@@ -53,7 +53,7 @@ class MigrationWizard extends \Smart\Document
 			exit;
 		}
 		
-		$this->loadPHPFile(WPGMZA_DIR . 'html/migration-wizard.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/migration-wizard.html.php');
 		
 		// Reply to email
 		$user = wp_get_current_user();

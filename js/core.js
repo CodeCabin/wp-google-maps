@@ -1,5 +1,7 @@
 var WPGMZA = {
 	maps: [],
+	events: null,
+	
 	settings: window.WPGMZA_global_settings,
 	loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 	
@@ -115,25 +117,6 @@ var WPGMZA = {
 		
 		// Finally, open the modal
 		file_frame.open();
-	},
-	
-	createMapInstance: function(element) {
-		switch(WPGMZA.settings.engine)
-		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return new WPGMZA.GoogleProMap(element);
-				
-				return new WPGMZA.GoogleMap(element);
-				break;
-				
-			default:
-				if(WPGMZA.isProVersion())
-					return new WPGMZA.OSMProMap(element);
-				
-				return new WPGMZA.OSMMap(element);
-				break;
-		}
 	},
 	
 	runCatchableTask: function(callback, friendlyErrorContainer) {

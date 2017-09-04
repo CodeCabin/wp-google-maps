@@ -50,6 +50,9 @@
 	
 	WPGMZA.GoogleInfoWindow.prototype.close = function()
 	{
+		if(!this.googleInfoWindow)
+			return;
+		
 		this.googleInfoWindow.close();
 	}
 	

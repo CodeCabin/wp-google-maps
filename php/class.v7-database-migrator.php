@@ -15,7 +15,6 @@ class V7DatabaseMigrator
 		'infowindow_address'				=> 'info_window_hide_address',
 		'infowindow_link_text'				=> 'info_window_link_text',
 		'map_open_marker_by'				=> 'info_window_open_by',
-					
 		'map_type'							=> 'disable_map_type_controls',
 		
 		// Carousel listing merge
@@ -59,10 +58,46 @@ class V7DatabaseMigrator
 		'iw_accent_color'					=> 'info_window_accent_color',
 		'iw_text_color'						=> 'info_window_text_color',
 		'transport_layer'					=> 'transport',
+		'default_marker'					=> 'upload_default_marker',
 		
-		'rtlt_enabled'						=> 'user_location_tracking_enabled',
-		'upload_default_rtlt_marker'		=> 'user_location_tracking_icon',
-		'rtlt_route'						=> 'user_location_tracking_route'
+		// Gold add-on
+		'rtlt_enabled'						=> 'live_tracking_enabled',
+		'upload_default_rtlt_marker'		=> 'live_tracking_default_icon',
+		'rtlt_route'						=> 'live_tracking_route',
+		
+		'cluster_advanced_enabled'			=> 'marker_clustering_advanced_enabled',
+		'rtlt_route_col_normal'				=> 'live_tracking_route_color',
+		'rtlt_route_col_hover'				=> 'live_tracking_route_color_on_hover',
+		'rtlt_route_opacity'				=> 'live_tracking_route_opacity',
+		'rtlt_route_thickness'				=> 'live_tracking_route_thickness',
+		
+		'adv_enable_mass_marker_support'	=> 'marker_clustering_enabled',
+		
+		'cluster_advanced_enabled'			=> 'marker_clustering_advanced_enabled',
+		'cluster_grid_size'					=> 'marker_clustering_grid_size',
+		'wpgmza_cluster_max_zoom'			=> 'marker_clustering_max_zoom',
+		'cluster_min_cluster_size'			=> 'marker_clustering_min_cluster_size',
+		'cluster_font_color'				=> 'marker_clustering_font_color',
+		'cluster_zoom_click'				=> 'marker_clustering_zoom_on_click',
+		
+		'cluster_level1'					=> 'marker_clustering_level_1_icon',
+		'cluster_level2'					=> 'marker_clustering_level_2_icon',
+		'cluster_level3'					=> 'marker_clustering_level_3_icon',
+		'cluster_level4'					=> 'marker_clustering_level_4_icon',
+		'cluster_level5'					=> 'marker_clustering_level_5_icon',
+		
+		'near_vicinity_control_enabled'		=> 'marker_separator_enabled',
+		'near_vicinity_hide_line'			=> 'marker_separator_hide_lines',
+		'near_vicinity_line_color'			=> 'marker_separator_line_color',
+		'near_vicinity_line_opacity'		=> 'marker_separator_line_opacity',
+		'near_vicinity_line_thickness'		=> 'marker_separator_line_thickness',
+		
+		// UGM add-on
+		'settings_map_striptags'			=> 'ugm_strip_tags',
+		'settings_ugm_autoapprove'			=> 'ugm_auto_approve',
+		'settings_ugm_email_new_marker'		=> 'ugm_enable_email_notifications',
+		'settings_ugm_email_address'		=> 'ugm_notification_email_address'
+
 	);
 	
 	public function __construct()

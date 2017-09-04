@@ -113,3 +113,5 @@ WPGMZA.EventDispatcher.prototype._triggerListeners = function(event)
 		obj.listener.call(arr[i].thisObject, event);
 	}
 }
+
+WPGMZA.events = new WPGMZA.EventDispatcher();

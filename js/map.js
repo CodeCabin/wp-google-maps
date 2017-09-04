@@ -77,18 +77,41 @@
 			height = $(self.engineElement).height();
 			
 			if(width != prevWidth || height != prevHeight)
+			{
+				prevWidth = width;
+				prevHeight = height;
 				self.onElementResized();
-			
-			prevWidth = width;
-			prevHeight = height;
+			}
 			
 		}, 1000);
 		
 		$(element).find(".wpgmza-load-failed").remove();
+		
+		WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
 	}
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.Map.prototype.constructor = WPGMZA.Map;
+	
+	WPGMZA.Map.createInstance = function(element)
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.GoogleProMap(element);
+				
+				return new WPGMZA.GoogleMap(element);
+				break;
+				
+			default:
+				if(WPGMZA.isProVersion())
+					return new WPGMZA.OSMProMap(element);
+				
+				return new WPGMZA.OSMMap(element);
+				break;
+		}
+	}
 	
 	WPGMZA.Map.ALIGN_LEFT 		= 1;
 	WPGMZA.Map.ALIGN_CENTER 	= 2;
@@ -175,6 +198,7 @@
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
 		
 		marker.map = this;
+		marker.parent = this;
 		
 		this.markers.push(marker);
 		this.dispatchEvent({type: "markeradded", marker: marker});
@@ -194,6 +218,7 @@
 			throw new Error("Wrong map error");
 		
 		marker.map = null;
+		marker.parent = null;
 		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
@@ -411,6 +436,8 @@
 	 */
 	WPGMZA.Map.prototype.onFetchComplete = function(json)
 	{
+		var addedMarkers = [];
+		
         if (json.markers == null) {
             this.allMarkersFetched = true;
         } else {
@@ -419,18 +446,20 @@
                 if(this.excludeIDs.markers[json.markers[i].id])
                     continue;
 
-                var marker = this.createMarkerInstance(json.markers[i]);
+                var marker = WPGMZA.Marker.createInstance(json.markers[i]);
                 marker.modified = false;
                 this.addMarker(marker);
+				
+				addedMarkers.push(marker);
             }
         }
-
+		
 		for(i = 0; i < json.polygons.length; i++)
 		{
 			if(this.excludeIDs.polygons[json.polygons[i].id])
 				continue;
 			
-			var polygon = this.createPolygonInstance(json.polygons[i]);
+			var polygon = WPGMZA.Polygon.createInstance(json.polygons[i]);
 			polygon.modified = false;
 			this.addPolygon(polygon);
 		}
@@ -440,12 +469,12 @@
 			if(this.excludeIDs.polylines[json.polylines[i].id])
 				continue;
 			
-			var polyline = this.createPolylineInstance(json.polylines[i]);
+			var polyline = WPGMZA.Polyline.createInstance(json.polylines[i]);
 			polyline.modified = false;
 			this.addPolyline(polyline);
 		}
 		
-		this.dispatchEvent({type: "fetchsuccess"});
+		this.dispatchEvent({type: "fetchsuccess", markers: addedMarkers});
 	}
 	
 	/**
@@ -556,6 +585,11 @@
 			else
 				console.warn("Element '" + name + "' not found for layout");
 		}
+		
+		// Append any non layout elements to the end
+		var nonLayoutElements = $(element).children(":not([data-wpgmza-layout-element])");
+		for(var i = 0; i < nonLayoutElements.length; i++)
+			$(element).append(nonLayoutElements[i]);
 	}
 	
 	/**
@@ -575,7 +609,7 @@
 				if(!el.wpgmzaMap)
 				{
 					WPGMZA.runCatchableTask(function() {
-						WPGMZA.createMapInstance(el);
+						WPGMZA.Map.createInstance(el);
 					}, el);
 				}
 			});

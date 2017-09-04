@@ -9,7 +9,7 @@ class ReviewNag extends Smart\Document
 	public function __construct()
 	{
 		Smart\Document::__construct();
-		$this->loadPHPFile(WPGMZA_DIR . 'html/review-nag.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/review-nag.html.php');
 		
 		$now = new \DateTime();
 		

@@ -1,12 +1,18 @@
 <div id="wpgmza-map-edit-page" data-wpgmza-wp-action-before="wpgmza_map_edit_page_before" data-wpgmza-wp-action-after="wpgmza_map_edit_page_after">
 	<div class="wpgmza-preloader main-preloader">
-		<div class="wpgmza-loader">Loading...</div>
+		<div class="wpgmza-loader">
+			<?php
+			_e('Loading...', 'wp-google-maps');
+			?>
+		</div>
 	</div>
 
 	<form method="POST" class="wpgmza" style="display: none;">
 		<button id="wpgmza-top-save" type="submit" >
 			<i class="fa fa-floppy-o" aria-hidden="true"></i>
-			Save Map
+			<?php
+			_e('Save Map', 'wp-google-maps');
+			?>
 		</button>
 
 		<h1 data-wpgmza-wp-filter="wpgmza_map_edit_page_title_filter">
@@ -26,15 +32,19 @@
 		</h2>-->
 	
 		<div smart:import-php="<?php
-			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html';
+			echo WPGMZA_DIR . 'html/map-edit-page-map-panel.html.php';
 		?>"></div>
 	
 		<p class="wpgmza-big-save" data-wpgmza-wp-filter="wpgmza_map_edit_page_big_button_save_filter">
-			<button type="submit" class="button button-primary">Save Map</button>
+			<button type="submit" class="button button-primary">
+				<?php
+				_e('Save Map', 'wp-google-maps');
+				?>
+			</button>
 		</p>
 		
 		<div smart:import-php="<?php
-			echo WPGMZA_DIR . 'html/map-edit-page-pro-advert.html';
+			echo WPGMZA_DIR . 'html/map-edit-page-pro-advert.html.php';
 		?>"></div>
 		
 		<div id="wpgmza-big-polyline-dialog">

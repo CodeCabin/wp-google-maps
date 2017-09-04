@@ -8,7 +8,7 @@ class WelcomePage extends \Smart\Document
 	{
 		\Smart\Document::__construct();
 		
-		$this->loadPHPFile(WPGMZA_DIR . 'html/welcome-page.html');
+		$this->loadPHPFile(WPGMZA_DIR . 'html/welcome-page.html.php');
 		
 		if(isset($_POST['wpgmza_save_feedback']))
 			$this->sendFeedback();

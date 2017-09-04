@@ -125,11 +125,12 @@
 		
 		// When the user clicks cancel edit button or blank space on the map, cancel editing marker
 		this.map.addEventListener("click", function(event) {
-			self.finishEditingMapObject();
+			if(event.target instanceof WPGMZA.Map)
+				self.finishEditingMapObject();
 		});
 		
 		// Set up right click marker adding
-		this.rightClickCursor = this.map.createMarkerInstance({
+		this.rightClickCursor = WPGMZA.Marker.createInstance({
 			draggable: true
 		});
 		if(WPGMZA.OSMMapEditPage && this instanceof WPGMZA.OSMMapEditPage)
@@ -386,8 +387,6 @@
 		    }	
 		});
 		
-		$(".wpgmza-engine-map").append($(".wpgmza-in-map-grid"));
-		
 		// Hide preloader
 		$(".main-preloader").hide();
 		$("form.wpgmza").show();
@@ -489,7 +488,7 @@
 			finishEditingMapObject();
 		
 		if(!this.editMapObjectTarget)
-			marker = this.map.createMarkerInstance();
+			marker = WPGMZA.Marker.createInstance();
 		else
 			marker = this.editMapObjectTarget;
 		
@@ -815,7 +814,7 @@
 	WPGMZA.MapEditPage.prototype.onPolygonClosed = function(event)
 	{
 		var fields = this.getPolygonFields();
-		var polygon = this.map.createPolygonInstance({settings: fields}, event.enginePolygon);
+		var polygon = WPGMZA.Polygon.createInstance({settings: fields}, event.enginePolygon);
 		
 		polygon.modified = true;
 		this.bindUnloadListener();
@@ -939,7 +938,7 @@
 	WPGMZA.MapEditPage.prototype.onPolylineComplete = function(event)
 	{
 		var fields = this.getPolylineFields();
-		var polyline = this.map.createPolylineInstance({settings: fields}, event.enginePolyline);
+		var polyline = WPGMZA.Polyline.createInstance({settings: fields}, event.enginePolyline);
 		
 		polyline.modified = true;
 		this.bindUnloadListener();

@@ -29,12 +29,19 @@
 			self.dispatchEvent(wpgmzaEvent);
 		});
 		
+		google.maps.event.addListener(this.googleMap, "zoom_changed", function(event) {
+			self.dispatchEvent("zoomchanged");
+		});
+		
 		var marker;
 		if(this.storeLocator && (marker = this.storeLocator.centerPointMarker))
 		{
 			this.storeLocator.centerPointMarker.googleMarker.setMap(this.googleMap);
 			marker.setVisible(false);
 		}
+		
+		// Put grid inside map
+		$(this.engineElement).append($(this.element).find(".wpgmza-in-map-grid"));
 	}
 	
 	// If we're running the Pro version, inherit from ProMap, otherwise, inherit from Map
@@ -49,33 +56,6 @@
 		WPGMZA.GoogleMap.prototype = Object.create(WPGMZA.Map.prototype);
 	}
 	WPGMZA.GoogleMap.prototype.constructor = WPGMZA.GoogleMap;
-	
-	/**
-	 * Create a marker, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createMarkerInstance = function(row)
-	{
-		return new WPGMZA.GoogleMarker(row);
-	}
-	
-	/**
-	 * Create a polygon, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createPolygonInstance = function(row, googlePolygon)
-	{
-		return new WPGMZA.GooglePolygon(row, googlePolygon);
-	}
-	
-	/**
-	 * Create a polyline, called by the abstract map class
-	 * @return WPGMZA.GoogleMarker
-	 */
-	WPGMZA.GoogleMap.prototype.createPolylineInstance = function(row, googlePolyline)
-	{
-		return new WPGMZA.GooglePolyline(row, googlePolyline);
-	}
 	
 	/**
 	 * Creates the Google Maps map
@@ -220,6 +200,28 @@
 	}
 	
 	/**
+	 * Gets the bounds
+	 * @return object
+	 */
+	WPGMZA.GoogleMap.prototype.getBounds = function()
+	{
+		var bounds = this.googleMap.getBounds();
+		var northEast = bounds.getNorthEast();
+		var southWest = bounds.getSouthWest();
+		
+		return {
+			topLeft: {
+				lat: northEast.lat(),
+				lng: southWest.lng()
+			},
+			bottomRight: {
+				lat: southWest.lat(),
+				lng: northEast.lng()
+			}
+		};
+	}
+	
+	/**
 	 * Gets the parameters to be sent with AJAX fetch request
 	 * @return object
 	 */
@@ -342,6 +344,37 @@
 			minZoom: this.getMinZoom(),
 			maxZoom: value
 		});
+	}
+	
+	WPGMZA.GoogleMap.prototype.latLngToPixels = function(latLng)
+	{
+		var map = this.googleMap;
+		var nativeLatLng = new google.maps.LatLng({
+			lat: latLng.lat,
+			lng: latLng.lng
+		});
+		var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+		var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+		var scale = Math.pow(2, map.getZoom());
+		var worldPoint = map.getProjection().fromLatLngToPoint(nativeLatLng);
+		return {
+			x: (worldPoint.x - bottomLeft.x) * scale, 
+			y: (worldPoint.y - topRight.y) * scale
+		};
+	}
+	
+	WPGMZA.GoogleMap.prototype.pixelsToLatLng = function(x, y)
+	{
+		var map = this.googleMap;
+		var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+		var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+		var scale = Math.pow(2, map.getZoom());
+		var worldPoint = new google.maps.Point(x / scale + bottomLeft.x, y / scale + topRight.y);
+		var latLng = map.getProjection().fromPointToLatLng(worldPoint);
+		return {
+			lat: latLng.lat(),
+			lng: latLng.lng()
+		};
 	}
 	
 	/**

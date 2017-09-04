@@ -6,6 +6,12 @@ use Smart;
 
 class AvadaWarning extends Smart\Document
 {
+	public function __construct()
+	{
+		Smart\Document::__construct();
+		$this->loadPHPFile(WPGMZA_DIR . 'html/avada-warning.html.php');
+	}
+	
 	/**
 	 * This function returns true if the Avada theme warning needs to be displayed
 	 * @return boolean

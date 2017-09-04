@@ -155,6 +155,15 @@
 		</fieldset>
 		
 		<fieldset>
+			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
+			
+			<input name="min_zoom" type="hidden" value="1"/>
+			<input name="max_zoom" type="hidden" value="21"/>
+		
+			<div id="zoom-range-slider"/>
+		</fieldset>
+		
+		<fieldset>
 			<label><?php _e("Map Alignment","wp-google-maps"); ?></label>
 			<select name="map_align">
 				<option value="1"><?php _e("Left","wp-google-maps"); ?></option>
@@ -195,7 +204,7 @@
 	<div id="themes" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_themes_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_themes_after">
 		<h3><?php _e("Select a theme for your map", "wp-google-maps"); ?></h3>
 		
-		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
+		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html.php'; ?>"/>
 		
 		<div class="wpgmza-engine-google-maps-only">
 			<ul class="presets">
@@ -273,7 +282,7 @@
 		?>
 	</h3>
 	<div id="directions" data-wpgmza-wp-action-before="wpgmza_map_editor_settings_directions_before" data-wpgmza-wp-action-after="wpgmza_map_editor_settings_directions_after">
-		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html'; ?>"/>
+		<div smart:import-php="<?php echo WPGMZA_DIR . 'html/google-maps-only-warning.html.php'; ?>"/>
 	
 		<div class="update-nag update-att wpgmza-free-version-only">
 			<i class="fa fa-arrow-circle-right"></i>
@@ -737,14 +746,6 @@
 					data-off="<?php _e('No', 'wp-google-maps'); ?>">
 				</label>
 			</div>
-		</fieldset>
-		<fieldset>
-			<label><?php _e("Allowed Zoom Range", "wp-google-maps"); ?></label>
-			
-			<input name="min_zoom" type="hidden" value="1"/>
-			<input name="max_zoom" type="hidden" value="21"/>
-		
-			<div id="zoom-range-slider"/>
 		</fieldset>
 		<fieldset class="wpgmza-engine-google-maps-only">
 			<label for="show_points_of_interest">

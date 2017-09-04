@@ -187,7 +187,7 @@
 	WPGMZA.StoreLocator.prototype.showCenterMarker = function(latLng)
 	{
 		if(!this.centerMarker)
-			this.centerMarker = this.map.createMarkerInstance();
+			this.centerMarker = WPGMZA.Marker.createInstance();
 		
 		if(latLng)
 		{
