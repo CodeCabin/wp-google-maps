@@ -23,12 +23,16 @@
 		this.element.wpgmzaMap = this;
 		
 		this.engineElement = $(this.element).find(".wpgmza-engine-map")[0];
+
+        this.loader = $(element).find(".wpgmza-loader");
+        $(this.loader).show();
 		
-		if(!jQuery.fn.jquery.match(/1\.([0-7])\.([0-9])/))
-			$(this.element).find("#wpgmza-jquery-error").remove();
-		
-		this.loader = $(element).find(".wpgmza-loader");
-		
+		if(!jQuery.fn.jquery.match(/1\.([0-7])\.([0-9])/)) {
+			$(this.element).find("#wpgmza-jquery-error").removeClass('is-hidden').remove();
+        } else {
+            $(this.element).find("#wpgmza-jquery-error").removeClass('is-hidden');
+		}
+
 		this.markers = [];
 		this.polygons = [];
 		this.polylines = [];
@@ -84,8 +88,9 @@
 			}
 			
 		}, 1000);
-		
-		$(element).find(".wpgmza-load-failed").remove();
+
+        $(element).find(".wpgmza-load-failed").removeClass('is-hidden').remove();
+        $(this.loader).hide();
 		
 		WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
 	}

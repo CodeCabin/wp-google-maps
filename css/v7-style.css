@@ -884,3 +884,8 @@ ul.wpgmza-inline-bullet li:not(:first-child):before
 {
 	float: none;
 }
+
+.wpgmza-load-failed.is-hidden,
+#wpgmza-jquery-error.is-hidden {
+	display: none;
+}

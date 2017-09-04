@@ -1,12 +1,12 @@
 <div class="wpgmza-map">
 
-	<div class="error" id="wpgmza-jquery-error" data-wpgmza-wp-action-before="wpgmza_map_jquery_error_before" data-wpgmza-wp-action-after="wpgmza_map_jquery_error_after" data-wpgmza-wp-filter="wpgmza_map_jquery_error_filter">
+	<div class="error is-hidden" id="wpgmza-jquery-error" data-wpgmza-wp-action-before="wpgmza_map_jquery_error_before" data-wpgmza-wp-action-after="wpgmza_map_jquery_error_after" data-wpgmza-wp-filter="wpgmza_map_jquery_error_filter">
 		<?php
 		_e('Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.', 'wp-google-maps');
 		?>
 	</div>
 
-	<div class="wpgmza-load-failed update-nag" style="text-align:center;" data-wpgmza-wp-action-before="wpgmza_map_map_load_error_before" data-wpgmza-wp-action-after="wpgmza_map_map_load_error_after" data-wpgmza-wp-filter="wpgmza_map_map_load_error_filter">
+	<div class="wpgmza-load-failed update-nag is-hidden" style="text-align:center;" data-wpgmza-wp-action-before="wpgmza_map_map_load_error_before" data-wpgmza-wp-action-after="wpgmza_map_map_load_error_after" data-wpgmza-wp-filter="wpgmza_map_map_load_error_filter">
 		<small>
 			<strong>
 				<?php _e("The map could not load.","wp-google-maps"); ?>
