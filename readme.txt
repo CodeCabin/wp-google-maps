@@ -1,5 +1,5 @@
 === WP Google Maps ===
-Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
+Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
@@ -213,6 +213,14 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 6.4.08 - 2018-01-14 - Medium priority =
+* Update Google Maps API versions to include 3.30 and 3.31
+* On first installation, users are now taken to the welcome page
+* Updated contributors
+* Updated credits page
+* Fixed broken support links
+* Got things ready for the new Version 7 that is on its way
 
 = 6.4.07 - 2018-01-08 - Low priority =
 * Added a deactivation survey to gain insight before moving to Version 7

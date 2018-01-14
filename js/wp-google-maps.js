@@ -588,7 +588,7 @@ function searchLocations(map_id) {
 
 
         if (typeof wpgmaps_localize[map_id]['other_settings']['wpgmza_store_locator_restrict'] !== "undefined" && wpgmaps_localize[map_id]['other_settings']['wpgmza_store_locator_restrict'] != "") {
-            if ((wpgm_lat.match(/[a-zA-Z]/g) === null && wpgm_lng.match(/[a-zA-Z]/g) === null) && checker.length === 2 && (checker1 != NaN && (checker1 <= 90 || checker1 >= -90)) && (checker2 != NaN && (checker2 <= 90 || checker2 >= -90))) {
+            if ((typeof wpgm_lng !== "undefined" && wpgm_lat.match(/[a-zA-Z]/g) === null && wpgm_lng.match(/[a-zA-Z]/g) === null) && checker.length === 2 && (checker1 != NaN && (checker1 <= 90 || checker1 >= -90)) && (checker2 != NaN && (checker2 <= 90 || checker2 >= -90))) {
                 var point = new google.maps.LatLng(parseFloat(wpgm_lat),parseFloat(wpgm_lng));
                 searchLocationsNear(map_id,point);
             }
