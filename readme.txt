@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, Jarryd Long, DylanAuty
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.8
+Tested up to: 4.9.1
 Stable tag: trunk
 License: GPLv2
 
@@ -213,6 +213,13 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 6.4.07 - 2018-01-08 - Low priority =
+* Added a deactivation survey to gain insight before moving to Version 7
+* Tested on WP 4.9.1
+
+= 6.4.06 - 2017-09-07 - Medium Priority =
+* Bug Fix: Zoom level is not respected when saving
 
 = 6.4.05 - 2017-06-13 - Medium priority =
 * Fixed the bug that caused JS errors to show up in the map editor
