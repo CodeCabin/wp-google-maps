@@ -17,43 +17,66 @@
 <ul class="wp-people-group " id="wp-people-group-project-leaders">
 
 <li class="wp-person" id="wp-person-nickduncan">
-	<a href="https://profiles.wordpress.org/nickduncan/" class="web"><img src="https://en.gravatar.com/avatar/38d79f24b5a649e132f8ed93f6dc2d37?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/767fc9c115a1b989744c755db47feb60?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
+	<a href="https://profiles.wordpress.org/nickduncan/" class="web"><img src="https://secure.gravatar.com/avatar/38d79f24b5a649e132f8ed93f6dc2d37?s=60&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/38d79f24b5a649e132f8ed93f6dc2d37?s=64&d=mm&r=g 2x" class="gravatar" alt="">
 Nick Duncan</a>
 	<span class="title"><?php _e("Founder &amp; Lead Developer","wp-google-maps"); ?></span>
 </li>
 </ul>
 <h3 class="wp-people-group"><?php _e("Contributors","wp-google-maps"); ?></h3>
 <ul class="wp-people-group " id="wp-people-group-core-developers">
-<li class="wp-person" id="wp-person-dylanauty">
-	<a href="https://profiles.wordpress.org/dylanauty/" class="web"><img src="http://en.gravatar.com/userimage/99843032/c4b24cccc2f7bd5b23ed2d1d8b1638e4?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Dylan Auty</a>
-	<span class="title"><?php _e("Developer","wp-google-maps"); ?></span>
-</li>
-<li class="wp-person" id="wp-person-jarrydlong">
-	<a href="https://profiles.wordpress.org/jarryd-long/" class="web"><img src="https://en.gravatar.com/avatar/82d56ebcb216f9f146559a99e721de01?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Jarryd Long</a>
-	<span class="title"><?php _e("Developer &amp; Support","wp-google-maps"); ?></span>
-</li>
-<li class="wp-person" id="wp-person-nathanmiller">
-	<a href="https://profiles.wordpress.org/jarryd-long/" class="web"><img src="https://en.gravatar.com/avatar/4e0ca967af9e8c38f2924ca6003513fb?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Nathan Miller</a>
-	<span class="title"><?php _e("Support","wp-google-maps"); ?></span>
-</li>
-<li class="wp-person" id="wp-person-andrewlima">
-	<a href="https://profiles.wordpress.org/andrewza/" class="web"><img src="https://en.gravatar.com/avatar/dbd24c87ac41577d55fab74f8604159b?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Andrew Lima</a>
-	<span class="title"><?php _e("Support","wp-google-maps"); ?></span>
-</li>
-<li class="wp-person" id="wp-person-tamduncan">
-	<a href="https://twitter.com/thebossybabe" class="web"><img src="https://en.gravatar.com/avatar/57d74f7fb39d5be50ac9ef65ad003671?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Tam Duncan</a>
-	<span class="title"><?php _e("Marketing","wp-google-maps"); ?></span>
-</li>
-<li class="wp-person" id="wp-person-gerardarall">
-	<a href="https://github.com/arall" class="web"><img src="https://avatars1.githubusercontent.com/u/1453137?s=60" srcset="http://1.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?s=120&amp;d=mm&amp;r=g 2x" class="gravatar" alt="">
-Gerard Arall</a>
-	<span class="title"><?php _e("Security suggestions","wp-google-maps"); ?></span>
-</li>
+
+	<li class="wp-person" id="wp-person-dylanauty">
+		<a href="https://profiles.wordpress.org/dylanauty/" class="web"><img src="https://secure.gravatar.com/avatar/3e032ec3258ebc08eeed69568141164a?s=64&d=mm&r=g" srcset="https://secure.gravatar.com/avatar/3e032ec3258ebc08eeed69568141164a?s=64&d=mm&r=g 2x" class="gravatar" alt="">
+	Dylan Auty</a>
+		<span class="title"><?php _e("Support &amp; Developer","wp-google-maps"); ?></span>
+	</li>
+	<li class="wp-person" id="wp-person-dylanauty">
+		<a href="https://github.com/orgs/CodeCabin/people/PerryRylance" class="web"><img src="https://avatars3.githubusercontent.com/u/14136738?s=96&v=4" srcset="https://avatars3.githubusercontent.com/u/14136738?s=96&v=4 2x" class="gravatar" alt="">
+	Perry Rylance</a>
+		<span class="title"><?php _e("Support &amp; Developer","wp-google-maps"); ?></span>
+	</li>
+	<li class="wp-person" id="wp-person-dylanauty">
+		<a href="https://github.com/JarekCodeCabin" class="web"><img src="https://avatars3.githubusercontent.com/u/25925938?s=460&v=4" srcset="https://avatars3.githubusercontent.com/u/25925938?s=460&v=4 2x" class="gravatar" alt="">
+	Jarek Kacprzak</a>
+		<span class="title"><?php _e("Support &amp; Developer","wp-google-maps"); ?></span>
+	</li>	
+
+	<li class="wp-person" id="wp-person-nathanmiller">
+		<a href="https://profiles.wordpress.org/jarryd-long/" class="web"><img src="https://ca.slack-edge.com/T0CCUAUDD-U0CDJ724Q-g4e0ca967af9-1024" srcset="https://ca.slack-edge.com/T0CCUAUDD-U0CDJ724Q-g4e0ca967af9-1024 2x" class="gravatar" alt="">
+	Nathan Miller</a>
+		<span class="title"><?php _e("Support","wp-google-maps"); ?></span>
+	</li>
+
+	<li class="wp-person" id="wp-person-tamduncan">
+		<a href="https://twitter.com/thebossybabe" class="web"><img src="https://pbs.twimg.com/profile_images/378800000229252467/623181616d530dc6e8088939814b0f5d_400x400.jpeg" srcset="https://pbs.twimg.com/profile_images/378800000229252467/623181616d530dc6e8088939814b0f5d_400x400.jpeg 2x" class="gravatar" alt="">
+	Tam Duncan</a>
+		<span class="title"><?php _e("Marketing","wp-google-maps"); ?></span>
+	</li>
+	<li class="wp-person" id="wp-person-tamduncan">
+		<a href="https://github.com/orgs/CodeCabin/people/dylank6169" class="web"><img src="https://avatars3.githubusercontent.com/u/25743655?s=96&v=4" srcset="https://avatars3.githubusercontent.com/u/25743655?s=96&v=4 2x" class="gravatar" alt="">
+	Dylan Kotzé</a>
+		<span class="title"><?php _e("Support &amp; Developer","wp-google-maps"); ?></span>
+	</li>
+	
+
+	<li class="wp-person" id="wp-person-andrewlima">
+		<a href="https://github.com/orgs/CodeCabin/people/VeroniqueSmit" class="web"><img src="https://avatars1.githubusercontent.com/u/22832458?s=96&v=4"  class="gravatar" alt="">
+	Veronique Smit</a>
+		<span class="title"><?php _e("Support","wp-google-maps"); ?></span>
+	</li>	
+
+	<li class="wp-person" id="wp-person-andrewlima">
+		<a href="https://github.com/patdumond" class="web"><img src="https://avatars3.githubusercontent.com/u/9320495?s=460&v=4"  class="gravatar" alt="">
+	Pat Dumond</a>
+		<span class="title"><?php _e("Documentation","wp-google-maps"); ?></span>
+	</li>	
+
+
+	<li class="wp-person" id="wp-person-gerardarall">
+		<a href="https://github.com/arall" class="web"><img src="https://avatars2.githubusercontent.com/u/1453137?s=60&v=4" srcset="https://avatars2.githubusercontent.com/u/1453137?s=60&v=4 2x" class="gravatar" alt="">
+	Gerard Arall</a>
+		<span class="title"><?php _e("Security suggestions","wp-google-maps"); ?></span>
+	</li>
 
 
 <p class="clear"><?php _e("Want to see your name on this page?","wp-google-maps"); ?> <a href="https://github.com/CodeCabin/wp-google-maps/"><?php _e("Get involved on GitHub.","wp-google-maps"); ?></a></p>
