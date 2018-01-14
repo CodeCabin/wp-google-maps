@@ -1,3 +1,5 @@
+
+
 (function($) {
     var placeSearch, autocomplete;
     var wpgmza_table_length;
@@ -9,6 +11,7 @@
     var WPGM_Path_Polygon = new Array();
     var WPGM_Path = new Array();
     var saveReminderBound = false;
+
 
 	if ('undefined' == typeof window.jQuery) {
 		alert("jQuery is not installed. WP Google Maps requires jQuery in order to function properly. Please ensure you have jQuery installed.")
@@ -341,6 +344,7 @@
 
                     marker_id = returned_data.marker_id;
                     marker_data = returned_data.marker_data[marker_id];
+
                     if (typeof wpgmaps_localize_marker_data !== "undefined") { wpgmaps_localize_marker_data[marker_id] = marker_data; }
                     marker_data.map = MYMAP.map;
 
@@ -637,21 +641,19 @@ MYMAP.init = function(selector, latLng, zoom) {
        
     });
 
-    /*
-    deprecated this in 6.4.00
-    
     google.maps.event.addListener(this.map, 'zoom_changed', function() {
+
         zoomLevel = MYMAP.map.getZoom();
 
         jQuery("#wpgmza_start_zoom").val(zoomLevel);
+        
         if (zoomLevel == 0) {
             MYMAP.map.setZoom(10);
         }
-    });
-    */
-    jQuery( "#wpgmza_map").trigger( 'wpgooglemaps_loaded' );
 
+    });
     
+    jQuery( "#wpgmza_map").trigger( 'wpgooglemaps_loaded' );
 
     if (wpgmaps_localize_polygon_settings !== null) {
         if (typeof wpgmaps_localize_polygon_settings !== "undefined") {
