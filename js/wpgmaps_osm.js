@@ -114,8 +114,8 @@ MYMAP.init = function(selector, latLng, zoom) {
 /*
 
 	if ("undefined" !== typeof wpgmaps_localize[0]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[0]['other_settings']['wpgmza_theme_data'] !== false && wpgmaps_localize[0]['other_settings']['wpgmza_theme_data'] !== "") {
-        wpgmza_theme_data = jQuery.parseJSON(wpgmaps_localize[0]['other_settings']['wpgmza_theme_data']);
-        this.map.setOptions({styles: jQuery.parseJSON(wpgmaps_localize[0]['other_settings']['wpgmza_theme_data'])});
+        wpgmza_theme_data = JSON.parse(wpgmaps_localize[0]['other_settings']['wpgmza_theme_data']);
+        this.map.setOptions({styles: JSON.parse(wpgmaps_localize[0]['other_settings']['wpgmza_theme_data'])});
     } 
     
 */

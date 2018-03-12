@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 6.4.08
+Version: 6.4.10
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,25 @@ Domain Path: /languages
 */
 
 /* 
+ *
+ *
+ * 6.4.10 - 2018-03-12 - High priority
+ * XSS vulnerability fixed. Ouch! (thank you Luigi Gubello)
+ * Backend UI enhancements such as "select all markers" and  "delete all markers"
+ * Frontend UX improvements (Esc to close infofindow, better jQuery checks, etc.)
+ * Neatened up and modified the front end JS
+ * New feature: Enable/disable InfoWindows
+ * New feature: Show/hide points of interest
+ * Paving the way for WP Google Maps version 7!
+ * Updated Polish translations (Thank you Wojciech Dorosz)
+ * Fixed Norwegian translations (Thank you Kristoffer Gressli)
+ * Added support for themes that use FastClick
+ * Fixed a bug with "Editor" access roles
+ * Updated the default marker to the new Google Maps retina-ready marker
+ *
+ * 
+ * 6.4.09 - 2018-01-15 - Medium priority 
+ * Removed the plugin deactivation survey as there are PHP compatibility issues. Will have to retest and add this back at a later stage. 
  *
  * 6.4.08 - 2018-01-14 - Medium priority
  * Update Google Maps API versions to include 3.30 and 3.31
@@ -346,7 +365,7 @@ $wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
 $wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "6.4.08";
+$wpgmza_version = "6.4.10";
 $wpgmza_p_version = "6.19";
 $wpgmza_t = "basic";
 define("WPGMAPS", $wpgmza_version);
@@ -1121,7 +1140,7 @@ function wpgmaps_admin_javascript_basic() {
 
 
 
-            $wpgmza_current_map_id = $_GET['map_id'];
+            $wpgmza_current_map_id = sanitize_text_field( $_GET['map_id'] );
 
 
             wp_enqueue_script('wpgmaps_admin_core', plugins_url('/js/wpgmaps-admin-core.js',__FILE__), $wpgaps_core_dependancy, $wpgmza_version.'b' , false);
@@ -3830,7 +3849,7 @@ function wpgmaps_settings_page_basic() {
     if (isset($wpgmza_settings['wpgmza_settings_access_level'])) { $wpgmza_access_level = $wpgmza_settings['wpgmza_settings_access_level']; } else { $wpgmza_access_level = ""; }
     if ($wpgmza_access_level == "manage_options") { $wpgmza_access_level_checked[0] = "selected"; }
     else if ($wpgmza_access_level == "edit_pages") { $wpgmza_access_level_checked[1] = "selected"; }
-    else if ($wpgmza_access_level == "publish_posts") { $wpgmza_access_level_checked[2] = "selected"; }
+    else if ($wpgmza_access_level == "edit_published_posts") { $wpgmza_access_level_checked[2] = "selected"; }
     else if ($wpgmza_access_level == "edit_posts") { $wpgmza_access_level_checked[3] = "selected"; }
     else if ($wpgmza_access_level == "read") { $wpgmza_access_level_checked[4] = "selected"; }
     else { $wpgmza_access_level_checked[0] = "selected"; }
@@ -3963,7 +3982,7 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                        <select id='wpgmza_access_level' name='wpgmza_access_level'  >";
             $ret .= "                                    <option value=\"manage_options\" ".$wpgmza_access_level_checked[0].">Admin</option>";
             $ret .= "                                    <option value=\"edit_pages\" ".$wpgmza_access_level_checked[1].">Editor</option>";
-            $ret .= "                                    <option value=\"publish_posts\" ".$wpgmza_access_level_checked[2].">Author</option>";
+            $ret .= "                                    <option value=\"edit_published_posts\" ".$wpgmza_access_level_checked[2].">Author</option>";
             $ret .= "                                    <option value=\"edit_posts\" ".$wpgmza_access_level_checked[3].">Contributor</option>";
             $ret .= "                                    <option value=\"read\" ".$wpgmza_access_level_checked[4].">Subscriber</option>";
             $ret .= "                        </select>    ";
@@ -4001,7 +4020,7 @@ function wpgmaps_settings_page_basic() {
 			$ret .= "				<tr>";
 			$ret .= "                   <td valign='top' width='200' style='vertical-align:top;'>".__("Disable InfoWindows","wp-google-maps")." </td>";
 			$ret .= "					<td>";
-			$ret .= "						<input name='wpgmza_settings_disable_infowindows' type='checkbox' value='1' {$wpgmza_settings_disable_infowindows}/>";
+			$ret .= "						<input id='wpgmza_settings_disable_infowindows' name='wpgmza_settings_disable_infowindows' value='1' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' {$wpgmza_settings_disable_infowindows}/><label for='wpgmza_settings_disable_infowindows' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label>";
 			$ret .= "					</td>";
 			$ret .= "				</tr>";
   
@@ -4861,6 +4880,22 @@ function wpgmza_basic_menu() {
 
                             </td>
                         </tr>
+
+                        <tr>
+                            <td><label for=\"wpgmza_show_points_of_interest\">".__("Show Points of Interest?", "wp-google-maps")."</label></td>
+                            <td>
+                                <input type='checkbox' id='wpgmza_show_points_of_interest' name='wpgmza_show_points_of_interest' class='postform cmn-toggle cmn-toggle-yes-no' " .
+                                    (
+                                        !isset($other_settings_data['wpgmza_show_points_of_interest']) ||
+                                        $other_settings_data['wpgmza_show_points_of_interest'] == 1
+                                        ?
+                                        "checked='checked'"
+                                        :
+                                        ''
+                                    )
+                                . "/><label class='cmn-override-big' for='wpgmza_show_points_of_interest' data-on='".__("Yes","wp-google-maps")."' data-off='".__("No","wp-google-maps")."''></label>
+                            </td>
+                        </tr>
                         
                         <tr>
                             <td width='320'>".__("Maximum Zoom Level","wp-google-maps").":</td>
@@ -4918,21 +4953,7 @@ function wpgmza_basic_menu() {
 
                                     </td>
                                 </tr>
-								<tr>
-									<td><label for=\"wpgmza_show_points_of_interest\">".__("Show Points of Interest?", "wp-google-maps")."</label></td>
-									<td>
-										<input type='checkbox' id='wpgmza_show_points_of_interest' name='wpgmza_show_points_of_interest' " .
-											(
-												!isset($other_settings_data['wpgmza_show_points_of_interest']) ||
-												$other_settings_data['wpgmza_show_points_of_interest'] == 1
-												?
-												"checked='checked'"
-												:
-												''
-											)
-										. "/>
-									</td>
-								</tr>
+								
 								
                                 <tr>
                                 </tr>
@@ -5612,7 +5633,7 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
 
         $res = wpgmza_get_map_data($map_id);
         if (!$res->default_marker) {
-            $default_marker = "<img src='".wpgmaps_get_plugin_url()."images/marker.png' />";
+            $default_marker = "<img width='27' height='43' src='".wpgmaps_get_plugin_url()."images/spotlight-poi2_hdpi.png' />";
         } else {
             $default_marker = "<img src='".$res->default_marker."' />";
         }
