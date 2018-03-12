@@ -53,5 +53,15 @@ jQuery(document).ready(function(){
             radiusStoreLocatorKm.addClass('active');
         }
     });
-
+	
+	// If the store locator radii aren't valid when trying to save, switch to that tab so the error message is visible
+	jQuery("input[name='wpgmza_save_settings']").on("click", function() {
+		var input = jQuery("input.wpgmza_store_locator_radii");
+		var value = input.val();
+		var regex = new RegExp(input.attr("pattern"));
+		
+		if(!value.match(regex))
+			jQuery("#wpgmaps_tabs").tabs({active: 3});
+	});
+	
 });
