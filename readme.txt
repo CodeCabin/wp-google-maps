@@ -210,6 +210,9 @@ Please update your WP Google Maps version to 6.2.1 to ensure you are using the l
 
 == Changelog ==
 
+= 6.4.11 - 2018-03-19 - Low priority =
+* Added a missing marker PNG file
+
 = 6.4.10 - 2018-03-12 - High priority =
 * XSS vulnerability fixed. Ouch! (thank you Luigi Gubello)
 * Backend UI enhancements such as "select all markers" and  "delete all markers"
