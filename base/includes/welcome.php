@@ -1,7 +1,7 @@
 <?php global $wpgmza_global_array; ?>
 <div class="wrap about-wrap">
 <p>&nbsp;</p>
-<h1><?php echo sprintf( __( "Welcome to WP Google Maps version %s","wp-google-maps"), "6.4" ); ?></h1>
+<h1><?php echo sprintf( __( "Welcome to WP Google Maps version %s","wp-google-maps"), "7.0" ); ?></h1>
 
 <div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 
@@ -26,7 +26,7 @@
         <div class="col">
         <h4><?php _e("Store Locator","wp-google-maps"); ?></h4>
         <p><?php _e("Let users search for products, branches and stores near them","wp-google-maps"); ?></p>
-         <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature2.jpg' style="border:1px solid #ccc;" />
+         <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature2.jpg?1=2' style="border:1px solid #ccc;" />
         </div>
     </div>
     <div class="feature-section two-col">
@@ -36,8 +36,8 @@
          <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature3.jpg' style="border:1px solid #ccc;" />
         </div>
         <div class="col">
-        <h4><?php _e("Polylines","wp-google-maps"); ?></h4>
-        <p><?php _e("Create custom routes or outlines using polylines","wp-google-maps"); ?></p>
+        <h4><?php _e("Polylines","wp-google-maps"); ?>, <?php _e("Polygons","wp-google-maps"); ?>, <?php _e("Circles","wp-google-maps"); ?>, <?php _e("and Squares","wp-google-maps"); ?></h4>
+        <p><?php _e("Add custom shapes such as polygons, polylines, circles and sqaures!","wp-google-maps"); ?></p>
          <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature4.jpg' style="border:1px solid #ccc;" />              
         </div>
     </div>

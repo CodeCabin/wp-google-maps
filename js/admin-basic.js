@@ -64,4 +64,22 @@ jQuery(document).ready(function(){
 			jQuery("#wpgmaps_tabs").tabs({active: 3});
 	});
 	
+	(function($) {
+		
+		$("#wpgmza_store_locator_distance").on("change", function(event) {
+			
+			var units = $(this).prop("checked") ? "mi" : "km";
+			
+			$(".wpgmza-store-locator-default-radius option").each(function(index, el) {
+				
+				$(el).html(
+					$(el).html().match(/\d+/) + units
+				);
+				
+			});
+			
+		});
+		
+	})(jQuery);
+	
 });

@@ -283,7 +283,7 @@ box-shadow: 3px 3px 10px 0px rgba(107,107,107,1);
 .wpgmza_innermap_holder { 
     padding:5px;
     background-color:white;
-    border 1px solid #ccc;
+    border: 1px solid #ccc;
     border-radius:5px;
 }
 .wpgmza_small_img { max-width: 14px; max-height: 14px; }
@@ -424,5 +424,148 @@ ul.wpgmza_marker_list_class {
     width:100% !important;
     height: 100% !important;
     z-index:9999;
+
+}
+
+.wpgmza-modern-store-locator {
+	text-align: center;
+	padding-top: 10px;
+}
+
+.wpgmza-modern-store-locator > .wpgmza-inner {
+	display: inline-block;
+	background: white;
+	padding: 0.5em !important;
+
+    border-radius: 2px;
+    font-family: Roboto, sans-serif;
+
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+	-o-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+
+}
+
+.wpgmza-modern-store-locator input,
+.wpgmza-modern-store-locator select {
+    height: 28px !important;
+    vertical-align: top;
+    padding: 0 6px !important;
+    margin: 0 2px;
+    color: #777;
+}
+
+#addressInput {
+	width: auto !important;
+	display: inline;
+}
+
+.wpgmza-form-field {
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 5px;
+    padding-top: 25px;
+}
+
+.wpgmza-form-field:last-of-type {
+    margin-bottom: 18px;
+}
+
+.wpgmza-form-field--no-pad {
+    display: block;
+    padding-top: 0;
+}
+
+.wpgmza-form-field__label {
+    display: block;
+    color: #666;
+    font-weight: 400;
+}
+
+#wpgmza-map .wpgmza-form-field__label--float {
+    width: 100%;
+    position: absolute;
+    top: 37px;
+    background: #fff;
+    transition: all ease .3s;
+}
+
+.wpgmza-form-field__input:focus ~ label {
+    top: 8px;
+    color: #333;
+    font-weight: 700;
+}
+
+.wpgmza-modern-store-locator .wpgmza_sl_search_button {
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0 0.3em;
+    height: 100%;
+    line-height: 28px;
+    color: #b7b7b7;
+}
+
+#wpgmza_map .wpgmza-inner .wpgmza-form-field__input,
+#wpgmza_map .wpgmza-form-field input[type="text"],
+#wpgmza_map .wpgmza-form-field input[type="url"],
+#wpgmza_map .wpgmza-form-field input[type="password"],
+#wpgmza_map .wpgmza-form-field input[type="search"],
+#wpgmza_map .wpgmza-form-field input[type="number"],
+#wpgmza_map .wpgmza-form-field input[type="tel"],
+#wpgmza_map .wpgmza-form-field input[type="email"],
+#wpgmza_map .wpgmza-form-field textarea,
+#wpgmza_map .wpgmza-form-field select {
+    padding: 10px;
+    padding-left: 0;
+    border: none;
+    border-radius: 0;
+    transition: all .3s;
+    background: none;
+    box-shadow: none;
+    font-family: Roboto, sans-serif;
+}
+
+#wpgmza_map .wpgmza-inner .wpgmza-form-field__input:focus,
+#wpgmza_map .wpgmza-form-field input[type="text"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="url"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="password"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="search"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="number"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="tel"]:focus,
+#wpgmza_map .wpgmza-form-field input[type="email"]:focus,
+#wpgmza_map .wpgmza-form-field textarea:focus,
+#wpgmza_map .wpgmza-form-field select:focus {
+    background: none;
+}
+
+.wpgmza_sl_main_div input[type="button"],
+.wpgmaps_directions_outer_div input[type="button"],
+.wpgmza-inner input[type="button"]
+.wpgmza_sl_main_div input[type="button"] {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/** Override the auto complete styles */
+.pac-container {
+    border-radius: 2px;
+    border-top: none;
+    font-family: Roboto, sans-serif;
+
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -o-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+}
+
+.pac-container .pac-item{
+    border-top: none;
+}
+
+.pac-container .pac-item .pac-item-query{
+    color: #333;
 
 }
