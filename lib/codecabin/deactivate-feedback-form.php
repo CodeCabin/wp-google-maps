@@ -1,9 +1,21 @@
 <?php
 
+namespace codecabin\PluginDeactivationForm;
 
-add_action('admin_enqueue_scripts', 'wpgmaps_deactivation_survey' );
+if(!is_admin())
+	return;
 
-function wpgmaps_deactivation_survey() {
+global $pagenow;
+if($pagenow != "plugins.php")
+	return;
+
+if(defined('CODECABIN_DEACTIVATE_FEEDBACK_FORM_INCLUDED'))
+	return;
+
+define('CODECABIN_DEACTIVATE_FEEDBACK_FORM_INCLUDED', true);
+
+function admin_enqueue_scripts()
+{
 	
 	// Enqueue scripts
 	wp_enqueue_script('remodal', plugin_dir_url(__FILE__) . 'remodal.min.js');
@@ -43,7 +55,8 @@ function wpgmaps_deactivation_survey() {
 		'other'						=> __('Other', 'codecabin')
 	);
 	
-	foreach($plugins as $plugin) {
+	foreach($plugins as $plugin)
+	{
 		$plugin->reasons = apply_filters('codecabin_deactivate_feedback_form_reasons', $defaultReasons, $plugin);
 	}
 	
@@ -51,14 +64,17 @@ function wpgmaps_deactivation_survey() {
 	wp_localize_script('codecabin-deactivate-feedback-form', 'codecabin_deactivate_feedback_form_plugins', $plugins);
 }
 
+add_action('admin_enqueue_scripts', 'codecabin\\PluginDeactivationForm\\admin_enqueue_scripts');
+
 /**
  * Hook for adding plugins, pass an array of objects in the following format:
  *  'slug'		=> 'plugin-slug'
  *  'version'	=> 'plugin-version'
  * @return array The plugins in the format described above
  */
-add_filter('codecabin_deactivate_feedback_form_plugins', 'wpgmaps_deactivation_form_feedback_form_plugins' );
-function wpgmaps_deactivation_form_feedback_form_plugins( $plugins ) {
+function deactivate_feedback_form_plugins($plugins)
+{
 	return $plugins;
 }
-
+ 
+add_filter('codecabin_deactivate_feedback_form_plugins', 'codecabin\PluginDeactivationForm\deactivate_feedback_form_plugins');

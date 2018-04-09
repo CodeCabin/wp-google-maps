@@ -19,6 +19,24 @@
 		// all good.. continue...
 	}
 
+	function wpgmza_parse_theme_data(raw)
+	{
+		var json;
+		
+		try{
+			json = JSON.parse(raw);
+		}catch(e) {
+			try{
+				json = eval(raw);
+			}catch(e) {
+				console.warn("Couldn't parse theme data");
+				return [];
+			}
+		}
+		
+		return json;
+	}
+	
     function fillInAddress() {
       // Get the place details from the autocomplete object.
       var place = autocomplete.getPlace();
@@ -161,6 +179,14 @@
                 });
             }
         }
+        if (typeof document.getElementById('wpgmza_store_locator_default_address') !== "undefined") {
+            if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
+                /* initialize the autocomplete form */
+                var store_default_autocomplete = new google.maps.places.Autocomplete(
+                    /** @type {HTMLInputElement} */(document.getElementById('wpgmza_store_locator_default_address')),
+                    { types: ['geocode'] });
+            }
+        }
         wpgmzaTable = jQuery('#wpgmza_table').DataTable({
             "bProcessing": true,
             "aaSorting": [[ 0, "desc" ]]
@@ -254,6 +280,64 @@
 
         });
 
+		jQuery("body").on("click", ".wpgmza_circle_del_btn", function() {
+			
+			var circle_id = jQuery(this).attr("id");
+			var map_id = jQuery("#wpgmza_id").val();
+			
+			var wpgm_map_id = "0";
+			if (document.getElementsByName("wpgmza_id").length > 0) { wpgm_map_id = jQuery("#wpgmza_id").val(); }
+			var data = {
+					action: 'delete_circle',
+					security: wpgmaps_nonce,
+					map_id: wpgm_map_id,
+					circle_id: circle_id
+			};
+			jQuery.post(ajaxurl, data, function(response) {
+				$("#tabs-circles table").replaceWith(response);
+				circle_array.forEach(function(circle) {
+					
+					if(circle.id == circle_id)
+					{
+						circle.setMap(null);
+						return false;
+					}
+					
+				});
+				
+			});
+			
+		});
+		
+		jQuery("body").on("click", ".wpgmza_rectangle_del_btn", function() {
+			
+			var rectangle_id = jQuery(this).attr("id");
+			var map_id = jQuery("#wpgmza_id").val();
+			
+			var wpgm_map_id = "0";
+			if (document.getElementsByName("wpgmza_id").length > 0) { wpgm_map_id = jQuery("#wpgmza_id").val(); }
+			var data = {
+					action: 'delete_rectangle',
+					security: wpgmaps_nonce,
+					map_id: wpgm_map_id,
+					rectangle_id: rectangle_id
+			};
+			jQuery.post(ajaxurl, data, function(response) {
+				$("#tabs-rectangles table").replaceWith(response);
+				rectangle_array.forEach(function(rectangle) {
+					
+					if(rectangle.id == rectangle_id)
+					{
+						rectangle.setMap(null);
+						return false;
+					}
+					
+				});
+				
+			});
+			
+		});
+		
         jQuery('#wpgmza_map_type').on('change', function (e) {
             var optionSelected = jQuery("option:selected", this);
             var valueSelected = this.value;
@@ -610,8 +694,8 @@ MYMAP.init = function(selector, latLng, zoom) {
 
 
     if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== false && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== "") {
-        wpgmza_theme_data = jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']);
-        this.map.setOptions({styles: jQuery.parseJSON(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'])});
+        var wpgmza_theme_data = wpgmza_parse_theme_data(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']);
+        this.map.setOptions({styles: wpgmza_theme_data});
     } 
     google.maps.event.addListener(this.map, 'rightclick', function(event) {
         if (marker_added === false) {
@@ -683,6 +767,19 @@ MYMAP.init = function(selector, latLng, zoom) {
         transitLayer.setMap(MYMAP.map);
     }   
     
+	if(window.wpgmza_circle_data_array) {
+		window.circle_array = [];
+		for(var circle_id in wpgmza_circle_data_array)
+			add_circle(1, wpgmza_circle_data_array[circle_id]);
+	}
+	
+	if(window.wpgmza_rectangle_data_array) {
+		window.rectangle_array = [];
+		for(var rectangle_id in wpgmza_rectangle_data_array)
+			add_rectangle(1, wpgmza_rectangle_data_array[rectangle_id]);
+	}
+	
+	
     google.maps.event.addListener(MYMAP.map, 'click', function() {
         close_infowindows();
     });
@@ -1050,6 +1147,57 @@ function add_polyline(polyline) {
    WPGM_Path[polyline].setMap(MYMAP.map);
     
     
+}
+
+function add_circle(mapid, data)
+{
+	data.map = MYMAP.map;
+	
+	var m = data.center.match(/-?\d+(\.\d*)?/g);
+	data.center = new google.maps.LatLng({
+		lat: parseFloat(m[0]),
+		lng: parseFloat(m[1]),
+	});
+	
+	data.radius = parseFloat(data.radius);
+	data.fillColor = data.color;
+	data.fillOpacity = parseFloat(data.opacity);
+	
+	data.strokeOpacity = 0;
+	
+	var circle = new google.maps.Circle(data);
+	circle_array.push(circle);
+}
+
+function add_rectangle(mapid, data)
+{
+	data.map = MYMAP.map;
+	
+	data.fillColor = data.color;
+	data.fillOpacity = parseFloat(data.opacity);
+	
+	var northWest = data.cornerA;
+	var southEast = data.cornerB;
+	
+	var m = northWest.match(/-?\d+(\.\d+)?/g);
+	var north = parseFloat(m[0]);
+	var west = parseFloat(m[1]);
+	
+	m = southEast.match(/-?\d+(\.\d+)?/g);
+	var south = parseFloat(m[0]);
+	var east = parseFloat(m[1]);
+	
+	data.bounds = {
+		north: north,
+		west: west,
+		south: south,
+		east: east
+	};
+	
+	data.strokeOpacity = 0;
+	
+	var rectangle = new google.maps.Rectangle(data);
+	rectangle_array.push(rectangle);
 }
 
 })(jQuery);

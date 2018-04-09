@@ -90,7 +90,7 @@ for(var entry in wpgmaps_localize) {
         jQuery( "#wpgmza_map_"+mapid).trigger( 'wpgooglemaps_loaded' );
 
         if ("undefined" !== typeof wpgmaps_localize[mapid]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[mapid]['other_settings']['wpgmza_theme_data'] !== false) {
-           this.map.setOptions({styles: jQuery.parseJSON(wpgmaps_localize[mapid]['other_settings']['wpgmza_theme_data'])});
+           this.map.setOptions({styles: JSON.parse(wpgmaps_localize[mapid]['other_settings']['wpgmza_theme_data'])});
         } 
 
 
@@ -282,7 +282,7 @@ for(var entry in wpgmaps_localize) {
         } else { 
         
             if (db_marker_array.length > 0) {
-                var dec_marker_array = jQuery.parseJSON(db_marker_array);
+                var dec_marker_array = JSON.parse(db_marker_array);
                 jQuery.each(dec_marker_array, function(i, val) {
                     
                     
