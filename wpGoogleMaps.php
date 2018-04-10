@@ -11,6 +11,10 @@ Domain Path: /languages
 */
 
 /* 
+ * 7.0.02 - 2018-04-10
+ * Fixed FontAwesome CSS being enqueued as script
+ * Fixed JS error in for ... in loop when adding methods to Array prototype
+ *
  * 7.0.01 - 2018-04-06
  * Switched to WebFont / CSS FontAwesome 5 for compatibility reasons
  * 
@@ -2697,7 +2701,7 @@ function wpgmaps_tag_basic( $atts ) {
 	
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $wpgaps_core_dependancy, $wpgmza_version.'b' , false);
 	
-	wp_enqueue_script('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+	wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
 	
 	wp_localize_script('wpgmaps_core', 'wpgmza_circle_data_array', wpgmza_get_circle_data(1));
 	wp_localize_script('wpgmaps_core', 'wpgmza_rectangle_data_array', wpgmza_get_rectangle_data(1));
@@ -5980,7 +5984,8 @@ function wpgmaps_admin_scripts() {
         }
 
         if ($_GET['page'] == "wp-google-maps-menu-support" && !function_exists('wpgmaps_admin_styles_pro')) {
-            wp_register_style('fontawesome', plugins_url('css/font-awesome.min.css', __FILE__));
+            //wp_register_style('fontawesome', plugins_url('css/font-awesome.min.css', __FILE__));
+			wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
             wp_enqueue_style('fontawesome');
         }
 
@@ -6022,7 +6027,8 @@ function wpgmaps_admin_styles() {
      global $wpgmza_version;
         wp_register_style( 'wpgmaps-style', plugins_url('css/wpgmza_style.css', __FILE__),array(),$wpgmza_version );
         wp_enqueue_style( 'wpgmaps-style' );
-    wp_register_style( 'fontawesome', plugins_url('css/font-awesome.min.css', __FILE__) );
+    //wp_register_style( 'fontawesome', plugins_url('css/font-awesome.min.css', __FILE__) );
+	wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
     wp_enqueue_style( 'fontawesome' );
 
 }
@@ -7492,8 +7498,8 @@ function wpgmaps_b_admin_add_circle_javascript()
 			(function($) {
 		
 				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
-				var circle;
-				var MYMAP = {
+				circle = null;
+				MYMAP = {
 					map: null,
 					bounds: null
 				};
@@ -7536,8 +7542,23 @@ function wpgmaps_b_admin_add_circle_javascript()
 						$("input[name='center']").val(circle.getCenter());
 						
 					});
+					
+					//$("#fit-bounds-to-shape").on("click", wpgmza_fit_circle_bounds);
+					//autocomplete = new google.maps.places.Autocomplete($("#fit-bounds-to-shape")[0]);
 						
 				});
+				
+				/*function wpgmza_fit_circle_bounds()
+				{
+					var bounds = circle.getBounds();
+					
+					MYMAP.map.fitBounds(bounds);
+				}*/
+				
+				function wpgmza_update_center_field()
+				{
+					$("input[name='center']").val(circle.getCenter().toString());
+				}
 				
 				function wpgmza_get_width_in_kilometers(map)
 				{
@@ -7602,6 +7623,12 @@ function wpgmaps_b_admin_add_circle_javascript()
 							draggable: true
 						});
 						
+						circle.addListener("dragend", function() {
+							wpgmza_update_center_field();
+						});
+						
+						wpgmza_update_center_field();
+						
 						handle_radius_warning();
 						
 					});
@@ -7632,6 +7659,12 @@ function wpgmaps_b_admin_add_circle_javascript()
 							radius: parseFloat( $("input[name='circle_radius']").val() ),
 							draggable: true
 						});
+						
+						circle.addListener("dragend", function() {
+							wpgmza_update_center_field();
+						});
+						
+						MYMAP.map.fitBounds(circle.getBounds());
 						
 					}
 				}
@@ -7741,6 +7774,8 @@ function wpgmza_b_edit_circle($mid)
 	
 	wpgmaps_b_admin_add_circle_javascript();
 	
+	wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+	
     if ($_GET['action'] == "edit_circle" && isset($mid)) {
         $res = wpgmza_get_map_data($mid);
 		$circle_id = (int)$_GET['circle_id'];
@@ -7779,6 +7814,21 @@ function wpgmza_b_edit_circle($mid)
                                 <input id=\"circle\" name=\"circle_name\" type=\"text\" value=\"$name\" />
                             </td>
                         </tr>
+						<tr>
+							<td>
+								" . __('Center', 'wp-google-maps') . "
+							</td>
+							<td>
+								<input name='center' value='" . esc_attr($center) . "'/>
+								<button id='fit-bounds-to-shape' 
+									class='button button-secondary' 
+									type='button' 
+									title='" . __('Fit map bounds to shape', 'wp-google-maps') . "'
+									data-fit-bounds-to-shape='circle'>
+									<i class='fas fa-eye'></i>
+								</button>
+							</td>
+						</tr>
 						<tr>
 							<td>
                                 ".__("Color","wp-google-maps")."

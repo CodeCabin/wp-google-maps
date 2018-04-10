@@ -1,6 +1,17 @@
-jQuery(document).ready(function(){
-
-
+jQuery(document).ready(function($){
+	
+	$("button[data-fit-bounds-to-shape]").each(function(index, el) {
+		
+		$(el).on("click", function(event) {
+			
+			var name = $(el).attr("data-fit-bounds-to-shape");
+			var shape = window[name];
+			MYMAP.map.fitBounds(shape.getBounds());
+			
+		});
+		
+	});
+	
     jQuery("body").on("click",".wpgmza_copy_shortcode", function() {
         var $temp = jQuery('<input>');
         var $tmp2 = jQuery('<span id="wpgmza_tmp" style="display:none; width:100%; text-align:center;">');
