@@ -160,7 +160,7 @@ function wpgmza_b_pro_edit_poly($mid) {
 								class='button button-secondary' 
 								type='button' 
 								title='" . __('Fit map bounds to shape', 'wp-google-maps') . "'
-								data-fit-bounds-to-shape='circle'>
+								data-fit-bounds-to-shape='poly'>
 								<i class='fas fa-eye'></i>
 							</button>
 						</td>
@@ -378,8 +378,6 @@ function wpgmaps_b_admin_add_poly_javascript($mapid) {
 
                 });
                 <?php } ?>
-
-
 
             }
             function addPoint(event) {
@@ -658,6 +656,10 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
                 poly.setMap(MYMAP.map);
                 poly.setPaths(poly_path);
                 google.maps.event.addListener(MYMAP.map, 'click', addPoint);
+				
+				setTimeout(function() {
+					jQuery("#fit-bounds-to-shape").click();
+				}, 500);
             }
             function addExistingPoint(temp_gps) {
                 poly_path.insertAt(poly_path.length, temp_gps);

@@ -6,8 +6,19 @@ jQuery(document).ready(function($){
 			
 			var name = $(el).attr("data-fit-bounds-to-shape");
 			var shape = window[name];
-			MYMAP.map.fitBounds(shape.getBounds());
+			var bounds;
 			
+			if(shape instanceof google.maps.Polygon || shape instanceof google.maps.Polyline)
+			{
+				bounds = new google.maps.LatLngBounds();
+				shape.getPath().forEach(function(element, index) {
+					bounds.extend(element);
+				});
+			}
+			else
+				bounds = shape.getBounds();
+		
+			MYMAP.map.fitBounds(bounds);
 		});
 		
 	});
