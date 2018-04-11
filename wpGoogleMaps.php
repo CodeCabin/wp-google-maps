@@ -11,10 +11,11 @@ Domain Path: /languages
 */
 
 /* 
- * 7.0.01 - 2018-04-06
+ * 7.0.01 - 2018-04-11
  * Switched to WebFont / CSS FontAwesome 5 for compatibility reasons
  * Fixed JS error in for ... in loop when adding methods to Array prototype
  * Fixed FontAwesome CSS being enqueued as script
+ * Added functionality to fit map to bounds when editing shapes
  * 
  * 7.0.00 - 2018-04-04
  * Added arbitrary radii control to Maps -> Settings -> Store Locator
