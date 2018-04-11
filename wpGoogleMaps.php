@@ -11,12 +11,10 @@ Domain Path: /languages
 */
 
 /* 
- * 7.0.02 - 2018-04-10
- * Fixed FontAwesome CSS being enqueued as script
- * Fixed JS error in for ... in loop when adding methods to Array prototype
- *
  * 7.0.01 - 2018-04-06
  * Switched to WebFont / CSS FontAwesome 5 for compatibility reasons
+ * Fixed JS error in for ... in loop when adding methods to Array prototype
+ * Fixed FontAwesome CSS being enqueued as script
  * 
  * 7.0.00 - 2018-04-04
  * Added arbitrary radii control to Maps -> Settings -> Store Locator
@@ -7939,14 +7937,16 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 	    <?php } ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >
-			(function($) {
 		
-				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
-				var rectangle;
-				var MYMAP = {
+			var rectangle;
+			var MYMAP = {
 					map: null,
 					bounds: null
 				};
+		
+			(function($) {
+		
+				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				
 				$(document).ready(function(){
 					function wpgmza_InitMap() {
@@ -8048,6 +8048,10 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 						});
 						
 					}
+					
+					setTimeout(function() {
+						$("#fit-bounds-to-shape").click();
+					}, 500);
 				}
 
 			})(jQuery);
@@ -8199,6 +8203,20 @@ function wpgmza_b_edit_rectangle($mid)
                                 <input id=\"rectangle_opacity\" name=\"rectangle_opacity\" type=\"text\" value=\"{$rectangle->opacity}\" type='number' step='any' /> (0 - 1.0) example: 0.6 for 60%
                             </td>
                         </tr>
+						<tr>
+							<td>
+								".__('Show Rectangle', 'wp-google-maps')."
+							</td>
+							<td>
+								<button id='fit-bounds-to-shape' 
+									class='button button-secondary' 
+									type='button' 
+									title='" . __('Fit map bounds to shape', 'wp-google-maps') . "'
+									data-fit-bounds-to-shape='rectangle'>
+									<i class='fas fa-eye'></i>
+								</button>
+							</td>
+						</tr>
                     </table>
                     <div class='wpgmza_map_seventy'> 
 	                    <div id=\"wpgmza_map\">&nbsp;</div>

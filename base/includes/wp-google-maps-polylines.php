@@ -63,7 +63,10 @@ function wpgmza_b_pro_add_polyline($mid) {
                                 <input id=\"poly_thickness\" name=\"poly_thickness\" type=\"text\" value=\"4\" /> (0 - 50) example: 4
                             </td>
                                 
-                    </tr>
+						</tr>
+						
+						
+						
                     </table>
                     <div class='wpgmza_map_seventy'> 
                         <div id=\"wpgmza_map\">&nbsp;</div>
@@ -154,8 +157,25 @@ function wpgmza_b_pro_edit_polyline($mid) {
                             <td>
                                 <input id=\"poly_thickness\" name=\"poly_thickness\" type=\"text\" value=\"".esc_attr($pol->linethickness)."\" /> (0 - 50) example: 4
                             </td>
-                                
-                    </tr>
+						</tr>
+					
+						<tr>
+							
+							<td>
+								".__('Show Polyline', 'wp-google-maps')."
+							</td>
+							<td>
+								<button id='fit-bounds-to-shape' 
+									class='button button-secondary' 
+									type='button' 
+									title='" . __('Fit map bounds to shape', 'wp-google-maps') . "'
+									data-fit-bounds-to-shape='poly'>
+									<i class='fas fa-eye'></i>
+								</button>
+							</td>
+						
+						</tr>
+						
                     </table>
                     <div class='wpgmza_map_seventy'> 
                         <div id=\"wpgmza_map\">&nbsp;</div>
@@ -597,6 +617,9 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
 
                 addPolyline();
                 
+				setTimeout(function() {
+					$("#fit-bounds-to-shape").click();
+				}, 500);
 
             }
             function addPolyline() {
