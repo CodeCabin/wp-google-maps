@@ -257,29 +257,29 @@ MYMAP.init = function(selector, latLng, zoom) {
         transitLayer.setMap(MYMAP.map);
 	}   
     
-	if(window.wpgmza_circle_data_array[mapid]) {
+	if(window.wpgmza_circle_data_array) {
 		window.circle_array = [];
 		
 		for(var circle_id in wpgmza_circle_data_array) {
 			
 			// Check that this belongs to the array itself, as opposed to its prototype, or else this will break if you add methods to the array prototype (please don't extend the native types)
-			if(!wpgmza_circle_data_array[mapid].hasOwnProperty(circle_id))
+			if(!wpgmza_circle_data_array.hasOwnProperty(circle_id))
 				continue;
 			
-			add_circle(1, wpgmza_circle_data_array[mapid][circle_id]);
+			add_circle(1, wpgmza_circle_data_array[circle_id]);
 		}
 	}
 	
-	if(window.wpgmza_rectangle_data_array[mapid]) {
+	if(window.wpgmza_rectangle_data_array) {
 		window.rectangle_array = [];
 		
 		for(var rectangle_id in wpgmza_rectangle_data_array) {
 			
 			// Check that this belongs to the array itself, as opposed to its prototype, or else this will break if you add methods to the array prototype (please don't extend the native types)
-			if(!wpgmza_rectangle_data_array[mapid].hasOwnProperty(rectangle_id))
+			if(!wpgmza_rectangle_data_array.hasOwnProperty(rectangle_id))
 				continue;
 			
-			add_rectangle(1, wpgmza_rectangle_data_array[mapid][rectangle_id]);
+			add_rectangle(1, wpgmza_rectangle_data_array[rectangle_id]);
 			
 		}
 	}

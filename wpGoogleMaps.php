@@ -13,6 +13,7 @@ Domain Path: /languages
 /* 
  * 7.0.02 - 2018-04-15
  * Added option to select FontAwesome version
+ * Fixed bug with circle data array
  *
  * 7.0.01 - 2018-04-11
  * Switched to WebFont / CSS FontAwesome 5 for compatibility reasons
