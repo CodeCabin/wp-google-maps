@@ -5,7 +5,7 @@ Polygon functionality for WP Google Maps
 
 add_action('wp_enqueue_scripts', function() {
 	
-	wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+	wpgmza_enqueue_fontawesome();
 	
 });
 
