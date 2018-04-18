@@ -834,7 +834,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                         animation: google.maps.Animation.BOUNCE
                                 });
                             } else { /* dont show icon */ }
-                            if (distance_type === "1") {
+                            if (distance_type == "1") {
                                 var populationOptions = {
                                       strokeColor: '#FF0000',
                                       strokeOpacity: 0.25,
@@ -862,7 +862,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                             check1 = check1 + 1;
                         }
                         var R = 0;
-                        if (distance_type === "1") {
+                        if (distance_type == "1") {
                             R = 3958.7558657440545; 
                         } else {
                             R = 6378.16; 
@@ -935,7 +935,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                             animation: google.maps.Animation.BOUNCE
                                     });
                                 } else { /* dont show icon */ }
-                                if (distance_type === "1") {
+                                if (distance_type == "1") {
                                     var populationOptions = {
                                           strokeColor: '#FF0000',
                                           strokeOpacity: 0.25,
@@ -963,7 +963,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                 check1 = check1 + 1;
                             }
                             var R = 0;
-                            if (distance_type === "1") {
+                            if (distance_type == "1") {
                                 R = 3958.7558657440545; 
                             } else {
                                 R = 6378.16; 
@@ -1030,7 +1030,7 @@ function add_marker(marker_data) {
     var d_string = "";
 
     if (typeof marker_data.radius !== "undefined" && marker_data.radius !== null) {                                 
-        if (marker_data.distance_type === "1") {
+        if (marker_data.distance_type == "1") {
             d_string = "<p style='min-width:100px; display:block;'>"+Math.round(marker_data.d,2)+" "+wpgmaps_lang_m_away+"</p>"; 
         } else {
             d_string = "<p style='min-width:100px; display:block;'>"+Math.round(marker_data.d,2)+" "+wpgmaps_lang_km_away+"</p>";
