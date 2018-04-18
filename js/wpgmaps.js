@@ -354,7 +354,7 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 				center: center
 			};
 			
-			if (distance_type === "1")
+			if (distance_type == "1")
 				options.radius = parseInt(radius / 0.000621371);
 			else
 				options.radius = parseInt(radius / 0.001);
