@@ -88,13 +88,14 @@ class GoogleMapsAPILoader
 	 */
 	public function registerGoogleMaps()
 	{
-		$settings = GoogleMapsAPILoader::$settings;
+		global $post;
 		
-		if(!empty($settings['wpgmza_settings_remove_api']))
-			return;
+		$settings = GoogleMapsAPILoader::$settings;
 		
 		if(GoogleMapsAPILoader::$googleAPILoadCalled)
 			return;
+		
+		// TODO: It may be more appropriate to check isIncludeAllowed here rather than in script_loader_tag
 		
 		$params = $this->getGoogleMapsAPIParams();
 		
@@ -105,8 +106,17 @@ class GoogleMapsAPILoader
 		
 		wp_register_script('wpgmza_api_call', $url);
 		
+		// Are we always enqueuing?
+		if(!empty($settings['wpgmza_load_google_maps_api_condition']) && $settings['wpgmza_load_google_maps_api_condition'] == 'always')
+			$this->enqueueGoogleMaps();
+		
+		// Are we always enqueuing on this page?
+		if($post && $this->isPageIncluded($post->ID))
+			$this->enqueueGoogleMaps();
+		
 		GoogleMapsAPILoader::$googleAPILoadCalled = true;
 		
+		// Block other plugins from including the API
 		add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
 	}
 	
@@ -115,11 +125,86 @@ class GoogleMapsAPILoader
 		wp_enqueue_script('wpgmza_api_call');
 	}
 	
+	public function isPageIncluded($page_id)
+	{
+		global $post;
+		$settings = GoogleMapsAPILoader::$settings;
+		
+		if(empty($settings['wpgmza_always_include_google_maps_api_on_pages']))
+			return false;
+		
+		if(!preg_match_all('/\d+/', $settings['wpgmza_always_include_google_maps_api_on_pages'], $m))
+			return false;
+		
+		if(empty($m[0]))
+			return false;
+		
+		$page_ids = $m[0];
+		
+		return (array_search($page_id, $page_ids) !== false);
+	}
+	
+	public function isPageExcluded($page_id)
+	{
+		$settings = GoogleMapsAPILoader::$settings;
+		
+		if(empty($settings['wpgmza_always_exclude_google_maps_api_on_pages']))
+			return false;
+		
+		if(!preg_match_all('/\d+/', $settings['wpgmza_always_exclude_google_maps_api_on_pages'], $m))
+			return false;
+			
+		if(empty($m[0]))
+			return false;
+		
+		$page_ids = $m[0];
+			
+		return (array_search($page_id, $page_ids) !== false);
+	}
+	
+	public function isIncludeAllowed()
+	{
+		global $post;
+		
+		if(!empty($settings['wpgmza_settings_remove_api']))
+			return false;
+		
+		if($this->isPageIncluded($post->ID))
+			return true;
+		
+		if($this->isPageExcluded($post->ID))
+			return false;
+			
+		if(!empty($settings['wpgmza_load_google_maps_api_condition']))
+			switch($settings['wpgmza_load_google_maps_api_condition'])
+			{
+				case 'never':
+					return false;
+					break;
+					
+				case 'only-front-end':
+					return !is_admin();
+					break;
+					
+				case 'only-back-end':
+					return is_admin();
+					break;
+				
+				default:
+					break;
+			}
+		
+		return true;
+	}
+	
 	public function preventOtherGoogleMapsTag($tag, $handle, $src)
 	{
 		if(preg_match('/maps\.google/i', $src))
 		{
-			if($handle != 'wpgmza_api_call')
+			if(!$this->isIncludeAllowed())
+				return '';
+			
+			else if($handle != 'wpgmza_api_call')
 				return '';
 			
 			if(!preg_match('/\?.+$/', $src))
@@ -131,66 +216,16 @@ class GoogleMapsAPILoader
 	
 	public function getSettingsHTML()
 	{
-		?>
+		require_once(plugin_dir_path(__FILE__) . 'class.dom-document.php');
 		
-		<fieldset>
-			<label><?php _e('Use Google Maps API:', 'wp-google-maps'); ?></label>
-			<select name="wpgmza_api_version">
-				<option value="3.exp">
-					<?php
-					_e('3.exp (Experimental)', 'wp-google-maps');
-					?>
-				</option>
-				<option value="3.31">
-					<?php
-					_e('3.exp (Experimental)', 'wp-google-maps');
-					?>
-				</option>
-				<option value="3.30">
-					<?php
-					_e('3.exp (Experimental)', 'wp-google-maps');
-					?>
-				</option>
-			</select>
-		</fieldset>
-			<label><?php _e('Load Google Maps API:', 'wp-google-maps'); ?></label>
-			<select name="wpgmza_load_google_maps_api_condition">
-				<option value="always">
-					<?php
-					_e('Always', 'wp-google-maps');
-					?>
-				</option>
-				<option value="where-required">
-					<?php
-					_e('Where required', 'wp-google-maps');
-					?>
-				</option>
-				<option value="only-front-end">
-					<?php
-					_e('Only Front End', 'wp-google-maps');
-					?>
-				</option>
-				<option value="only-back-end">
-					<?php
-					_e('Only Back End', 'wp-google-maps');
-					?>
-				</option>
-				<option value="never">
-					<?php
-					_e('Never', 'wp-google-maps');
-					?>
-				</option>
-			</select>
-		</fieldset>
-		<fieldset>
-			<label><?php _e('Always load Google Maps API on pages:') ?></label>
-			<input name="wpgmza_always_load_google_maps_api_on_pages" placeholder="<?php _e('Page IDs') ?>"/>
-		</fieldset>
-		<fieldset>
-			<label><?php _e('Always exclude Google Maps API on pages:') ?></label>
-			<input name="wpgmza_always_exclude_google_maps_api_on_pages" placeholder="<?php _e('Page IDs') ?>"/>
-		</fieldset>
-		<?php
+		// Load HTML
+		$document = new DOMDocument();
+		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/google-maps-api-settings.html.php');
+		
+		// Populate options
+		$document->populate(GoogleMapsAPILoader::$settings);
+		
+		return $document->saveInnerBody();
 	}
 	
 }
