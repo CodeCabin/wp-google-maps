@@ -169,11 +169,14 @@ class GoogleMapsAPILoader
 		if(!empty($settings['wpgmza_settings_remove_api']))
 			return false;
 		
-		if($this->isPageIncluded($post->ID))
-			return true;
-		
-		if($this->isPageExcluded($post->ID))
-			return false;
+		if($post)
+		{
+			if($this->isPageIncluded($post->ID))
+				return true;
+			
+			if($this->isPageExcluded($post->ID))
+				return false;
+		}
 			
 		if(!empty($settings['wpgmza_load_google_maps_api_condition']))
 			switch($settings['wpgmza_load_google_maps_api_condition'])

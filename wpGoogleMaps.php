@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.0.02
+Version: 7.0.04
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,15 @@ Domain Path: /languages
 */
 
 /* 
+ * 7.0.04
+ * Added GoogleMapsAPILoader module which now controls Google Maps API enqueueing and relevant settings
+ * Added integration with WP Migrate DB to handle spatial types
+ * Bug fixes
+ *
+ * 7.0.03 - 2018-04-20
+ * Improved spatial data migration function to be more robust
+ * Fixed undefined index use_fontawesome
+ *
  * 7.0.02 - 2018-04-15
  * Added option to select FontAwesome version
  * Fixed bug with circle data array
@@ -329,32 +338,27 @@ Domain Path: /languages
  * 
  */
 
-function wpgmza_show_php_version_error()
+if(!function_exists('wpgmza_show_php_version_error'))
 {
-	?>
-	<div class="notice notice-error">
-		<p>
-			<?php
-			_e('WP Google Maps: This plugin does not support PHP version 5.2 or below. Please use your cPanel or speak to your host to switch version.', 'wp-google-maps');
-			?>
-		</p>
-	</div>
-	<?php
+	function wpgmza_show_php_version_error()
+	{
+		?>
+		<div class="notice notice-error">
+			<p>
+				<?php
+				_e('WP Google Maps: This plugin does not support PHP version 5.2 or below. Please use your cPanel or speak to your host to switch version.', 'wp-google-maps');
+				?>
+			</p>
+		</div>
+		<?php
+	}
+	 
+	if(version_compare(phpversion(), '5.3', '<'))
+	{
+		add_action('admin_notices', 'wpgmza_show_php_version_error');
+		return;
+	}
 }
- 
-if(version_compare(phpversion(), '5.3', '<'))
-{
-	add_action('admin_notices', 'wpgmza_show_php_version_error');
-	return;
-}
- 
-require_once('includes/3rd-party-integration/class.wp-migrate-db-integration.php');
-
-require_once( "base/includes/wp-google-maps-polygons.php" );
-require_once( "base/includes/wp-google-maps-polylines.php" );
-require_once( "base/classes/widget_module.class.php" );
-require_once( "base/includes/deprecated.php" );
-require_once( "includes/compat/backwards_compat_v6.php" );
 
 define("WPGMAPS_DIR_PATH", plugin_dir_path(__FILE__));
 define("WPGMAPS_DIR",plugin_dir_url(__FILE__));
@@ -403,10 +407,20 @@ $wpgmza_tblname_circles = $wpdb->prefix . "wpgmza_circles";
 $wpgmza_tblname_rectangles = $wpdb->prefix . "wpgmza_rectangles";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "7.0.02";
+$wpgmza_version = "7.0.03";
 define("WPGMAPS", $wpgmza_version);
 $wpgmza_p_version = "6.19";
 $wpgmza_t = "basic";
+
+//var_dump('Including basic');
+
+require_once(plugin_dir_path(__FILE__) . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
+
+require_once( "base/includes/wp-google-maps-polygons.php" );
+require_once( "base/includes/wp-google-maps-polylines.php" );
+require_once( "base/classes/widget_module.class.php" );
+require_once( "base/includes/deprecated.php" );
+require_once( "includes/compat/backwards_compat_v6.php" );
 
 /* plugin deactivation checks */
 include ( "lib/codecabin/deactivate-feedback-form.php" );
@@ -2926,6 +2940,8 @@ function wpgmaps_get_plugin_url() {
  * Handle POST for settings page
  * @return void
  */
+add_action('admin_post_wpgmza_settings_page_post', 'wpgmza_settings_page_post');
+
 function wpgmza_settings_page_post()
 {
 	global $wpdb;
@@ -2982,8 +2998,6 @@ function wpgmza_settings_page_post()
 	wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu-settings');
 	exit;
 }
-
-add_action('admin_post_wpgmza_settings_page_post', 'wpgmza_settings_page_post');
 
 /**
  * Handles the bulk of the POST data for the plugin
@@ -8298,8 +8312,10 @@ if(!function_exists('wpgmza_enqueue_fontawesome'))
 			$settings = array(
 				'use_fontawesome' => '5.*'
 			);
+
+		$version = (empty($settings['use_fontawesome']) ? '4.*' : $settings['use_fontawesome']);
 		
-		switch($settings['use_fontawesome'])
+		switch($version)
 		{
 			case '5.*':
 				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
