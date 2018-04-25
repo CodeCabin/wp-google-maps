@@ -2,20 +2,25 @@
 
 namespace WPGMZA\Integration;
 
-class WPMigrateDB
+if(!class_exists('WPGMZA\\Integration\\WPMigrateDB'))
 {
-	public function __construct()
+	class WPMigrateDB
 	{
-		add_filter('wpmdb_process_column_as_binary', array($this, 'onProcessColumnAsBinary'), 10, 2);
-	}
-	
-	public function onProcessColumnAsBinary($processAsBinary, $struct)
-	{
-		if(preg_match('/^GEOMETRY|POINT|POLYGON|LINESTRING|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON|GEOMETRYCOLLECTION$/i', $struct->Type))
-			return true;
+		public function __construct()
+		{
+			add_filter('wpmdb_process_column_as_binary', array($this, 'onProcessColumnAsBinary'), 10, 2);
+		}
 		
-		return $processAsBinary;
+		public function onProcessColumnAsBinary($processAsBinary, $struct)
+		{
+			die('pof');
+			
+			if(preg_match('/^GEOMETRY|POINT|POLYGON|LINESTRING|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON|GEOMETRYCOLLECTION$/i', $struct->Type))
+				return true;
+			
+			return $processAsBinary;
+		}
 	}
 }
 
-$module = new WPMigrateDB();
+$wpgmza_wp_migration_db_module = new WPMigrateDB();
