@@ -29,6 +29,27 @@ function wpgmza_parse_theme_data(raw)
 	return json;
 }
 
+function wpgmza_get_guid() 
+{
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+function wpgmza_open_info_window(infoWindow, content)
+{
+	var guid = wpgmza_get_guid();
+	var div = $("<div hidden data-info-window-guid='" + guid + "'/>");
+	
+	infoWindow.setContent(div);
+	infoWindow.open();
+	
+	$("div[data-info-window-guid='" + guid + "']").trigger("infowindowopen.wpgmza");
+}
+
 function InitMap() {
 	var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
 	
