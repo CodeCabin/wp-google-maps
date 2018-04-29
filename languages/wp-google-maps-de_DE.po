@@ -1386,6 +1386,9 @@ msgstr "Maut meiden"
 msgid "Avoid Highways"
 msgstr "Autobahn meiden"
 
+msgid "Avoid Ferries"
+msgstr "Fähren meiden"
+
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2901
 msgid "From"
 msgstr "Von"

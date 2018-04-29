@@ -40,7 +40,6 @@ jQuery(function() {
 
 });
 
-
 for(var entry in wpgmaps_localize) {
 
     MYMAP[entry] = {

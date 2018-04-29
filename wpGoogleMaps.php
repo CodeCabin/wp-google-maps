@@ -14,6 +14,7 @@ Domain Path: /languages
  * 7.0.04
  * Added GoogleMapsAPILoader module which now controls Google Maps API enqueueing and relevant settings
  * Added integration with WP Migrate DB to handle spatial types
+ * Added support for shortcodes in marker description
  * Bug fixes
  *
  * 7.0.03 - 2018-04-20
@@ -2113,6 +2114,7 @@ function wpgmaps_update_xml_file($mapid = false) {
  * @return array                Array of marker data
  */
 function wpgmaps_return_markers($mapid = false,$marker_id = false) {
+	
     if (!$mapid) {
         return;
     }
@@ -2133,7 +2135,7 @@ function wpgmaps_return_markers($mapid = false,$marker_id = false) {
         
         $id = $result->id;
         $address = stripslashes($result->address);
-        $description = stripslashes($result->description);
+        $description = do_shortcode(stripslashes($result->description));
         $pic = $result->pic;
         if (!$pic) { $pic = ""; }
         $icon = $result->icon;
