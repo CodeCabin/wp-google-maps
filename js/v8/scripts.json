@@ -1,0 +1,292 @@
+{
+    "wpgmza-admin-table": {
+        "src": "js\/v8\/admin-table.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-data-table"
+        ]
+    },
+    "wpgmza": {
+        "src": "js\/v8\/core.js",
+        "pro": false,
+        "dependencies": []
+    },
+    "wpgmza-data-table": {
+        "src": "js\/v8\/datatable.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-distance": {
+        "src": "js\/v8\/distance.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-drawing-manager": {
+        "src": "js\/v8\/drawing-manager.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-event-dispatcher": {
+        "src": "js\/v8\/event-dispatcher.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-event": {
+        "src": "js\/v8\/event.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-friendly-error": {
+        "src": "js\/v8\/friendly-error.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-geocoder": {
+        "src": "js\/v8\/geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-info-window": {
+        "src": "js\/v8\/info-window.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-lat-lng": {
+        "src": "js\/v8\/latlng.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-map-edit-page": {
+        "src": "js\/v8\/map-edit-page.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map"
+        ]
+    },
+    "wpgmza-map-object": {
+        "src": "js\/v8\/map-object.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-map-settings": {
+        "src": "js\/v8\/map-settings.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-map": {
+        "src": "js\/v8\/map.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-marker-filter": {
+        "src": "js\/v8\/marker-filter.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-marker": {
+        "src": "js\/v8\/marker.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-polygon": {
+        "src": "js\/v8\/polygon.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map-object"
+        ]
+    },
+    "wpgmza-polyline": {
+        "src": "js\/v8\/polyline.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map-object"
+        ]
+    },
+    "wpgmza-settings-page": {
+        "src": "js\/v8\/settings-page.js",
+        "pro": false,
+        "dependencies": []
+    },
+    "wpgmza-store-locator": {
+        "src": "js\/v8\/store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-tour": {
+        "src": "js\/v8\/tour.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-vertex-context-menu": {
+        "src": "js\/v8\/vertex-context-menu.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-google-drawing-manager": {
+        "src": "js\/v8\/google-maps\/google-drawing-manager.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-drawing-manager"
+        ]
+    },
+    "wpgmza-google-geocoder": {
+        "src": "js\/v8\/google-maps\/google-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-geocoder"
+        ]
+    },
+    "wpgmza-google-info-window": {
+        "src": "js\/v8\/google-maps\/google-info-window.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-info-window"
+        ]
+    },
+    "wpgmza-google-map-edit-page": {
+        "src": "js\/v8\/google-maps\/google-map-edit-page.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map-edit-page"
+        ]
+    },
+    "wpgmza-google-map": {
+        "src": "js\/v8\/google-maps\/google-map.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map"
+        ]
+    },
+    "wpgmza-google-marker": {
+        "src": "js\/v8\/google-maps\/google-marker.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-marker"
+        ]
+    },
+    "wpgmza-google-polygon": {
+        "src": "js\/v8\/google-maps\/google-polygon.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polygon"
+        ]
+    },
+    "wpgmza-google-polyline": {
+        "src": "js\/v8\/google-maps\/google-polyline.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polyline"
+        ]
+    },
+    "wpgmza-google-store-locator": {
+        "src": "js\/v8\/google-maps\/google-store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-store-locator"
+        ]
+    },
+    "wpgmza-google-vertex-context-menu": {
+        "src": "js\/v8\/google-maps\/google-vertex-context-menu.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza_api_call"
+        ]
+    },
+    "wpgmza-osm-drawing-manager": {
+        "src": "js\/v8\/open-street-map\/osm-drawing-manager.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-drawing-manager"
+        ]
+    },
+    "wpgmza-osm-geocoder": {
+        "src": "js\/v8\/open-street-map\/osm-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-geocoder"
+        ]
+    },
+    "wpgmza-osm-info-window": {
+        "src": "js\/v8\/open-street-map\/osm-info-window.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-info-window"
+        ]
+    },
+    "wpgmza-osm-map-edit-page": {
+        "src": "js\/v8\/open-street-map\/osm-map-edit-page.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map-edit-page"
+        ]
+    },
+    "wpgmza-osm-map": {
+        "src": "js\/v8\/open-street-map\/osm-map.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map"
+        ]
+    },
+    "wpgmza-osm-marker": {
+        "src": "js\/v8\/open-street-map\/osm-marker.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-marker"
+        ]
+    },
+    "wpgmza-osm-polygon": {
+        "src": "js\/v8\/open-street-map\/osm-polygon.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polygon"
+        ]
+    },
+    "wpgmza-osm-polyline": {
+        "src": "js\/v8\/open-street-map\/osm-polyline.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polyline"
+        ]
+    },
+    "wpgmza-osm-store-locator": {
+        "src": "js\/v8\/open-street-map\/osm-store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-store-locator"
+        ]
+    }
+}

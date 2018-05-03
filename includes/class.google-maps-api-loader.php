@@ -13,7 +13,17 @@ class GoogleMapsAPILoader
 	public function __construct()
 	{
 		if(empty(GoogleMapsAPILoader::$settings))
-			GoogleMapsAPILoader::$settings = array_merge(get_option('WPGMZA_SETTINGS'), get_option('WPGMZA_OTHER_SETTINGS'));
+		{
+			$settings = get_option('WPGMZA_SETTINGS');
+			if(!$settings)
+				$settings = array();
+			
+			$other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+			if(!$other_settings)
+				$other_settings = array();
+			
+			GoogleMapsAPILoader::$settings = array_merge($settings, $other_settings);
+		}
 	}
 	
 	public static function _createInstance()
@@ -167,6 +177,9 @@ class GoogleMapsAPILoader
 		global $post;
 		
 		if(!empty($settings['wpgmza_settings_remove_api']))
+			return false;
+		
+		if(empty($settings['wpgmza_maps_engine']) || $settings['wpgmza_maps_engine'] != 'google-maps')
 			return false;
 		
 		if($post)
