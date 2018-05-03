@@ -876,6 +876,9 @@ add_action ( 'admin_head', 'wpgmza_plugin_row_js' );
 function wpgmza_plugin_row_js(){
     $current_page = get_current_screen();
 
+	if(!is_object($current_page))
+		return;
+	
     if ( $current_page->base == 'plugins' ) {
         wp_register_script( 'wpgmza_plugin_row_js', WPGMAPS_DIR.'js/wpgmaps_plugin_row.js', array( 'jquery-ui-core' ) );
         wp_enqueue_script( 'wpgmza_plugin_row_js' );
