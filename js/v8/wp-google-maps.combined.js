@@ -1293,6 +1293,10 @@
 		WPGMZA.assertInstanceOf(this, "Geocoder");
 	}
 	
+	WPGMZA.Geocoder.SUCCESS			= "success";
+	WPGMZA.Geocoder.ZERO_RESULTS	= "zero-results";
+	WPGMZA.Geocoder.FAIL			= "fail";
+	
 	WPGMZA.Geocoder.getConstructor = function()
 	{
 		switch(WPGMZA.settings.engine)
@@ -1348,6 +1352,9 @@
 		WPGMZA.EventDispatcher.call(this);
 		
 		WPGMZA.assertInstanceOf(this, "InfoWindow");
+		
+		if(!mapObject)
+			return;
 		
 		this.mapObject = mapObject;
 		
@@ -1412,9 +1419,11 @@
 	 * Opens the info window
 	 * @return boolean FALSE if the info window should not & will not open, TRUE if it will
 	 */
-	WPGMZA.InfoWindow.prototype.open = function(event)
+	WPGMZA.InfoWindow.prototype.open = function(map, mapObject)
 	{
 		var self = this;
+		
+		this.mapObject = mapObject;
 		
 		if(WPGMZA.settings.disable_infowindows)
 			return false;
@@ -1510,6 +1519,51 @@
 	
 })(jQuery);
 
+// js/v8/latlngbounds.js
+/**
+ * @namespace WPGMZA
+ * @module LatLngBounds
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	WPGMZA.LatLngBounds = function(southWest, northEast)
+	{
+		
+	}
+	
+	WPGMZA.LatLngBounds.prototype.isInInitialState = function()
+	{
+		return (this.north == undefined && this.south == undefined && this.west == undefined && this.east == undefined);
+	}
+	
+	WPGMZA.LatLngBounds.prototype.extend = function(latLng)
+	{
+		if(this.isInInitialState())
+		{
+			this.north = this.south = this.west = this.east = new WPGMZA.LatLng(latLng);
+			return;
+		}
+		
+		if(!(latLng instanceof WPGMZA.LatLng))
+			latLng = new WPGMZA.LatLng(latLng);
+		
+		if(latLng.lat < this.north)
+			this.north = latLng.lat;
+		
+		if(latLng.lat > this.south)
+			this.south = latLng.lat;
+		
+		if(latLng.lng < this.west)
+			this.west = latLng.lng;
+		
+		if(latLng.lng > this.east)
+			this.east = latLng.lng;
+	}
+	
+})(jQuery);
+
+
 // js/v8/map-object.js
 /**
  * @namespace WPGMZA
@@ -1592,6 +1646,81 @@
 			guid: this.guid,
 			settings: this.settings
 		};
+	}
+	
+})(jQuery);
+
+// js/v8/circle.js
+/**
+ * @namespace WPGMZA
+ * @module Circle
+ * @requires WPGMZA.MapObject
+ */
+(function($) {
+	
+	var Parent = WPGMZA.MapObject;
+	
+	WPGMZA.Circle = function(options, engineCircle)
+	{
+		var self = this;
+		
+		WPGMZA.assertInstanceOf(this, "Circle");
+		
+		this.center = new WPGMZA.LatLng();
+		this.radius = 100;
+		
+		Parent.apply(this, arguments);
+	}
+	
+	WPGMZA.Circle.prototype = Object.create(Parent.prototype);
+	WPGMZA.Circle.prototype.constructor = WPGMZA.Circle;
+	
+	WPGMZA.Circle.createInstance = function(options)
+	{
+		var constructor;
+		
+		if(WPGMZA.settings.engine == "google-maps")
+			constructor = WPGMZA.GoogleCircle;
+		else
+			constructor = WPGMZA.OSMCircle;
+		
+		return new constructor(options);
+	}
+	
+	WPGMZA.Circle.prototype.getCenter = function()
+	{
+		return this.center.clone();
+	}
+	
+	WPGMZA.Circle.prototype.setCenter = function(latLng)
+	{
+		this.center.lat = latLng.lat;
+		this.center.lng = latLng.lng;
+	}
+	
+	WPGMZA.Circle.prototype.getRadius = function()
+	{
+		return this.radius;
+	}
+	
+	WPGMZA.Circle.prototype.setRadius = function(radius)
+	{
+		this.radius = radius;
+	}
+	
+	WPGMZA.Circle.prototype.getMap = function()
+	{
+		return this.map;
+	}
+	
+	WPGMZA.Circle.prototype.setMap = function(map)
+	{
+		if(this.map)
+			this.map.removeCircle(this);
+		
+		if(map)
+			map.addCircle(this);
+			
 	}
 	
 })(jQuery);
@@ -1775,6 +1904,7 @@
 		this.markers = [];
 		this.polygons = [];
 		this.polylines = [];
+		this.circles = [];
 		
 		this.loadSettings();
 	}
@@ -1832,7 +1962,7 @@
 	
 	/**
 	 * This gets the distance in kilometers between two latitude / longitude points
-	 * TODO: Move this to the distance class
+	 * TODO: Move this to the distance class, or the LatLng class
 	 * @return void
 	 */
 	WPGMZA.Map.getGeographicDistance = function(lat1, lon1, lat2, lon2)
@@ -1894,7 +2024,7 @@
 	 * Removes the specified marker from this map
 	 * @return void
 	 */
-	WPGMZA.Map.prototype.deleteMarker = function(marker)
+	WPGMZA.Map.prototype.removeMarker = function(marker)
 	{
 		if(!(marker instanceof WPGMZA.Marker))
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
@@ -1921,14 +2051,191 @@
 		return null;
 	}
 	
-	WPGMZA.Map.prototype.deleteMarkerByID = function(id)
+	WPGMZA.Map.prototype.removeMarkerByID = function(id)
 	{
 		var marker = this.getMarkerByID(id);
 		
 		if(!marker)
 			return;
 		
-		this.deleteMarker(marker);
+		this.removeMarker(marker);
+	}
+	
+	/**
+	 * Adds the specified polygon to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		polygon.map = this;
+		
+		this.polygons.push(polygon);
+		this.dispatchEvent({type: "polygonadded", polygon: polygon});
+	}
+	
+	/**
+	 * Removes the specified polygon from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.deletePolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		if(polygon.map !== this)
+			throw new Error("Wrong map error");
+		
+		polygon.map = null;
+		
+		this.polygons.splice(this.polygons.indexOf(polygon), 1);
+		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
+	}
+	
+	WPGMZA.Map.prototype.getPolygonByID = function(id)
+	{
+		for(var i = 0; i < this.polygons.length; i++)
+		{
+			if(this.polygons[i].id == id)
+				return this.polygons[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deletePolygonByID = function(id)
+	{
+		var polygon = this.getPolygonByID(id);
+		
+		if(!polygon)
+			return;
+		
+		this.deletePolygon(polygon);
+	}
+	
+	/**
+	 * Gets a polyline by ID
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.getPolylineByID = function(id)
+	{
+		for(var i = 0; i < this.polylines.length; i++)
+		{
+			if(this.polylines[i].id == id)
+				return this.polylines[i];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Adds the specified polyline to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		polyline.map = this;
+		
+		this.polylines.push(polyline);
+		this.dispatchEvent({type: "polylineadded", polyline: polyline});
+	}
+	
+	/**
+	 * Removes the specified polyline from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.deletePolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		if(polyline.map !== this)
+			throw new Error("Wrong map error");
+		
+		polyline.map = null;
+		
+		this.polylines.splice(this.polylines.indexOf(polyline), 1);
+		this.dispatchEvent({type: "polylineremoved", polyline: polyline});
+	}
+	
+	WPGMZA.Map.prototype.getPolylineByID = function(id)
+	{
+		for(var i = 0; i < this.polylines.length; i++)
+		{
+			if(this.polylines[i].id == id)
+				return this.polylines[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deletePolylineByID = function(id)
+	{
+		var polyline = this.getPolylineByID(id);
+		
+		if(!polyline)
+			return;
+		
+		this.deletePolyline(polyline);
+	}
+	
+	/**
+	 * Adds the specified circle to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addCircle = function(circle)
+	{
+		if(!(circle instanceof WPGMZA.Circle))
+			throw new Error("Argument must be an instance of WPGMZA.Circle");
+		
+		circle.map = this;
+		
+		this.circles.push(circle);
+		this.dispatchEvent({type: "circleadded", circle: circle});
+	}
+	
+	/**
+	 * Removes the specified circle from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.removeCircle = function(circle)
+	{
+		if(!(circle instanceof WPGMZA.Circle))
+			throw new Error("Argument must be an instance of WPGMZA.Circle");
+		
+		if(circle.map !== this)
+			throw new Error("Wrong map error");
+		
+		circle.map = null;
+		
+		this.circles.splice(this.circles.indexOf(circle), 1);
+		this.dispatchEvent({type: "circleremoved", circle: circle});
+	}
+	
+	WPGMZA.Map.prototype.getCircleByID = function(id)
+	{
+		for(var i = 0; i < this.circles.length; i++)
+		{
+			if(this.circles[i].id == id)
+				return this.circles[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deleteCircleByID = function(id)
+	{
+		var circle = this.getCircleByID(id);
+		
+		if(!circle)
+			return;
+		
+		this.deleteCircle(circle);
 	}
 	
 	/**
@@ -3877,7 +4184,7 @@
 	{
 		this.hidePreviousInteractedInfoWindow();
 		
-		this.infoWindow.open();
+		this.infoWindow.open(this.map, this);
 		this.map.lastInteractedMarker = this;
 	}
 	
@@ -3967,6 +4274,19 @@
 	{
 		if(!visible && this.infoWindow)
 			this.infoWindow.close();
+	}
+	
+	WPGMZA.Marker.prototype.setMap = function(map)
+	{
+		if(!map)
+		{
+			if(this.map)
+				this.map.removeMarker(this);
+			
+			return;
+		}
+		
+		map.addMarker(this);
 	}
 	
 	WPGMZA.Marker.prototype.getDraggable = function()
@@ -4652,6 +4972,40 @@
 	
 })(jQuery);
 
+// js/v8/google-maps/google-circle.js
+/**
+ * @namespace WPGMZA
+ * @module GoogleCircle
+ * @requires WPGMZA.Circle
+ */
+(function($) {
+	
+	WPGMZA.GoogleCircle = function(options, googleCircle)
+	{
+		var self = this;
+		
+		WPGMZA.Circle.call(this, options, googleCircle);
+		
+		if(googleCircle)
+		{
+			this.googleCircle = googleCircle;
+		}
+		else
+		{
+			this.googleCircle = new google.maps.Circle(this.settings);
+			this.googleCircle.wpgmzaCircle = this;
+		}
+		
+		google.maps.event.addListener(this.googleCircle, "click", function() {
+			self.dispatchEvent({type: "click"});
+		});
+	}
+	
+	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
+	WPGMZA.GoogleCircle.prototype.constructor = WPGMZA.GoogleCircle;
+	
+})(jQuery);
+
 // js/v8/google-maps/google-drawing-manager.js
 /**
  * @namespace WPGMZA
@@ -4828,12 +5182,7 @@
 	{
 		Parent.call(this, mapObject);
 		
-		if(mapObject instanceof WPGMZA.Marker)
-			this.googleObject = mapObject.googleMarker;
-		else if(mapObject instanceof WPGMZA.Polygon)
-			this.googleObject = mapObject.googlePolygon;
-		else if(mapObject instanceof WPGMZA.Polyline)
-			this.googleObject = mapObject.googlePolyline;
+		this.setMapObject(mapObject);
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -4844,16 +5193,28 @@
 	WPGMZA.GoogleInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.GoogleInfoWindow.prototype.constructor = WPGMZA.GoogleInfoWindow;
 	
+	WPGMZA.GoogleInfoWindow.prototype.setGoogleObject = function()
+	{
+		if(mapObject instanceof WPGMZA.Marker)
+			this.googleObject = mapObject.googleMarker;
+		else if(mapObject instanceof WPGMZA.Polygon)
+			this.googleObject = mapObject.googlePolygon;
+		else if(mapObject instanceof WPGMZA.Polyline)
+			this.googleObject = mapObject.googlePolyline;
+	}
+	
 	/**
 	 * Opens the info window
 	 * @return boolean FALSE if the info window should not & will not open, TRUE if it will
 	 */
-	WPGMZA.GoogleInfoWindow.prototype.open = function()
+	WPGMZA.GoogleInfoWindow.prototype.open = function(map, mapObject)
 	{
 		var self = this;
 		
-		if(!Parent.prototype.open.call(this))
+		if(!Parent.prototype.open.call(this, map, mapObject))
 			return false;
+		
+		this.setGoogleObject();
 		
 		if(!this.googleInfoWindow)
 			this.googleInfoWindow = new google.maps.InfoWindow();
@@ -4904,6 +5265,11 @@
 		WPGMZA.InfoWindow.prototype.close.call(this);
 		
 		this.googleInfoWindow.close();
+	}
+	
+	WPGMZA.GoogleInfoWindow.prototype.setContent = function(html)
+	{
+		this.googleInfoWindow.setContent(html);
 	}
 	
 })(jQuery);
@@ -5225,11 +5591,11 @@
 	 * Removes the specified marker from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deleteMarker = function(marker)
+	WPGMZA.GoogleMap.prototype.removeMarker = function(marker)
 	{
 		marker.googleMarker.setMap(null);
 		
-		Parent.prototype.deleteMarker.call(this, marker);
+		Parent.prototype.removeMarker.call(this, marker);
 	}
 	
 	/**
@@ -5247,11 +5613,11 @@
 	 * Removes the specified polygon from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deletePolygon = function(polygon)
+	WPGMZA.GoogleMap.prototype.removePolygon = function(polygon)
 	{
 		polygon.googlePolygon.setMap(null);
 		
-		Parent.prototype.deletePolygon.call(this, polygon);
+		Parent.prototype.removePolygon.call(this, polygon);
 	}
 	
 	/**
@@ -5269,11 +5635,25 @@
 	 * Removes the specified polygon from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deletePolyline = function(polyline)
+	WPGMZA.GoogleMap.prototype.removePolyline = function(polyline)
 	{
 		polyline.googlePolyline.setMap(null);
 		
-		Parent.prototype.deletePolyline.call(this, polyline);
+		Parent.prototype.removePolyline.call(this, polyline);
+	}
+	
+	WPGMZA.GoogleMap.prototype.addCircle = function(circle)
+	{
+		circle.googleCircle.setMap(this.googleMap);
+		
+		Parent.prototype.addCircle.call(this, circle);
+	}
+	
+	WPGMZA.GoogleMap.prototype.removeCircle = function(circle)
+	{
+		circle.googleCircle.setMap(null);
+		
+		Parent.prototype.removeCircle.call(this, circle);
 	}
 	
 	/**
@@ -6030,6 +6410,93 @@
 	
 })(jQuery);
 
+// js/v8/open-street-map/osm-circle.js
+/**
+ * @namespace WPGMZA
+ * @module OSMCircle
+ * @requires WPGMZA.Circle
+ */
+(function($) {
+	
+	var Parent = WPGMZA.Circle;
+	
+	WPGMZA.OSMCircle = function(options, osmFeature)
+	{
+		var self = this;
+		
+		this.center = {lat: 0, lng: 0};
+		this.radius = 0;
+		
+		Parent.call(this, options, osmFeature);
+		
+		if(!this.settings.fillColor)
+		{
+			this.settings.fillColor = "#ff0000";
+			this.settings.fillOpacity = 0.6;
+		}
+		
+		this.osmStyle = new ol.style.Style(this.getStyleFromSettings());
+		
+		// IMPORTANT: Please note that due to what appears to be a bug in OpenLayers, the following code MUST be exected specifically in this order, or the circle won't appear
+		var vectorLayer3857 = new ol.layer.Vector({
+			source: new ol.source.Vector(),
+			style: this.osmStyle
+		});
+		
+		if(osmFeature)
+		{
+			this.osmFeature = osmFeature;
+		}
+		else
+		{
+			var wgs84Sphere = new ol.Sphere(6378137);
+			var radius = this.radius;
+			var x, y;
+			
+			x = this.center.lng;
+			y = this.center.lat;
+			
+			var circle4326 = ol.geom.Polygon.circular(wgs84Sphere, [x, y], radius, 64);
+			var circle3857 = circle4326.clone().transform('EPSG:4326', 'EPSG:3857');
+			
+			vectorLayer3857.getSource().addFeature(new ol.Feature(circle3857));
+		}
+		
+		this.layer = vectorLayer3857;
+		
+		options.map.osmMap.addLayer(vectorLayer3857);
+	}
+	
+	WPGMZA.OSMCircle.prototype = Object.create(Parent.prototype);
+	WPGMZA.OSMCircle.prototype.constructor = WPGMZA.OSMCircle;
+	
+	WPGMZA.OSMCircle.prototype.getStyleFromSettings = function()
+	{
+		var params = {};
+				
+		if(this.settings.strokeOpacity)
+			params.stroke = new ol.style.Stroke({
+				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity)
+			});
+		
+		if(this.settings.fillOpacity)
+			params.fill = new ol.style.Fill({
+				color: WPGMZA.hexOpacityToRGBA(this.settings.fillColor, this.settings.fillOpacity)
+			});
+			
+		return params;
+	}
+	
+	WPGMZA.OSMCircle.prototype.updateStyleFromSettings = function()
+	{
+		// Re-create the style - working on it directly doesn't cause a re-render
+		var params = this.getStyleFromSettings();
+		this.osmStyle = new ol.style.Style(params);
+		this.layer.setStyle(this.osmStyle);
+	}
+	
+})(jQuery);
+
 // js/v8/open-street-map/osm-drawing-manager.js
 /**
  * @namespace WPGMZA
@@ -6192,6 +6659,9 @@
 			data: data,
 			success: function(response, xhr, status) {
 				callback(response);
+			},
+			error: function(response, xhr, status) {
+				callback(null, WPGMZA.Geocoder.FAIL)
 			}
 		});
 	}
@@ -6208,14 +6678,6 @@
 		});
 	}
 	
-	WPGMZA.OSMGeocoder.prototype.extractLatLng = function(item)
-	{
-		return {
-			lat: parseFloat(item.lat),
-			lng: parseFloat(item.lon)
-		};
-	}
-	
 	WPGMZA.OSMGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
 		var self = this;
@@ -6225,27 +6687,44 @@
 		if(latLng = WPGMZA.isLatLngString(address))
 			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(this, options, callback);
 		
-		function finish(response)
+		function finish(response, status)
 		{
-			var latLng = self.extractLatLng(response[0]);
-			callback(latLng);
+			for(var i = 0; i < response.length; i++)
+			{
+				response[i].geometry = {
+					location: {
+						lat: parseFloat(response[i].lat),
+						lng: parseFloat(response[i].lon)
+					}
+				};
+				
+				response[i].lng = response[i].lon;
+			}
+			
+			callback(response, status);
 		}
 		
 		this.getResponseFromCache(address, function(response) {
 			if(response.length)
 			{
-				finish(response);
+				finish(response, WPGMZA.Geocoder.SUCCESS);
 				return;
 			}
 			
-			self.getResponseFromNominatim(options, function(response) {
-				if(response.length == 0)
+			self.getResponseFromNominatim(options, function(response, status) {
+				if(status == WPGMZA.Geocoder.FAIL)
 				{
-					callback(null);
+					callback(null, WPGMZA.Geocoder.FAIL);
 					return;
 				}
 				
-				finish(response);
+				if(response.length == 0)
+				{
+					callback(response, WPGMZA.Geocoder.ZERO_RESULTS);
+					return;
+				}
+				
+				finish(response, WPGMZA.Geocoder.SUCCESS);
 				
 				self.cacheResponse(address, response);
 			});
@@ -6270,6 +6749,12 @@
 		var self = this;
 		
 		Parent.call(this, mapObject);
+		
+		this.element = $("<div class='osm-info-window-container osm-info-window-plain'></div>")[0];
+			
+		$(this.element).on("click", ".osm-info-window-close", function(event) {
+			self.close();
+		});
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -6282,50 +6767,53 @@
 	
 	/**
 	 * Opens the info window
+	 * TODO: This should take a mapObject, not an event
 	 * @return boolean FALSE if the info window should not & will not open, TRUE if it will
 	 */
-	WPGMZA.OSMInfoWindow.prototype.open = function(event)
+	WPGMZA.OSMInfoWindow.prototype.open = function(map, mapObject)
 	{
 		var self = this;
+		var latLng = mapObject.getPosition();
 		
-		if(!WPGMZA.InfoWindow.prototype.open.call(this, event))
+		if(!WPGMZA.InfoWindow.prototype.open.call(this, map, mapObject))
 			return false;
 		
-		this.getContent(function(html) {
-			var latLng = self.mapObject.getPosition();
+		if(this.overlay)
+			this.mapObject.map.osmMap.removeOverlay(this.overlay);
 			
-			self.element = $("<div class='osm-info-window-container osm-info-window-plain'><i class='fa fa-times osm-info-window-close' aria-hidden='true'></i>" + html + "</div>")[0];
-			$(self.element).find(".osm-info-window-close").on("click", function(event) {
-				self.mapObject.map.osmMap.removeOverlay(self.overlay);
-				self.overlay = null;
-			});
-
-			if(self.overlay)
-				self.mapObject.map.osmMap.removeOverlay(self.overlay);
-			
-			self.overlay = new ol.Overlay({
-				element: self.element
-			});
-			
-			self.overlay.setPosition(ol.proj.fromLonLat([
-				latLng.lng,
-				latLng.lat
-			]));
-			self.mapObject.map.osmMap.addOverlay(self.overlay);
-			
-			self.dispatchEvent("infowindowopen");
-			$(self.element).trigger("infowindowopen");
+		this.overlay = new ol.Overlay({
+			element: this.element
 		});
+		
+		this.overlay.setPosition(ol.proj.fromLonLat([
+			latLng.lng,
+			latLng.lat
+		]));
+		self.mapObject.map.osmMap.addOverlay(this.overlay);
+		
+		$(this.element).show();
+		
+		this.dispatchEvent("infowindowopen");
+		$(this.element).trigger("infowindowopen.wpgmza");
 	}
 	
 	WPGMZA.OSMInfoWindow.prototype.close = function(event)
 	{
-		if(!self.overlay)
+		// TODO: Why? This shouldn't have to be here. Removing the overlay should hide the element (it doesn't)
+		$(this.element).hide();
+		
+		if(!this.overlay)
 			return;
 		
 		WPGMZA.InfoWindow.prototype.close.call(this);
 		
-		self.mapObject.map.osmMap.removeOverlay(self.overlay);
+		this.mapObject.map.osmMap.removeOverlay(this.overlay);
+		this.overlay = null;
+	}
+	
+	WPGMZA.OSMInfoWindow.prototype.setContent = function(html)
+	{
+		$(this.element).html("<i class='fa fa-times osm-info-window-close' aria-hidden='true'></i>" + html);
 	}
 	
 })(jQuery);
@@ -6715,11 +7203,11 @@
 		Parent.prototype.addMarker.call(this, marker);
 	}
 	
-	WPGMZA.OSMMap.prototype.deleteMarker = function(marker)
+	WPGMZA.OSMMap.prototype.removeMarker = function(marker)
 	{
 		this.osmMap.removeOverlay(marker.overlay);
 		
-		Parent.prototype.deleteMarker.call(this, marker);
+		Parent.prototype.removeMarker.call(this, marker);
 	}
 	
 	WPGMZA.OSMMap.prototype.addPolygon = function(polygon)
@@ -6729,11 +7217,11 @@
 		Parent.prototype.addPolygon.call(this, polygon);
 	}
 	
-	WPGMZA.OSMMap.prototype.deletePolygon = function(polygon)
+	WPGMZA.OSMMap.prototype.removePolygon = function(polygon)
 	{
 		this.osmMap.removeLayer(polygon.layer);
 		
-		Parent.prototype.deletePolygon.call(this, polygon);
+		Parent.prototype.removePolygon.call(this, polygon);
 	}
 	
 	WPGMZA.OSMMap.prototype.addPolyline = function(polyline)
@@ -6743,11 +7231,25 @@
 		Parent.prototype.addPolyline.call(this, polyline);
 	}
 	
-	WPGMZA.OSMMap.prototype.deletePolyline = function(polyline)
+	WPGMZA.OSMMap.prototype.removePolyline = function(polyline)
 	{
 		this.osmMap.removeLayer(polyline.layer);
 		
-		Parent.prototype.deletePolyline.call(this, polyline);
+		Parent.prototype.removePolyline.call(this, polyline);
+	}
+	
+	WPGMZA.OSMMap.prototype.addCircle = function(circle)
+	{
+		this.osmMap.addLayer(circle.layer);
+		
+		Parent.prototype.addCircle.call(this, circle);
+	}
+	
+	WPGMZA.OSMMap.prototype.removeCircle = function(circle)
+	{
+		this.osmMap.removeLayer(circle.layer);
+		
+		Parent.prototype.removeCircle.call(this, circle);
 	}
 	
 	WPGMZA.OSMMap.prototype.getFetchParameters = function()

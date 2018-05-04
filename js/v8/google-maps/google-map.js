@@ -125,11 +125,11 @@
 	 * Removes the specified marker from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deleteMarker = function(marker)
+	WPGMZA.GoogleMap.prototype.removeMarker = function(marker)
 	{
 		marker.googleMarker.setMap(null);
 		
-		Parent.prototype.deleteMarker.call(this, marker);
+		Parent.prototype.removeMarker.call(this, marker);
 	}
 	
 	/**
@@ -147,11 +147,11 @@
 	 * Removes the specified polygon from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deletePolygon = function(polygon)
+	WPGMZA.GoogleMap.prototype.removePolygon = function(polygon)
 	{
 		polygon.googlePolygon.setMap(null);
 		
-		Parent.prototype.deletePolygon.call(this, polygon);
+		Parent.prototype.removePolygon.call(this, polygon);
 	}
 	
 	/**
@@ -169,11 +169,25 @@
 	 * Removes the specified polygon from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.deletePolyline = function(polyline)
+	WPGMZA.GoogleMap.prototype.removePolyline = function(polyline)
 	{
 		polyline.googlePolyline.setMap(null);
 		
-		Parent.prototype.deletePolyline.call(this, polyline);
+		Parent.prototype.removePolyline.call(this, polyline);
+	}
+	
+	WPGMZA.GoogleMap.prototype.addCircle = function(circle)
+	{
+		circle.googleCircle.setMap(this.googleMap);
+		
+		Parent.prototype.addCircle.call(this, circle);
+	}
+	
+	WPGMZA.GoogleMap.prototype.removeCircle = function(circle)
+	{
+		circle.googleCircle.setMap(null);
+		
+		Parent.prototype.removeCircle.call(this, circle);
 	}
 	
 	/**

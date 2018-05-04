@@ -73,3 +73,44 @@
 		0px 0px 3px white,
 		0px 0px 3px white;
 }
+
+.osm-info-window-plain
+{
+	position: absolute;
+	bottom: 53px;
+	left: 0px;
+	transform: translateX(-50%);
+	
+	background: white;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+	border: 1px solid lightgray;
+	padding: 0.5em;
+}
+
+.osm-info-window-plain:after
+{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-top-color: white;
+	border-bottom: 0;
+	margin-left: -8px;
+	margin-bottom: -8px;
+}
+
+.osm-info-window-close
+{
+	float: right;
+	margin: 0 0 3px 3px;
+	cursor: pointer;
+}
+
+.osm-info-window-container,
+	.wpgmza-pro-info-window-container
+{
+	z-index: 999999;
+}

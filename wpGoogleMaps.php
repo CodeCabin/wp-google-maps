@@ -2594,7 +2594,7 @@ function wpgmaps_tag_basic( $atts ) {
     global $wpgmza_version;
     global $short_code_active;
     global $wpgmza_override;
-
+	global $wpgmza;
 
     extract( shortcode_atts( array(
         'id' 		=> '1', 
@@ -2695,16 +2695,18 @@ function wpgmaps_tag_basic( $atts ) {
 		$googleMapsAPILoader->loadGoogleMaps();
 	});*/
 
-	$core_dependencies = array();
+	$core_dependencies = array('wpgmza');
 	if(!empty($wpgmza_settings['wpgmza_settings_remove_api']))
 		$core_dependencies[] = 'wpgmza_api_call';
     
-	wp_enqueue_script('wpgmza_canvas_layer_options', plugin_dir_url(__FILE__) . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'));
-	wp_enqueue_script('wpgmza_canvas_layer', plugin_dir_url(__FILE__) . 'lib/CanvasLayer.js', array('wpgmza_api_call'));
-	
+	if($wpgmza->settings->engine == 'google-maps')
+	{
+		wp_enqueue_script('wpgmza_canvas_layer_options', plugin_dir_url(__FILE__) . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'));
+		wp_enqueue_script('wpgmza_canvas_layer', plugin_dir_url(__FILE__) . 'lib/CanvasLayer.js', array('wpgmza_api_call'));
+	}
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
-	global $wpgmza;
+	
 	$wpgmza->loadScripts();
 	
 	wpgmza_enqueue_fontawesome();

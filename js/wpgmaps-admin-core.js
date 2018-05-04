@@ -460,15 +460,11 @@
                 });
             } else { 
                 geocoder.geocode ({ 'address': wpgm_address }, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
+                    if (status == WPGMZA.Geocoder.SUCCESS) {
 
-                        wpgm_gps = String(results[0].geometry.location);
-                        var latlng1 = wpgm_gps.replace("(","");
-                        var latlng2 = latlng1.replace(")","");
-                        var latlngStr = latlng2.split(",",2);
-                        wpgm_lat = parseFloat(latlngStr[0]);
-                        wpgm_lng = parseFloat(latlngStr[1]);
-
+						result = results[0];
+						wpgm_lat = result.lat;
+						wpgm_lng = result.lng;
 
                         var data = {
                             action: 'add_marker',

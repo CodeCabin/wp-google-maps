@@ -40,6 +40,9 @@
 			data: data,
 			success: function(response, xhr, status) {
 				callback(response);
+			},
+			error: function(response, xhr, status) {
+				callback(null, WPGMZA.Geocoder.FAIL)
 			}
 		});
 	}
@@ -56,14 +59,6 @@
 		});
 	}
 	
-	WPGMZA.OSMGeocoder.prototype.extractLatLng = function(item)
-	{
-		return {
-			lat: parseFloat(item.lat),
-			lng: parseFloat(item.lon)
-		};
-	}
-	
 	WPGMZA.OSMGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
 		var self = this;
@@ -73,27 +68,44 @@
 		if(latLng = WPGMZA.isLatLngString(address))
 			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(this, options, callback);
 		
-		function finish(response)
+		function finish(response, status)
 		{
-			var latLng = self.extractLatLng(response[0]);
-			callback(latLng);
+			for(var i = 0; i < response.length; i++)
+			{
+				response[i].geometry = {
+					location: {
+						lat: parseFloat(response[i].lat),
+						lng: parseFloat(response[i].lon)
+					}
+				};
+				
+				response[i].lng = response[i].lon;
+			}
+			
+			callback(response, status);
 		}
 		
 		this.getResponseFromCache(address, function(response) {
 			if(response.length)
 			{
-				finish(response);
+				finish(response, WPGMZA.Geocoder.SUCCESS);
 				return;
 			}
 			
-			self.getResponseFromNominatim(options, function(response) {
-				if(response.length == 0)
+			self.getResponseFromNominatim(options, function(response, status) {
+				if(status == WPGMZA.Geocoder.FAIL)
 				{
-					callback(null);
+					callback(null, WPGMZA.Geocoder.FAIL);
 					return;
 				}
 				
-				finish(response);
+				if(response.length == 0)
+				{
+					callback(response, WPGMZA.Geocoder.ZERO_RESULTS);
+					return;
+				}
+				
+				finish(response, WPGMZA.Geocoder.SUCCESS);
 				
 				self.cacheResponse(address, response);
 			});

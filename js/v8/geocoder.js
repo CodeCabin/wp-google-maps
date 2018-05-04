@@ -10,6 +10,10 @@
 		WPGMZA.assertInstanceOf(this, "Geocoder");
 	}
 	
+	WPGMZA.Geocoder.SUCCESS			= "success";
+	WPGMZA.Geocoder.ZERO_RESULTS	= "zero-results";
+	WPGMZA.Geocoder.FAIL			= "fail";
+	
 	WPGMZA.Geocoder.getConstructor = function()
 	{
 		switch(WPGMZA.settings.engine)

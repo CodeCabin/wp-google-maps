@@ -233,11 +233,11 @@
 		Parent.prototype.addMarker.call(this, marker);
 	}
 	
-	WPGMZA.OSMMap.prototype.deleteMarker = function(marker)
+	WPGMZA.OSMMap.prototype.removeMarker = function(marker)
 	{
 		this.osmMap.removeOverlay(marker.overlay);
 		
-		Parent.prototype.deleteMarker.call(this, marker);
+		Parent.prototype.removeMarker.call(this, marker);
 	}
 	
 	WPGMZA.OSMMap.prototype.addPolygon = function(polygon)
@@ -247,11 +247,11 @@
 		Parent.prototype.addPolygon.call(this, polygon);
 	}
 	
-	WPGMZA.OSMMap.prototype.deletePolygon = function(polygon)
+	WPGMZA.OSMMap.prototype.removePolygon = function(polygon)
 	{
 		this.osmMap.removeLayer(polygon.layer);
 		
-		Parent.prototype.deletePolygon.call(this, polygon);
+		Parent.prototype.removePolygon.call(this, polygon);
 	}
 	
 	WPGMZA.OSMMap.prototype.addPolyline = function(polyline)
@@ -261,11 +261,25 @@
 		Parent.prototype.addPolyline.call(this, polyline);
 	}
 	
-	WPGMZA.OSMMap.prototype.deletePolyline = function(polyline)
+	WPGMZA.OSMMap.prototype.removePolyline = function(polyline)
 	{
 		this.osmMap.removeLayer(polyline.layer);
 		
-		Parent.prototype.deletePolyline.call(this, polyline);
+		Parent.prototype.removePolyline.call(this, polyline);
+	}
+	
+	WPGMZA.OSMMap.prototype.addCircle = function(circle)
+	{
+		this.osmMap.addLayer(circle.layer);
+		
+		Parent.prototype.addCircle.call(this, circle);
+	}
+	
+	WPGMZA.OSMMap.prototype.removeCircle = function(circle)
+	{
+		this.osmMap.removeLayer(circle.layer);
+		
+		Parent.prototype.removeCircle.call(this, circle);
 	}
 	
 	WPGMZA.OSMMap.prototype.getFetchParameters = function()
