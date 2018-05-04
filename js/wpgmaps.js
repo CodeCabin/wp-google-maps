@@ -51,7 +51,10 @@ function wpgmza_open_info_window(infoWindow, content)
 }
 
 function InitMap() {
-	var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
+	var myLatLng = {
+		lat: wpgmaps_localize[wpgmaps_mapid].map_start_lat,
+		lng: wpgmaps_localize[wpgmaps_mapid].map_start_lng
+	};
 	
 	if(typeof wpgmza_override_zoom !== "undefined")
 		MYMAP.init('#wpgmza_map', myLatLng, parseInt(wpgmza_override_zoom));
@@ -143,35 +146,33 @@ if ('undefined' === typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['ma
 
 function wpgmza_create_places_autocomplete() {
 	
-	var elementExists = document.getElementById("addressInput");
+	var element = document.getElementById("addressInput");
 	
-	if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
-
-		// user autofill
-		if (elementExists !== null) {
-			if (typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'] === "undefined" || wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'] === "" )  {
-				/* initialize the autocomplete form */
-				autocomplete = new google.maps.places.Autocomplete(
-				  /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
-				  { types: ['geocode'] });
-				// When the user selects an address from the dropdown,
-				// populate the address fields in the form.
-				google.maps.event.addListener(autocomplete, 'place_changed', function() {
-					fillInAddress();
-				});
-			} else {
-				/* initialize the autocomplete form */                        
-				autocomplete = new google.maps.places.Autocomplete(
-				  /** @type {HTMLInputElement} */(document.getElementById('addressInput')),
-				  { types: ['geocode'], componentRestrictions: {country: wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict']} });
-				// When the user selects an address from the dropdown,
-				// populate the address fields in the form.
-				google.maps.event.addListener(autocomplete, 'place_changed', function() {
-					fillInAddress();
-				});                                                
-			}
-		} 
-	}
+	if(!element)
+		return;
+	
+	if(!window.google)
+		return;
+	
+	if(!google.maps)
+		return;
+	
+	if(!google.maps.places || !google.maps.places.Autocomplete)
+		return;
+	
+	var options = {
+		types: ["geocode"]
+	};
+	
+	var restriction = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
+	
+	if(restriction)
+		options.componentRestrictions.country = restriction;
+	
+	autocomplete = new google.maps.places.Autocomplete(element, options);
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		fillInAddress();
+	});
 }
 
 MYMAP.init = function(selector, latLng, zoom) {
@@ -231,7 +232,9 @@ MYMAP.init = function(selector, latLng, zoom) {
 	}
 
 	var element = jQuery(selector)[0];
-    this.map = new google.maps.Map(element, myOptions);
+	
+	element.setAttribute("data-map-id", 1);
+	this.map = WPGMZA.Map.createInstance(element, myOptions);
     this.bounds = new google.maps.LatLngBounds();
 
 	if(MYMAP.modernStoreLocator)
@@ -567,12 +570,16 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                             }
                         }
 
-
-
-                        var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+                        var point = {
+							lat: parseFloat(lat),
+							lng: parseFloat(lng)
+						};
+						
                         MYMAP.bounds.extend(point);
+						
                         if (show_marker_radius === true) {
-                            if (wpmgza_anim === "1") {
+							
+                            /*if (wpmgza_anim === "1") {
                             var marker = new google.maps.Marker({
                                     position: point,
                                     map: MYMAP.map,
@@ -591,7 +598,13 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                                         position: point,
                                         map: MYMAP.map
                                 });
-                            }
+                            }*/
+							
+							var marker = WPGMZA.Marker.createInstance({
+								position: point,
+								map: MYMAP.map
+							});
+							
                             var d_string = "";
 	                        if (radius !== null) {
 	                            if (distance_type == "1") {
@@ -875,7 +888,7 @@ function toRad(Value) {
 	WPGMZA.GoogleAPIErrorHandler = function() {
 		var _error = console.error;
 		
-		console.error = function(message)
+		/*console.error = function(message)
 		{
 			var m = message.match(/^Google Maps API error: (\w+) (.+)/);
 			
@@ -886,7 +899,7 @@ function toRad(Value) {
 			}
 			
 			_error.apply(this, arguments);
-		}
+		}*/
 	}
 	
 	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
