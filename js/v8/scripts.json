@@ -6,6 +6,13 @@
             "wpgmza-data-table"
         ]
     },
+    "wpgmza-circle": {
+        "src": "js\/v8\/circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map-object"
+        ]
+    },
     "wpgmza": {
         "src": "js\/v8\/core.js",
         "pro": false,
@@ -69,6 +76,13 @@
     },
     "wpgmza-lat-lng": {
         "src": "js\/v8\/latlng.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-lat-lng-bounds": {
+        "src": "js\/v8\/latlngbounds.js",
         "pro": false,
         "dependencies": [
             "wpgmza"
@@ -156,6 +170,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-google-circle": {
+        "src": "js\/v8\/google-maps\/google-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-circle"
+        ]
+    },
     "wpgmza-google-drawing-manager": {
         "src": "js\/v8\/google-maps\/google-drawing-manager.js",
         "pro": false,
@@ -224,6 +245,13 @@
         "pro": false,
         "dependencies": [
             "wpgmza_api_call"
+        ]
+    },
+    "wpgmza-osm-circle": {
+        "src": "js\/v8\/open-street-map\/osm-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-circle"
         ]
     },
     "wpgmza-osm-drawing-manager": {

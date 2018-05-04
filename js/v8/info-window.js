@@ -13,6 +13,9 @@
 		
 		WPGMZA.assertInstanceOf(this, "InfoWindow");
 		
+		if(!mapObject)
+			return;
+		
 		this.mapObject = mapObject;
 		
 		if(mapObject.map)
@@ -76,9 +79,11 @@
 	 * Opens the info window
 	 * @return boolean FALSE if the info window should not & will not open, TRUE if it will
 	 */
-	WPGMZA.InfoWindow.prototype.open = function(event)
+	WPGMZA.InfoWindow.prototype.open = function(map, mapObject)
 	{
 		var self = this;
+		
+		this.mapObject = mapObject;
 		
 		if(WPGMZA.settings.disable_infowindows)
 			return false;

@@ -10,14 +10,17 @@ class NominatimGeocodeCache
 		
 		$this->table = $wpdb->prefix . "wpgmza_nominatim_geocode_cache";
 		
-		require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
-		
-		\dbDelta("CREATE TABLE {$this->table} (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			query VARCHAR(512),
-			response TEXT,
-			PRIMARY KEY  (id)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1");
+		if(!$wpdb->get_var("SHOW TABLES LIKE '{$this->table}'"))
+		{
+			require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
+			
+			\dbDelta("CREATE TABLE {$this->table} (
+				id int(11) NOT NULL AUTO_INCREMENT,
+				query VARCHAR(512),
+				response TEXT,
+				PRIMARY KEY  (id)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1");
+		}
 	}
 	
 	public function get($query)
@@ -50,4 +53,15 @@ class NominatimGeocodeCache
 	}
 }
 
-?>
+add_action('wp_ajax_wpgmza_query_nominatim_cache', function() {
+	
+	$cache = new NominatimGeocodeCache();
+	$record = $cache->get($_GET['query']);
+	
+	if(!$record)
+		$record = array();
+
+	wp_send_json($record);
+	exit;
+	
+});

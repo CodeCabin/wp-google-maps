@@ -117,7 +117,7 @@
 	{
 		this.hidePreviousInteractedInfoWindow();
 		
-		this.infoWindow.open();
+		this.infoWindow.open(this.map, this);
 		this.map.lastInteractedMarker = this;
 	}
 	
@@ -207,6 +207,19 @@
 	{
 		if(!visible && this.infoWindow)
 			this.infoWindow.close();
+	}
+	
+	WPGMZA.Marker.prototype.setMap = function(map)
+	{
+		if(!map)
+		{
+			if(this.map)
+				this.map.removeMarker(this);
+			
+			return;
+		}
+		
+		map.addMarker(this);
 	}
 	
 	WPGMZA.Marker.prototype.getDraggable = function()

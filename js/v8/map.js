@@ -33,6 +33,7 @@
 		this.markers = [];
 		this.polygons = [];
 		this.polylines = [];
+		this.circles = [];
 		
 		this.loadSettings();
 	}
@@ -90,7 +91,7 @@
 	
 	/**
 	 * This gets the distance in kilometers between two latitude / longitude points
-	 * TODO: Move this to the distance class
+	 * TODO: Move this to the distance class, or the LatLng class
 	 * @return void
 	 */
 	WPGMZA.Map.getGeographicDistance = function(lat1, lon1, lat2, lon2)
@@ -152,7 +153,7 @@
 	 * Removes the specified marker from this map
 	 * @return void
 	 */
-	WPGMZA.Map.prototype.deleteMarker = function(marker)
+	WPGMZA.Map.prototype.removeMarker = function(marker)
 	{
 		if(!(marker instanceof WPGMZA.Marker))
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
@@ -179,14 +180,191 @@
 		return null;
 	}
 	
-	WPGMZA.Map.prototype.deleteMarkerByID = function(id)
+	WPGMZA.Map.prototype.removeMarkerByID = function(id)
 	{
 		var marker = this.getMarkerByID(id);
 		
 		if(!marker)
 			return;
 		
-		this.deleteMarker(marker);
+		this.removeMarker(marker);
+	}
+	
+	/**
+	 * Adds the specified polygon to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		polygon.map = this;
+		
+		this.polygons.push(polygon);
+		this.dispatchEvent({type: "polygonadded", polygon: polygon});
+	}
+	
+	/**
+	 * Removes the specified polygon from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.deletePolygon = function(polygon)
+	{
+		if(!(polygon instanceof WPGMZA.Polygon))
+			throw new Error("Argument must be an instance of WPGMZA.Polygon");
+		
+		if(polygon.map !== this)
+			throw new Error("Wrong map error");
+		
+		polygon.map = null;
+		
+		this.polygons.splice(this.polygons.indexOf(polygon), 1);
+		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
+	}
+	
+	WPGMZA.Map.prototype.getPolygonByID = function(id)
+	{
+		for(var i = 0; i < this.polygons.length; i++)
+		{
+			if(this.polygons[i].id == id)
+				return this.polygons[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deletePolygonByID = function(id)
+	{
+		var polygon = this.getPolygonByID(id);
+		
+		if(!polygon)
+			return;
+		
+		this.deletePolygon(polygon);
+	}
+	
+	/**
+	 * Gets a polyline by ID
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.getPolylineByID = function(id)
+	{
+		for(var i = 0; i < this.polylines.length; i++)
+		{
+			if(this.polylines[i].id == id)
+				return this.polylines[i];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Adds the specified polyline to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addPolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		polyline.map = this;
+		
+		this.polylines.push(polyline);
+		this.dispatchEvent({type: "polylineadded", polyline: polyline});
+	}
+	
+	/**
+	 * Removes the specified polyline from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.deletePolyline = function(polyline)
+	{
+		if(!(polyline instanceof WPGMZA.Polyline))
+			throw new Error("Argument must be an instance of WPGMZA.Polyline");
+		
+		if(polyline.map !== this)
+			throw new Error("Wrong map error");
+		
+		polyline.map = null;
+		
+		this.polylines.splice(this.polylines.indexOf(polyline), 1);
+		this.dispatchEvent({type: "polylineremoved", polyline: polyline});
+	}
+	
+	WPGMZA.Map.prototype.getPolylineByID = function(id)
+	{
+		for(var i = 0; i < this.polylines.length; i++)
+		{
+			if(this.polylines[i].id == id)
+				return this.polylines[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deletePolylineByID = function(id)
+	{
+		var polyline = this.getPolylineByID(id);
+		
+		if(!polyline)
+			return;
+		
+		this.deletePolyline(polyline);
+	}
+	
+	/**
+	 * Adds the specified circle to this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.addCircle = function(circle)
+	{
+		if(!(circle instanceof WPGMZA.Circle))
+			throw new Error("Argument must be an instance of WPGMZA.Circle");
+		
+		circle.map = this;
+		
+		this.circles.push(circle);
+		this.dispatchEvent({type: "circleadded", circle: circle});
+	}
+	
+	/**
+	 * Removes the specified circle from this map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.removeCircle = function(circle)
+	{
+		if(!(circle instanceof WPGMZA.Circle))
+			throw new Error("Argument must be an instance of WPGMZA.Circle");
+		
+		if(circle.map !== this)
+			throw new Error("Wrong map error");
+		
+		circle.map = null;
+		
+		this.circles.splice(this.circles.indexOf(circle), 1);
+		this.dispatchEvent({type: "circleremoved", circle: circle});
+	}
+	
+	WPGMZA.Map.prototype.getCircleByID = function(id)
+	{
+		for(var i = 0; i < this.circles.length; i++)
+		{
+			if(this.circles[i].id == id)
+				return this.circles[i];
+		}
+		
+		return null;
+	}
+	
+	WPGMZA.Map.prototype.deleteCircleByID = function(id)
+	{
+		var circle = this.getCircleByID(id);
+		
+		if(!circle)
+			return;
+		
+		this.deleteCircle(circle);
 	}
 	
 	/**

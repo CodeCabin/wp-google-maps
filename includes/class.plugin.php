@@ -43,6 +43,9 @@ class Plugin
 		add_action('admin_enqueue_scripts', function() {
 			Plugin::$enqueueScriptsFired = true;
 		});
+		
+		if($this->settings->engine == 'open-street-map')
+			require_once(plugin_dir_path(__FILE__) . 'open-street-map/class.nominatim-geocode-cache.php');
 	}
 	
 	public function loadScripts()
@@ -75,7 +78,8 @@ class Plugin
 	public function getLocalizedData()
 	{
 		return apply_filters('wpgmza_plugin_get_localized_Data', array(
-			'settings' => $this->settings
+			'ajaxurl' 	=> admin_url('admin-ajax.php'),
+			'settings' 	=> $this->settings
 		));
 	}
 	

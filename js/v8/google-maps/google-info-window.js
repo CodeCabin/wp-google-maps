@@ -12,12 +12,7 @@
 	{
 		Parent.call(this, mapObject);
 		
-		if(mapObject instanceof WPGMZA.Marker)
-			this.googleObject = mapObject.googleMarker;
-		else if(mapObject instanceof WPGMZA.Polygon)
-			this.googleObject = mapObject.googlePolygon;
-		else if(mapObject instanceof WPGMZA.Polyline)
-			this.googleObject = mapObject.googlePolyline;
+		this.setMapObject(mapObject);
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -28,16 +23,28 @@
 	WPGMZA.GoogleInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.GoogleInfoWindow.prototype.constructor = WPGMZA.GoogleInfoWindow;
 	
+	WPGMZA.GoogleInfoWindow.prototype.setGoogleObject = function()
+	{
+		if(mapObject instanceof WPGMZA.Marker)
+			this.googleObject = mapObject.googleMarker;
+		else if(mapObject instanceof WPGMZA.Polygon)
+			this.googleObject = mapObject.googlePolygon;
+		else if(mapObject instanceof WPGMZA.Polyline)
+			this.googleObject = mapObject.googlePolyline;
+	}
+	
 	/**
 	 * Opens the info window
 	 * @return boolean FALSE if the info window should not & will not open, TRUE if it will
 	 */
-	WPGMZA.GoogleInfoWindow.prototype.open = function()
+	WPGMZA.GoogleInfoWindow.prototype.open = function(map, mapObject)
 	{
 		var self = this;
 		
-		if(!Parent.prototype.open.call(this))
+		if(!Parent.prototype.open.call(this, map, mapObject))
 			return false;
+		
+		this.setGoogleObject();
 		
 		if(!this.googleInfoWindow)
 			this.googleInfoWindow = new google.maps.InfoWindow();
@@ -88,6 +95,11 @@
 		WPGMZA.InfoWindow.prototype.close.call(this);
 		
 		this.googleInfoWindow.close();
+	}
+	
+	WPGMZA.GoogleInfoWindow.prototype.setContent = function(html)
+	{
+		this.googleInfoWindow.setContent(html);
 	}
 	
 })(jQuery);
