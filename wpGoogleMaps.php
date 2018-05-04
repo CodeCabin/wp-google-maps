@@ -415,6 +415,7 @@ $wpgmza_t = "basic";
 
 //var_dump('Including basic');
 
+require_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php');
 require_once(plugin_dir_path(__FILE__) . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
 
 require_once( "base/includes/wp-google-maps-polygons.php" );
@@ -1015,7 +1016,7 @@ function wpgmaps_reload_map_on_post() {
                     width:'<?php echo $wpgmza_width; ?><?php echo $wpgmza_width_type; ?>'
 
                 });
-                var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+                var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
                 MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
                 UniqueCode=Math.round(Math.random()*10010);
                 MYMAP.placeMarkers('<?php echo wpgmaps_get_marker_url(sanitize_text_field($_GET['map_id'])); ?>?u='+UniqueCode,<?php echo sanitize_text_field($_GET['map_id']); ?>);
@@ -1119,7 +1120,7 @@ function wpgmaps_admin_edit_marker_javascript() {
     <script type="text/javascript" >
         jQuery(document).ready(function(){
             function wpgmza_InitMap() {
-                var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+                var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
                 MYMAP.init('#wpgmza_map', myLatLng, 15);
             }
             jQuery("#wpgmza_map").css({
@@ -1147,12 +1148,12 @@ function wpgmaps_admin_edit_marker_javascript() {
                 mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
             }
             this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
-            this.bounds = new google.maps.LatLngBounds();
+            this.bounds = new WPGMZA.LatLngBounds();
 
             updateMarkerPosition(latLng);
 
 			console.log("Creating marker on line <?php echo __LINE__ ?>");
-            var marker = new google.maps.Marker({
+            var marker = WPGMZA.Marker.createInstance({
                 position: latLng,
                 map: this.map,
                 draggable: true
@@ -1236,7 +1237,9 @@ function wpgmaps_admin_javascript_basic() {
 
             $wpgmza_current_map_id = (int)$_GET['map_id'];
 
-
+			global $wpgmza;
+			$wpgmza->loadScripts();
+			
             wp_enqueue_script('wpgmaps_admin_core', plugins_url('/js/wpgmaps-admin-core.js',__FILE__), $wpgaps_core_dependancy, $wpgmza_version.'b' , false);
             do_action("wpgooglemaps_hook_user_js_after_core");
 			
@@ -1415,7 +1418,7 @@ function wpgmaps_admin_javascript_basic() {
                 mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
             }
             this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
-            this.bounds = new google.maps.LatLngBounds();
+            this.bounds = new WPGMZA.LatLngBounds();
 
 
             <?php if ($wpgmza_theme_data !== false && isset($wpgmza_theme_data) && $wpgmza_theme_data != '') { ?>
@@ -1425,7 +1428,7 @@ function wpgmaps_admin_javascript_basic() {
             google.maps.event.addListener(MYMAP.map, 'rightclick', function(event) {
                 if (marker_added === false) {
 					console.log("Creating marker on line <?php echo __LINE__ ?>");
-                    var marker = new google.maps.Marker({
+                    var marker = WPGMZA.Marker.createInstance({
                         position: event.latLng, 
                         map: MYMAP.map
                     });
@@ -1504,7 +1507,7 @@ function wpgmaps_admin_javascript_basic() {
                             $lat = $poly_data_raw[0];
                             $lng = $poly_data_raw[1];
                             ?>
-                            new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
+                            new WPGMZA.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
                             <?php
                         }
                 ?>
@@ -1555,7 +1558,7 @@ function wpgmaps_admin_javascript_basic() {
                         $lat = $poly_data_raw[0];
                         $lng = $poly_data_raw[1];
                         ?>
-                        new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
+                        new WPGMZA.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
                         <?php
                     }
                     ?>
@@ -1631,12 +1634,12 @@ function wpgmaps_admin_javascript_basic() {
                             var wpmgza_infoopen = jQuery(this).find('infoopen').text();
                             var lat = jQuery(this).find('lat').text();
                             var lng = jQuery(this).find('lng').text();
-                            var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+                            var point = new WPGMZA.LatLng(parseFloat(lat),parseFloat(lng));
                             MYMAP.bounds.extend(point);
 
                             if (wpmgza_anim === "1") {
 								console.log("Creating marker on line <?php echo __LINE__ ?>");
-                                var marker = new google.maps.Marker({
+                                var marker = WPGMZA.Marker.createInstance({
                                         position: point,
                                         map: MYMAP.map,
                                         animation: google.maps.Animation.BOUNCE
@@ -1644,7 +1647,7 @@ function wpgmaps_admin_javascript_basic() {
                             }
                             else if (wpmgza_anim === "2") {
 								console.log("Creating marker on line <?php echo __LINE__ ?>");
-                                var marker = new google.maps.Marker({
+                                var marker = WPGMZA.Marker.createInstance({
                                         position: point,
                                         map: MYMAP.map,
                                         animation: google.maps.Animation.DROP
@@ -1652,7 +1655,7 @@ function wpgmaps_admin_javascript_basic() {
                             }
                             else {
 								console.log("Creating marker on line <?php echo __LINE__ ?>");
-                                var marker = new google.maps.Marker({
+                                var marker = WPGMZA.Marker.createInstance({
                                         position: point,
                                         map: MYMAP.map
                                 });
@@ -1698,12 +1701,12 @@ function wpgmaps_admin_javascript_basic() {
                     var wpmgza_infoopen = val.infoopen;
                     var lat = val.lat;
                     var lng = val.lng;
-                    var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+                    var point = new WPGMZA.LatLng(parseFloat(lat),parseFloat(lng));
                     MYMAP.bounds.extend(point);
 
                     if (wpmgza_anim === "1") {
 						console.log("Creating marker on line <?php echo __LINE__ ?>");
-                        var marker = new google.maps.Marker({
+                        var marker = WPGMZA.Marker.createInstance({
                                 position: point,
                                 map: MYMAP.map,
                                 animation: google.maps.Animation.BOUNCE
@@ -1711,7 +1714,7 @@ function wpgmaps_admin_javascript_basic() {
                     }
                     else if (wpmgza_anim === "2") {
 						console.log("Creating marker on line <?php echo __LINE__ ?>");
-                        var marker = new google.maps.Marker({
+                        var marker = WPGMZA.Marker.createInstance({
                                 position: point,
                                 map: MYMAP.map,
                                 animation: google.maps.Animation.DROP
@@ -1719,7 +1722,7 @@ function wpgmaps_admin_javascript_basic() {
                     }
                     else {
 						console.log("Creating marker on line <?php echo __LINE__ ?>");
-                        var marker = new google.maps.Marker({
+                        var marker = WPGMZA.Marker.createInstance({
                                 position: point,
                                 map: MYMAP.map
                         });
@@ -2663,6 +2666,8 @@ function wpgmaps_tag_basic( $atts ) {
 	if(isset($atts['height']) && $atts['height'] != 'inherit')
 		$map_attributes .= "data-shortcode-height='{$atts["height"]}' ";
 	
+	$map_attributes .= "data-settings='" . esc_attr(json_encode($res)) . "'";
+	
     if (!$map_align || $map_align == "" || $map_align == "1") { $map_align = "float:left;"; }
     else if ($map_align == "2") { $map_align = "margin-left:auto !important; margin-right:auto; !important; align:center;"; }
     else if ($map_align == "3") { $map_align = "float:right;"; }
@@ -2698,6 +2703,9 @@ function wpgmaps_tag_basic( $atts ) {
 	wp_enqueue_script('wpgmza_canvas_layer', plugin_dir_url(__FILE__) . 'lib/CanvasLayer.js', array('wpgmza_api_call'));
 	
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
+	
+	global $wpgmza;
+	$wpgmza->loadScripts();
 	
 	wpgmza_enqueue_fontawesome();
 	
@@ -2973,6 +2981,9 @@ function wpgmza_settings_page_post()
 	
 	if(isset($_POST['wpgmza_use_fontawesome']))
 		$wpgmza_data['use_fontawesome'] = $_POST['wpgmza_use_fontawesome'];
+	
+	if(isset($_POST['wpgmza_maps_engine']))
+		$wpgmza_data['wpgmza_maps_engine'] = $_POST['wpgmza_maps_engine'];
 	
 	 if (isset($_POST['wpgmza_force_greedy_gestures'])) { $wpgmza_data['wpgmza_force_greedy_gestures'] = sanitize_text_field($_POST['wpgmza_force_greedy_gestures']); }
 	
@@ -4370,6 +4381,25 @@ function wpgmaps_settings_page_basic() {
 						<option value='5.*' $use_fontawesome_5_selected>5.*</option>
 						<option value='4.*' $use_fontawesome_4_selected>4.*</option>
 						<option value='none' $use_fontawesome_none_selected>" . __("None", "wp-google-maps") . "</option>
+					</select>
+				</td>
+			</tr>
+			
+			";
+			
+			$use_google_maps_selected 		= (isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'google-maps' ? 'selected="selected"' : "");
+			$use_open_street_map_selected 	= (empty($wpgmza_settings['wpgmza_maps_engine']) || $wpgmza_settings['wpgmza_maps_engine'] == 'open-street-map' ? 'selected="selected"' : "");
+			
+			$ret .= "
+			
+			<tr>
+				<td>
+					" . __("Maps Engine:", "wp-google-maps") . "
+				</td>
+				<td>
+					<select name='wpgmza_maps_engine'>
+						<option $use_open_street_map_selected value='open-street-map'>OpenStreetMap</option>
+						<option $use_google_maps_selected value='google-maps'>Google Maps</option>
 					</select>
 				</td>
 			</tr>
@@ -7482,7 +7512,7 @@ function wpgmaps_b_admin_add_circle_javascript()
         <script type="text/javascript" >
 			(function($) {
 		
-				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+				var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				circle = null;
 				MYMAP = {
 					map: null,
@@ -7551,8 +7581,8 @@ function wpgmaps_b_admin_add_circle_javascript()
 						bounds = map.getBounds(), 
 						cor1 = bounds.getNorthEast(), 
 						cor2 = bounds.getSouthWest(), 
-						cor3 = new google.maps.LatLng(cor2.lat(), cor1.lng()), 
-						cor4 = new google.maps.LatLng(cor1.lat(), cor2.lng()), 
+						cor3 = new WPGMZA.LatLng(cor2.lat(), cor1.lng()), 
+						cor4 = new WPGMZA.LatLng(cor1.lat(), cor2.lng()), 
 						width = spherical.computeDistanceBetween(cor1,cor3), 
 						height = spherical.computeDistanceBetween( cor1, cor4);
 						
@@ -7591,7 +7621,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 					};
 					
 					this.map = new google.maps.Map($(selector)[0], myOptions);
-					this.bounds = new google.maps.LatLngBounds();
+					this.bounds = new WPGMZA.LatLngBounds();
 					
 					google.maps.event.addListener(this.map, "click", function(event) {
 						
@@ -7637,7 +7667,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 							fillOpacity: $("input[name='circle_opacity']").val(),
 							strokeOpacity: 0,
 							map: self.map,
-							center: new google.maps.LatLng({
+							center: new WPGMZA.LatLng({
 								lat: parseFloat(m[0]),
 								lng: parseFloat(m[1])
 							}),
@@ -7906,7 +7936,7 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 		
 			(function($) {
 		
-				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+				var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				
 				$(document).ready(function(){
 					function wpgmza_InitMap() {
@@ -7958,7 +7988,7 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 						mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
 					  }
 					this.map = new google.maps.Map($(selector)[0], myOptions);
-					this.bounds = new google.maps.LatLngBounds();
+					this.bounds = new WPGMZA.LatLngBounds();
 					
 					google.maps.event.addListener(this.map, "click", function(event) {
 						
