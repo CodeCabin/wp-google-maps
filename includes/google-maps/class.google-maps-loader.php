@@ -98,6 +98,10 @@ class GoogleMapsLoader
 		if(GoogleMapsLoader::$googleAPILoadCalled)
 			return;
 		
+		$apiLoader = new GoogleMapsAPILoader();
+		if(!$apiLoader->isIncludeAllowed())
+			return;
+		
 		$params = $this->getGoogleMapsAPIParams();
 		
 		$suffix = $params['suffix'];

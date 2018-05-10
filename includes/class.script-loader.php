@@ -379,7 +379,7 @@ class ScriptLoader
 		$dependencies = array_keys($libraries);
 		
 		// TODO: Fix dependency issues. This only works empty because the relevant code fires in document.ready
-		$dependencies = array();
+		$dependencies = array('wpgmza_api_call');
 		
 		/*if(is_admin())
 		{
@@ -395,7 +395,6 @@ class ScriptLoader
 		foreach($this->scripts as $handle => $script)
 		{
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
-			
 			wp_enqueue_script($handle, $fullpath, $script->dependencies);
 		}
 		

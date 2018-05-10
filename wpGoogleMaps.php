@@ -436,6 +436,7 @@ $wpgmza_t = "basic";
 
 require_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php');
 require_once(plugin_dir_path(__FILE__) . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
+require_once(plugin_dir_path(__FILE__) . 'includes/open-layers/class.nominatim-geocode-cache.php');
 
 require_once( "base/includes/wp-google-maps-polygons.php" );
 require_once( "base/includes/wp-google-maps-polylines.php" );
@@ -477,6 +478,7 @@ add_action( 'admin_menu', 'wpgmaps_admin_menu' );
 add_filter( 'widget_text', 'do_shortcode' );
 
 // Google API Loader
+// NB: Removed, functionality handed over to GoogleMapsLoader
 if(!function_exists('wpgmza_enqueue_scripts'))
 {
 	function wpgmza_enqueue_scripts()
@@ -1945,10 +1947,7 @@ function wpgmaps_user_javascript_basic() {
     if (isset($wpgmza_settings['wpgmza_settings_marker_pull']) && $wpgmza_settings['wpgmza_settings_marker_pull'] == "0") {
         $markers = wpgmaps_return_markers($wpgmza_current_map_id);
     }
- 
-	global $wpgmza_google_maps_api_loader;
-	$wpgmza_google_maps_api_loader->enqueueGoogleMaps();
-	
+
     wp_enqueue_script( 'wpgmaps_core' );
 
     do_action("wpgooglemaps_basic_hook_user_js_after_core");
@@ -2621,6 +2620,8 @@ function wpgmaps_tag_basic( $atts ) {
     global $wpgmza_override;
 	global $wpgmza;
 
+	
+	
     extract( shortcode_atts( array(
         'id' 		=> '1', 
 		'width' 	=> 'inherit',
@@ -2731,7 +2732,6 @@ function wpgmaps_tag_basic( $atts ) {
 	}
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
-	
 	$wpgmza->loadScripts();
 	
 	wpgmza_enqueue_fontawesome();
@@ -2798,7 +2798,7 @@ function wpgmaps_tag_basic( $atts ) {
     $polylineoptions = array();
 
     $total_poly_array = wpgmza_b_return_polyline_id_array($wpgmza_current_map_id);
-    if ($total_poly_array > 0) {
+    if	($total_poly_array > 0) {
         foreach ($total_poly_array as $poly_id) {
             $polylineoptions[$poly_id] = wpgmza_b_return_polyline_options($poly_id);
 
@@ -5024,10 +5024,26 @@ function wpgmza_basic_menu() {
     }
     }
 
+	$open_layers_feature_coming_soon = '';
+	$open_layers_feature_unavailable = '';
+	
+	global $wpgmza;
+	if($wpgmza->settings->engine == 'open-layers')
+	{
+		ob_start();
+		include(plugin_dir_path(__FILE__) . 'html/ol-feature-coming-soon.html.php');
+		$open_layers_feature_coming_soon = ob_get_clean();
+		
+		ob_start();
+		include(plugin_dir_path(__FILE__) . 'html/ol-feature-unavailable.html.php');
+		$open_layers_feature_unavailable = ob_get_clean();
+	}
 
 	google_maps_api_key_warning();
     echo "
-
+			$open_layers_feature_unavailable
+			$open_layers_feature_coming_soon
+			
            <div class='wrap'>
                 <h1>WP Google Maps</h1>
                 <div class='wide'>
@@ -5036,7 +5052,7 @@ function wpgmza_basic_menu() {
 
                     <h2>".__("Create your Map","wp-google-maps")."</h2>
                     <form action='' method='post' id='wpgmaps_options'>
-                    <p></p>
+                    
                     <div id=\"wpgmaps_tabs\">
                         <ul>
                             <li><a href=\"#tabs-1\">".__("General Settings","wp-google-maps")."</a></li>
@@ -5135,10 +5151,10 @@ function wpgmza_basic_menu() {
 
                                 </table>
                         </div>
-                        <div id=\"tabs-7\">
-                            <h4>".__("Select a theme for your map","wp-google-maps")."</h4>
+                        <div id=\"tabs-7\" class='wpgmza-open-layers-feature-unavailable'>
+							<h4>".__("Select a theme for your map","wp-google-maps")."</h4>
+							
                             <table class='' id='wpgmaps_theme_table'>
-
                                 <tr>
                                     <td width='50%'>        
                                         <img src=\"".WPGMAPS_DIR."/images/theme_0.jpg\" title=\"Default\" id=\"wpgmza_theme_selection_0\" width=\"200\" class=\"wpgmza_theme_selection ".$wpgmza_theme_class[0]."\" tid=\"0\">     
@@ -5189,7 +5205,8 @@ function wpgmza_basic_menu() {
 
                         </div>
 
-                        <div id=\"tabs-2\">
+                        <div id=\"tabs-2\" class='wpgmza-open-layers-feature-unavailable'>
+							
                             <div class=\"update-nag update-att\">
                                 
                                         <i class=\"fa fa-arrow-circle-right\"> </i> <a target='_BLANK' href=\"".wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=directions")."\">Enable directions</a> with the Pro version for only $39.99 once off. Support and updates included forever.
@@ -5393,7 +5410,7 @@ function wpgmza_basic_menu() {
                         </tr>
                         <tr>
                         <td>".__("Enable Traffic Layer?","wp-google-maps").":</td>
-                            <td>
+                            <td class='wpgmza-open-layers-feature-unavailable'>
 
                             <div class='switch'>
                                 <input type='checkbox' id='wpgmza_traffic' name='wpgmza_traffic' class='postform cmn-toggle cmn-toggle-yes-no' ".$wpgmza_traffic[1]."> <label class='cmn-override-big' for='wpgmza_traffic' data-on='".__("Yes","wp-google-maps")."' data-off='".__("No","wp-google-maps")."''></label>
@@ -5404,7 +5421,7 @@ function wpgmza_basic_menu() {
                         
                         <tr>
                             <td width='320'>".__("Enable Public Transport Layer?","wp-google-maps").":</td>
-                            <td>
+                            <td class='wpgmza-open-layers-feature-unavailable'>
 
                             <div class='switch'>
                                 <input type='checkbox' id='wpgmza_transport' name='wpgmza_transport' class='postform cmn-toggle cmn-toggle-yes-no' ".$wpgmza_transport_layer_checked[0]."> <label class='cmn-override-big' for='wpgmza_transport' data-on='".__("Yes","wp-google-maps")."' data-off='".__("No","wp-google-maps")."''></label>
@@ -5444,7 +5461,7 @@ function wpgmza_basic_menu() {
                         
 						<tr>
 							<td><label for=\"wpgmza_show_points_of_interest\">".__("Show Points of Interest?", "wp-google-maps")."</label></td>
-							<td>
+							<td class='wpgmza-open-layers-feature-unavailable'>
 								<input id='wpgmza_show_points_of_interest' type='checkbox' id='wpgmza_show_points_of_interest' name='wpgmza_show_points_of_interest' " .
 									(
 										!isset($other_settings_data['wpgmza_show_points_of_interest']) ||
@@ -5490,13 +5507,13 @@ function wpgmza_basic_menu() {
 								
                                 <tr>
                                     <td>".__("KML/GeoRSS URL","wp-google-maps").":</td>
-                                    <td>
+                                    <td class='wpgmza-open-layers-feature-unavailable'>
                                      <input type='text' size='100' maxlength='700' class='regular-text' readonly disabled /> <em><small>".__("The KML/GeoRSS layer will over-ride most of your map settings","wp-google-maps")."</small></em></td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>".__("Fusion table ID","wp-google-maps").":</td>
-                                    <td>
+                                    <td class='wpgmza-open-layers-feature-unavailable'>
                                      <input type='text' size='20' maxlength='200' class='small-text' readonly disabled /> <em><small>".__("Read data directly from your Fusion Table.","wp-google-maps")."</small></em></td>
                                     </td>
                                 </tr>
@@ -5868,18 +5885,18 @@ function wpgmza_basic_menu() {
                                         <br /><br />$wpgmza_csv
                                     </div>
 
-                                    <div id=\"tabs-m-3\">
+                                    <div id=\"tabs-m-3\" class='wpgmza-open-layers-feature-coming-soon'>
                                         <h2 style=\"padding-top:0; margin-top:0;\"> ".__("Polygons","wp-google-maps")."</h2>
                                         <span id=\"wpgmza_addpolygon_div\"><a href='".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu&action=add_poly&map_id=".sanitize_text_field($_GET['map_id'])."' id='wpgmza_addpoly' class='button-primary' value='".__("Add a New Polygon","wp-google-maps")."' />".__("Add a New Polygon","wp-google-maps")."</a></span>
                                         <div id=\"wpgmza_poly_holder\">".wpgmza_b_return_polygon_list(sanitize_text_field($_GET['map_id']))."</div>
                                     </div>
-                                    <div id=\"tabs-m-4\">
+                                    <div id=\"tabs-m-4\" class='wpgmza-open-layers-feature-coming-soon'>
                                         <h2 style=\"padding-top:0; margin-top:0;\"> ".__("Polylines","wp-google-maps")."</h2>
                                         <span id=\"wpgmza_addpolyline_div\"><a href='".get_option('siteurl')."/wp-admin/admin.php?page=wp-google-maps-menu&action=add_polyline&map_id=".sanitize_text_field($_GET['map_id'])."' id='wpgmza_addpolyline' class='button-primary' value='".__("Add a New Polyline","wp-google-maps")."' />".__("Add a New Polyline","wp-google-maps")."</a></span>
                                         <div id=\"wpgmza_polyline_holder\">".wpgmza_b_return_polyline_list(sanitize_text_field($_GET['map_id']))."</div>
                                     </div>
 									
-									<div id=\"tabs-circles\">
+									<div id=\"tabs-circles\" class='wpgmza-open-layers-feature-coming-soon'>
 										<h2>
 											" . __('Add a Circle', 'wp-google-maps') . "
 										</h2>
@@ -5887,7 +5904,7 @@ function wpgmza_basic_menu() {
 										" . wpgmza_get_circles_table($_GET['map_id']) . "
 									</div>
 									
-									<div id=\"tabs-rectangles\">
+									<div id=\"tabs-rectangles\" class='wpgmza-open-layers-feature-coming-soon'>
 										<h2>
 											" . __('Add a Rectangle', 'wp-google-maps') . "
 										</h2>
@@ -5895,7 +5912,7 @@ function wpgmza_basic_menu() {
 										" . wpgmza_get_rectangles_table($_GET['map_id']) . "
 									</div>
 									
-                                    <div id=\"tabs-m-5\">
+                                    <div id=\"tabs-m-5\" class='wpgmza-open-layers-feature-coming-soon'>
                                         <h2 style=\"padding-top:0; margin-top:0;\"> ".__("Heatmaps","wp-google-maps")."</h2>
                                         <a target=\"_BLANK\" href=\"".wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=heatmaps")."\">".__("Add dynamic heatmap data","wp-google-maps")."</a> ".__("with the Pro version.","wp-google-maps")."
                                         <a target=\"_BLANK\" href=\"https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap_demo\">".__("View a demo.","wp-google-maps")."</a>
