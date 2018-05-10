@@ -35,10 +35,27 @@
 					lat: location.lat(),
 					lng: location.lng()
 				};
-				callback(latLng);
+				
+				var results = [
+					{
+						geometry: {
+							location: latLng
+						},
+						latLng: latLng
+					}
+				];
+				
+				callback(results, WPGMZA.Geocoder.SUCCESS);
 			}
 			else
-				callback(null);
+			{
+				var nativeStatus = WPGMZA.Geocoder.FAIL;
+				
+				if(status == google.maps.GeocoderStatus.ZERO_RESULTS)
+					nativeStatus = WPGMZA.Geocoder.ZERO_RESULTS;
+				
+				callback(null, nativeStatus);
+			}
 		});
 	}
 	

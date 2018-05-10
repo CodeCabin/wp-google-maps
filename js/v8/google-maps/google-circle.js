@@ -17,7 +17,7 @@
 		}
 		else
 		{
-			this.googleCircle = new google.maps.Circle(this.settings);
+			this.googleCircle = new google.maps.Circle();
 			this.googleCircle.wpgmzaCircle = this;
 		}
 		
@@ -25,8 +25,25 @@
 			self.dispatchEvent({type: "click"});
 		});
 		
-		if(options.map)
-			this.googleCircle.setMap(options.map.googleMap);
+		if(options)
+		{
+			var googleOptions = {};
+			
+			googleOptions = $.extend({}, options);
+			delete googleOptions.map;
+			delete googleOptions.center;
+			
+			if(options.center)
+				googleOptions.center = new google.maps.LatLng({
+					lat: options.center.lat,
+					lng: options.center.lng
+				});
+			
+			this.googleCircle.setOptions(googleOptions);
+			
+			if(options.map)
+				options.map.addCircle(this);
+		}
 	}
 	
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);

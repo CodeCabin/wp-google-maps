@@ -16,7 +16,7 @@
 		var self = this;
 		
 		if(!window.google)
-			throw new Error("Google API not loaded");
+			throw new Error("Google API not loaded - " + wpgmza_api_not_enqueued_reason);
 		
 		Parent.call(this, element, options);
 		

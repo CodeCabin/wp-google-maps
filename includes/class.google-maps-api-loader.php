@@ -105,8 +105,6 @@ class GoogleMapsAPILoader
 		if(GoogleMapsAPILoader::$googleAPILoadCalled)
 			return;
 		
-		return;
-		
 		// TODO: It may be more appropriate to check isIncludeAllowed here rather than in script_loader_tag
 		
 		$params = $this->getGoogleMapsAPIParams();
@@ -174,37 +172,54 @@ class GoogleMapsAPILoader
 		return (array_search($page_id, $page_ids) !== false);
 	}
 	
-	public function isIncludeAllowed()
+	public function isIncludeAllowed(&$reason=null)
 	{
 		global $post;
 		
+		$settings = GoogleMapsAPILoader::$settings;
+		
 		if(!empty($settings['wpgmza_settings_remove_api']))
+		{
+			$reason = 'Remove API checked in settings';
 			return false;
+		}
 		
 		if(empty($settings['wpgmza_maps_engine']) || $settings['wpgmza_maps_engine'] != 'google-maps')
+		{
+			$reason = 'Engine is not google-maps';
 			return false;
+		}
 		
 		if($post)
 		{
 			if($this->isPageIncluded($post->ID))
+			{
+				$reason = 'Page is explicitly included in settings';
 				return true;
+			}
 			
 			if($this->isPageExcluded($post->ID))
+			{
+				$reason = 'Page is explicitly excluded in settings';
 				return false;
+			}
 		}
 			
 		if(!empty($settings['wpgmza_load_google_maps_api_condition']))
 			switch($settings['wpgmza_load_google_maps_api_condition'])
 			{
 				case 'never':
+					$reason = 'Never load API chosen in settings';
 					return false;
 					break;
 					
 				case 'only-front-end':
+					$reason = 'Load API front end only chosen in settings';
 					return !is_admin();
 					break;
 					
 				case 'only-back-end':
+					$reason = 'Load API back end only chosen in settings';
 					return is_admin();
 					break;
 				
@@ -212,6 +227,7 @@ class GoogleMapsAPILoader
 					break;
 			}
 		
+		$reason = 'Enqueue is allowed';
 		return true;
 	}
 	
@@ -219,8 +235,11 @@ class GoogleMapsAPILoader
 	{
 		if(preg_match('/maps\.google/i', $src))
 		{
-			if(!$this->isIncludeAllowed())
+			if(!$this->isIncludeAllowed($reason))
+			{
+				echo "<script>var wpgmza_api_not_enqueued_reason = '$reason';</script>";
 				return '';
+			}
 			
 			else if($handle != 'wpgmza_api_call')
 				return '';

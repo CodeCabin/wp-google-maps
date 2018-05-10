@@ -79,7 +79,7 @@
 	{
 		$.ajax(WPGMZA.ajaxurl, {
 			data: {
-				action: "wpgmza_query_nominatim_cache",
+				action: "wpgmza_store_nominatim_cache",
 				query: address,
 				response: JSON.stringify(response)
 			},

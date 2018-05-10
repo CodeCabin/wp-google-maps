@@ -115,8 +115,6 @@
 		this.createGoogleInfoWindow();
 		
 		this.googleInfoWindow.setContent(html);
-		
-		console.log(html);
 	}
 	
 })(jQuery);

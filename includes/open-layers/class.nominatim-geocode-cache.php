@@ -30,9 +30,15 @@ class NominatimGeocodeCache
 		// Check the cache first, as per the nominatim usage policy
 		$stmt = $wpdb->prepare("SELECT response FROM {$this->table} WHERE query=%s LIMIT 1", array($query));
 		
-		$stmt = apply_filters( 'wpgmza_osm_nomination_cache_query_get', $stmt, $query );
+		$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_get', $stmt, $query );
 
-		return $wpdb->get_var($stmt);
+		$string = $wpdb->get_var($stmt);
+		$json = null;
+		
+		if(!empty($string))
+			$json = json_decode(stripslashes($string));
+		
+		return $json;
 	}
 	
 	public function set($query, $response)
@@ -47,13 +53,14 @@ class NominatimGeocodeCache
 			$response
 		));
 
-		$stmt = apply_filters( 'wpgmza_osm_nomination_cache_query_set', $stmt, $query, $response );
+		$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_set', $stmt, $query, $response );
 
 		$wpdb->query($stmt);
 	}
 }
 
-add_action('wp_ajax_wpgmza_query_nominatim_cache', function() {
+function query_nominatim_cache()
+{
 	
 	$cache = new NominatimGeocodeCache();
 	$record = $cache->get($_GET['query']);
@@ -63,5 +70,21 @@ add_action('wp_ajax_wpgmza_query_nominatim_cache', function() {
 
 	wp_send_json($record);
 	exit;
+}
+
+function store_nominatim_cache()
+{
+	$cache = new NominatimGeocodeCache();
+	$cache->set($_POST['query'], $_POST['response']);
 	
-});
+	wp_send_json(array(
+		'success' => 1
+	));
+	exit;
+}
+
+add_action('wp_ajax_wpgmza_query_nominatim_cache', 			'WPGMZA\\query_nominatim_cache');
+add_action('wp_ajax_nopriv_wpgmza_query_nominatim_cache', 	'WPGMZA\\query_nominatim_cache');
+
+add_action('wp_ajax_wpgmza_store_nominatim_cache', 			'WPGMZA\\store_nominatim_cache');
+add_action('wp_ajax_nopriv_wpgmza_store_nominatim_cache', 	'WPGMZA\\store_nominatim_cache');
