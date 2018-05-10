@@ -27,7 +27,7 @@
 				break;
 				
 			default:
-				return WPGMZA.OSMPolyline;
+				return WPGMZA.OLPolyline;
 				break;
 		}
 	}

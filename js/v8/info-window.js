@@ -49,8 +49,8 @@
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OSMProInfoWindow;
-				return WPGMZA.OSMInfoWindow;
+					return WPGMZA.OLProInfoWindow;
+				return WPGMZA.OLInfoWindow;
 				break;
 		}
 	}

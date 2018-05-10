@@ -23,7 +23,7 @@
 				break;
 				
 			default:
-				return WPGMZA.OSMGeocoder;
+				return WPGMZA.OLGeocoder;
 				break;
 		}
 	}

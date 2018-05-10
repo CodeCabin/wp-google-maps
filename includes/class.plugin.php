@@ -2,6 +2,7 @@
 
 namespace WPGMZA;
 
+require_once(plugin_dir_path(__FILE__) . 'class.auto-loader.php');
 require_once(plugin_dir_path(__FILE__) . 'class.script-loader.php');
 
 class Plugin
@@ -22,10 +23,13 @@ class Plugin
 	
 	public function __construct()
 	{
+		$this->autoLoader = new AutoLoader();
+		$this->autoLoader->registerClassesInPath(__DIR__);
+		
 		$legacy_settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
 		$settings = array(
-			'engine' 				=> (empty($legacy_settings['wpgmza_maps_engine']) || $legacy_settings['wpgmza_maps_engine'] != 'google-maps' ? 'open-street-map' : 'google-maps'),
+			'engine' 				=> (empty($legacy_settings['wpgmza_maps_engine']) || $legacy_settings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps'),
 			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
 			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
 			'developer_mode'		=> true // TODO: remove
@@ -44,14 +48,14 @@ class Plugin
 			Plugin::$enqueueScriptsFired = true;
 		});
 		
-		if($this->settings->engine == 'open-street-map')
-			require_once(plugin_dir_path(__FILE__) . 'open-street-map/class.nominatim-geocode-cache.php');
+		if($this->settings->engine == 'open-layers')
+			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
 	}
 	
 	public function loadScripts()
 	{
 		if(!$this->scriptLoader)
-			$this->scriptLoader = new ScriptLoader(Plugin::isProVersion());
+			$this->scriptLoader = new ScriptLoader($this->isProVersion());
 		
 		// TODO: Remove this, it's for debugging
 		$this->scriptLoader->build();
@@ -77,9 +81,10 @@ class Plugin
 	
 	public function getLocalizedData()
 	{
-		return apply_filters('wpgmza_plugin_get_localized_Data', array(
-			'ajaxurl' 	=> admin_url('admin-ajax.php'),
-			'settings' 	=> $this->settings
+		return apply_filters('wpgmza_plugin_get_localized_data', array(
+			'ajaxurl' 		=> admin_url('admin-ajax.php'),
+			'settings' 		=> $this->settings,
+			'_isProVersion'	=> $this->isProVersion()
 		));
 	}
 	
@@ -133,5 +138,16 @@ class Plugin
 	}
 }
 
-global $wpgmza;
-$wpgmza = new Plugin();
+function create_plugin_instance()
+{
+	if(defined('WPGMZA_PRO_VERSION'))
+		return new ProPlugin();
+	
+	return new Plugin();
+}
+
+add_action('plugins_loaded', function() {
+	global $wpgmza;
+	add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);
+	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
+});

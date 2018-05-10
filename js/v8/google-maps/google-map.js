@@ -11,17 +11,20 @@
 	 * Constructor
 	 * @param element to contain the map
 	 */
-	WPGMZA.GoogleMap = function(element)
+	WPGMZA.GoogleMap = function(element, options)
 	{
 		var self = this;
 		
 		if(!window.google)
 			throw new Error("Google API not loaded");
 		
-		Parent.call(this, element);
+		Parent.call(this, element, options);
 		
 		this.loadGoogleMap();
 		
+		if(options)
+			this.setOption(options);
+			
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			self.dispatchEvent("click");
 		});
@@ -94,11 +97,13 @@
 		
 		// Move the loading wheel into the map element (it has to live outside in the HTML file because it'll be overwritten by Google otherwise)
 		$(this.engineElement).append($(this.element).find(".wpgmza-loader"));
+	}
+	
+	WPGMZA.GoogleMap.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
 		
-		// Legacy V6 JS compatibility
-		if(!window.MYMAP)
-			window.MYMAP = [];
-		MYMAP[this.id] = {map: this.googleMap};
+		this.googleMap.setOptions(options);
 	}
 	
 	/**

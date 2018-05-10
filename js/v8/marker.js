@@ -47,7 +47,7 @@
 	
 	/**
 	 * Gets the constructor. You can use this instead of hard coding the parent class when inheriting,
-	 * which is helpful for making subclasses that work with Basic only, Pro, Google, OSM or a 
+	 * which is helpful for making subclasses that work with Basic only, Pro, Google, OL or a 
 	 * combination of the four.
 	 * @return function
 	 */
@@ -63,8 +63,8 @@
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OSMProMarker;
-				return WPGMZA.OSMMarker;
+					return WPGMZA.OLProMarker;
+				return WPGMZA.OLMarker;
 				break;
 		}
 	}

@@ -1,5 +1,6 @@
 /**
  * @module WPGMZA
+ * @summary This is the core Javascript module. Some code exists in ../core.js, the functionality there will slowly be handed over to this module.
  */
 (function($) {
 	var core = {
@@ -10,8 +11,10 @@
 		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 		
 		/**
-		 * Utility function returns a GUID
-		 * @return void
+		 * @function guid
+		 * @summary Utility function returns a GUID
+		 * @static
+		 * @return {string} The GUID
 		 */
 		guid: function() { // Public Domain/MIT
 		  var d = new Date().getTime();
@@ -26,8 +29,12 @@
 		},
 		
 		/**
-		 * Takes a hex string and opacity value and converts it to Openlayers RGBA format
-		 * @return array RGBA whre color components are 0-255 and opacity is 0.0-1.0
+		 * @function hexOpacityToRGBA
+		 * @summary Takes a hex string and opacity value and converts it to Openlayers RGBA format
+		 * @param {string} colour The hex color string
+		 * @param {number} opacity The opacity from 0.0 - 1.0
+		 * @static
+		 * @return {array} RGBA where color components are 0 - 255 and opacity is 0.0 - 1.0
 		 */
 		hexOpacityToRGBA: function(colour, opacity)
 		{
@@ -43,8 +50,11 @@
 		latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
 		
 		/**
-		 * Utility function returns true is string is a latitude and longitude
-		 * @return array the matched latitude and longitude or null if no match
+		 * @function isLatLngString
+		 * @summary Utility function returns true is string is a latitude and longitude
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {array} the matched latitude and longitude or null if no match
 		 */
 		isLatLngString: function(str)
 		{
@@ -67,8 +77,11 @@
 		},
 		
 		/**
-		 * Utility function returns a latLng literal given a valid latLng string
-		 * @return latLng
+		 * @function stringToLatLng
+		 * @summary Utility function returns a latLng literal given a valid latLng string
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {object} LatLng literal
 		 */
 		stringToLatLng: function(str)
 		{
@@ -81,8 +94,12 @@
 		},
 		
 		/**
-		 * Utility function to get the dimensions of an image
-		 * @return void
+		 * @function getImageDimensions
+		 * @summary Utility function to get the dimensions of an image, caches results for best performance
+		 * @param src {string} Image source URL
+		 * @param callback {function} Callback to recieve image dimensions
+		 * @static
+		 * @return {void}
 		 */
 		imageDimensionsCache: {},
 		getImageDimensions: function(src, callback)
@@ -106,23 +123,34 @@
 		},
 		
 		/**
-		 * Returns true if developer mode is set
-		 * @return void
+		 * @function isDeveloperMode
+		 * @summary Returns true if developer mode is set
+		 * @static 
+		 * @return {boolean} True if developer mode is on
 		 */
 		isDeveloperMode: function()
 		{
-			return this.settings.developer_mode || (window.Cookies && window.Cookies.get("wpgmza-developer-mode"));
+			return this.developer_mode || (window.Cookies && window.Cookies.get("wpgmza-developer-mode"));
 		},
 		
 		/**
-		 * Returns true if running the Pro version of the plugin
-		 * @return void
+		 * @function isProVersion
+		 * @summary Returns true if the Pro add-on is active
+		 * @static
+		 * @return {boolean} True if the Pro add-on is active
 		 */
 		isProVersion: function()
 		{
-			return this.is_pro_version;
+			return (this._isProVersion == "1");
 		},
 		
+		/**
+		 * @function openMediaDialog
+		 * @summary Opens the WP media dialog and returns the result to a callback
+		 * @param {function} callback Callback to recieve the attachment ID as the first parameter and URL as the second
+		 * @static
+		 * @return {void}
+		 */
 		openMediaDialog: function(callback) {
 			// Media upload
 			var file_frame;
@@ -158,41 +186,13 @@
 		},
 		
 		/**
-		 * Override this method to add a scroll offset when using animated scroll
-		 * @return number
-		 */
-		getScrollAnimationOffset: function() {
-			return (WPGMZA.settings.scroll_animation_offset || 0);
-		},
-		
-		/**
-		 * Animated scroll, accounts for animation settings and fixed header height
-		 * @return void
-		 */
-		animateScroll: function(element, milliseconds) {
-			
-			var offset = WPGMZA.getScrollAnimationOffset();
-			
-			if(!milliseconds)
-			{
-				if(WPGMZA.settings.scroll_animation_milliseconds)
-					milliseconds = WPGMZA.settings.scroll_animation_milliseconds;
-				else
-					milliseconds = 500;
-			}
-			
-			$("html, body").animate({
-				scrollTop: $(element).offset().top - offset
-			}, milliseconds);
-			
-		},
-		
-		/**
-		 * This function will get the users position, it first attempts to get
+		 * @function getCurrentPosition
+		 * @summary This function will get the users position, it first attempts to get
 		 * high accuracy position (mobile with GPS sensors etc.), if that fails
 		 * (desktops will time out) then it tries again without high accuracy
 		 * enabled
-		 * @return object The users position
+		 * @static
+		 * @return {object} The users position as a LatLng literal
 		 */
 		getCurrentPosition: function(callback)
 		{
@@ -225,6 +225,14 @@
 			options);
 		},
 		
+		/**
+		 * @function runCatchableTask
+		 * @summary Runs a catchable task and displays a friendly error if the function throws an error
+		 * @param {function} callback The function to run
+		 * @param {HTMLElement} friendlyErrorContainer The container element to hold the error
+		 * @static
+		 * @return {void}
+		 */
 		runCatchableTask: function(callback, friendlyErrorContainer) {
 			
 			if(WPGMZA.isDeveloperMode())
@@ -241,6 +249,8 @@
 		},
 		
 		/**
+		 * @function assertInstanceOf
+		 * @summary
 		 * This function is for checking inheritence has been setup correctly.
 		 * For objects that have engine and Pro specific classes, it will automatically
 		 * add the engine and pro prefix to the supplied string and if such an object
@@ -250,8 +260,10 @@
 		 * For example, if we are running the Pro addon with Google maps as the engine,
 		 * if you supply Marker as the instance name the function will check to see
 		 * if instance is an instance of GoogleProMarker
-		 *
-		 * return @void
+		 * @param {object} instance The object to check
+		 * @param {string} instanceName The class name as a string which this object should be an instance of
+		 * @static
+		 * @return {void}
 		 */
 		assertInstanceOf: function(instance, instanceName) {
 			var engine, fullInstanceName, assert;
@@ -264,7 +276,7 @@
 					break;
 				
 				default:
-					engine = "OSM";
+					engine = "OL";
 					break;
 			}
 			
@@ -280,9 +292,15 @@
 			assert = instance instanceof WPGMZA[fullInstanceName];
 			
 			if(!assert)
-				throw new Error("Object must be an instance of " + fullInstanceName);
+				throw new Error("Object must be an instance of " + fullInstanceName + " (did you call a constructor directly, rather than createInstance?)");
 		},
 		
+		/**
+		 * @function getMapByID
+		 * @param {mixed} id The ID of the map to retrieve
+		 * @static
+		 * @return {object} The map object, or null if no such map exists
+		 */
 		getMapByID: function(id) {
 			for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)
@@ -292,6 +310,12 @@
 			return null;
 		},
 		
+		/**
+		 * @function isGoogleAutocompleteSupported
+		 * @summary Shorthand function to determine if the Places Autocomplete is available
+		 * @static
+		 * @return {boolean}
+		 */
 		isGoogleAutocompleteSupported: function() {
 			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
 		}
@@ -303,7 +327,10 @@
 		window.WPGMZA = core;
 	
 	for(var key in WPGMZA_localized_data)
-		WPGMZA[key] = WPGMZA_localized_data[key];
+	{
+		var value = WPGMZA_localized_data[key];
+		WPGMZA[key] = value;
+	}
 	
 	/*for(var key in WPGMZA_localized_data)
 		WPGMZA[key] = WPGMZA_localized_data[key];

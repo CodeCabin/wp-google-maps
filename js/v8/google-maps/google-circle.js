@@ -24,6 +24,9 @@
 		google.maps.event.addListener(this.googleCircle, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
+		
+		if(options.map)
+			this.googleCircle.setMap(options.map.googleMap);
 	}
 	
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
