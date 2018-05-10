@@ -66,4 +66,9 @@
 		}
 	});
 	
+	WPGMZA.LatLng.prototype.toString = function()
+	{
+		return this._lat + ", " + this._lng;
+	}
+	
 })(jQuery);

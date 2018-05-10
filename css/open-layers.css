@@ -1,0 +1,116 @@
+@keyframes bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+@-webkit-keyframes bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+
+@keyframes drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+@-webkit-keyframes drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+.ol-marker
+{
+	position: relative;
+}
+
+.ol-marker>img
+{
+	position: absolute;
+	bottom: 0px;
+	transform: translateX(-50%);
+	max-width: none;
+}
+
+.ol-marker[data-anim='bounce']>img
+{
+	animation: bounce 0.3s infinite alternate;
+	-webkit-animation: bounce 0.3s infinite alternate;
+}
+
+.ol-marker[data-anim='drop']>img
+{
+	animation: drop 0.3s;
+	-webkit-animation: drop 0.3s;
+}
+
+.ol-marker-label
+{
+	top: 1.5em;
+    position: relative;
+    transform: translateX(-50%);
+	text-shadow: 
+		0px 0px 1px white,
+		0px 0px 1px white,
+		0px 0px 1px white,
+		0px 0px 2px white,
+		0px 0px 2px white,
+		0px 0px 2px white,
+		0px 0px 3px white,
+		0px 0px 3px white;
+}
+
+.ol-info-window-plain
+{
+	position: absolute;
+	bottom: 53px;
+	left: 0px;
+	transform: translateX(-50%);
+	
+	background: white;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+	border: 1px solid lightgray;
+	padding: 0.5em;
+}
+
+.ol-info-window-plain:after
+{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-top-color: white;
+	border-bottom: 0;
+	margin-left: -8px;
+	margin-bottom: -8px;
+}
+
+.ol-info-window-close
+{
+	float: right;
+	margin: 0 0 3px 3px;
+	cursor: pointer;
+}
+
+.ol-info-window-container,
+	.wpgmza-pro-info-window-container
+{
+	z-index: 999999;
+}

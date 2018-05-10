@@ -31,7 +31,7 @@
 		}
 	}
 	
-	WPGMZA.MapSettings.prototype.toOSMViewOptions = function()
+	WPGMZA.MapSettings.prototype.toOLViewOptions = function()
 	{
 		var options = {
 			center: ol.proj.fromLonLat([-119.4179, 36.7783]),

@@ -105,6 +105,8 @@ class GoogleMapsAPILoader
 		if(GoogleMapsAPILoader::$googleAPILoadCalled)
 			return;
 		
+		return;
+		
 		// TODO: It may be more appropriate to check isIncludeAllowed here rather than in script_loader_tag
 		
 		$params = $this->getGoogleMapsAPIParams();

@@ -3,12 +3,13 @@
 namespace WPGMZA;
 
 require_once(plugin_dir_path(__FILE__) . 'google-maps/class.google-maps-loader.php');
-require_once(plugin_dir_path(__FILE__) . 'open-street-map/class.osm-loader.php');
+require_once(plugin_dir_path(__FILE__) . 'open-layers/class.ol-loader.php');
 
 class ScriptLoader
 {
 	private $proMode = false;
 	private $logStarted = false;
+	
 	public $scripts;
 	
 	public function __construct($proMode)
@@ -69,7 +70,7 @@ class ScriptLoader
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
 		
-		if($wpgmza->isProVersion())
+		/*if($wpgmza->isProVersion())
 		{
 			$pro_dir = plugin_dir_url(WPGMZA_PRO_FILE);
 			
@@ -79,7 +80,7 @@ class ScriptLoader
 				'jquery-multiselect'	=> $pro_dir . 'lib/jquery.multiselect.js',
 				'owl-carousel'			=> $pro_dir . 'lib/owl.carousel.min.js'
 			));
-		}
+		}*/
 		
 		if($wpgmza->getCurrentPage() && is_admin())
 		{
@@ -115,6 +116,7 @@ class ScriptLoader
 		$directories = $this->getScanDirectories();
 		
 		$files = array();
+		$this->dependenciesByHandle = array();
 		
 		$this->log("Scanning dependencies");
 		
@@ -181,6 +183,11 @@ class ScriptLoader
 				
 				$src = str_replace($dir, 'js/v8', $file);
 				
+				if(empty($this->dependenciesByHandle[$handle]))
+					$this->dependenciesByHandle[$handle] = array();
+				
+				$this->dependenciesByHandle[$handle][] = $file;
+				
 				$this->scripts[$handle] = (object)array(
 					'src'			=> $src,
 					'pro'			=> $pro_directory,
@@ -201,16 +208,28 @@ class ScriptLoader
 		$scripts = (array)(clone (object)$this->scripts);
 		$includedHandles = array();
 		$combineOrder = array();
+		$unresolvedDependencyHandles = array();
 		
 		while(!empty($scripts))
 		{
 			if(++$iterations > 100000)
 			{
-				echo "Dumping included handles\r\n";
-				var_dump($includedHandles);
+				//echo "Dumping included handles\r\n";
+				//var_dump($includedHandles);
 				
-				echo "Dumping remaining scripts\r\n\r\n";
-				var_dump($scripts);
+				//echo "Dumping remaining scripts\r\n\r\n";
+				//var_dump($scripts);
+				
+				echo "<pre>";
+				echo "Dumping unresolved dependencies\r\n\r\n";
+				//var_dump(array_keys($unresolvedDependencyHandles));
+				
+				foreach($unresolvedDependencyHandles as $handle => $unused)
+				{
+					echo "$handle (in " . implode(', ', $this->dependenciesByHandle[$handle]) . ")\r\n";
+				}
+				
+				echo "</pre>";
 				
 				throw new \Exception('Iteration limit hit possibly due to dependency recusion or unresolved dependencies');
 			}
@@ -223,14 +242,18 @@ class ScriptLoader
 					if($dependency != 'wpgmza_api_call' && array_search($dependency, $includedHandles) === false)
 					{
 						// echo "Dependency $dependency not included yet\r\n";
+						$unresolvedDependencyHandles[$handle] = true;
 						continue 2;
 					}
 					
 				// echo "Adding $handle ({$script->src})\r\n";
 				
+				
 				$combineOrder[] = $script->src;
 				$includedHandles[] = $handle;
+				
 				unset($scripts[$handle]);
+				unset($unresolvedDependencyHandles[$handle]);
 				
 				break;
 			}
@@ -263,7 +286,7 @@ class ScriptLoader
 		
 		$combined = implode("\r\n", $combined);
 		
-		if(md5(file_get_contents($dest)) == md5($combined))
+		if(file_exists($dest) && md5(file_get_contents($dest)) == md5($combined))
 			return;	// No changes, no need to build
 		
 		file_put_contents($dest, $combined);
@@ -279,9 +302,6 @@ class ScriptLoader
 	{	
 		global $wpgmza;
 	
-		//wp_enqueue_style('wpgmza_v7_style', plugin_dir_url(__DIR__) . 'css/v7-style.css');
-		//wp_enqueue_style('wpgmza_v7_admin_style', plugin_dir_url(__DIR__) . 'css/wp-google-maps-admin.css');
-		
 		wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
 		wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 		
@@ -290,19 +310,6 @@ class ScriptLoader
 
 		wp_register_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
 		wp_enqueue_style('fontawesome');
-		
-		// wp_enqueue_style('animate-css', plugin_dir_url(__DIR__) . 'css/animate.css');
-	
-		if(!empty(Plugin::$settings->custom_css))
-			wp_add_inline_style('wpgmza_v7_style', Plugin::$settings->custom_css);
-		
-		if($wpgmza->isProVersion())
-		{
-			wp_enqueue_style('wpgmza_v7_pro_admin_style', plugin_dir_url(WPGMZA_PRO_FILE) . 'css/v7-pro-style.css');
-		
-			if(empty(Plugin::$settings->use_legacy_html))
-				wp_enqueue_style('wpgmza-v7-non-legacy-html-style', plugin_dir_url(WPGMZA_PRO_FILE) . 'css/non-legacy-html.css');
-		}
 	}
 	
 	public function enqueueScripts()
@@ -321,14 +328,16 @@ class ScriptLoader
 				break;
 				
 			default:
-				$loader = new OSMLoader();
-				$loader->loadOpenStreetMap();
+				$loader = new OLLoader();
+				$loader->loadOpenLayers();
 				break;
 		}
 		
 		// Enqueue library scripts first
 		foreach($libraries as $handle => $src)
+		{
 			wp_enqueue_script($handle, $src, array('jquery'));
+		}
 		
 		if($wpgmza->isUsingMinifiedScripts())
 		{
@@ -345,6 +354,7 @@ class ScriptLoader
 			{
 				$src = $combined;
 				
+				// NB: Moved this to a JavaScript warning
 				/*add_action('admin_notices', function() {
 					echo '<p class="notice notice-warning">' .
 						__('WP Google Maps: Minified script is out of date, using combined script instead.', 'wp-google-maps') .
@@ -368,10 +378,16 @@ class ScriptLoader
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);
 		
-		if(is_admin())
-			$dependencies[] = 'wpgmaps_admin_core';
+		// TODO: Fix dependency issues. This only works empty because the relevant code fires in document.ready
+		$dependencies = array();
+		
+		/*if(is_admin())
+		{
+			if(!$wpgmza->isProVersion())
+				$dependencies[] = 'wpgmaps_admin_core';
+		}
 		else
-			$dependencies[] = 'wpgmza_api_call';
+			$dependencies[] = 'wpgmza_api_call';*/
 		
 		$this->scripts['wpgmza']->dependencies = $dependencies;
 		
@@ -395,42 +411,6 @@ class ScriptLoader
 		
 		$data = $wpgmza->getLocalizedData();
 		
-		/*$localized_strings = $data->localized_strings;
-		
-		foreach($localized_strings as $key => $value)
-			$localized_strings[$key] = apply_filters("wpgmza_{$key}_text", $value);
-			
-		$data->localized_strings = $localized_strings;*/
-		
 		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
 	}
-	
-	public function enqueueTourData()
-	{
-		require_once(plugin_dir_path(__DIR__) . 'php/class.tour.php');
-		
-		$data = Tour::getData();
-		
-		wp_enqueue_style('hopscotch', plugin_dir_url(__DIR__) . 'lib/hopscotch/css/hopscotch.min.css');
-		wp_enqueue_script('hopscotch', plugin_dir_url(__DIR__) . 'lib/hopscotch/js/v8/hopscotch.js');
-
-		wp_localize_script('wpgmza', 'wpgmza_tour_data', $data);
-	}
-	
-	public function enqueueCustomJavascript()
-	{
-		if(empty(Plugin::$settings->custom_js))
-			return;
-		
-		$customDependencies = null;
-		
-		if(!empty(Plugin::$settings->custom_js_dependencies))
-			$customDependencies = array_map('trim', 
-				explode(',', Plugin::$settings->custom_js_dependencies)
-			);
-		
-		wp_add_inline_script('wpgmza', Plugin::$settings->custom_js, $customDependencies);
-	}
 }
-
-

@@ -1,5 +1,3 @@
-
-
 (function($) {
     var placeSearch, autocomplete;
     var wpgmza_table_length;
@@ -166,7 +164,7 @@
             wpgmza_table_length = jQuery(this).val();
         })
 
-		if (WPGMZA.isGoogleAutocompleteSupported())
+		if (/*WPGMZA.isGoogleAutocompleteSupported()*/ window.google && google.maps && google.maps.places && google.maps.places.Autocomplete)
 		{
 			if(document.getElementById('wpgmza_add_address'))
 			{

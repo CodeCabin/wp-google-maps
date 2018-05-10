@@ -9,7 +9,7 @@
 	 * Constructor
 	 * @param element to contain map
 	 */
-	WPGMZA.Map = function(element)
+	WPGMZA.Map = function(element, options)
 	{
 		var self = this;
 		
@@ -54,9 +54,9 @@
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OSMProMap;
+					return WPGMZA.OLProMap;
 				
-				return WPGMZA.OSMMap;
+				return WPGMZA.OLMap;
 				break;
 		}
 	}
@@ -75,6 +75,15 @@
 	{
 		var settings = new WPGMZA.MapSettings(this.element);
 		this.settings = $.extend({}, WPGMZA.settings, settings);
+	}
+	
+	/**
+	 * Sets options in bulk on map
+	 * @return void
+	 */
+	WPGMZA.Map.prototype.setOptions = function(options)
+	{
+		
 	}
 	
 	/**

@@ -23,7 +23,7 @@
 	WPGMZA.GoogleInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.GoogleInfoWindow.prototype.constructor = WPGMZA.GoogleInfoWindow;
 	
-	WPGMZA.GoogleInfoWindow.prototype.setGoogleObject = function()
+	WPGMZA.GoogleInfoWindow.prototype.setMapObject = function(mapObject)
 	{
 		if(mapObject instanceof WPGMZA.Marker)
 			this.googleObject = mapObject.googleMarker;
@@ -31,6 +31,14 @@
 			this.googleObject = mapObject.googlePolygon;
 		else if(mapObject instanceof WPGMZA.Polyline)
 			this.googleObject = mapObject.googlePolyline;
+	}
+	
+	WPGMZA.GoogleInfoWindow.prototype.createGoogleInfoWindow = function()
+	{
+		if(this.googleInfoWindow)
+			return;
+		
+		this.googleInfoWindow = new google.maps.InfoWindow();
 	}
 	
 	/**
@@ -44,17 +52,20 @@
 		if(!Parent.prototype.open.call(this, map, mapObject))
 			return false;
 		
-		this.setGoogleObject();
-		
-		if(!this.googleInfoWindow)
-			this.googleInfoWindow = new google.maps.InfoWindow();
+		this.createGoogleInfoWindow();
+		this.setMapObject(mapObject);
 		
 		this.googleInfoWindow.open(
 			this.mapObject.map.googleMap,
 			this.googleObject
 		);
 		
-		this.getContent(function(html) {
+		if(this.content)
+			this.googleInfoWindow.setContent(this.content);
+		
+		//this.
+		
+		/*this.getContent(function(html) {
 			
 			// Wrap HTML with unique ID
 			var guid = WPGMZA.guid();
@@ -82,7 +93,7 @@
 				
 			}, 50);
 			
-		});
+		});*/
 		
 		return true;
 	}
@@ -99,7 +110,13 @@
 	
 	WPGMZA.GoogleInfoWindow.prototype.setContent = function(html)
 	{
+		this.content = html;
+		
+		this.createGoogleInfoWindow();
+		
 		this.googleInfoWindow.setContent(html);
+		
+		console.log(html);
 	}
 	
 })(jQuery);

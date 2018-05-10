@@ -47,13 +47,12 @@ class GoogleMapsLoader
 		// Default params for google maps
 		$params = array(
 			'v' 		=> '3.29',
-			//'key'		=> Plugin::$settings->temp_api,	// TODO: Remove on front end
 			'language'	=> $locale,
 			'suffix'	=> $suffix
 		);
 		
 		// API Version
-		if(!empty(Plugin::$settings->api_version))
+		/*if(!empty(Plugin::$settings->api_version))
 		{
 			// Force 3.28 if the user has a setting below this
 			if(version_compare(Plugin::$settings->api_version, '3.29', '<'))
@@ -70,10 +69,14 @@ class GoogleMapsLoader
 		
 		// API Key
 		if(!empty(Plugin::$settings->google_maps_api_key))
-			$params['key'] = Plugin::$settings->google_maps_api_key;
+			$params['key'] = Plugin::$settings->google_maps_api_key;*/
 		
-		if($wpgmza->getCurrentPage() == 'map-edit')
-			$params['libraries'] = 'drawing';
+		//if($wpgmza->getCurrentPage() == 'map-edit')
+			//$params['libraries'] = 'drawing';
+		
+		$key = get_option('wpgmza_google_maps_api_key');
+		if(!empty($key))
+			$params['key'] = $key;
 
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
 		
@@ -113,8 +116,9 @@ class GoogleMapsLoader
 	{
 		if(preg_match('/maps\.google/i', $src))
 		{
-			if($handle != 'wpgmza_api_call')
+			if($handle != 'wpgmza_api_call') {
 				return '';
+			}
 			
 			if(!preg_match('/\?.+$/', $src))
 				return str_replace($src, $src . '?' . http_build_query($this->getGoogleMapsAPIParams()), $tag);
@@ -125,4 +129,3 @@ class GoogleMapsLoader
 	
 }
 
-?>

@@ -220,5 +220,3 @@ class DOMDocument extends \DOMDocument
 		return $result;
 	}
 }
-
-?>

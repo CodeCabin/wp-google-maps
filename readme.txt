@@ -1,5 +1,5 @@
 === WP Google Maps ===
-Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
+Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
@@ -213,6 +213,9 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 7.0.04 - 2018-05-07 =
+* Fixed PHP notice regarding store locator default radius
 
 = 7.0.03 - 2018-04-20 =
 * Improved spatial data migration function to be more robust

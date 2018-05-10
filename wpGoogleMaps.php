@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.0.04
+Version: 7.10.00
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,11 +11,20 @@ Domain Path: /languages
 */
 
 /* 
- * 7.0.04
+ * 7.10.00
+ * Added new Javascript modules
+ * Added new PHP modules
+ * Class AutoLoading implemented
+ * OpenLayers / OpenStreetMap integration
+ *
+ * 7.0.05
  * Added GoogleMapsAPILoader module which now controls Google Maps API enqueueing and relevant settings
  * Added integration with WP Migrate DB to handle spatial types
  * Added support for shortcodes in marker description
  * Bug fixes
+ *
+ * 7.0.04 - 2018-05-07
+ * Fixed PHP notice regarding store locator default radius
  *
  * 7.0.03 - 2018-04-20
  * Improved spatial data migration function to be more robust
@@ -361,8 +370,12 @@ if(!function_exists('wpgmza_show_php_version_error'))
 	}
 }
 
+define("WPGMZA_DIR_PATH", plugin_dir_path(__FILE__));
+define('WPGMZA_FILE', __FILE__);
+
 define("WPGMAPS_DIR_PATH", plugin_dir_path(__FILE__));
 define("WPGMAPS_DIR",plugin_dir_url(__FILE__));
+
 if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
 global $wpgmza_version;
@@ -408,8 +421,14 @@ $wpgmza_tblname_circles = $wpdb->prefix . "wpgmza_circles";
 $wpgmza_tblname_rectangles = $wpdb->prefix . "wpgmza_rectangles";
 $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
-$wpgmza_version = "7.0.03";
+
+$subject = file_get_contents(__FILE__);
+if(preg_match('/Version: (.+)/', $subject, $m))
+	$wpgmza_version = $m[1];
+
+define('WPGMZA_VERSION', $wpgmza_version);
 define("WPGMAPS", $wpgmza_version);
+
 $wpgmza_p_version = "6.19";
 $wpgmza_t = "basic";
 
@@ -1181,6 +1200,7 @@ function wpgmaps_admin_edit_marker_javascript() {
  */
 function wpgmaps_admin_javascript_basic() {
     if (is_admin()) {
+		global $wpgmza;
         global $wpdb;
         global $wpgmza_version;
         global $wpgmza_tblname_maps;
@@ -1227,7 +1247,12 @@ function wpgmaps_admin_javascript_basic() {
             if(isset($wpgmza_settings['wpgmza_settings_remove_api']) && $wpgmza_settings['wpgmza_settings_remove_api'] == "yes")
                 $wpgaps_core_dependancy = array();
 			else
-                $wpgaps_core_dependancy = array( 'wpgmza_api_call' );
+			{
+				if($wpgmza->settings->engine == 'google-maps')
+					$wpgaps_core_dependancy = array( 'wpgmza_api_call' );
+				else
+					$wpgaps_core_dependancy = array( 'wpgmza_ol_api_call' );
+			}
 			
             wp_enqueue_style( 'wpgmaps_admin_style', plugins_url('css/wpgmza_style.css', __FILE__),array(),$wpgmza_version.'b');
             wp_enqueue_style( 'wpgmaps_admin_datatables_style', plugins_url('css/data_table.css', __FILE__),array(),$wpgmza_version.'b');
@@ -2911,7 +2936,7 @@ function wpgmaps_sl_user_output_basic($map_id) {
 		$radii = array_map('intval', $m[0]);
 	
 	foreach($radii as $radius) {
-		$selected = ($radius == $sl_default_radius ? 'selected="selected"' : '');
+		$selected = (!empty($sl_default_radius) && $radius == $sl_default_radius ? 'selected="selected"' : '');
 		$ret_msg .= "<option class='wpgmza_sl_select_option' value='$radius' $selected>{$radius}{$suffix}</option>";
 	}
 	
@@ -4390,7 +4415,7 @@ function wpgmaps_settings_page_basic() {
 			";
 			
 			$use_google_maps_selected 		= (isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'google-maps' ? 'selected="selected"' : "");
-			$use_open_street_map_selected 	= (empty($wpgmza_settings['wpgmza_maps_engine']) || $wpgmza_settings['wpgmza_maps_engine'] == 'open-street-map' ? 'selected="selected"' : "");
+			$use_open_street_map_selected 	= (empty($wpgmza_settings['wpgmza_maps_engine']) || $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers' ? 'selected="selected"' : "");
 			
 			$ret .= "
 			
@@ -4400,7 +4425,7 @@ function wpgmaps_settings_page_basic() {
 				</td>
 				<td>
 					<select name='wpgmza_maps_engine'>
-						<option $use_open_street_map_selected value='open-street-map'>OpenStreetMap</option>
+						<option $use_open_street_map_selected value='open-layers'>OpenLayers</option>
 						<option $use_google_maps_selected value='google-maps'>Google Maps</option>
 					</select>
 				</td>

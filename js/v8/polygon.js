@@ -33,8 +33,8 @@
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OSMProPolygon;
-				return WPGMZA.OSMPolygon;
+					return WPGMZA.OLProPolygon;
+				return WPGMZA.OLPolygon;
 				break;
 		}
 	}
