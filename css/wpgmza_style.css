@@ -1,6 +1,67 @@
+#wpgmza-maps-engine-dialog
+{
+	text-align: left;
+}
+
+#wpgmza-maps-engine-dialog img
+{
+	display: block;
+	margin: 0 auto;
+	width: 80%;
+	box-sizing: border-box;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-inner
+{
+	display: flex;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-inner>div
+{
+	flex: 1;
+	
+	display: flex;
+	flex-direction: column;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-inner>div>div
+{
+	flex-grow: 1;
+}
+
+#wpgmza-maps-engine-dialog ul
+{
+	list-style: none;
+	font-weight: bold;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-pros
+{
+	color: #0a0;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-cons
+{
+	color: red;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-pros>li:before
+{
+	content: "\2714";
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-cons>li:before
+{
+	content: "\2718";
+}
+
+.wpgmza-centered
+{
+	text-align: center;
+}
+
 .wpgmza_map {
     border:0;
-    
 }
 
 .wpgmza_hide_input { display:none !important; }

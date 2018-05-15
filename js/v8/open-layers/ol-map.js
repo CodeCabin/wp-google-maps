@@ -8,13 +8,17 @@
 	
 	var Parent;
 	
-	WPGMZA.OLMap = function(element)
+	WPGMZA.OLMap = function(element, options)
 	{
 		var self = this;
 		
 		Parent.call(this, element);
 		
+		this.setOptions(options);
+		
 		var viewOptions = this.settings.toOLViewOptions();
+		
+		console.log(viewOptions);
 		
 		$(this.element).html("");
 		
@@ -28,9 +32,7 @@
 			view: new ol.View(viewOptions)
 		});
 		
-		// Put grid inside map
-		$(this.engineElement).append($(this.element).find(".wpgmza-in-map-grid"));
-		
+		// TODO: Re-implement using correct setting names
 		// Interactions
 		this.olMap.getInteractions().forEach(function(interaction) {
 			
@@ -73,8 +75,11 @@
 		
 		// Listen for zoom
 		this.olMap.getView().on("change:resolution", function(event) {
+			self.dispatchEvent("zoom_changed");
 			self.dispatchEvent("zoomchanged");
 			self.onIdle();
+			
+			$(self.element).trigger("zoomchanged.wpgmza");
 		});
 		
 		// Listen for bounds changing
@@ -91,6 +96,23 @@
 			this.olMap.addOverlay(marker.overlay);
 			marker.setVisible(false);
 		}
+		
+		// Right click listener
+		$(this.element).on("click contextmenu", function(event) {
+			
+			var isRight;
+			event = event || window.event;
+			
+			if("which" in event)
+				isRight = event.which == 3;
+			else if("button" in event)
+				isRight = event.button == 2;
+			
+			if(!isRight)
+				return;
+			
+			return self.onRightClick(event);
+		});
 		
 		// Dispatch event
 		if(!WPGMZA.isProVersion())
@@ -195,7 +217,7 @@
 	
 	WPGMZA.OLMap.prototype.getZoom = function()
 	{
-		return this.olMap.getView().getZoom();
+		return Math.round( this.olMap.getView().getZoom() ) + 1;
 	}
 	
 	WPGMZA.OLMap.prototype.setZoom = function(value)
@@ -221,6 +243,16 @@
 	WPGMZA.OLMap.prototype.setMaxZoom = function(value)
 	{
 		this.olMap.getView().setMaxZoom(value);
+	}
+	
+	WPGMZA.OLMap.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
+		
+		if(!this.olMap)
+			return;
+		
+		this.olMap.getView().setProperties( this.settings.toOLViewOptions() );
 	}
 	
 	/**
@@ -280,20 +312,6 @@
 		this.olMap.removeLayer(circle.layer);
 		
 		Parent.prototype.removeCircle.call(this, circle);
-	}
-	
-	WPGMZA.OLMap.prototype.getFetchParameters = function()
-	{
-		var result = WPGMZA.Map.prototype.getFetchParameters.call(this);
-		
-		var bounds = this.olMap.getView().calculateExtent(this.olMap.getSize());
-		
-		var topLeft = ol.proj.toLonLat([bounds[0], bounds[1]]);
-		var bottomRight = ol.proj.toLonLat([bounds[2], bounds[3]]);
-		
-		result.bounds = topLeft[1] + "," + topLeft[0] + "," + bottomRight[1] + "," + bottomRight[0];
-		
-		return result;
 	}
 	
 	WPGMZA.OLMap.prototype.pixelsToLatLng = function(x, y)
@@ -366,6 +384,23 @@
 	WPGMZA.OLMap.prototype.onElementResized = function(event)
 	{
 		this.olMap.updateSize();
+	}
+	
+	WPGMZA.OLMap.prototype.onRightClick = function(event)
+	{
+		if($(event.target).closest(".ol-marker, .wpgmza_modern_infowindow").length)
+			return true;
+		
+		var parentOffset = $(this.element).offset();
+		var relX = event.pageX - parentOffset.left;
+		var relY = event.pageY - parentOffset.top;
+		var latLng = this.pixelsToLatLng(relX, relY);
+		
+		this.trigger({type: "rightclick", latLng: latLng});
+		$(this.element).trigger("rightclick.wpgmza");
+		
+		event.preventDefault();
+		return false;
 	}
 	
 })(jQuery);

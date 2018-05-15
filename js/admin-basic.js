@@ -105,6 +105,9 @@
 	
 	$(window).on("load", function(event) {
 		
+		if(WPGMZA.settings.engine == "google-maps")
+			return;
+		
 		$(".wpgmza-open-layers-feature-unavailable:not(.notice)").each(function(index, el) {
 			
 			var warning = $($(".notice.wpgmza-open-layers-feature-unavailable")[0]).clone();

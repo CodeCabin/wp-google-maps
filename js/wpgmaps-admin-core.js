@@ -713,10 +713,11 @@ MYMAP.init = function(selector, latLng, zoom) {
                 map: MYMAP.map
             });
             tmp_marker.setDraggable(true);
-            google.maps.event.addListener(tmp_marker, 'dragend', function(event) { 
-                jQuery("#wpgmza_add_address").val(event.latLng.lat()+', '+event.latLng.lng());
+            //google.maps.event.addListener(tmp_marker, 'dragend', function(event) { 
+			tmp_marker.on("dragend", function(event) {
+                jQuery("#wpgmza_add_address").val(event.latLng.lat+', '+event.latLng.lng);
             } );
-            jQuery("#wpgmza_add_address").val(event.latLng.lat()+', '+event.latLng.lng());
+            jQuery("#wpgmza_add_address").val(event.latLng.lat+', '+event.latLng.lng);
             jQuery("#wpgm_notice_message_save_marker").show();
 			
             setMarkerAdded("true");
@@ -737,10 +738,12 @@ MYMAP.init = function(selector, latLng, zoom) {
     this.map.on('zoom_changed', function() {
 
         zoomLevel = MYMAP.map.getZoom();
+		
+		console.log(zoomLevel);
 
         jQuery("#wpgmza_start_zoom").val(zoomLevel);
         
-        if (zoomLevel == 0) {
+        if (zoomLevel == 0 && WPGMZA.settings.engine == "google-maps") {
             MYMAP.map.setZoom(10);
         }
 

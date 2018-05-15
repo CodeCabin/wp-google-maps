@@ -1178,11 +1178,6 @@
  */
 (function($) {
 	
-	function empty(name)
-	{
-		return !self[name] || !self[name].length;
-	}
-	
 	WPGMZA.MapSettings = function(element)
 	{
 		var str = element.getAttribute("data-settings");
@@ -1211,6 +1206,14 @@
 			zoom: 4
 		};
 		
+		function empty(name)
+		{
+			if(typeof self[name] == "object")
+				return false;
+			
+			return !self[name] || !self[name].length;
+		}
+		
 		// Start location
 		if(typeof this.start_location == "string")
 		{
@@ -1224,7 +1227,18 @@
 				console.warn("Invalid start location");
 		}
 		
+		if(this.center)
+		{
+			options.center = ol.proj.fromLonLat([
+				parseFloat(this.center.lng),
+				parseFloat(this.center.lat)
+			]);
+		}
+		
 		// Start zoom
+		if(this.zoom)
+			options.zoom = parseInt(this.zoom);
+		
 		if(this.start_zoom)
 			options.zoom = parseInt(this.start_zoom);
 		
@@ -1243,6 +1257,14 @@
 		var self = this;
 		var latLngCoords = (this.start_location && this.start_location.length ? this.start_location.split(",") : [36.7783, -119.4179]);
 		
+		function empty(name)
+		{
+			if(typeof self[name] == "object")
+				return false;
+			
+			return !self[name] || !self[name].length;
+		}
+		
 		function formatCoord(coord)
 		{
 			if($.isNumeric(coord))
@@ -1257,10 +1279,19 @@
 		
 		var zoom = (this.start_zoom ? parseInt(this.start_zoom) : 4);
 		
+		if(!this.start_zoom && this.zoom)
+			zoom = parseInt( this.zoom );
+		
 		var options = {
 			zoom:			zoom,
 			center:			latLng
 		};
+		
+		if(!empty("center"))
+			options.center = new google.maps.LatLng({
+				lat: parseFloat(this.center.lat),
+				lng: parseFloat(this.center.lng)
+			});
 		
 		if(!empty("min_zoom"))
 			options.minZoom = parseInt(this.min_zoom);
@@ -1377,10 +1408,10 @@
 		}
 	}
 	
-	WPGMZA.Map.createInstance = function(element)
+	WPGMZA.Map.createInstance = function(element, options)
 	{
 		var constructor = WPGMZA.Map.getConstructor();
-		return new constructor(element);
+		return new constructor(element, options);
 	}
 	
 	/**
@@ -1399,7 +1430,8 @@
 	 */
 	WPGMZA.Map.prototype.setOptions = function(options)
 	{
-		
+		for(var name in options)
+			this.settings[name] = options[name];
 	}
 	
 	/**
@@ -1731,8 +1763,13 @@
 	
 	WPGMZA.Map.prototype.onBoundsChanged = function(event)
 	{
-		$(this.element).trigger("bounds_changed");
+		// Native events
+		this.trigger("boundschanged");
 		$(this.element).trigger("boundschanged.wpgmza");
+		
+		// Google / legacy compatibility events
+		this.trigger("bounds_changed");
+		$(this.element).trigger("bounds_changed");
 	}
 	
 	WPGMZA.Map.prototype.onIdle = function(event)
@@ -1760,6 +1797,62 @@
 		// Call again each second to load AJAX maps
 		setInterval(createMaps, 1000);
 	});*/
+})(jQuery);
+
+// js/v8/maps-engine-dialog.js
+/**
+ * @namespace WPGMZA
+ * @module MapsEngineDialog
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	WPGMZA.MapsEngineDialog = function(element)
+	{
+		var self = this;
+		
+		this.element = element;
+		
+		$(element).show();
+		$(element).remodal().open();
+		
+		$("[data-maps-engine]").on("click", function(event) {
+			
+			self.onButtonClicked(event);
+			
+		});
+	}
+	
+	WPGMZA.MapsEngineDialog.prototype.onButtonClicked = function(event)
+	{
+		$(event.target).prop("disabled", true);
+		
+		$.ajax(WPGMZA.ajaxurl, {
+			method: "POST",
+			data: {
+				action: "wpgmza_maps_engine_dialog_set_engine",
+				engine: $(event.target).attr("data-maps-engine")
+			},
+			success: function(response, status, xhr) {
+				window.location.reload();
+			}
+		});
+	}
+	
+	$(window).on("load", function(event) {
+		
+		var element = $("#wpgmza-maps-engine-dialog");
+		
+		if(!element.length)
+			return;
+		
+		if(WPGMZA.settings.wpgmza_maps_engine_dialog_done)
+			return;
+		
+		WPGMZA.mapsEngineDialog = new WPGMZA.MapsEngineDialog(element);
+		
+	});
+	
 })(jQuery);
 
 // js/v8/marker.js
@@ -2419,7 +2512,7 @@
 		this.loadGoogleMap();
 		
 		if(options)
-			this.setOption(options);
+			this.setOptions(options);
 			
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			self.dispatchEvent("click");
@@ -2499,7 +2592,16 @@
 	{
 		Parent.prototype.setOptions.call(this, options);
 		
-		this.googleMap.setOptions(options);
+		this.googleMap.setOptions(this.settings.toGoogleMapsOptions());
+		
+		var clone = $.extend({}, options);
+		if(clone.center instanceof WPGMZA.LatLng)
+			clone.center = {
+				lat: clone.center.lat,
+				lng: clone.center.lng
+			};
+		
+		this.googleMap.setOptions(clone);
 	}
 	
 	/**
@@ -2511,15 +2613,6 @@
 		marker.googleMarker.setMap(this.googleMap);
 		
 		Parent.prototype.addMarker.call(this, marker);
-		
-		// Legacy V6 JS compatibility
-		if(!window.marker_array)
-			window.marker_array = [];
-		
-		if(!marker_array[this.id])
-			marker_array[this.id] = [];
-		
-		marker_array[this.id][marker.id] = marker.googleMarker;
 	}
 	
 	/**
@@ -2901,7 +2994,9 @@
 		}));
 			
 		this.googleMarker.setLabel(this.settings.label);
-		this.googleMarker.setAnimation(this.settings.animation);
+		
+		if(this.animation)
+			this.googleMarker.setAnimation(this.animation);
 			
 		google.maps.event.addListener(this.googleMarker, "click", function() {
 			self.dispatchEvent("click");
@@ -3618,13 +3713,17 @@
 	
 	var Parent;
 	
-	WPGMZA.OLMap = function(element)
+	WPGMZA.OLMap = function(element, options)
 	{
 		var self = this;
 		
 		Parent.call(this, element);
 		
+		this.setOptions(options);
+		
 		var viewOptions = this.settings.toOLViewOptions();
+		
+		console.log(viewOptions);
 		
 		$(this.element).html("");
 		
@@ -3638,9 +3737,7 @@
 			view: new ol.View(viewOptions)
 		});
 		
-		// Put grid inside map
-		$(this.engineElement).append($(this.element).find(".wpgmza-in-map-grid"));
-		
+		// TODO: Re-implement using correct setting names
 		// Interactions
 		this.olMap.getInteractions().forEach(function(interaction) {
 			
@@ -3683,8 +3780,11 @@
 		
 		// Listen for zoom
 		this.olMap.getView().on("change:resolution", function(event) {
+			self.dispatchEvent("zoom_changed");
 			self.dispatchEvent("zoomchanged");
 			self.onIdle();
+			
+			$(self.element).trigger("zoomchanged.wpgmza");
 		});
 		
 		// Listen for bounds changing
@@ -3701,6 +3801,23 @@
 			this.olMap.addOverlay(marker.overlay);
 			marker.setVisible(false);
 		}
+		
+		// Right click listener
+		$(this.element).on("click contextmenu", function(event) {
+			
+			var isRight;
+			event = event || window.event;
+			
+			if("which" in event)
+				isRight = event.which == 3;
+			else if("button" in event)
+				isRight = event.button == 2;
+			
+			if(!isRight)
+				return;
+			
+			return self.onRightClick(event);
+		});
 		
 		// Dispatch event
 		if(!WPGMZA.isProVersion())
@@ -3805,7 +3922,7 @@
 	
 	WPGMZA.OLMap.prototype.getZoom = function()
 	{
-		return this.olMap.getView().getZoom();
+		return Math.round( this.olMap.getView().getZoom() ) + 1;
 	}
 	
 	WPGMZA.OLMap.prototype.setZoom = function(value)
@@ -3831,6 +3948,16 @@
 	WPGMZA.OLMap.prototype.setMaxZoom = function(value)
 	{
 		this.olMap.getView().setMaxZoom(value);
+	}
+	
+	WPGMZA.OLMap.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
+		
+		if(!this.olMap)
+			return;
+		
+		this.olMap.getView().setProperties( this.settings.toOLViewOptions() );
 	}
 	
 	/**
@@ -3890,20 +4017,6 @@
 		this.olMap.removeLayer(circle.layer);
 		
 		Parent.prototype.removeCircle.call(this, circle);
-	}
-	
-	WPGMZA.OLMap.prototype.getFetchParameters = function()
-	{
-		var result = WPGMZA.Map.prototype.getFetchParameters.call(this);
-		
-		var bounds = this.olMap.getView().calculateExtent(this.olMap.getSize());
-		
-		var topLeft = ol.proj.toLonLat([bounds[0], bounds[1]]);
-		var bottomRight = ol.proj.toLonLat([bounds[2], bounds[3]]);
-		
-		result.bounds = topLeft[1] + "," + topLeft[0] + "," + bottomRight[1] + "," + bottomRight[0];
-		
-		return result;
 	}
 	
 	WPGMZA.OLMap.prototype.pixelsToLatLng = function(x, y)
@@ -3978,6 +4091,23 @@
 		this.olMap.updateSize();
 	}
 	
+	WPGMZA.OLMap.prototype.onRightClick = function(event)
+	{
+		if($(event.target).closest(".ol-marker, .wpgmza_modern_infowindow").length)
+			return true;
+		
+		var parentOffset = $(this.element).offset();
+		var relX = event.pageX - parentOffset.left;
+		var relY = event.pageY - parentOffset.top;
+		var latLng = this.pixelsToLatLng(relX, relY);
+		
+		this.trigger({type: "rightclick", latLng: latLng});
+		$(this.element).trigger("rightclick.wpgmza");
+		
+		event.preventDefault();
+		return false;
+	}
+	
 })(jQuery);
 
 // js/v8/open-layers/ol-marker.js
@@ -4018,8 +4148,13 @@
 		});
 		this.overlay.setPosition(origin);
 		
-		this.setAnimation(this.settings.animation);
+		if(this.animation)
+			this.setAnimation(this.animation);
+		
 		this.setLabel(this.settings.label);
+		
+		if(row.draggable)
+			this.setDraggable(true);
 		
 		this.trigger("init");
 	}
@@ -4099,6 +4234,57 @@
 				$(this.element).attr("data-anim", "drop");
 				break;
 		}
+	}
+	
+	WPGMZA.OLMarker.prototype.setDraggable = function(draggable)
+	{
+		var self = this;
+		
+		if(draggable)
+		{
+			var options = {
+				disabled: false
+			};
+			
+			if(!this.jQueryDraggableInitialized)
+			{
+				options.stop = function(event) {
+					self.onDragEnd(event);
+				}
+			}
+			
+			$(this.element).draggable(options);
+		}
+		else
+			$(this.element).draggable({disabled: true});
+	}
+	
+	WPGMZA.OLMarker.prototype.onDragEnd = function(event)
+	{
+		var offset = {
+			top:	parseFloat( $(this.element).css("top").match(/-?\d+/)[0] ),
+			left:	parseFloat( $(this.element).css("left").match(/-?\d+/)[0] )
+		};
+		
+		$(this.element).css({
+			top: 	"0px",
+			left: 	"0px"
+		});
+		
+		console.log(offset);
+		
+		var currentLatLng 		= this.getPosition();
+		var pixelsBeforeDrag 	= this.map.latLngToPixels(currentLatLng);
+		var pixelsAfterDrag		= {
+			x: pixelsBeforeDrag.x + offset.left,
+			y: pixelsBeforeDrag.y + offset.top
+		};
+		var latLngAfterDrag		= this.map.pixelsToLatLng(pixelsAfterDrag);
+		
+		this.setPosition(latLngAfterDrag);
+		
+		this.trigger({type: "dragend", latLng: latLngAfterDrag})
+		$(this.element).trigger("dragend.wpgmza");
 	}
 	
 })(jQuery);

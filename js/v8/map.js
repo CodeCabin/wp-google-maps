@@ -61,10 +61,10 @@
 		}
 	}
 	
-	WPGMZA.Map.createInstance = function(element)
+	WPGMZA.Map.createInstance = function(element, options)
 	{
 		var constructor = WPGMZA.Map.getConstructor();
-		return new constructor(element);
+		return new constructor(element, options);
 	}
 	
 	/**
@@ -83,7 +83,8 @@
 	 */
 	WPGMZA.Map.prototype.setOptions = function(options)
 	{
-		
+		for(var name in options)
+			this.settings[name] = options[name];
 	}
 	
 	/**
@@ -415,8 +416,13 @@
 	
 	WPGMZA.Map.prototype.onBoundsChanged = function(event)
 	{
-		$(this.element).trigger("bounds_changed");
+		// Native events
+		this.trigger("boundschanged");
 		$(this.element).trigger("boundschanged.wpgmza");
+		
+		// Google / legacy compatibility events
+		this.trigger("bounds_changed");
+		$(this.element).trigger("bounds_changed");
 	}
 	
 	WPGMZA.Map.prototype.onIdle = function(event)

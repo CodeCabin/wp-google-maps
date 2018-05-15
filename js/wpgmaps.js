@@ -428,14 +428,15 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         if (check1 > 0 ) { } else { 
 
 
-                            var point = new google.maps.LatLng(parseFloat(searched_center.lat()),parseFloat(searched_center.lng()));
+                            var point = new WPGMZA.LatLng(parseFloat(searched_center.lat),parseFloat(searched_center.lng));
                             MYMAP.bounds.extend(point);
                             if (typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === "undefined" || wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === 1) {
-	                            var marker = new google.maps.Marker({
-	                                    position: point,
-	                                    map: MYMAP.map,
-	                                    animation: google.maps.Animation.BOUNCE
-	                            });
+	                            var marker = WPGMZA.Marker.createInstance({
+									position: point,
+									map: MYMAP.map,
+									animation: WPGMZA.Marker.ANIMATION_BOUNCE
+								})
+								
 	                            marker_sl = marker;
                             }
 							
@@ -449,40 +450,31 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         } else {
                             R = 6378.16; 
                         }
-                        var dLat = toRad(searched_center.lat()-current_lat);
-                        var dLon = toRad(searched_center.lng()-current_lng); 
-                        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(current_lat)) * Math.cos(toRad(searched_center.lat())) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+                        var dLat = toRad(searched_center.lat-current_lat);
+                        var dLon = toRad(searched_center.lng-current_lng); 
+                        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(current_lat)) * Math.cos(toRad(searched_center.lat)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
                         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
                         var d = R * c;
                         
                         if (d < radius) { show_marker_radius = true; } else { show_marker_radius = false; }
                     }
 
-
-
-                    var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+					var point = new WPGMZA.LatLng(parseFloat(lat),parseFloat(lng));
+					
                     MYMAP.bounds.extend(point);
+					
                     if (show_marker_radius === true) {
-                        if (wpmgza_anim === "1") {
-                        var marker = new google.maps.Marker({
-                                position: point,
-                                map: MYMAP.map,
-                                animation: google.maps.Animation.BOUNCE
-                            });
-                        }
-                        else if (wpmgza_anim === "2") {
-                            var marker = new google.maps.Marker({
-                                    position: point,
-                                    map: MYMAP.map,
-                                    animation: google.maps.Animation.DROP
-                            });
-                        }
-                        else {
-                            var marker = new google.maps.Marker({
-                                    position: point,
-                                    map: MYMAP.map
-                            });
-                        }
+						
+						var options = {
+							position: point,
+							map: MYMAP.map
+						}
+						
+						if(wpmgza_anim)
+							options.animation = wpmgza_anim;
+						
+						var marker = WPGMZA.Marker.createInstance(options);
+						
                         var d_string = "";
                         if (radius !== null) {                                 
                             if (distance_type == "1") {
@@ -502,7 +494,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         if (typeof wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by !== "undefined" && wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by == '2') {
                          	temp_actiontype = 'mouseover';
                         }
-                        google.maps.event.addListener(marker, temp_actiontype, function() {
+						
+						marker.on(temp_actiontype, function() {
                             infoWindow.close();
 							if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 							{
@@ -591,31 +584,13 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 						
                         if (show_marker_radius === true) {
 							
-                            /*if (wpmgza_anim === "1") {
-                            var marker = new google.maps.Marker({
-                                    position: point,
-                                    map: MYMAP.map,
-                                    animation: google.maps.Animation.BOUNCE
-                                });
-                            }
-                            else if (wpmgza_anim === "2") {
-                                var marker = new google.maps.Marker({
-                                        position: point,
-                                        map: MYMAP.map,
-                                        animation: google.maps.Animation.DROP
-                                });
-                            }
-                            else {
-                                var marker = new google.maps.Marker({
-                                        position: point,
-                                        map: MYMAP.map
-                                });
-                            }*/
-							
 							var marker = WPGMZA.Marker.createInstance({
 								position: point,
 								map: MYMAP.map
 							});
+							
+							if(wpmgza_anim)
+								marker.setAnimation(wpmgza_anim);
 							
                             var d_string = "";
 	                        if (radius !== null) {

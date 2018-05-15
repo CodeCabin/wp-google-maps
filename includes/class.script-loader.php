@@ -62,11 +62,11 @@ class ScriptLoader
 		$plugin_dir_url = plugin_dir_url(__DIR__);
 		
 		$libraryDependencies = array(
-			'datatables'		=> '//cdn.datatables.net/v/dt/dt-1.10.16/datatables.js',
+			'datatables'		=> $plugin_dir_url . 'js/jquery.dataTables.min.js',
 			'jquery-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
-			'modernizr-custom'	=> $plugin_dir_url . 'lib/modernizr-custom.js',
+			// 'modernizr-custom'	=> $plugin_dir_url . 'lib/modernizr-custom.js',
 			'remodal'			=> $plugin_dir_url . 'lib/' . ($wpgmza->isUsingMinifiedScripts() ? 'remodal.min.js' : 'remodal.js'),
-			'resize-sensor'		=> $plugin_dir_url . 'lib/ResizeSensor.js',
+			// 'resize-sensor'		=> $plugin_dir_url . 'lib/ResizeSensor.js',
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
 		
@@ -302,8 +302,8 @@ class ScriptLoader
 	{	
 		global $wpgmza;
 	
-		wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
-		wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
+		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
+		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 		
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
@@ -348,19 +348,13 @@ class ScriptLoader
 			
 			$src = $minified;
 			
-			$delta = filemtime($dir . $combined) - filemtime($dir . $minified);
+			$minified_file_exists = file_exists($dir . $minified);
 			
-			if($delta > 0)
-			{
+			if($minified_file_exists)
+				$delta = filemtime($dir . $combined) - filemtime($dir . $minified);
+			
+			if(!$minified_file_exists || $delta > 0)
 				$src = $combined;
-				
-				// NB: Moved this to a JavaScript warning
-				/*add_action('admin_notices', function() {
-					echo '<p class="notice notice-warning">' .
-						__('WP Google Maps: Minified script is out of date, using combined script instead.', 'wp-google-maps') .
-					'</p>';
-				});*/
-			}
 			
 			$this->scripts = array('wpgmza' => 
 				(object)array(
@@ -377,17 +371,7 @@ class ScriptLoader
 		
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);
-		
-		// TODO: Fix dependency issues. This only works empty because the relevant code fires in document.ready
-		$dependencies = array('wpgmza_api_call');
-		
-		/*if(is_admin())
-		{
-			if(!$wpgmza->isProVersion())
-				$dependencies[] = 'wpgmaps_admin_core';
-		}
-		else
-			$dependencies[] = 'wpgmza_api_call';*/
+		$dependencies[] = 'wpgmza_api_call';
 		
 		$this->scripts['wpgmza']->dependencies = $dependencies;
 		

@@ -23,7 +23,9 @@
 		}));
 			
 		this.googleMarker.setLabel(this.settings.label);
-		this.googleMarker.setAnimation(this.settings.animation);
+		
+		if(this.animation)
+			this.googleMarker.setAnimation(this.animation);
 			
 		google.maps.event.addListener(this.googleMarker, "click", function() {
 			self.dispatchEvent("click");

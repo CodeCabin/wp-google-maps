@@ -35,8 +35,13 @@
 		});
 		this.overlay.setPosition(origin);
 		
-		this.setAnimation(this.settings.animation);
+		if(this.animation)
+			this.setAnimation(this.animation);
+		
 		this.setLabel(this.settings.label);
+		
+		if(row.draggable)
+			this.setDraggable(true);
 		
 		this.trigger("init");
 	}
@@ -116,6 +121,57 @@
 				$(this.element).attr("data-anim", "drop");
 				break;
 		}
+	}
+	
+	WPGMZA.OLMarker.prototype.setDraggable = function(draggable)
+	{
+		var self = this;
+		
+		if(draggable)
+		{
+			var options = {
+				disabled: false
+			};
+			
+			if(!this.jQueryDraggableInitialized)
+			{
+				options.stop = function(event) {
+					self.onDragEnd(event);
+				}
+			}
+			
+			$(this.element).draggable(options);
+		}
+		else
+			$(this.element).draggable({disabled: true});
+	}
+	
+	WPGMZA.OLMarker.prototype.onDragEnd = function(event)
+	{
+		var offset = {
+			top:	parseFloat( $(this.element).css("top").match(/-?\d+/)[0] ),
+			left:	parseFloat( $(this.element).css("left").match(/-?\d+/)[0] )
+		};
+		
+		$(this.element).css({
+			top: 	"0px",
+			left: 	"0px"
+		});
+		
+		console.log(offset);
+		
+		var currentLatLng 		= this.getPosition();
+		var pixelsBeforeDrag 	= this.map.latLngToPixels(currentLatLng);
+		var pixelsAfterDrag		= {
+			x: pixelsBeforeDrag.x + offset.left,
+			y: pixelsBeforeDrag.y + offset.top
+		};
+		var latLngAfterDrag		= this.map.pixelsToLatLng(pixelsAfterDrag);
+		
+		this.setPosition(latLngAfterDrag);
+		
+		this.trigger({type: "dragend", latLng: latLngAfterDrag})
+		$(this.element).trigger("dragend.wpgmza");
 	}
 	
 })(jQuery);

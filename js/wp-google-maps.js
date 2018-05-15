@@ -170,7 +170,7 @@ for(var entry in wpgmaps_localize) {
                                 var marker = new google.maps.Marker({
                                         position: point,
                                         map: MYMAP[entry].map,
-                                        animation: google.maps.Animation.BOUNCE
+                                        animation: WPGMZA.Marker.ANIMATION_BOUNCE
                                 });
                                 } else { /* do nothing */ }
 
