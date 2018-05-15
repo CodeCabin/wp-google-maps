@@ -5,11 +5,6 @@
  */
 (function($) {
 	
-	function empty(name)
-	{
-		return !self[name] || !self[name].length;
-	}
-	
 	WPGMZA.MapSettings = function(element)
 	{
 		var str = element.getAttribute("data-settings");
@@ -38,6 +33,14 @@
 			zoom: 4
 		};
 		
+		function empty(name)
+		{
+			if(typeof self[name] == "object")
+				return false;
+			
+			return !self[name] || !self[name].length;
+		}
+		
 		// Start location
 		if(typeof this.start_location == "string")
 		{
@@ -51,7 +54,18 @@
 				console.warn("Invalid start location");
 		}
 		
+		if(this.center)
+		{
+			options.center = ol.proj.fromLonLat([
+				parseFloat(this.center.lng),
+				parseFloat(this.center.lat)
+			]);
+		}
+		
 		// Start zoom
+		if(this.zoom)
+			options.zoom = parseInt(this.zoom);
+		
 		if(this.start_zoom)
 			options.zoom = parseInt(this.start_zoom);
 		
@@ -70,6 +84,14 @@
 		var self = this;
 		var latLngCoords = (this.start_location && this.start_location.length ? this.start_location.split(",") : [36.7783, -119.4179]);
 		
+		function empty(name)
+		{
+			if(typeof self[name] == "object")
+				return false;
+			
+			return !self[name] || !self[name].length;
+		}
+		
 		function formatCoord(coord)
 		{
 			if($.isNumeric(coord))
@@ -84,10 +106,19 @@
 		
 		var zoom = (this.start_zoom ? parseInt(this.start_zoom) : 4);
 		
+		if(!this.start_zoom && this.zoom)
+			zoom = parseInt( this.zoom );
+		
 		var options = {
 			zoom:			zoom,
 			center:			latLng
 		};
+		
+		if(!empty("center"))
+			options.center = new google.maps.LatLng({
+				lat: parseFloat(this.center.lat),
+				lng: parseFloat(this.center.lng)
+			});
 		
 		if(!empty("min_zoom"))
 			options.minZoom = parseInt(this.min_zoom);

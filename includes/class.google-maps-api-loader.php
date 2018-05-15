@@ -14,15 +14,8 @@ class GoogleMapsAPILoader
 	{
 		if(empty(GoogleMapsAPILoader::$settings))
 		{
-			$settings = get_option('WPGMZA_SETTINGS');
-			if(!$settings)
-				$settings = array();
-			
-			$other_settings = get_option('WPGMZA_OTHER_SETTINGS');
-			if(!$other_settings)
-				$other_settings = array();
-			
-			GoogleMapsAPILoader::$settings = array_merge($settings, $other_settings);
+			global $wpgmza;
+			GoogleMapsAPILoader::$settings = (array)$wpgmza->settings;
 		}
 	}
 	
@@ -78,7 +71,7 @@ class GoogleMapsAPILoader
 			$params['key'] = get_option('wpgmza_temp_api');
 		
 		// API Version
-		$settings = GoogleMapsAPILoader::$settings;
+		$settings = (array)GoogleMapsAPILoader::$settings;
 		
 		if(!empty($settings['wpgmza_api_version']))
 			$params['v'] = $settings['wpgmza_api_version'];
@@ -100,12 +93,10 @@ class GoogleMapsAPILoader
 	{
 		global $post;
 		
-		$settings = GoogleMapsAPILoader::$settings;
+		$settings = (array)GoogleMapsAPILoader::$settings;
 		
 		if(GoogleMapsAPILoader::$googleAPILoadCalled)
 			return;
-		
-		// TODO: It may be more appropriate to check isIncludeAllowed here rather than in script_loader_tag
 		
 		$params = $this->getGoogleMapsAPIParams();
 		
@@ -138,7 +129,7 @@ class GoogleMapsAPILoader
 	public function isPageIncluded($page_id)
 	{
 		global $post;
-		$settings = GoogleMapsAPILoader::$settings;
+		$settings = (array)GoogleMapsAPILoader::$settings;
 		
 		if(empty($settings['wpgmza_always_include_google_maps_api_on_pages']))
 			return false;
@@ -156,7 +147,7 @@ class GoogleMapsAPILoader
 	
 	public function isPageExcluded($page_id)
 	{
-		$settings = GoogleMapsAPILoader::$settings;
+		$settings = (array)GoogleMapsAPILoader::$settings;
 		
 		if(empty($settings['wpgmza_always_exclude_google_maps_api_on_pages']))
 			return false;
@@ -174,9 +165,10 @@ class GoogleMapsAPILoader
 	
 	public function isIncludeAllowed(&$reason=null)
 	{
+		global $wpgmza;
 		global $post;
 		
-		$settings = GoogleMapsAPILoader::$settings;
+		$settings = (array)$wpgmza->settings;
 		
 		if(!empty($settings['wpgmza_settings_remove_api']))
 		{

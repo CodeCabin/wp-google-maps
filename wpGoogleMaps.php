@@ -437,6 +437,7 @@ $wpgmza_t = "basic";
 require_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php');
 require_once(plugin_dir_path(__FILE__) . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
 require_once(plugin_dir_path(__FILE__) . 'includes/open-layers/class.nominatim-geocode-cache.php');
+require_once(plugin_dir_path(__FILE__) . 'includes/class.maps-engine-dialog.php');
 
 require_once( "base/includes/wp-google-maps-polygons.php" );
 require_once( "base/includes/wp-google-maps-polylines.php" );
@@ -1111,6 +1112,7 @@ function wpgmaps_get_marker_url($mapid = false) {
  * @return void
  */
 function wpgmaps_admin_edit_marker_javascript() {
+	global $wpgmza;
 
     $res = wpgmza_get_marker_data(sanitize_text_field($_GET['id']));
     $wpgmza_lat = $res->lat;
@@ -1133,6 +1135,10 @@ function wpgmaps_admin_edit_marker_javascript() {
     if ($wpgmza_locale == "zh_CN") { $wpgmza_suffix = ".cn"; } else { $wpgmza_suffix = ".com"; } 
 
     $wpgmza_locale = substr( $wpgmza_locale, 0, 2 );
+	
+	$scriptLoader = new WPGMZA\ScriptLoader($wpgmza->isProVersion());
+	$scriptLoader->enqueueStyles();
+	$scriptLoader->enqueueScripts();
 
     ?>
     <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
@@ -1156,6 +1162,9 @@ function wpgmaps_admin_edit_marker_javascript() {
             bounds: null
         }
         MYMAP.init = function(selector, latLng, zoom) {
+			
+			console.log(latLng);
+			
             var myOptions = {
                 zoom:zoom,
                 center: latLng,
@@ -1165,10 +1174,20 @@ function wpgmaps_admin_edit_marker_javascript() {
                 draggable: true,
                 disableDoubleClickZoom: false,
                 scrollwheel: true,
-                streetViewControl: false,
-                mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
+                streetViewControl: false
             }
-            this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
+			
+			if(window.google)
+				options.mapTypeId = google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
+			
+			var element = jQuery(selector)[0];
+			
+			element.setAttribute("data-map-id", <?php echo (int)$res->map_id; ?>);
+			
+            this.map = WPGMZA.Map.createInstance(element, myOptions);
+			
+			// this.map.setCenter(latLng);
+			
             this.bounds = new WPGMZA.LatLngBounds();
 
             updateMarkerPosition(latLng);
@@ -1179,13 +1198,17 @@ function wpgmaps_admin_edit_marker_javascript() {
                 map: this.map,
                 draggable: true
             });
-            google.maps.event.addListener(marker, 'drag', function() {
+            /*google.maps.event.addListener(marker, 'drag', function() {
                 updateMarkerPosition(marker.getPosition());
-            });
+            });*/
+			
+			marker.on("dragend", function() {
+				updateMarkerPosition(marker.getPosition());
+			});
         }
         function updateMarkerPosition(latLng) {
-            jQuery("#wpgmaps_marker_lat").val(latLng.lat());
-            jQuery("#wpgmaps_marker_lng").val(latLng.lng());
+            jQuery("#wpgmaps_marker_lat").val(latLng.lat);
+            jQuery("#wpgmaps_marker_lng").val(latLng.lng);
         }
 
 
@@ -2635,7 +2658,8 @@ function wpgmaps_tag_basic( $atts ) {
     if (!isset($res)) { echo __("Error: The map ID","wp-google-maps")." (".$wpgmza_current_map_id.") ".__("does not exist","wp-google-maps"); return; }
     
     $user_api_key = get_option( 'wpgmza_google_maps_api_key' );
-    if (!$user_api_key || $user_api_key == "") {
+	
+    if ($wpgmza->settings->engine == "google-maps" && empty($user_api_key)) {
         $adminurl = admin_url( 'admin.php?page=wp-google-maps-menu-settings#tabs-4');
         $link = sprintf( __( "In order for your map to display, please make sure you insert your Google Maps JavaScript API key in the <a href='%s' target='_BLANK'>Maps->Settings->Advanced tab</a>.", 'wp-google-maps' ),
             $adminurl
@@ -2986,7 +3010,10 @@ function wpgmza_settings_page_post()
 {
 	global $wpdb;
 	
-	$wpgmza_data = array();
+	//$wpgmza_data = array();
+	$wpgmza_data = get_option('WPGMZA_OTHER_SETTINGS');
+	if(!$wpgmza_data)
+		$wpgmza_data = array();
 	
 	if (isset($_POST['wpgmza_settings_map_full_screen_control'])) { $wpgmza_data['wpgmza_settings_map_full_screen_control'] = sanitize_text_field($_POST['wpgmza_settings_map_full_screen_control']); }
 	if (isset($_POST['wpgmza_settings_map_streetview'])) { $wpgmza_data['wpgmza_settings_map_streetview'] = sanitize_text_field($_POST['wpgmza_settings_map_streetview']); }
@@ -3022,6 +3049,10 @@ function wpgmza_settings_page_post()
 	if (isset($_POST['wpgmza_api_version'])) { $wpgmza_data['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
 	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza_data['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
 	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza_data['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
+	
+	if(isset($_POST['wpgmza_developer_mode']))
+		$wpgmza_data['developer_mode'] = true;
+	
 	if (isset($_POST['wpgmza_marker_xml_location'])) { update_option("wpgmza_xml_location",sanitize_text_field($_POST['wpgmza_marker_xml_location'])); }
 	if (isset($_POST['wpgmza_marker_xml_url'])) { update_option("wpgmza_xml_url",sanitize_text_field($_POST['wpgmza_marker_xml_url'])); }
 	if (isset($_POST['wpgmza_access_level'])) { $wpgmza_data['wpgmza_settings_access_level'] = sanitize_text_field($_POST['wpgmza_access_level']); }
@@ -3087,7 +3118,6 @@ function wpgmaps_head() {
 
         $map_max_zoom = intval(sanitize_text_field($_POST['wpgmza_max_zoom']));
         
-
         $gps = explode(",",$map_start_location);
         $map_start_lat = $gps[0];
         $map_start_lng = $gps[1];
@@ -4436,6 +4466,11 @@ function wpgmaps_settings_page_basic() {
 			$api_loader = new WPGMZA\GoogleMapsAPILoader();
 			$ret .= $api_loader->getSettingsHTML();
 			
+			global $wpgmza;
+			$developer_mode_checked = '';
+			if($wpgmza->settings->developer_mode)
+				$developer_mode_checked = 'checked="checked"';
+			
             $ret .= "                <tr>";
             $ret .= "                        <td width='200' valign='top'>".__("Lowest level of access to the map editor","wp-google-maps").":</td>";
             $ret .= "                     <td>";
@@ -4631,6 +4666,14 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                       </td>";
             $ret .= "                   </tr>";
             $ret .= "                   </table>";
+			
+			$ret .= "
+			
+			<h4>" . __('Developer Mode', 'wp-google-maps') . "</h4>
+			<input type='checkbox' name='wpgmza_developer_mode' $developer_mode_checked/>
+			" . __('Always rebuilds combined script files, does not load combined and minified scripts', 'wp-google-maps') . "
+			";
+			
             $ret .= "           </div>";
             $ret .= "       </div>";
             $ret .= "       <p class='submit'><input type='submit' name='wpgmza_save_settings' class='button-primary' value='".__("Save Settings","wp-google-maps")." &raquo;' /></p>";
@@ -5039,16 +5082,18 @@ function wpgmza_basic_menu() {
 		$open_layers_feature_unavailable = ob_get_clean();
 	}
 
+	$maps_engine_dialog = new WPGMZA\MapsEngineDialog();
+	$maps_engine_dialog_html = $maps_engine_dialog->html();
+	
 	google_maps_api_key_warning();
     echo "
 			$open_layers_feature_unavailable
 			$open_layers_feature_coming_soon
+			$maps_engine_dialog_html
 			
            <div class='wrap'>
                 <h1>WP Google Maps</h1>
                 <div class='wide'>
-
-
 
                     <h2>".__("Create your Map","wp-google-maps")."</h2>
                     <form action='' method='post' id='wpgmaps_options'>
@@ -7123,6 +7168,12 @@ function wpgmza_return_country_tld_array(){
 }
 
 function google_maps_api_key_warning(){
+	
+	global $wpgmza;
+	
+	if($wpgmza->settings->engine != 'google-maps')
+		return;
+	
     $g_api_key = get_option('wpgmza_google_maps_api_key');
     if( !$g_api_key || $g_api_key == '' ){
         $video = "<a href='https://www.youtube.com/watch?v=OH98za14LNg' target='_BLANK'>".__('View the instruction video', 'wp-google-maps')."</a>";
@@ -7134,7 +7185,7 @@ function google_maps_api_key_warning(){
         echo "<p>".__("Before creating a map please follow these steps:","wp-google-maps")."";
         echo "<ol>";
         echo "<li>";
-        echo " <a target='_BLANK' href='https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true' class=''>".__("Create an API key now (free)","wp-google-maps")."</a>";
+        echo " <a target='_BLANK' href='https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true' class=''>".__("Create an API key now","wp-google-maps")."</a>";
         echo "</li>";
         echo "<li><form method='POST'>";
         echo __('Paste your API key here and press save:','wp-google-maps');
@@ -7144,7 +7195,9 @@ function google_maps_api_key_warning(){
         echo "</li>";
         echo "</ol>";
         echo "</p>";
-        echo "<p><em>".__("Please note that you are currently using a temporary API key which allows the maps in your back end to be displayed. For your map to be displayed on your website, you will need to follow the above steps.","wp-google-maps")."</em></p>";
+        
+		echo "<p>" . __('<strong>Alternatively, please switch to the OpenLayers map engine</strong> on the maps settings page', 'wp-google-maps') . "</p>";
+		
         echo sprintf( __('Need help? %s or %s.', 'wp-google-maps'), $video, $documentation )."</p>";
         echo "</div>";
     }
@@ -8408,4 +8461,13 @@ if(!function_exists('wpgmza_enqueue_fontawesome'))
 				break;
 		}
 	}
+}
+
+if(!empty($_GET['wpgmza-build']))
+{
+	$wpgmza = new WPGMZA\Plugin();
+	$scriptLoader = new WPGMZA\ScriptLoader($wpgmza->isProVersion());
+	$scriptLoader->build();
+	echo "Build successful";
+	exit;
 }

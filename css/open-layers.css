@@ -1,4 +1,22 @@
-@keyframes bounce {
+.wpgmza-ol-modern-infowindow-container
+{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+
+}
+
+.wpgmza_map
+{
+	position: relative;
+}
+
+.wpgmza-ol-modern-infowindow-container .wpgmza_modern_infowindow
+{
+	min-width: 160px;
+}
+
+@keyframes wpgmza-bounce {
   from {
 	bottom: 0px;
   }
@@ -6,7 +24,7 @@
 	bottom: 15px;
   }
 }
-@-webkit-keyframes bounce {
+@-webkit-keyframes wpgmza-bounce {
   from {
 	bottom: 0px;
   }
@@ -15,7 +33,7 @@
   }
 }
 
-@keyframes drop {
+@keyframes wpgmza-drop {
 	from {
 		bottom: 100vh;
 	}
@@ -24,7 +42,7 @@
 	}
 }
 
-@-webkit-keyframes drop {
+@-webkit-keyframes wpgmza-drop {
 	from {
 		bottom: 100vh;
 	}
@@ -48,14 +66,14 @@
 
 .ol-marker[data-anim='bounce']>img
 {
-	animation: bounce 0.3s infinite alternate;
-	-webkit-animation: bounce 0.3s infinite alternate;
+	animation: wpgmza-bounce 0.3s infinite alternate;
+	-webkit-animation: wpgmza-bounce 0.3s infinite alternate;
 }
 
 .ol-marker[data-anim='drop']>img
 {
-	animation: drop 0.3s;
-	-webkit-animation: drop 0.3s;
+	animation: wpgmza-drop 0.3s;
+	-webkit-animation: wpgmza-drop 0.3s;
 }
 
 .ol-marker-label

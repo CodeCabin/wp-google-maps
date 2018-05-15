@@ -88,6 +88,13 @@
             "wpgmza-event-dispatcher"
         ]
     },
+    "wpgmza-maps-engine-dialog": {
+        "src": "js\/v8\/maps-engine-dialog.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-marker": {
         "src": "js\/v8\/marker.js",
         "pro": false,

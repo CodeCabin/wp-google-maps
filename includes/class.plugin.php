@@ -32,8 +32,28 @@ class Plugin
 			'engine' 				=> (empty($legacy_settings['wpgmza_maps_engine']) || $legacy_settings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps'),
 			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
 			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
-			'developer_mode'		=> true // TODO: remove
+			'developer_mode'		=> !empty($legacy_settings['developer_mode'])
 		);
+		
+		// Legacy compatibility
+		global $wpgmza_pro_version;
+		
+		if(!empty($wpgmza_pro_version) && version_compare($wpgmza_pro_version, '7.0', '<'))
+		{
+			$settings['wpgmza_maps_engine'] = $settings['engine'] = 'google-maps';
+			
+			add_filter('wpgooglemaps_filter_map_div_output', function($output) {
+				
+				$loader = new GoogleMapsAPILoader();
+				$loader->registerGoogleMaps();
+				$loader->enqueueGoogleMaps();
+				
+				$this->loadScripts();
+				
+				return $output;
+				
+			});
+		}
 		
 		if(empty($legacy_settings))
 			$legacy_settings = array();
@@ -58,7 +78,8 @@ class Plugin
 			$this->scriptLoader = new ScriptLoader($this->isProVersion());
 		
 		// TODO: Remove this, it's for debugging, or only fire on developer_mode
-		$this->scriptLoader->build();
+		if(!empty($this->settings->developer_mode))
+			$this->scriptLoader->build();
 		
 		if(Plugin::$enqueueScriptsFired)
 		{
@@ -128,8 +149,7 @@ class Plugin
 	
 	public function isUsingMinifiedScripts()
 	{
-		// TODO: Remove this debug default
-		return false;
+		return empty($this->settings->developer_mode);
 	}
 	
 	public function isProVersion()

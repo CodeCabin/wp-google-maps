@@ -23,7 +23,7 @@
 		this.loadGoogleMap();
 		
 		if(options)
-			this.setOption(options);
+			this.setOptions(options);
 			
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			self.dispatchEvent("click");
@@ -103,7 +103,16 @@
 	{
 		Parent.prototype.setOptions.call(this, options);
 		
-		this.googleMap.setOptions(options);
+		this.googleMap.setOptions(this.settings.toGoogleMapsOptions());
+		
+		var clone = $.extend({}, options);
+		if(clone.center instanceof WPGMZA.LatLng)
+			clone.center = {
+				lat: clone.center.lat,
+				lng: clone.center.lng
+			};
+		
+		this.googleMap.setOptions(clone);
 	}
 	
 	/**
@@ -115,15 +124,6 @@
 		marker.googleMarker.setMap(this.googleMap);
 		
 		Parent.prototype.addMarker.call(this, marker);
-		
-		// Legacy V6 JS compatibility
-		if(!window.marker_array)
-			window.marker_array = [];
-		
-		if(!marker_array[this.id])
-			marker_array[this.id] = [];
-		
-		marker_array[this.id][marker.id] = marker.googleMarker;
 	}
 	
 	/**
