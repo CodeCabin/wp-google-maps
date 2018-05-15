@@ -91,10 +91,6 @@ class GoogleMapsLoader
 	{
 		global $wpgmza;
 		
-		// TODO: Bring this in line with new Google Maps settings
-		//if($wpgmza->settings->remove_api)
-			//return;
-		
 		if(GoogleMapsLoader::$googleAPILoadCalled)
 			return;
 		

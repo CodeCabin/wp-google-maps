@@ -102,6 +102,20 @@
             "wpgmza"
         ]
     },
+    "wpgmza-modern-store-locator-circle": {
+        "src": "js\/v8\/modern-store-locator-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-modern-store-locator": {
+        "src": "js\/v8\/modern-store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-polygon": {
         "src": "js\/v8\/polygon.js",
         "pro": false,
@@ -149,6 +163,20 @@
         "pro": false,
         "dependencies": [
             "wpgmza-marker"
+        ]
+    },
+    "wpgmza-google-modern-store-locator-circle": {
+        "src": "js\/v8\/google-maps\/google-modern-store-locator-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-modern-store-locator-circle"
+        ]
+    },
+    "wpgmza-google-modern-store-locator": {
+        "src": "js\/v8\/google-maps\/google-modern-store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-modern-store-locator"
         ]
     },
     "wpgmza-google-polygon": {
@@ -205,6 +233,20 @@
         "pro": false,
         "dependencies": [
             "wpgmza-marker"
+        ]
+    },
+    "wpgmza-ol-modern-store-locator-circle": {
+        "src": "js\/v8\/open-layers\/ol-modern-store-locator-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-modern-store-locator-circle"
+        ]
+    },
+    "wpgmza-ol-modern-store-locator": {
+        "src": "js\/v8\/open-layers\/ol-modern-store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-modern-store-locator"
         ]
     },
     "wpgmza-ol-polygon": {

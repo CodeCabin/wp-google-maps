@@ -97,6 +97,9 @@
 			marker.setVisible(false);
 		}
 		
+		// Cycling layer
+		console.log(this.settings);
+		
 		// Right click listener
 		$(this.element).on("click contextmenu", function(event) {
 			

@@ -71,4 +71,12 @@
 		return this._lat + ", " + this._lng;
 	}
 	
+	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
+	{
+		return new google.maps.LatLng({
+			lat: this.lat,
+			lng: this.lng
+		});
+	}
+	
 })(jQuery);

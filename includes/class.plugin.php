@@ -77,7 +77,6 @@ class Plugin
 		if(!$this->scriptLoader)
 			$this->scriptLoader = new ScriptLoader($this->isProVersion());
 		
-		// TODO: Remove this, it's for debugging, or only fire on developer_mode
 		if(!empty($this->settings->developer_mode))
 			$this->scriptLoader->build();
 		

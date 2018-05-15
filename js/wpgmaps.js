@@ -67,7 +67,7 @@ function InitMap() {
 	
 	if(wpgmaps_localize[wpgmaps_mapid].other_settings.store_locator_style == 'modern')
 	{
-		MYMAP.modernStoreLocator = new WPGMZA.ModernStoreLocator(wpgmaps_mapid);
+		MYMAP.modernStoreLocator = WPGMZA.ModernStoreLocator.createInstance(wpgmaps_mapid);
 		wpgmza_create_places_autocomplete();
 	}
 }
@@ -272,19 +272,23 @@ MYMAP.init = function(selector, latLng, zoom) {
               }
         }
     }
-    if (wpgmaps_localize[wpgmaps_mapid]['bicycle'] === "1") {
-        var bikeLayer = new google.maps.BicyclingLayer();
-        bikeLayer.setMap(MYMAP.map);
-    }        
-    if (wpgmaps_localize[wpgmaps_mapid]['traffic'] === "1") {
-        var trafficLayer = new google.maps.TrafficLayer();
-        trafficLayer.setMap(MYMAP.map);
-    }    
-    
-    if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] === 1) {
-        var transitLayer = new google.maps.TransitLayer();
-        transitLayer.setMap(MYMAP.map);
-	}   
+	
+	if(WPGMZA.settings.engine == "google-maps")
+	{
+		if (wpgmaps_localize[wpgmaps_mapid]['bicycle'] === "1") {
+			var bikeLayer = new google.maps.BicyclingLayer();
+			bikeLayer.setMap(MYMAP.map.googleMap);
+		}        
+		if (wpgmaps_localize[wpgmaps_mapid]['traffic'] === "1") {
+			var trafficLayer = new google.maps.TrafficLayer();
+			trafficLayer.setMap(MYMAP.map.googleMap);
+		}    
+		
+		if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] === 1) {
+			var transitLayer = new google.maps.TransitLayer();
+			transitLayer.setMap(MYMAP.map.googleMap);
+		}   
+	}
     
 	if(window.wpgmza_circle_data_array) {
 		window.circle_array = [];
@@ -831,52 +835,11 @@ function toRad(Value) {
 	WPGMZA.rgbaToString = function(rgba) {
 		return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 	}
-	
-	WPGMZA.ModernStoreLocator = function(map_id) {
-		var self = this;
-		
-		var original = $(".wpgmza_sl_search_button").closest(".wpgmza_sl_main_div");
-		
-		if(!original.length)
-			return;
-		
-		// Build / re-arrange elements
-		this.element = $("<div class='wpgmza-modern-store-locator'><div class='wpgmza-inner'><!--<i class='fas fa-bars'></i>--></div></div>")[0];
-		
-		var inner = $(this.element).find(".wpgmza-inner");
-		
-		MYMAP.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.element);
-		
-		inner.append($(original).find( "#addressInput" ));
-		inner.append($(original).find( "select.wpgmza_sl_radius_select" ));
-		
-		// Buttons
-		this.searchButton = $(original).find( ".wpgmza_sl_search_button" );
-		inner.append(this.searchButton);
-		
-		this.resetButton = $(original).find( ".wpgmza_sl_reset_button_div>input" );
-		inner.append(this.resetButton);
-		
-		// Distance type
-		inner.append($("#wpgmza_distance_type_" + map_id));
-		
-		// Remove original element
-		$(original).remove();
-		
-		// Event listeners
-		$(this.element).find("input, select").on("focus", function() {
-			$(inner).addClass("active");
-		});
-		
-		$(this.element).find("input, select").on("blur", function() {
-			$(inner).removeClass("active");
-		});
-	}
 
 	WPGMZA.GoogleAPIErrorHandler = function() {
 		var _error = console.error;
 		
-		/*console.error = function(message)
+		console.error = function(message)
 		{
 			var m = message.match(/^Google Maps API error: (\w+) (.+)/);
 			
@@ -887,383 +850,10 @@ function toRad(Value) {
 			}
 			
 			_error.apply(this, arguments);
-		}*/
+		}
 	}
 	
 	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
-	
-	/**
-	 * This module is the modern store locator circle
-	 * @constructor
-	 */
-	WPGMZA.ModernStoreLocatorCircle = function(map_id, settings) {
-		var self = this;
-		
-		this.map = MYMAP.map;
-		
-		this.canvasLayer = new CanvasLayer({
-			map: this.map,
-			resizeHandler: function(event) {
-				self.onResize(event);
-			},
-			updateHandler: function(event) {
-				self.onUpdate(event);
-			},
-			animate: true,
-			resolutionScale: this.getResolutionScale()
-        });
-		
-		this.settings = {
-			center: new google.maps.LatLng(0, 0),
-			radius: 1,
-			color: "#63AFF2",
-			
-			shadowColor: "white",
-			shadowBlur: 2,
-			
-			centerRingRadius: 10,
-			centerRingLineWidth: 3,
-
-			numInnerRings: 9,
-			innerRingLineWidth: 1,
-			innerRingFade: true,
-			
-			numOuterRings: 7,
-			
-			ringLineWidth: 1,
-			
-			mainRingLineWidth: 2,
-			
-			numSpokes: 6,
-			spokesStartAngle: Math.PI / 2,
-			
-			numRadiusLabels: 6,
-			radiusLabelsStartAngle: Math.PI / 2,
-			radiusLabelFont: "13px sans-serif",
-			
-			visible: false
-		};
-		
-		if(settings)
-			this.setOptions(settings);
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.createInstance = function(map_id, settings) {
-		return new WPGMZA.ModernStoreLocatorCircle(map_id, settings);
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.destroy = function() {
-		if(this.canvasLayer) {
-			this.canvasLayer.setOptions({
-				animate: false,
-				updateHandler: null,
-				resizeHandler: null,
-				map: null
-			});
-		}
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.onResize = function(event) { 
-		this.draw();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.onUpdate = function(event) { 
-		this.draw();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.setOptions = function(options) {
-		for(var name in options)
-		{
-			var functionName = "set" + name.substr(0, 1).toUpperCase() + name.substr(1);
-			
-			if(typeof this[functionName] == "function")
-				this[functionName](options[name]);
-			else
-				this.settings[name] = options[name];
-		}
-		this.canvasLayer.scheduleUpdate();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getResolutionScale = function() {
-		return window.devicePixelRatio || 1;
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getCenter = function() {
-		return this.getPosition();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.setCenter = function(value) {
-		this.setPosition(value);
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getPosition = function() {
-		return this.settings.center;
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.setPosition = function(position) {
-		this.settings.center = position;
-		this.canvasLayer.scheduleUpdate();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getRadius = function() {
-		return this.settings.radius;
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.setRadius = function(radius) {
-		this.settings.radius = radius;
-		this.canvasLayer.scheduleUpdate();
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
-		return this.settings.visible;
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
-		this.settings.visible = visible;
-		this.canvasLayer.scheduleUpdate();
-	}
-	
-	/**
-	 * This function transforms a km radius into canvas space
-	 * @return number
-	 */
-	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km) {
-		var multiplierAtEquator = 0.006395;
-		var spherical = google.maps.geometry.spherical;
-		
-		var center = this.settings.center;
-		var equator = new google.maps.LatLng({
-			lat: 0.0,
-			lng: 0.0
-		});
-		var latitude = new google.maps.LatLng({
-			lat: center.lat(),
-			lng: 0.0
-		});
-		
-		var offsetAtEquator = spherical.computeOffset(equator, km * 1000, 90);
-		var offsetAtLatitude = spherical.computeOffset(latitude, km * 1000, 90);
-		
-		var factor = offsetAtLatitude.lng() / offsetAtEquator.lng();
-		
-		return km * multiplierAtEquator * factor;
-	}
-	
-	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
-		// clear previous canvas contents
-		var canvasLayer = this.canvasLayer;
-		var settings = this.settings;
-		
-        var canvasWidth = canvasLayer.canvas.width;
-        var canvasHeight = canvasLayer.canvas.height;
-		
-		var map = MYMAP.map;
-		var resolutionScale = this.getResolutionScale();
-		
-		context = canvasLayer.canvas.getContext('2d');
-		
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
-
-		if(!settings.visible)
-			return;
-		
-		context.shadowColor = settings.shadowColor;
-		context.shadowBlur = settings.shadowBlur;
-		
-		// NB: 2018/02/13 - Left this here in case it needs to be calibrated more accurately
-		/*if(!this.testCircle)
-		{
-			this.testCircle = new google.maps.Circle({
-				strokeColor: "#ff0000",
-				strokeOpacity: 0.5,
-				strokeWeight: 3,
-				map: this.map,
-				center: this.settings.center
-			});
-		}
-		
-		this.testCircle.setCenter(settings.center);
-		this.testCircle.setRadius(settings.radius * 1000);*/
-		
-        /* We need to scale and translate the map for current view.
-         * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
-         */
-        var mapProjection = map.getProjection();
-
-        /**
-         * Clear transformation from last update by setting to identity matrix.
-         * Could use context.resetTransform(), but most browsers don't support
-         * it yet.
-         */
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        
-        // scale is just 2^zoom
-        // If canvasLayer is scaled (with resolutionScale), we need to scale by
-        // the same amount to account for the larger canvas.
-        var scale = Math.pow(2, map.zoom) * resolutionScale;
-        context.scale(scale, scale);
-
-        /* If the map was not translated, the topLeft corner would be 0,0 in
-         * world coordinates. Our translation is just the vector from the
-         * world coordinate of the topLeft corder to 0,0.
-         */
-        var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
-        context.translate(-offset.x, -offset.y);
-
-        // project rectLatLng to world coordinates and draw
-        var worldPoint = mapProjection.fromLatLngToPoint(this.settings.center);
-		var rgba = WPGMZA.hexToRgba(settings.color);
-		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
-		
-		// TODO: Implement gradients for color and opacity
-		
-		// Inside circle (fixed?)
-        context.strokeStyle = settings.color;
-		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
-		
-		context.beginPath();
-		context.arc(
-			worldPoint.x, 
-			worldPoint.y, 
-			this.getTransformedRadius(settings.centerRingRadius) / scale, 0, 2 * Math.PI
-		);
-		context.stroke();
-		context.closePath();
-		
-		// Spokes
-		var radius = this.getTransformedRadius(settings.radius) + (ringSpacing * settings.numOuterRings) + 1;
-		var grad = context.createRadialGradient(0, 0, 0, 0, 0, radius);
-		var rgba = WPGMZA.hexToRgba(settings.color);
-		var start = WPGMZA.rgbaToString(rgba), end;
-		var spokeAngle;
-		
-		rgba.a = 0;
-		end = WPGMZA.rgbaToString(rgba);
-		
-		grad.addColorStop(0, start);
-		grad.addColorStop(1, end);
-		
-		context.save();
-		
-		context.translate(worldPoint.x, worldPoint.y);
-		context.strokeStyle = grad;
-		context.lineWidth = 2 / scale;
-		
-		for(var i = 0; i < settings.numSpokes; i++)
-		{
-			spokeAngle = settings.spokesStartAngle + (Math.PI * 2) * (i / settings.numSpokes);
-			
-			x = Math.cos(spokeAngle) * radius;
-			y = Math.sin(spokeAngle) * radius;
-			
-			context.setLineDash([2 / scale, 15 / scale]);
-			
-			context.beginPath();
-			context.moveTo(0, 0);
-			context.lineTo(x, y);
-			context.stroke();
-		}
-		
-		context.setLineDash([]);
-		
-		context.restore();
-		
-		// Inner ringlets
-		context.lineWidth = (1 / scale) * settings.innerRingLineWidth;
-		
-		for(var i = 1; i <= settings.numInnerRings; i++)
-		{
-			var radius = i * ringSpacing;
-			
-			if(settings.innerRingFade)
-				rgba.a = 1 - (i - 1) / settings.numInnerRings;
-			
-			context.strokeStyle = WPGMZA.rgbaToString(rgba);
-			
-			context.beginPath();
-			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
-			context.stroke();
-			context.closePath();
-		}
-		
-		// Main circle
-		context.strokeStyle = settings.color;
-		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
-		
-		context.beginPath();
-		context.arc(worldPoint.x, worldPoint.y, this.getTransformedRadius(settings.radius), 0, 2 * Math.PI);
-		context.stroke();
-		context.closePath();
-		
-		// Outer ringlets
-		var radius = radius + ringSpacing;
-		for(var i = 0; i < settings.numOuterRings; i++)
-		{
-			if(settings.innerRingFade)
-				rgba.a = 1 - i / settings.numOuterRings;
-			
-			context.strokeStyle = WPGMZA.rgbaToString(rgba);
-			
-			context.beginPath();
-			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
-			context.stroke();
-			context.closePath();
-		
-			radius += ringSpacing;
-		}
-		
-		// Text
-		if(settings.numRadiusLabels > 0)
-		{
-			var m;
-			var radius = this.getTransformedRadius(settings.radius);
-			var clipRadius = (12 * 1.1) / scale;
-			var x, y;
-			
-			if(m = settings.radiusLabelFont.match(/(\d+)px/))
-				clipRadius = (parseInt(m[1]) / 2 * 1.1) / scale;
-			
-			context.font = settings.radiusLabelFont;
-			context.textAlign = "center";
-			context.textBaseline = "middle";
-			context.fillStyle = settings.color;
-			
-			context.save();
-			
-			context.translate(worldPoint.x, worldPoint.y)
-			
-			for(var i = 0; i < settings.numRadiusLabels; i++)
-			{
-				var spokeAngle = settings.radiusLabelsStartAngle + (Math.PI * 2) * (i / settings.numRadiusLabels);
-				var textAngle = spokeAngle + Math.PI / 2;
-				var text = settings.radiusString;
-				var width;
-				
-				if(Math.sin(spokeAngle) > 0)
-					textAngle -= Math.PI;
-				
-				x = Math.cos(spokeAngle) * radius;
-				y = Math.sin(spokeAngle) * radius;
-				
-				context.save();
-				
-				context.translate(x, y);
-				
-				context.rotate(textAngle);
-				context.scale(1 / scale, 1 / scale);
-				
-				width = context.measureText(text).width;
-				height = width / 2;
-				context.clearRect(-width, -height, 2 * width, 2 * height);
-				
-				context.fillText(settings.radiusString, 0, 0);
-				
-				context.restore();
-			}
-			
-			context.restore();
-		}
-	}
 	
 })(jQuery);
 
