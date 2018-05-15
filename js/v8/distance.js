@@ -13,6 +13,8 @@
 		MILES_PER_KILOMETER:	0.621371,
 		KILOMETERS_PER_MILE:	1.60934,
 		
+		// TODO: Implement WPGMZA.settings.distance_units
+		
 		/**
 		 * Converts a UI distance (eg from a form control) to meters,
 		 * accounting for the global units setting

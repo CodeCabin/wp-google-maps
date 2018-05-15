@@ -1,0 +1,401 @@
+/**
+ * @namespace WPGMZA
+ * @module ModernStoreLocatorCircle
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	/**
+	 * This module is the modern store locator circle
+	 * @constructor
+	 */
+	WPGMZA.ModernStoreLocatorCircle = function(map_id, settings) {
+		var self = this;
+		var map;
+		
+		if(WPGMZA.isProVersion())
+			map = this.map = MYMAP[map_id].map;
+		else
+			map = this.map = MYMAP.map;
+		
+		this.map_id = map_id;
+		this.mapElement = map.element;
+		this.mapSize = {
+			width:  $(this.mapElement).width(),
+			height: $(this.mapElement).height()
+		};
+		
+		setInterval(function() {
+			
+			var mapSize = {
+				width: $(self.mapElement).width(),
+				height: $(self.mapElement).height()
+			};
+			
+			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
+				return;
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+			self.mapSize = mapSize;
+			
+		}, 1000);
+		
+		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+		});
+		
+		this.initCanvasLayer();
+		
+		this.settings = {
+			center: new WPGMZA.LatLng(0, 0),
+			radius: 1,
+			color: "#63AFF2",
+			
+			shadowColor: "white",
+			shadowBlur: 4,
+			
+			centerRingRadius: 10,
+			centerRingLineWidth: 3,
+
+			numInnerRings: 9,
+			innerRingLineWidth: 1,
+			innerRingFade: true,
+			
+			numOuterRings: 7,
+			
+			ringLineWidth: 1,
+			
+			mainRingLineWidth: 2,
+			
+			numSpokes: 6,
+			spokesStartAngle: Math.PI / 2,
+			
+			numRadiusLabels: 6,
+			radiusLabelsStartAngle: Math.PI / 2,
+			radiusLabelFont: "13px sans-serif",
+			
+			visible: false
+		};
+		
+		if(settings)
+			this.setOptions(settings);
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.createInstance = function(map, settings) {
+		
+		if(WPGMZA.settings.engine == "google-maps")
+			return new WPGMZA.GoogleModernStoreLocatorCircle(map, settings);
+		else
+			return new WPGMZA.OLModernStoreLocatorCircle(map, settings);
+		
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.initCanvasLayer = function() {
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.onResize = function(event) { 
+		this.draw();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.onUpdate = function(event) { 
+		this.draw();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setOptions = function(options) {
+		for(var name in options)
+		{
+			var functionName = "set" + name.substr(0, 1).toUpperCase() + name.substr(1);
+			
+			if(typeof this[functionName] == "function")
+				this[functionName](options[name]);
+			else
+				this.settings[name] = options[name];
+		}
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getResolutionScale = function() {
+		return window.devicePixelRatio || 1;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCenter = function() {
+		return this.getPosition();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setCenter = function(value) {
+		this.setPosition(value);
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getPosition = function() {
+		return this.settings.center;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setPosition = function(position) {
+		this.settings.center = position;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getRadius = function() {
+		return this.settings.radius;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setRadius = function(radius) {
+		
+		if(isNaN(radius))
+			throw new Error("Invalid radius");
+		
+		this.settings.radius = radius;
+		this.canvasLayer.scheduleUpdate();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
+		return this.settings.visible;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
+		this.settings.visible = visible;
+		this.canvasLayer.scheduleUpdate();
+	};
+	
+	/**
+	 * This function transforms a km radius into canvas space
+	 * @return number
+	 */
+	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km) {
+		
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getContext = function(type)
+	{
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function() {
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
+		// clear previous canvas contents
+		
+		// TODO: Move this. It won't work in OL
+		
+		var canvasLayer = this.canvasLayer;
+		var settings = this.settings;
+		
+        var canvasWidth = canvasLayer.canvas.width;
+        var canvasHeight = canvasLayer.canvas.height;
+		
+		var map = this.map;
+		var resolutionScale = this.getResolutionScale();
+		
+		context = /*canvasLayer.canvas.getContext('webgl') ||*/ canvasLayer.canvas.getContext('2d');
+		
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+		if(!settings.visible)
+			return;
+		
+		context.shadowColor = settings.shadowColor;
+		context.shadowBlur = settings.shadowBlur;
+		
+		// NB: 2018/02/13 - Left this here in case it needs to be calibrated more accurately
+		/*if(!this.testCircle)
+		{
+			this.testCircle = new google.maps.Circle({
+				strokeColor: "#ff0000",
+				strokeOpacity: 0.5,
+				strokeWeight: 3,
+				map: this.map,
+				center: this.settings.center
+			});
+		}
+		
+		this.testCircle.setCenter(settings.center);
+		this.testCircle.setRadius(settings.radius * 1000);*/
+		
+        /* We need to scale and translate the map for current view.
+         * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
+         */
+        var mapProjection = map.googleMap.getProjection();
+
+        /**
+         * Clear transformation from last update by setting to identity matrix.
+         * Could use context.resetTransform(), but most browsers don't support
+         * it yet.
+         */
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        
+        // scale is just 2^zoom
+        // If canvasLayer is scaled (with resolutionScale), we need to scale by
+        // the same amount to account for the larger canvas.
+        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        context.scale(scale, scale);
+
+        /* If the map was not translated, the topLeft corner would be 0,0 in
+         * world coordinates. Our translation is just the vector from the
+         * world coordinate of the topLeft corder to 0,0.
+         */
+        var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
+        context.translate(-offset.x, -offset.y);
+
+        // project rectLatLng to world coordinates and draw
+		var center = new WPGMZA.LatLng(this.settings.center);
+        var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+		var rgba = WPGMZA.hexToRgba(settings.color);
+		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
+		
+		// TODO: Implement gradients for color and opacity
+		
+		// Inside circle (fixed?)
+        context.strokeStyle = settings.color;
+		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
+		
+		context.beginPath();
+		context.arc(
+			worldPoint.x, 
+			worldPoint.y, 
+			this.getTransformedRadius(settings.centerRingRadius) / scale, 0, 2 * Math.PI
+		);
+		context.stroke();
+		context.closePath();
+		
+		// Spokes
+		var radius = this.getTransformedRadius(settings.radius) + (ringSpacing * settings.numOuterRings) + 1;
+		var grad = context.createRadialGradient(0, 0, 0, 0, 0, radius);
+		var rgba = WPGMZA.hexToRgba(settings.color);
+		var start = WPGMZA.rgbaToString(rgba), end;
+		var spokeAngle;
+		
+		rgba.a = 0;
+		end = WPGMZA.rgbaToString(rgba);
+		
+		grad.addColorStop(0, start);
+		grad.addColorStop(1, end);
+		
+		context.save();
+		
+		context.translate(worldPoint.x, worldPoint.y);
+		context.strokeStyle = grad;
+		context.lineWidth = 2 / scale;
+		
+		for(var i = 0; i < settings.numSpokes; i++)
+		{
+			spokeAngle = settings.spokesStartAngle + (Math.PI * 2) * (i / settings.numSpokes);
+			
+			x = Math.cos(spokeAngle) * radius;
+			y = Math.sin(spokeAngle) * radius;
+			
+			context.setLineDash([2 / scale, 15 / scale]);
+			
+			context.beginPath();
+			context.moveTo(0, 0);
+			context.lineTo(x, y);
+			context.stroke();
+		}
+		
+		context.setLineDash([]);
+		
+		context.restore();
+		
+		// Inner ringlets
+		context.lineWidth = (1 / scale) * settings.innerRingLineWidth;
+		
+		for(var i = 1; i <= settings.numInnerRings; i++)
+		{
+			var radius = i * ringSpacing;
+			
+			if(settings.innerRingFade)
+				rgba.a = 1 - (i - 1) / settings.numInnerRings;
+			
+			context.strokeStyle = WPGMZA.rgbaToString(rgba);
+			
+			context.beginPath();
+			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
+			context.stroke();
+			context.closePath();
+		}
+		
+		// Main circle
+		context.strokeStyle = settings.color;
+		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
+		
+		context.beginPath();
+		context.arc(worldPoint.x, worldPoint.y, this.getTransformedRadius(settings.radius), 0, 2 * Math.PI);
+		context.stroke();
+		context.closePath();
+		
+		// Outer ringlets
+		var radius = radius + ringSpacing;
+		for(var i = 0; i < settings.numOuterRings; i++)
+		{
+			if(settings.innerRingFade)
+				rgba.a = 1 - i / settings.numOuterRings;
+			
+			context.strokeStyle = WPGMZA.rgbaToString(rgba);
+			
+			context.beginPath();
+			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
+			context.stroke();
+			context.closePath();
+		
+			radius += ringSpacing;
+		}
+		
+		// Text
+		if(settings.numRadiusLabels > 0)
+		{
+			var m;
+			var radius = this.getTransformedRadius(settings.radius);
+			var clipRadius = (12 * 1.1) / scale;
+			var x, y;
+			
+			if(m = settings.radiusLabelFont.match(/(\d+)px/))
+				clipRadius = (parseInt(m[1]) / 2 * 1.1) / scale;
+			
+			context.font = settings.radiusLabelFont;
+			context.textAlign = "center";
+			context.textBaseline = "middle";
+			context.fillStyle = settings.color;
+			
+			context.save();
+			
+			context.translate(worldPoint.x, worldPoint.y)
+			
+			for(var i = 0; i < settings.numRadiusLabels; i++)
+			{
+				var spokeAngle = settings.radiusLabelsStartAngle + (Math.PI * 2) * (i / settings.numRadiusLabels);
+				var textAngle = spokeAngle + Math.PI / 2;
+				var text = settings.radiusString;
+				var width;
+				
+				if(Math.sin(spokeAngle) > 0)
+					textAngle -= Math.PI;
+				
+				x = Math.cos(spokeAngle) * radius;
+				y = Math.sin(spokeAngle) * radius;
+				
+				context.save();
+				
+				context.translate(x, y);
+				
+				context.rotate(textAngle);
+				context.scale(1 / scale, 1 / scale);
+				
+				width = context.measureText(text).width;
+				height = width / 2;
+				context.clearRect(-width, -height, 2 * width, 2 * height);
+				
+				context.fillText(settings.radiusString, 0, 0);
+				
+				context.restore();
+			}
+			
+			context.restore();
+		}
+	}
+	
+})(jQuery);

@@ -106,10 +106,10 @@
 		this.googleMap.setOptions(this.settings.toGoogleMapsOptions());
 		
 		var clone = $.extend({}, options);
-		if(clone.center instanceof WPGMZA.LatLng)
+		if(clone.center instanceof WPGMZA.LatLng || typeof clone.center == "object")
 			clone.center = {
-				lat: clone.center.lat,
-				lng: clone.center.lng
+				lat: parseFloat(clone.center.lat),
+				lng: parseFloat(clone.center.lng)
 			};
 		
 		this.googleMap.setOptions(clone);

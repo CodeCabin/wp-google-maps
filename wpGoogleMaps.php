@@ -423,7 +423,7 @@ $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
 
 $subject = file_get_contents(__FILE__);
-if(preg_match('/Version: (.+)/', $subject, $m))
+if(preg_match('/Version:\s*(.+)/', $subject, $m))
 	$wpgmza_version = $m[1];
 
 define('WPGMZA_VERSION', $wpgmza_version);

@@ -436,6 +436,8 @@
 		MILES_PER_KILOMETER:	0.621371,
 		KILOMETERS_PER_MILE:	1.60934,
 		
+		// TODO: Implement WPGMZA.settings.distance_units
+		
 		/**
 		 * Converts a UI distance (eg from a form control) to meters,
 		 * accounting for the global units setting
@@ -920,6 +922,14 @@
 	WPGMZA.LatLng.prototype.toString = function()
 	{
 		return this._lat + ", " + this._lng;
+	}
+	
+	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
+	{
+		return new google.maps.LatLng({
+			lat: this.lat,
+			lng: this.lng
+		});
 	}
 	
 })(jQuery);
@@ -2125,6 +2135,584 @@
 	
 })(jQuery);
 
+// js/v8/modern-store-locator-circle.js
+/**
+ * @namespace WPGMZA
+ * @module ModernStoreLocatorCircle
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	/**
+	 * This module is the modern store locator circle
+	 * @constructor
+	 */
+	WPGMZA.ModernStoreLocatorCircle = function(map_id, settings) {
+		var self = this;
+		var map;
+		
+		if(WPGMZA.isProVersion())
+			map = this.map = MYMAP[map_id].map;
+		else
+			map = this.map = MYMAP.map;
+		
+		this.map_id = map_id;
+		this.mapElement = map.element;
+		this.mapSize = {
+			width:  $(this.mapElement).width(),
+			height: $(this.mapElement).height()
+		};
+		
+		setInterval(function() {
+			
+			var mapSize = {
+				width: $(self.mapElement).width(),
+				height: $(self.mapElement).height()
+			};
+			
+			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
+				return;
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+			self.mapSize = mapSize;
+			
+		}, 1000);
+		
+		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+		});
+		
+		this.initCanvasLayer();
+		
+		this.settings = {
+			center: new WPGMZA.LatLng(0, 0),
+			radius: 1,
+			color: "#63AFF2",
+			
+			shadowColor: "white",
+			shadowBlur: 4,
+			
+			centerRingRadius: 10,
+			centerRingLineWidth: 3,
+
+			numInnerRings: 9,
+			innerRingLineWidth: 1,
+			innerRingFade: true,
+			
+			numOuterRings: 7,
+			
+			ringLineWidth: 1,
+			
+			mainRingLineWidth: 2,
+			
+			numSpokes: 6,
+			spokesStartAngle: Math.PI / 2,
+			
+			numRadiusLabels: 6,
+			radiusLabelsStartAngle: Math.PI / 2,
+			radiusLabelFont: "13px sans-serif",
+			
+			visible: false
+		};
+		
+		if(settings)
+			this.setOptions(settings);
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.createInstance = function(map, settings) {
+		
+		if(WPGMZA.settings.engine == "google-maps")
+			return new WPGMZA.GoogleModernStoreLocatorCircle(map, settings);
+		else
+			return new WPGMZA.OLModernStoreLocatorCircle(map, settings);
+		
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.initCanvasLayer = function() {
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.onResize = function(event) { 
+		this.draw();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.onUpdate = function(event) { 
+		this.draw();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setOptions = function(options) {
+		for(var name in options)
+		{
+			var functionName = "set" + name.substr(0, 1).toUpperCase() + name.substr(1);
+			
+			if(typeof this[functionName] == "function")
+				this[functionName](options[name]);
+			else
+				this.settings[name] = options[name];
+		}
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getResolutionScale = function() {
+		return window.devicePixelRatio || 1;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCenter = function() {
+		return this.getPosition();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setCenter = function(value) {
+		this.setPosition(value);
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getPosition = function() {
+		return this.settings.center;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setPosition = function(position) {
+		this.settings.center = position;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getRadius = function() {
+		return this.settings.radius;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setRadius = function(radius) {
+		
+		if(isNaN(radius))
+			throw new Error("Invalid radius");
+		
+		this.settings.radius = radius;
+		this.canvasLayer.scheduleUpdate();
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
+		return this.settings.visible;
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
+		this.settings.visible = visible;
+		this.canvasLayer.scheduleUpdate();
+	};
+	
+	/**
+	 * This function transforms a km radius into canvas space
+	 * @return number
+	 */
+	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km) {
+		
+	};
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getContext = function(type)
+	{
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function() {
+		
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
+		// clear previous canvas contents
+		
+		// TODO: Move this. It won't work in OL
+		
+		var canvasLayer = this.canvasLayer;
+		var settings = this.settings;
+		
+        var canvasWidth = canvasLayer.canvas.width;
+        var canvasHeight = canvasLayer.canvas.height;
+		
+		var map = this.map;
+		var resolutionScale = this.getResolutionScale();
+		
+		context = /*canvasLayer.canvas.getContext('webgl') ||*/ canvasLayer.canvas.getContext('2d');
+		
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+		if(!settings.visible)
+			return;
+		
+		context.shadowColor = settings.shadowColor;
+		context.shadowBlur = settings.shadowBlur;
+		
+		// NB: 2018/02/13 - Left this here in case it needs to be calibrated more accurately
+		/*if(!this.testCircle)
+		{
+			this.testCircle = new google.maps.Circle({
+				strokeColor: "#ff0000",
+				strokeOpacity: 0.5,
+				strokeWeight: 3,
+				map: this.map,
+				center: this.settings.center
+			});
+		}
+		
+		this.testCircle.setCenter(settings.center);
+		this.testCircle.setRadius(settings.radius * 1000);*/
+		
+        /* We need to scale and translate the map for current view.
+         * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
+         */
+        var mapProjection = map.googleMap.getProjection();
+
+        /**
+         * Clear transformation from last update by setting to identity matrix.
+         * Could use context.resetTransform(), but most browsers don't support
+         * it yet.
+         */
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        
+        // scale is just 2^zoom
+        // If canvasLayer is scaled (with resolutionScale), we need to scale by
+        // the same amount to account for the larger canvas.
+        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        context.scale(scale, scale);
+
+        /* If the map was not translated, the topLeft corner would be 0,0 in
+         * world coordinates. Our translation is just the vector from the
+         * world coordinate of the topLeft corder to 0,0.
+         */
+        var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
+        context.translate(-offset.x, -offset.y);
+
+        // project rectLatLng to world coordinates and draw
+		var center = new WPGMZA.LatLng(this.settings.center);
+        var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+		var rgba = WPGMZA.hexToRgba(settings.color);
+		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
+		
+		// TODO: Implement gradients for color and opacity
+		
+		// Inside circle (fixed?)
+        context.strokeStyle = settings.color;
+		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
+		
+		context.beginPath();
+		context.arc(
+			worldPoint.x, 
+			worldPoint.y, 
+			this.getTransformedRadius(settings.centerRingRadius) / scale, 0, 2 * Math.PI
+		);
+		context.stroke();
+		context.closePath();
+		
+		// Spokes
+		var radius = this.getTransformedRadius(settings.radius) + (ringSpacing * settings.numOuterRings) + 1;
+		var grad = context.createRadialGradient(0, 0, 0, 0, 0, radius);
+		var rgba = WPGMZA.hexToRgba(settings.color);
+		var start = WPGMZA.rgbaToString(rgba), end;
+		var spokeAngle;
+		
+		rgba.a = 0;
+		end = WPGMZA.rgbaToString(rgba);
+		
+		grad.addColorStop(0, start);
+		grad.addColorStop(1, end);
+		
+		context.save();
+		
+		context.translate(worldPoint.x, worldPoint.y);
+		context.strokeStyle = grad;
+		context.lineWidth = 2 / scale;
+		
+		for(var i = 0; i < settings.numSpokes; i++)
+		{
+			spokeAngle = settings.spokesStartAngle + (Math.PI * 2) * (i / settings.numSpokes);
+			
+			x = Math.cos(spokeAngle) * radius;
+			y = Math.sin(spokeAngle) * radius;
+			
+			context.setLineDash([2 / scale, 15 / scale]);
+			
+			context.beginPath();
+			context.moveTo(0, 0);
+			context.lineTo(x, y);
+			context.stroke();
+		}
+		
+		context.setLineDash([]);
+		
+		context.restore();
+		
+		// Inner ringlets
+		context.lineWidth = (1 / scale) * settings.innerRingLineWidth;
+		
+		for(var i = 1; i <= settings.numInnerRings; i++)
+		{
+			var radius = i * ringSpacing;
+			
+			if(settings.innerRingFade)
+				rgba.a = 1 - (i - 1) / settings.numInnerRings;
+			
+			context.strokeStyle = WPGMZA.rgbaToString(rgba);
+			
+			context.beginPath();
+			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
+			context.stroke();
+			context.closePath();
+		}
+		
+		// Main circle
+		context.strokeStyle = settings.color;
+		context.lineWidth = (1 / scale) * settings.centerRingLineWidth;
+		
+		context.beginPath();
+		context.arc(worldPoint.x, worldPoint.y, this.getTransformedRadius(settings.radius), 0, 2 * Math.PI);
+		context.stroke();
+		context.closePath();
+		
+		// Outer ringlets
+		var radius = radius + ringSpacing;
+		for(var i = 0; i < settings.numOuterRings; i++)
+		{
+			if(settings.innerRingFade)
+				rgba.a = 1 - i / settings.numOuterRings;
+			
+			context.strokeStyle = WPGMZA.rgbaToString(rgba);
+			
+			context.beginPath();
+			context.arc(worldPoint.x, worldPoint.y, radius, 0, 2 * Math.PI);
+			context.stroke();
+			context.closePath();
+		
+			radius += ringSpacing;
+		}
+		
+		// Text
+		if(settings.numRadiusLabels > 0)
+		{
+			var m;
+			var radius = this.getTransformedRadius(settings.radius);
+			var clipRadius = (12 * 1.1) / scale;
+			var x, y;
+			
+			if(m = settings.radiusLabelFont.match(/(\d+)px/))
+				clipRadius = (parseInt(m[1]) / 2 * 1.1) / scale;
+			
+			context.font = settings.radiusLabelFont;
+			context.textAlign = "center";
+			context.textBaseline = "middle";
+			context.fillStyle = settings.color;
+			
+			context.save();
+			
+			context.translate(worldPoint.x, worldPoint.y)
+			
+			for(var i = 0; i < settings.numRadiusLabels; i++)
+			{
+				var spokeAngle = settings.radiusLabelsStartAngle + (Math.PI * 2) * (i / settings.numRadiusLabels);
+				var textAngle = spokeAngle + Math.PI / 2;
+				var text = settings.radiusString;
+				var width;
+				
+				if(Math.sin(spokeAngle) > 0)
+					textAngle -= Math.PI;
+				
+				x = Math.cos(spokeAngle) * radius;
+				y = Math.sin(spokeAngle) * radius;
+				
+				context.save();
+				
+				context.translate(x, y);
+				
+				context.rotate(textAngle);
+				context.scale(1 / scale, 1 / scale);
+				
+				width = context.measureText(text).width;
+				height = width / 2;
+				context.clearRect(-width, -height, 2 * width, 2 * height);
+				
+				context.fillText(settings.radiusString, 0, 0);
+				
+				context.restore();
+			}
+			
+			context.restore();
+		}
+	}
+	
+})(jQuery);
+
+// js/v8/modern-store-locator.js
+/**
+ * @namespace WPGMZA
+ * @module ModernStoreLocator
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	/**
+	 * The new modern look store locator. It takes the elements
+	 * from the default look and moves them into the map, wrapping
+	 * in a new element so we can apply new styles.
+	 * @return Object
+	 */
+	WPGMZA.ModernStoreLocator = function(map_id)
+	{
+		var self = this;
+		var original;
+		
+		WPGMZA.assertInstanceOf(this, "ModernStoreLocator");
+		
+		if(WPGMZA.isProVersion())
+			 original = $(".wpgmza_sl_search_button[mid='" + map_id + "']").closest(".wpgmza_sl_main_div");
+		else
+			original = $(".wpgmza_sl_search_button").closest(".wpgmza_sl_main_div");
+		
+		if(!original.length)
+			return;
+		
+		// Build / re-arrange elements
+		this.element = $("<div class='wpgmza-modern-store-locator'><div class='wpgmza-inner wpgmza-modern-hover-opaque'/></div>")[0];
+		
+		var inner = $(this.element).find(".wpgmza-inner");
+		
+		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
+		if(titleSearch.length)
+		{
+			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
+			if(placeholder && placeholder.length)
+				titleSearch.attr("placeholder", placeholder);
+			inner.append(titleSearch);
+		}
+		
+		var addressInput;
+		if(WPGMZA.isProVersion())
+			addressInput = $(original).find(".addressInput");
+		else
+			addressInput = $(original).find("#addressInput");
+		
+		if(wpgmaps_localize[map_id].other_settings.store_locator_query_string && wpgmaps_localize[map_id].other_settings.store_locator_query_string.length)
+			addressInput.attr("placeholder", wpgmaps_localize[map_id].other_settings.store_locator_query_string);
+		
+		inner.append(addressInput);
+		
+		inner.append($(original).find("select.wpgmza_sl_radius_select"));
+		// inner.append($(original).find(".wpgmza_filter_select_" + map_id));
+		
+		// Buttons
+		this.searchButton = $(original).find( ".wpgmza_sl_search_button" );
+		inner.append(this.searchButton);
+		
+		this.resetButton = $(original).find( ".wpgmza_sl_reset_button_div" );
+		inner.append(this.resetButton);
+		
+		this.resetButton.hide();
+		
+		if(WPGMZA.isProVersion())
+		{
+			this.searchButton.on("click", function(event) {
+				if($("addressInput_" + map_id).val() == 0)
+					return;
+				
+				self.searchButton.hide();
+				self.resetButton.show();
+			});
+			this.resetButton.on("click", function(event) {
+				self.resetButton.hide();
+				self.searchButton.show();
+			});
+		}
+		
+		// Distance type
+		inner.append($("#wpgmza_distance_type_" + map_id));
+		
+		// Categories
+		var container = $(original).find(".wpgmza_cat_checkbox_holder");
+		var ul = $(container).children("ul");
+		var items = $(container).find("li");
+		var numCategories = 0;
+		
+		//$(items).find("ul").remove();
+		//$(ul).append(items);
+		
+		var icons = [];
+		
+		items.each(function(index, el) {
+			var id = $(el).attr("class").match(/\d+/);
+			
+			for(var category_id in wpgmza_category_data) {
+				
+				if(id == category_id) {
+					var src = wpgmza_category_data[category_id].image;
+					var icon = $('<div class="wpgmza-chip-icon"/>');
+					
+					icon.css({
+						"background-image": "url('" + src + "')",
+						"width": $("#wpgmza_cat_checkbox_" + category_id + " + label").height() + "px"
+					});
+					icons.push(icon);
+					
+                    if(src != null && src != ""){
+					   //$(el).find("label").prepend(icon);
+                       $("#wpgmza_cat_checkbox_" + category_id + " + label").prepend(icon);
+                    }
+					
+					numCategories++;
+					
+					break;
+				}
+				
+			}
+		});
+
+        $(this.element).append(container);
+
+		
+		if(numCategories) {
+			this.optionsButton = $('<span class="wpgmza_store_locator_options_button"><i class="fas fa-list"></i></span>');
+			$(this.searchButton).before(this.optionsButton);
+		}
+		
+		setInterval(function() {
+			
+			icons.forEach(function(icon) {
+				var height = $(icon).height();
+				$(icon).css({"width": height + "px"});
+				$(icon).closest("label").css({"padding-left": height + 8 + "px"});
+			});
+			
+			$(container).css("width", $(self.element).find(".wpgmza-inner").outerWidth() + "px");
+			
+		}, 1000);
+		
+		$(this.element).find(".wpgmza_store_locator_options_button").on("click", function(event) {
+			
+			if(container.hasClass("wpgmza-open"))
+				container.removeClass("wpgmza-open");
+			else
+				container.addClass("wpgmza-open");
+			
+		});
+		
+		// Remove original element
+		$(original).remove();
+		
+		// Event listeners
+		$(this.element).find("input, select").on("focus", function() {
+			$(inner).addClass("active");
+		});
+		
+		$(this.element).find("input, select").on("blur", function() {
+			$(inner).removeClass("active");
+		});
+	}
+	
+	WPGMZA.ModernStoreLocator.createInstance = function(map_id)
+	{
+		if(WPGMZA.settings.engine == "google-maps")
+			return new WPGMZA.GoogleModernStoreLocator(map_id);
+		else
+			return new WPGMZA.OLModernStoreLocator(map_id);
+	}
+	
+})(jQuery);
+
 // js/v8/polygon.js
 /**
  * @namespace WPGMZA
@@ -2595,10 +3183,10 @@
 		this.googleMap.setOptions(this.settings.toGoogleMapsOptions());
 		
 		var clone = $.extend({}, options);
-		if(clone.center instanceof WPGMZA.LatLng)
+		if(clone.center instanceof WPGMZA.LatLng || typeof clone.center == "object")
 			clone.center = {
-				lat: clone.center.lat,
-				lng: clone.center.lng
+				lat: parseFloat(clone.center.lat),
+				lng: parseFloat(clone.center.lng)
 			};
 		
 		this.googleMap.setOptions(clone);
@@ -3115,6 +3703,125 @@
 	{
 		this.googleMarker.setDraggable(draggable);
 	}
+	
+})(jQuery);
+
+// js/v8/google-maps/google-modern-store-locator-circle.js
+/**
+ * @namespace WPGMZA
+ * @module GoogleModernStoreLocatorCircle
+ * @requires WPGMZA.ModernStoreLocatorCircle
+ */
+(function($) {
+	
+	WPGMZA.GoogleModernStoreLocatorCircle = function(map, settings)
+	{
+		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.constructor = WPGMZA.GoogleModernStoreLocatorCircle;
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.initCanvasLayer = function()
+	{
+		var self = this;
+		
+		if(this.canvasLayer)
+		{
+			this.canvasLayer.setMap(null);
+			this.canvasLayer.setAnimate(false);
+		}
+		
+		this.canvasLayer = new CanvasLayer({
+			map: this.map.googleMap,
+			resizeHandler: function(event) {
+				self.onResize(event);
+			},
+			updateHandler: function(event) {
+				self.onUpdate(event);
+			},
+			animate: true,
+			resolutionScale: this.getResolutionScale()
+        });
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setOptions = function(options)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setOptions.call(this, options);
+		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setPosition = function(position)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setPosition.call(this, position);
+		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
+	{
+		var multiplierAtEquator = 0.006395;
+		var spherical = google.maps.geometry.spherical;
+		
+		var center = this.settings.center;
+		var equator = new WPGMZA.LatLng({
+			lat: 0.0,
+			lng: 0.0
+		});
+		var latitude = new WPGMZA.LatLng({
+			lat: center.lat,
+			lng: 0.0
+		});
+		
+		var offsetAtEquator = spherical.computeOffset(equator.toGoogleLatLng(), km * 1000, 90);
+		var offsetAtLatitude = spherical.computeOffset(latitude.toGoogleLatLng(), km * 1000, 90);
+		
+		var factor = offsetAtLatitude.lng() / offsetAtEquator.lng();
+		var result = km * multiplierAtEquator * factor;
+		
+		if(isNaN(result))
+			throw new Error("here");
+		
+		return result;
+	}
+	
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	{
+		
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getContext = function(type)
+	{
+		
+	}
+	
+})(jQuery);
+
+// js/v8/google-maps/google-modern-store-locator.js
+/**
+ * @namespace WPGMZA
+ * @module GoogleModernStoreLocator
+ * @requires WPGMZA.ModernStoreLocator
+ */
+(function($) {
+	
+	WPGMZA.GoogleModernStoreLocator = function(map_id)
+	{
+		WPGMZA.ModernStoreLocator.call(this, map_id);
+		
+		var googleMap;
+		
+		if(WPGMZA.isProVersion())
+			googleMap = MYMAP[map_id].map.googleMap;
+		else
+			googleMap = MYMAP.map.googleMap;
+		
+		googleMap.controls[google.maps.ControlPosition.TOP_CENTER].push(this.element);
+	}
+	
+	WPGMZA.GoogleModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator.prototype);
+	WPGMZA.GoogleModernStoreLocator.prototype.constructor = WPGMZA.GoogleModernStoreLocator;
 	
 })(jQuery);
 
@@ -3802,6 +4509,9 @@
 			marker.setVisible(false);
 		}
 		
+		// Cycling layer
+		console.log(this.settings);
+		
 		// Right click listener
 		$(this.element).on("click contextmenu", function(event) {
 			
@@ -4286,6 +4996,42 @@
 		this.trigger({type: "dragend", latLng: latLngAfterDrag})
 		$(this.element).trigger("dragend.wpgmza");
 	}
+	
+})(jQuery);
+
+// js/v8/open-layers/ol-modern-store-locator-circle.js
+/**
+ * @namespace WPGMZA
+ * @module OLModernStoreLocatorCircle
+ * @requires WPGMZA.ModernStoreLocatorCircle
+ */
+(function($) {
+	
+	WPGMZA.OLModernStoreLocatorCircle = function(map, settings)
+	{
+		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
+	WPGMZA.OLModernStoreLocatorCircle.prototype.constructor = WPGMZA.OLModernStoreLocatorCircle;
+ 
+})(jQuery);
+
+// js/v8/open-layers/ol-modern-store-locator.js
+/**
+ * @namespace WPGMZA
+ * @module OLModernStoreLocator
+ * @requires WPGMZA.ModernStoreLocator
+ */
+(function($) {
+	
+	WPGMZA.OLModernStoreLocator = function(map_id)
+	{
+		WPGMZA.ModernStoreLocator.call(this, map_id);
+	}
+	
+	WPGMZA.OLModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator);
+	WPGMZA.OLModernStoreLocator.prototype.constructor = WPGMZA.OLModernStoreLocator;
 	
 })(jQuery);
 
