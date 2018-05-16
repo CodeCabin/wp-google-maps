@@ -428,8 +428,8 @@
 	{
 		var map = this.googleMap;
 		var nativeLatLng = new google.maps.LatLng({
-			lat: latLng.lat,
-			lng: latLng.lng
+			lat: parseFloat(latLng.lat),
+			lng: parseFloat(latLng.lng)
 		});
 		var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
 		var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());

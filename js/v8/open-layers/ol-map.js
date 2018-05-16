@@ -368,7 +368,7 @@
 		{
 			if(!this.bicycleLayer)
 				this.bicycleLayer = new ol.layer.Tile({
-					source: new ol.source.OL({
+					source: new ol.source.OSM({
 						url: "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png"
 					})
 				});
