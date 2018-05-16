@@ -932,6 +932,36 @@
 		});
 	}
 	
+	/**
+	 * @function moveByDistance
+	 * @summary Moves this latLng by the specified kilometers along the given heading
+	 * @return void
+	 * With many thanks to Hu Kenneth - https://gis.stackexchange.com/questions/234473/get-a-lonlat-point-by-distance-or-between-2-lonlat-points
+	 */
+	WPGMZA.LatLng.prototype.moveByDistance = function(kilometers, heading)
+	{
+		var radius 		= 6371;
+		
+		var delta 		= parseFloat(kilometers) / radius;
+		var theta 		= parseFloat(heading) / 180 * Math.PI;
+		
+		var phi1 		= this.lat / 180 * Math.PI;
+		var lambda1 	= this.lng / 180 * Math.PI;
+		
+		var sinPhi1 	= Math.sin(phi1), cosPhi1 = Math.cos(phi1);
+		var sinDelta	= Math.sin(delta), cosDelta = Math.cos(delta);
+		var sinTheta	= Math.sin(theta), cosTheta = Math.cos(theta);
+		
+		var sinPhi2		= sinPhi1 * cosDelta + cosPhi1 * sinDelta * cosTheta;
+		var phi2		= Math.asin(sinPhi2);
+		var y			= sinTheta * sinDelta * cosPhi1;
+		var x			= cosDelta - sinPhi1 * sinPhi2;
+		var lambda2		= lambda1 + Math.atan2(y, x);
+		
+		this.lat		= phi2 * 180 / Math.PI;
+		this.lng		= lambda2 * 180 / Math.PI;
+	}
+	
 })(jQuery);
 
 // js/v8/latlngbounds.js
@@ -2327,45 +2357,19 @@
 		this.testCircle.setCenter(settings.center);
 		this.testCircle.setRadius(settings.radius * 1000);*/
 		
-        /* We need to scale and translate the map for current view.
-         * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
-         */
-		// TODO: Remove this
-		//var mapProjection = map.googleMap.getProjection();
-		//var canvasLayer = this.canvasLayer;
-		
-        /**
-         * Clear transformation from last update by setting to identity matrix.
-         * Could use context.resetTransform(), but most browsers don't support
-         * it yet.
-         */
+        // Reset transform
         context.setTransform(1, 0, 0, 1, 0, 0);
         
-        // scale is just 2^zoom
-        // If canvasLayer is scaled (with resolutionScale), we need to scale by
-        // the same amount to account for the larger canvas.
-        //var scale = Math.pow(2, map.getZoom()) * resolutionScale;
-        //context.scale(scale, scale);
-		var scale = 1;
+        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        context.scale(scale, scale);
 
-        /* If the map was not translated, the topLeft corner would be 0,0 in
-         * world coordinates. Our translation is just the vector from the
-         * world coordinate of the topLeft corder to 0,0.
-         */
-        
-		// TODO: Re-enable for google
-		//var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
-        //context.translate(-offset.x, -offset.y);
-		
+		// Translate by world origin
 		var offset = this.getWorldOriginOffset();
 		context.translate(offset.x, offset.y);
 
-        // project rectLatLng to world coordinates and draw
+        // Get center and project to pixel space
 		var center = new WPGMZA.LatLng(this.settings.center);
-        //var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
 		var worldPoint = this.getCenterPixels();
-		
-		console.log(worldPoint);
 		
 		var rgba = WPGMZA.hexToRgba(settings.color);
 		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
@@ -3803,7 +3807,7 @@
 		return result;
 	}
 	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
 		return {
 			width: this.canvasLayer.canvas.width,
@@ -3832,6 +3836,11 @@
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
 		return this.canvasLayer.canvas.getContext("2d");
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getScale = function()
+	{
+		return Math.pow(2, this.map.getZoom()) * this.getResolutionScale();
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setVisible = function(visible)
@@ -5123,26 +5132,41 @@
 		};
 	}
 	
-	WPGMZA.OLModernStoreLocatorCircle.prototype.getTransformedRadius = function()
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
 	{
+		var center = new WPGMZA.LatLng(this.settings.center);
+		var outer = new WPGMZA.LatLng(center);
+		
+		outer.moveByDistance(km, 90);
+		
+		var centerPixels = this.map.latLngToPixels(center);
+		var outerPixels = this.map.latLngToPixels(outer);
+		
+		return Math.abs(outerPixels.x - centerPixels.x);
+
+		if(!window.testMarker){
+			window.testMarker = WPGMZA.Marker.createInstance({
+				position: outer
+			});
+			WPGMZA.maps[0].addMarker(window.testMarker);
+		}
+		
 		return 100;
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getScale = function()
+	{
+		return 1;
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.destroy = function()
 	{
 		$(this.canvas).remove();
 		
-		this.map.olMap.off("postrender", this.renderFunction);
+		this.map.olMap.un("postrender", this.renderFunction);
 		this.map = null;
 		this.canvas = null;
 	}
-	
-	$(window).on("load", function(event) {
-		
-		$("#addressInput").val("Bristol, UK");
-		$(".wpgmza_sl_search_button").click();
-		
-	});
 	
 })(jQuery);
 

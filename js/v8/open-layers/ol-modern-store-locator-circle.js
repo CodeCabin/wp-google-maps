@@ -70,25 +70,40 @@
 		};
 	}
 	
-	WPGMZA.OLModernStoreLocatorCircle.prototype.getTransformedRadius = function()
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
 	{
+		var center = new WPGMZA.LatLng(this.settings.center);
+		var outer = new WPGMZA.LatLng(center);
+		
+		outer.moveByDistance(km, 90);
+		
+		var centerPixels = this.map.latLngToPixels(center);
+		var outerPixels = this.map.latLngToPixels(outer);
+		
+		return Math.abs(outerPixels.x - centerPixels.x);
+
+		if(!window.testMarker){
+			window.testMarker = WPGMZA.Marker.createInstance({
+				position: outer
+			});
+			WPGMZA.maps[0].addMarker(window.testMarker);
+		}
+		
 		return 100;
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getScale = function()
+	{
+		return 1;
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.destroy = function()
 	{
 		$(this.canvas).remove();
 		
-		this.map.olMap.off("postrender", this.renderFunction);
+		this.map.olMap.un("postrender", this.renderFunction);
 		this.map = null;
 		this.canvas = null;
 	}
-	
-	$(window).on("load", function(event) {
-		
-		$("#addressInput").val("Bristol, UK");
-		$(".wpgmza_sl_search_button").click();
-		
-	});
 	
 })(jQuery);
