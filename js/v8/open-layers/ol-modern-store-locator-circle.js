@@ -8,8 +8,6 @@
 	WPGMZA.OLModernStoreLocatorCircle = function(map, settings)
 	{
 		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
-		
-		
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
@@ -18,36 +16,30 @@
 	WPGMZA.OLModernStoreLocatorCircle.prototype.initCanvasLayer = function()
 	{
 		var self = this;
+		var mapElement = $(this.map.element);
+		var olViewportElement = mapElement.children(".ol-viewport");
 		
 		this.canvas = document.createElement("canvas");
+		this.canvas.className = "wpgmza-ol-canvas-overlay";
+		mapElement.append(this.canvas);
 		
-		//if(this.layer)
-			//this.map.olMap.removeLayer(this.layer);
+		this.renderFunction = function(event) {
+			
+			if(self.canvas.width != olViewportElement.width() || self.canvas.height != olViewportElement.height())
+			{
+				self.canvas.width = olViewportElement.width();
+				self.canvas.height = olViewportElement.height();
+				
+				$(this.canvas).css({
+					width: olViewportElement.width() + "px",
+					height: olViewportElement.height() + "px"
+				});
+			}
+			
+			self.draw();
+		};
 		
-		/*this.layer = new ol.layer.Image({
-			source: new ol.source.ImageCanvas({
-				canvasFunction: function(extent, resolution, pixelRatio, size, projection) {
-					
-					if(!self.canvasDimensions || !self.canvasDimensions.width == size[0] || !self.canvasDimensions.height == size[1])
-					{
-						self.canvasDimensions = {
-							width: size[0],
-							height: size[1]
-						};
-						$(self.canvas).css({
-							width: (size[0] / pixelRatio) + "px",
-							height: (size[1] / pixelRatio) + "px"
-						});
-					}
-					
-					self.draw();
-					
-				},
-				projection: "EPSG:3857"
-			})
-		});*/
-		
-		//this.map.olMap.addLayer(this.layer);
+		this.map.olMap.on("postrender", this.renderFunction);
 	}
 
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getContext = function(type)
@@ -57,15 +49,17 @@
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
-		return this.canvasDimensions;
+		return {
+			width: this.canvas.width,
+			height: this.canvas.height
+		};
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getCenterPixels = function()
 	{
-		return {
-			x: 0,
-			y: 0
-		};
+		var center = this.map.latLngToPixels(this.settings.center);
+		
+		return center;
 	}
 		
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getWorldOriginOffset = function()
@@ -80,5 +74,21 @@
 	{
 		return 100;
 	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.destroy = function()
+	{
+		$(this.canvas).remove();
+		
+		this.map.olMap.off("postrender", this.renderFunction);
+		this.map = null;
+		this.canvas = null;
+	}
+	
+	$(window).on("load", function(event) {
+		
+		$("#addressInput").val("Bristol, UK");
+		$(".wpgmza_sl_search_button").click();
+		
+	});
 	
 })(jQuery);

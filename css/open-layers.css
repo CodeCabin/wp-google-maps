@@ -62,6 +62,7 @@
 	bottom: 0px;
 	transform: translateX(-50%);
 	max-width: none;
+	z-index: 2;
 }
 
 .ol-marker[data-anim='bounce']>img
@@ -131,4 +132,28 @@
 	.wpgmza-pro-info-window-container
 {
 	z-index: 999999;
+}
+
+.wpgmza_map, #wpgmza_map
+{
+	position: relative;
+}
+
+.wpgmza-ol-canvas-overlay
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-modern-store-locator,
+	#wpgmza_map[data-maps-engine="open-layers"] .wpgmza-modern-store-locator
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	max-width: 100% !important;
 }
