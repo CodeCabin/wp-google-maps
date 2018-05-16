@@ -189,45 +189,19 @@
 		this.testCircle.setCenter(settings.center);
 		this.testCircle.setRadius(settings.radius * 1000);*/
 		
-        /* We need to scale and translate the map for current view.
-         * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
-         */
-		// TODO: Remove this
-		//var mapProjection = map.googleMap.getProjection();
-		//var canvasLayer = this.canvasLayer;
-		
-        /**
-         * Clear transformation from last update by setting to identity matrix.
-         * Could use context.resetTransform(), but most browsers don't support
-         * it yet.
-         */
+        // Reset transform
         context.setTransform(1, 0, 0, 1, 0, 0);
         
-        // scale is just 2^zoom
-        // If canvasLayer is scaled (with resolutionScale), we need to scale by
-        // the same amount to account for the larger canvas.
-        //var scale = Math.pow(2, map.getZoom()) * resolutionScale;
-        //context.scale(scale, scale);
-		var scale = 1;
+        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        context.scale(scale, scale);
 
-        /* If the map was not translated, the topLeft corner would be 0,0 in
-         * world coordinates. Our translation is just the vector from the
-         * world coordinate of the topLeft corder to 0,0.
-         */
-        
-		// TODO: Re-enable for google
-		//var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
-        //context.translate(-offset.x, -offset.y);
-		
+		// Translate by world origin
 		var offset = this.getWorldOriginOffset();
 		context.translate(offset.x, offset.y);
 
-        // project rectLatLng to world coordinates and draw
+        // Get center and project to pixel space
 		var center = new WPGMZA.LatLng(this.settings.center);
-        //var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
 		var worldPoint = this.getCenterPixels();
-		
-		console.log(worldPoint);
 		
 		var rgba = WPGMZA.hexToRgba(settings.color);
 		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);

@@ -110,7 +110,7 @@
 		return result;
 	}
 	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
 		return {
 			width: this.canvasLayer.canvas.width,
@@ -139,6 +139,11 @@
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
 		return this.canvasLayer.canvas.getContext("2d");
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getScale = function()
+	{
+		return Math.pow(2, this.map.getZoom()) * this.getResolutionScale();
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setVisible = function(visible)
