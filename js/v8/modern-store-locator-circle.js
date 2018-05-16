@@ -24,31 +24,7 @@
 			width:  $(this.mapElement).width(),
 			height: $(this.mapElement).height()
 		};
-		
-		setInterval(function() {
 			
-			var mapSize = {
-				width: $(self.mapElement).width(),
-				height: $(self.mapElement).height()
-			};
-			
-			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
-				return;
-			
-			self.canvasLayer.resize_();
-			self.canvasLayer.draw();
-			
-			self.mapSize = mapSize;
-			
-		}, 1000);
-		
-		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
-			
-			self.canvasLayer.resize_();
-			self.canvasLayer.draw();
-			
-		});
-		
 		this.initCanvasLayer();
 		
 		this.settings = {
@@ -149,7 +125,6 @@
 			throw new Error("Invalid radius");
 		
 		this.settings.radius = radius;
-		this.canvasLayer.scheduleUpdate();
 	};
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
@@ -158,42 +133,39 @@
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
 		this.settings.visible = visible;
-		this.canvasLayer.scheduleUpdate();
 	};
 	
 	/**
 	 * This function transforms a km radius into canvas space
 	 * @return number
 	 */
-	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km) {
-		
-	};
+	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
+	{
+		throw new Error("Abstract function called");
+	}
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
-		
+		throw new Error("Abstract function called");
 	}
 	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function() {
-		
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	{
+		throw new Error("Abstract function called");
 	}
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
-		// clear previous canvas contents
 		
-		// TODO: Move this. It won't work in OL
-		
-		var canvasLayer = this.canvasLayer;
 		var settings = this.settings;
+		var canvasDimensions = this.getCanvasDimensions();
 		
-        var canvasWidth = canvasLayer.canvas.width;
-        var canvasHeight = canvasLayer.canvas.height;
+        var canvasWidth = canvasDimensions.width;
+        var canvasHeight = canvasDimensions.height;
 		
 		var map = this.map;
 		var resolutionScale = this.getResolutionScale();
 		
-		context = /*canvasLayer.canvas.getContext('webgl') ||*/ canvasLayer.canvas.getContext('2d');
-		
+		context = this.getContext("2d");
         context.clearRect(0, 0, canvasWidth, canvasHeight);
 
 		if(!settings.visible)
@@ -220,8 +192,10 @@
         /* We need to scale and translate the map for current view.
          * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
          */
-        var mapProjection = map.googleMap.getProjection();
-
+		// TODO: Remove this
+		//var mapProjection = map.googleMap.getProjection();
+		var canvasLayer = this.canvasLayer;
+		
         /**
          * Clear transformation from last update by setting to identity matrix.
          * Could use context.resetTransform(), but most browsers don't support
@@ -239,12 +213,18 @@
          * world coordinates. Our translation is just the vector from the
          * world coordinate of the topLeft corder to 0,0.
          */
-        var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
-        context.translate(-offset.x, -offset.y);
+        
+		//var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
+        //context.translate(-offset.x, -offset.y);
+		
+		var offset = this.getWorldOriginOffset();
+		context.translate(offset.x, offset.y);
 
         // project rectLatLng to world coordinates and draw
 		var center = new WPGMZA.LatLng(this.settings.center);
-        var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+        //var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+		var worldPoint = this.getCenterPixels();
+		
 		var rgba = WPGMZA.hexToRgba(settings.color);
 		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
 		

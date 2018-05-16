@@ -738,9 +738,7 @@ MYMAP.init = function(selector, latLng, zoom) {
     this.map.on('zoom_changed', function() {
 
         zoomLevel = MYMAP.map.getZoom();
-		
-		console.log(zoomLevel);
-
+	
         jQuery("#wpgmza_start_zoom").val(zoomLevel);
         
         if (zoomLevel == 0 && WPGMZA.settings.engine == "google-maps") {
@@ -766,18 +764,24 @@ MYMAP.init = function(selector, latLng, zoom) {
         }
     }
     if (wpgmaps_localize[wpgmaps_mapid]['bicycle'] === "1") {
-        var bikeLayer = new google.maps.BicyclingLayer();
-        bikeLayer.setMap(MYMAP.map);
+		MYMAP.map.enableBicycleLayer(true);
+		
+        //var bikeLayer = new google.maps.BicyclingLayer();
+        //bikeLayer.setMap(MYMAP.map);
     }        
-    if (wpgmaps_localize[wpgmaps_mapid]['traffic'] === "1") {
-        var trafficLayer = new google.maps.TrafficLayer();
-        trafficLayer.setMap(MYMAP.map);
-    }    
-    
-    if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] === 1) {
-        var transitLayer = new google.maps.TransitLayer();
-        transitLayer.setMap(MYMAP.map);
-    }   
+	
+	if(WPGMZA.settings.engine == "google")
+	{
+		if (wpgmaps_localize[wpgmaps_mapid]['traffic'] === "1") {
+			var trafficLayer = new google.maps.TrafficLayer();
+			trafficLayer.setMap(MYMAP.map);
+		}    
+
+		if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['transport_layer'] === 1) {
+			var transitLayer = new google.maps.TransitLayer();
+			transitLayer.setMap(MYMAP.map);
+		}
+	}	
     
 	if(window.wpgmza_circle_data_array) {
 		window.circle_array = [];

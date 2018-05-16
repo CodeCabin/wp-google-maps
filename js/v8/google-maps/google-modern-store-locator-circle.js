@@ -7,7 +7,33 @@
 	
 	WPGMZA.GoogleModernStoreLocatorCircle = function(map, settings)
 	{
+		var self = this;
+		
 		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
+		
+		this.intervalID = setInterval(function() {
+			
+			var mapSize = {
+				width: $(self.mapElement).width(),
+				height: $(self.mapElement).height()
+			};
+			
+			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
+				return;
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+			self.mapSize = mapSize;
+			
+		}, 1000);
+		
+		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+		});
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
@@ -50,6 +76,13 @@
 		this.canvasLayer.scheduleUpdate();
 	}
 	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setRadius = function(radius)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setRadius.call(this, radius);
+		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
 	{
 		var multiplierAtEquator = 0.006395;
@@ -79,12 +112,48 @@
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
+		return {
+			width: this.canvasLayer.canvas.width,
+			height: this.canvasLayer.canvas.height
+		};
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getWorldOriginOffset = function()
+	{
+		var projection = this.map.googleMap.getProjection();
+		var position = projection.fromLatLngToPoint(this.canvasLayer.getTopLeft());
 		
+		return {
+			x: -position.x,
+			y: -position.y
+		};
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getCenterPixels = function()
+	{
+		var center = new WPGMZA.LatLng(this.settings.center);
+		var projection = this.map.googleMap.getProjection();
+		return projection.fromLatLngToPoint(center.toGoogleLatLng());
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
+		return this.canvasLayer.canvas.getContext("2d");
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setVisible = function(visible)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setVisible.call(this, visible);
 		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.destroy = function()
+	{
+		this.canvasLayer.setMap(null);
+		this.canvasLayer = null;
+		
+		clearInterval(this.intervalID);
 	}
 	
 })(jQuery);

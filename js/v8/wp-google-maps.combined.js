@@ -2162,31 +2162,7 @@
 			width:  $(this.mapElement).width(),
 			height: $(this.mapElement).height()
 		};
-		
-		setInterval(function() {
 			
-			var mapSize = {
-				width: $(self.mapElement).width(),
-				height: $(self.mapElement).height()
-			};
-			
-			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
-				return;
-			
-			self.canvasLayer.resize_();
-			self.canvasLayer.draw();
-			
-			self.mapSize = mapSize;
-			
-		}, 1000);
-		
-		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
-			
-			self.canvasLayer.resize_();
-			self.canvasLayer.draw();
-			
-		});
-		
 		this.initCanvasLayer();
 		
 		this.settings = {
@@ -2287,7 +2263,6 @@
 			throw new Error("Invalid radius");
 		
 		this.settings.radius = radius;
-		this.canvasLayer.scheduleUpdate();
 	};
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
@@ -2296,42 +2271,39 @@
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
 		this.settings.visible = visible;
-		this.canvasLayer.scheduleUpdate();
 	};
 	
 	/**
 	 * This function transforms a km radius into canvas space
 	 * @return number
 	 */
-	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km) {
-		
-	};
+	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
+	{
+		throw new Error("Abstract function called");
+	}
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
-		
+		throw new Error("Abstract function called");
 	}
 	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function() {
-		
+	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	{
+		throw new Error("Abstract function called");
 	}
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
-		// clear previous canvas contents
 		
-		// TODO: Move this. It won't work in OL
-		
-		var canvasLayer = this.canvasLayer;
 		var settings = this.settings;
+		var canvasDimensions = this.getCanvasDimensions();
 		
-        var canvasWidth = canvasLayer.canvas.width;
-        var canvasHeight = canvasLayer.canvas.height;
+        var canvasWidth = canvasDimensions.width;
+        var canvasHeight = canvasDimensions.height;
 		
 		var map = this.map;
 		var resolutionScale = this.getResolutionScale();
 		
-		context = /*canvasLayer.canvas.getContext('webgl') ||*/ canvasLayer.canvas.getContext('2d');
-		
+		context = this.getContext("2d");
         context.clearRect(0, 0, canvasWidth, canvasHeight);
 
 		if(!settings.visible)
@@ -2358,8 +2330,10 @@
         /* We need to scale and translate the map for current view.
          * see https://developers.google.com/maps/documentation/javascript/maptypes#MapCoordinates
          */
-        var mapProjection = map.googleMap.getProjection();
-
+		// TODO: Remove this
+		//var mapProjection = map.googleMap.getProjection();
+		var canvasLayer = this.canvasLayer;
+		
         /**
          * Clear transformation from last update by setting to identity matrix.
          * Could use context.resetTransform(), but most browsers don't support
@@ -2377,12 +2351,18 @@
          * world coordinates. Our translation is just the vector from the
          * world coordinate of the topLeft corder to 0,0.
          */
-        var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
-        context.translate(-offset.x, -offset.y);
+        
+		//var offset = mapProjection.fromLatLngToPoint(canvasLayer.getTopLeft());
+        //context.translate(-offset.x, -offset.y);
+		
+		var offset = this.getWorldOriginOffset();
+		context.translate(offset.x, offset.y);
 
         // project rectLatLng to world coordinates and draw
 		var center = new WPGMZA.LatLng(this.settings.center);
-        var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+        //var worldPoint = mapProjection.fromLatLngToPoint(center.toGoogleLatLng());
+		var worldPoint = this.getCenterPixels();
+		
 		var rgba = WPGMZA.hexToRgba(settings.color);
 		var ringSpacing = this.getTransformedRadius(settings.radius) / (settings.numInnerRings + 1);
 		
@@ -3505,8 +3485,8 @@
 	{
 		var map = this.googleMap;
 		var nativeLatLng = new google.maps.LatLng({
-			lat: latLng.lat,
-			lng: latLng.lng
+			lat: parseFloat(latLng.lat),
+			lng: parseFloat(latLng.lng)
 		});
 		var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
 		var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
@@ -3716,7 +3696,33 @@
 	
 	WPGMZA.GoogleModernStoreLocatorCircle = function(map, settings)
 	{
+		var self = this;
+		
 		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
+		
+		this.intervalID = setInterval(function() {
+			
+			var mapSize = {
+				width: $(self.mapElement).width(),
+				height: $(self.mapElement).height()
+			};
+			
+			if(mapSize.width == self.mapSize.width && mapSize.height == self.mapSize.height)
+				return;
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+			self.mapSize = mapSize;
+			
+		}, 1000);
+		
+		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+			
+			self.canvasLayer.resize_();
+			self.canvasLayer.draw();
+			
+		});
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
@@ -3759,6 +3765,13 @@
 		this.canvasLayer.scheduleUpdate();
 	}
 	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setRadius = function(radius)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setRadius.call(this, radius);
+		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
 	{
 		var multiplierAtEquator = 0.006395;
@@ -3788,12 +3801,48 @@
 	
 	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
+		return {
+			width: this.canvasLayer.canvas.width,
+			height: this.canvasLayer.canvas.height
+		};
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getWorldOriginOffset = function()
+	{
+		var projection = this.map.googleMap.getProjection();
+		var position = projection.fromLatLngToPoint(this.canvasLayer.getTopLeft());
 		
+		return {
+			x: -position.x,
+			y: -position.y
+		};
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getCenterPixels = function()
+	{
+		var center = new WPGMZA.LatLng(this.settings.center);
+		var projection = this.map.googleMap.getProjection();
+		return projection.fromLatLngToPoint(center.toGoogleLatLng());
 	}
 	
 	WPGMZA.GoogleModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
+		return this.canvasLayer.canvas.getContext("2d");
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.setVisible = function(visible)
+	{
+		WPGMZA.ModernStoreLocatorCircle.prototype.setVisible.call(this, visible);
 		
+		this.canvasLayer.scheduleUpdate();
+	}
+	
+	WPGMZA.GoogleModernStoreLocatorCircle.prototype.destroy = function()
+	{
+		this.canvasLayer.setMap(null);
+		this.canvasLayer = null;
+		
+		clearInterval(this.intervalID);
 	}
 	
 })(jQuery);
@@ -4780,7 +4829,7 @@
 		{
 			if(!this.bicycleLayer)
 				this.bicycleLayer = new ol.layer.Tile({
-					source: new ol.source.OL({
+					source: new ol.source.OSM({
 						url: "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png"
 					})
 				});
@@ -5010,11 +5059,79 @@
 	WPGMZA.OLModernStoreLocatorCircle = function(map, settings)
 	{
 		WPGMZA.ModernStoreLocatorCircle.call(this, map, settings);
+		
+		
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype = Object.create(WPGMZA.ModernStoreLocatorCircle.prototype);
 	WPGMZA.OLModernStoreLocatorCircle.prototype.constructor = WPGMZA.OLModernStoreLocatorCircle;
- 
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.initCanvasLayer = function()
+	{
+		var self = this;
+		
+		this.canvas = document.createElement("canvas");
+		
+		if(this.layer)
+			this.map.olMap.removeLayer(this.layer);
+		
+		this.layer = new ol.layer.Image({
+			source: new ol.source.ImageCanvas({
+				canvasFunction: function(extent, resolution, pixelRatio, size, projection) {
+					
+					if(!self.canvasDimensions || !self.canvasDimensions.width == size[0] || !self.canvasDimensions.height == size[1])
+					{
+						self.canvasDimensions = {
+							width: size[0],
+							height: size[1]
+						};
+						$(self.canvas).css({
+							width: (size[0] / pixelRatio) + "px",
+							height: (size[1] / pixelRatio) + "px"
+						});
+					}
+					
+					self.draw();
+					
+				},
+				projection: "EPSG:3857"
+			})
+		});
+		
+		this.map.olMap.addLayer(this.layer);
+	}
+
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getContext = function(type)
+	{
+		return this.canvas.getContext(type);
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
+	{
+		return this.canvasDimensions;
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getCenterPixels = function()
+	{
+		return {
+			x: 0,
+			y: 0
+		};
+	}
+		
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getWorldOriginOffset = function()
+	{
+		return {
+			x: 0,
+			y: 0
+		};
+	}
+	
+	WPGMZA.OLModernStoreLocatorCircle.prototype.getTransformedRadius = function()
+	{
+		return 100;
+	}
+	
 })(jQuery);
 
 // js/v8/open-layers/ol-modern-store-locator.js
@@ -5027,7 +5144,16 @@
 	
 	WPGMZA.OLModernStoreLocator = function(map_id)
 	{
+		var element;
+		
 		WPGMZA.ModernStoreLocator.call(this, map_id);
+		
+		if(WPGMZA.isProVersion())
+			element = $(".wpgmza_map[data-map-id='" + map_id + "']");
+		else
+			element = $("#wpgmza_map");
+		
+		element.append(this.element);
 	}
 	
 	WPGMZA.OLModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator);
