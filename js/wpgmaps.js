@@ -239,6 +239,7 @@ MYMAP.init = function(selector, latLng, zoom) {
 	var element = jQuery(selector)[0];
 	
 	element.setAttribute("data-map-id", 1);
+	element.setAttribute("data-maps-engine", WPGMZA.settings.engine);
 	this.map = WPGMZA.Map.createInstance(element, myOptions);
     this.bounds = new WPGMZA.LatLngBounds();
 

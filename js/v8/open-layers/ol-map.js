@@ -18,8 +18,6 @@
 		
 		var viewOptions = this.settings.toOLViewOptions();
 		
-		console.log(viewOptions);
-		
 		$(this.element).html("");
 		
 		this.olMap = new ol.Map({
@@ -391,7 +389,7 @@
 	
 	WPGMZA.OLMap.prototype.onRightClick = function(event)
 	{
-		if($(event.target).closest(".ol-marker, .wpgmza_modern_infowindow").length)
+		if($(event.target).closest(".ol-marker, .wpgmza_modern_infowindow, .wpgmza-modern-store-locator").length)
 			return true;
 		
 		var parentOffset = $(this.element).offset();

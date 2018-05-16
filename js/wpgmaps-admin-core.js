@@ -205,6 +205,7 @@
             var myLatLng = new WPGMZA.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat ,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
 			
 			$("#wpgmza_map").attr("data-map-id", "1");
+			$("#wpgmza_map").attr("data-maps-engine", WPGMZA.settings.engine);
 			
             MYMAP.init('#wpgmza_map', myLatLng, parseInt(wpgmaps_localize[wpgmaps_mapid].map_start_zoom));
             UniqueCode=Math.round(Math.random()*10000);

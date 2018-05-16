@@ -79,4 +79,34 @@
 		});
 	}
 	
+	/**
+	 * @function moveByDistance
+	 * @summary Moves this latLng by the specified kilometers along the given heading
+	 * @return void
+	 * With many thanks to Hu Kenneth - https://gis.stackexchange.com/questions/234473/get-a-lonlat-point-by-distance-or-between-2-lonlat-points
+	 */
+	WPGMZA.LatLng.prototype.moveByDistance = function(kilometers, heading)
+	{
+		var radius 		= 6371;
+		
+		var delta 		= parseFloat(kilometers) / radius;
+		var theta 		= parseFloat(heading) / 180 * Math.PI;
+		
+		var phi1 		= this.lat / 180 * Math.PI;
+		var lambda1 	= this.lng / 180 * Math.PI;
+		
+		var sinPhi1 	= Math.sin(phi1), cosPhi1 = Math.cos(phi1);
+		var sinDelta	= Math.sin(delta), cosDelta = Math.cos(delta);
+		var sinTheta	= Math.sin(theta), cosTheta = Math.cos(theta);
+		
+		var sinPhi2		= sinPhi1 * cosDelta + cosPhi1 * sinDelta * cosTheta;
+		var phi2		= Math.asin(sinPhi2);
+		var y			= sinTheta * sinDelta * cosPhi1;
+		var x			= cosDelta - sinPhi1 * sinPhi2;
+		var lambda2		= lambda1 + Math.atan2(y, x);
+		
+		this.lat		= phi2 * 180 / Math.PI;
+		this.lng		= lambda2 * 180 / Math.PI;
+	}
+	
 })(jQuery);
