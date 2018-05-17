@@ -4447,7 +4447,7 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                    </td>";
             $ret .= "                </tr>";
 			
-			$use_fontawesome = (isset($wpgmza_settings['use_fontawesome']) ? $wpgmza_settings['use_fontawesome'] : '5.*');
+			$use_fontawesome = (isset($wpgmza_settings['use_fontawesome']) ? $wpgmza_settings['use_fontawesome'] : '4.*');
 			$use_fontawesome_5_selected		= ($use_fontawesome == '5.*' ? 'selected="selected"' : '');
 			$use_fontawesome_4_selected		= ($use_fontawesome == '4.*' ? 'selected="selected"' : '');
 			$use_fontawesome_none_selected	= ($use_fontawesome == 'none' ? 'selected="selected"' : '');
@@ -6123,6 +6123,9 @@ function wpgmaps_admin_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-slider');
+	
+	global $wpgmza;
+	$wpgmza->loadScripts();
 
     $wpgmza_lang_strings = array(
         "wpgm_copy_string" => __("Copied to clipboard","wp-google-maps")
