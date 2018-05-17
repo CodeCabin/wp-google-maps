@@ -101,10 +101,13 @@ class Plugin
 	
 	public function getLocalizedData()
 	{
+		$strings = new Strings();
+		
 		return apply_filters('wpgmza_plugin_get_localized_data', array(
-			'ajaxurl' 		=> admin_url('admin-ajax.php'),
-			'settings' 		=> $this->settings,
-			'_isProVersion'	=> $this->isProVersion()
+			'ajaxurl' 			=> admin_url('admin-ajax.php'),
+			'settings' 			=> $this->settings,
+			'localized_strings'	=> $strings->getLocalizedStrings(),
+			'_isProVersion'		=> $this->isProVersion()
 		));
 	}
 	

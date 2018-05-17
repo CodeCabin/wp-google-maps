@@ -158,8 +158,6 @@
 			left: 	"0px"
 		});
 		
-		console.log(offset);
-		
 		var currentLatLng 		= this.getPosition();
 		var pixelsBeforeDrag 	= this.map.latLngToPixels(currentLatLng);
 		var pixelsAfterDrag		= {

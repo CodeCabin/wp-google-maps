@@ -245,13 +245,14 @@ class GoogleMapsAPILoader
 	
 	public function getSettingsHTML()
 	{
+		// Load our subclass of PHPs DOMDocument, for the populate function
 		require_once(plugin_dir_path(__FILE__) . 'class.dom-document.php');
 		
 		// Load HTML
 		$document = new DOMDocument();
 		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/google-maps-api-settings.html.php');
 		
-		// Populate options
+		// Populate options. This is a quick way to put key => value array/object values into elements with "name" matching "key"
 		$document->populate(GoogleMapsAPILoader::$settings);
 		
 		return $document->saveInnerBody();

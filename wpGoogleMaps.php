@@ -3039,10 +3039,19 @@ function wpgmza_settings_page_post()
 	);
 	
 	foreach($checkboxes as $name) {
+		$remap = $name;
+		
+		switch($name)
+		{
+			case 'wpgmza_developer_mode':
+				$remap = preg_replace('/^wpgmza_/', '', $name);
+				break;
+		}
+		
 		if(!empty($_POST[$name]))
-			$wpgmza_data[$name] = sanitize_text_field( $_POST[$name] );
-		else if(isset($wpgmza_data[$name]))
-			unset($wpgmza_data[$name]);
+			$wpgmza_data[$remap] = sanitize_text_field( $_POST[$name] );
+		else if(isset($wpgmza_data[$remap]))
+			unset($wpgmza_data[$remap]);
 	}
 	
 	if(isset($_POST['wpgmza_load_google_maps_api_condition']))

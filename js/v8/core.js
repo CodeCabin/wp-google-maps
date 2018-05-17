@@ -94,6 +94,21 @@
 		},
 		
 		/**
+		 * @function stringToLatLng
+		 * @summary Utility function returns a latLng literal given a valid latLng string
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {object} LatLng literal
+		 */
+		isHexColorString: function(str)
+		{
+			if(typeof str != "string")
+				return false;
+			
+			return (str.match(/#[0-9A-F]{6}/i) ? true : false);
+		},
+		
+		/**
 		 * @function getImageDimensions
 		 * @summary Utility function to get the dimensions of an image, caches results for best performance
 		 * @param src {string} Image source URL
@@ -332,13 +347,7 @@
 		WPGMZA[key] = value;
 	}
 	
-	/*for(var key in WPGMZA_localized_data)
-		WPGMZA[key] = WPGMZA_localized_data[key];
-
 	$(document).ready(function(event) {
-		// Datatables to throw errors
-		if($.fn.dataTable)
-			$.fn.dataTable.ext.errMode = 'throw';
 		
 		// Combined script warning
 		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
@@ -352,68 +361,19 @@
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
 	
-		// Disable map edit page preloader in developer more
-		if(WPGMZA.isDeveloperMode())
-			$("#wpgmza-map-edit-page form.wpgmza").show();
+	});
 	
-		// Shortcode boxes
-		$(".wpgmza_copy_shortcode").on("click", function() {
-			var temp = $("<input>");
-			var temp2 = $('<div id="wpgmza_tmp" style="display: none;" width:100%; text-align:center;"/>');
-			$(document.body).append(temp);
-			temp.val($(this).val()).select();
-			document.execCommand("copy");
-			temp.remove();
-			$(this).after(temp2);
-			$(temp2).html(
-				$("[data-shortcode-copy-string]").attr("data-shortcode-copy-string")
-			);
-			$(temp2).fadeIn();
-			setTimeout(function() {
-				$(temp2).fadeOut();
-			}, 1000);
-			setTimeout(function() {
-				$(temp2).remove();
-			}, 1500);
-		});
-		
-		// Fancy switches
-		// $("form.wpgmza .cmn-toggle").each(function(index, el) {
-		// 	
-		// 	$(el).wrap("<div class='switch'/>");
-		// 	$(el).after("<label for=""/>")
-		// 	
-		// });
-		
-		$("form.wpgmza").on("click", ".switch label", function(event) {
-			var input = $(this).prev(".cmn-toggle");
-			
-			if(input.prop("disabled"))
-				return;
-			
-			var val = !input.prop("checked");
-			
-			input.prop("checked", val);
-			
-			if(val)
-				input.attr("checked", "checked");
-			else
-				input.removeAttr("checked");
-			
-			input.trigger("change");
-		});
+	$(window).on("load", function(event) {
 		
 		// Geolocation warnings
 		if(window.location.protocol != 'https:')
 		{
-			var warning = '<span class="notice notice-warning">' + WPGMZA.localized_strings.unsecure_geolocation + "</span>";
+			var warning = '<div class="notice notice-warning"><p>' + WPGMZA.localized_strings.unsecure_geolocation + "</p></div>";
 			
-			$(".wpgmza-geolocation-setting").after(
-				$(warning)
-			);
+			$(".wpgmza-geolocation-setting").each(function(index, el) {
+				$(el).after( $(warning) );
+			});
 		}
 		
-		// Switch off thanks for feedback message
-		document.cookie = "wpgmza_feedback_thanks=false; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-	});*/
+	});
 })(jQuery);

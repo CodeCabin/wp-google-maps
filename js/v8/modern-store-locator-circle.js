@@ -154,7 +154,15 @@
 		throw new Error("Abstract function called");
 	}
 	
+	WPGMZA.ModernStoreLocatorCircle.prototype.validateSettings = function()
+	{
+		if(!WPGMZA.isHexColorString(this.settings.color))
+			this.settings.color = "#63AFF2";
+	}
+	
 	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
+		
+		this.validateSettings();
 		
 		var settings = this.settings;
 		var canvasDimensions = this.getCanvasDimensions();
@@ -192,7 +200,7 @@
         // Reset transform
         context.setTransform(1, 0, 0, 1, 0, 0);
         
-        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        var scale = this.getScale();
         context.scale(scale, scale);
 
 		// Translate by world origin
