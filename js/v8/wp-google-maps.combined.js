@@ -96,6 +96,21 @@
 		},
 		
 		/**
+		 * @function stringToLatLng
+		 * @summary Utility function returns a latLng literal given a valid latLng string
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {object} LatLng literal
+		 */
+		isHexColorString: function(str)
+		{
+			if(typeof str != "string")
+				return false;
+			
+			return (str.match(/#[0-9A-F]{6}/i) ? true : false);
+		},
+		
+		/**
 		 * @function getImageDimensions
 		 * @summary Utility function to get the dimensions of an image, caches results for best performance
 		 * @param src {string} Image source URL
@@ -334,13 +349,7 @@
 		WPGMZA[key] = value;
 	}
 	
-	/*for(var key in WPGMZA_localized_data)
-		WPGMZA[key] = WPGMZA_localized_data[key];
-
 	$(document).ready(function(event) {
-		// Datatables to throw errors
-		if($.fn.dataTable)
-			$.fn.dataTable.ext.errMode = 'throw';
 		
 		// Combined script warning
 		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
@@ -354,70 +363,21 @@
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
 	
-		// Disable map edit page preloader in developer more
-		if(WPGMZA.isDeveloperMode())
-			$("#wpgmza-map-edit-page form.wpgmza").show();
+	});
 	
-		// Shortcode boxes
-		$(".wpgmza_copy_shortcode").on("click", function() {
-			var temp = $("<input>");
-			var temp2 = $('<div id="wpgmza_tmp" style="display: none;" width:100%; text-align:center;"/>');
-			$(document.body).append(temp);
-			temp.val($(this).val()).select();
-			document.execCommand("copy");
-			temp.remove();
-			$(this).after(temp2);
-			$(temp2).html(
-				$("[data-shortcode-copy-string]").attr("data-shortcode-copy-string")
-			);
-			$(temp2).fadeIn();
-			setTimeout(function() {
-				$(temp2).fadeOut();
-			}, 1000);
-			setTimeout(function() {
-				$(temp2).remove();
-			}, 1500);
-		});
-		
-		// Fancy switches
-		// $("form.wpgmza .cmn-toggle").each(function(index, el) {
-		// 	
-		// 	$(el).wrap("<div class='switch'/>");
-		// 	$(el).after("<label for=""/>")
-		// 	
-		// });
-		
-		$("form.wpgmza").on("click", ".switch label", function(event) {
-			var input = $(this).prev(".cmn-toggle");
-			
-			if(input.prop("disabled"))
-				return;
-			
-			var val = !input.prop("checked");
-			
-			input.prop("checked", val);
-			
-			if(val)
-				input.attr("checked", "checked");
-			else
-				input.removeAttr("checked");
-			
-			input.trigger("change");
-		});
+	$(window).on("load", function(event) {
 		
 		// Geolocation warnings
 		if(window.location.protocol != 'https:')
 		{
-			var warning = '<span class="notice notice-warning">' + WPGMZA.localized_strings.unsecure_geolocation + "</span>";
+			var warning = '<div class="notice notice-warning"><p>' + WPGMZA.localized_strings.unsecure_geolocation + "</p></div>";
 			
-			$(".wpgmza-geolocation-setting").after(
-				$(warning)
-			);
+			$(".wpgmza-geolocation-setting").each(function(index, el) {
+				$(el).after( $(warning) );
+			});
 		}
 		
-		// Switch off thanks for feedback message
-		document.cookie = "wpgmza_feedback_thanks=false; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-	});*/
+	});
 })(jQuery);
 
 // js/v8/distance.js
@@ -2322,7 +2282,15 @@
 		throw new Error("Abstract function called");
 	}
 	
+	WPGMZA.ModernStoreLocatorCircle.prototype.validateSettings = function()
+	{
+		if(!WPGMZA.isHexColorString(this.settings.color))
+			this.settings.color = "#63AFF2";
+	}
+	
 	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
+		
+		this.validateSettings();
 		
 		var settings = this.settings;
 		var canvasDimensions = this.getCanvasDimensions();
@@ -2360,7 +2328,7 @@
         // Reset transform
         context.setTransform(1, 0, 0, 1, 0, 0);
         
-        var scale = Math.pow(2, map.getZoom()) * resolutionScale;
+        var scale = this.getScale();
         context.scale(scale, scale);
 
 		// Translate by world origin
@@ -4569,9 +4537,6 @@
 			marker.setVisible(false);
 		}
 		
-		// Cycling layer
-		console.log(this.settings);
-		
 		// Right click listener
 		$(this.element).on("click contextmenu", function(event) {
 			
@@ -5040,8 +5005,6 @@
 			top: 	"0px",
 			left: 	"0px"
 		});
-		
-		console.log(offset);
 		
 		var currentLatLng 		= this.getPosition();
 		var pixelsBeforeDrag 	= this.map.latLngToPixels(currentLatLng);

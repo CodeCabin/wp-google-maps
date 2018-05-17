@@ -449,7 +449,7 @@ class DOMElement extends \DOMElement
 	 * Takes a source object or associative array and optional array of formatting functions, and populates descendant named elements with the values from that source.
 	 * @param mixed $src Associative array or object with the keys and values
 	 * @param array $formatters Optional associative array of functions to format values with. The keys on this array correspond with the keys on $src
-	 * @return \Smart\Element This element
+	 * @return DOMElement This element
 	 */
 	public function populate($src=null, $formatters=null)
 	{
