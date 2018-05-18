@@ -74,6 +74,13 @@
             "wpgmza-event-dispatcher"
         ]
     },
+    "wpgmza-map-settings-page": {
+        "src": "js\/v8\/map-settings-page.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-map-settings": {
         "src": "js\/v8\/map-settings.js",
         "pro": false,

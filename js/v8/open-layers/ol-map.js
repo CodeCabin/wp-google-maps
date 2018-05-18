@@ -23,9 +23,7 @@
 		this.olMap = new ol.Map({
 			target: $(element)[0],
 			layers: [
-				new ol.layer.Tile({
-					source: new ol.source.OSM()
-				})
+				this.getTileLayer()
 			],
 			view: new ol.View(viewOptions)
 		});
@@ -36,11 +34,11 @@
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
 			if(interaction instanceof ol.interaction.DragPan)
-				interaction.setActive( (this.settings.map_draggable ? false : true) );
+				interaction.setActive( (this.settings.wpgmza_settings_map_draggable == "yes" ? false : true) );
 			else if(interaction instanceof ol.interaction.DoubleClickZoom)
-				interaction.setActive( (this.settings.map_clickzoom ? false : true) );
+				interaction.setActive( (this.settings.wpgmza_settings_map_clickzoom ? false : true) );
 			else if(interaction instanceof ol.interaction.MouseWheelZoom)
-				interaction.setActive( (this.settings.map_scroll ? false : true) );
+				interaction.setActive( (this.settings.wpgmza_settings_map_scroll == "yes" ? false : true) );
 			
 		}, this);
 		
@@ -48,12 +46,12 @@
 		this.olMap.getControls().forEach(function(control) {
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
-			if(control instanceof ol.control.Zoom && this.settings.map_zoom)
+			if(control instanceof ol.control.Zoom && WPGMZA.settings.wpgmza_settings_map_zoom == "yes")
 				this.olMap.removeControl(control);
 			
 		}, this);
 		
-		if(!this.settings.map_full_screen_control)
+		if(WPGMZA.settings.wpgmza_settings_map_full_screen_control != "yes")
 			this.olMap.addControl(new ol.control.FullScreen());
 		
 		// Marker layer
@@ -127,6 +125,13 @@
 	
 	WPGMZA.OLMap.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLMap.prototype.constructor = WPGMZA.OLMap;
+	
+	WPGMZA.OLMap.prototype.getTileLayer = function()
+	{
+		return new ol.layer.Tile({
+			source: new ol.source.OSM()
+		});
+	}
 	
 	WPGMZA.OLMap.prototype.wrapLongitude = function()
 	{
