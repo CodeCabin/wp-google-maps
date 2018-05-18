@@ -2,9 +2,6 @@
 
 namespace WPGMZA;
 
-require_once(plugin_dir_path(__FILE__) . 'class.auto-loader.php');
-require_once(plugin_dir_path(__FILE__) . 'class.script-loader.php');
-
 class Plugin
 {
 	const PAGE_MAP_LIST			= "map-list";
@@ -23,9 +20,6 @@ class Plugin
 	
 	public function __construct()
 	{
-		$this->autoLoader = new AutoLoader();
-		$this->autoLoader->registerClassesInPath(__DIR__);
-		
 		$legacy_settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
 		$settings = array(

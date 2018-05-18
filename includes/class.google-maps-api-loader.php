@@ -108,7 +108,7 @@ class GoogleMapsAPILoader
 		wp_register_script('wpgmza_api_call', $url);
 		
 		// Are we always enqueuing?
-		if(!empty($settings['wpgmza_load_google_maps_api_condition']) && $settings['wpgmza_load_google_maps_api_condition'] == 'always')
+		if(!empty($settings['wpgmza_load_engine_api_condition']) && $settings['wpgmza_load_engine_api_condition'] == 'always')
 			$this->enqueueGoogleMaps();
 		
 		// Are we always enqueuing on this page?
@@ -131,10 +131,10 @@ class GoogleMapsAPILoader
 		global $post;
 		$settings = (array)GoogleMapsAPILoader::$settings;
 		
-		if(empty($settings['wpgmza_always_include_google_maps_api_on_pages']))
+		if(empty($settings['wpgmza_always_include_engine_api_on_pages']))
 			return false;
 		
-		if(!preg_match_all('/\d+/', $settings['wpgmza_always_include_google_maps_api_on_pages'], $m))
+		if(!preg_match_all('/\d+/', $settings['wpgmza_always_include_engine_api_on_pages'], $m))
 			return false;
 		
 		if(empty($m[0]))
@@ -149,10 +149,10 @@ class GoogleMapsAPILoader
 	{
 		$settings = (array)GoogleMapsAPILoader::$settings;
 		
-		if(empty($settings['wpgmza_always_exclude_google_maps_api_on_pages']))
+		if(empty($settings['wpgmza_always_exclude_engine_api_on_pages']))
 			return false;
 		
-		if(!preg_match_all('/\d+/', $settings['wpgmza_always_exclude_google_maps_api_on_pages'], $m))
+		if(!preg_match_all('/\d+/', $settings['wpgmza_always_exclude_engine_api_on_pages'], $m))
 			return false;
 			
 		if(empty($m[0]))
@@ -197,8 +197,8 @@ class GoogleMapsAPILoader
 			}
 		}
 			
-		if(!empty($settings['wpgmza_load_google_maps_api_condition']))
-			switch($settings['wpgmza_load_google_maps_api_condition'])
+		if(!empty($settings['wpgmza_load_engine_api_condition']))
+			switch($settings['wpgmza_load_engine_api_condition'])
 			{
 				case 'never':
 					$reason = 'Never load API chosen in settings';

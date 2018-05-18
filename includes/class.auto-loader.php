@@ -4,9 +4,11 @@ namespace WPGMZA;
 
 class AutoLoader
 {
+	protected $filenamesByClass;
+	
 	public function __construct()
 	{
-		
+		 // TODO: Maybe cache these in a JSON object and only refreshin developer mode
 	}
 	
 	/**
@@ -75,16 +77,37 @@ class AutoLoader
 	
 	public function registerClassesInPath($path)
 	{
-		$classes = $this->getClassesInPathByFilename($path);
+		$this->filenamesByClass = array();
+		$classesByFilename = $this->getClassesInPathByFilename($path);
 		
-		foreach($classes as $file => $class)
+		foreach($classesByFilename as $file => $class)
 		{
-			if(empty($class))
-				continue;
-			
-			spl_autoload_register(function($class) use ($file) {
-				require_once $file;
-			});
+			if(!empty($class))
+				$this->filenamesByClass[$class] = $file;
 		}
 	}
+	
+	public function callback($class)
+	{
+		$pattern = "/^(\\\\?)WPGMZA/";
+		
+		if(!preg_match($pattern, $class, $m))
+			return;
+		
+		if(empty($m[1]))
+			$class = '\\' . $class;
+		
+		if(!isset($this->filenamesByClass[$class]))
+			return;
+		
+		$file = $this->filenamesByClass[$class];
+		
+		require_once( $file );
+	}
+	
 }
+
+$wpgmza_auto_loader = new AutoLoader();
+$wpgmza_auto_loader->registerClassesInPath(__DIR__);
+
+spl_autoload_register(array($wpgmza_auto_loader, 'callback'));

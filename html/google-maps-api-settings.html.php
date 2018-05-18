@@ -1,4 +1,4 @@
-<tr>
+<tr data-required-maps-engine='google-maps'>
 	<td>
 		<label><?php _e('Use Google Maps API:', 'wp-google-maps'); ?></label>
 	</td>
@@ -22,12 +22,12 @@
 		</select>
 	</td>
 </tr>
-<tr>
+<tr data-required-maps-engine='google-maps'>
 	<td>
-		<label><?php _e('Load Google Maps API:', 'wp-google-maps'); ?></label>
+		<label><?php _e('Load Maps Engine API:', 'wp-google-maps'); ?></label>
 	</td>
 	<td>
-		<select name="wpgmza_load_google_maps_api_condition">
+		<select name="wpgmza_load_engine_api_condition">
 			<option value="where-required">
 				<?php
 				_e('Where required', 'wp-google-maps');
@@ -58,17 +58,17 @@
 </tr>
 <tr>
 	<td>
-		<label><?php _e('Always include Google Maps API on pages:'); ?></label>
+		<label><?php _e('Always include engine API on pages:'); ?></label>
 	</td>
 	<td>
-		<input name="wpgmza_always_include_google_maps_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
+		<input name="wpgmza_always_include_engine_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
 	</td>
 </tr>
 <tr>
 	<td>
-		<label><?php _e('Always exclude Google Maps API on pages:'); ?></label>
+		<label><?php _e('Always exclude engine API on pages:'); ?></label>
 	</td>
 	<td>
-		<input name="wpgmza_always_exclude_google_maps_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
+		<input name="wpgmza_always_exclude_engine_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
 	</td>
 </tr>
