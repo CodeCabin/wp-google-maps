@@ -81,11 +81,14 @@ class AutoLoader
 	
 	public function registerClassesInPath($path)
 	{
-		// var_dump("Registering classes in $path");
+		global $wpgmza;
+		
+		//$cacheFile = $relative . 'includes/auto-loader-cache.json';
+		//$useCache = empty($wpgmza->settings->developer_mode) && file_exists($cacheFile);
 		
 		$this->filenamesByClass = array();
 		$classesByFilename = $this->getClassesInPathByFilename($path);
-		
+			
 		foreach($classesByFilename as $file => $class)
 		{
 			if(!empty($class))

@@ -2,6 +2,9 @@
 
 namespace codecabin\PluginDeactivationForm;
 
+// NB: GDPR
+return;
+
 if(!is_admin())
 	return;
 

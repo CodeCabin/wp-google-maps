@@ -63,9 +63,12 @@ class WPGMAPS_templates {
                 <div class="feature-section normal clear" >
                     <div class="changelog ">
                     
-                                <?php if ($wpgmza_global_array['code'] != "100") { ?>
+                                <?php if ($wpgmza_global_array['code'] != "100") { 
+								
+								// NB: GDPR
+								?>
                     
-                                <h3 style='margin-top:20px;'><?php _e("How did you find out about us?","wp-google-maps"); ?></h3>
+                                <!--<h3 style='margin-top:20px;'><?php _e("How did you find out about us?","wp-google-maps"); ?></h3>
 
                                 <div class="feature-section normal">
                                     <form action='' method='POST' name='wpgmaps_feedback'>                                            
@@ -94,7 +97,7 @@ class WPGMAPS_templates {
                                     </ul></p>
                                     <input type='submit' name='wpgmza_save_feedback' value='Submit'> 
                                     
-                                </form>
+                                </form>-->
                                 </div>
                                 <?php } else { ?>
                                 <div class="wpgm_notice_message">
