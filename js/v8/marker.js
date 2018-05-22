@@ -83,7 +83,7 @@
 	{
 		var self = this;
 		
-		this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
+		// this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
 		
 		this.addEventListener("click", function(event) {
 			self.onClick(event);
@@ -115,10 +115,9 @@
 	
 	WPGMZA.Marker.prototype.openInfoWindow = function()
 	{
-		this.hidePreviousInteractedInfoWindow();
-		
-		this.infoWindow.open(this.map, this);
-		this.map.lastInteractedMarker = this;
+		//this.hidePreviousInteractedInfoWindow();
+		//this.infoWindow.open(this.map, this);
+		//this.map.lastInteractedMarker = this;
 	}
 	
 	WPGMZA.Marker.prototype.onClick = function(event)

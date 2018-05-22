@@ -797,8 +797,9 @@ MYMAP.init = function(selector, latLng, zoom) {
 	}
 	
 	
-    MYMAP.map.on('click', function() {
-        close_infowindows();
+    MYMAP.map.on('click', function(event) {
+		if(event.target instanceof WPGMZA.Map)
+			close_infowindows();
     });
     
     
@@ -1066,7 +1067,7 @@ function add_marker(marker_data) {
         temp_actiontype = 'mouseover';
     }
 	
-    marker.on("temp_actiontype", function() {
+    marker.on(temp_actiontype, function() {
         close_infowindows();
         infoWindow[marker_data.marker_id].setContent(html);
         infoWindow[marker_data.marker_id].open(marker_data.map, wpgmaps_markers_array[marker_data.marker_id]);

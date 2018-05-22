@@ -13,7 +13,7 @@ class Plugin
 	const PAGE_ADVANCED			= "advanced";
 	const PAGE_CUSTOM_FIELDS	= "custom-fields";
 	
-	private static $enqueueScriptsFired = false;
+	public static $enqueueScriptsFired = false;
 	
 	public $settings;
 	protected $scriptLoader;
