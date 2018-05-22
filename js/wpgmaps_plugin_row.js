@@ -1,6 +1,7 @@
 jQuery(document).ready(function(){
 
-    jQuery("body").on("click", "#wpgmza_signup_newsletter_btn", function() {
+	// NB: GDPR
+    /*jQuery("body").on("click", "#wpgmza_signup_newsletter_btn", function() {
 
         var a_email = jQuery("#wpgmza_signup_newsletter").val();
         jQuery(".wpgmza_sub_div").hide("fast");
@@ -45,5 +46,5 @@ jQuery(document).ready(function(){
 
         });
 
-    });   
+    });   */
 });

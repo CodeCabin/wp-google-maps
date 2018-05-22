@@ -433,6 +433,7 @@ $wpgmza_p_version = "6.19";
 $wpgmza_t = "basic";
 
 require_once(plugin_dir_path(__FILE__) . 'includes/class.auto-loader.php');
+require_once(plugin_dir_path(__FILE__) . 'includes/class.gdpr-compliance.php');
 
 require_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php');
 require_once(plugin_dir_path(__FILE__) . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
@@ -445,8 +446,8 @@ require_once( "base/classes/widget_module.class.php" );
 require_once( "base/includes/deprecated.php" );
 require_once( "includes/compat/backwards_compat_v6.php" );
 
-/* plugin deactivation checks */
-include ( "lib/codecabin/deactivate-feedback-form.php" );
+// NB: GDPR
+/*include ( "lib/codecabin/deactivate-feedback-form.php" );
 add_filter( 'codecabin_deactivate_feedback_form_plugins', 'wpgmaps_deactivation_survey_t2' );
 function wpgmaps_deactivation_survey_t2( $plugins ) {
     global $wpgmza_version;
@@ -456,7 +457,7 @@ function wpgmaps_deactivation_survey_t2( $plugins ) {
     );
 
     return $plugins;
-}
+}*/
 
 if (function_exists('wpgmaps_head_pro' )) {
     add_action( 'admin_head', 'wpgmaps_head_pro' );
@@ -823,13 +824,11 @@ function wpgmza_plugin_action_links( $links ) {
     return $links;
 }
 
-add_action( 'wp_ajax_wpgmza_subscribe','wpgmza_ajax_subscribe');
-add_action( 'wp_ajax_wpgmza_subscribe_hide','wpgmza_ajax_subscribe'); 
-
-
-
+// NB: GDPR
+//add_action( 'wp_ajax_wpgmza_subscribe','wpgmza_ajax_subscribe');
+//add_action( 'wp_ajax_wpgmza_subscribe_hide','wpgmza_ajax_subscribe'); 
 function wpgmza_ajax_subscribe() {
-    $check = check_ajax_referer( 'wpgmza_subscribe', 'security' );
+    /*$check = check_ajax_referer( 'wpgmza_subscribe', 'security' );
     if ( $check == 1 ) {
         if ( $_POST['action'] == 'wpgmza_subscribe' ) {
             $uid = get_current_user_id();
@@ -843,11 +842,12 @@ function wpgmza_ajax_subscribe() {
             echo "1"; 
             die(); 
         }  
-    }
+    }*/
 }
 
-add_action ( 'admin_head', 'wpgmza_plugin_row_js' );
-function wpgmza_plugin_row_js(){
+// NB: GDPR
+/*add_action ( 'admin_head', 'wpgmza_plugin_row_js' );*/
+/*function wpgmza_plugin_row_js(){
     $current_page = get_current_screen();
 
 	if(!is_object($current_page))
@@ -858,19 +858,20 @@ function wpgmza_plugin_row_js(){
         wp_enqueue_script( 'wpgmza_plugin_row_js' );
         wp_localize_script( 'wpgmza_plugin_row_js', 'wpgmza_sub_nonce', wp_create_nonce("wpgmza_subscribe") );
     }
-}
+}*/
 
 
 /**
  * Adds the email subscription field below the plugin row on the plugins page
  * 
  */
-add_filter( 'plugin_row_meta', 'wpgmza_plugin_row', 4, 10 );
+// NB: GDPR
+/*add_filter( 'plugin_row_meta', 'wpgmza_plugin_row', 4, 10 );
 function wpgmza_plugin_row( $plugin_meta, $plugin_file, $plugin_data, $status ) {
 
     if ( $plugin_file == "wp-google-maps/wpGoogleMaps.php") {
         $check = get_user_meta(get_current_user_id(),"wpgmza_subscribed");
-
+		
         if (!$check) {
             $ret = '<div class="wpgmza_sub_div" style="margin-top:10px; color:#333; display:block; white-space:normal;">';
             $ret .= '<form>';
@@ -886,7 +887,7 @@ function wpgmza_plugin_row( $plugin_meta, $plugin_file, $plugin_data, $status ) 
         }
     }
     return $plugin_meta;
-}
+}*/
 
 /**
  * Check if the XML folder exists, if not, display a warning notification

@@ -48,9 +48,12 @@
                 <div class="feature-section normal clear" >
                     <div class="changelog ">
                     
-                                <?php if ($wpgmza_global_array['code'] != "100") { ?>
+                                <?php if ($wpgmza_global_array['code'] != "100") { 
+								
+								// NB: GDPR
+								?>
                     
-                                <h3 style='margin-top:20px;'><?php _e("How did you find out about us?","wp-google-maps"); ?></h3>
+                                <!--<h3 style='margin-top:20px;'><?php _e("How did you find out about us?","wp-google-maps"); ?></h3>
 
                                 <div class="feature-section normal">
                                     <form action='' method='POST' name='wpgmaps_feedback'>                                            
@@ -79,7 +82,7 @@
                                     </ul></p>
                                     <input class='button-primary' type='submit' name='wpgmza_save_feedback' value='<?php _e("Submit and create a map","wp-google-maps"); ?>'> 
                                     
-                                </form>
+                                </form>-->
                                 </div>
                                 <?php } else { ?>
                                 <div class="wpgm_notice_message">
