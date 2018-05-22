@@ -18,6 +18,8 @@ class AutoLoader
 	 */
 	public function getClassesInFile($file)
 	{
+		// var_dump("Getting classes in $file");
+		
 		$fp = fopen($file, 'r');
 		$class = $namespace = $buffer = '';
 		$i = 0;
@@ -60,6 +62,8 @@ class AutoLoader
 	
 	public function getClassesInPathByFilename($path)
 	{
+		// var_dump("Getting classes in $path");
+		
 		$results = array();
 		
 		$dir 	= new \RecursiveDirectoryIterator($path);
@@ -77,6 +81,8 @@ class AutoLoader
 	
 	public function registerClassesInPath($path)
 	{
+		// var_dump("Registering classes in $path");
+		
 		$this->filenamesByClass = array();
 		$classesByFilename = $this->getClassesInPathByFilename($path);
 		

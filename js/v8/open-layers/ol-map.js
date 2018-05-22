@@ -104,6 +104,13 @@
 			else if("button" in event)
 				isRight = event.button == 2;
 			
+			if(event.which == 1 || event.button == 1)
+			{
+				// Left
+				self.trigger("click");
+				return;
+			}
+			
 			if(!isRight)
 				return;
 			
