@@ -4500,6 +4500,7 @@ function wpgmaps_settings_page_basic() {
 			
 			global $wpgmza;
 			$developer_mode_checked = '';
+			
 			if($wpgmza->settings->developer_mode)
 				$developer_mode_checked = 'checked="checked"';
 			
@@ -5125,6 +5126,9 @@ function wpgmza_basic_menu() {
 	$maps_engine_dialog = new WPGMZA\MapsEngineDialog();
 	$maps_engine_dialog_html = $maps_engine_dialog->html();
 	
+	global $wpgmzaGDPRCompliance;
+	$gdpr_privacy_notice_html = $wpgmzaGDPRCompliance->getPrivacyPolicyNoticeHTML();
+	
 	google_maps_api_key_warning();
     echo "
 			$open_layers_feature_unavailable
@@ -5136,6 +5140,9 @@ function wpgmza_basic_menu() {
                 <div class='wide'>
 
                     <h2>".__("Create your Map","wp-google-maps")."</h2>
+					
+					$gdpr_privacy_notice_html
+					
                     <form action='' method='post' id='wpgmaps_options'>
                     
                     <div id=\"wpgmaps_tabs\">

@@ -6,28 +6,42 @@ class GDPRCompliance
 {
 	public function __construct()
 	{
-		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
+		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'));
 		
-		if(empty($wpgmza_other_settings['wpgmza_gdpr_defaults_set']))
-		{
-			$wpgmza_other_settings['wpgmza_gdpr_enabled'] = 1;
-			$wpgmza_other_settings['wpgmza_gdpr_notice'] = __('I agree for my personal data, provided via submission through \'User Generated Markers\', \'WP Google Maps\' Live Tracking app (where applicable), to be processed by {COMPANY_NAME}.
+		add_filter('wpgmza_plugin_get_default_settings', array($this, 'onPluginGetDefaultSettings'));
+		
+		add_action('wp_ajax_wpgmza_gdpr_privacy_policy_notice_dismissed', array($this, 'onPrivacyPolicyNoticeDismissed'));
+	}
+	
+	public function onPluginGetDefaultSettings($settings)
+	{
+		return array_merge($settings, array(
+			'wpgmza_gdpr_enabled'		=> 1,
+			'wpgmza_gdpr_notice'		=> __('I agree for my personal data, provided via submission through \'User Generated Markers\' where applicable, \'WP Google Maps\' Live Tracking app, where applicable, to be processed by {COMPANY_NAME}.
 		
 I agree for my personal data, provided via map API calls, to be processed by the API provider, for the purposes of geocoding (converting addresses to coordinates), reverse geocoding and generating directions.
 
-Data will be stored for {RETENTION_PERIOD} days.
-		
-Currently supported API providers are Google, who\'s policy is outlined here <a href="https://cloud.google.com/security/gdpr/">here</a>, and OpenStreetMap who outline their policy <a href="https://wiki.openstreetmap.org/wiki/GDPR">here</a>.');
+WP Google Maps uses jQuery DataTables to display sortable, searchable tables, such as that seen in the Advanced Marker Listing and on the Map Edit Page. jQuery DataTables in certain circumstances uses a cookie to save and later recall the "state" of a given table - that is, the search term, sort column and order and current page. This data is help in local storage and retained until this is cleared manually. No libraries used by WP Google Maps transmit this information.
 
-			$wpgmza_other_settings['wpgmza_gdpr_retention_purpose'] = 'Map functionality';
+Some visual components of WP Google Maps use 3rd party libraries which are loaded over the network. At present the libraries are Google Maps, Open Street Map, jQuery DataTables and FontAwesome. When loading resources over a network, the 3rd party server will receive your IP address and User Agent string amongst other details. Please refer to the Privacy Policy of the respective libraries for details on how they use data and the process to exercise your rights under the GDPR regulations.
+
+When using the User Generated Marker addon, data will be stored indefinitiely for the following purpose(s): {RETENTION_PURPOSE}'),
 			
-			$wpgmza_other_settings['wpgmza_gdpr_defaults_set'] = 1;
-			
-			update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
-		}
+			'wpgmza_gdpr_retention_purpose' => 'presenting the data you have submitted on the map.'
+		));
+	}
+	
+	public function onPrivacyPolicyNoticeDismissed()
+	{
+		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		$wpgmza_other_settings['privacy_policy_notice_dismissed'] = true;
+		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
 		
-		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
-		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'));
+		wp_send_json(array(
+			'success' => 1
+		));
+		exit;
 	}
 	
 	protected function getSettingsTabContent()
@@ -50,10 +64,29 @@ Currently supported API providers are Google, who\'s policy is outlined here <a 
 		
 		$html = $wpgmza_other_settings['wpgmza_gdpr_notice'];
 		
-		$html = preg_replace('/{COMPANY_NAME}/gi', $wpgmza_other_settings['wpgmza_gdpr_company_name'], $html);
-		$html = preg_replace('/{RETENTION_PERIOD}/gi', $wpgmza_other_settings['wpgmza_gdpr_retention_period_days'], $html);
+		$html = preg_replace('/{COMPANY_NAME}/i', $wpgmza_other_settings['wpgmza_gdpr_company_name'], $html);
+		$html = preg_replace('/{RETENTION_PERIOD}/i', $wpgmza_other_settings['wpgmza_gdpr_retention_period_days'], $html);
+		$html = preg_replace('/{RETENTION_PURPOSE}/i', $wpgmza_other_settings['wpgmza_gdpr_retention_purpose'], $html);
 		
-		return '<input type="checkbox" name="wpgmza_ugm_gdpr_consent" required/> ' . $html;
+		$html = '<input type="checkbox" name="wpgmza_ugm_gdpr_consent" required/> ' . $html;
+		
+		$html = apply_filters('wpgmza_gdpr_notice_html', $html);
+		
+		return $html;
+	}
+	
+	public function getPrivacyPolicyNoticeHTML()
+	{
+		global $wpgmza;
+		
+		if(!empty($wpgmza->settings->privacy_policy_notice_dismissed))
+			return '';
+		
+		return "
+			<div id='wpgmza-gdpr-privacy-policy-notice' class='notice notice-info is-dismissible'>
+				<p>" . __('In light of recent EU GDPR regulation, we strongly recommend reviewing the <a target="_blank" href="https://www.wpgmaps.com/privacy-policy">WP Google Maps Privacy Policy</a>', 'wp-google-maps') . "</p>
+			</div>
+			";
 	}
 	
 	public function onGlobalSettingsTabs()
