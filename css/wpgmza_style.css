@@ -3,6 +3,12 @@
 	text-align: left;
 }
 
+#wpgmza-maps-engine-dialog h1
+{
+	text-align: center;
+	margin-bottom: 1em;
+}
+
 #wpgmza-maps-engine-dialog img
 {
 	display: block;
@@ -16,7 +22,8 @@
 	display: flex;
 }
 
-#wpgmza-maps-engine-dialog .wpgmza-inner>div
+#wpgmza-maps-engine-dialog .wpgmza-inner>div,
+	#wpgmza-maps-engine-dialog .wpgmza-inner label
 {
 	flex: 1;
 	
@@ -24,7 +31,8 @@
 	flex-direction: column;
 }
 
-#wpgmza-maps-engine-dialog .wpgmza-inner>div>div
+#wpgmza-maps-engine-dialog .wpgmza-inner>div>div,
+	#wpgmza-maps-engine-dialog .wpgmza-inner label>div
 {
 	flex-grow: 1;
 }
@@ -32,17 +40,7 @@
 #wpgmza-maps-engine-dialog ul
 {
 	list-style: none;
-	font-weight: bold;
-}
-
-#wpgmza-maps-engine-dialog .wpgmza-pros
-{
-	color: #0a0;
-}
-
-#wpgmza-maps-engine-dialog .wpgmza-cons
-{
-	color: red;
+	/* font-weight: bold; */
 }
 
 #wpgmza-maps-engine-dialog .wpgmza-pros>li:before
@@ -53,6 +51,127 @@
 #wpgmza-maps-engine-dialog .wpgmza-cons>li:before
 {
 	content: "\2718";
+}
+
+/* #wpgmza-maps-engine-dialog h2 */
+/* { */
+	/* width: 30%; */
+/* } */
+
+#wpgmza-maps-engine-dialog h2>img
+{
+	width: 100%;
+	height: auto;
+}
+
+#wpgmza-maps-engine-dialog footer
+{
+	margin: auto;
+	width: 20%;
+}
+
+#wpgmza-maps-engine-dialog footer>img
+{
+	width: 100%;
+	height: auto;
+}
+
+#wpgmza-maps-engine-dialog img.wpgmza-engine-logo
+{
+	width: 75%;
+	height: auto;
+}
+
+#wpgmza-maps-engine-dialog input[type='radio']
+{
+	display: none;
+}
+
+#wpgmza-maps-engine-dialog input[type='radio'] + label
+{
+	/* filter: url("data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'&gt;&lt;filter id=\'grayscale\'&gt;&lt;feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/&gt;&lt;/filter&gt;&lt;/svg&gt;#grayscale"); /* Firefox 10+, Firefox on Android */
+    /* filter: gray; /* IE6-9 */
+	
+    -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+	
+	transition: all 0.5s;
+}
+
+#wpgmza-maps-engine-dialog input[type='radio'] + label:hover,
+	#wpgmza-maps-engine-dialog input[type='radio']:checked + label
+{
+	/* filter: url("data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'&gt;&lt;filter id=\'grayscale\'&gt;&lt;feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/&gt;&lt;/filter&gt;&lt;/svg&gt;#grayscale");*/
+	
+	-webkit-filter: grayscale(0%);
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-mock-radio
+{
+	position: relative;
+	
+	left: -1.3em; /* Compensate for radio button */
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-mock-radio-button
+{
+	display: inline-block;
+	box-sizing: border-box;
+	width: 2em;
+	height: 2em;
+	
+	margin-right: 0.5em;
+	
+	position: top;
+	top: -4px;
+	
+	border: 1px solid #ccc;
+	border-radius: 100%;
+}
+
+#wpgmza-maps-engine-dialog small
+{
+	display: block;
+	text-align: center;
+}
+
+#wpgmza-maps-engine-dialog input[type='radio']:checked + label .wpgmza-mock-radio-button
+{
+	/*width: calc(2em - 1px);
+	height: calc(2em - 1px);*/
+	
+	border: 4px solid white;
+	box-shadow: -1px -1px 0px #ccc,		/* top left */
+				-1px 0px 0px #ccc,		/* top */
+				1px -1px 0px #ccc,		/* top right */
+				1px 0px 0px #ccc,		/* right */
+				1px -1px 0px #ccc,		/* bottom right */
+				0px -1px 0px #ccc,		/* bottom */
+				-1px -1px 0px #ccc,		/* bottom left */
+				-1px 0px 0px #ccc;		/* left */
+	
+	background: #0073AA;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-mock-radio>*
+{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#wpgmza-maps-engine-dialog .wpgmza-mock-radio-label
+{
+	width: 50%;
+	height: auto;
+}
+
+#wpgmza-maps-engine-dialog ul
+{
+	text-align: center;
+}
+
+#wpgmza-maps-engine-dialog button
+{
+	font-size: 1.25em;
 }
 
 .wpgmza-centered

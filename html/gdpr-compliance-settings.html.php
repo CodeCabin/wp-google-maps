@@ -33,18 +33,6 @@
 	</fieldset>
 	
 	<fieldset>
-		<label for="wpgmza_gdpr_retention_period_days">
-			<?php
-			_e('Retention Period', 'wp-google-maps');
-			?>
-		</label>
-		<div>
-			<input name="wpgmza_gdpr_retention_period_days" type="number" min="0" value="30"/> 
-			<?php _e('days', 'wp-google-maps'); ?>
-		</div>
-	</fieldset>
-	
-	<fieldset>
 		<label for="wpgmza_gdpr_notice">
 			<?php
 			_e('GDPR Notice', 'wp-google-maps');

@@ -24,6 +24,16 @@
 			
 		});
 		
+		$(document.body).on("click", "#wpgmza-gdpr-privacy-policy-notice .notice-dismiss", function(event) {
+			
+			$.ajax(WPGMZA.ajaxurl, {
+				data: {
+					action: "wpgmza_gdpr_privacy_policy_notice_dismissed"
+				}
+			})
+			
+		});
+		
 		$("body").on("click",".wpgmza_copy_shortcode", function() {
 			var $temp = $('<input>');
 			var $tmp2 = $('<span id="wpgmza_tmp" style="display:none; width:100%; text-align:center;">');

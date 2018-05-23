@@ -16,18 +16,17 @@ class Plugin
 	public static $enqueueScriptsFired = false;
 	
 	public $settings;
+	
 	protected $scriptLoader;
+	private $legacySettings;
 	
 	public function __construct()
 	{
-		$legacy_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
+		if(!$this->legacySettings)
+			$this->legacySettings = array();
 		
-		$settings = array(
-			'engine' 				=> (empty($legacy_settings['wpgmza_maps_engine']) || $legacy_settings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps'),
-			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
-			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
-			'developer_mode'		=> !empty($legacy_settings['developer_mode'])
-		);
+		$settings = $this->getDefaultSettings();
 		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
@@ -49,10 +48,7 @@ class Plugin
 			});
 		}
 		
-		if(empty($legacy_settings))
-			$legacy_settings = array();
-		
-		$this->settings = (object)array_merge($legacy_settings, $settings);
+		$this->settings = (object)array_merge($this->legacySettings, $settings);
 		
 		add_action('wp_enqueue_scripts', function() {
 			Plugin::$enqueueScriptsFired = true;
@@ -91,6 +87,16 @@ class Plugin
 				$this->scriptLoader->enqueueStyles();
 			});
 		}
+	}
+	
+	public function getDefaultSettings()
+	{
+		return apply_filters('wpgmza_plugin_get_default_settings', array(
+			'engine' 				=> (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps'),
+			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
+			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
+			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
+		));
 	}
 	
 	public function getLocalizedData()

@@ -21,90 +21,133 @@ class MapsEngineDialog
 	{
 		?>
 		<div id="wpgmza-maps-engine-dialog" style="display: none;">
-			<h2>
+			<h1>
 				<?php
 				_e('Choose a maps engine', 'wp-google-maps');
 				?>
-			</h2>
+			</h1>
 			
 			<div class="wpgmza-inner">
 				<div>
-					<div>
-						<h3>
-							<?php
-							_e('OpenLayers', 'wp-google-maps');
-							?>
-						</h3>
+					<input type="radio" 
+						name="wpgmza_maps_engine"
+						id="wpgmza_maps_engine_open-layers"
+						value="open-layers"
+						/>
+					<label for="wpgmza_maps_engine_open-layers">
+						<div>
+							<!--<h3>
+								<?php
+								_e('OpenLayers', 'wp-google-maps');
+								?>
+							</h3>-->
+							
+							<img class="wpgmza-engine-logo" src="<?php echo plugin_dir_url(__DIR__) . 'images/OpenLayers_logo.svg.png'?>"/>
+							
+							<ul class="wpgmza-pros">
+								<li>
+									<?php _e('No billing setup required', 'wp-google-maps'); ?>
+								</li>
+								<li>
+									<?php _e('No API keys required', 'wp-google-maps'); ?>
+								</li>
+							</ul>
+							
+							<ul class="wpgmza-cons">
+								<li>
+									<?php _e('Limited functionality', 'wp-google-maps'); ?>
+								</li>
+							</ul>
+						</div>
 						
-						<img src="<?php echo plugin_dir_url(__DIR__) . 'images/open-street-map.png'?>"/>
+						<!--<p class="wpgmza-centered">
+							<button class="button button-primary" data-maps-engine="open-layers">
+								<?php
+								_e('Use OpenLayers', 'wp-google-maps');
+								?>
+								
+							</button>
+						</p>-->
 						
-						<ul class="wpgmza-pros">
-							<li>
-								<?php _e('Completely free, no billing', 'wp-google-maps'); ?>
-							</li>
-							<li>
-								<?php _e('Instant setup, no keys required', 'wp-google-maps'); ?>
-							</li>
-						</ul>
-						
-						<ul class="wpgmza-cons">
-							<li>
-								<?php _e('No support for custom map themes', 'wp-google-maps'); ?>
-							</li>
-							<li>
-								<?php _e('No out-of-the-box support for directions', 'wp-google-maps'); ?>
-							</li>
-						</ul>
-					</div>
-					
-					<p class="wpgmza-centered">
-						<button class="button button-primary" data-maps-engine="open-layers">
-							<?php
-							_e('Use OpenLayers', 'wp-google-maps');
-							?>
-						</button>
-					</p>
+						<p class="wpgmza-mock-radio wpgmza-centered">
+							<span class="wpgmza-mock-radio-button"></span>
+							<img class="wpgmza-mock-radio-label" 
+								src="<?php echo plugin_dir_url(__DIR__); ?>images/openlayers_logo.png"
+								/>
+						</p>
+					</label>
 				</div>
 				
 				<div>
-					<div>
-						<h3>
-							<?php
-							_e('Google Maps', 'wp-google-maps');
-							?>
-						</h3>
-						
-						<img src="<?php echo plugin_dir_url(__DIR__) . 'images/google-maps.png'?>"/>
-						
-						<ul class="wpgmza-pros">
-							<li>
-								<?php _e('Supports directions', 'wp-google-maps'); ?>
-							</li>
-							<li>
-								<?php _e('Supports custom map themes', 'wp-google-maps'); ?>
-							</li>
-						</ul>
-						
-						<ul class="wpgmza-cons">
-							<li>
-								<?php _e('Requires billing to be set up *', 'wp-google-maps'); ?>
-							</li>
-						</ul>
-						
-						<small>
-							<?php _e('* Card details required, $200 each month free, <a href="https://cloud.google.com/maps-platform/pricing/">more info</a>', 'wp-google-maps'); ?>
-						</small>
-					</div>
+					<input type="radio" 
+						name="wpgmza_maps_engine"
+						id="wpgmza_maps_engine_google-maps"
+						value="google-maps"
+						/>
+					<label for="wpgmza_maps_engine_google-maps">
+						<div>
+							<!--<h3>
+								<?php
+								_e('Google Maps', 'wp-google-maps');
+								?>
+							</h3>-->
+							
+							<img class="wpgmza-engine-logo" src="<?php echo plugin_dir_url(__DIR__) . 'images/icons8-google-maps-500.png'?>"/>
+							
+							<!--<ul class="wpgmza-pros">
+								<li>
+									<?php _e('Full functionality', 'wp-google-maps'); ?>
+								</li>
+							</ul>-->
+							
+							<ul class="wpgmza-cons">
+								<li>
+									<?php _e('Billing setup required *', 'wp-google-maps'); ?>
+								</li>
+								<li>
+									<?php _e('API Key required', 'wp-google-maps'); ?>
+								</li>
+							</ul>
+							
+							<small>
+								<?php _e('* Card details required, $200 each month free, <a href="https://cloud.google.com/maps-platform/pricing/">more info</a>', 'wp-google-maps'); ?>
+							</small>
+						</div>
 					
-					<p class="wpgmza-centered">
-						<button class="button button-primary" data-maps-engine="google-maps">
-							<?php
-							_e('Use Google Maps', 'wp-google-maps');
-							?>
-						</button>
-					</p>
+						<!--<p class="wpgmza-centered">
+							<button class="button button-primary" data-maps-engine="google-maps">
+								<?php
+								_e('Use Google Maps', 'wp-google-maps');
+								?>
+							</button>
+						</p>-->
+						
+						<p class="wpgmza-mock-radio wpgmza-centered">
+							<span class="wpgmza-mock-radio-button"></span>
+							<img class="wpgmza-mock-radio-label" 
+								src="<?php echo plugin_dir_url(__DIR__); ?>images/Google_maps_logo.png"
+								/>
+						</p>
+					</label>
 				</div>
 			</div>
+			
+			<p class="wpgmza-centered">
+				<button class="button button-primary" id="wpgmza-confirm-engine" disabled>
+					<?php
+					_e('Select Engine', 'wp-google-maps');
+					?>
+				</button>
+			</p>
+			
+			<!--<footer>
+				<img src="<?php echo plugin_dir_url(__DIR__); ?>images/WP-google-maps-logo-1-B-transparent.png" 
+					alt="<?php _e('WP Google Maps', 'wp-google-maps'); ?>"
+					/>
+				<img src="<?php echo plugin_dir_url(__DIR__); ?>images/codecabin.png"
+					alt="by CODECABIN_"
+					/>
+			</footer>-->
 		</div>
 		<?php
 	}
