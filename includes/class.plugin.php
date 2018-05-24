@@ -31,7 +31,8 @@ class Plugin
 		// Legacy compatibility
 		global $wpgmza_pro_version;
 		
-		if(!empty($wpgmza_pro_version) && version_compare($wpgmza_pro_version, '7.0', '<'))
+		// TODO: This should be in default settings, this code is duplicaetd
+		if(!empty($wpgmza_pro_version) && version_compare($wpgmza_pro_version, '7.10.00', '<'))
 		{
 			$settings['wpgmza_maps_engine'] = $settings['engine'] = 'google-maps';
 			
@@ -91,8 +92,21 @@ class Plugin
 	
 	public function getDefaultSettings()
 	{
+		global $wpgmza_pro_version;
+		
+		$defaultEngine = 'open-layers';
+		$proSupportsOpenLayers = false;
+		
+		if(!empty($wpgmza_pro_version))
+			$proSupportsOpenLayers = version_compare($wpgmza_pro_version, '7.10.00', '>=');
+		
+		if(empty($wpgmza_pro_version) || $proSupportsOpenLayers)
+			$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
+		else
+			$defaultEngine = 'google-maps';
+		
 		return apply_filters('wpgmza_plugin_get_default_settings', array(
-			'engine' 				=> (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps'),
+			'engine' 				=> $defaultEngine,
 			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
 			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
 			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
