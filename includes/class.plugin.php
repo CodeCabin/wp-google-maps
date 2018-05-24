@@ -28,11 +28,13 @@ class Plugin
 		
 		$settings = $this->getDefaultSettings();
 		
+		var_dump($settings);
+		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
 		
 		// TODO: This should be in default settings, this code is duplicaetd
-		if(!empty($wpgmza_pro_version) && version_compare($wpgmza_pro_version, '7.10.00', '<'))
+		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
 		{
 			$settings['wpgmza_maps_engine'] = $settings['engine'] = 'google-maps';
 			
@@ -92,18 +94,7 @@ class Plugin
 	
 	public function getDefaultSettings()
 	{
-		global $wpgmza_pro_version;
-		
-		$defaultEngine = 'open-layers';
-		$proSupportsOpenLayers = false;
-		
-		if(!empty($wpgmza_pro_version))
-			$proSupportsOpenLayers = version_compare($wpgmza_pro_version, '7.10.00', '>=');
-		
-		if(empty($wpgmza_pro_version) || $proSupportsOpenLayers)
-			$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
-		else
-			$defaultEngine = 'google-maps';
+		$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
 		
 		return apply_filters('wpgmza_plugin_get_default_settings', array(
 			'engine' 				=> $defaultEngine,
