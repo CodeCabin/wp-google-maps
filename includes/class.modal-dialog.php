@@ -2,8 +2,6 @@
 
 namespace WPGMZA;
 
-require_once(plugin_dir_path(__FILE__) . 'class.dom-document.php');
-
 class ModalDialog extends DOMDocument
 {
 	public function __construct()

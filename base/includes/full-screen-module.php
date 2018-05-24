@@ -3,6 +3,9 @@
 Full screen module
  */
 
+if(!defined('ABSPATH'))
+	exit;
+ 
 /**
  * Add the style sheet to the top of the page
  * @author Nick Duncan <nick@codecabin.co.za>

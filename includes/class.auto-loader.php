@@ -9,6 +9,8 @@ class AutoLoader
 	public function __construct()
 	{
 		 // TODO: Maybe cache these in a JSON object and only refreshin developer mode
+		 
+		 $this->filenamesByClass = array();
 	}
 	
 	/**
@@ -86,7 +88,6 @@ class AutoLoader
 		//$cacheFile = $relative . 'includes/auto-loader-cache.json';
 		//$useCache = empty($wpgmza->settings->developer_mode) && file_exists($cacheFile);
 		
-		$this->filenamesByClass = array();
 		$classesByFilename = $this->getClassesInPathByFilename($path);
 			
 		foreach($classesByFilename as $file => $class)
@@ -116,6 +117,7 @@ class AutoLoader
 	
 }
 
+global $wpgmza_auto_loader;
 $wpgmza_auto_loader = new AutoLoader();
 $wpgmza_auto_loader->registerClassesInPath(__DIR__);
 

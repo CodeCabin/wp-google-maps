@@ -16,6 +16,7 @@ Domain Path: /languages
  * Added new PHP modules
  * Class AutoLoading implemented
  * OpenLayers / OpenStreetMap integration
+ * Fixed Edit Marker Position not working with Pro 6.*
  *
  * 7.0.05
  * Added GoogleMapsAPILoader module which now controls Google Maps API enqueueing and relevant settings
@@ -1130,7 +1131,7 @@ function wpgmaps_admin_edit_marker_javascript() {
             }
 			
 			if(window.google)
-				options.mapTypeId = google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
+				myOptions.mapTypeId = google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
 			
 			var element = jQuery(selector)[0];
 			
@@ -6284,7 +6285,7 @@ if(!function_exists('wpgmza_get_marker_columns'))
         global $wpgmza_tblname;
         global $wpgmza_pro_version;
         
-        $useSpatialData = empty($wpgmza_pro_version) || version_compare('6.18', $wpgmza_pro_version, '<');
+        $useSpatialData = empty($wpgmza_pro_version) || version_compare('7.0', $wpgmza_pro_version, '>=');
         
         $columns = $wpdb->get_col("SHOW COLUMNS FROM $wpgmza_tblname");
         
