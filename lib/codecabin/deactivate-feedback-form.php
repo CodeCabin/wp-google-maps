@@ -2,6 +2,9 @@
 
 namespace codecabin\PluginDeactivationForm;
 
+if(!defined('ABSPATH'))
+	exit;
+
 // NB: GDPR
 return;
 

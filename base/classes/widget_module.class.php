@@ -1,4 +1,8 @@
 <?php
+
+if(!defined('ABSPATH'))
+	exit;
+
 class wpgmza_widget extends WP_Widget {
 
     /**
