@@ -643,6 +643,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 }
 
 function add_polygon(polygonid) {
+	
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
     var tmp_data = wpgmaps_localize_polygon_settings[polygonid];
      var current_poly_id = polygonid;
      var tmp_polydata = tmp_data['polydata'];
@@ -670,9 +674,9 @@ function add_polygon(polygonid) {
          strokeOpacity: tmp_data['lineopacity'],
          fillColor: "#"+tmp_data['fillcolor'],
          strokeWeight: 2,
-         map: MYMAP.map
+         map: MYMAP.map.googleMap
    });
-   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map);
+   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map.googleMap);
 
     polygon_center = bounds.getCenter();
 
@@ -699,7 +703,9 @@ function add_polygon(polygonid) {
 }
 function add_polyline(polyline) {
     
-    
+    if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
     var tmp_data = wpgmaps_localize_polyline_settings[polyline];
 
     var current_poly_id = polyline;
@@ -725,9 +731,9 @@ function add_polyline(polyline) {
          strokeColor: "#"+tmp_data['linecolor'],
          strokeOpacity: tmp_data['opacity'],
          strokeWeight: tmp_data['linethickness'],
-         map: MYMAP.map
+         map: MYMAP.map.googleMap
    });
-   WPGM_Path[polyline].setMap(MYMAP.map);
+   WPGM_Path[polyline].setMap(MYMAP.map.googleMap);
     
     
 }
@@ -838,6 +844,10 @@ function toRad(Value) {
 	}
 
 	WPGMZA.GoogleAPIErrorHandler = function() {
+		
+		if(WPGMZA.settings.engine != "google-maps")
+			return;
+		
 		var _error = console.error;
 		
 		console.error = function(message)
@@ -860,7 +870,10 @@ function toRad(Value) {
 
 function add_circle(mapid, data)
 {
-	data.map = MYMAP.map;
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
+	data.map = MYMAP.map.googleMap;
 	
 	if(!(data.center instanceof google.maps.LatLng)) {
 		
@@ -886,7 +899,10 @@ function add_circle(mapid, data)
 
 function add_rectangle(mapid, data)
 {
-	data.map = MYMAP.map;
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
+	data.map = MYMAP.map.googleMap;
 	
 	data.fillColor = data.color;
 	data.fillOpacity = parseFloat(data.opacity);

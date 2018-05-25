@@ -7669,7 +7669,7 @@ function wpgmaps_b_admin_add_circle_javascript()
         <script type="text/javascript" >
 			(function($) {
 		
-				var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				circle = null;
 				MYMAP = {
 					map: null,
@@ -7738,8 +7738,8 @@ function wpgmaps_b_admin_add_circle_javascript()
 						bounds = map.getBounds(), 
 						cor1 = bounds.getNorthEast(), 
 						cor2 = bounds.getSouthWest(), 
-						cor3 = new WPGMZA.LatLng(cor2.lat(), cor1.lng()), 
-						cor4 = new WPGMZA.LatLng(cor1.lat(), cor2.lng()), 
+						cor3 = new google.maps.LatLng(cor2.lat(), cor1.lng()), 
+						cor4 = new google.maps.LatLng(cor1.lat(), cor2.lng()), 
 						width = spherical.computeDistanceBetween(cor1,cor3), 
 						height = spherical.computeDistanceBetween( cor1, cor4);
 						
@@ -7778,7 +7778,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 					};
 					
 					this.map = new google.maps.Map($(selector)[0], myOptions);
-					this.bounds = new WPGMZA.LatLngBounds();
+					this.bounds = new google.maps.LatLngBounds();
 					
 					google.maps.event.addListener(this.map, "click", function(event) {
 						
@@ -7824,7 +7824,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 							fillOpacity: $("input[name='circle_opacity']").val(),
 							strokeOpacity: 0,
 							map: self.map,
-							center: new WPGMZA.LatLng({
+							center: new google.maps.LatLng({
 								lat: parseFloat(m[0]),
 								lng: parseFloat(m[1])
 							}),
@@ -8093,7 +8093,7 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 		
 			(function($) {
 		
-				var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
+				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				
 				$(document).ready(function(){
 					function wpgmza_InitMap() {

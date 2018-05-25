@@ -26,7 +26,6 @@ jQuery(function($){
 	});
 
 	function add_circle(mapid, data){
-		console.log(data);
 		data.map = MYMAP[mapid].map;
 		
 		var m = data.center.match(/-?\d+(\.\d*)?/g);
@@ -46,7 +45,7 @@ jQuery(function($){
 	}
 
 	function add_rectangle(mapid, data)	{
-		data.map = MYMAP[mapid].map;
+		data.map = MYMAP[mapid].map.googleMap;
 		
 		data.fillColor = data.color;
 		data.fillOpacity = parseFloat(data.opacity);

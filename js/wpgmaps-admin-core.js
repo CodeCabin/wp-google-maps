@@ -1081,6 +1081,10 @@ function close_infowindows() {
 }
 
 function add_polygon(polygonid) {
+	
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
     var tmp_data = wpgmaps_localize_polygon_settings[polygonid];
      var current_poly_id = polygonid;
      var tmp_polydata = tmp_data['polydata'];
@@ -1088,17 +1092,17 @@ function add_polygon(polygonid) {
      for (tmp_entry2 in tmp_polydata) {
          if (typeof tmp_polydata[tmp_entry2][0] !== "undefined") {
             
-            WPGM_PathData.push(new WPGMZA.LatLng(tmp_polydata[tmp_entry2][0], tmp_polydata[tmp_entry2][1]));
+            WPGM_PathData.push(new google.maps.LatLng(tmp_polydata[tmp_entry2][0], tmp_polydata[tmp_entry2][1]));
         }
      }
      if (tmp_data['lineopacity'] === null || tmp_data['lineopacity'] === "") {
          tmp_data['lineopacity'] = 1;
      }
      
-     /*var bounds = new WPGMZA.LatLngBounds();
+     var bounds = new google.maps.LatLngBounds();
      for (i = 0; i < WPGM_PathData.length; i++) {
        bounds.extend(WPGM_PathData[i]);
-     }*/
+     }
 
     WPGM_Path_Polygon[polygonid] = new google.maps.Polygon({
          path: WPGM_PathData,
@@ -1108,9 +1112,9 @@ function add_polygon(polygonid) {
          strokeOpacity: tmp_data['lineopacity'],
          fillColor: "#"+tmp_data['fillcolor'],
          strokeWeight: 2,
-         map: MYMAP.map
+         map: MYMAP.map.googleMap
    });
-   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map);
+   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map.googleMap);
 
     polygon_center = bounds.getCenter();
 
@@ -1137,6 +1141,8 @@ function add_polygon(polygonid) {
 }
 function add_polyline(polyline) {
     
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
     
     var tmp_data = wpgmaps_localize_polyline_settings[polyline];
 
@@ -1149,7 +1155,7 @@ function add_polyline(polyline) {
             lat = lat.replace('(','');
             var lng = tmp_polydata[tmp_entry2][1].replace(')', '');
             lng = lng.replace('(','');
-            WPGM_Polyline_PathData.push(new WPGMZA.LatLng(lat, lng));
+            WPGM_Polyline_PathData.push(new google.maps.LatLng(lat, lng));
         }
          
          
@@ -1163,22 +1169,25 @@ function add_polyline(polyline) {
          strokeColor: "#"+tmp_data['linecolor'],
          strokeOpacity: tmp_data['opacity'],
          strokeWeight: tmp_data['linethickness'],
-         map: MYMAP.map
+         map: MYMAP.map.googleMap
    });
-   WPGM_Path[polyline].setMap(MYMAP.map);
+   WPGM_Path[polyline].setMap(MYMAP.map.googleMap);
     
     
 }
 
 function add_circle(mapid, data)
 {
-	data.map = MYMAP.map;
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
+	data.map = MYMAP.map.googleMap;
 	
 	var m = data.center.match(/-?\d+(\.\d*)?/g);
-	data.center = new WPGMZA.LatLng({
+	data.center = {
 		lat: parseFloat(m[0]),
 		lng: parseFloat(m[1]),
-	});
+	};
 	
 	data.radius = parseFloat(data.radius);
 	data.fillColor = data.color;
@@ -1192,7 +1201,10 @@ function add_circle(mapid, data)
 
 function add_rectangle(mapid, data)
 {
-	data.map = MYMAP.map;
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
+	data.map = MYMAP.map.googleMap;
 	
 	data.fillColor = data.color;
 	data.fillOpacity = parseFloat(data.opacity);
