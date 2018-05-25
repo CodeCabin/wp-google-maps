@@ -1,344 +1,118 @@
-2018-05-24 14:22:51 :-	Scanning dependencies
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/core.js
-2018-05-24 14:22:51 :-	Found wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/distance.js
-2018-05-24 14:22:51 :-	Found wpgmza-distance
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event-dispatcher.js
-2018-05-24 14:22:51 :-	Found wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event.js
-2018-05-24 14:22:51 :-	Found wpgmza-event
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/friendly-error.js
-2018-05-24 14:22:51 :-	Found wpgmza-friendly-error
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlng.js
-2018-05-24 14:22:51 :-	Found wpgmza-lat-lng
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlngbounds.js
-2018-05-24 14:22:51 :-	Found wpgmza-lat-lng-bounds
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-object.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-object
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings-page.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-settings-page
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-settings
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map.js
-2018-05-24 14:22:51 :-	Found wpgmza-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/maps-engine-dialog.js
-2018-05-24 14:22:51 :-	Found wpgmza-maps-engine-dialog
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/v7-custom-script.js
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-geocoder
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polyline
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-vertex-context-menu.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-vertex-context-menu
-2018-05-24 14:22:51 :-	Adding dependency wpgmza_api_call
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-geocoder
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polyline
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/content-editor-map-button.js
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-heatmap
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-heatmap
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-polygon
-2018-05-24 14:22:51 :-	Scanning dependencies
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/core.js
-2018-05-24 14:22:51 :-	Found wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/distance.js
-2018-05-24 14:22:51 :-	Found wpgmza-distance
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event-dispatcher.js
-2018-05-24 14:22:51 :-	Found wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event.js
-2018-05-24 14:22:51 :-	Found wpgmza-event
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/friendly-error.js
-2018-05-24 14:22:51 :-	Found wpgmza-friendly-error
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlng.js
-2018-05-24 14:22:51 :-	Found wpgmza-lat-lng
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlngbounds.js
-2018-05-24 14:22:51 :-	Found wpgmza-lat-lng-bounds
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-object.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-object
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings-page.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-settings-page
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings.js
-2018-05-24 14:22:51 :-	Found wpgmza-map-settings
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map.js
-2018-05-24 14:22:51 :-	Found wpgmza-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-event-dispatcher
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/maps-engine-dialog.js
-2018-05-24 14:22:51 :-	Found wpgmza-maps-engine-dialog
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/v7-custom-script.js
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-geocoder
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polyline
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-vertex-context-menu.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-vertex-context-menu
-2018-05-24 14:22:51 :-	Adding dependency wpgmza_api_call
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-geocoder.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-geocoder
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-geocoder
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator-circle.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator-circle
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-modern-store-locator
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-modern-store-locator
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Adding Pro dependency wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polyline.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-polyline
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polyline
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/content-editor-map-button.js
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map-object
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-heatmap
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/google-maps/google-pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-google-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-google-polygon
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-heatmap.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-heatmap
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-heatmap
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-info-window.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-info-window
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-info-window
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-map.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-map
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-map
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-marker.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-marker
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-marker
-2018-05-24 14:22:51 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps-pro/js/v8/open-layers/ol-pro-polygon.js
-2018-05-24 14:22:51 :-	Found wpgmza-ol-pro-polygon
-2018-05-24 14:22:51 :-	Adding dependency wpgmza-ol-polygon
+2018-05-25 06:57:03 :-	Scanning dependencies
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-map-object
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/core.js
+2018-05-25 06:57:03 :-	Found wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/distance.js
+2018-05-25 06:57:03 :-	Found wpgmza-distance
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event-dispatcher.js
+2018-05-25 06:57:03 :-	Found wpgmza-event-dispatcher
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/event.js
+2018-05-25 06:57:03 :-	Found wpgmza-event
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/friendly-error.js
+2018-05-25 06:57:03 :-	Found wpgmza-friendly-error
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/geocoder.js
+2018-05-25 06:57:03 :-	Found wpgmza-geocoder
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/info-window.js
+2018-05-25 06:57:03 :-	Found wpgmza-info-window
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-event-dispatcher
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlng.js
+2018-05-25 06:57:03 :-	Found wpgmza-lat-lng
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/latlngbounds.js
+2018-05-25 06:57:03 :-	Found wpgmza-lat-lng-bounds
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-object.js
+2018-05-25 06:57:03 :-	Found wpgmza-map-object
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-event-dispatcher
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings-page.js
+2018-05-25 06:57:03 :-	Found wpgmza-map-settings-page
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map-settings.js
+2018-05-25 06:57:03 :-	Found wpgmza-map-settings
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/map.js
+2018-05-25 06:57:03 :-	Found wpgmza-map
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-event-dispatcher
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/maps-engine-dialog.js
+2018-05-25 06:57:03 :-	Found wpgmza-maps-engine-dialog
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/marker.js
+2018-05-25 06:57:03 :-	Found wpgmza-marker
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator-circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-modern-store-locator-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/modern-store-locator.js
+2018-05-25 06:57:03 :-	Found wpgmza-modern-store-locator
+2018-05-25 06:57:03 :-	Adding dependency wpgmza
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polygon.js
+2018-05-25 06:57:03 :-	Found wpgmza-polygon
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-map-object
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/polyline.js
+2018-05-25 06:57:03 :-	Found wpgmza-polyline
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-map-object
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/v7-custom-script.js
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-circle
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-geocoder.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-geocoder
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-geocoder
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-info-window.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-info-window
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-info-window
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-map.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-map
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-map
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-marker.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-marker
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-marker
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator-circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-modern-store-locator-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-modern-store-locator-circle
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-modern-store-locator.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-modern-store-locator
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-modern-store-locator
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polygon.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-polygon
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-polygon
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-polyline.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-polyline
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-polyline
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/google-maps/google-vertex-context-menu.js
+2018-05-25 06:57:03 :-	Found wpgmza-google-vertex-context-menu
+2018-05-25 06:57:03 :-	Adding dependency wpgmza_api_call
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-circle
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-geocoder.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-geocoder
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-geocoder
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-info-window.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-info-window
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-info-window
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-map.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-map
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-map
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-marker.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-marker
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-marker
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator-circle.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-modern-store-locator-circle
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-modern-store-locator-circle
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-modern-store-locator.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-modern-store-locator
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-modern-store-locator
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polygon.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-polygon
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-polygon
+2018-05-25 06:57:03 :-	Reading E:\Programming\Code Cabin\htdocs\wp-content\plugins\wp-google-maps/js/v8/open-layers/ol-polyline.js
+2018-05-25 06:57:03 :-	Found wpgmza-ol-polyline
+2018-05-25 06:57:03 :-	Adding dependency wpgmza-polyline
