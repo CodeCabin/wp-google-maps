@@ -28,8 +28,6 @@ class Plugin
 		
 		$settings = $this->getDefaultSettings();
 		
-		var_dump($settings);
-		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
 		

@@ -20,6 +20,21 @@
 		
 		if(arguments.length == 1)
 		{
+			// TODO: Support latlng string
+			
+			if(typeof arg == "string")
+			{
+				var m;
+				
+				if(!(m = arg.match(WPGMZA.LatLng.REGEXP)))
+					throw new Error("Invalid LatLng string");
+				
+				arg = {
+					lat: m[1],
+					lng: m[3]
+				};
+			}
+			
 			if(typeof arg != "object" || !("lat" in arg && "lng" in arg))
 				throw new Error("Argument must be a LatLng literal");
 			
@@ -32,6 +47,8 @@
 			this.lng = lng;
 		}
 	}
+	
+	WPGMZA.LatLng.REGEXP = /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/;
 	
 	WPGMZA.LatLng.isValid = function(obj)
 	{
