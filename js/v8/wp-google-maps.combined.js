@@ -3178,11 +3178,11 @@
 			self.onBoundsChanged();
 		});
 		
-		if(this.settings.bicycle)
+		if(this.settings.bicycle == 1)
 			this.enableBicycleLayer(true);
-		if(this.settings.traffic)
+		if(this.settings.traffic == 1)
 			this.enableTrafficLayer(true);
-		if(this.settings.transport)
+		if(this.settings.transport == 1)
 			this.enablePublicTransportLayer(true);
 		this.showPointsOfInterest(this.settings.show_points_of_interest);
 		

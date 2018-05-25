@@ -453,9 +453,9 @@ function add_polygon(polygonid) {
          strokeOpacity: tmp_data['lineopacity'],
          fillColor: "#"+tmp_data['fillcolor'],
          strokeWeight: 2,
-         map: MYMAP.map
+         map: MYMAP.map.googleMap
    });
-   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map);
+   WPGM_Path_Polygon[polygonid].setMap(MYMAP.map.googleMap);
 
     polygon_center = bounds.getCenter();
 
