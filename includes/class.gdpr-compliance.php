@@ -37,11 +37,13 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 	{
 		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
 		$wpgmza_other_settings['privacy_policy_notice_dismissed'] = true;
+		
 		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
 		
 		wp_send_json(array(
 			'success' => 1
 		));
+		
 		exit;
 	}
 	
@@ -56,7 +58,7 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 		return $document;
 	}
 	
-	public function getNoticeHTML()
+	public function getNoticeHTML($checkbox=true)
 	{
 		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
@@ -65,11 +67,16 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 		
 		$html = $wpgmza_other_settings['wpgmza_gdpr_notice'];
 		
-		$html = preg_replace('/{COMPANY_NAME}/i', $wpgmza_other_settings['wpgmza_gdpr_company_name'], $html);
-		$html = preg_replace('/{RETENTION_PERIOD}/i', $wpgmza_other_settings['wpgmza_gdpr_retention_period_days'], $html);
-		$html = preg_replace('/{RETENTION_PURPOSE}/i', $wpgmza_other_settings['wpgmza_gdpr_retention_purpose'], $html);
+		$company_name 			= (empty($wpgmza_other_settings['wpgmza_gdpr_company_name']) ? '' : $wpgmza_other_settings['wpgmza_gdpr_company_name']);
+		$retention_period_days 	= (empty($wpgmza_other_settings['wpgmza_gdpr_retention_period_days']) ? '' : $wpgmza_other_settings['wpgmza_gdpr_retention_period_days']);
+		$retention_purpose		= (empty($wpgmza_other_settings['wpgmza_gdpr_retention_purpose']) ? '' : $wpgmza_other_settings['wpgmza_gdpr_retention_purpose']);
 		
-		$html = '<input type="checkbox" name="wpgmza_ugm_gdpr_consent" required/> ' . $html;
+		$html = preg_replace('/{COMPANY_NAME}/i', $company_name, $html);
+		$html = preg_replace('/{RETENTION_PERIOD}/i', $retention_period_days, $html);
+		$html = preg_replace('/{RETENTION_PURPOSE}/i', $retention_purpose, $html);
+		
+		if($checkbox)
+			$html = '<input type="checkbox" name="wpgmza_ugm_gdpr_consent" required/> ' . $html;
 		
 		$html = apply_filters('wpgmza_gdpr_notice_html', $html);
 		
@@ -88,6 +95,11 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 				<p>" . __('In light of recent EU GDPR regulation, we strongly recommend reviewing the <a target="_blank" href="https://www.wpgmaps.com/privacy-policy">WP Google Maps Privacy Policy</a>', 'wp-google-maps') . "</p>
 			</div>
 			";
+	}
+	
+	public function getConsentPromptHTML()
+	{
+		return '<div>' . $this->getNoticeHTML(false) . "<p class='wpgmza-centered'><button class='wpgmza-api-consent'>" . __('I agree', 'wp-google-maps') . "</button></div></p>";
 	}
 	
 	public function onGlobalSettingsTabs($input)
@@ -112,7 +124,6 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 		
 		foreach($document->querySelectorAll('input, select, textarea') as $input)
 		{
-			
 			$name = $input->getAttribute('name');
 			
 			if(!$name)
@@ -120,20 +131,17 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 			
 			switch($input->getAttribute('type'))
 			{
-				
 				case 'checkbox':
-					if(isset($wpgmza_other_settings[$name]))
-						unset($wpgmza_other_settings[$name]);
-					else
+					if($input->getValue())
 						$wpgmza_other_settings[$name] = 1;
+					else
+						unset($wpgmza_other_settings[$name]);
 					break;
 				
 				default:
 					$wpgmza_other_settings[$name] = stripslashes( $input->getValue() );
 					break;
-				
 			}
-			
 		}
 		
 		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);

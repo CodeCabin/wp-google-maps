@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /* 
+ * 7.10.01
+ * Fixed undefined index notice in GDPR module
+ *
  * 7.10.00
  * Added new Javascript modules
  * Added new PHP modules
@@ -2966,6 +2969,11 @@ function wpgmza_settings_page_post()
 {
 	global $wpdb;
 	
+	global $wpgmzaGDPRCompliance;
+	
+	if($wpgmzaGDPRCompliance)
+		$wpgmzaGDPRCompliance->onPOST();
+	
 	//$wpgmza_data = array();
 	$wpgmza_data = get_option('WPGMZA_OTHER_SETTINGS');
 	if(!$wpgmza_data)
@@ -2991,6 +2999,8 @@ function wpgmza_settings_page_post()
 		"carousel_autoheight",
 		"carousel_pagination",
 		"carousel_navigation",
+		"wpgmza_gdpr_enabled",
+		"wpgmza_gdpr_require_consent_before_load",
 		"wpgmza_developer_mode"
 	);
 	
@@ -3049,7 +3059,7 @@ function wpgmza_settings_page_post()
 	update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_data);
 
 	if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( trim($_POST['wpgmza_google_maps_api_key'] )) ); }
-
+	
 	wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu-settings');
 	exit;
 }
@@ -4362,6 +4372,9 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                <li><a href=\"#tabs-3\">".__("Marker Listing","wp-google-maps")."</a></li>";
             $ret .= "                <li><a href=\"#tabs-4\">".__("Store Locator","wp-google-maps")."</a></li>";
             $ret .= "                <li><a href=\"#tabs-5\">".__("Advanced","wp-google-maps")."</a></li>";
+			
+			$ret .= apply_filters('wpgmza_global_settings_tabs', '');
+			
             $ret .= "        </ul>";
             $ret .= "        <div id=\"tabs-1\">";
             $ret .= "                <h3>".__("Map Settings")."</h3>";
@@ -4720,11 +4733,16 @@ function wpgmaps_settings_page_basic() {
 			";
 			
             $ret .= "           </div>";
+			
+			$ret .= apply_filters('wpgmza_global_settings_tab_content', '');
+			
             $ret .= "       </div>";
             $ret .= "       <p class='submit'><input type='submit' name='wpgmza_save_settings' class='button-primary' value='".__("Save Settings","wp-google-maps")." &raquo;' /></p>";
             $ret .= "   </form>";
+			
+			
             $ret .=  "</div>";
-            
+			
             echo $ret;
             
 

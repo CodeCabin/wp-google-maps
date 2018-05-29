@@ -8,6 +8,9 @@
 	if(WPGMZA.settings.engine != "google-maps")
 		return;
 	
+	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
+		return;
+	
 	WPGMZA.GoogleVertexContextMenu = function(mapEditPage)
 	{
 		var self = this;

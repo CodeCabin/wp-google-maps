@@ -51,6 +51,24 @@ function wpgmza_open_info_window(infoWindow, content)
 }
 
 function InitMap() {
+	
+	var $ = jQuery;
+	
+	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
+	{
+		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+			$(el).append($(WPGMZA.api_consent_html));
+			$(el).css({height: "auto"});
+		});
+		
+		$("button.wpgmza-api-consent").on("click", function(event) {
+			Cookies.set("wpgmza-api-consent-given", true);
+			window.location.reload();
+		});
+		
+		return;
+	}
+	
 	var myLatLng = {
 		lat: wpgmaps_localize[wpgmaps_mapid].map_start_lat,
 		lng: wpgmaps_localize[wpgmaps_mapid].map_start_lng
