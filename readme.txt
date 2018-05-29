@@ -221,6 +221,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 * Class AutoLoading implemented
 * OpenLayers / OpenStreetMap integration
 * Fixed Edit Marker Position not working with Pro 6.*
+* Fixed some strings not being translated in German
+* JS Minification
+* Added "Developer mode"
 
 = 7.0.04 - 2018-05-07 =
 * Fixed PHP notice regarding store locator default radius
