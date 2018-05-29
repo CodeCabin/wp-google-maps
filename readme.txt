@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.9.1
+Tested up to: 4.9.6
 Stable tag: trunk
 License: GPLv2
 
@@ -32,14 +32,14 @@ The [WP Google Maps Pro Version](http://www.wpgmaps.com/purchase-professional-ve
 * Full screen map functionality
 * Support for localization
 * Choose from four Google maps types: roadmap, terrain, satellite and hybrid
-* Define your own width, height and zoom level for your Google Map
+* Define your own width, height and zoom level for your map
 * Add animations to your map markers!
 * Store locator functionality
 * Restrict a store locator search by country
 * Add Polygons to your Map
 * Add Polylines / Routes to your map
 * Create a map in less than a 30 seconds!
-* Right click to add a marker to your Google map
+* Right click to add a marker to your map
 * No advertising or links
 * Google Maps Autocomplete
 * Google Maps Transport Layer
@@ -47,28 +47,29 @@ The [WP Google Maps Pro Version](http://www.wpgmaps.com/purchase-professional-ve
 * Serve your map marker data via your database or an XML file
 * Compatible with caching plugins
 * Compatible with Cloudfare
-* Latest Google Maps API (V3.23, V3.24 & V3.exp)
+* Latest Google Maps API
+* Latest OpenLayers API
 
 = Professional Edition =
-* Create multiple Google maps!
+* Create multiple maps!
 * Allow your visitors to get directions to your markers.
 * Add descriptions, links and images to your map markers.
 * Add categories to your map markers
 * Filter markers by category
-* Mashup multiple Google maps
+* Mashup multiple maps
 * Add different marker icons, or your own icons to make your map really stand out!
-* List your Google Map markers in the four ways; basic list, basic table, carousel, advanced table
+* List your map markers in the four ways; basic list, basic table, carousel, advanced table
 * Allow visitors to use their map location as the starting or ending point for the directions
 * Choose between the Default Google Maps Infowindow and the new Modern Infowindow
 * Export/Import your markers to a CSV file for quick editing.
 * Link Fusion tables to your Google Maps
 * Show your visitor's location on the Map
-* Import KML/KMZ files to your Google Map
+* Import KML/KMZ files to your map
 * More advanced options for the Store Locator
 * Allow users to use their map location for the store locator
 * Store locator search by category
 * Hide all map markers until a store locator search is done
-* Move your marker list inside the Google Map window
+* Move your marker list inside the map window
 * Multiple map widget functionality
 * Add retina-ready map marker icons
 * WordPress Network friendly
@@ -213,6 +214,13 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 7.10.00 - 2018-05-25 =
+* Added new Javascript modules
+* Added new PHP modules
+* Class AutoLoading implemented
+* OpenLayers / OpenStreetMap integration
+* Fixed Edit Marker Position not working with Pro 6.*
 
 = 7.0.04 - 2018-05-07 =
 * Fixed PHP notice regarding store locator default radius

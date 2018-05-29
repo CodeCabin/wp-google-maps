@@ -18,7 +18,8 @@ class GDPRCompliance
 	{
 		return array_merge($settings, array(
 			'wpgmza_gdpr_enabled'		=> 1,
-			'wpgmza_gdpr_notice'		=> __('I agree for my personal data, provided via submission through \'User Generated Markers\' where applicable, \'WP Google Maps\' Live Tracking app, where applicable, to be processed by {COMPANY_NAME}.
+			'wpgmza_gdpr_notice'		=> apply_filters('wpgmza_gdpr_notice',
+											__('I agree for my personal data, provided via submission through \'User Generated Markers\' where applicable, \'WP Google Maps\' Live Tracking app, where applicable, to be processed by {COMPANY_NAME}.
 		
 I agree for my personal data, provided via map API calls, to be processed by the API provider, for the purposes of geocoding (converting addresses to coordinates), reverse geocoding and generating directions.
 
@@ -26,7 +27,7 @@ WP Google Maps uses jQuery DataTables to display sortable, searchable tables, su
 
 Some visual components of WP Google Maps use 3rd party libraries which are loaded over the network. At present the libraries are Google Maps, Open Street Map, jQuery DataTables and FontAwesome. When loading resources over a network, the 3rd party server will receive your IP address and User Agent string amongst other details. Please refer to the Privacy Policy of the respective libraries for details on how they use data and the process to exercise your rights under the GDPR regulations.
 
-When using the User Generated Marker addon, data will be stored indefinitiely for the following purpose(s): {RETENTION_PURPOSE}'),
+When using the User Generated Marker addon, data will be stored indefinitiely for the following purpose(s): {RETENTION_PURPOSE}'), 'wp-google-maps'),
 			
 			'wpgmza_gdpr_retention_purpose' => 'presenting the data you have submitted on the map.'
 		));
@@ -89,9 +90,9 @@ When using the User Generated Marker addon, data will be stored indefinitiely fo
 			";
 	}
 	
-	public function onGlobalSettingsTabs()
+	public function onGlobalSettingsTabs($input)
 	{
-		return "<li><a href=\"#wpgmza-gdpr-compliance\">".__("GDPR Compliance","wp-google-maps")."</a></li>";
+		return $input . "<li><a href=\"#wpgmza-gdpr-compliance\">".__("GDPR Compliance","wp-google-maps")."</a></li>";
 	}
 	
 	public function onGlobalSettingsTabContent()
