@@ -441,3 +441,29 @@ input.cmn-toggle-yes-no:checked + label:after {
 #wpgmza_store_locator_default_radius_mi.active {
     display: block;
 }
+
+#wpgmza-gdpr-compliance fieldset
+{
+	margin-bottom: 0.3em;
+}
+
+#wpgmza-gdpr-compliance fieldset>*
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+#wpgmza-gdpr-compliance fieldset>label
+{
+	width: 250px;
+}
+
+#wpgmza-gdpr-compliance input[type='number']
+{
+	width: 64px;
+}
+
+#wpgmza-gdpr-compliance textarea
+{
+	resize: both;
+}

@@ -333,7 +333,9 @@
 		 */
 		isGoogleAutocompleteSupported: function() {
 			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
-		}
+		},
+		
+		googleAPIStatus: window.wpgmza_google_api_status
 	};
 	
 	if(window.WPGMZA)
@@ -360,7 +362,6 @@
 
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
-	
 	});
 	
 	$(window).on("load", function(event) {

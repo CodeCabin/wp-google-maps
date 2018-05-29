@@ -15,10 +15,24 @@
 	{
 		var self = this;
 		
-		if(!window.google)
-			throw new Error("Google API not loaded - " + wpgmza_api_not_enqueued_reason);
-		
 		Parent.call(this, element, options);
+		
+		if(!window.google)
+		{
+			var status = WPGMZA.googleAPIStatus;
+			var message = "Google API not loaded";
+			
+			if(status && status.message)
+				message += " - " + status.message;
+			
+			if(status.code == "USER_CONSENT_NOT_GIVEN")
+			{
+				console.log(WPGMZA.api_consent_html);
+				return;
+			}
+			
+			throw new Error(message);
+		}
 		
 		this.loadGoogleMap();
 		

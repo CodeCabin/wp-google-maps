@@ -335,7 +335,9 @@
 		 */
 		isGoogleAutocompleteSupported: function() {
 			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
-		}
+		},
+		
+		googleAPIStatus: window.wpgmza_google_api_status
 	};
 	
 	if(window.WPGMZA)
@@ -362,7 +364,6 @@
 
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
-	
 	});
 	
 	$(window).on("load", function(event) {
@@ -3209,10 +3210,24 @@
 	{
 		var self = this;
 		
-		if(!window.google)
-			throw new Error("Google API not loaded - " + wpgmza_api_not_enqueued_reason);
-		
 		Parent.call(this, element, options);
+		
+		if(!window.google)
+		{
+			var status = WPGMZA.googleAPIStatus;
+			var message = "Google API not loaded";
+			
+			if(status && status.message)
+				message += " - " + status.message;
+			
+			if(status.code == "USER_CONSENT_NOT_GIVEN")
+			{
+				console.log(WPGMZA.api_consent_html);
+				return;
+			}
+			
+			throw new Error(message);
+		}
 		
 		this.loadGoogleMap();
 		
@@ -4185,6 +4200,9 @@
 (function($) {
 	
 	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
+	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
 		return;
 	
 	WPGMZA.GoogleVertexContextMenu = function(mapEditPage)

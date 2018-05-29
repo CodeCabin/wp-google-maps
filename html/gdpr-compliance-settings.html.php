@@ -42,4 +42,15 @@
 		</label>
 		<textarea name="wpgmza_gdpr_notice"></textarea>
 	</fieldset>
+	
+	<fieldset>
+		<label for="wpgmza_gdpr_require_consent_before_load">
+			<?php
+			_e('Require consent before load', 'wp-google-maps');
+			?>
+			<i class="fa fa-question-circle" 
+				title="<?php _e('Check this box if you would like to prevent the map API from loading until the user gives consent to the notice above.', 'wp-google-maps'); ?>"/>
+		</label>
+		<input name="wpgmza_gdpr_require_consent_before_load" type="checkbox"/>
+	</fieldset>
 </div>
