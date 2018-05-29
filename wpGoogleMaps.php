@@ -17,6 +17,7 @@ Domain Path: /languages
  * Class AutoLoading implemented
  * OpenLayers / OpenStreetMap integration
  * Fixed Edit Marker Position not working with Pro 6.*
+ * Fixed some strings not being translated in German
  *
  * 7.0.05
  * Added GoogleMapsAPILoader module which now controls Google Maps API enqueueing and relevant settings

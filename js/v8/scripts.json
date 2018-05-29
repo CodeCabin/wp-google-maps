@@ -6,6 +6,13 @@
             "wpgmza-map-object"
         ]
     },
+    "wpgmza-compatibility": {
+        "src": "js\/v8\/compatibility.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza": {
         "src": "js\/v8\/core.js",
         "pro": false,
@@ -135,6 +142,13 @@
         "pro": false,
         "dependencies": [
             "wpgmza-map-object"
+        ]
+    },
+    "wpgmza-version": {
+        "src": "js\/v8\/version.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
         ]
     },
     "wpgmza-google-circle": {
