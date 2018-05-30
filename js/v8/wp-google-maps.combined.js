@@ -829,6 +829,16 @@
 		
 	}
 	
+	WPGMZA.InfoWindow.prototype.setContent = function(options)
+	{
+		
+	}
+	
+	WPGMZA.InfoWindow.prototype.setOptions = function(options)
+	{
+		
+	}
+	
 	/**
 	 * Event listener for when the map object is added. This will cause the info window to open if the map object has infoopen set
 	 * @return void
@@ -1921,7 +1931,7 @@
 			method: "POST",
 			data: {
 				action: "wpgmza_maps_engine_dialog_set_engine",
-				engine: $("[name='wpgmza_maps_engine']").val()
+				engine: $("[name='wpgmza_maps_engine']:checked").val()
 			},
 			success: function(response, status, xhr) {
 				window.location.reload();
@@ -3183,11 +3193,22 @@
 	
 	WPGMZA.GoogleInfoWindow.prototype.setContent = function(html)
 	{
+		Parent.prototype.setContent.call(this, html);
+		
 		this.content = html;
 		
 		this.createGoogleInfoWindow();
 		
 		this.googleInfoWindow.setContent(html);
+	}
+	
+	WPGMZA.GoogleInfoWindow.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
+		
+		this.createGoogleInfoWindow();
+		
+		this.googleInfoWindow.setOptions(options);
 	}
 	
 })(jQuery);
@@ -4614,6 +4635,12 @@
 	WPGMZA.OLInfoWindow.prototype.setContent = function(html)
 	{
 		$(this.element).html("<i class='fa fa-times ol-info-window-close' aria-hidden='true'></i>" + html);
+	}
+	
+	WPGMZA.OLInfoWindow.prototype.setOptions = function(options)
+	{
+		if(WPGMZA.settings.developer_mode)
+			console.log(options);
 	}
 	
 })(jQuery);
