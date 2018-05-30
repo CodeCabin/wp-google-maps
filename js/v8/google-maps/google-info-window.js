@@ -110,11 +110,22 @@
 	
 	WPGMZA.GoogleInfoWindow.prototype.setContent = function(html)
 	{
+		Parent.prototype.setContent.call(this, html);
+		
 		this.content = html;
 		
 		this.createGoogleInfoWindow();
 		
 		this.googleInfoWindow.setContent(html);
+	}
+	
+	WPGMZA.GoogleInfoWindow.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
+		
+		this.createGoogleInfoWindow();
+		
+		this.googleInfoWindow.setOptions(options);
 	}
 	
 })(jQuery);

@@ -80,4 +80,10 @@
 		$(this.element).html("<i class='fa fa-times ol-info-window-close' aria-hidden='true'></i>" + html);
 	}
 	
+	WPGMZA.OLInfoWindow.prototype.setOptions = function(options)
+	{
+		if(WPGMZA.settings.developer_mode)
+			console.log(options);
+	}
+	
 })(jQuery);

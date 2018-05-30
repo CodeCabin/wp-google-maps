@@ -44,16 +44,13 @@ class MapsEngineDialog
 							
 							<img class="wpgmza-engine-logo" src="<?php echo plugin_dir_url(__DIR__) . 'images/OpenLayers_logo.svg.png'?>"/>
 							
-							<ul class="wpgmza-pros">
-								<li>
-									<?php _e('No billing setup required', 'wp-google-maps'); ?>
-								</li>
+							<ul>
 								<li>
 									<?php _e('No API keys required', 'wp-google-maps'); ?>
 								</li>
 							</ul>
 							
-							<ul class="wpgmza-cons">
+							<ul>
 								<li>
 									<?php _e('Limited functionality', 'wp-google-maps'); ?>
 								</li>
@@ -100,18 +97,11 @@ class MapsEngineDialog
 								</li>
 							</ul>-->
 							
-							<ul class="wpgmza-cons">
-								<li>
-									<?php _e('Billing setup required *', 'wp-google-maps'); ?>
-								</li>
+							<ul>
 								<li>
 									<?php _e('API Key required', 'wp-google-maps'); ?>
 								</li>
 							</ul>
-							
-							<small>
-								<?php _e('* Card details required, $200 each month free, <a href="https://cloud.google.com/maps-platform/pricing/">more info</a>', 'wp-google-maps'); ?>
-							</small>
 						</div>
 					
 						<!--<p class="wpgmza-centered">

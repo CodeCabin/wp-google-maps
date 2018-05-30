@@ -92,7 +92,8 @@ class Plugin
 	
 	public function getDefaultSettings()
 	{
-		$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
+		//$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
+		$defaultEngine = 'google-maps';
 		
 		return apply_filters('wpgmza_plugin_get_default_settings', array(
 			'engine' 				=> $defaultEngine,

@@ -96,6 +96,16 @@
 		
 	}
 	
+	WPGMZA.InfoWindow.prototype.setContent = function(options)
+	{
+		
+	}
+	
+	WPGMZA.InfoWindow.prototype.setOptions = function(options)
+	{
+		
+	}
+	
 	/**
 	 * Event listener for when the map object is added. This will cause the info window to open if the map object has infoopen set
 	 * @return void

@@ -193,13 +193,13 @@ class GoogleMapsAPILoader
 			return false;
 		}
 		
-		if(!empty($settings['wpgmza_gdpr_require_consent_before_load']) && !isset($_COOKIE['wpgmza-api-consent-given']))
+		/*if(!empty($settings['wpgmza_gdpr_require_consent_before_load']) && !isset($_COOKIE['wpgmza-api-consent-given']))
 		{
 			$status->message = 'User consent not given';
 			$status->code = GoogleMapsAPILoader::USER_CONSENT_NOT_GIVEN;
 			
 			return false;
-		}
+		}*/
 		
 		if(empty($settings['wpgmza_maps_engine']) || $settings['wpgmza_maps_engine'] != 'google-maps')
 		{
