@@ -215,6 +215,26 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.05 - 2018-05-30  :- Low Priority =
+* Fixed Using $this when not in object context when using older PHP version
+* Fixed google sometimes not defined when selected engine is OpenLayers
+
+= 7.10.04 - 2018-05-30 :- Medium Priority =
+* Fixed geocode response coordinates not interpreted properly
+* Italian translation updated
+
+= 7.10.03 - 2018-05-30 :- High Priority =
+* Fixed InfoWindow not opening when max width set in
+* Fixed $this not in context inside closure when using older PHP versions
+* Fixed Gold add-on clustering settings blank
+* Altered map engine selection dialog
+ 
+= 7.10.02 - 2018-05-29 =
+* Engine defaults to Google Maps 
+
+= 7.10.01 - 2018-05-29 =
+* Fixed undefined index notice in GDPR module
+
 = 7.10.00 - 2018-05-25 =
 * Added new Javascript modules
 * Added new PHP modules

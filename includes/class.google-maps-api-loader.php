@@ -201,7 +201,7 @@ class GoogleMapsAPILoader
 			return false;
 		}*/
 		
-		if(empty($settings['wpgmza_maps_engine']) || $settings['wpgmza_maps_engine'] != 'google-maps')
+		if(!empty($settings['wpgmza_maps_engine']) && $settings['wpgmza_maps_engine'] == 'open-layers')
 		{
 			$status->message = 'Engine is not google-maps';
 			$status->code = GoogleMapsAPILoader::ENGINE_NOT_GOOGLE_MAPS;
