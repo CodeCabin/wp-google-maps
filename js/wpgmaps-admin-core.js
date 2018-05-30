@@ -545,11 +545,8 @@
             geocoder.geocode( { 'address': wpgm_address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     wpgm_gps = String(results[0].geometry.location);
-                    var latlng1 = wpgm_gps.replace("(","");
-                    var latlng2 = latlng1.replace(")","");
-                    var latlngStr = latlng2.split(",",2);
-                    var wpgm_lat = parseFloat(latlngStr[0]);
-                    var wpgm_lng = parseFloat(latlngStr[1]);
+                    var wpgm_lat = parseFloat(results[0].geometry.location.lat);
+                    var wpgm_lng = parseFloat(results[0].geometry.location.lng);
 
                     var data = {
                         action: 'edit_marker',

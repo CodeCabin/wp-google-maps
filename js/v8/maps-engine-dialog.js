@@ -29,6 +29,8 @@
 	
 	WPGMZA.MapsEngineDialog.prototype.onButtonClicked = function(event)
 	{
+		$(event.target).prop("disabled", true);
+		
 		$.ajax(WPGMZA.ajaxurl, {
 			method: "POST",
 			data: {
