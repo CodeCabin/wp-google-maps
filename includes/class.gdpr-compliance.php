@@ -12,6 +12,17 @@ class GDPRCompliance
 		add_filter('wpgmza_plugin_get_default_settings', array($this, 'onPluginGetDefaultSettings'));
 		
 		add_action('wp_ajax_wpgmza_gdpr_privacy_policy_notice_dismissed', array($this, 'onPrivacyPolicyNoticeDismissed'));
+		
+		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		
+		if(!isset($wpgmza_other_settings['wpgmza_gdpr_notice']))
+		{
+			if(!is_array($wpgmza_other_settings))
+				$wpgmza_other_settings = array();
+			
+			$wpgmza_other_settings = apply_filters('wpgmza_plugin_get_default_settings', $wpgmza_other_settings);
+			update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
+		}
 	}
 	
 	public function onPluginGetDefaultSettings($settings)
