@@ -54,7 +54,7 @@ function InitMap() {
 	
 	var $ = jQuery;
 	
-	/*if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
+	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
 	{
 		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
 			$(el).append($(WPGMZA.api_consent_html));
@@ -67,7 +67,7 @@ function InitMap() {
 		});
 		
 		return;
-	}*/
+	}
 	
 	var myLatLng = {
 		lat: wpgmaps_localize[wpgmaps_mapid].map_start_lat,

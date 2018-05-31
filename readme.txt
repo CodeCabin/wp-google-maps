@@ -215,6 +215,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.06 - 2018-05-31 :- Medium Priority =
+* Added "require consent before API load" to GDPR settings
+
 = 7.10.05 - 2018-05-30  :- Low Priority =
 * Fixed Using $this when not in object context when using older PHP version
 * Fixed google sometimes not defined when selected engine is OpenLayers
