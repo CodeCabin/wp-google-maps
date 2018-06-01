@@ -128,7 +128,8 @@ class GoogleMapsAPILoader
 		GoogleMapsAPILoader::$googleAPILoadCalled = true;
 		
 		// Block other plugins from including the API
-		add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
+		if(!empty($settings['wpgmza_prevent_other_plugins_and_theme_loading_api']))
+			add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
 	}
 	
 	public function enqueueGoogleMaps()

@@ -72,3 +72,11 @@
 		<input name="wpgmza_always_exclude_engine_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
 	</td>
 </tr>
+<tr>
+	<td>
+		<label><?php _e('Prevent other plugins and theme loading API:', 'wp-google-maps'); ?></label>
+	</td>
+	<td>
+		<input name="wpgmza_prevent_other_plugins_and_theme_loading_api" type="checkbox"/>
+	</td>
+</tr>
