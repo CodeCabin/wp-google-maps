@@ -14,7 +14,25 @@
 		
 		Parent.call(this, row);
 		
-		this.googleMarker = new google.maps.Marker(/*this.settings*/);
+		var settings = {};
+		if(row)
+		{
+			for(var name in row)
+			{
+				if(row[name] instanceof WPGMZA.LatLng)
+				{
+					settings[name] = row[name].toGoogleLatLng();
+				}
+				else if(row[name] instanceof WPGMZA.Map)
+				{
+					// Do nothing (ignore)
+				}
+				else
+					settings[name] = row[name];
+			}
+		}
+		
+		this.googleMarker = new google.maps.Marker(settings);
 		this.googleMarker.wpgmzaMarker = this;
 		
 		this.googleMarker.setPosition(new google.maps.LatLng({

@@ -112,7 +112,7 @@ class GoogleMapsAPILoader
 		
 		$suffix = $params['suffix'];
 		unset($params['suffix']);
-		
+
 		$url = '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params);
 		
 		wp_register_script('wpgmza_api_call', $url);
@@ -184,6 +184,10 @@ class GoogleMapsAPILoader
 		);
 		
 		$settings = (array)$wpgmza->settings;
+		
+		// Correction for Pro <= 7.10.04
+		if($settings['wpgmza_maps_engine'] == 'open-street-map')
+			$settings['wpgmza_maps_engine'] = 'open-layers';
 		
 		if(!empty($settings['wpgmza_settings_remove_api']))
 		{
