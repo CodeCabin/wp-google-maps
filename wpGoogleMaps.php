@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.06
+Version: 7.10.08
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,12 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.08 - 2018-05-31 :- Medium Priority
+ * Fixed cannot edit marker in Basic only
+ *
+ * 7.10.07 - 2018-05-31 :- Medium Priority
+ * Fixed issue where map engine was different on back end
+ *
  * 7.10.06 - 2018-05-31 :- Medium Priority
  * Added "require consent before API load" to GDPR settings
  *
@@ -4235,13 +4241,17 @@ function wpgmaps_menu_settings_layout() {
 
 function wpgmaps_settings_page_basic() {
     
+	global $wpgmza;
+	
     wpgmza_stats("settings_basic");
     
     echo"<div class=\"wrap\"><div id=\"icon-edit\" class=\"icon32 icon32-posts-post\"><br></div><h2>".__("WP Google Map Settings","wp-google-maps")."</h2>";
 
     google_maps_api_key_warning();
 
-    $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
+    $wpgmza_settings = array_merge((array)$wpgmza->settings, get_option("WPGMZA_OTHER_SETTINGS"));
+	$wpgmza_settings['wpgmza_maps_engine'] = $wpgmza_settings['engine'];
+	
     if (isset($wpgmza_settings['wpgmza_settings_map_full_screen_control'])) { $wpgmza_settings_map_full_screen_control = $wpgmza_settings['wpgmza_settings_map_full_screen_control']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_streetview'])) { $wpgmza_settings_map_streetview = $wpgmza_settings['wpgmza_settings_map_streetview']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_zoom'])) { $wpgmza_settings_map_zoom = $wpgmza_settings['wpgmza_settings_map_zoom']; }
@@ -4380,7 +4390,7 @@ function wpgmaps_settings_page_basic() {
     $upload_dir = wp_upload_dir();
     
         $map_settings_action = '';
-            
+		
             $ret = "<form action='" . get_admin_url() . "admin-post.php' method='post' id='wpgmaps_options'>";
 			$ret .= '<input name="action" value="wpgmza_settings_page_post" type="hidden"/>';
             $ret .= "    <p>$prov_msg</p>";
