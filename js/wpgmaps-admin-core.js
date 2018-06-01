@@ -462,8 +462,8 @@
                     if (status == WPGMZA.Geocoder.SUCCESS) {
 
 						result = results[0];
-						wpgm_lat = result.lat;
-						wpgm_lng = result.lng;
+						wpgm_lat = result.latLng.lat;
+						wpgm_lng = result.latLng.lng;
 
                         var data = {
                             action: 'add_marker',
@@ -543,7 +543,7 @@
             if (do_geocode === true) {
 
             geocoder.geocode( { 'address': wpgm_address}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
+                if (status == WPGMZA.Geocoder.SUCCESS) {
                     wpgm_gps = String(results[0].geometry.location);
                     var wpgm_lat = parseFloat(results[0].geometry.location.lat);
                     var wpgm_lng = parseFloat(results[0].geometry.location.lng);

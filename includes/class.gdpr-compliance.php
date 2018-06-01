@@ -7,13 +7,13 @@ class GDPRCompliance
 	public function __construct()
 	{
 		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
-		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'));
+		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'), 10, 1);
 		
 		add_filter('wpgmza_plugin_get_default_settings', array($this, 'onPluginGetDefaultSettings'));
 		
 		add_action('wp_ajax_wpgmza_gdpr_privacy_policy_notice_dismissed', array($this, 'onPrivacyPolicyNoticeDismissed'));
 		
-		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		/*$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
 		if(!isset($wpgmza_other_settings['wpgmza_gdpr_notice']))
 		{
@@ -26,7 +26,7 @@ class GDPRCompliance
 			$wpgmza_other_settings['wpgmza_settings_marker_pull'] = '0';
 			
 			update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
-		}
+		}*/
 	}
 	
 	public function onPluginGetDefaultSettings($settings)
@@ -122,10 +122,10 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		return $input . "<li><a href=\"#wpgmza-gdpr-compliance\">".__("GDPR Compliance","wp-google-maps")."</a></li>";
 	}
 	
-	public function onGlobalSettingsTabContent()
+	public function onGlobalSettingsTabContent($input)
 	{
 		$document = $this->getSettingsTabContent();
-		return $document->saveInnerBody();
+		return $input . $document->saveInnerBody();
 	}
 	
 	public function onPOST()
