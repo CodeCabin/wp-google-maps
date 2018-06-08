@@ -18,6 +18,8 @@ class Plugin
 	public $settings;
 	
 	protected $scriptLoader;
+	
+	private $cachedVersion = null;
 	private $legacySettings;
 	
 	public function __construct()
@@ -118,6 +120,7 @@ class Plugin
 			'settings' 				=> $this->settings,
 			'localized_strings'		=> $strings->getLocalizedStrings(),
 			'api_consent_html'		=> $wpgmzaGDPRCompliance->getConsentPromptHTML(),
+			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion()
 		));
 	}
@@ -168,6 +171,18 @@ class Plugin
 	public function isProVersion()
 	{
 		return false;
+	}
+	
+	public function getBasicVersion()
+	{
+		if($this->cachedVersion != null)
+			return $this->cachedVersion;
+		
+		$subject = file_get_contents(plugin_dir_path(__DIR__) . 'wpGoogleMaps.php');
+		if(preg_match('/Version:\s*(.+)/', $subject, $m))
+			$this->cachedVersion = $m[1];
+		
+		return $this->cachedVersion;
 	}
 }
 

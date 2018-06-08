@@ -11,6 +11,9 @@
 		
 		this.element = element;
 		
+		if(window.wpgmzaUnbindSaveReminder)
+			window.wpgmzaUnbindSaveReminder();
+		
 		$(element).show();
 		$(element).remodal().open();
 		

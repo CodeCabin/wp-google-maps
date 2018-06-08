@@ -187,7 +187,7 @@ class GoogleMapsAPILoader
 		$settings = (array)$wpgmza->settings;
 		
 		// Correction for Pro <= 7.10.04
-		if($settings['wpgmza_maps_engine'] == 'open-street-map')
+		if(!empty($settings['wpgmza_maps_engine']) && $settings['wpgmza_maps_engine'] == 'open-street-map')
 			$settings['wpgmza_maps_engine'] = 'open-layers';
 		
 		if(!empty($settings['wpgmza_settings_remove_api']))
@@ -198,7 +198,7 @@ class GoogleMapsAPILoader
 			return false;
 		}
 		
-		if(!empty($settings['wpgmza_gdpr_require_consent_before_load']) && !isset($_COOKIE['wpgmza-api-consent-given']))
+		if(!is_admin() && !empty($settings['wpgmza_gdpr_require_consent_before_load']) && !isset($_COOKIE['wpgmza-api-consent-given']))
 		{
 			$status->message = 'User consent not given';
 			$status->code = GoogleMapsAPILoader::USER_CONSENT_NOT_GIVEN;
