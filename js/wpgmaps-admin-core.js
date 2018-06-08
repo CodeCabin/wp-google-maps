@@ -78,6 +78,11 @@
 		window.removeEventListener("beforeunload", onBeforeUnload);
 	}
 	
+	window.wpgmzaUnbindSaveReminder = function()
+	{
+		unbindSaveReminder();
+	}
+	
 	function wpgmza_select_all_markers()
 	{
 		$("#wpgmza_table input[name='mark']").prop("checked", "checked");

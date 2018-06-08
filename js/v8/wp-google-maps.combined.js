@@ -400,7 +400,7 @@
 		
 		document.write = function(content)
 		{
-			if(content.match(/maps\.google/))
+			if(content.match && content.match(/maps\.google/))
 				return;
 			
 			old.call(document, content);
@@ -1908,6 +1908,9 @@
 		var self = this;
 		
 		this.element = element;
+		
+		if(window.wpgmzaUnbindSaveReminder)
+			window.wpgmzaUnbindSaveReminder();
 		
 		$(element).show();
 		$(element).remodal().open();
@@ -4661,6 +4664,11 @@
 	{
 		if(WPGMZA.settings.developer_mode)
 			console.log(options);
+		
+		if(options.maxWidth)
+		{
+			$(this.element).css({"max-width": options.maxWidth + "px"});
+		}
 	}
 	
 })(jQuery);

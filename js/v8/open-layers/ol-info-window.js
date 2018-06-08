@@ -84,6 +84,11 @@
 	{
 		if(WPGMZA.settings.developer_mode)
 			console.log(options);
+		
+		if(options.maxWidth)
+		{
+			$(this.element).css({"max-width": options.maxWidth + "px"});
+		}
 	}
 	
 })(jQuery);

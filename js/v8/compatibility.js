@@ -16,7 +16,7 @@
 		
 		document.write = function(content)
 		{
-			if(content.match(/maps\.google/))
+			if(content.match && content.match(/maps\.google/))
 				return;
 			
 			old.call(document, content);

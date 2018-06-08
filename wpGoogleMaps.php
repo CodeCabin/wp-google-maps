@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.10
+Version: 7.10.11
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,12 @@ Domain Path: /languages
 */
 
 /*
+ *
+ * 7.10.11
+ * Fixed JS error when passing non-string value to document.write
+ * Temporary workaround for "Unexpected token % in JSON"
+ * API consent no longer required on back-end
+ *
  * 7.10.10 - 2018-06-01 :- Medium Priority
  * Adding setting "Prevent other plugins and theme loading API"
  *
@@ -2710,7 +2716,12 @@ function wpgmaps_tag_basic( $atts ) {
 	if(isset($atts['height']) && $atts['height'] != 'inherit')
 		$map_attributes .= "data-shortcode-height='{$atts["height"]}' ";
 	
-	$map_attributes .= "data-settings='" . esc_attr(json_encode($res)) . "'";
+	// This is a hack and should be fixed by using DOMDocument
+	$escaped = esc_attr(json_encode($res));
+	$attr = str_replace('\\\\%', '%', $escaped);
+	//$attr = stripslashes($attr);
+	
+	$map_attributes = "data-settings='" . $attr . "'";
 	
     if (!$map_align || $map_align == "" || $map_align == "1") { $map_align = "float:left;"; }
     else if ($map_align == "2") { $map_align = "margin-left:auto !important; margin-right:auto; !important; align:center;"; }
