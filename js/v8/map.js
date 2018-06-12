@@ -78,6 +78,15 @@
 	}
 	
 	/**
+	 * This override should automatically dispatch a .wpgmza scoped event on the element
+	 * TODO: Implement
+	 */
+	/*WPGMZA.Map.prototype.trigger = function(event)
+	{
+		
+	}*/
+	
+	/**
 	 * Sets options in bulk on map
 	 * @return void
 	 */

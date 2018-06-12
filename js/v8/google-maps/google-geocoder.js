@@ -27,11 +27,12 @@
 			};
 		
 		var geocoder = new google.maps.Geocoder();
+		
 		geocoder.geocode(options, function(results, status) {
 			if(status == google.maps.GeocoderStatus.OK)
 			{
 				var location = results[0].geometry.location;
-				latLng = {
+				var latLng = {
 					lat: location.lat(),
 					lng: location.lng()
 				};
@@ -56,6 +57,35 @@
 				
 				callback(null, nativeStatus);
 			}
+		});
+	}
+	
+	WPGMZA.GoogleGeocoder.prototype.getAddressFromLatLng = function(options, callback)
+	{
+		if(!options || !options.latLng)
+			throw new Error("No latLng specified");
+		
+		var latLng = new WPGMZA.LatLng(options.latLng);
+		var geocoder = new google.maps.Geocoder();
+		
+		var options = $.extend(options, {
+			location: {
+				lat: latLng.lat,
+				lng: latLng.lng
+			}
+		});
+		delete options.latLng;
+		
+		geocoder.geocode(options, function(results, status) {
+			
+			if(status !== "OK")
+				callback(null, WPGMZA.Geocoder.FAIL);
+			
+			if(!results || !results.length)
+				callback([], WPGMZA.Geocoder.NO_RESULTS);
+			
+			callback([results[0].formatted_address], WPGMZA.Geocoder.SUCCESS);
+			
 		});
 	}
 	

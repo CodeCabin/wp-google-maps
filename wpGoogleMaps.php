@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.11
+Version: 7.10.12
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,7 +12,12 @@ Domain Path: /languages
 
 /*
  *
- * 7.10.11
+ * 7.10.12 - 2018-06-12 :- Low priority
+ * Handed FontAwesome loading over to ScriptLoader module
+ * Deprecated global function wpgmza_enqueue_fontawesome
+ * Fixed circles and rectangles only working on map ID 1
+ *
+ * 7.10.11 - 2018-06-08 :- Low priority
  * Fixed JS error when passing non-string value to document.write
  * Temporary workaround for "Unexpected token % in JSON"
  * API consent no longer required on back-end
@@ -8566,9 +8571,14 @@ add_action('init', 'maybe_install_v7_tables_basic');
 
 if(!function_exists('wpgmza_enqueue_fontawesome'))
 {
+	/**
+	 * Enqueues fontawesome
+	 * DEPRECATED :- This functionality has been handed off to the ScriptLoader class
+	 */
 	function wpgmza_enqueue_fontawesome()
 	{
-		$settings = get_option('WPGMZA_OTHER_SETTINGS');
+		// DEPRECATED
+		/*$settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
 		if($settings)
 			$settings = maybe_unserialize($settings);
@@ -8591,7 +8601,7 @@ if(!function_exists('wpgmza_enqueue_fontawesome'))
 			default:
 				wp_enqueue_style('fontawesome', plugins_url('css/font-awesome.min.css', __FILE__));
 				break;
-		}
+		}*/
 	}
 }
 
