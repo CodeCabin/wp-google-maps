@@ -39,17 +39,28 @@
 		if(WPGMZA.isLatLngString(options.address))
 		{
 			var parts = options.address.split(/,\s*/);
-			var latLng = {
+			var latLng = new WPGMZA.LatLng({
 				lat: parseFloat(parts[0]),
 				lng: parseFloat(parts[1])
-			}
-			callback(latLng);
+			});
+			callback([latLng], WPGMZA.Geocoder.SUCCESS);
 		}
+	}
+	
+	WPGMZA.Geocoder.prototype.getAddressFromLatLng = function(options, callback)
+	{
+		var latLng = new WPGMZA.LatLng(options.latLng);
+		callback([latLng.toString()], WPGMZA.Geocoder.SUCCESS);
 	}
 	
 	WPGMZA.Geocoder.prototype.geocode = function(options, callback)
 	{
-		return this.getLatLngFromAddress(options, callback);
+		if("address" in options)
+			return this.getLatLngFromAddress(options, callback);
+		else if("latLng" in options)
+			return this.getAddressFromLatLng(options, callback);
+		
+		throw new Error("You must supply either a latLng or address");
 	}
 	
 })(jQuery);

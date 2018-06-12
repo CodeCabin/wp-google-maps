@@ -369,6 +369,22 @@ class ScriptLoader
 			$this->scripts = (array)json_decode(file_get_contents($this->scriptsFileLocation));
 		}
 		
+		// FontAwesome?
+		$version = (empty($wpgmza->settings->use_fontawesome) ? '4.*' : $wpgmza->settings->use_fontawesome);
+		
+		switch($version)
+		{
+			case '5.*':
+				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+				break;
+				
+			case 'none':
+				break;
+				
+			default:
+				break;
+		}
+		
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);
 		$dependencies[] = 'wpgmza_api_call';
