@@ -99,6 +99,8 @@
 			var isRight;
 			event = event || window.event;
 			
+			var latLng = self.pixelsToLatLng(event.offsetX, event.offsetY);
+			
 			if("which" in event)
 				isRight = event.which == 3;
 			else if("button" in event)
@@ -107,7 +109,10 @@
 			if(event.which == 1 || event.button == 1)
 			{
 				// Left
-				self.trigger("click");
+				self.trigger({
+					type: "click",
+					latLng: latLng
+				});
 				return;
 			}
 			

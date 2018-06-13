@@ -40,7 +40,12 @@
 			this.setOptions(options);
 			
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
-			self.dispatchEvent("click");
+			var wpgmzaEvent = new WPGMZA.Event("click");
+			wpgmzaEvent.latLng = {
+				lat: event.latLng.lat(),
+				lng: event.latLng.lng()
+			};
+			self.dispatchEvent(wpgmzaEvent);
 		});
 		
 		google.maps.event.addListener(this.googleMap, "rightclick", function(event) {

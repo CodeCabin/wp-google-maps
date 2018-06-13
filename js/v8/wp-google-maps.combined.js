@@ -3315,7 +3315,12 @@
 			this.setOptions(options);
 			
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
-			self.dispatchEvent("click");
+			var wpgmzaEvent = new WPGMZA.Event("click");
+			wpgmzaEvent.latLng = {
+				lat: event.latLng.lat(),
+				lng: event.latLng.lng()
+			};
+			self.dispatchEvent(wpgmzaEvent);
 		});
 		
 		google.maps.event.addListener(this.googleMap, "rightclick", function(event) {
@@ -3833,7 +3838,10 @@
 				lng: googleMarkerPosition.lng()
 			});
 			
-			self.dispatchEvent("dragend");
+			self.dispatchEvent({
+				type: "dragend",
+				latLng: self.getPosition()
+			});
 		});
 		
 		this.trigger("init");
@@ -4849,6 +4857,8 @@
 			var isRight;
 			event = event || window.event;
 			
+			var latLng = self.pixelsToLatLng(event.offsetX, event.offsetY);
+			
 			if("which" in event)
 				isRight = event.which == 3;
 			else if("button" in event)
@@ -4857,7 +4867,10 @@
 			if(event.which == 1 || event.button == 1)
 			{
 				// Left
-				self.trigger("click");
+				self.trigger({
+					type: "click",
+					latLng: latLng
+				});
 				return;
 			}
 			

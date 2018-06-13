@@ -62,7 +62,10 @@
 				lng: googleMarkerPosition.lng()
 			});
 			
-			self.dispatchEvent("dragend");
+			self.dispatchEvent({
+				type: "dragend",
+				latLng: self.getPosition()
+			});
 		});
 		
 		this.trigger("init");
