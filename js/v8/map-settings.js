@@ -126,15 +126,15 @@
 			options.maxZoom = parseInt(this.max_zoom);
 		
 		// These settings are all inverted because the checkbox being set means "disabled"
-		options.zoomControl 			= !(this.map_zoom == true);
-		options.panControl 				= !(this.map_pan == true);
-		options.mapTypeControl			= !(this.disable_map_type_controls == true);
-		options.streetViewControl		= !(this.map_streetview == true);
-		options.fullscreenControl		= !(this.map_full_screen_control == true);
-		
-		options.draggable				= !(this.map_draggable == true);
-		options.disableDoubleClickZoom	= !(this.map_clickzoom == true);
-		options.scrollwheel				= !(this.map_scroll == true);
+		options.zoomControl				= !(this.wpgmza_settings_map_zoom == 'yes');
+        options.panControl				= !(this.wpgmza_settings_map_pan == 'yes');
+        options.mapTypeControl			= !(this.wpgmza_settings_map_type == 'yes');
+        options.streetViewControl		= !(this.wpgmza_settings_map_streetview == 'yes');
+        options.fullscreenControl		= !(this.wpgmza_settings_map_full_screen_control == 'yes');
+        
+        options.draggable				= !(this.wpgmza_settings_map_draggable == 'yes');
+        options.disableDoubleClickZoom	= !(this.wpgmza_settings_map_clickzoom == 'yes');
+        options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
 		
 		if(this.force_greedy_gestures)
 			options.gestureHandling = "greedy";

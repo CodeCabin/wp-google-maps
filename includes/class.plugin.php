@@ -2,6 +2,22 @@
 
 namespace WPGMZA;
 
+/*class MyCustomGlobalSettings extends GlobalSettings
+{
+	public function __construct()
+	{
+		GlobalSettings::__construct();
+		
+		var_dump("It works!");
+		exit;
+	}
+	
+	protected static function createInstanceDelegate()
+	{
+		return new MyCustomGlobalSettings();
+	}
+}*/
+
 class Plugin
 {
 	const PAGE_MAP_LIST			= "map-list";
@@ -29,6 +45,8 @@ class Plugin
 			$this->legacySettings = array();
 		
 		$settings = $this->getDefaultSettings();
+		
+		// $temp = GlobalSettings::createInstance();
 		
 		// Legacy compatibility
 		global $wpgmza_pro_version;

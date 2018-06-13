@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.12
+Version: 7.10.13
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,12 @@ Domain Path: /languages
 */
 
 /*
+ *
+ * 7.10.13 - 2018-06-13 :- Low priority
+ * Fixed can't save Modern Store Locator
+ * Fixed store locator reset not working
+ * Fixed disabling map controls not working
+ * Fixed store locator radio button
  *
  * 7.10.12 - 2018-06-12 :- Low priority
  * Handed FontAwesome loading over to ScriptLoader module
@@ -3184,7 +3190,7 @@ function wpgmaps_head() {
         if (isset($_POST['wpgmza_store_locator_restrict'])) { $other_settings['wpgmza_store_locator_restrict'] = sanitize_text_field($_POST['wpgmza_store_locator_restrict']); }
 		
 		if(isset($_POST['store_locator_style']))
-			$other_settings['store_locator_style'] = $_POST['wpgmza_store_locator_style'];
+			$other_settings['store_locator_style'] = $_POST['store_locator_style'];
 		
 		if(isset($_POST['wpgmza_store_locator_radius_style']))
 			$other_settings['wpgmza_store_locator_radius_style'] = $_POST['wpgmza_store_locator_radius_style'];
@@ -5440,7 +5446,7 @@ function wpgmza_basic_menu() {
 										<ul>
 											<li>
 												<input type='radio' 						
-													name='wpgmza_store_locator_style' 
+													name='store_locator_style' 
 													value='legacy'"
 													. ($store_locator_style == 'legacy' ? 'checked="checked"' : '') . 
 													"/>" 
@@ -5449,7 +5455,7 @@ function wpgmza_basic_menu() {
 											</li>
 											<li>
 												<input type='radio' 
-													name='wpgmza_store_locator_style' 
+													name='store_locator_style' 
 													value='modern'"
 													. ($store_locator_style == 'modern' ? 'checked="checked"' : '') . 
 													"/>" 

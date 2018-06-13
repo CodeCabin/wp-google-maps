@@ -19,7 +19,7 @@
 		WPGMZA.assertInstanceOf(this, "ModernStoreLocator");
 		
 		if(WPGMZA.isProVersion())
-			 original = $(".wpgmza_sl_search_button[mid='" + map_id + "']").closest(".wpgmza_sl_main_div");
+			original = $(".wpgmza_sl_search_button[mid='" + map_id + "']").closest(".wpgmza_sl_main_div");
 		else
 			original = $(".wpgmza_sl_search_button").closest(".wpgmza_sl_main_div");
 		
@@ -60,6 +60,10 @@
 		
 		this.resetButton = $(original).find( ".wpgmza_sl_reset_button_div" );
 		inner.append(this.resetButton);
+		
+		this.resetButton.on("click", function(event) {
+			resetLocations(map_id);
+		});
 		
 		this.resetButton.hide();
 		
