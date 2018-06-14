@@ -62,5 +62,21 @@ class GlobalSettings
 		$this->reload();
 	}
 	
+	/**
+	 * Used to set values, optionally in bulk
+	 * @param $arg (string|array) Either a string naming the setting to be set, or an object / array of settings to set in bulk
+	 * @param $val (optional) Where a string is given as the first parameter, pass the value you want to assign here
+	 * @return $this
+	 */
+	public function set($arg, $val=null)
+	{
+		throw new \Exception('Not yet implemented');
+		
+		return $this;
+	}
 	
+	public function toArray()
+	{
+		throw new \Exception('Not yet implemented');
+	}
 }
