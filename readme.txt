@@ -215,6 +215,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.14 - 2018-06-14 :- Medium priority =
+* Fixed incompatibilities with UGM
+
+= 7.10.13 - 2018-06-13 :- Low priority =
+* Fixed can't save Modern Store Locator
+* Fixed store locator reset not working
+* Fixed disabling map controls not working
+* Fixed store locator radio button
+
 = 7.10.12 - 2018-06-12 :- Low priority =
 * Handed FontAwesome loading over to ScriptLoader module
 * Deprecated global function wpgmza_enqueue_fontawesome
