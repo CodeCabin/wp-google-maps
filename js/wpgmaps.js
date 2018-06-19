@@ -183,9 +183,11 @@ function wpgmza_create_places_autocomplete() {
 	};
 	
 	var restriction = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
-	
-	if(restriction)
-		options.componentRestrictions.country = restriction;
+
+	if(restriction && restriction.length)
+		options.componentRestrictions = {
+			country: restriction
+		};
 	
 	autocomplete = new google.maps.places.Autocomplete(element, options);
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -789,7 +791,9 @@ function searchLocations(map_id) {
 	
 	var restrict = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
 	if(restrict && restrict.length)
-		options.componentRestrictions = restrict;
+		options.componentRestrictions = {
+			country: restrict
+		};
 	
 	geocoder.geocode(options, function(results, status) {
 		
