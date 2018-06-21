@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.15
+ * Fixed Store Locator Restrict to country
+ * 
  * 7.10.14 - 2018-06-14 :- Medium priority
  * Fixed incompatibilities with UGM
  *
