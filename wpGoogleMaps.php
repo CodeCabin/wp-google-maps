@@ -23,7 +23,8 @@ Domain Path: /languages
  *
  * 7.10.15 - 2018-06-14 :- Medium priority
  * Fixed GDPR consent notice bypassed when "prevent other plugins and theme enqueueing maps API" is not set
- *
+ * Fixed Store Locator Restrict to country
+ * 
  * 7.10.14 - 2018-06-14 :- Medium priority
  * Fixed incompatibilities with UGM
  *
