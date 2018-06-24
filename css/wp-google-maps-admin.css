@@ -467,3 +467,19 @@ input.cmn-toggle-yes-no:checked + label:after {
 {
 	resize: both;
 }
+
+#wpgmza-gdpr-compliance label
+{
+	cursor: auto;
+}
+
+#wpgmza-gdpr-compliance i
+{
+	cursor: help !important;
+}
+
+[name='wpgmza_gdpr_notice']
+{
+	width: 80%;
+	height: 200px;
+}

@@ -45,18 +45,18 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProMap;
-				
-				return WPGMZA.GoogleMap;
-				break;
-				
-			default:
+			case "open-layers":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProMap;
 				
 				return WPGMZA.OLMap;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProMap;
+				
+				return WPGMZA.GoogleMap;
 				break;
 		}
 	}

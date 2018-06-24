@@ -409,7 +409,7 @@ class ScriptLoader
 		global $wpgmza;
 		
 		$data = $wpgmza->getLocalizedData();
-		
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
+
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
 	}
 }

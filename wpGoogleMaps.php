@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.14
+Version: 7.10.17
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,19 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.17
+ * New GlobalSettings module
+ * Fixed store locator restrict
+ * Fixed undefined index wpgmza_settings_marker_pull on new installations
+ * Deprecated redundant WPGMZA_SETTINGS option
+ *
+ * 7.10.16 - 2018-06-21 :- Medium priority
+ * Fixed global settings lost
+ * Fixed whitespace matched in version variable
+ *
+ * 7.10.15 - 2018-06-14 :- Medium priority
+ * Fixed GDPR consent notice bypassed when "prevent other plugins and theme enqueueing maps API" is not set
+ *
  * 7.10.14 - 2018-06-14 :- Medium priority
  * Fixed incompatibilities with UGM
  *
@@ -485,7 +498,7 @@ $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
 
 $subject = file_get_contents(__FILE__);
 if(preg_match('/Version:\s*(.+)/', $subject, $m))
-	$wpgmza_version = $m[1];
+	$wpgmza_version = trim($m[1]);
 
 define('WPGMZA_VERSION', $wpgmza_version);
 define("WPGMAPS", $wpgmza_version);
@@ -574,14 +587,17 @@ function wpgmaps_activate() {
 	
 	$wpgmza_data = get_option("WPGMZA");
 	
-	if($wpgmza)
-		return;
+	// TODO: Set defaults here, use a hook in the settings object
+	$other_settings = get_option('WPGMZA_OTHER_SETTINGS');
 	
-	$other_settings = array();
-	$other_settings['wpgmza_settings_map_streetview'] = "yes";
-	$other_settings['wpgmza_settings_map_zoom'] = "yes";
-	$other_settings['wpgmza_settings_map_pan'] = "yes";
-	$other_settings['wpgmza_settings_map_type'] = "yes";
+	if(empty($other_settings))
+		$other_settings = array(
+			'wpgmza_settings_map_streetview' => 'yes',
+			'wpgmza_settings_map_zoom' => 'yes',
+			'wpgmza_settings_map_pan' => 'yes',
+			'wpgmza_settings_map_type' => 'yes'
+		);
+	
 	update_option('WPGMZA_OTHER_SETTINGS', $other_settings);
 
     update_option("wpgmza_temp_api",'AIzaSyChPphumyabdfggISDNBuGOlGVBgEvZnGE');
@@ -726,8 +742,10 @@ function wpgmaps_deactivate() { /* wpgmza_cURL_response("deactivate"); */ }
  * @return void
  */
 function wpgmaps_init() {
+	global $wpgmza;
     global $wpgmza_pro_version;
     global $wpgmza_version;
+	
     wp_enqueue_script("jquery");
     $plugin_dir = basename(dirname(__FILE__))."/languages/";
     load_plugin_textdomain( 'wp-google-maps', false, $plugin_dir );
@@ -743,22 +761,28 @@ function wpgmaps_init() {
         add_option("wpgmza_xml_url",'{uploads_url}/wp-google-maps/');
     }
     
+	// NB: New settings module
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
+	
+	if(!$wpgmza_settings)
+		$wpgmza_settings = array();
+	
+	//$wpgmza_settings = $wpgmza->settings;
 
     if (!isset($wpgmza_settings['wpgmza_settings_marker_pull']) || $wpgmza_settings['wpgmza_settings_marker_pull'] == "") {
         
         $wpgmza_first_time = get_option("WPGMZA_FIRST_TIME");
-                if (!$wpgmza_first_time) { 
-                    
-                    /* first time, set marker pull to DB */
-                    $wpgmza_settings['wpgmza_settings_marker_pull'] = "0";
-                    update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
+		
+		if (!$wpgmza_first_time) { 
+			/* first time, set marker pull to DB */
+			$wpgmza_settings['wpgmza_settings_marker_pull'] = "0";
+			update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
 
-                } else {
-                    /* previous users - set it to XML (what they were using originally) */
-                    $wpgmza_settings['wpgmza_settings_marker_pull'] = "1";
-                    update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
-                }
+		} else {
+			/* previous users - set it to XML (what they were using originally) */
+			$wpgmza_settings['wpgmza_settings_marker_pull'] = "1";
+			update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
+		}
     }
    
     if (function_exists("wpgmza_register_pro_version")) {
@@ -4283,7 +4307,9 @@ function wpgmaps_settings_page_basic() {
     google_maps_api_key_warning();
 
     $wpgmza_settings = array_merge((array)$wpgmza->settings, get_option("WPGMZA_OTHER_SETTINGS"));
-	$wpgmza_settings['wpgmza_maps_engine'] = $wpgmza_settings['engine'];
+	
+	if(isset($wpgmza_settings['engine']))
+		$wpgmza_settings['wpgmza_maps_engine'] = $wpgmza_settings['engine'];
 	
     if (isset($wpgmza_settings['wpgmza_settings_map_full_screen_control'])) { $wpgmza_settings_map_full_screen_control = $wpgmza_settings['wpgmza_settings_map_full_screen_control']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_streetview'])) { $wpgmza_settings_map_streetview = $wpgmza_settings['wpgmza_settings_map_streetview']; }
@@ -6145,7 +6171,17 @@ function wpgmza_basic_menu() {
 
                    
 
-                    <p><br /><br />".__("WP Google Maps encourages you to make use of the amazing icons at ", "wp-google-maps")."<a href='https://mappity.org'>https://mappity.org</a></p>
+                    <p>
+						<small>
+							" . __("Thank you for using <a href='https://www.wpgmaps.com'>WP Google Maps</a>! Please <a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/'>rate us on WordPress.org</a>", 'wp-google-maps') . "
+							|
+							" . __("WP Google Maps is a product of <img src='" . plugin_dir_url(__FILE__) . "images/codecabin.png' alt='CODECABIN_' style='height: 1em;'/>", 'wp-google-maps') . "
+							|
+							" . __("Please refer to our <a href='https://www.wpgmaps.com/privacy-policy' target='_blank'>Privacy Policy</a> for information on Data Processing", 'wp-google-maps') . "
+							|
+							" . __("WP Google Maps encourages you to make use of the amazing icons at ", "wp-google-maps") . "<a href='https://mappity.org'>https://mappity.org</a>
+						</small>
+					</p>
                 </div>
 
 

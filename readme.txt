@@ -215,6 +215,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.15 - 2018-06-14 :- Medium priority =
+* Fixed GDPR consent notice bypassed when "prevent other plugins and theme enqueueing maps API" is not set
+
 = 7.10.14 - 2018-06-14 :- Medium priority =
 * Fixed incompatibilities with UGM
 

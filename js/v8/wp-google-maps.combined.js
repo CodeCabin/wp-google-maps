@@ -288,12 +288,12 @@
 			
 			switch(WPGMZA.settings.engine)
 			{
-				case "google-maps":
-					engine = "Google";
+				case "open-layers":
+					engine = "OL";
 					break;
 				
 				default:
-					engine = "OL";
+					engine = "Google";
 					break;
 			}
 			
@@ -694,12 +694,12 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				return WPGMZA.GoogleGeocoder;
+			case "open-layers":
+				return WPGMZA.OLGeocoder;
 				break;
 				
 			default:
-				return WPGMZA.OLGeocoder;
+				return WPGMZA.GoogleGeocoder;
 				break;
 		}
 	}
@@ -785,16 +785,16 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProInfoWindow;
-				return WPGMZA.GoogleInfoWindow;
-				break;
-				
-			default:
+			case "open-layers":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProInfoWindow;
 				return WPGMZA.OLInfoWindow;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProInfoWindow;
+				return WPGMZA.GoogleInfoWindow;
 				break;
 		}
 	}
@@ -1499,18 +1499,18 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProMap;
-				
-				return WPGMZA.GoogleMap;
-				break;
-				
-			default:
+			case "open-layers":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProMap;
 				
 				return WPGMZA.OLMap;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProMap;
+				
+				return WPGMZA.GoogleMap;
 				break;
 		}
 	}
@@ -2038,16 +2038,16 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
+			case "open-layers":
 				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProMarker;
-				return WPGMZA.GoogleMarker;
+					return WPGMZA.OLProMarker;
+				return WPGMZA.OLMarker;
 				break;
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OLProMarker;
-				return WPGMZA.OLMarker;
+					return WPGMZA.GoogleProMarker;
+				return WPGMZA.GoogleMarker;
 				break;
 		}
 	}
@@ -2825,16 +2825,16 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProPolygon;
-				return WPGMZA.GooglePolygon;
-				break;
-				
-			default:
+			case "open-layers":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProPolygon;
 				return WPGMZA.OLPolygon;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProPolygon;
+				return WPGMZA.GooglePolygon;
 				break;
 		}
 	}
@@ -2885,12 +2885,12 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				return WPGMZA.GooglePolyline;
-				break;
-				
-			default:
+			case "open-layers":
 				return WPGMZA.OLPolyline;
+				break;
+			
+			default:
+				return WPGMZA.GooglePolyline;
 				break;
 		}
 	}
