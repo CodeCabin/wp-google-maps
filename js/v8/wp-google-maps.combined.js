@@ -232,6 +232,8 @@
 				
 				navigator.geolocation.getCurrentPosition(function(position) {
 					callback(position);
+					
+					WPGMZA.events.trigger("userlocationfound");
 				},
 				function(error) {
 					console.warn(error.code, error.message);

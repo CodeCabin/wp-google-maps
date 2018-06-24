@@ -97,7 +97,7 @@ function wpgmza_backwards_compat_get_all_circle_data(){
 	global $wpdb;
 	global $wpgmza_tblname_circles;
 	
-	$stmt = "SELECT *, AsText(center) AS center FROM $wpgmza_tblname_circles";
+	$stmt = "SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles";
 	$results = $wpdb->get_results($stmt);
 	
 	$circles = array();
@@ -111,7 +111,7 @@ function wpgmza_backwards_compat_get_all_rectangle_data(){
 	global $wpdb;
 	global $wpgmza_tblname_rectangles;
 	
-	$stmt = "SELECT *, AsText(cornerA) AS cornerA, AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles";
+	$stmt = "SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles";
 	$results = $wpdb->get_results($stmt);
 	
 	$rectangles = array();

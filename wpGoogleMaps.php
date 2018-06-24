@@ -681,7 +681,7 @@ function wpgmaps_activate() {
 			
 			VALUES 
 			
-			(%d, %s, %s, %s, GeomFromText(%s), %s, %s, %s, %d, %s, %s, %s, %s, %d)", array(
+			(%d, %s, %s, %s, ST_GeomFromText(%s), %s, %s, %s, %d, %s, %s, %s, %s, %d)", array(
 			
 			1,
 			'California',
@@ -2527,7 +2527,7 @@ function wpgmaps_action_callback_basic() {
 				'address'		=> '%s',
 				'lat'			=> '%f',
 				'lng'			=> '%f',
-				'latlng'		=> 'GeomFromText(%s)',
+				'latlng'		=> 'ST_GeomFromText(%s)',
 				'infoopen'		=> '%d',
 				'description'	=> '%s',
 				'title'			=> '%s',
@@ -2581,7 +2581,7 @@ function wpgmaps_action_callback_basic() {
 				address = %s,
 				lat = %f,
 				lng = %f,
-				latlng = GeomFromText(%s),
+				latlng = ST_GeomFromText(%s),
 				anim = %d,
 				infoopen = %d
 				WHERE
@@ -3316,7 +3316,7 @@ function wpgmaps_head() {
                 "UPDATE $wpgmza_tblname SET
                 lat = %s,
                 lng = %s,
-				latlng = GeomFromText('POINT(%f %f)')
+				latlng = ST_GeomFromText('POINT(%f %f)')
                 WHERE id = %d",
 
                 $wpgmaps_marker_lat,
@@ -3550,7 +3550,7 @@ function wpgmaps_head() {
 		{
 			$stmt = $wpdb->prepare("
 				UPDATE $wpgmza_tblname_circles SET
-				center = GeomFromText(%s),
+				center = ST_GeomFromText(%s),
 				name = %s,
 				color = %s,
 				opacity = %f,
@@ -3571,7 +3571,7 @@ function wpgmaps_head() {
 				INSERT INTO $wpgmza_tblname_circles
 				(center, map_id, name, color, opacity, radius)
 				VALUES
-				(GeomFromText(%s), %d, %s, %s, %f, %f)
+				(ST_GeomFromText(%s), %d, %s, %s, %f, %f)
 			", array(
 				"POINT($center)",
 				$_POST['wpgmaps_map_id'],
@@ -3617,8 +3617,8 @@ function wpgmaps_head() {
 				name = %s,
 				color = %s,
 				opacity = %f,
-				cornerA = GeomFromText(%s),
-				cornerB = GeomFromText(%s)
+				cornerA = ST_GeomFromText(%s),
+				cornerB = ST_GeomFromText(%s)
 				WHERE id = %d
 			", array(
 				$_POST['rectangle_name'],
@@ -3635,7 +3635,7 @@ function wpgmaps_head() {
 				INSERT INTO $wpgmza_tblname_rectangles
 				(map_id, name, color, opacity, cornerA, cornerB)
 				VALUES
-				(%d, %s, %s, %f, GeomFromText(%s), GeomFromText(%s))
+				(%d, %s, %s, %f, ST_GeomFromText(%s), ST_GeomFromText(%s))
 			", array(
 				$_POST['wpgmaps_map_id'],
 				$_POST['rectangle_name'],
@@ -3874,7 +3874,7 @@ function wpgmaps_head_old() {
                 "UPDATE $wpgmza_tblname SET
                 lat = %s,
                 lng = %s,
-				latlng = GeomFromText('POINT(%f %f)')
+				latlng = ST_GeomFromText('POINT(%f %f)')
                 WHERE id = %d",
 
                 $wpgmaps_marker_lat,
@@ -6424,8 +6424,8 @@ if(!function_exists('wpgmza_get_marker_columns'))
         
         if($useSpatialData)
         {
-            $columns[] = 'X(latlng) AS lat';
-            $columns[] = 'Y(latlng) AS lng';
+            $columns[] = 'ST_X(latlng) AS lat';
+            $columns[] = 'ST_Y(latlng) AS lng';
         }
         
         return $columns;
@@ -8074,7 +8074,7 @@ function wpgmza_b_edit_circle($mid)
         $res = wpgmza_get_map_data($mid);
 		$circle_id = (int)$_GET['circle_id'];
 		
-		$results = $wpdb->get_results("SELECT *, AsText(center) AS center FROM $wpgmza_tblname_circles WHERE id = $circle_id");
+		$results = $wpdb->get_results("SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles WHERE id = $circle_id");
 		
 		if(empty($results))
 		{
@@ -8417,7 +8417,7 @@ function wpgmza_b_edit_rectangle($mid)
         $res = wpgmza_get_map_data($mid);
 		$rectangle_id = (int)$_GET['rectangle_id'];
 		
-		$results = $wpdb->get_results("SELECT *, AsText(cornerA) AS cornerA, AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE id = $rectangle_id");
+		$results = $wpdb->get_results("SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE id = $rectangle_id");
 		
 		if(empty($results))
 		{
@@ -8519,7 +8519,7 @@ if(!function_exists('wpgmza_get_circle_data'))
 		global $wpdb;
 		global $wpgmza_tblname_circles;
 		
-		$stmt = $wpdb->prepare("SELECT *, AsText(center) AS center FROM $wpgmza_tblname_circles WHERE map_id=%d", array($map_id));
+		$stmt = $wpdb->prepare("SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles WHERE map_id=%d", array($map_id));
 		$results = $wpdb->get_results($stmt);
 		
 		$circles = array();
@@ -8537,7 +8537,7 @@ if(!function_exists('wpgmza_get_rectangle_data'))
 		global $wpdb;
 		global $wpgmza_tblname_rectangles;
 		
-		$stmt = $wpdb->prepare("SELECT *, AsText(cornerA) AS cornerA, AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE map_id=%d", array($map_id));
+		$stmt = $wpdb->prepare("SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE map_id=%d", array($map_id));
 		$results = $wpdb->get_results($stmt);
 		
 		$rectangles = array();

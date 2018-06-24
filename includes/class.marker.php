@@ -26,7 +26,7 @@ class Marker extends Crud
 	protected function get_placeholder_by_type($type)
 	{
 		if($type == 'point')
-			return "GeomFromText(%s)";
+			return "ST_GeomFromText(%s)";
 		
 		return Crud::get_placeholder_by_type($type);
 	}
@@ -54,7 +54,7 @@ class Marker extends Crud
 			$this->get_column_parameter('latlng'),
 			$this->id
 		);
-		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng=GeomFromText(%s) WHERE id=%d", $params);
+		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng=ST_GeomFromText(%s) WHERE id=%d", $params);
 		$wpdb->query($stmt);
 	}
 	
