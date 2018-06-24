@@ -41,16 +41,16 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProInfoWindow;
-				return WPGMZA.GoogleInfoWindow;
-				break;
-				
-			default:
+			case "open-layers":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProInfoWindow;
 				return WPGMZA.OLInfoWindow;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProInfoWindow;
+				return WPGMZA.GoogleInfoWindow;
 				break;
 		}
 	}

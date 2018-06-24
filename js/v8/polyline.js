@@ -22,12 +22,12 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				return WPGMZA.GooglePolyline;
-				break;
-				
-			default:
+			case "open-layers":
 				return WPGMZA.OLPolyline;
+				break;
+			
+			default:
+				return WPGMZA.GooglePolyline;
 				break;
 		}
 	}

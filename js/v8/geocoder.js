@@ -18,12 +18,12 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
-				return WPGMZA.GoogleGeocoder;
+			case "open-layers":
+				return WPGMZA.OLGeocoder;
 				break;
 				
 			default:
-				return WPGMZA.OLGeocoder;
+				return WPGMZA.GoogleGeocoder;
 				break;
 		}
 	}

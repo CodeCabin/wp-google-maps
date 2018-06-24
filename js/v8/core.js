@@ -286,12 +286,12 @@
 			
 			switch(WPGMZA.settings.engine)
 			{
-				case "google-maps":
-					engine = "Google";
+				case "open-layers":
+					engine = "OL";
 					break;
 				
 				default:
-					engine = "OL";
+					engine = "Google";
 					break;
 			}
 			

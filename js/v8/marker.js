@@ -55,16 +55,16 @@
 	{
 		switch(WPGMZA.settings.engine)
 		{
-			case "google-maps":
+			case "open-layers":
 				if(WPGMZA.isProVersion())
-					return WPGMZA.GoogleProMarker;
-				return WPGMZA.GoogleMarker;
+					return WPGMZA.OLProMarker;
+				return WPGMZA.OLMarker;
 				break;
 				
 			default:
 				if(WPGMZA.isProVersion())
-					return WPGMZA.OLProMarker;
-				return WPGMZA.OLMarker;
+					return WPGMZA.GoogleProMarker;
+				return WPGMZA.GoogleMarker;
 				break;
 		}
 	}

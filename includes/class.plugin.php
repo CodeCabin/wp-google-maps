@@ -2,23 +2,7 @@
 
 namespace WPGMZA;
 
-/*class MyCustomGlobalSettings extends GlobalSettings
-{
-	public function __construct()
-	{
-		GlobalSettings::__construct();
-		
-		var_dump("It works!");
-		exit;
-	}
-	
-	protected static function createInstanceDelegate()
-	{
-		return new MyCustomGlobalSettings();
-	}
-}*/
-
-class Plugin
+class Plugin extends Factory
 {
 	const PAGE_MAP_LIST			= "map-list";
 	const PAGE_MAP_EDIT			= "map-edit";
@@ -44,12 +28,10 @@ class Plugin
 		if(!$this->legacySettings)
 			$this->legacySettings = array();
 		
-		$settings = $this->getDefaultSettings();
-		
-		// $temp = GlobalSettings::createInstance();
-		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
+		
+		$this->settings = new GlobalSettings();
 		
 		// TODO: This should be in default settings, this code is duplicaetd
 		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
@@ -71,7 +53,6 @@ class Plugin
 			});
 		}
 		
-		$this->settings = (object)array_merge($this->legacySettings, $settings);
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
@@ -85,6 +66,14 @@ class Plugin
 		
 		if($this->settings->engine == 'open-layers')
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
+	}
+	
+	public function __set($name, $value)
+	{
+		if($name == 'settings')
+			throw new \Exception('Property is read only');
+		
+		$this->{$name} = $value;
 	}
 	
 	public function loadScripts()
@@ -112,19 +101,6 @@ class Plugin
 				$this->scriptLoader->enqueueStyles();
 			});
 		}
-	}
-	
-	public function getDefaultSettings()
-	{
-		//$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
-		$defaultEngine = 'google-maps';
-		
-		return apply_filters('wpgmza_plugin_get_default_settings', array(
-			'engine' 				=> $defaultEngine,
-			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
-			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
-			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
-		));
 	}
 	
 	public function getLocalizedData()
@@ -204,16 +180,10 @@ class Plugin
 	}
 }
 
-function create_plugin_instance()
-{
-	if(defined('WPGMZA_PRO_VERSION'))
-		return new ProPlugin();
-	
-	return new Plugin();
-}
-
 add_action('plugins_loaded', function() {
+	
 	global $wpgmza;
-	add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);
-	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
+	
+	$wpgmza = Plugin::createInstance();
+	
 });
