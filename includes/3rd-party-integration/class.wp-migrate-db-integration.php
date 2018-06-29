@@ -13,8 +13,6 @@ if(!class_exists('WPGMZA\\Integration\\WPMigrateDB'))
 		
 		public function onProcessColumnAsBinary($processAsBinary, $struct)
 		{
-			die('pof');
-			
 			if(preg_match('/^GEOMETRY|POINT|POLYGON|LINESTRING|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON|GEOMETRYCOLLECTION$/i', $struct->Type))
 				return true;
 			

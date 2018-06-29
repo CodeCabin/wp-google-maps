@@ -77,7 +77,14 @@ class DOMDocument extends \DOMDocument
 		if(empty($html))
 			throw new \Exception("$src is empty");
 		
-		$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+		if(function_exists('mb_convert_encoding'))
+			$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+		else
+		{
+			trigger_error('Using fallback UTF to HTML entity conversion', E_USER_NOTICE);
+			$html = htmlspecialchars_decode(utf8_decode(htmlentities($html, ENT_COMPAT, 'utf-8', false)));
+		}
+		
 		$suppress_warnings = !(defined('WP_DEBUG') && WP_DEBUG);
 		
 		// From PHP 5.4.0 onwards, loadHTML takes 2 arguments

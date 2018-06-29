@@ -308,8 +308,8 @@ class ScriptLoader
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
 
-		wp_register_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
-		wp_enqueue_style('fontawesome');
+		//wp_register_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
+		//wp_enqueue_style('fontawesome');
 	}
 	
 	public function enqueueScripts()

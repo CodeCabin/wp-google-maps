@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.17
+Version: 7.10.18
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,11 +11,28 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.17
- * New GlobalSettings module
+ * 7.10.18
+ * Added new GlobalSettings module
+ * Added character encoding fallback for setups without multi-byte support
+ * Added fallback for users without multi-byte encoding functions available
+ * Added code to strip marker icon protocol (http/https)
+ * Fixed consent warning displayed when checked even with GDPR disabled
  * Fixed store locator restrict
  * Fixed undefined index wpgmza_settings_marker_pull on new installations
+ * Fixed media="1" attribute not validating
+ * Fixed debug code breaking WP Migrate DB integration module
+ * Fixed can't uncheck "Enable GDPR compliance"
+ * Fixed plugin always loads FontAwesome 4
+ * Fixed latLng not defined in OLGeocoder
+ * Fixed country restriction broken in OpenLayers
  * Deprecated redundant WPGMZA_SETTINGS option
+ * Removed deprecated window.load jQuery calls
+ * Removed Google autocomplete when OpenLayers engine selected
+ *
+ * 7.10.17 - 2018-06-29 :- Low priority
+ * Fixed country restriction broken in store locator
+ * Added dismissable admin GDPR warning when GDPR compliance has been switched off
+ * Fixed GDPR settings blank by default on new installations
  *
  * 7.10.16 - 2018-06-21 :- Medium priority
  * Fixed global settings lost
@@ -2711,7 +2728,7 @@ function wpgmaps_tag_basic( $atts ) {
 
     if (!function_exists('wpgmaps_admin_styles_pro')) {
         
-        wp_register_style( 'wpgmaps-style', plugins_url('css/wpgmza_style.css', __FILE__),array(),$wpgmza_version, true);
+        wp_register_style( 'wpgmaps-style', plugins_url('css/wpgmza_style.css', __FILE__),array(),$wpgmza_version);
         wp_enqueue_style( 'wpgmaps-style' );
 
 
@@ -3051,16 +3068,10 @@ add_action('admin_post_wpgmza_settings_page_post', 'wpgmza_settings_page_post');
 function wpgmza_settings_page_post()
 {
 	global $wpdb;
+	global $wpgmza;
 	
-	global $wpgmzaGDPRCompliance;
-	
-	if($wpgmzaGDPRCompliance)
-		$wpgmzaGDPRCompliance->onPOST();
-	
-	//$wpgmza_data = array();
-	$wpgmza_data = get_option('WPGMZA_OTHER_SETTINGS');
-	if(!$wpgmza_data)
-		$wpgmza_data = array();
+	if($wpgmza)
+		$wpgmza->gdprCompliance->onPOST();
 	
 	$checkboxes = array("wpgmza_settings_map_full_screen_control",
 		"wpgmza_settings_map_streetview",
@@ -3099,50 +3110,59 @@ function wpgmza_settings_page_post()
 		}
 		
 		if(!empty($_POST[$name]))
-			$wpgmza_data[$remap] = sanitize_text_field( $_POST[$name] );
-		else if(isset($wpgmza_data[$remap]))
-			unset($wpgmza_data[$remap]);
+		{
+			$wpgmza->settings[$remap] = sanitize_text_field( $_POST[$name] );
+		}
+		else if(isset($wpgmza->settings[$remap]))
+		{
+			unset($wpgmza->settings[$remap]);
+		}
 	}
 	
 	if(isset($_POST['wpgmza_load_engine_api_condition']))
-		$wpgmza_data['wpgmza_load_engine_api_condition'] = $_POST['wpgmza_load_engine_api_condition'];
+		$wpgmza->settings['wpgmza_load_engine_api_condition'] = $_POST['wpgmza_load_engine_api_condition'];
 	
 	if(!empty($_POST['wpgmza_always_include_engine_api_on_pages']))
-		$wpgmza_data['wpgmza_always_include_engine_api_on_pages'] = $_POST['wpgmza_always_include_engine_api_on_pages'];
+		$wpgmza->settings['wpgmza_always_include_engine_api_on_pages'] = $_POST['wpgmza_always_include_engine_api_on_pages'];
 	
 	if(!empty($_POST['wpgmza_always_exclude_engine_api_on_pages']))
-		$wpgmza_data['wpgmza_always_exclude_engine_api_on_pages'] = $_POST['wpgmza_always_exclude_engine_api_on_pages'];
+		$wpgmza->settings['wpgmza_always_exclude_engine_api_on_pages'] = $_POST['wpgmza_always_exclude_engine_api_on_pages'];
 	
 	if(isset($_POST['wpgmza_use_fontawesome']))
-		$wpgmza_data['use_fontawesome'] = $_POST['wpgmza_use_fontawesome'];
+		$wpgmza->settings['use_fontawesome'] = $_POST['wpgmza_use_fontawesome'];
 	
 	if(isset($_POST['wpgmza_maps_engine']))
-		$wpgmza_data['wpgmza_maps_engine'] = $_POST['wpgmza_maps_engine'];
+		$wpgmza->settings['wpgmza_maps_engine'] = $_POST['wpgmza_maps_engine'];
 	
 	
-	if (isset($_POST['wpgmza_settings_map_open_marker_by'])) { $wpgmza_data['wpgmza_settings_map_open_marker_by'] = sanitize_text_field($_POST['wpgmza_settings_map_open_marker_by']); }
+	if (isset($_POST['wpgmza_settings_map_open_marker_by'])) { $wpgmza->settings['wpgmza_settings_map_open_marker_by'] = sanitize_text_field($_POST['wpgmza_settings_map_open_marker_by']); }
 
-	if (isset($_POST['wpgmza_api_version'])) { $wpgmza_data['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
-	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza_data['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
-	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza_data['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
+	if (isset($_POST['wpgmza_api_version'])) { $wpgmza->settings['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
+	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza->settings['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
+	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza->settings['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
 	
 	
 	
 	if (isset($_POST['wpgmza_marker_xml_location'])) { update_option("wpgmza_xml_location",sanitize_text_field($_POST['wpgmza_marker_xml_location'])); }
 	if (isset($_POST['wpgmza_marker_xml_url'])) { update_option("wpgmza_xml_url",sanitize_text_field($_POST['wpgmza_marker_xml_url'])); }
-	if (isset($_POST['wpgmza_access_level'])) { $wpgmza_data['wpgmza_settings_access_level'] = sanitize_text_field($_POST['wpgmza_access_level']); }
-	if (isset($_POST['wpgmza_settings_marker_pull'])) { $wpgmza_data['wpgmza_settings_marker_pull'] = sanitize_text_field($_POST['wpgmza_settings_marker_pull']); }
+	if (isset($_POST['wpgmza_access_level'])) { $wpgmza->settings['wpgmza_settings_access_level'] = sanitize_text_field($_POST['wpgmza_access_level']); }
+	if (isset($_POST['wpgmza_settings_marker_pull'])) { $wpgmza->settings['wpgmza_settings_marker_pull'] = sanitize_text_field($_POST['wpgmza_settings_marker_pull']); }
 
 	// Maps -> Settings -> Store Locator -> option Store Locator Radius
-	if (isset($_POST['wpgmza_store_locator_radii'])) { $wpgmza_data['wpgmza_store_locator_radii'] = sanitize_text_field($_POST['wpgmza_store_locator_radii']); }
+	if (isset($_POST['wpgmza_store_locator_radii'])) { $wpgmza->settings['wpgmza_store_locator_radii'] = sanitize_text_field($_POST['wpgmza_store_locator_radii']); }
 
-	if (isset($_POST['wpgmza_settings_enable_usage_tracking'])) { $wpgmza_data['wpgmza_settings_enable_usage_tracking'] = sanitize_text_field($_POST['wpgmza_settings_enable_usage_tracking']); }
+	if (isset($_POST['wpgmza_settings_enable_usage_tracking'])) { $wpgmza->settings['wpgmza_settings_enable_usage_tracking'] = sanitize_text_field($_POST['wpgmza_settings_enable_usage_tracking']); }
 
-	$wpgmza_data = apply_filters("wpgooglemaps_filter_save_settings",$wpgmza_data);
-
-	update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_data);
-
+	//$wpgmza->settings = ;
+	
+	$arr = apply_filters("wpgooglemaps_filter_save_settings", $wpgmza->settings);
+	$wpgmza->settings->set($arr);
+	
 	if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( trim($_POST['wpgmza_google_maps_api_key'] )) ); }
+	
+	// Why are these settings not set here?
+	//var_dump($wpgmza->settings->wpgmza_settings_map_full_screen_control);
+	//var_dump(get_option('WPGMZA_OTHER_SETTINGS')['wpgmza_settings_map_full_screen_control']);
 	
 	wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu-settings');
 	exit;

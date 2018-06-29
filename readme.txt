@@ -215,6 +215,33 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.18 =
+* Added new GlobalSettings module
+* Added character encoding fallback for setups without multi-byte support
+* Added fallback for users without multi-byte encoding functions available
+* Added code to strip marker icon protocol (http/https)
+* Fixed consent warning displayed when checked even with GDPR disabled
+* Fixed store locator restrict
+* Fixed undefined index wpgmza_settings_marker_pull on new installations
+* Fixed media="1" attribute not validating
+* Fixed debug code breaking WP Migrate DB integration module
+* Fixed can't uncheck "Enable GDPR compliance"
+* Fixed plugin always loads FontAwesome 4
+* Fixed latLng not defined in OLGeocoder
+* Fixed country restriction broken in OpenLayers
+* Deprecated redundant WPGMZA_SETTINGS option
+* Removed deprecated window.load jQuery calls
+* Removed Google autocomplete when OpenLayers engine selected
+
+= 7.10.17 - 2018-06-29 :- Medium Priority =
+* Fixed country restriction broken in store locator
+* Added dismissable admin GDPR warning when GDPR compliance has been switched off
+* Fixed GDPR settings blank by default on some installations
+
+= 7.10.16 - 2018-06-21 :- Medium priority =
+* Fixed global settings lost
+* Fixed whitespace matched in version variable
+
 = 7.10.15 - 2018-06-14 :- Medium priority =
 * Fixed GDPR consent notice bypassed when "prevent other plugins and theme enqueueing maps API" is not set
 
