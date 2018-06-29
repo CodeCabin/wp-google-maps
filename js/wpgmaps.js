@@ -186,8 +186,9 @@ function wpgmza_create_places_autocomplete() {
 	};
 	
 	var restriction = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
-	
-	if(restriction)
+
+	if(restriction && restriction.length)
+
 		options.componentRestrictions = {
 			country: restriction
 		};
