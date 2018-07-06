@@ -76,12 +76,33 @@ class GlobalSettings extends \codecabin\Settings
 	
 	protected function update()
 	{
+		/*echo "<pre>";
+		debug_print_backtrace();
+		echo "</pre>";*/
+		
 		\codecabin\Settings::update();
 		
 		// Legacy Pro support
 		$this->updatingLegacySettings = true;
+		
+		//var_dump($this->wpgmza_settings_map_full_screen_control);
+		
+		//if(empty($this->wpgmza_settings_map_full_screen_control))
+			//throw new \Exception('why');
+		
 		$legacy = $this->toArray();
+		
+		//var_dump($legacy['wpgmza_settings_map_full_screen_control']);
+		
+		//var_dump("Updating " . GlobalSettings::LEGACY_TABLE_NAME, $legacy);
+		
+		//if(empty($legacy['wpgmza_settings_map_full_screen_control']))
+			//throw new \Exception('Can you not');
+		
 		update_option(GlobalSettings::LEGACY_TABLE_NAME, $legacy);
+		
+		//var_dump("Read back ", get_option(GlobalSettings::LEGACY_TABLE_NAME));
+		
 		$this->updatingLegacySettings = false;
 	}
 	

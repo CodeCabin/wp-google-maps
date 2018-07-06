@@ -15,7 +15,8 @@ class Plugin extends Factory
 	
 	public static $enqueueScriptsFired = false;
 	
-	public $settings;
+	private $_settings;
+	private $_gdprCompliance;
 	
 	protected $scriptLoader;
 	
@@ -31,7 +32,7 @@ class Plugin extends Factory
 		// Legacy compatibility
 		global $wpgmza_pro_version;
 		
-		$this->settings = new GlobalSettings();
+		$this->_settings = new GlobalSettings();
 		
 		// TODO: This should be in default settings, this code is duplicaetd
 		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
@@ -56,6 +57,8 @@ class Plugin extends Factory
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
+		add_action('init', array($this, 'onInit'));
+		
 		add_action('wp_enqueue_scripts', function() {
 			Plugin::$enqueueScriptsFired = true;
 		});
@@ -70,10 +73,33 @@ class Plugin extends Factory
 	
 	public function __set($name, $value)
 	{
-		if($name == 'settings')
-			throw new \Exception('Property is read only');
+		switch($name)
+		{
+			case 'settings':
+			case 'gdprCompliance':
+				throw new \Exception('Property is read only');
+				break;
+		}
 		
 		$this->{$name} = $value;
+	}
+	
+	public function __get($name)
+	{
+		switch($name)
+		{
+			case 'settings':
+			case 'gdprCompliance':
+				return $this->{'_' . $name};
+				break;
+		}
+		
+		return $this->{$name};
+	}
+	
+	public function onInit()
+	{
+		$this->_gdprCompliance = new GDPRCompliance();
 	}
 	
 	public function loadScripts()
@@ -105,15 +131,13 @@ class Plugin extends Factory
 	
 	public function getLocalizedData()
 	{
-		global $wpgmzaGDPRCompliance;
-		
 		$strings = new Strings();
 		
 		return apply_filters('wpgmza_plugin_get_localized_data', array(
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'settings' 				=> $this->settings,
 			'localized_strings'		=> $strings->getLocalizedStrings(),
-			'api_consent_html'		=> $wpgmzaGDPRCompliance->getConsentPromptHTML(),
+			'api_consent_html'		=> $this->gdprCompliance->getConsentPromptHTML(),
 			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion()
 		));

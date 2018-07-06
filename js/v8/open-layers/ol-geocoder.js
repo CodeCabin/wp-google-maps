@@ -124,8 +124,10 @@
 						})
 					};
 					
-					response[i].lat = parseFloat(response[i].lat);
-					response[i].lng = parseFloat(response[i].lon);
+					response[i].latLng = {
+						lat: parseFloat(response[i].lat),
+						lng: parseFloat(response[i].lon)
+					};
 				}
 				
 				callback(response, status);

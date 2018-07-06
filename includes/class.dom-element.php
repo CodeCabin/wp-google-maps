@@ -242,7 +242,13 @@ class DOMElement extends \DOMElement
 			if($subject != strip_tags($subject))
 			{
 				// Subject is a HTML string
-				$subject = mb_convert_encoding($subject, 'HTML-ENTITIES', 'UTF-8');
+				if(function_exists('mb_convert_encoding'))
+					$subject = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+				else
+				{
+					trigger_error('Using fallback UTF to HTML entity conversion', E_USER_NOTICE);
+					$subject = htmlspecialchars_decode(utf8_decode(htmlentities($subject, ENT_COMPAT, 'utf-8', false)));
+				}
 				
 				$temp = new DOMDocument('1.0', 'UTF-8');
 				$str = "<div id='domdocument-import-payload___'>" . $subject . "</div>";

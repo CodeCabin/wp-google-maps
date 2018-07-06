@@ -444,7 +444,7 @@ function fillInAddress() {
   var place = autocomplete.getPlace();
 }
 var elementExists = document.getElementById("addressInput");
-if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function') {
+if (typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function' && WPGMZA.settings.engine == "google-maps") {
     if (elementExists !== null) {
         /* initialize the autocomplete form */
         autocomplete = new google.maps.places.Autocomplete(

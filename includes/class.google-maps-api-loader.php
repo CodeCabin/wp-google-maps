@@ -186,6 +186,8 @@ class GoogleMapsAPILoader
 		global $wpgmza;
 		global $post;
 		
+		$settings = $wpgmza->settings;
+		
 		$status = (object)array(
 			'message' => null,
 			'code' => null
@@ -203,7 +205,10 @@ class GoogleMapsAPILoader
 			return false;
 		}
 		
-		if(!is_admin() && !empty($settings['wpgmza_gdpr_require_consent_before_load']) && !isset($_COOKIE['wpgmza-api-consent-given']))
+		if(!is_admin() && 
+			!empty($settings['wpgmza_gdpr_enabled']) && 
+			!empty($settings['wpgmza_gdpr_require_consent_before_load']) && 
+			!isset($_COOKIE['wpgmza-api-consent-given']))
 		{
 			$status->message = 'User consent not given';
 			$status->code = GoogleMapsAPILoader::USER_CONSENT_NOT_GIVEN;

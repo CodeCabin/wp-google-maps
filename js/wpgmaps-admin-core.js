@@ -169,7 +169,7 @@
             wpgmza_table_length = jQuery(this).val();
         })
 
-		if (/*WPGMZA.isGoogleAutocompleteSupported()*/ window.google && google.maps && google.maps.places && google.maps.places.Autocomplete)
+		if (/*WPGMZA.isGoogleAutocompleteSupported()*/ window.google && google.maps && google.maps.places && google.maps.places.Autocomplete && WPGMZA.settings.engine == "google-maps")
 		{
 			if(document.getElementById('wpgmza_add_address'))
 			{

@@ -12,7 +12,7 @@
 				title="<?php _e('Disabling will disable all GDPR related options, this is not advised.', 'wp-google-maps'); ?>"/>
 		</label>
 		<div>
-			<input name="wpgmza_gdpr_enabled" type="checkbox" checked="checked"/>
+			<input name="wpgmza_gdpr_enabled" type="checkbox"/>
 			<br/>
 			<small>
 				<?php _e('Read more on <a href="https://www.eugdpr.org/" target="_blank">the importance of GDPR Compliance</a>', 'wp-google-maps'); ?>

@@ -178,6 +178,9 @@ function wpgmza_create_places_autocomplete() {
 	if(!google.maps.places || !google.maps.places.Autocomplete)
 		return;
 	
+	if(WPGMZA.settings.engine != "google-maps")
+		return;
+	
 	var options = {
 		types: ["geocode"]
 	};
@@ -185,6 +188,7 @@ function wpgmza_create_places_autocomplete() {
 	var restriction = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
 
 	if(restriction && restriction.length)
+
 		options.componentRestrictions = {
 			country: restriction
 		};

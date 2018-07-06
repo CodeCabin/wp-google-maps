@@ -2123,7 +2123,15 @@
 	
 	WPGMZA.Marker.prototype.getIcon = function()
 	{
-		return WPGMZA.settings.default_marker_icon;
+		function stripProtocol(url)
+		{
+			if(typeof url != "string")
+				return url;
+			
+			return url.replace(/^http(s?):/, "");
+		}
+		
+		return stripProtocol(WPGMZA.settings.default_marker_icon);
 	}
 	
 	/**
@@ -4612,8 +4620,10 @@
 						})
 					};
 					
-					response[i].lat = parseFloat(response[i].lat);
-					response[i].lng = parseFloat(response[i].lon);
+					response[i].latLng = {
+						lat: parseFloat(response[i].lat),
+						lng: parseFloat(response[i].lon)
+					};
 				}
 				
 				callback(response, status);
