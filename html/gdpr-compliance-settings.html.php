@@ -1,6 +1,6 @@
 <div id="wpgmza-gdpr-compliance">
 	<h2>
-		<?php _e('General Complicance', 'wp-google-maps'); ?>
+		<?php _e('General Compliance', 'wp-google-maps'); ?>
 	</h2>
 	
 	<fieldset>
@@ -63,7 +63,7 @@
 			_e('Require consent before load', 'wp-google-maps');
 			?>
 			<i class="fa fa-question-circle" 
-				title="<?php _e('The GDPR views IP Addresses as Personal Data, which requires consent before being processed. Loading the Google Maps API stores some user information, such as IP Addresses. WP Google Maps endeavours to uphold the spirit of data protection as per the GDPR. Enable this to option to prevent the Maps API from loading, until a user has consented to it.', 'wp-google-maps'); ?>"/>
+				title="<?php _e('The GDPR views IP Addresses as Personal Data, which requires consent before being processed. Loading the Google Maps API stores some user information, such as IP Addresses. WP Google Maps endeavors to uphold the spirit of data protection as per the GDPR. Enable this to option to prevent the Maps API from loading, until a user has consented to it.', 'wp-google-maps'); ?>"/>
 		</label>
 		<input name="wpgmza_gdpr_require_consent_before_load" type="checkbox"/>
 	</fieldset>
