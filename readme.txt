@@ -87,7 +87,7 @@ Get a free copy of the WP Google Maps Pro version in exchange for translating ou
 * Finnish (Johanna Joutti)
 * Dutch (Jan Wind)
 * Hebrew (Gal Dotan)
-* Danish (Patrick Jepsen)
+* Danish (Patrick Jepsen & Freya Christiansen Oropeza)
 * Italian (Tommaso Mori & Massimo Bregani)
 * Croatian (Sven Kopun)
 * Greek (Konstantinos Koukoulakis)
