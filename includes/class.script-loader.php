@@ -307,9 +307,6 @@ class ScriptLoader
 		
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
-
-		//wp_register_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
-		//wp_enqueue_style('fontawesome');
 	}
 	
 	public function enqueueScripts()
@@ -391,11 +388,15 @@ class ScriptLoader
 		
 		$this->scripts['wpgmza']->dependencies = $dependencies;
 		
+		$version_string = $wpgmza->getBasicVersion();
+		if(method_exists($wpgmza, 'getProVersion'))
+			$version_string .= '+pro-' . $wpgmza->getProVersion();
+		
 		// Enqueue other scripts
 		foreach($this->scripts as $handle => $script)
 		{
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
-			wp_enqueue_script($handle, $fullpath, $script->dependencies);
+			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
 		}
 		
 		// Enqueue localized data
@@ -409,7 +410,7 @@ class ScriptLoader
 		global $wpgmza;
 		
 		$data = $wpgmza->getLocalizedData();
-
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
+		
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
 	}
 }
