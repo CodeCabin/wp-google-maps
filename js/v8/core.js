@@ -222,14 +222,18 @@
 			};
 			
 			navigator.geolocation.getCurrentPosition(function(position) {
-				callback(position);
+				if(callback)
+					callback(position);
+				
+				WPGMZA.events.trigger("userlocationfound");
 			},
 			function(error) {
 				
 				options.enableHighAccuracy = false;
 				
 				navigator.geolocation.getCurrentPosition(function(position) {
-					callback(position);
+					if(callback)
+						callback(position);
 					
 					WPGMZA.events.trigger("userlocationfound");
 				},

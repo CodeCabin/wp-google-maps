@@ -25,8 +25,10 @@ class Marker extends Crud
 	
 	protected function get_placeholder_by_type($type)
 	{
+		global $wpgmza;
+		
 		if($type == 'point')
-			return "ST_GeomFromText(%s)";
+			return "{$wpgmza->spatialFunctionPrefix}GeomFromText(%s)";
 		
 		return Crud::get_placeholder_by_type($type);
 	}

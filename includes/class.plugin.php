@@ -2,7 +2,23 @@
 
 namespace WPGMZA;
 
-class Plugin extends Factory
+/*class MyCustomGlobalSettings extends GlobalSettings
+{
+	public function __construct()
+	{
+		GlobalSettings::__construct();
+		
+		var_dump("It works!");
+		exit;
+	}
+	
+	protected static function createInstanceDelegate()
+	{
+		return new MyCustomGlobalSettings();
+	}
+}*/
+
+class Plugin
 {
 	const PAGE_MAP_LIST			= "map-list";
 	const PAGE_MAP_EDIT			= "map-edit";
@@ -15,24 +31,30 @@ class Plugin extends Factory
 	
 	public static $enqueueScriptsFired = false;
 	
-	private $_settings;
-	private $_gdprCompliance;
+	public $settings;
 	
 	protected $scriptLoader;
 	
+	private $mysqlVersion = null;
 	private $cachedVersion = null;
 	private $legacySettings;
 	
 	public function __construct()
 	{
+		global $wpdb;
+		
+		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
+		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
 		if(!$this->legacySettings)
 			$this->legacySettings = array();
 		
+		$settings = $this->getDefaultSettings();
+		
+		// $temp = GlobalSettings::createInstance();
+		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
-		
-		$this->_settings = new GlobalSettings();
 		
 		// TODO: This should be in default settings, this code is duplicaetd
 		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
@@ -54,10 +76,9 @@ class Plugin extends Factory
 			});
 		}
 		
+		$this->settings = (object)array_merge($this->legacySettings, $settings);
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
-		
-		add_action('init', array($this, 'onInit'));
 		
 		add_action('wp_enqueue_scripts', function() {
 			Plugin::$enqueueScriptsFired = true;
@@ -71,35 +92,25 @@ class Plugin extends Factory
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
 	}
 	
-	public function __set($name, $value)
-	{
-		switch($name)
-		{
-			case 'settings':
-			case 'gdprCompliance':
-				throw new \Exception('Property is read only');
-				break;
-		}
-		
-		$this->{$name} = $value;
-	}
-	
 	public function __get($name)
 	{
 		switch($name)
 		{
-			case 'settings':
-			case 'gdprCompliance':
-				return $this->{'_' . $name};
+			case "spatialFunctionPrefix":
+				$result = '';
+				
+				if(!empty($this->mysqlVersion))
+				{
+					$majorVersion = (int)preg_match('/^\d+/', $this->mysqlVersion);
+					if($majorVersion >= 8)
+						$result = 'ST_';
+				}
+				
+				return $result;
 				break;
 		}
 		
 		return $this->{$name};
-	}
-	
-	public function onInit()
-	{
-		$this->_gdprCompliance = new GDPRCompliance();
 	}
 	
 	public function loadScripts()
@@ -129,15 +140,30 @@ class Plugin extends Factory
 		}
 	}
 	
+	public function getDefaultSettings()
+	{
+		//$defaultEngine = (empty($this->legacySettings['wpgmza_maps_engine']) || $this->legacySettings['wpgmza_maps_engine'] != 'google-maps' ? 'open-layers' : 'google-maps');
+		$defaultEngine = 'google-maps';
+		
+		return apply_filters('wpgmza_plugin_get_default_settings', array(
+			'engine' 				=> $defaultEngine,
+			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
+			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
+			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
+		));
+	}
+	
 	public function getLocalizedData()
 	{
+		global $wpgmzaGDPRCompliance;
+		
 		$strings = new Strings();
 		
 		return apply_filters('wpgmza_plugin_get_localized_data', array(
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'settings' 				=> $this->settings,
 			'localized_strings'		=> $strings->getLocalizedStrings(),
-			'api_consent_html'		=> $this->gdprCompliance->getConsentPromptHTML(),
+			'api_consent_html'		=> $wpgmzaGDPRCompliance->getConsentPromptHTML(),
 			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion()
 		));
@@ -204,10 +230,16 @@ class Plugin extends Factory
 	}
 }
 
+function create_plugin_instance()
+{
+	if(defined('WPGMZA_PRO_VERSION'))
+		return new ProPlugin();
+	
+	return new Plugin();
+}
+
 add_action('plugins_loaded', function() {
-	
 	global $wpgmza;
-	
-	$wpgmza = Plugin::createInstance();
-	
+	add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);
+	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
 });
