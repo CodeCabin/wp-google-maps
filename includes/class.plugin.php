@@ -17,14 +17,20 @@ class Plugin extends Factory
 	
 	private $_settings;
 	private $_gdprCompliance;
+	private $_restAPI;
 	
 	protected $scriptLoader;
 	
+	private $mysqlVersion = null;
 	private $cachedVersion = null;
 	private $legacySettings;
 	
 	public function __construct()
 	{
+		global $wpdb;
+		
+		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
+		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
 		if(!$this->legacySettings)
 			$this->legacySettings = array();
@@ -33,6 +39,7 @@ class Plugin extends Factory
 		global $wpgmza_pro_version;
 		
 		$this->_settings = new GlobalSettings();
+		$this->_restAPI = new RestAPI();
 		
 		// TODO: This should be in default settings, this code is duplicaetd
 		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
@@ -57,6 +64,9 @@ class Plugin extends Factory
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
+		if(!empty($_COOKIE['wpgmza-developer-mode']))
+			$this->settings->developer_mode = true;
+		
 		add_action('init', array($this, 'onInit'));
 		
 		add_action('wp_enqueue_scripts', function() {
@@ -77,6 +87,7 @@ class Plugin extends Factory
 		{
 			case 'settings':
 			case 'gdprCompliance':
+			case 'restAPI':
 				throw new \Exception('Property is read only');
 				break;
 		}
@@ -90,7 +101,20 @@ class Plugin extends Factory
 		{
 			case 'settings':
 			case 'gdprCompliance':
+			case 'restAPI':
 				return $this->{'_' . $name};
+				break;
+				
+			case 'spatialFunctionPrefix':
+				$result = '';
+				
+				// TODO: Could / should cache this above
+				if(!empty($this->mysqlVersion))
+				{
+					$majorVersion = (int)preg_match('/^\d+/', $this->mysqlVersion);
+					if($majorVersion >= 8)
+						$result = 'ST_';
+				}
 				break;
 		}
 		

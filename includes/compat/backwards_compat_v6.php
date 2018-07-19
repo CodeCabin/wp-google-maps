@@ -96,8 +96,9 @@ function wpgmza_check_pro_compat_required_v6(){
 function wpgmza_backwards_compat_get_all_circle_data(){
 	global $wpdb;
 	global $wpgmza_tblname_circles;
+	global $wpgmza;
 	
-	$stmt = "SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles";
+	$stmt = "SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(center) AS center FROM $wpgmza_tblname_circles";
 	$results = $wpdb->get_results($stmt);
 	
 	$circles = array();
@@ -110,8 +111,9 @@ function wpgmza_backwards_compat_get_all_circle_data(){
 function wpgmza_backwards_compat_get_all_rectangle_data(){
 	global $wpdb;
 	global $wpgmza_tblname_rectangles;
+	global $wpgmza;
 	
-	$stmt = "SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles";
+	$stmt = "SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(cornerA) AS cornerA, {$wpgmza->spatialFunctionPrefix}AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles";
 	$results = $wpdb->get_results($stmt);
 	
 	$rectangles = array();

@@ -455,7 +455,7 @@ input.cmn-toggle-yes-no:checked + label:after {
 
 #wpgmza-gdpr-compliance fieldset>label
 {
-	width: 250px;
+	width: 260px;
 }
 
 #wpgmza-gdpr-compliance input[type='number']
@@ -478,8 +478,23 @@ input.cmn-toggle-yes-no:checked + label:after {
 	cursor: help !important;
 }
 
-[name='wpgmza_gdpr_notice']
+[name='wpgmza_gdpr_default_notice']
 {
 	width: 80%;
+}
+
+[name='wpgmza_gdpr_default_notice']>p:first-child
+{
+	margin-top: 0px;
+}
+
+[name='wpgmza_gdpr_company_name'], [name='wpgmza_gdpr_retention_purpose']
+{
+	width: 50vw;
+}
+
+[name='wpgmza_gdpr_notice_override_text']
+{
+	width: 50vw;
 	height: 200px;
 }

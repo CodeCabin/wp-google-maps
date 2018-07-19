@@ -11,6 +11,36 @@
 		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 		
 		/**
+		 * Override this method to add a scroll offset when using animated scroll
+		 * @return number
+		 */
+		getScrollAnimationOffset: function() {
+			return (WPGMZA.settings.scroll_animation_offset || 0);
+		},
+		
+		/**
+		 * Animated scroll, accounts for animation settings and fixed header height
+		 * @return void
+		 */
+		animateScroll: function(element, milliseconds) {
+			
+			var offset = WPGMZA.getScrollAnimationOffset();
+			
+			if(!milliseconds)
+			{
+				if(WPGMZA.settings.scroll_animation_milliseconds)
+					milliseconds = WPGMZA.settings.scroll_animation_milliseconds;
+				else
+					milliseconds = 500;
+			}
+			
+			$("html, body").animate({
+				scrollTop: $(element).offset().top - offset
+			}, milliseconds);
+			
+		},
+		
+		/**
 		 * @function guid
 		 * @summary Utility function returns a GUID
 		 * @static
@@ -222,14 +252,18 @@
 			};
 			
 			navigator.geolocation.getCurrentPosition(function(position) {
-				callback(position);
+				if(callback)
+					callback(position);
+				
+				WPGMZA.events.trigger("userlocationfound");
 			},
 			function(error) {
 				
 				options.enableHighAccuracy = false;
 				
 				navigator.geolocation.getCurrentPosition(function(position) {
-					callback(position);
+					if(callback)
+						callback(position);
 					
 					WPGMZA.events.trigger("userlocationfound");
 				},
@@ -364,6 +398,17 @@
 
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
+		
+		// Rest API
+		WPGMZA.restAPI = WPGMZA.RestAPI.createInstance();
+		
+		// TODO: Move to map edit page JS
+		$(document).on("click", ".wpgmza_edit_btn", function() {
+			
+			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
+			
+		});
+		
 	});
 	
 	$(window).on("load", function(event) {

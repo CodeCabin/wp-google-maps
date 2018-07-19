@@ -307,9 +307,6 @@ class ScriptLoader
 		
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
-
-		//wp_register_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
-		//wp_enqueue_style('fontawesome');
 	}
 	
 	public function enqueueScripts()
@@ -374,14 +371,18 @@ class ScriptLoader
 		
 		switch($version)
 		{
-			case '5.*':
-				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
-				break;
-				
 			case 'none':
 				break;
 				
+			case '5.*':
+				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+				
+				// If we're not in admin, break. If we are, continue and enqueue FA 4 which is used by the map edit page
+				if(!is_admin())
+					break;
+				
 			default:
+				wp_enqueue_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
 				break;
 		}
 		
@@ -391,11 +392,15 @@ class ScriptLoader
 		
 		$this->scripts['wpgmza']->dependencies = $dependencies;
 		
+		$version_string = $wpgmza->getBasicVersion();
+		if(method_exists($wpgmza, 'getProVersion'))
+			$version_string .= '+pro-' . $wpgmza->getProVersion();
+		
 		// Enqueue other scripts
 		foreach($this->scripts as $handle => $script)
 		{
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
-			wp_enqueue_script($handle, $fullpath, $script->dependencies);
+			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
 		}
 		
 		// Enqueue localized data

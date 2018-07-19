@@ -33,10 +33,8 @@ class Crud implements \IteratorAggregate, \JsonSerializable
 		}
 		else if(preg_match('/^-?\d+$/', $id_or_fields))
 			$id = (int)$id_or_fields;
-		else {
-			var_dump($id_or_fields);
+		else
 			throw new \Exception('Invalid ID');
-		}
 		
 		$this->table_name = $table_name;
 		
@@ -428,7 +426,7 @@ class Crud implements \IteratorAggregate, \JsonSerializable
 	{
 		$this->assert_not_trashed();
 		
-		return $this->fields;
+		return array_merge($this->fields, array('id' => $this->id));
 	}
 	
 	/**

@@ -218,7 +218,6 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 = 7.10.18 =
 * Added new GlobalSettings module
 * Added character encoding fallback for setups without multi-byte support
-* Added fallback for users without multi-byte encoding functions available
 * Added code to strip marker icon protocol (http/https)
 * Fixed consent warning displayed when checked even with GDPR disabled
 * Fixed store locator restrict
