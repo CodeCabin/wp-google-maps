@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.18
+Version: 7.10.23
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,23 +11,45 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.18
+ * 7.10.23 :- 2018-07
  * Added new GlobalSettings module
- * Added character encoding fallback for setups without multi-byte support
- * Added fallback for users without multi-byte encoding functions available
- * Added code to strip marker icon protocol (http/https)
- * Fixed consent warning displayed when checked even with GDPR disabled
  * Fixed store locator restrict
  * Fixed undefined index wpgmza_settings_marker_pull on new installations
- * Fixed media="1" attribute not validating
- * Fixed debug code breaking WP Migrate DB integration module
- * Fixed can't uncheck "Enable GDPR compliance"
- * Fixed plugin always loads FontAwesome 4
- * Fixed latLng not defined in OLGeocoder
  * Fixed country restriction broken in OpenLayers
  * Deprecated redundant WPGMZA_SETTINGS option
- * Removed deprecated window.load jQuery calls
- * Removed Google autocomplete when OpenLayers engine selected
+ *
+ * 7.10.22 :- 2018-07-18 :- Medium priority
+ * Added filter wpgmza_localized_strings
+ * Added beginnings for REST API
+ * Added scroll animation when edit marker is clicked
+ * Fixed UTF-8 characters not being decoded into PHPs native charset before passing them to loadHTML in GDPR compliance module
+ * Fixed edit marker button not re-enabled following unsuccessful geocode
+ *
+ * 7.10.21 :- 2018-07-09 :- Medium priority
+ * Added MySQL version check and dropped ST_ function prefixes for versions < 8.0
+ * Fixed markers not appearing front end and back end marker table empty for servers running old MySQL versions
+ *
+ * 7.10.20 :- 2018-07-05 :- Low priority
+ * Added hook for new GDPR tab content
+ * Added JavaScript for VGM GDPR controls
+ * Fixed WPGMZA\DOMDocument::saveInnerBody not saving text nodes
+ * 
+ * 7.10.19 - 2018-07-05 :- Medium Priority
+ * Added new event "userlocationfound" dispatched from WPGMZA.events
+ * Added fall back to convert UTF-8 to HTML entities on installations without multibyte functions available
+ * Changed GDPR settings UI, removed redundant compliance setting, added default notice
+ * Fixed media="1" attribute not validating
+ * Fixed nominatim geocoder not giving expected response to callback
+ * Fixed ScriptLoader module always enqueuing FontAwesome 4.*
+ * Fixed debug code breaking WP Migrate DB integration
+ * Fixed custom fields blank in marker listing
+ * Replaced deprecated MySQL functions with ST_ functions
+ * Replaced deprecated jQuery(window).load functions
+ * Removed Google autocomplete when using OpenLayers
+ * Removed protocol from marker icons / fixed marker icons disappear after switching to https://
+ *
+ * 7.10.18 - 2018-07-02 :- Medium Priority
+ * Fixed GDPR back end warning appearing when GDPR compliance is enabled
  *
  * 7.10.17 - 2018-06-29 :- Low priority
  * Fixed country restriction broken in store locator
@@ -598,6 +620,7 @@ $debug_start = (float) array_sum(explode(' ',microtime()));
  * @return void
  */
 function wpgmaps_activate() {
+	global $wpgmza;
     global $wpdb;
     global $wpgmza_version;
     $table_name = $wpdb->prefix . "wpgmza";
@@ -698,7 +721,7 @@ function wpgmaps_activate() {
 			
 			VALUES 
 			
-			(%d, %s, %s, %s, ST_GeomFromText(%s), %s, %s, %s, %d, %s, %s, %s, %s, %d)", array(
+			(%d, %s, %s, %s, {$wpgmza->spatialFunctionPrefix}GeomFromText(%s), %s, %s, %s, %d, %s, %s, %s, %s, %d)", array(
 			
 			1,
 			'California',
@@ -2528,6 +2551,7 @@ function wpgmaps_update_all_xml_file() {
  */
 function wpgmaps_action_callback_basic() {
     global $wpdb;
+	global $wpgmza;
     global $wpgmza_tblname;
     global $wpgmza_p;
     global $wpgmza_tblname_poly;
@@ -2544,7 +2568,7 @@ function wpgmaps_action_callback_basic() {
 				'address'		=> '%s',
 				'lat'			=> '%f',
 				'lng'			=> '%f',
-				'latlng'		=> 'ST_GeomFromText(%s)',
+				'latlng'		=> "{$wpgmza->spatialFunctionPrefix}GeomFromText(%s)",
 				'infoopen'		=> '%d',
 				'description'	=> '%s',
 				'title'			=> '%s',
@@ -2598,7 +2622,7 @@ function wpgmaps_action_callback_basic() {
 				address = %s,
 				lat = %f,
 				lng = %f,
-				latlng = ST_GeomFromText(%s),
+				latlng = {$wpgmza->spatialFunctionPrefix}GeomFromText(%s),
 				anim = %d,
 				infoopen = %d
 				WHERE
@@ -3097,7 +3121,9 @@ function wpgmza_settings_page_post()
 		"wpgmza_gdpr_enabled",
 		"wpgmza_gdpr_require_consent_before_load",
 		"wpgmza_developer_mode",
-		'wpgmza_prevent_other_plugins_and_theme_loading_api'
+		'wpgmza_prevent_other_plugins_and_theme_loading_api',
+		"wpgmza_gdpr_override_notice",
+		"wpgmza_gdpr_require_consent_before_vgm_submit"
 	);
 	
 	foreach($checkboxes as $name) {
@@ -3175,6 +3201,7 @@ function wpgmza_settings_page_post()
  */
 function wpgmaps_head() {
 
+	global $wpgmza;
     global $wpgmza_tblname_maps;
     global $wpgmza_version;
 
@@ -3336,7 +3363,7 @@ function wpgmaps_head() {
                 "UPDATE $wpgmza_tblname SET
                 lat = %s,
                 lng = %s,
-				latlng = ST_GeomFromText('POINT(%f %f)')
+				latlng = {$wpgmza->spatialFunctionPrefix}GeomFromText('POINT(%f %f)')
                 WHERE id = %d",
 
                 $wpgmaps_marker_lat,
@@ -3570,7 +3597,7 @@ function wpgmaps_head() {
 		{
 			$stmt = $wpdb->prepare("
 				UPDATE $wpgmza_tblname_circles SET
-				center = ST_GeomFromText(%s),
+				center = {$wpgmza->spatialFunctionPrefix}GeomFromText(%s),
 				name = %s,
 				color = %s,
 				opacity = %f,
@@ -3591,7 +3618,7 @@ function wpgmaps_head() {
 				INSERT INTO $wpgmza_tblname_circles
 				(center, map_id, name, color, opacity, radius)
 				VALUES
-				(ST_GeomFromText(%s), %d, %s, %s, %f, %f)
+				({$wpgmza->spatialFunctionPrefix}GeomFromText(%s), %d, %s, %s, %f, %f)
 			", array(
 				"POINT($center)",
 				$_POST['wpgmaps_map_id'],
@@ -3637,8 +3664,8 @@ function wpgmaps_head() {
 				name = %s,
 				color = %s,
 				opacity = %f,
-				cornerA = ST_GeomFromText(%s),
-				cornerB = ST_GeomFromText(%s)
+				cornerA = {$wpgmza->spatialFunctionPrefix}GeomFromText(%s),
+				cornerB = {$wpgmza->spatialFunctionPrefix}GeomFromText(%s)
 				WHERE id = %d
 			", array(
 				$_POST['rectangle_name'],
@@ -3655,7 +3682,7 @@ function wpgmaps_head() {
 				INSERT INTO $wpgmza_tblname_rectangles
 				(map_id, name, color, opacity, cornerA, cornerB)
 				VALUES
-				(%d, %s, %s, %f, ST_GeomFromText(%s), ST_GeomFromText(%s))
+				(%d, %s, %s, %f, {$wpgmza->spatialFunctionPrefix}GeomFromText(%s), {$wpgmza->spatialFunctionPrefix}GeomFromText(%s))
 			", array(
 				$_POST['wpgmaps_map_id'],
 				$_POST['rectangle_name'],
@@ -3894,7 +3921,7 @@ function wpgmaps_head_old() {
                 "UPDATE $wpgmza_tblname SET
                 lat = %s,
                 lng = %s,
-				latlng = ST_GeomFromText('POINT(%f %f)')
+				latlng = {$wpgmza->spatialFunctionPrefix}GeomFromText('POINT(%f %f)')
                 WHERE id = %d",
 
                 $wpgmaps_marker_lat,
@@ -6424,6 +6451,7 @@ if(!function_exists('wpgmza_get_marker_columns'))
     function wpgmza_get_marker_columns()
     {
         global $wpdb;
+		global $wpgmza;
         global $wpgmza_tblname;
         global $wpgmza_pro_version;
         
@@ -6444,8 +6472,8 @@ if(!function_exists('wpgmza_get_marker_columns'))
         
         if($useSpatialData)
         {
-            $columns[] = 'ST_X(latlng) AS lat';
-            $columns[] = 'ST_Y(latlng) AS lng';
+            $columns[] = "{$wpgmza->spatialFunctionPrefix}X(latlng) AS lat";
+            $columns[] = "{$wpgmza->spatialFunctionPrefix}Y(latlng) AS lng";
         }
         
         return $columns;
@@ -6565,7 +6593,7 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
                 $wpgmza_tmp_body .= "<td>$pic<input type=\"hidden\" id=\"wpgmza_hid_marker_pic_".$result->id."\" value=\"".$result->pic."\" /></td>";
                 $wpgmza_tmp_body .= "<td>$linktd<input type=\"hidden\" id=\"wpgmza_hid_marker_link_".$result->id."\" value=\"".$result->link."\" /></td>";
                 $wpgmza_tmp_body .= "<td width='170' align='center'>";
-                $wpgmza_tmp_body .= "    <a href=\"#wpgmaps_marker\" title=\"".__("Edit this marker","wp-google-maps")."\" class=\"wpgmza_edit_btn button\" id=\"".$result->id."\"><i class=\"fa fa-edit\"> </i> </a> ";
+                $wpgmza_tmp_body .= "    <a title=\"".__("Edit this marker","wp-google-maps")."\" class=\"wpgmza_edit_btn button\" id=\"".$result->id."\"><i class=\"fa fa-edit\"> </i> </a> ";
                 $wpgmza_tmp_body .= "    <a href=\"?page=wp-google-maps-menu&action=edit_marker&id=".$result->id."\" title=\"".__("Edit this marker location","wp-google-maps")."\" class=\"wpgmza_edit_btn button\" id=\"".$result->id."\"><i class=\"fa fa-map-marker\"> </i></a> ";
                 if ($show_approval_button) {
                     $wpgmza_tmp_body .= "    <a href=\"javascript:void(0);\" title=\"".__("Approve this marker","wp-google-maps")."\" class=\"wpgmza_approve_btn button\" id=\"".$result->id."\"><i class=\"fa fa-check\"> </i> </a> ";
@@ -8082,6 +8110,7 @@ function wpgmza_b_add_circle($mid)
 
 function wpgmza_b_edit_circle($mid)
 {
+	global $wpgmza;
 	global $wpgmza_tblname_maps;
 	global $wpgmza_tblname_circles;
     global $wpdb;
@@ -8094,7 +8123,7 @@ function wpgmza_b_edit_circle($mid)
         $res = wpgmza_get_map_data($mid);
 		$circle_id = (int)$_GET['circle_id'];
 		
-		$results = $wpdb->get_results("SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles WHERE id = $circle_id");
+		$results = $wpdb->get_results("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(center) AS center FROM $wpgmza_tblname_circles WHERE id = $circle_id");
 		
 		if(empty($results))
 		{
@@ -8427,6 +8456,7 @@ function wpgmza_b_add_rectangle($mid)
 
 function wpgmza_b_edit_rectangle($mid)
 {
+	global $wpgmza;
 	global $wpgmza_tblname_maps;
 	global $wpgmza_tblname_rectangles;
     global $wpdb;
@@ -8437,7 +8467,7 @@ function wpgmza_b_edit_rectangle($mid)
         $res = wpgmza_get_map_data($mid);
 		$rectangle_id = (int)$_GET['rectangle_id'];
 		
-		$results = $wpdb->get_results("SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE id = $rectangle_id");
+		$results = $wpdb->get_results("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(cornerA) AS cornerA, {$wpgmza->spatialFunctionPrefix}AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE id = $rectangle_id");
 		
 		if(empty($results))
 		{
@@ -8536,10 +8566,11 @@ if(!function_exists('wpgmza_get_circle_data'))
 {
 	function wpgmza_get_circle_data($map_id)
 	{
+		global $wpgmza;
 		global $wpdb;
 		global $wpgmza_tblname_circles;
 		
-		$stmt = $wpdb->prepare("SELECT *, ST_AsText(center) AS center FROM $wpgmza_tblname_circles WHERE map_id=%d", array($map_id));
+		$stmt = $wpdb->prepare("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(center) AS center FROM $wpgmza_tblname_circles WHERE map_id=%d", array($map_id));
 		$results = $wpdb->get_results($stmt);
 		
 		$circles = array();
@@ -8554,10 +8585,11 @@ if(!function_exists('wpgmza_get_rectangle_data'))
 {
 	function wpgmza_get_rectangle_data($map_id)
 	{
+		global $wpgmza;
 		global $wpdb;
 		global $wpgmza_tblname_rectangles;
 		
-		$stmt = $wpdb->prepare("SELECT *, ST_AsText(cornerA) AS cornerA, ST_AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE map_id=%d", array($map_id));
+		$stmt = $wpdb->prepare("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(cornerA) AS cornerA, {$wpgmza->spatialFunctionPrefix}AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE map_id=%d", array($map_id));
 		$results = $wpdb->get_results($stmt);
 		
 		$rectangles = array();

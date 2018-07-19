@@ -6,8 +6,6 @@ class GDPRCompliance
 {
 	public function __construct()
 	{
-		global $wpgmza;
-		
 		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
 		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'), 10, 1);
 		
@@ -15,34 +13,43 @@ class GDPRCompliance
 		
 		add_action('wp_ajax_wpgmza_gdpr_privacy_policy_notice_dismissed', array($this, 'onPrivacyPolicyNoticeDismissed'));
 		
-		add_action('admin_notices', array($this, 'onAdminNotices'));
-		add_action('admin_post_wpgmza_dismiss_admin_gdpr_warning', array($this, 'onDismissAdminWarning'));
+		//add_action('admin_notices', array($this, 'onAdminNotices'));
+		//add_action('admin_post_wpgmza_dismiss_admin_gdpr_warning', array($this, 'onDismissAdminWarning'));
 		
-		$this->setDefaultSettings();
+		//$this->setDefaultSettings();
 	}
 	
 	public function getDefaultSettings()
 	{
 		return array(
-			'wpgmza_gdpr_enabled'		=> 1,
-			'wpgmza_gdpr_notice'		=> apply_filters('wpgmza_gdpr_notice',
-											__('I agree for my personal data to be processed by {COMPANY_NAME}.
-		
-I agree for my personal data, provided via map API calls, to be processed by the API provider, for the purposes of geocoding (converting addresses to coordinates), reverse geocoding and generating directions.
+			'wpgmza_gdpr_enabled'			=> 1,
+			'wpgmza_gdpr_default_notice'	=> apply_filters('wpgmza_gdpr_notice',
+											__('<p>
+	I agree for my personal data to be processed by <span name="wpgmza_gdpr_company_name"></span>, for the purpose(s) of <span name="wpgmza_gdpr_retention_purpose"></span>.
+</p>
 
-Some visual components of WP Google Maps use 3rd party libraries which are loaded over the network. At present the libraries are Google Maps, Open Street Map, jQuery DataTables and FontAwesome. When loading resources over a network, the 3rd party server will receive your IP address and User Agent string amongst other details. Please refer to the Privacy Policy of the respective libraries for details on how they use data and the process to exercise your rights under the GDPR regulations.
+<p>	
+	I agree for my personal data, provided via map API calls, to be processed by the API provider, for the purposes of geocoding (converting addresses to coordinates), reverse geocoding and	generating directions.
+</p>
+<p>
+	Some visual components of WP Google Maps use 3rd party libraries which are loaded over the network. At present the libraries are Google Maps, Open Street Map, jQuery DataTables and FontAwesome. When loading resources over a network, the 3rd party server will receive your IP address and User Agent string amongst other details. Please refer to the Privacy Policy of the respective libraries for details on how they use data and the process to exercise your rights under the GDPR regulations.
+</p>
+<p>
+	WP Google Maps uses jQuery DataTables to display sortable, searchable tables, such as that seen in the Advanced Marker Listing and on the Map Edit Page. jQuery DataTables in certain circumstances uses a cookie to save and later recall the "state" of a given table - that is, the search term, sort column and order and current page. This data is held in local storage and retained until this is cleared manually. No libraries used by WP Google Maps transmit this information.
+</p>
+<p>
+	Please <a href="https://developers.google.com/maps/terms">see here</a> and <a href="https://maps.google.com/help/terms_maps.html">here</a> for Google\'s terms. Please also see <a href="https://policies.google.com/privacy?hl=en-GB&amp;gl=uk">Google\'s Privacy Policy</a>. We do not send the API provider any personally identifying information, or information that could uniquely identify your device.
+</p>
+<p>
+	Where this notice is displayed in place of a map, agreeing to this notice will store a cookie recording your agreement so you are not prompted again.
+</p>'), 'wp-google-maps'),
 
-WP Google Maps uses jQuery DataTables to display sortable, searchable tables, such as that seen in the Advanced Marker Listing and on the Map Edit Page. jQuery DataTables in certain circumstances uses a cookie to save and later recall the "state" of a given table - that is, the search term, sort column and order and current page. This data is help in local storage and retained until this is cleared manually. No libraries used by WP Google Maps transmit this information.
-
-Please <a href="https://developers.google.com/maps/terms">see here</a> and <a href="https://maps.google.com/help/terms_maps.html">here</a> for Google\'s terms. Please also see <a href="https://policies.google.com/privacy?hl=en-GB&gl=uk">Google\'s Privacy Policy</a>. We do not send the API provider any personally identifying information, or information that could uniquely identify your device.
-
-Where this notice is displayed in place of a map, agreeing to this notice will store a cookie recording your agreement so you are not prompted again.'), 'wp-google-maps'),
-			
-			'wpgmza_gdpr_retention_purpose' => 'presenting the data you have submitted on the map.'
+			'wpgmza_gdpr_company_name'		=> get_bloginfo('name'),
+			'wpgmza_gdpr_retention_purpose' => 'displaying map tiles, geocoding addresses and calculating and display directions.'
 		);
 	}
 	
-	public function setDefaultSettings()
+	/*public function setDefaultSettings()
 	{
 		$settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
@@ -55,7 +62,7 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		$settings = array_merge($settings, $this->getDefaultSettings());
 		
 		update_option('WPGMZA_OTHER_SETTINGS', $settings);
-	}
+	}*/
 	
 	public function onPluginGetDefaultSettings($settings)
 	{
@@ -80,10 +87,15 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 	{
 		global $wpgmza;
 		
-		$settings = $wpgmza->settings;
+		$settings = array_merge(
+			(array)$this->getDefaultSettings(),
+			get_option('WPGMZA_OTHER_SETTINGS')
+		);
 		
 		$document = new DOMDocument();
 		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/gdpr-compliance-settings.html.php');
+		
+		$document = apply_filters('wpgmza_gdpr_settings_tab_content', $document);
 		
 		$document->populate($settings);
 		
@@ -92,14 +104,12 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 	
 	public function getNoticeHTML($checkbox=true)
 	{
-		global $wpgmza;
+		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
 		
-		$wpgmza_other_settings = $wpgmza->settings;
+		$html = $wpgmza_other_settings['wpgmza_gdpr_default_notice'];
 		
-		if(!$wpgmza_other_settings || empty($wpgmza_other_settings['wpgmza_gdpr_notice']))
-			return '';
-		
-		$html = $wpgmza_other_settings['wpgmza_gdpr_notice'];
+		if(!empty($wpgmza_other_settings['wpgmza_gdpr_override_notice']) && !empty($wpgmza_other_settings['wpgmza_gdpr_notice_override_text']))
+			$html = $wpgmza_other_settings['wpgmza_gdpr_notice_override_text'];
 		
 		$company_name 			= (empty($wpgmza_other_settings['wpgmza_gdpr_company_name']) ? '' : $wpgmza_other_settings['wpgmza_gdpr_company_name']);
 		$retention_period_days 	= (empty($wpgmza_other_settings['wpgmza_gdpr_retention_period_days']) ? '' : $wpgmza_other_settings['wpgmza_gdpr_retention_period_days']);
@@ -114,7 +124,11 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		
 		$html = apply_filters('wpgmza_gdpr_notice_html', $html);
 		
-		return $html;
+		$document = new DOMDocument();
+		@$document->loadHTML( utf8_decode($html) );
+		$document->populate($wpgmza_other_settings);
+		
+		return $document->saveInnerBody();
 	}
 	
 	public function getPrivacyPolicyNoticeHTML()
@@ -147,13 +161,13 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		return $input . $document->saveInnerBody();
 	}
 	
-	public function onAdminNotices()
+	/*public function onAdminNotices()
 	{
 		global $wpgmza;
 		
 		$settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
-		if(!empty($settings->wpgmza_gdpr_enabled))
+		if(!empty($settings['wpgmza_gdpr_enabled']))
 			return;
 		
 		if(!empty($_COOKIE['wpgmza-gdpr-user-has-dismissed-admin-warning']))
@@ -196,7 +210,7 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		setcookie('wpgmza-gdpr-user-has-dismissed-admin-warning', 'true', 2147483647);
 		wp_redirect($_POST['redirect']);
 		exit;
-	}
+	}*/
 	
 	public function onPOST()
 	{
@@ -236,3 +250,5 @@ Where this notice is displayed in place of a map, agreeing to this notice will s
 		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
 	}
 }
+
+$wpgmzaGDPRCompliance = new GDPRCompliance();

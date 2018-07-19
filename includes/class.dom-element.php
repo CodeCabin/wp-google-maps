@@ -206,6 +206,7 @@ class DOMElement extends \DOMElement
 	 */
 	public function import($subject, $forcePHP=false)
 	{
+		global $wpgmza;
 		$node = null;
 		
 		if($subject instanceof \DOMDocument)
@@ -242,18 +243,12 @@ class DOMElement extends \DOMElement
 			if($subject != strip_tags($subject))
 			{
 				// Subject is a HTML string
-				if(function_exists('mb_convert_encoding'))
-					$subject = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-				else
-				{
-					trigger_error('Using fallback UTF to HTML entity conversion', E_USER_NOTICE);
-					$subject = htmlspecialchars_decode(utf8_decode(htmlentities($subject, ENT_COMPAT, 'utf-8', false)));
-				}
+				$html = DOMDocument::convertUTF8ToHTMLEntities($subject);
 				
 				$temp = new DOMDocument('1.0', 'UTF-8');
 				$str = "<div id='domdocument-import-payload___'>" . $subject . "</div>";
 				
-				if(!empty(Plugin::$settings->developer_mode))
+				if(!empty($wpgmza->settings->developer_mode))
 					$temp->loadHTML($str);
 				else
 					@$temp->loadHTML($str);
