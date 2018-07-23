@@ -111,8 +111,7 @@ class Plugin extends Factory
 				// TODO: Could / should cache this above
 				if(!empty($this->mysqlVersion))
 				{
-					$majorVersion = (int)preg_match('/^\d+/', $this->mysqlVersion);
-					if($majorVersion >= 8)
+					if(preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] >= 8)
 						$result = 'ST_';
 				}
 				break;
