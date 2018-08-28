@@ -74,7 +74,11 @@
 	WPGMZA.Map.prototype.loadSettings = function()
 	{
 		var settings = new WPGMZA.MapSettings(this.element);
-		this.settings = $.extend({}, WPGMZA.settings, settings);
+		var other_settings = settings.other_settings;
+		
+		delete settings.other_settings;
+		
+		this.settings = $.extend({}, WPGMZA.settings, settings, other_settings);
 	}
 	
 	/**

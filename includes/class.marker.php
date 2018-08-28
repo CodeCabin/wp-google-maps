@@ -25,7 +25,7 @@ class Marker extends Crud implements \JsonSerializable
 	
 	public function jsonSerialize()
 	{
-		$json = Parent::jsonSerialize();
+		$json = Crud::jsonSerialize();
 		
 		unset($json['latlng']);
 		
@@ -60,7 +60,6 @@ class Marker extends Crud implements \JsonSerializable
 	protected function update_latlng()
 	{
 		global $wpdb;
-		global $wpgmza;
 		
 		$params = array(
 			$this->lat,
@@ -68,9 +67,7 @@ class Marker extends Crud implements \JsonSerializable
 			$this->get_column_parameter('latlng'),
 			$this->id
 		);
-		
-		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng={$wpgmza->spatialFunctionPrefix}GeomFromText(%s) WHERE id=%d", $params);
-		
+		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng=ST_GeomFromText(%s) WHERE id=%d", $params);
 		$wpdb->query($stmt);
 	}
 	

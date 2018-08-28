@@ -38,7 +38,7 @@
 		
 		if(options)
 			this.setOptions(options);
-			
+
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			var wpgmzaEvent = new WPGMZA.Event("click");
 			wpgmzaEvent.latLng = {

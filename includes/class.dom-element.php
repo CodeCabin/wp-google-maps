@@ -207,6 +207,7 @@ class DOMElement extends \DOMElement
 	public function import($subject, $forcePHP=false)
 	{
 		global $wpgmza;
+		
 		$node = null;
 		
 		if($subject instanceof \DOMDocument)
@@ -491,9 +492,7 @@ class DOMElement extends \DOMElement
 			}
 			else
 			{
-				$query = 'descendant-or-self::*[@name="' . $key . '" or @data-name="' . $key . '"]';
-								
-				$m = $x->query($query, $this);
+				$m = $x->query('descendant-or-self::*[@name="' . $key . '" or @data-name="' . $key . '"]', $this);
 				
 				for($i = 0; $i < $m->length; $i++)
 					$this->populateElement($m->item($i), $key, $value, $formatters);

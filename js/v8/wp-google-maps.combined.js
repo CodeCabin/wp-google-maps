@@ -13,6 +13,36 @@
 		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
 		
 		/**
+		 * Override this method to add a scroll offset when using animated scroll
+		 * @return number
+		 */
+		getScrollAnimationOffset: function() {
+			return (WPGMZA.settings.scroll_animation_offset || 0);
+		},
+		
+		/**
+		 * Animated scroll, accounts for animation settings and fixed header height
+		 * @return void
+		 */
+		animateScroll: function(element, milliseconds) {
+			
+			var offset = WPGMZA.getScrollAnimationOffset();
+			
+			if(!milliseconds)
+			{
+				if(WPGMZA.settings.scroll_animation_milliseconds)
+					milliseconds = WPGMZA.settings.scroll_animation_milliseconds;
+				else
+					milliseconds = 500;
+			}
+			
+			$("html, body").animate({
+				scrollTop: $(element).offset().top - offset
+			}, milliseconds);
+			
+		},
+		
+		/**
 		 * @function guid
 		 * @summary Utility function returns a GUID
 		 * @static
@@ -224,14 +254,18 @@
 			};
 			
 			navigator.geolocation.getCurrentPosition(function(position) {
-				callback(position);
+				if(callback)
+					callback(position);
+				
+				WPGMZA.events.trigger("userlocationfound");
 			},
 			function(error) {
 				
 				options.enableHighAccuracy = false;
 				
 				navigator.geolocation.getCurrentPosition(function(position) {
-					callback(position);
+					if(callback)
+						callback(position);
 					
 					WPGMZA.events.trigger("userlocationfound");
 				},
@@ -366,6 +400,17 @@
 
 		if(elements.length > 1)
 			console.warn("Multiple jQuery versions detected: ", elements);
+		
+		// Rest API
+		WPGMZA.restAPI = WPGMZA.RestAPI.createInstance();
+		
+		// TODO: Move to map edit page JS
+		$(document).on("click", ".wpgmza_edit_btn", function() {
+			
+			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
+			
+		});
+		
 	});
 	
 	$(window).on("load", function(event) {
@@ -381,6 +426,9 @@
 		}
 		
 	});
+	
+	
+	
 })(jQuery);
 
 // js/v8/compatibility.js
@@ -412,6 +460,121 @@
 	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
 	
 })(jQuery);
+
+// js/v8/css-escape.js
+/**
+ * @module WPGMZA.CSS
+ * @namespace WPGMZA
+ * @requires WPGMZA
+ * @summary Polyfill for CSS.escape, with thanks to @mathias
+ */
+
+/*! https://mths.be/cssescape v1.5.1 by @mathias | MIT license */
+;(function(root, factory) {
+	// https://github.com/umdjs/umd/blob/master/returnExports.js
+	if (typeof exports == 'object') {
+		// For Node.js.
+		module.exports = factory(root);
+	} else if (typeof define == 'function' && define.amd) {
+		// For AMD. Register as an anonymous module.
+		define([], factory.bind(root, root));
+	} else {
+		// For browser globals (not exposing the function separately).
+		factory(root);
+	}
+}(typeof global != 'undefined' ? global : this, function(root) {
+
+	if (root.CSS && root.CSS.escape) {
+		return root.CSS.escape;
+	}
+
+	// https://drafts.csswg.org/cssom/#serialize-an-identifier
+	var cssEscape = function(value) {
+		if (arguments.length == 0) {
+			throw new TypeError('`CSS.escape` requires an argument.');
+		}
+		var string = String(value);
+		var length = string.length;
+		var index = -1;
+		var codeUnit;
+		var result = '';
+		var firstCodeUnit = string.charCodeAt(0);
+		while (++index < length) {
+			codeUnit = string.charCodeAt(index);
+			// Note: there’s no need to special-case astral symbols, surrogate
+			// pairs, or lone surrogates.
+
+			// If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
+			// (U+FFFD).
+			if (codeUnit == 0x0000) {
+				result += '\uFFFD';
+				continue;
+			}
+
+			if (
+				// If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
+				// U+007F, […]
+				(codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit == 0x007F ||
+				// If the character is the first character and is in the range [0-9]
+				// (U+0030 to U+0039), […]
+				(index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
+				// If the character is the second character and is in the range [0-9]
+				// (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
+				(
+					index == 1 &&
+					codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
+					firstCodeUnit == 0x002D
+				)
+			) {
+				// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
+				result += '\\' + codeUnit.toString(16) + ' ';
+				continue;
+			}
+
+			if (
+				// If the character is the first character and is a `-` (U+002D), and
+				// there is no second character, […]
+				index == 0 &&
+				length == 1 &&
+				codeUnit == 0x002D
+			) {
+				result += '\\' + string.charAt(index);
+				continue;
+			}
+
+			// If the character is not handled by one of the above rules and is
+			// greater than or equal to U+0080, is `-` (U+002D) or `_` (U+005F), or
+			// is in one of the ranges [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to
+			// U+005A), or [a-z] (U+0061 to U+007A), […]
+			if (
+				codeUnit >= 0x0080 ||
+				codeUnit == 0x002D ||
+				codeUnit == 0x005F ||
+				codeUnit >= 0x0030 && codeUnit <= 0x0039 ||
+				codeUnit >= 0x0041 && codeUnit <= 0x005A ||
+				codeUnit >= 0x0061 && codeUnit <= 0x007A
+			) {
+				// the character itself
+				result += string.charAt(index);
+				continue;
+			}
+
+			// Otherwise, the escaped character.
+			// https://drafts.csswg.org/cssom/#escape-a-character
+			result += '\\' + string.charAt(index);
+
+		}
+		return result;
+	};
+
+	if (!root.CSS) {
+		root.CSS = {};
+	}
+
+	root.CSS.escape = cssEscape;
+	return cssEscape;
+
+}));
 
 // js/v8/distance.js
 /**
@@ -741,6 +904,39 @@
 		throw new Error("You must supply either a latLng or address");
 	}
 	
+})(jQuery);
+
+// js/v8/google-api-error-handler.js
+/**
+ * @namespace WPGMZA
+ * @module GoogleAPIErrorHandler
+ * @requires WPGMZA
+ */
+(function($){  
+
+	WPGMZA.GoogleAPIErrorHandler = function() {
+		
+		if(WPGMZA.settings.engine != "google-maps")
+			return;
+		
+		var _error = console.error;
+		
+		console.error = function(message)
+		{
+			var m = message.match(/^Google Maps.+error: (.+)\s+(http(s?):\/\/.+)/m);
+			
+			if(m)
+			{
+				var friendlyMessage = "Google Maps API Error:" + m[1].replace(/([A-Z])/g, " $1") + " - See " + m[2] + " for more information";
+				alert(friendlyMessage);
+			}
+			
+			_error.apply(this, arguments);
+		}
+	}
+	
+	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
+
 })(jQuery);
 
 // js/v8/info-window.js
@@ -1254,9 +1450,14 @@
 		var self = this;
 		
 		this.updateEngineSpecificControls();
+		this.updateGDPRControls();
 		
 		$("select[name='wpgmza_maps_engine']").on("change", function(event) {
 			self.updateEngineSpecificControls();
+		});
+		
+		$("input[name='wpgmza_gdpr_require_consent_before_load'], input[name='wpgmza_gdpr_require_consent_before_vgm_submit'], input[name='wpgmza_gdpr_override_notice']").on("change", function(event) {
+			self.updateGDPRControls();
 		});
 	}
 	
@@ -1266,6 +1467,36 @@
 		
 		$("[data-required-maps-engine][data-required-maps-engine!='" + engine + "']").hide();
 		$("[data-required-maps-engine='" + engine + "']").show();
+	}
+	
+	WPGMZA.MapSettingsPage.prototype.updateGDPRControls = function()
+	{
+		var showNoticeControls = $("input[name='wpgmza_gdpr_require_consent_before_load']").prop("checked");
+		
+		var vgmCheckbox = $("input[name='wpgmza_gdpr_require_consent_before_vgm_submit']");
+		
+		if(vgmCheckbox.length)
+			showNoticeControls = showNoticeControls || vgmCheckbox.prop("checked");
+		
+		var showOverrideTextarea = showNoticeControls && $("input[name='wpgmza_gdpr_override_notice']").prop("checked");
+		
+		if(showNoticeControls)
+		{
+			$("#wpgmza-gdpr-compliance-notice").show("slow");
+		}
+		else
+		{
+			$("#wpgmza-gdpr-compliance-notice").hide("slow");
+		}
+		
+		if(showOverrideTextarea)
+		{
+			$("#wpgmza_gdpr_override_notice_text").show("slow");
+		}
+		else
+		{
+			$("#wpgmza_gdpr_override_notice_text").hide("slow");
+		}
 	}
 	
 	$(document).ready(function(event) {
@@ -1530,7 +1761,11 @@
 	WPGMZA.Map.prototype.loadSettings = function()
 	{
 		var settings = new WPGMZA.MapSettings(this.element);
-		this.settings = $.extend({}, WPGMZA.settings, settings);
+		var other_settings = settings.other_settings;
+		
+		delete settings.other_settings;
+		
+		this.settings = $.extend({}, WPGMZA.settings, settings, other_settings);
 	}
 	
 	/**
@@ -2928,6 +3163,35 @@
 	
 })(jQuery);
 
+// js/v8/rest-api.js
+/**
+ * @module WPGMZA.RestAPI
+ * @namespace WPGMZA
+ * @requires WPGMZA
+ * @summary Wrapped for the rest API
+ */
+(function($) {
+	
+	WPGMZA.RestAPI = function()
+	{
+		WPGMZA.RestAPI.URL = WPGMZA.resturl;
+	}
+	
+	WPGMZA.RestAPI.createInstance = function() 
+	{
+		return new WPGMZA.RestAPI();
+	}
+	
+	WPGMZA.RestAPI.prototype.call = function(route, params)
+	{
+		if(typeof route != "string" || !route.match(/^\//))
+			throw new Error("Invalid route");
+		
+		$.ajax(WPGMZA.RestAPI.URL + route, params);
+	}
+	
+})(jQuery);
+
 // js/v8/version.js
 /**
  * @namespace WPGMZA
@@ -2999,6 +3263,33 @@
 		return 0;
 	}
 
+})(jQuery);
+
+// js/v8/compatibility/google-ui-compatibility.js
+/**
+ * @namespace WPGMZA
+ * @module GoogleUICompatibility
+ * @requires WPGMZA
+ */ 
+(function($) {
+	
+	WPGMZA.GoogleUICompatibility = function()
+	{
+		var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+				   navigator.userAgent &&
+				   navigator.userAgent.indexOf('CriOS') == -1 &&
+				   navigator.userAgent.indexOf('FxiOS') == -1;
+		
+		if(!isSafari)
+		{
+			var style = $("<style id='wpgmza-google-ui-compatiblity-fix'/>");
+			style.html(".wpgmza_map img:not(button img) { padding:0 !important; }");
+			$(document.head).append(style);
+		}
+	}
+	
+	WPGMZA.googleUICompatibility = new WPGMZA.GoogleUICompatibility();
+	
 })(jQuery);
 
 // js/v8/google-maps/google-circle.js
@@ -3100,7 +3391,9 @@
 						geometry: {
 							location: latLng
 						},
-						latLng: latLng
+						latLng: latLng,
+						lat: latLng.lat,
+						lng: latLng.lng
 					}
 				];
 				
@@ -3323,7 +3616,7 @@
 		
 		if(options)
 			this.setOptions(options);
-			
+
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			var wpgmzaEvent = new WPGMZA.Event("click");
 			wpgmzaEvent.latLng = {
@@ -4624,6 +4917,9 @@
 						lat: parseFloat(response[i].lat),
 						lng: parseFloat(response[i].lon)
 					};
+					
+					// Backward compatibility with old UGM
+					response[i].lng = response[i].lng;
 				}
 				
 				callback(response, status);

@@ -12,14 +12,14 @@ class ParseException extends \Exception
 	public $css;
 	
 	public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
+        \Exception::__construct($message, $code, $previous);
     }
 }
 
 class ConvertException extends \Exception
 {
 	public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
+        \Exception::__construct($message, $code, $previous);
     }
 }
 

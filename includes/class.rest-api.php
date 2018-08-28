@@ -42,7 +42,7 @@ class RestAPI
 		
 		$results = $wpdb->get_results("SELECT * FROM $wpgmza_tblname");
 		
-		// TODO: Select all custom field data too, in one query, and add that to the marker data in the following loop
+		// TODO: Select all custom field data too, in one query, and add that to the marker data in the following loop. Ideally we could add a bulk get function to the CRUD classes which takes IDs?
 		
 		foreach($results as $obj)
 			unset($obj->latlng);

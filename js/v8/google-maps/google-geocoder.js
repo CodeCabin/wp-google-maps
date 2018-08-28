@@ -42,7 +42,9 @@
 						geometry: {
 							location: latLng
 						},
-						latLng: latLng
+						latLng: latLng,
+						lat: latLng.lat,
+						lng: latLng.lng
 					}
 				];
 				

@@ -377,7 +377,6 @@ class ScriptLoader
 			case '5.*':
 				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
 				
-				// If we're not in admin, break. If we are, continue and enqueue FA 4 which is used by the map edit page
 				if(!is_admin())
 					break;
 				
@@ -388,7 +387,10 @@ class ScriptLoader
 		
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);
-		$dependencies[] = 'wpgmza_api_call';
+		
+		$apiLoader = new GoogleMapsAPILoader();
+		if($apiLoader->isIncludeAllowed())
+			$dependencies[] = 'wpgmza_api_call';
 		
 		$this->scripts['wpgmza']->dependencies = $dependencies;
 		
@@ -414,7 +416,7 @@ class ScriptLoader
 		global $wpgmza;
 		
 		$data = $wpgmza->getLocalizedData();
-
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
+		
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
 	}
 }

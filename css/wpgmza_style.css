@@ -199,10 +199,10 @@
 .wpgmza-not-found-msg p {
     margin-bottom: 0;
 }
-.wpgmza_map img {
+.wpgmza_map img:not(button img) {
     border: none !important;
     background-color:transparent !important;
-    padding:0 !important;
+    /* padding:0 !important; */ /* Moved to google-ui-compatibility.js */
     box-shadow: none !important;
     
     
@@ -749,4 +749,3 @@ ul.wpgmza_marker_list_class {
     color: #333;
 
 }
-

@@ -468,6 +468,7 @@ input.cmn-toggle-yes-no:checked + label:after {
 	resize: both;
 }
 
+
 #wpgmza-gdpr-compliance label
 {
 	cursor: auto;

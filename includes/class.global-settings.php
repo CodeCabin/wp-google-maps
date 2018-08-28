@@ -2,121 +2,81 @@
 
 namespace WPGMZA;
 
-
-
-require_once(plugin_dir_path(__DIR__) . 'lib/codecabin/class.settings.php');
-
-class GlobalSettings extends \codecabin\Settings
+class GlobalSettings
 {
-	const TABLE_NAME = 'wpgmza_global_settings';
-	const LEGACY_TABLE_NAME = 'WPGMZA_OTHER_SETTINGS';
+	private static $migrationRequired = false;
 	
-	private $updatingLegacySettings = false;
+	private $data;
 	
 	public function __construct()
 	{
-		$legacy_settings_exist = (get_option(GlobalSettings::LEGACY_TABLE_NAME) ? true : false);
-		$settings_exist = (get_option(GlobalSettings::TABLE_NAME) ? true : false);
-		
-		if($legacy_settings_exist && !$settings_exist)
+		$this->reload();
+			
+		if(empty($this->data))
 			$this->migrate();
-		
-		\codecabin\Settings::__construct(GlobalSettings::TABLE_NAME);
-		
-		if(!$legacy_settings_exist && !$settings_exist)
-			$this->install();
-		
-		// Legacy Pro support. Users with older Pro will lose settings 
-		add_filter('pre_update_option_WPGMZA_OTHER_SETTINGS', function($new_value, $old_value) {
-			
-			// Merge legacy settings into this settings
-			if(!$this->updatingLegacySettings)
-				$this->set($new_value);
-			
-			return $new_value;
-			
-		}, 10, 2);
 	}
 	
-	// TODO: This should inherit from Factory when traits are available
+	public function reload()
+	{
+		$string = get_option('wpgmza_global_settings');
+		if(empty($string))
+			$this->data = (object)array();
+		else
+		{
+			$this->data = json_decode($string);
+			
+			if(!$this->data)
+				throw new \Exception('wpgmza_global_settings is not valid JSON');
+		}
+	}
+	
+	protected static function createInstanceDelegate()
+	{
+		//var_dump("It doesn't work");
+		//exit;
+		
+		return new GlobalSettings();
+	}
+	
 	public static function createInstance()
 	{
-		$class = get_called_class();
-		$args = func_get_args();
-		$count = count($args);
-		$filter = "wpgmza_create_$class";
+		return static::createInstanceDelegate();
+	}
+
+	/**
+	 * Migrates old settings (< 7.11.*), merges WPGMZA_SETTINGS and WPGMZA_OTHER_SETTINGS into wpgmza_global_settings (JSON)
+	 * @return void
+	 */
+	private function migrate()
+	{
+		if(GlobalSettings::$migrationRequired)
+			return;
 		
-		if(empty($args))
-			$filter_args = array($filter, null);
-		else
-			$filter_args = array_merge(array($filter), $args);
+		$settings 			= get_option('WPGMZA_SETTINGS');
+		$other_settings		= get_option('WPGMZA_OTHER_SETTINGS');
 		
-		$override = call_user_func_array('apply_filters', $filter_args);
+		$json = json_encode( array_merge($settings, $other_settings) );
 		
-		if($override)
-			return $override;
+		update_option('wpgmza_global_settings', $json);
 		
-		$reflect = new \ReflectionClass($class);
-		$instance = $reflect->newInstanceArgs($args);
-		
-		return $instance;
+		$this->reload();
 	}
 	
-	public function getDefaults()
+	/**
+	 * Used to set values, optionally in bulk
+	 * @param $arg (string|array) Either a string naming the setting to be set, or an object / array of settings to set in bulk
+	 * @param $val (optional) Where a string is given as the first parameter, pass the value you want to assign here
+	 * @return $this
+	 */
+	public function set($arg, $val=null)
 	{
-		$settings = apply_filters('wpgmza_plugin_get_default_settings', array(
-			'engine' 				=> 'google-maps',
-			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
-			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
-			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
-		));
+		throw new \Exception('Not yet implemented');
 		
-		return $settings;
+		return $this;
 	}
 	
-	protected function update()
+	public function toArray()
 	{
-		/*echo "<pre>";
-		debug_print_backtrace();
-		echo "</pre>";*/
-		
-		\codecabin\Settings::update();
-		
-		// Legacy Pro support
-		$this->updatingLegacySettings = true;
-		
-		//var_dump($this->wpgmza_settings_map_full_screen_control);
-		
-		//if(empty($this->wpgmza_settings_map_full_screen_control))
-			//throw new \Exception('why');
-		
-		$legacy = $this->toArray();
-		
-		//var_dump($legacy['wpgmza_settings_map_full_screen_control']);
-		
-		//var_dump("Updating " . GlobalSettings::LEGACY_TABLE_NAME, $legacy);
-		
-		//if(empty($legacy['wpgmza_settings_map_full_screen_control']))
-			//throw new \Exception('Can you not');
-		
-		update_option(GlobalSettings::LEGACY_TABLE_NAME, $legacy);
-		
-		//var_dump("Read back ", get_option(GlobalSettings::LEGACY_TABLE_NAME));
-		
-		$this->updatingLegacySettings = false;
-	}
-	
-	protected function install()
-	{
-		$this->set( $this->getDefaults() );
-	}
-	
-	protected function migrate()
-	{
-		$legacy = get_option(GlobalSettings::LEGACY_TABLE_NAME);
-		
-		$json = json_encode($legacy);
-		
-		update_option(GlobalSettings::TABLE_NAME, $json);
+		throw new \Exception('Not yet implemented');
 	}
 }

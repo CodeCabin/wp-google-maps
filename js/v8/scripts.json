@@ -18,6 +18,13 @@
         "pro": false,
         "dependencies": []
     },
+    "wpgmza-wpgmza-css": {
+        "src": "js\/v8\/css-escape.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-distance": {
         "src": "js\/v8\/distance.js",
         "pro": false,
@@ -48,6 +55,13 @@
     },
     "wpgmza-geocoder": {
         "src": "js\/v8\/geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-google-api-error-handler": {
+        "src": "js\/v8\/google-api-error-handler.js",
         "pro": false,
         "dependencies": [
             "wpgmza"
@@ -144,8 +158,22 @@
             "wpgmza-map-object"
         ]
     },
+    "wpgmza-wpgmza-rest-api": {
+        "src": "js\/v8\/rest-api.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-version": {
         "src": "js\/v8\/version.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-google-ui-compatibility": {
+        "src": "js\/v8\/compatibility\/google-ui-compatibility.js",
         "pro": false,
         "dependencies": [
             "wpgmza"

@@ -128,6 +128,9 @@
 						lat: parseFloat(response[i].lat),
 						lng: parseFloat(response[i].lon)
 					};
+					
+					// Backward compatibility with old UGM
+					response[i].lng = response[i].lng;
 				}
 				
 				callback(response, status);

@@ -8,10 +8,8 @@
 	
 	WPGMZA.RestAPI = function()
 	{
-		
+		WPGMZA.RestAPI.URL = WPGMZA.resturl;
 	}
-	
-	WPGMZA.RestAPI.URL = "/wp-json/wpgmza/v1";
 	
 	WPGMZA.RestAPI.createInstance = function() 
 	{

@@ -546,7 +546,7 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
                         var WPGM_PathLineData_<?php echo $poly_id; ?> = [
                         <?php
                         $poly_array = wpgmza_b_return_polyline_array($poly_id);
-
+						
                         foreach ($poly_array as $single_poly) {
                             $poly_data_raw = str_replace(" ","",$single_poly);
                             $poly_data_raw = explode(",",$poly_data_raw);
@@ -558,6 +558,7 @@ function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
                         }
                         ?>
                     ];
+					
                     var WPGM_PathLine_<?php echo $poly_id; ?> = new google.maps.Polyline({
                       path: WPGM_PathLineData_<?php echo $poly_id; ?>,
                       strokeColor: "<?php echo $linecolor; ?>",
@@ -783,27 +784,29 @@ function wpgmza_b_return_polyline_options($poly_id) {
 }
 
 /**
- * Return the polyline data in the correct format
+ * Return the polyline data in the format of an array of coordinate-pair strings
  * 
  * @param  integer $poly_id Polyline ID
- * @return array            Poly data array
+ * @return array            Poly data array of coordinate-pair strings
  */
 function wpgmza_b_return_polyline_array($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_polylines;
+	
     $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_polylines WHERE `id` = %d LIMIT 1",intval($poly_id)) );
-    foreach ( $results as $result ) {
-        $current_polydata = $result->polydata;
-        $new_polydata = str_replace("),(","|",$current_polydata);
-        $new_polydata = str_replace("(","",$new_polydata);
-        $new_polydata = str_replace("),","",$new_polydata);
-        $new_polydata = explode("|",$new_polydata);
-        foreach ($new_polydata as $poly) {
-            
-            $ret[] = $poly;
-        }
-        return $ret;
-    }
+	
+	if(empty($results))
+		return null;
+	
+	$polyline = $results[0];
+	$polydata = $polyline->polydata;
+	
+	$regex = '/-?(\d+)(\.\d+)?,\s*-?(\d+)(\.\d+)?/';
+	
+	if(!preg_match_all($regex, $polydata, $m))
+		return array();
+	
+	return $m[0];
 }
 
 /**
