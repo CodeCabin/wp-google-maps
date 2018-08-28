@@ -140,6 +140,11 @@
 		img.src = params.url;
 	}
 	
+	WPGMZA.GoogleMarker.prototype.setOptions = function(options)
+	{
+		this.googleMarker.setOptions(options);
+	}
+	
 	/**
 	 * Set the marker animation
 	 * @return void

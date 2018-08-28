@@ -360,7 +360,7 @@ MYMAP.init = function(selector, latLng, zoom) {
 var infoWindow;
 jQuery(document).ready(function() {
 	
-	if(!window.WPGMZA || !window.WPGMZA.googleAPIStatus || window.WPGMZA.googleAPIStatus != "ENQUEUED")
+	if(!window.WPGMZA || !window.WPGMZA.googleAPIStatus || window.WPGMZA.googleAPIStatus.code != "ENQUEUED")
 		return;
 	
 	infoWindow = WPGMZA.InfoWindow.createInstance();
@@ -805,10 +805,22 @@ function searchLocations(map_id) {
 	
 	geocoder.geocode(options, function(results, status) {
 		
+		var event = {
+			type: 		"storelocatorgeocodecomplete",
+			results:	results,
+			status:		status
+		};
+		
+		MYMAP.map.trigger(event);
+		
 		if(status == WPGMZA.Geocoder.SUCCESS)
+		{
 			searchLocationsNear(map_id,results[0].geometry.location);
+		}
 		else
+		{
 			alert(address + ' not found');
+		}
 		
 	});
 }
@@ -838,6 +850,13 @@ function searchLocationsNear(mapid,center_searched) {
 		marker_sl.setMap(null);
 	}
     MYMAP.placeMarkers(wpgmaps_markerurl+'?u='+UniqueCode,wpgmaps_localize[wpgmaps_mapid].id,radius,center_searched,distance_type);
+	
+	var event = {
+		type: 		"storelocatorresult",
+		position:	center_searched
+	};
+	
+	MYMAP.map.trigger(event);
 }
 
 function toRad(Value) {

@@ -216,6 +216,10 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.28 :- 2018-08-20 :- Low priority =
+* Fixed engine being switched to OpenLayers following saving settings on a fresh install
+* Added CSS fix for recent Google UI changes for MacOS / iOS + Safari
+
 = 7.10.27 :- 2018-08-17 :- Low priority =
 * Added wpgmza_xml_cache_generated filter
 * Added wpgmza_xml_cache_saved action

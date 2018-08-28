@@ -107,6 +107,23 @@
 		event.phase = WPGMZA.Event.BUBBLING_PHASE;
 		for(i = path.length - 1; i >= 0 && !event._cancelled; i--)
 			path[i]._triggerListeners(event);
+		
+		if(this.element)
+		{
+			var customEvent = {};
+			
+			for(var key in event)
+			{
+				var value = event[key];
+				
+				if(key == "type")
+					value += ".wpgmza";
+				
+				customEvent[key] = value;
+			}
+			
+			$(this.element).trigger(customEvent);
+		}
 	}
 
 	WPGMZA.EventDispatcher.prototype.trigger = WPGMZA.EventDispatcher.prototype.dispatchEvent;

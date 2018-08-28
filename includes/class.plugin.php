@@ -28,6 +28,8 @@ class Plugin
 	{
 		global $wpdb;
 		
+		add_filter('load_textdomain_mofile', array($this, 'onLoadTextDomainMOFile'), 10, 2);
+		
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
 		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
@@ -150,16 +152,29 @@ class Plugin
 	{
 		global $wpgmzaGDPRCompliance;
 		
+		$document = new DOMDocument();
+		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/google-maps-api-error-dialog.html.php');
+		$googleMapsAPIErrorDialogHTML = $document->saveInnerBody();
+		
 		$strings = new Strings();
 		
 		return apply_filters('wpgmza_plugin_get_localized_data', array(
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'resturl'				=> get_rest_url(null, 'wpgmza/v1'),
+			
+			'html'					=> array(
+				'googleMapsAPIErrorDialog' => $googleMapsAPIErrorDialogHTML
+			),
+			
 			'settings' 				=> $this->settings,
+			'currentPage'			=> $this->getCurrentPage(),
+			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
+			
 			'localized_strings'		=> $strings->getLocalizedStrings(),
 			'api_consent_html'		=> $wpgmzaGDPRCompliance->getConsentPromptHTML(),
 			'basic_version'			=> $this->getBasicVersion(),
-			'_isProVersion'			=> $this->isProVersion()
+			'_isProVersion'			=> $this->isProVersion(),
+			'is_admin'				=> (is_admin() ? 1 : 0)
 		));
 	}
 	
@@ -226,6 +241,14 @@ class Plugin
 			$this->cachedVersion = $m[1];
 		
 		return $this->cachedVersion;
+	}
+	
+	public function onLoadTextDomainMOFile($mofile, $domain)
+	{
+		if($domain == 'wp-google-maps')
+			$mofile = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . get_locale() . '.mo';
+		
+		return $mofile;
 	}
 }
 

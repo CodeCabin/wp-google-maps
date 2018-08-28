@@ -239,6 +239,11 @@
 		
 	}
 	
+	WPGMZA.Marker.prototype.setOptions = function()
+	{
+		
+	}
+	
 	WPGMZA.Marker.prototype.panIntoView = function()
 	{
 		if(!this.map)

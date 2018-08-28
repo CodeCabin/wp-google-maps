@@ -15,6 +15,13 @@
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
+		for(var key in WPGMZA.settings)
+		{
+			var value = WPGMZA.settings[key];
+			
+			this[key] = value;
+		}
+		
 		for(var key in json)
 		{
 			var value = json[key];
@@ -136,8 +143,10 @@
         options.disableDoubleClickZoom	= !(this.wpgmza_settings_map_clickzoom == 'yes');
         options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
 		
-		if(this.force_greedy_gestures)
+		if(this.wpgmza_force_greedy_gestures == "greedy")
 			options.gestureHandling = "greedy";
+		else
+			options.gestureHandling = "cooperative";
 		
 		switch(parseInt(this.map_type))
 		{

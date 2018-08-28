@@ -796,19 +796,21 @@ function wpgmza_b_return_poly_options($poly_id) {
 function wpgmza_b_return_polygon_array($poly_id) {
     global $wpdb;
     global $wpgmza_tblname_poly;
+	
     $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpgmza_tblname_poly WHERE `id` = %d LIMIT 1",intval($poly_id)) );
-    foreach ( $results as $result ) {
-        $current_polydata = $result->polydata;
-        $new_polydata = str_replace("),(","|",$current_polydata);
-        $new_polydata = str_replace("(","",$new_polydata);
-        $new_polydata = str_replace("),","",$new_polydata);
-        $new_polydata = explode("|",$new_polydata);
-        foreach ($new_polydata as $poly) {
-            
-            $ret[] = $poly;
-        }
-        return $ret;
-    }
+	
+	if(empty($results))
+		return null;
+	
+	$polyline = $results[0];
+	$polydata = $polyline->polydata;
+	
+	$regex = '/-?(\d+)(\.\d+)?,\s*-?(\d+)(\.\d+)?/';
+	
+	if(!preg_match_all($regex, $polydata, $m))
+		return array();
+	
+	return $m[0];
 }
 
 /**

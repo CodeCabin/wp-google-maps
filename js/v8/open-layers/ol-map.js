@@ -74,8 +74,6 @@
 			self.dispatchEvent("zoom_changed");
 			self.dispatchEvent("zoomchanged");
 			self.onIdle();
-			
-			$(self.element).trigger("zoomchanged.wpgmza");
 		});
 		
 		// Listen for bounds changing
@@ -412,7 +410,6 @@
 		var latLng = this.pixelsToLatLng(relX, relY);
 		
 		this.trigger({type: "rightclick", latLng: latLng});
-		$(this.element).trigger("rightclick.wpgmza");
 		
 		event.preventDefault();
 		return false;

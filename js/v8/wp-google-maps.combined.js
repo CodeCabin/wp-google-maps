@@ -742,6 +742,23 @@
 		event.phase = WPGMZA.Event.BUBBLING_PHASE;
 		for(i = path.length - 1; i >= 0 && !event._cancelled; i--)
 			path[i]._triggerListeners(event);
+		
+		if(this.element)
+		{
+			var customEvent = {};
+			
+			for(var key in event)
+			{
+				var value = event[key];
+				
+				if(key == "type")
+					value += ".wpgmza";
+				
+				customEvent[key] = value;
+			}
+			
+			$(this.element).trigger(customEvent);
+		}
 	}
 
 	WPGMZA.EventDispatcher.prototype.trigger = WPGMZA.EventDispatcher.prototype.dispatchEvent;
@@ -916,23 +933,114 @@
 
 	WPGMZA.GoogleAPIErrorHandler = function() {
 		
+		var self = this;
+		
+		// Don't do anything if Google isn't the selected API
 		if(WPGMZA.settings.engine != "google-maps")
 			return;
 		
+		// Only allow on the map edit page, or front end if user has administrator role
+		if(!(WPGMZA.currentPage == "map-edit" || (WPGMZA.is_admin == 0 && WPGMZA.userCanAdministrator == 1)))
+			return;
+		
+		this.element = $(WPGMZA.html.googleMapsAPIErrorDialog);
+		
+		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
+		this.templateListItem = this.element.find("li.template").remove();
+		
+		this.messagesAlreadyDisplayed = {};
+		
+		// Override error function
 		var _error = console.error;
 		
 		console.error = function(message)
 		{
-			var m = message.match(/^Google Maps.+error: (.+)\s+(http(s?):\/\/.+)/m);
-			
-			if(m)
-			{
-				var friendlyMessage = "Google Maps API Error:" + m[1].replace(/([A-Z])/g, " $1") + " - See " + m[2] + " for more information";
-				alert(friendlyMessage);
-			}
+			self.onErrorMessage(message);
 			
 			_error.apply(this, arguments);
 		}
+	}
+	
+	WPGMZA.GoogleAPIErrorHandler.prototype.onErrorMessage = function(message)
+	{
+		var m;
+		var regexURL = /http(s)?:\/\/[^\s]+/gm;
+		
+		if((m = message.match(/You have exceeded your (daily )?request quota for this API/)) || (m = message.match(/This API project is not authorized to use this API/)))
+		{
+			var urls = message.match(regexURL);
+			this.addErrorMessage(m[0], urls);
+		}
+		else if(m = message.match(/^Google Maps.+error: (.+)\s+(http(s?):\/\/.+)/m))
+		{
+			this.addErrorMessage(m[1].replace(/([A-Z])/g, " $1"), [m[2]]);
+		}
+	}
+	
+	WPGMZA.GoogleAPIErrorHandler.prototype.addErrorMessage = function(message, urls)
+	{
+		if(this.messagesAlreadyDisplayed[message])
+			return;
+		
+		var li = this.templateListItem.clone();
+		$(li).find(".wpgmza-message").html(message);
+		
+		var buttonContainer = $(li).find(".wpgmza-documentation-buttons");
+		
+		var buttonTemplate = $(li).find(".wpgmza-documentation-buttons>a");
+		buttonTemplate.remove();
+		
+		if(urls && urls.length)
+		{
+			for(var i = 0; i < urls.length; i++)
+			{
+				var url = urls[i];
+				var button = buttonTemplate.clone();
+				var icon = "fa-external-link";
+				var text = WPGMZA.localized_strings.documentation;
+				
+				button.attr("href", urls[i]);
+				
+				if(url.match(/google.+documentation/))
+				{
+					icon = "fa-google";
+				}
+				else if(url.match(/maps-no-account/))
+				{
+					icon = "fa-wrench"
+					text = WPGMZA.localized_strings.verify_project;
+				}
+				else if(url.match(/console\.developers\.google/))
+				{
+					icon = "fa-wrench";
+					text = WPGMZA.localized_strings.api_dashboard;
+				}
+				
+				$(button).find("i").addClass(icon);
+				$(button).append(text);
+			}
+			
+			buttonContainer.append(button);
+		}
+		
+		$(this.errorMessageList).append(li);
+		
+		if(!this.dialog)
+			this.dialog = $(this.element).remodal();
+		
+		switch(this.dialog.getState())
+		{
+			case "open":
+			case "opened":
+			case "opening":
+				break;
+				
+			default:
+				this.dialog.open();
+				break;
+		}
+		
+		this.messagesAlreadyDisplayed[message] = true;
 	}
 	
 	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
@@ -1528,6 +1636,13 @@
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
+		for(var key in WPGMZA.settings)
+		{
+			var value = WPGMZA.settings[key];
+			
+			this[key] = value;
+		}
+		
 		for(var key in json)
 		{
 			var value = json[key];
@@ -1649,8 +1764,10 @@
         options.disableDoubleClickZoom	= !(this.wpgmza_settings_map_clickzoom == 'yes');
         options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
 		
-		if(this.force_greedy_gestures)
+		if(this.wpgmza_force_greedy_gestures == "greedy")
 			options.gestureHandling = "greedy";
+		else
+			options.gestureHandling = "cooperative";
 		
 		switch(parseInt(this.map_type))
 		{
@@ -1722,7 +1839,7 @@
 		this.polylines = [];
 		this.circles = [];
 		
-		this.loadSettings();
+		this.loadSettings(options);
 	}
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -1758,14 +1875,22 @@
 	 * Loads the maps settings and sets some defaults
 	 * @return void
 	 */
-	WPGMZA.Map.prototype.loadSettings = function()
+	WPGMZA.Map.prototype.loadSettings = function(options)
 	{
 		var settings = new WPGMZA.MapSettings(this.element);
 		var other_settings = settings.other_settings;
 		
 		delete settings.other_settings;
 		
-		this.settings = $.extend({}, WPGMZA.settings, settings, other_settings);
+		if(other_settings)
+			for(var key in other_settings)
+				settings[key] = other_settings[key];
+			
+		if(options)
+			for(var key in options)
+				settings[key] = options[key];
+			
+		this.settings = settings;
 	}
 	
 	/**
@@ -2118,17 +2243,14 @@
 	{
 		// Native events
 		this.trigger("boundschanged");
-		$(this.element).trigger("boundschanged.wpgmza");
 		
 		// Google / legacy compatibility events
 		this.trigger("bounds_changed");
-		$(this.element).trigger("bounds_changed");
 	}
 	
 	WPGMZA.Map.prototype.onIdle = function(event)
 	{
 		$(this.element).trigger("idle");
-		$(this.element).trigger("idle.wpgmza");
 	}
 	
 	/*$(document).ready(function() {
@@ -2455,6 +2577,11 @@
 	}
 	
 	WPGMZA.Marker.prototype.setDraggable = function(draggable)
+	{
+		
+	}
+	
+	WPGMZA.Marker.prototype.setOptions = function()
 	{
 		
 	}
@@ -4219,6 +4346,11 @@
 		img.src = params.url;
 	}
 	
+	WPGMZA.GoogleMarker.prototype.setOptions = function(options)
+	{
+		this.googleMarker.setOptions(options);
+	}
+	
 	/**
 	 * Set the marker animation
 	 * @return void
@@ -5028,7 +5160,6 @@
 		$(this.element).show();
 		
 		this.dispatchEvent("infowindowopen");
-		$(this.element).trigger("infowindowopen.wpgmza");
 	}
 	
 	WPGMZA.OLInfoWindow.prototype.close = function(event)
@@ -5140,8 +5271,6 @@
 			self.dispatchEvent("zoom_changed");
 			self.dispatchEvent("zoomchanged");
 			self.onIdle();
-			
-			$(self.element).trigger("zoomchanged.wpgmza");
 		});
 		
 		// Listen for bounds changing
@@ -5478,7 +5607,6 @@
 		var latLng = this.pixelsToLatLng(relX, relY);
 		
 		this.trigger({type: "rightclick", latLng: latLng});
-		$(this.element).trigger("rightclick.wpgmza");
 		
 		event.preventDefault();
 		return false;
@@ -5657,8 +5785,7 @@
 		
 		this.setPosition(latLngAfterDrag);
 		
-		this.trigger({type: "dragend", latLng: latLngAfterDrag})
-		$(this.element).trigger("dragend.wpgmza");
+		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
 })(jQuery);

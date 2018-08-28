@@ -28,11 +28,10 @@ class GoogleMapsAPILoader
 			GoogleMapsAPILoader::$settings = (array)$wpgmza->settings;
 		}
 		
-		if(!$this->isIncludeAllowed($status))
-		{
-			echo "<script>var wpgmza_google_api_status = " . json_encode($status) . "</script>";
-			return '';
-		}
+		$include_allowed = $this->isIncludeAllowed($status);
+		$isAllowed = $this->isIncludeAllowed($status);
+		
+		echo "<script>var wpgmza_google_api_status = " . json_encode($status) . "</script>";
 	}
 	
 	public static function _createInstance()

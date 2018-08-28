@@ -499,3 +499,71 @@ input.cmn-toggle-yes-no:checked + label:after {
 	width: 50vw;
 	height: 200px;
 }
+
+#wpgmza-google-api-error-dialog
+{
+	width: 66vw;
+}
+
+#wpgmza-google-api-error-list,
+	#wpgmza-google-api-error-list *
+{
+	text-align: left;
+}
+
+#wpgmza-google-api-error-list
+{
+	list-style: none;
+}
+
+#wpgmza-google-api-error-list li
+{
+	background: ghostwhite;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+
+#wpgmza-google-api-error-list li:before
+{
+	content: "\26D4";
+	color: red;
+}
+
+#wpgmza-google-api-error-dialog a
+{
+	color: blue;
+}
+
+#wpgmza-google-api-error-dialog .wpgmza-documentation-buttons
+{
+	float: right;
+}
+
+#wpgmza-google-api-error-dialog .wpgmza-documentation-buttons a
+{
+	color: #444444;
+    background: #F3F3F3;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 9pt;
+    outline: none;
+}
+
+#wpgmza-google-api-error-dialog .wpgmza-documentation-buttons a:hover {
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: #F7F7F7;
+}
+
+#wpgmza-google-api-error-dialog .wpgmza-documentation-buttons a:active {
+    box-shadow: inset 1px 1px 1px #DFDFDF;   
+}
+
+#wpgmza-google-api-error-dialog .wpgmza-documentation-buttons a i
+{
+	font-weight: bold;
+	padding-right: 0.3em;
+}
