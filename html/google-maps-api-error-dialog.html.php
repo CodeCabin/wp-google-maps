@@ -35,6 +35,13 @@
 		?>
 	</p>
 	
+	<p class="wpgmza-front-end-only">
+		<i class="fa fa-eye" aria-hidden="true"></i>
+		<?php
+		_e('This dialog is only visible to administrators', 'wp-google-maps');
+		?>
+	</p>
+	
 	<button data-remodal-action="confirm" class="remodal-confirm">
 		<?php
 		_e('Dismiss', 'wp-google-maps');

@@ -34,6 +34,9 @@
 				query: address
 			},
 			success: function(response, xhr, status) {
+				// Legacy compatibility support
+				response.lng = response.lon;
+				
 				callback(response);
 			}
 		});
@@ -129,8 +132,8 @@
 						lng: parseFloat(response[i].lon)
 					};
 					
-					// Backward compatibility with old UGM
-					response[i].lng = response[i].lng;
+					// Backward compatibility
+					response[i].lng = response[i].lon;
 				}
 				
 				callback(response, status);

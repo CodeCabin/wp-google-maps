@@ -411,6 +411,10 @@
 		
 		this.trigger({type: "rightclick", latLng: latLng});
 		
+		// Legacy event compatibility
+		$(this.element).trigger({type: "rightclick", latLng: latLng});
+		
+		// Prevent menu
 		event.preventDefault();
 		return false;
 	}

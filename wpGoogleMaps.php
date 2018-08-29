@@ -11,7 +11,7 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.29
+ * 7.10.29 :- 2018-08-28 :- Medium priority
  * Improved return_polygon_array function making edit polygon page more robust
  * Improved GoogleAPIErrorHandler, modal dialog with documentation links is now shown back end and front end for administrators
  * Implemented setOptions for generic marker module and WPGMZA.GoogleMarker module
@@ -22,6 +22,7 @@ Domain Path: /languages
  * Fixed white border around new Google logo
  * Fixed Google API handling change blocking infowindow creation
  * Fixed some global settings not respected (zoom controls, etc.)
+ * Fixed can't change wpgmza_maps_engine in WPGMZA_OTHER_SETTINGS when engine is set
  * Removed suffixed .wpgmza events being explicitly dispatched, WPGMZA.EventDispatcher now dispatches these automatically
  *
  * 7.10.28 :- 2018-08-20 :- Low priority
@@ -3201,8 +3202,7 @@ function wpgmza_settings_page_post()
 	
 	if(isset($_POST['wpgmza_maps_engine']))
 		$wpgmza_data['wpgmza_maps_engine'] = $_POST['wpgmza_maps_engine'];
-	
-	
+
 	if (isset($_POST['wpgmza_settings_map_open_marker_by'])) { $wpgmza_data['wpgmza_settings_map_open_marker_by'] = sanitize_text_field($_POST['wpgmza_settings_map_open_marker_by']); }
 
 	if (isset($_POST['wpgmza_api_version'])) { $wpgmza_data['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
@@ -4391,7 +4391,6 @@ function wpgmaps_settings_page_basic() {
     google_maps_api_key_warning();
 
     $wpgmza_settings = array_merge((array)$wpgmza->settings, get_option("WPGMZA_OTHER_SETTINGS"));
-	$wpgmza_settings['wpgmza_maps_engine'] = $wpgmza_settings['engine'];
 	
     if (isset($wpgmza_settings['wpgmza_settings_map_full_screen_control'])) { $wpgmza_settings_map_full_screen_control = $wpgmza_settings['wpgmza_settings_map_full_screen_control']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_streetview'])) { $wpgmza_settings_map_streetview = $wpgmza_settings['wpgmza_settings_map_streetview']; }
@@ -4581,8 +4580,7 @@ function wpgmaps_settings_page_basic() {
 			<div data-required-maps-engine='google-maps'>
 				<div class='switch'><input name='wpgmza_settings_map_pan' type='checkbox' class='cmn-toggle cmn-toggle-round-flat' id='wpgmza_settings_map_pan' value='yes' $wpgmza_pan_checked /> 
 					<label for='wpgmza_settings_map_pan'></label>
-				</div>
-				".__("Disable Pan Controls")."
+				</div>".__("Disable Pan Controls")."
 			</div>
 				
 			";

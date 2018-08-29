@@ -823,3 +823,9 @@ ul.wpgmza_marker_list_class {
 	font-weight: bold;
 	padding-right: 0.3em;
 }
+
+#wpgmza-google-api-error-dialog .wpgmza-front-end-only
+{
+	color: red;
+	font-size: 0.8em;
+}

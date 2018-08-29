@@ -945,6 +945,9 @@
 		
 		this.element = $(WPGMZA.html.googleMapsAPIErrorDialog);
 		
+		if(WPGMZA.is_admin == 1)
+			this.element.find(".wpgmza-front-end-only").remove();
+		
 		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
 		this.templateListItem = this.element.find("li.template").remove();
 		
@@ -4955,6 +4958,9 @@
 				query: address
 			},
 			success: function(response, xhr, status) {
+				// Legacy compatibility support
+				response.lng = response.lon;
+				
 				callback(response);
 			}
 		});
@@ -5050,8 +5056,8 @@
 						lng: parseFloat(response[i].lon)
 					};
 					
-					// Backward compatibility with old UGM
-					response[i].lng = response[i].lng;
+					// Backward compatibility
+					response[i].lng = response[i].lon;
 				}
 				
 				callback(response, status);
@@ -5608,6 +5614,10 @@
 		
 		this.trigger({type: "rightclick", latLng: latLng});
 		
+		// Legacy event compatibility
+		$(this.element).trigger({type: "rightclick", latLng: latLng});
+		
+		// Prevent menu
 		event.preventDefault();
 		return false;
 	}

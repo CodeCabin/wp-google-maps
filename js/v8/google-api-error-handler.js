@@ -19,6 +19,9 @@
 		
 		this.element = $(WPGMZA.html.googleMapsAPIErrorDialog);
 		
+		if(WPGMZA.is_admin == 1)
+			this.element.find(".wpgmza-front-end-only").remove();
+		
 		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
 		this.templateListItem = this.element.find("li.template").remove();
 		

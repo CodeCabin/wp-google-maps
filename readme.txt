@@ -216,6 +216,20 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.29 :- 2018-08-28 :- Medium priority =
+* Improved return_polygon_array function making edit polygon page more robust
+* Improved GoogleAPIErrorHandler, modal dialog with documentation links is now shown back end and front end for administrators
+* Implemented setOptions for generic marker module and WPGMZA.GoogleMarker module
+* Added load_textdomain_mofile to fix translation issues
+* Added event storelocatorgeocodecomplete (native) and storelocatorgeocodecomplete.wpgmza
+* Added event storelocatorresult (native) and storelocatorresult.wpgmza
+* Fixed map controls not applied without toggling developer mode
+* Fixed white border around new Google logo
+* Fixed Google API handling change blocking infowindow creation
+* Fixed some global settings not respected (zoom controls, etc.)
+* Fixed can't change wpgmza_maps_engine in WPGMZA_OTHER_SETTINGS when engine is set
+* Removed suffixed .wpgmza events being explicitly dispatched, WPGMZA.EventDispatcher now dispatches these automatically
+
 = 7.10.28 :- 2018-08-20 :- Low priority =
 * Fixed engine being switched to OpenLayers following saving settings on a fresh install
 * Added CSS fix for recent Google UI changes for MacOS / iOS + Safari
