@@ -360,33 +360,20 @@ MYMAP.init = function(selector, latLng, zoom) {
 var infoWindow;
 jQuery(document).ready(function() {
 	
-	if(!window.WPGMZA || !window.WPGMZA.googleAPIStatus || window.WPGMZA.googleAPIStatus.code != "ENQUEUED")
+	if(!window.WPGMZA)
 		return;
 	
 	infoWindow = WPGMZA.InfoWindow.createInstance();
+	
 	if (typeof wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "undefined" && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "") { infoWindow.setOptions({maxWidth:wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']}); }
 });
-
-/*google.maps.event.addDomListener(window, 'resize', function() {
-    var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
-    MYMAP.map.setCenter(myLatLng);
-});*/
-
-/*if(!window.WPGMZA)
-	window.WPGMZA = {};
-
-WPGMZA.KM_PER_MILE = 1.60934;
-WPGMZA.MILE_PER_KM = 0.621371;
-
-WPGMZA.UNITS_MILES = 1;
-WPGMZA.UNITS_KM = 2;*/
 
 function wpgmza_get_zoom_from_radius(radius, units)
 {
 	// With thanks to Jeff Jason http://jeffjason.com/2011/12/google-maps-radius-to-zoom/
 	
-	if(units == WPGMZA.UNITS_MILES)
-		radius *= WPGMZA.KM_PER_MILE;
+	if(units == WPGMZA.Distance.MILES)
+		radius *= WPGMZA.Distance.KILOMETERS_PER_MILE;
 	
 	return Math.round(14-Math.log(radius)/Math.LN2);
 }
@@ -406,7 +393,7 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 			MYMAP.modernStoreLocatorCircle.setOptions({
 				visible: true,
 				center: center,
-				radius: radius * (distance_type == 1 ? WPGMZA.KM_PER_MILE : 1),
+				radius: radius * (distance_type == 1 ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1),
 				radiusString: radius
 			});
 			
@@ -529,7 +516,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         }
 						
 						marker.on(temp_actiontype, function() {
-                            infoWindow.close();
+							if(window.infoWindow)
+								infoWindow.close();
 							if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 							{
 								infoWindow.setContent(html);
@@ -646,7 +634,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	                        }
 	                        //google.maps.event.addListener(marker, temp_actiontype, function() {
 							marker.on(temp_actiontype, function() {
-	                            infoWindow.close();
+								if(window.infoWindow)
+									infoWindow.close();
 								if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 								{
 									infoWindow.setContent(html);
@@ -825,7 +814,8 @@ function searchLocations(map_id) {
 	});
 }
 function clearLocations() {
-    infoWindow.close();
+	if(window.infoWindow)
+		infoWindow.close();
 }
 function searchLocationsNear(mapid,center_searched) {
     clearLocations();

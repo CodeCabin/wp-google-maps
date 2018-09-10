@@ -27,9 +27,10 @@
 			
 			if(status.code == "USER_CONSENT_NOT_GIVEN")
 			{
-				console.log(WPGMZA.api_consent_html);
 				return;
 			}
+			
+			$(element).html("<div class='notice notice-error'><p>" + WPGMZA.localized_strings.google_api_not_loaded + "<pre>" + message + "</pre></p></div>");
 			
 			throw new Error(message);
 		}
@@ -275,6 +276,9 @@
 	 */
 	WPGMZA.GoogleMap.prototype.setZoom = function(value)
 	{
+		if(isNaN(value))
+			throw new Error("Value must not be NaN");
+		
 		return this.googleMap.setZoom(value);
 	}
 	

@@ -216,6 +216,16 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.32 :- 2018-08-31 :- Medium priority =
+* Fixed redundant setting wpgmza_gdpr_enabled causing "user consent not given" to be flagged erroneously
+
+= 7.10.31 :- 2018-08-30 :- Medium priority =
+* Fixed NaN zoom level causing Google Maps to hang
+
+= 7.10.30 :- 2018-08-29 :- Medium priority
+* Fixed "Access to undeclared static property" on some PHP versions
+* Fixed google-maps-api-error-dialog.html.php does not exist
+
 = 7.10.29 :- 2018-08-28 :- Medium priority =
 * Improved return_polygon_array function making edit polygon page more robust
 * Improved GoogleAPIErrorHandler, modal dialog with documentation links is now shown back end and front end for administrators

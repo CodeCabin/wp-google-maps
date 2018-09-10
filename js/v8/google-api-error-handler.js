@@ -27,6 +27,9 @@
 		
 		this.messagesAlreadyDisplayed = {};
 		
+		if(WPGMZA.settings.developer_mode)
+			return;
+		
 		// Override error function
 		var _error = console.error;
 		

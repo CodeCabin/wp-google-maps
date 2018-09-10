@@ -71,8 +71,8 @@ class GoogleMapsLoader
 		*/
 		
 		// API Key
-		if(!empty(Plugin::$settings->google_maps_api_key))
-			$params['key'] = Plugin::$settings->google_maps_api_key;
+		//if(!empty($wpgmza->settings->google_maps_api_key))
+			//$params['key'] = $wpgmza->settings->google_maps_api_key;
 		
 		//if($wpgmza->getCurrentPage() == 'map-edit')
 			//$params['libraries'] = 'drawing';

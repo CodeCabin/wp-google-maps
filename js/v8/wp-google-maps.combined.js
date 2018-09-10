@@ -953,6 +953,9 @@
 		
 		this.messagesAlreadyDisplayed = {};
 		
+		if(WPGMZA.settings.developer_mode)
+			return;
+		
 		// Override error function
 		var _error = console.error;
 		
@@ -1260,6 +1263,14 @@
 	WPGMZA.LatLng.prototype.toString = function()
 	{
 		return this._lat + ", " + this._lng;
+	}
+	
+	WPGMZA.LatLng.fromGoogleLatLng = function(googleLatLng)
+	{
+		return new WPGMZA.LatLng(
+			googleLatLng.lat(),
+			googleLatLng.lng()
+		);
 	}
 	
 	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
@@ -3739,6 +3750,8 @@
 				return;
 			}
 			
+			$(element).html(WPGMZA.localized_strings.google_api_not_loaded + "<pre>" + message + "</pre>");
+			
 			throw new Error(message);
 		}
 		
@@ -3983,6 +3996,9 @@
 	 */
 	WPGMZA.GoogleMap.prototype.setZoom = function(value)
 	{
+		if(isNaN(value))
+			throw new Error("Value must not be NaN");
+		
 		return this.googleMap.setZoom(value);
 	}
 	

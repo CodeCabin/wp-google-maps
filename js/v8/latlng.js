@@ -88,6 +88,14 @@
 		return this._lat + ", " + this._lng;
 	}
 	
+	WPGMZA.LatLng.fromGoogleLatLng = function(googleLatLng)
+	{
+		return new WPGMZA.LatLng(
+			googleLatLng.lat(),
+			googleLatLng.lng()
+		);
+	}
+	
 	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
 	{
 		return new google.maps.LatLng({
