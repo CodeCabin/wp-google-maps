@@ -3,7 +3,7 @@
  * @module EventDispatcher
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.EventDispatcher = function()
 	{
@@ -148,4 +148,4 @@
 
 	WPGMZA.events = new WPGMZA.EventDispatcher();
 
-})(jQuery);
+});

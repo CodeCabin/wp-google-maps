@@ -3,7 +3,7 @@
  * @module Event
  * @requires WPGMZA
  */ 
-(function($) {
+jQuery(function($) {
 		
 	WPGMZA.Event = function(options)
 	{
@@ -31,4 +31,4 @@
 		this._cancelled = true;
 	}
 	
-})(jQuery);
+});

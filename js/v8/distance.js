@@ -3,7 +3,7 @@
  * @module Distance
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Distance = {
 		
@@ -51,4 +51,4 @@
 		
 	};
 	
-})(jQuery);
+});

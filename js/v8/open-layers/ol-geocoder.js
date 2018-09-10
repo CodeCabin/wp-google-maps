@@ -3,7 +3,7 @@
  * @module OLGeocoder
  * @requires WPGMZA.Geocoder
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * @class OLGeocoder
@@ -179,4 +179,4 @@
 		});
 	}
 	
-})(jQuery);
+});

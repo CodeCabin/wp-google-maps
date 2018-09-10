@@ -4,7 +4,7 @@
  * @requires WPGMZA.Polygon
  * @pro-requires WPGMZA.ProPolygon
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -86,4 +86,4 @@
 		return result;
 	}
 	
-})(jQuery);
+});

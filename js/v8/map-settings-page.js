@@ -3,7 +3,7 @@
  * @module MapSettingsPage
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettingsPage = function()
 	{
@@ -68,4 +68,4 @@
 		
 	});
 	
-})(jQuery);
+});

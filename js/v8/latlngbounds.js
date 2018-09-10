@@ -3,7 +3,7 @@
  * @module LatLngBounds
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.LatLngBounds = function(southWest, northEast)
 	{
@@ -39,4 +39,4 @@
 			this.east = latLng.lng;
 	}
 	
-})(jQuery);
+});

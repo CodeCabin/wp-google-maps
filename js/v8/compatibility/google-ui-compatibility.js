@@ -3,7 +3,7 @@
  * @module GoogleUICompatibility
  * @requires WPGMZA
  */ 
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleUICompatibility = function()
 	{
@@ -22,4 +22,4 @@
 	
 	WPGMZA.googleUICompatibility = new WPGMZA.GoogleUICompatibility();
 	
-})(jQuery);
+});

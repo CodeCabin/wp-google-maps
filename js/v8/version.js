@@ -3,7 +3,7 @@
  * @module Version
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 
 	function isPositiveInteger(x) {
 		// http://stackoverflow.com/a/1019526/11236
@@ -68,4 +68,4 @@
 		return 0;
 	}
 
-})(jQuery);
+});

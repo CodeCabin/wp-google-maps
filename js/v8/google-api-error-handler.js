@@ -3,7 +3,7 @@
  * @module GoogleAPIErrorHandler
  * @requires WPGMZA
  */
-(function($){  
+jQuery(function($) { 
 
 	WPGMZA.GoogleAPIErrorHandler = function() {
 		
@@ -125,4 +125,4 @@
 	
 	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
 
-})(jQuery);
+});

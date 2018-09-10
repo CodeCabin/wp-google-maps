@@ -3,7 +3,7 @@
  * @module GoogleModernStoreLocatorCircle
  * @requires WPGMZA.ModernStoreLocatorCircle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocatorCircle = function(map, settings)
 	{
@@ -161,4 +161,4 @@
 		clearInterval(this.intervalID);
 	}
 	
-})(jQuery);
+});

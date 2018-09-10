@@ -3,7 +3,7 @@
  * @module GoogleVertexContextMenu
  * @requires wpgmza_api_call
  */
-(function($) {
+jQuery(function($) {
 	
 	if(WPGMZA.settings.engine != "google-maps")
 		return;
@@ -94,4 +94,4 @@
 		this.close();
 	}
 	
-})(jQuery);
+});

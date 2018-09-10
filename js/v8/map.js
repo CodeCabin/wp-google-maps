@@ -3,7 +3,7 @@
  * @module Map
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * Constructor
@@ -468,4 +468,4 @@
 		// Call again each second to load AJAX maps
 		setInterval(createMaps, 1000);
 	});*/
-})(jQuery);
+});

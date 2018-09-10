@@ -3,7 +3,7 @@
  * @module GooglePolyline
  * @requires WPGMZA.Polyline
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GooglePolyline = function(row, googlePolyline)
 	{
@@ -64,4 +64,4 @@
 		return result;
 	}
 	
-})(jQuery);
+});

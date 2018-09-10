@@ -3,7 +3,7 @@
  * @module MapObject
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapObject = function(row)
 	{
@@ -81,4 +81,4 @@
 		};
 	}
 	
-})(jQuery);
+});

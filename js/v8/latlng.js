@@ -3,7 +3,7 @@
  * @module LatLng
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 
 	/**
 	 * Constructor
@@ -134,4 +134,4 @@
 		this.lng		= lambda2 * 180 / Math.PI;
 	}
 	
-})(jQuery);
+});

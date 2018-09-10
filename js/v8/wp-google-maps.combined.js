@@ -4,7 +4,7 @@
  * @module WPGMZA
  * @summary This is the core Javascript module. Some code exists in ../core.js, the functionality there will slowly be handed over to this module.
  */
-(function($) {
+jQuery(function($) {
 	var core = {
 		maps: [],
 		events: null,
@@ -429,7 +429,7 @@
 	
 	
 	
-})(jQuery);
+});
 
 // js/v8/compatibility.js
 /**
@@ -437,7 +437,7 @@
  * @module Compatibility
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Compatibility = function()
 	{
@@ -459,7 +459,7 @@
 	
 	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
 	
-})(jQuery);
+});
 
 // js/v8/css-escape.js
 /**
@@ -582,7 +582,7 @@
  * @module Distance
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Distance = {
 		
@@ -630,7 +630,7 @@
 		
 	};
 	
-})(jQuery);
+});
 
 // js/v8/event-dispatcher.js
 /**
@@ -638,7 +638,7 @@
  * @module EventDispatcher
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.EventDispatcher = function()
 	{
@@ -783,7 +783,7 @@
 
 	WPGMZA.events = new WPGMZA.EventDispatcher();
 
-})(jQuery);
+});
 
 // js/v8/event.js
 /**
@@ -791,7 +791,7 @@
  * @module Event
  * @requires WPGMZA
  */ 
-(function($) {
+jQuery(function($) {
 		
 	WPGMZA.Event = function(options)
 	{
@@ -819,7 +819,7 @@
 		this._cancelled = true;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/friendly-error.js
 /**
@@ -827,7 +827,7 @@
  * @module FriendlyError
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/*var template = '\
 		<div class="notice notice-error"> \
@@ -853,7 +853,7 @@
 		this.element.find("pre").html(nativeError.message + "\r\n" + nativeError.stack + "\r\n\r\n on " + window.location.href);
 	}*/
 	
-})(jQuery);
+});
 
 // js/v8/geocoder.js
 /**
@@ -861,7 +861,7 @@
  * @module Geocoder
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Geocoder = function()
 	{
@@ -921,7 +921,7 @@
 		throw new Error("You must supply either a latLng or address");
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-api-error-handler.js
 /**
@@ -1051,7 +1051,7 @@
 	
 	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
 
-})(jQuery);
+});
 
 // js/v8/info-window.js
 /**
@@ -1059,7 +1059,7 @@
  * @module InfoWindow
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.InfoWindow = function(mapObject)
 	{
@@ -1172,7 +1172,7 @@
 			this.open();
 	}
 	
-})(jQuery);
+});
 
 // js/v8/latlng.js
 /**
@@ -1180,7 +1180,7 @@
  * @module LatLng
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 
 	/**
 	 * Constructor
@@ -1311,7 +1311,7 @@
 		this.lng		= lambda2 * 180 / Math.PI;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/latlngbounds.js
 /**
@@ -1319,7 +1319,7 @@
  * @module LatLngBounds
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.LatLngBounds = function(southWest, northEast)
 	{
@@ -1355,7 +1355,7 @@
 			this.east = latLng.lng;
 	}
 	
-})(jQuery);
+});
 
 
 // js/v8/map-object.js
@@ -1364,7 +1364,7 @@
  * @module MapObject
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapObject = function(row)
 	{
@@ -1442,7 +1442,7 @@
 		};
 	}
 	
-})(jQuery);
+});
 
 // js/v8/circle.js
 /**
@@ -1450,7 +1450,7 @@
  * @module Circle
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent = WPGMZA.MapObject;
 	
@@ -1557,7 +1557,7 @@
 			
 	}
 	
-})(jQuery);
+});
 
 // js/v8/map-settings-page.js
 /**
@@ -1565,7 +1565,7 @@
  * @module MapSettingsPage
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettingsPage = function()
 	{
@@ -1630,7 +1630,7 @@
 		
 	});
 	
-})(jQuery);
+});
 
 // js/v8/map-settings.js
 /**
@@ -1638,7 +1638,7 @@
  * @module MapSettings
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettings = function(element)
 	{
@@ -1813,7 +1813,7 @@
 		
 		return options;
 	}
-})(jQuery);
+});
 
 // js/v8/map.js
 /**
@@ -1821,7 +1821,7 @@
  * @module Map
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * Constructor
@@ -2286,7 +2286,7 @@
 		// Call again each second to load AJAX maps
 		setInterval(createMaps, 1000);
 	});*/
-})(jQuery);
+});
 
 // js/v8/maps-engine-dialog.js
 /**
@@ -2294,7 +2294,7 @@
  * @module MapsEngineDialog
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapsEngineDialog = function(element)
 	{
@@ -2351,7 +2351,7 @@
 		
 	});
 	
-})(jQuery);
+});
 
 // js/v8/marker.js
 /**
@@ -2359,7 +2359,7 @@
  * @module Marker
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	/**
 	 * Constructor
 	 * @param json to load (optional)
@@ -2633,7 +2633,7 @@
 	}
 	
 	
-})(jQuery);
+});
 
 // js/v8/modern-store-locator-circle.js
 /**
@@ -2641,7 +2641,7 @@
  * @module ModernStoreLocatorCircle
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * This module is the modern store locator circle
@@ -3002,7 +3002,7 @@
 		}
 	}
 	
-})(jQuery);
+});
 
 // js/v8/modern-store-locator.js
 /**
@@ -3010,7 +3010,7 @@
  * @module ModernStoreLocator
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * The new modern look store locator. It takes the elements
@@ -3181,7 +3181,7 @@
 			return new WPGMZA.OLModernStoreLocator(map_id);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/polygon.js
 /**
@@ -3189,7 +3189,7 @@
  * @module Polygon
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	WPGMZA.Polygon = function(row, enginePolygon)
 	{
 		var self = this;
@@ -3244,7 +3244,7 @@
 		return result;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/polyline.js
 /**
@@ -3252,7 +3252,7 @@
  * @module Polyline
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	WPGMZA.Polyline = function(row, googlePolyline)
 	{
 		var self = this;
@@ -3302,7 +3302,7 @@
 	}
 	
 	
-})(jQuery);
+});
 
 // js/v8/rest-api.js
 /**
@@ -3311,7 +3311,7 @@
  * @requires WPGMZA
  * @summary Wrapped for the rest API
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.RestAPI = function()
 	{
@@ -3331,7 +3331,7 @@
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/version.js
 /**
@@ -3339,7 +3339,7 @@
  * @module Version
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 
 	function isPositiveInteger(x) {
 		// http://stackoverflow.com/a/1019526/11236
@@ -3404,7 +3404,7 @@
 		return 0;
 	}
 
-})(jQuery);
+});
 
 // js/v8/compatibility/google-ui-compatibility.js
 /**
@@ -3412,7 +3412,7 @@
  * @module GoogleUICompatibility
  * @requires WPGMZA
  */ 
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleUICompatibility = function()
 	{
@@ -3431,7 +3431,7 @@
 	
 	WPGMZA.googleUICompatibility = new WPGMZA.GoogleUICompatibility();
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-circle.js
 /**
@@ -3439,7 +3439,7 @@
  * @module GoogleCircle
  * @requires WPGMZA.Circle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleCircle = function(options, googleCircle)
 	{
@@ -3485,7 +3485,7 @@
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
 	WPGMZA.GoogleCircle.prototype.constructor = WPGMZA.GoogleCircle;
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-geocoder.js
 /**
@@ -3493,7 +3493,7 @@
  * @module GoogleGeocoder
  * @requires WPGMZA.Geocoder
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleGeocoder = function()
 	{
@@ -3581,7 +3581,7 @@
 		});
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-info-window.js
 /**
@@ -3590,7 +3590,7 @@
  * @requires WPGMZA.InfoWindow
  * @pro-requires WPGMZA.ProInfoWindow
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -3714,7 +3714,7 @@
 		this.googleInfoWindow.setOptions(options);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-map.js
 /**
@@ -3723,7 +3723,7 @@
  * @requires WPGMZA.Map
  * @pro-requires WPGMZA.ProMap
  */
-(function($) {
+jQuery(function($) {
 	var Parent;
 	
 	/**
@@ -4220,7 +4220,7 @@
 		google.maps.event.trigger(this.googleMap, "resize");
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-marker.js
 /**
@@ -4229,7 +4229,7 @@
  * @requires WPGMZA.Marker
  * @pro-requires WPGMZA.ProMarker
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -4396,7 +4396,7 @@
 		this.googleMarker.setDraggable(draggable);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-modern-store-locator-circle.js
 /**
@@ -4404,7 +4404,7 @@
  * @module GoogleModernStoreLocatorCircle
  * @requires WPGMZA.ModernStoreLocatorCircle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocatorCircle = function(map, settings)
 	{
@@ -4562,7 +4562,7 @@
 		clearInterval(this.intervalID);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-modern-store-locator.js
 /**
@@ -4570,7 +4570,7 @@
  * @module GoogleModernStoreLocator
  * @requires WPGMZA.ModernStoreLocator
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocator = function(map_id)
 	{
@@ -4589,7 +4589,7 @@
 	WPGMZA.GoogleModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator.prototype);
 	WPGMZA.GoogleModernStoreLocator.prototype.constructor = WPGMZA.GoogleModernStoreLocator;
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-polygon.js
 /**
@@ -4598,7 +4598,7 @@
  * @requires WPGMZA.Polygon
  * @pro-requires WPGMZA.ProPolygon
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -4680,7 +4680,7 @@
 		return result;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-polyline.js
 /**
@@ -4688,7 +4688,7 @@
  * @module GooglePolyline
  * @requires WPGMZA.Polyline
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GooglePolyline = function(row, googlePolyline)
 	{
@@ -4749,7 +4749,7 @@
 		return result;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/google-maps/google-vertex-context-menu.js
 /**
@@ -4757,7 +4757,7 @@
  * @module GoogleVertexContextMenu
  * @requires wpgmza_api_call
  */
-(function($) {
+jQuery(function($) {
 	
 	if(WPGMZA.settings.engine != "google-maps")
 		return;
@@ -4848,7 +4848,7 @@
 		this.close();
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-circle.js
 /**
@@ -4856,7 +4856,7 @@
  * @module OLCircle
  * @requires WPGMZA.Circle
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent = WPGMZA.Circle;
 	
@@ -4935,7 +4935,7 @@
 		this.layer.setStyle(this.olStyle);
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-geocoder.js
 /**
@@ -4943,7 +4943,7 @@
  * @module OLGeocoder
  * @requires WPGMZA.Geocoder
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * @class OLGeocoder
@@ -5119,7 +5119,7 @@
 		});
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-info-window.js
 /**
@@ -5128,7 +5128,7 @@
  * @requires WPGMZA.InfoWindow
  * @pro-requires WPGMZA.ProInfoWindow
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -5214,7 +5214,7 @@
 		}
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-map.js
 /**
@@ -5223,7 +5223,7 @@
  * @requires WPGMZA.Map
  * @pro-requires WPGMZA.ProMap
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -5638,7 +5638,7 @@
 		return false;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-marker.js
 /**
@@ -5647,7 +5647,7 @@
  * @requires WPGMZA.Marker
  * @pro-requires WPGMZA.ProMarker
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -5814,7 +5814,7 @@
 		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-modern-store-locator-circle.js
 /**
@@ -5822,7 +5822,7 @@
  * @module OLModernStoreLocatorCircle
  * @requires WPGMZA.ModernStoreLocatorCircle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.OLModernStoreLocatorCircle = function(map, settings)
 	{
@@ -5925,7 +5925,7 @@
 		this.canvas = null;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-modern-store-locator.js
 /**
@@ -5933,7 +5933,7 @@
  * @module OLModernStoreLocator
  * @requires WPGMZA.ModernStoreLocator
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.OLModernStoreLocator = function(map_id)
 	{
@@ -5952,7 +5952,7 @@
 	WPGMZA.OLModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator);
 	WPGMZA.OLModernStoreLocator.prototype.constructor = WPGMZA.OLModernStoreLocator;
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-polygon.js
 /**
@@ -5961,7 +5961,7 @@
  * @requires WPGMZA.Polygon
  * @pro-requires WPGMZA.ProPolygon
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -6069,7 +6069,7 @@
 		return result;
 	}
 	
-})(jQuery);
+});
 
 // js/v8/open-layers/ol-polyline.js
 /**
@@ -6077,7 +6077,7 @@
  * @module OLPolyline
  * @requires WPGMZA.Polyline
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -6199,4 +6199,4 @@
 		return result;
 	}
 	
-})(jQuery);
+});

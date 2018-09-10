@@ -3,7 +3,7 @@
  * @module ModernStoreLocatorCircle
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * This module is the modern store locator circle
@@ -364,4 +364,4 @@
 		}
 	}
 	
-})(jQuery);
+});

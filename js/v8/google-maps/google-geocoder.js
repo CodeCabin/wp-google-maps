@@ -3,7 +3,7 @@
  * @module GoogleGeocoder
  * @requires WPGMZA.Geocoder
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleGeocoder = function()
 	{
@@ -91,4 +91,4 @@
 		});
 	}
 	
-})(jQuery);
+});

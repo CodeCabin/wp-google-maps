@@ -3,7 +3,7 @@
  * @module OLPolyline
  * @requires WPGMZA.Polyline
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -125,4 +125,4 @@
 		return result;
 	}
 	
-})(jQuery);
+});

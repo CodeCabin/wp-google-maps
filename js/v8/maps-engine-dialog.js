@@ -3,7 +3,7 @@
  * @module MapsEngineDialog
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapsEngineDialog = function(element)
 	{
@@ -60,4 +60,4 @@
 		
 	});
 	
-})(jQuery);
+});

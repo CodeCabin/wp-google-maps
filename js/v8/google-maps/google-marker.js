@@ -4,7 +4,7 @@
  * @requires WPGMZA.Marker
  * @pro-requires WPGMZA.ProMarker
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -171,4 +171,4 @@
 		this.googleMarker.setDraggable(draggable);
 	}
 	
-})(jQuery);
+});

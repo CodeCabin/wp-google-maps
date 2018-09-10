@@ -3,7 +3,7 @@
  * @module OLModernStoreLocatorCircle
  * @requires WPGMZA.ModernStoreLocatorCircle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.OLModernStoreLocatorCircle = function(map, settings)
 	{
@@ -106,4 +106,4 @@
 		this.canvas = null;
 	}
 	
-})(jQuery);
+});

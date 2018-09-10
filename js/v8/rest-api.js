@@ -4,7 +4,7 @@
  * @requires WPGMZA
  * @summary Wrapped for the rest API
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.RestAPI = function()
 	{
@@ -24,4 +24,4 @@
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
-})(jQuery);
+});

@@ -3,7 +3,7 @@
  * @module Circle
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent = WPGMZA.MapObject;
 	
@@ -110,4 +110,4 @@
 			
 	}
 	
-})(jQuery);
+});

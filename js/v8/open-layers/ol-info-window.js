@@ -4,7 +4,7 @@
  * @requires WPGMZA.InfoWindow
  * @pro-requires WPGMZA.ProInfoWindow
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -90,4 +90,4 @@
 		}
 	}
 	
-})(jQuery);
+});

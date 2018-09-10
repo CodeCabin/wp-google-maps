@@ -4,7 +4,7 @@
  * @requires WPGMZA.Map
  * @pro-requires WPGMZA.ProMap
  */
-(function($) {
+jQuery(function($) {
 	var Parent;
 	
 	/**
@@ -500,4 +500,4 @@
 		google.maps.event.trigger(this.googleMap, "resize");
 	}
 	
-})(jQuery);
+});

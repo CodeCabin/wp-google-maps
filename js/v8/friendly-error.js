@@ -3,7 +3,7 @@
  * @module FriendlyError
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/*var template = '\
 		<div class="notice notice-error"> \
@@ -29,4 +29,4 @@
 		this.element.find("pre").html(nativeError.message + "\r\n" + nativeError.stack + "\r\n\r\n on " + window.location.href);
 	}*/
 	
-})(jQuery);
+});

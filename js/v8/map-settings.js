@@ -3,7 +3,7 @@
  * @module MapSettings
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettings = function(element)
 	{
@@ -178,4 +178,4 @@
 		
 		return options;
 	}
-})(jQuery);
+});

@@ -3,7 +3,7 @@
  * @module Marker
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	/**
 	 * Constructor
 	 * @param json to load (optional)
@@ -277,4 +277,4 @@
 	}
 	
 	
-})(jQuery);
+});

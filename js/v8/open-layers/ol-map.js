@@ -4,7 +4,7 @@
  * @requires WPGMZA.Map
  * @pro-requires WPGMZA.ProMap
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -419,4 +419,4 @@
 		return false;
 	}
 	
-})(jQuery);
+});

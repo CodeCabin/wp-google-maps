@@ -3,7 +3,7 @@
  * @module GoogleCircle
  * @requires WPGMZA.Circle
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleCircle = function(options, googleCircle)
 	{
@@ -49,4 +49,4 @@
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
 	WPGMZA.GoogleCircle.prototype.constructor = WPGMZA.GoogleCircle;
 	
-})(jQuery);
+});
