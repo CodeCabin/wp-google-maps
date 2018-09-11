@@ -387,7 +387,7 @@ jQuery(function($) {
 		WPGMZA[key] = value;
 	}
 	
-	$(document).ready(function(event) {
+	jQuery(function($) {
 		
 		// Combined script warning
 		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
@@ -929,7 +929,7 @@ jQuery(function($) {
  * @module GoogleAPIErrorHandler
  * @requires WPGMZA
  */
-(function($){  
+jQuery(function($) { 
 
 	WPGMZA.GoogleAPIErrorHandler = function() {
 		
@@ -1621,7 +1621,7 @@ jQuery(function($) {
 		}
 	}
 	
-	$(document).ready(function(event) {
+	jQuery(function($) {
 		
 		if(!window.location.href.match(/wp-google-maps-menu-settings/))
 			return;
@@ -3746,11 +3746,10 @@ jQuery(function($) {
 			
 			if(status.code == "USER_CONSENT_NOT_GIVEN")
 			{
-				console.log(WPGMZA.api_consent_html);
 				return;
 			}
 			
-			$(element).html(WPGMZA.localized_strings.google_api_not_loaded + "<pre>" + message + "</pre>");
+			$(element).html("<div class='notice notice-error'><p>" + WPGMZA.localized_strings.google_api_not_loaded + "<pre>" + message + "</pre></p></div>");
 			
 			throw new Error(message);
 		}

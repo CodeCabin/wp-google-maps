@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.33
+Version: 7.10.34
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -13,6 +13,9 @@ Domain Path: /languages
 /*
  * 7.10.34
  * Added descriptive error messages when Google API is required but not loaded
+ * Prevented redirection broken because headers already sent when POSTing in some conditions
+ * jQuery 3.x document ready compatibility
+ * Added getPluginScripts to Scriptloader module
  *
  * 7.10.33 :- 2018-09-05 :- Medium priority
  * Fixed OpenLayers InfoWindow not opening
@@ -1268,7 +1271,7 @@ function wpgmaps_admin_edit_marker_javascript() {
     <link rel="stylesheet" type="text/css" media="all" href="<?php echo wpgmaps_get_plugin_url(); ?>css/data_table.css" />
     <script type="text/javascript" src="<?php echo wpgmaps_get_plugin_url(); ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" >
-        jQuery(document).ready(function(){
+        jQuery(function($) {
             function wpgmza_InitMap() {
                 var myLatLng = new WPGMZA.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
                 MYMAP.init('#wpgmza_map', myLatLng, 15);
@@ -2874,7 +2877,16 @@ function wpgmaps_tag_basic( $atts ) {
 		$googleMapsAPILoader->loadGoogleMaps();
 	});*/
 
-	$core_dependencies = array('wpgmza');
+	//$core_dependencies = array('wpgmza');
+	
+	$core_dependencies = array();
+	$scriptLoader = new WPGMZA\ScriptLoader($wpgmza->isProVersion());
+	$v8Scripts = $scriptLoader->getPluginScripts();
+	
+	foreach($v8Scripts as $handle => $script)
+	{
+		$core_dependencies[] = $handle;
+	}
 	
 	$apiLoader = new WPGMZA\GoogleMapsAPILoader();
 	// if(!empty($wpgmza_settings['wpgmza_settings_remove_api']))
@@ -3686,7 +3698,7 @@ function wpgmaps_head() {
 		?>
 		<script type='text/javascript'>
 		
-		jQuery(document).ready(function() {
+		jQuery(function($) {
 			window.location.reload();
 		});
 		
@@ -3750,7 +3762,7 @@ function wpgmaps_head() {
 		?>
 		<script type='text/javascript'>
 		
-		jQuery(document).ready(function() {
+		jQuery(function($) {
 			window.location.reload();
 		});
 		
@@ -7895,7 +7907,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 					bounds: null
 				};
 				
-				$(document).ready(function(){
+				jQuery(function($) {
 					function wpgmza_InitMap() {
 						
 						MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
@@ -8315,7 +8327,7 @@ function wpgmaps_b_admin_add_rectangle_javascript()
 		
 				var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
 				
-				$(document).ready(function(){
+				jQuery(function($) {
 					function wpgmza_InitMap() {
 						
 						MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);

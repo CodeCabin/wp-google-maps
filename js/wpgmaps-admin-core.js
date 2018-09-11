@@ -166,7 +166,7 @@
 		}
 	}
 
-    jQuery(document).ready(function(){
+	jQuery(function($) {
 		$("input[type='submit'].button-primary").on("click", function() {
 			unbindSaveReminder();
 		});

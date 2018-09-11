@@ -19,41 +19,39 @@ function InitMap() {
 	
 	//MYMAP.placeMarkers(wpgmaps_markerurl+'?u='+UniqueCode,wpgmaps_localize[0].id,null,null,null);
 }
-jQuery(function() {
 
-    jQuery(document).ready(function(){
-        if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
-            setTimeout(function(){ 
-                document.getElementById('wpgmza_map').innerHTML = 'Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.';
-            }, 6000);
-        } else {
-            jQuery("#wpgmza_map").css({
-                height:wpgmaps_localize[0]['map_height']+''+wpgmaps_localize[0]['map_height_type'],
-                width:wpgmaps_localize[0]['map_width']+''+wpgmaps_localize[0]['map_width_type'],
-                overflow:'none'
-            });  
-           	InitMap();
-            jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('accordionactivate', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.wpb_tabs_nav li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.ui-tabs-nav li', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.tp-tabs li a', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.nav-tabs li a', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.vc_tta-panel-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.ult_exp_section',function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.x-accordion-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.x-nav-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tab-title', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tab-link', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.et_pb_tabs_controls li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.fusion-tab-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.et_pb_tab', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tri-tabs-nav span', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.gdl-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '#tabnav  li', function(){setTimeout(function(){InitMap();}, 500); });
-        }
-    });
+jQuery(function($) {
+	if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
+		setTimeout(function(){ 
+			document.getElementById('wpgmza_map').innerHTML = 'Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.';
+		}, 6000);
+	} else {
+		jQuery("#wpgmza_map").css({
+			height:wpgmaps_localize[0]['map_height']+''+wpgmaps_localize[0]['map_height_type'],
+			width:wpgmaps_localize[0]['map_width']+''+wpgmaps_localize[0]['map_width_type'],
+			overflow:'none'
+		});  
+		InitMap();
+		jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('accordionactivate', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.wpb_tabs_nav li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.ui-tabs-nav li', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.tp-tabs li a', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.nav-tabs li a', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.vc_tta-panel-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.ult_exp_section',function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.x-accordion-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.x-nav-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tab-title', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tab-link', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.et_pb_tabs_controls li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.fusion-tab-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.et_pb_tab', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tri-tabs-nav span', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.gdl-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '#tabnav  li', function(){setTimeout(function(){InitMap();}, 500); });
+	}
 });
 
 var MYMAP = {

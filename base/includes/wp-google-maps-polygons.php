@@ -249,7 +249,7 @@ function wpgmaps_b_admin_add_poly_javascript($mapid) {
         ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >
-            jQuery(document).ready(function(){
+			jQuery(function($) {
                     function wpgmza_InitMap() {
                         var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
                         MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
@@ -464,7 +464,7 @@ function wpgmaps_b_admin_edit_poly_javascript($mapid,$polyid) {
             var poly_markers = [];
             var poly_path = new google.maps.MVCArray;
                 
-            jQuery(document).ready(function(){
+            jQuery(function($) {
                 
                     function wpgmza_InitMap() {
                         var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);

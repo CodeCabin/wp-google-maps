@@ -309,6 +309,47 @@ class ScriptLoader
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
 	}
 	
+	/**
+	 * Returns an array of objects representing all scripts used by the plugin
+	 * @return array
+	 */
+	public function getPluginScripts()
+	{
+		global $wpgmza;
+		
+		if($wpgmza->isUsingMinifiedScripts())
+		{
+			$dir = ($this->proMode ? plugin_dir_path(WPGMZA_PRO_FILE) : plugin_dir_path(__DIR__));
+			
+			$combined = 'js/v8/wp-google-maps' . ($this->proMode ? '-pro' : '') . '.combined.js';
+			$minified = 'js/v8/wp-google-maps' . ($this->proMode ? '-pro' : '') . '.min.js';
+			
+			$src = $minified;
+			
+			$minified_file_exists = file_exists($dir . $minified);
+			
+			if($minified_file_exists)
+				$delta = filemtime($dir . $combined) - filemtime($dir . $minified);
+			
+			if(!$minified_file_exists || $delta > 0)
+				$src = $combined;
+			
+			$scripts = array('wpgmza' => 
+				(object)array(
+					'src'	=> $src,
+					'pro'	=> $this->proMode
+				)
+			);
+		}
+		else
+		{
+			// Enqueue core object with library dependencies
+			$scripts = (array)json_decode(file_get_contents($this->scriptsFileLocation));
+		}
+		
+		return $scripts;
+	}
+	
 	public function enqueueScripts()
 	{
 		global $wpgmza;
@@ -336,36 +377,6 @@ class ScriptLoader
 			wp_enqueue_script($handle, $src, array('jquery'));
 		}
 		
-		if($wpgmza->isUsingMinifiedScripts())
-		{
-			$dir = ($this->proMode ? plugin_dir_path(WPGMZA_PRO_FILE) : plugin_dir_path(__DIR__));
-			
-			$combined = 'js/v8/wp-google-maps' . ($this->proMode ? '-pro' : '') . '.combined.js';
-			$minified = 'js/v8/wp-google-maps' . ($this->proMode ? '-pro' : '') . '.min.js';
-			
-			$src = $minified;
-			
-			$minified_file_exists = file_exists($dir . $minified);
-			
-			if($minified_file_exists)
-				$delta = filemtime($dir . $combined) - filemtime($dir . $minified);
-			
-			if(!$minified_file_exists || $delta > 0)
-				$src = $combined;
-			
-			$this->scripts = array('wpgmza' => 
-				(object)array(
-					'src'	=> $src,
-					'pro'	=> $this->proMode
-				)
-			);
-		}
-		else
-		{
-			// Enqueue core object with library dependencies
-			$this->scripts = (array)json_decode(file_get_contents($this->scriptsFileLocation));
-		}
-		
 		// FontAwesome?
 		$version = (empty($wpgmza->settings->use_fontawesome) ? '4.*' : $wpgmza->settings->use_fontawesome);
 		
@@ -384,6 +395,9 @@ class ScriptLoader
 				wp_enqueue_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
 				break;
 		}
+		
+		// Scripts
+		$this->scripts = $this->getPluginScripts();
 		
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);

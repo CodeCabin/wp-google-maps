@@ -1,5 +1,5 @@
 lightbox_open = new Array();
-jQuery(document).ready(function () {
+jQuery(function($) {
 
     jQuery( document ).on( 'wpgooglemaps_loaded', '#wpgmza_map', function() {
         wpgooglemaps_load_full_screen_button(wpgmaps_localize[wpgmaps_mapid]['id'])

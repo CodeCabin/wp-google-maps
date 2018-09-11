@@ -1,6 +1,4 @@
-(function($) {
-
-$("document").ready(function() {
+jQuery(function($) {
 	
    $("#wpgmaps_tabs").tabs();
    $("#wpgmaps_tabs_markers").tabs(); 
@@ -69,5 +67,3 @@ $("document").ready(function() {
     
 	
 });
-
-})(jQuery);
