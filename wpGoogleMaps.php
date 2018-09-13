@@ -529,7 +529,7 @@ if(!function_exists('wpgmza_show_php_version_error'))
 		<div class="notice notice-error">
 			<p>
 				<?php
-				_e('WP Google Maps: This plugin does not support PHP version 5.2 or below. Please use your cPanel or speak to your host to switch version.', 'wp-google-maps');
+				_e('<strong>WP Google Maps:</strong> This plugin does not support PHP version 5.2 or below. Please use your cPanel or contact your host to switch version.', 'wp-google-maps');
 				?>
 			</p>
 		</div>

@@ -2,8 +2,6 @@
 
 namespace WPGMZA;
 
-//var_dump("Autoloader included");
-
 class AutoLoader
 {
 	protected $filenamesByClass;

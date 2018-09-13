@@ -402,6 +402,7 @@ class ScriptLoader
 		// Give the core script library dependencies
 		$dependencies = array_keys($libraries);
 		
+		// Sometimes we need to load the plugin JS files but not the maps API. The following code stops the API being loaded as a dependency of the plugin JS files when that is the case.
 		$apiLoader = new GoogleMapsAPILoader();
 		if($apiLoader->isIncludeAllowed())
 			$dependencies[] = 'wpgmza_api_call';
