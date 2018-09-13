@@ -31,7 +31,13 @@ class GoogleMapsAPILoader
 		$include_allowed = $this->isIncludeAllowed($status);
 		$isAllowed = $this->isIncludeAllowed($status);
 		
-		if(!preg_match('/admin-post\.php/', $_SERVER['REQUEST_URI']))
+		if(
+			!preg_match('/admin-post\.php/', $_SERVER['REQUEST_URI'])
+			&&
+			!preg_match('/wp-json/', $_SERVER['REQUEST_URI'])
+			&&
+			!preg_match('/admin-ajax\.php/', $_SERVER['REQUEST_URI'])
+			)
 			echo "<script>var wpgmza_google_api_status = " . json_encode($status) . "</script>";
 	}
 	

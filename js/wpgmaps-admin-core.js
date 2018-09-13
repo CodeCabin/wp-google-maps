@@ -167,6 +167,15 @@
 	}
 
 	jQuery(function($) {
+		
+		if(WPGMZA.isProVersion())
+		{
+			if(console && console.warn)
+				console.warn("Unexpected plugin load order");
+			
+			return;
+		}
+		
 		$("input[type='submit'].button-primary").on("click", function() {
 			unbindSaveReminder();
 		});

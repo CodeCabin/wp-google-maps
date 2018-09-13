@@ -13,9 +13,12 @@ Domain Path: /languages
 /*
  * 7.10.34
  * Added descriptive error messages when Google API is required but not loaded
+ * Added "I agree" translation to German files
  * Prevented redirection broken because headers already sent when POSTing in some conditions
+ * Prevented UGM e-mail address being transmitted in WPGMZA_localized_data
  * jQuery 3.x document ready compatibility
  * Added getPluginScripts to Scriptloader module
+ * Removed redundant locationSelect dropdown
  *
  * 7.10.33 :- 2018-09-05 :- Medium priority
  * Fixed OpenLayers InfoWindow not opening
@@ -3137,7 +3140,7 @@ function wpgmaps_sl_user_output_basic($map_id) {
 	
 	$ret_msg .= "       <div class='wpgmza-not-found-msg js-not-found-msg'><p>" . $sl_not_found_message . "</p></div>";
 	$ret_msg .= "    </div>";
-    $ret_msg .= "    <div><select id=\"locationSelect\" style=\"width:100%;visibility:hidden\"></select></div>";
+    //$ret_msg .= "    <div><select id=\"locationSelect\" style=\"width:100%;visibility:hidden\"></select></div>";
     
     return $ret_msg;
     

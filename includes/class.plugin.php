@@ -158,6 +158,10 @@ class Plugin
 		
 		$strings = new Strings();
 		
+		$settings = clone $this->settings;
+		if(isset($settings->wpgmza_settings_ugm_email_address))
+			unset($settings->wpgmza_settings_ugm_email_address);
+		
 		return apply_filters('wpgmza_plugin_get_localized_data', array(
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'resturl'				=> get_rest_url(null, 'wpgmza/v1'),
@@ -166,7 +170,7 @@ class Plugin
 				'googleMapsAPIErrorDialog' => $googleMapsAPIErrorDialogHTML
 			),
 			
-			'settings' 				=> $this->settings,
+			'settings' 				=> $settings,
 			'currentPage'			=> $this->getCurrentPage(),
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
 			
