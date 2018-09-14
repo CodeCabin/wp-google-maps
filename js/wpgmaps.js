@@ -44,6 +44,8 @@ function wpgmza_open_info_window(infoWindow, content)
 	var guid = wpgmza_get_guid();
 	var div = $("<div hidden data-info-window-guid='" + guid + "'/>");
 	
+	wpgmza_init_infowindow();
+	
 	infoWindow.setContent(div);
 	infoWindow.open();
 	
@@ -354,17 +356,16 @@ MYMAP.init = function(selector, latLng, zoom) {
 	});
 }
 
-//var infoWindow = new google.maps.InfoWindow();
-var infoWindow;
-jQuery(function($) {
-	
+function wpgmza_init_infowindow()   
+{
 	if(!window.WPGMZA)
 		return;
 	
-	infoWindow = WPGMZA.InfoWindow.createInstance();
+	window.infoWindow = WPGMZA.InfoWindow.createInstance();
 	
-	if (typeof wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "undefined" && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "") { infoWindow.setOptions({maxWidth:wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']}); }
-});
+	if(wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'].length)
+		infoWindow.setOptions({maxWidth: wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']});
+}
 
 function wpgmza_get_zoom_from_radius(radius, units)
 {
@@ -623,6 +624,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
                             var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
                             if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
+								wpgmza_init_infowindow();
+								
                                 infoWindow.setContent(html);
                                 infoWindow.open(MYMAP.map, marker);
                             }
@@ -636,6 +639,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 									infoWindow.close();
 								if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 								{
+									wpgmza_init_infowindow();
+									
 									infoWindow.setContent(html);
 									infoWindow.open(MYMAP.map, marker);
 								}

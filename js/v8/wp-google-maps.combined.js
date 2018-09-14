@@ -5071,7 +5071,7 @@ jQuery(function($) {
 						lng: parseFloat(response[i].lon)
 					};
 					
-					// Backward compatibility
+					// Backward compatibility with old UGM
 					response[i].lng = response[i].lon;
 				}
 				
