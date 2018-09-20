@@ -62,9 +62,16 @@ jQuery(function($) {
 		});
 		this.olMap.addLayer(this.markerLayer);
 		
+		// Listen for drag start
+		this.olMap.on("movestart", function(event) {
+			self.isBeingDragged = true;
+		});
+		
 		// Listen for end of pan so we can wrap longitude if needs be
 		this.olMap.on("moveend", function(event) {
 			self.wrapLongitude();
+			
+			self.isBeingDragged = false;
 			self.dispatchEvent("dragend");
 			self.onIdle();
 		});
@@ -106,11 +113,15 @@ jQuery(function($) {
 			
 			if(event.which == 1 || event.button == 1)
 			{
-				// Left
+				if(self.isBeingDragged)
+					return;
+				
+				// Left click
 				self.trigger({
 					type: "click",
 					latLng: latLng
 				});
+				
 				return;
 			}
 			

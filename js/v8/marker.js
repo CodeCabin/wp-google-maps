@@ -29,13 +29,14 @@ jQuery(function($) {
 		if(row && row.heatmap)
 			return; // Don't listen for these events on heatmap markers.
 		
-		this.on("init", function(event) {
-			if(row.position)
-				this.setPosition(row.position);
-			
-			if(row.map)
-				row.map.addMarker(this);
-		});
+		if(row)
+			this.on("init", function(event) {
+				if(row.position)
+					this.setPosition(row.position);
+				
+				if(row.map)
+					row.map.addMarker(this);
+			});
 		
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);

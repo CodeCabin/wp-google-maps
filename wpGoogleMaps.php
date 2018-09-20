@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.34
+Version: 7.10.35
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,13 +11,22 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.34
+ * 7.10.35 :- 2018-09-20 :- Medium priority
+ * Added links to new API troubleshooting documentation to Google Maps API Error dialog
+ * Fixed marker dispatching click event after drag when using OpenLayers
+ * Fixed map dispatching click event after drag when using OpenLayers
+ * Fixed map editor right click marker appearing multiple times
+ * Fixed map editor right click marker disappearing after map drag
+ * Fixed modern store locator circle crashing some iOS devices by disabling this feature on iOS devices
+ * Fixed gesture handling setting not respected when theme data is set in
+ *
+ * 7.10.34 :- 2018-09-17 :- Low priority
  * Added descriptive error messages when Google API is required but not loaded
  * Added "I agree" translation to German files
- * Prevented redirection broken because headers already sent when POSTing in some conditions
- * Prevented UGM e-mail address being transmitted in WPGMZA_localized_data
- * jQuery 3.x document ready compatibility
  * Added getPluginScripts to Scriptloader module
+ * jQuery 3.x document ready compatibility
+ * Changed wpgmza_google_api_status to be passed via wp_localize_script to prevent redirection issues in some circumstances
+ * Prevented UGM e-mail address being transmitted in WPGMZA_localized_data
  * Removed redundant locationSelect dropdown
  *
  * 7.10.33 :- 2018-09-05 :- Medium priority
@@ -4746,7 +4755,7 @@ function wpgmaps_settings_page_basic() {
             $ret .= "               <tr>";
             $ret .= "                        <td width='200' valign='top'>".__("Disable Two-Finger Pan","wp-google-maps").":</td>";
             $ret .= "                     <td>";
-            $ret .= "                           <div class='switch'><input name='wpgmza_force_greedy_gestures' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_force_greedy_gestures' value='yes' $wpgmza_force_greedy_gestures_checked /> <label for='wpgmza_force_greedy_gestures' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> " . __("Removes the need to use two fingers to move the map on mobile devices", "wp-google-maps");
+            $ret .= "                           <div class='switch wpgmza-open-layers-feature-unavailable'><input name='wpgmza_force_greedy_gestures' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_force_greedy_gestures' value='yes' $wpgmza_force_greedy_gestures_checked /> <label for='wpgmza_force_greedy_gestures' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> " . __("Removes the need to use two fingers to move the map on mobile devices", "wp-google-maps");
             $ret .= "                    </td>";
             $ret .= "                </tr>";
 			

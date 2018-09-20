@@ -371,7 +371,23 @@ jQuery(function($) {
 			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
 		},
 		
-		googleAPIStatus: window.wpgmza_google_api_status
+		googleAPIStatus: window.wpgmza_google_api_status,
+		
+		isDeviceiOS: function() {
+			
+			return true;
+			
+			return (
+			
+				(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+				
+				||
+				
+				(!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform))
+			
+			);
+			
+		}
 	};
 	
 	if(window.WPGMZA)

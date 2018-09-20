@@ -25,6 +25,36 @@
 	
 	<p>
 		<?php
+		_e('See our documentation for solutions to common Google API issues:', 'wp-google-maps');
+		?>
+	</p>
+	
+	<ul>
+		<li>
+			<a href="https://www.wpgmaps.com/documentation/troubleshooting/this-page-cant-load-google-maps-correctly/">
+				<?php
+				_e('“This page can’t load Google Maps correctly”', 'wp-google-maps');
+				?>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.wpgmaps.com/documentation/troubleshooting/this-api-project-is-not-authorized-to-use-this-api/">
+				<?php
+				_e('“This API project is not authorized to use this API”', 'wp-google-maps');
+				?>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.wpgmaps.com/documentation/troubleshooting/api-not-activated-map-error/">
+				<?php
+				_e('“API Not Activated Map Error”', 'wp-google-maps');
+				?>
+			</a>
+		</li>
+	</ul>
+	
+	<p>
+		<?php
 		_e('Please see the <a href="https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/">WP Google Maps Documentation</a> for a step by step guide on setting up your Google Maps API key.', 'wp-google-maps');
 		?>
 	</p>

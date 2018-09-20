@@ -31,14 +31,8 @@ class GoogleMapsAPILoader
 		$include_allowed = $this->isIncludeAllowed($status);
 		$isAllowed = $this->isIncludeAllowed($status);
 		
-		if(
-			!preg_match('/admin-post\.php/', $_SERVER['REQUEST_URI'])
-			&&
-			!preg_match('/wp-json/', $_SERVER['REQUEST_URI'])
-			&&
-			!preg_match('/admin-ajax\.php/', $_SERVER['REQUEST_URI'])
-			)
-			echo "<script>var wpgmza_google_api_status = " . json_encode($status) . "</script>";
+		wp_enqueue_script('wpgmza_data', plugin_dir_url(__DIR__) . 'wpgmza_data.js');
+		wp_localize_script('wpgmza_data', 'wpgmza_google_api_status', (array)$status);
 	}
 	
 	public static function _createInstance()
