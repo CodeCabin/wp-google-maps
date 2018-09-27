@@ -21,6 +21,9 @@ jQuery(function($) {
 		if(typeof route != "string" || !route.match(/^\//))
 			throw new Error("Invalid route");
 		
+		if(WPGMZA.RestAPI.URL.match(/\/$/))
+			route = route.replace(/^\//, "");
+		
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	

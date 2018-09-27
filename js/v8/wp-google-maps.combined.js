@@ -377,8 +377,6 @@ jQuery(function($) {
 		
 		isDeviceiOS: function() {
 			
-			return true;
-			
 			return (
 			
 				(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
@@ -3345,6 +3343,9 @@ jQuery(function($) {
 		if(typeof route != "string" || !route.match(/^\//))
 			throw new Error("Invalid route");
 		
+		if(WPGMZA.RestAPI.URL.match(/\/$/))
+			route = route.replace(/^\//, "");
+		
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
@@ -5855,7 +5856,7 @@ jQuery(function($) {
 		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
-	WPGMZA.OLMarker.prototype.onClick = function(event)
+	WPGMZA.OLMarker.prototype.onElementClick = function(event)
 	{
 		var self = event.currentTarget.wpgmzaMarker;
 		
@@ -5872,8 +5873,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMarker.prototype.rebindClickListener = function()
 	{
-		$(this.element).off("click", this.onClick);
-		$(this.element).on("click", this.onClick);
+		$(this.element).off("click", this.onElementClick);
+		$(this.element).on("click", this.onElementClick);
 	}
 	
 });

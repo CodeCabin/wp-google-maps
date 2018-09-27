@@ -185,7 +185,7 @@ jQuery(function($) {
 		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
-	WPGMZA.OLMarker.prototype.onClick = function(event)
+	WPGMZA.OLMarker.prototype.onElementClick = function(event)
 	{
 		var self = event.currentTarget.wpgmzaMarker;
 		
@@ -202,8 +202,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMarker.prototype.rebindClickListener = function()
 	{
-		$(this.element).off("click", this.onClick);
-		$(this.element).on("click", this.onClick);
+		$(this.element).off("click", this.onElementClick);
+		$(this.element).on("click", this.onElementClick);
 	}
 	
 });

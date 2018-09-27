@@ -385,13 +385,7 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 	
 	// Force legacy style on iOS, it appears CanvasLayer crashes some iOS devices
 	if(WPGMZA.isDeviceiOS())
-	{
 		style = "legacy";
-		
-		// Workaround for legacy settings not saved when modern style selected
-		options.fillOpacity = 0.15; 
-		options.fillColor = "#ff0000";
-	}
 	
 	switch(style)
 	{
