@@ -1,10 +1,3 @@
-2018-10-10 15:00:46 :-	Scanning dependencies
-2018-10-10 15:00:46 :-	Reading F:\Code Cabin\htdocs-7.10.x\wp-content\plugins\wp-google-maps/js/v8/circle.js
-2018-10-10 15:00:46 :-	Found wpgmza-circle
-2018-10-10 15:00:46 :-	Adding dependency wpgmza-map-object
-2018-10-10 15:00:46 :-	Reading F:\Code Cabin\htdocs-7.10.x\wp-content\plugins\wp-google-maps/js/v8/compatibility.js
-2018-10-10 15:00:46 :-	Found wpgmza-compatibility
-2018-10-10 15:00:46 :-	Adding dependency wpgmza
 2018-10-10 15:00:46 :-	Reading F:\Code Cabin\htdocs-7.10.x\wp-content\plugins\wp-google-maps/js/v8/core.js
 2018-10-10 15:00:46 :-	Found wpgmza
 2018-10-10 15:00:46 :-	Reading F:\Code Cabin\htdocs-7.10.x\wp-content\plugins\wp-google-maps/js/v8/css-escape.js
