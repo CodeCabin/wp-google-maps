@@ -172,6 +172,24 @@
             "wpgmza"
         ]
     },
+    "wpgmza-integration": {
+        "src": "js\/v8\/3rd-party-integration\/integration.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-gutenberg": {
+        "src": "js\/v8\/3rd-party-integration\/gutenberg\/dist\/gutenberg.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-integration",
+            "wp-i18n",
+            "wp-blocks",
+            "wp-editor",
+            "wp-components"
+        ]
+    },
     "wpgmza-google-ui-compatibility": {
         "src": "js\/v8\/compatibility\/google-ui-compatibility.js",
         "pro": false,

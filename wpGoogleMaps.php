@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.35
+Version: 7.10.37
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,15 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.37 :- 2018-09-27 :- Medium priority
+ * Fixed undefined variable on iOS breaking store locator
+ * Fixed edit marker using REST API not working when API route has two slashes
+ * Fixed map not appearing with particular versions of dataTables where the packaged version is not used
+ *
+ * 7.10.36 :- 2018-09-25 :- Medium Priority
+ * Fixed change in 7.10.35 causing problems with OLMarker click event, preventing infowindow opening
+ * Dropped .gitignore which was causing deployment issues, now using .gitattributes to ignore minified files
+ *
  * 7.10.35 :- 2018-09-20 :- Medium priority
  * Added links to new API troubleshooting documentation to Google Maps API Error dialog
  * Fixed marker dispatching click event after drag when using OpenLayers
@@ -595,13 +604,13 @@ $debug = false;
 $debug_step = 0;
 $wpgmza_p = false;
 $wpgmza_g = false;
-$wpgmza_tblname = $wpdb->prefix . "wpgmza";
-$wpgmza_tblname_maps = $wpdb->prefix . "wpgmza_maps";
-$wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
-$wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
-$wpgmza_tblname_circles = $wpdb->prefix . "wpgmza_circles";
-$wpgmza_tblname_rectangles = $wpdb->prefix . "wpgmza_rectangles";
-$wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
+$WPGMZA_TABLE_NAME_MARKERS = $wpgmza_tblname = $wpdb->prefix . "wpgmza";
+$WPGMZA_TABLE_NAME_MAPS = $wpgmza_tblname_maps = $wpdb->prefix . "wpgmza_maps";
+$WPGMZA_TABLE_NAME_POLYGONS = $wpgmza_tblname_poly = $wpdb->prefix . "wpgmza_polygon";
+$WPGMZA_TABLE_NAME_POLYLINES = $wpgmza_tblname_polylines = $wpdb->prefix . "wpgmza_polylines";
+$WPGMZA_TABLE_NAME_CIRCLES = $wpgmza_tblname_circles = $wpdb->prefix . "wpgmza_circles";
+$WPGMZA_TABLE_NAME_RECTANGLES = $wpgmza_tblname_rectangles = $wpdb->prefix . "wpgmza_rectangles";
+$WPGMZA_TABLE_NAME_CATEGORIES = $wpgmza_tblname_categories = $wpdb->prefix. "wpgmza_categories";
 $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
 
 $subject = file_get_contents(__FILE__);
@@ -8676,6 +8685,11 @@ if(!function_exists('wpgmza_get_rectangle_data'))
 // Get admin path
 function wpgmza_basic_get_admin_path()
 {
+	$default = ABSPATH . 'wp-admin/includes/upgrade.php';
+	
+	if(file_exists($default))
+		return $default;
+	
 	return $admin_path = str_replace( get_bloginfo( 'url' ) . '/', ABSPATH, get_admin_url() );
 }
 

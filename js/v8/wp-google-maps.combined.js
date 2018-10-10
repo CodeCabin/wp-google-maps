@@ -1,4 +1,34 @@
 
+// js/v8/compatibility.js
+/**
+ * @namespace WPGMZA
+ * @module Compatibility
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	WPGMZA.Compatibility = function()
+	{
+		this.preventDocumentWriteGoogleMapsAPI();
+	}
+	
+	WPGMZA.Compatibility.prototype.preventDocumentWriteGoogleMapsAPI = function()
+	{
+		var old = document.write;
+		
+		document.write = function(content)
+		{
+			if(content.match && content.match(/maps\.google/))
+				return;
+			
+			old.call(document, content);
+		}
+	}
+	
+	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
+	
+});
+
 // js/v8/core.js
 /**
  * @module WPGMZA
@@ -377,8 +407,6 @@ jQuery(function($) {
 		
 		isDeviceiOS: function() {
 			
-			return true;
-			
 			return (
 			
 				(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
@@ -444,36 +472,6 @@ jQuery(function($) {
 	});
 	
 	
-	
-});
-
-// js/v8/compatibility.js
-/**
- * @namespace WPGMZA
- * @module Compatibility
- * @requires WPGMZA
- */
-jQuery(function($) {
-	
-	WPGMZA.Compatibility = function()
-	{
-		this.preventDocumentWriteGoogleMapsAPI();
-	}
-	
-	WPGMZA.Compatibility.prototype.preventDocumentWriteGoogleMapsAPI = function()
-	{
-		var old = document.write;
-		
-		document.write = function(content)
-		{
-			if(content.match && content.match(/maps\.google/))
-				return;
-			
-			old.call(document, content);
-		}
-	}
-	
-	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
 	
 });
 
@@ -3345,6 +3343,9 @@ jQuery(function($) {
 		if(typeof route != "string" || !route.match(/^\//))
 			throw new Error("Invalid route");
 		
+		if(WPGMZA.RestAPI.URL.match(/\/$/))
+			route = route.replace(/^\//, "");
+		
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
@@ -3421,6 +3422,119 @@ jQuery(function($) {
 		return 0;
 	}
 
+});
+
+// js/v8/3rd-party-integration/integration.js
+/**
+ * @namespace WPGMZA
+ * @module Integration
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	WPGMZA.Integration = {};
+	WPGMZA.integrationModules = {};
+	
+});
+
+// js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js
+"use strict";
+
+/**
+ * @namespace WPGMZA.Integration
+ * @module Gutenberg
+ * @requires WPGMZA.Integration
+ * @requires wp-i18n
+ * @requires wp-blocks
+ * @requires wp-editor
+ * @requires wp-components
+ */
+
+/**
+ * Internal block libraries
+ */
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$editor = wp.editor,
+    InspectorControls = _wp$editor.InspectorControls,
+    BlockControls = _wp$editor.BlockControls;
+var _wp$components = wp.components,
+    Dashicon = _wp$components.Dashicon,
+    Toolbar = _wp$components.Toolbar,
+    Button = _wp$components.Button,
+    Tooltip = _wp$components.Tooltip,
+    PanelBody = _wp$components.PanelBody,
+    TextareaControl = _wp$components.TextareaControl,
+    TextControl = _wp$components.TextControl,
+    RichText = _wp$components.RichText;
+
+
+jQuery(function ($) {
+
+	WPGMZA.Integration.Gutenberg = function () {
+		registerBlockType('gutenberg-wpgmza/block', this.getBlockDefinition());
+	};
+
+	WPGMZA.Integration.Gutenberg.prototype.getBlockTitle = function () {
+		return __("WP Google Maps");
+	};
+
+	WPGMZA.Integration.Gutenberg.prototype.getBlockInspectorControls = function (props) {
+		return React.createElement(
+			InspectorControls,
+			{ key: "inspector" },
+			React.createElement(PanelBody, { title: __('Map Settings') })
+		);
+	};
+
+	WPGMZA.Integration.Gutenberg.prototype.getBlockAttributes = function () {
+		return {};
+	};
+
+	WPGMZA.Integration.Gutenberg.prototype.getBlockDefinition = function (props) {
+		var _this = this;
+
+		return {
+
+			title: __("WP Google Maps"),
+			description: __('The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.'),
+			category: 'common',
+			icon: 'location-alt',
+			keywords: [__('Map'), __('Maps'), __('Google')],
+			attributes: this.getBlockAttributes(),
+
+			edit: function edit(props) {
+				return [!!props.isSelected && _this.getBlockInspectorControls(props), React.createElement(
+					"div",
+					{ className: props.className + " wpgmza-gutenberg-block" },
+					React.createElement(Dashicon, { icon: "location-alt" }),
+					React.createElement(
+						"span",
+						{ "class": "wpgmza-gutenberg-block-title" },
+						__("WP Google Maps")
+					)
+				)];
+			},
+			// Defining the front-end interface
+			save: function save(props) {
+				// Rendering in PHP
+				return null;
+			}
+
+		};
+	};
+
+	WPGMZA.Integration.Gutenberg.getConstructor = function () {
+		return WPGMZA.Integration.Gutenberg;
+	};
+
+	WPGMZA.Integration.Gutenberg.createInstance = function () {
+		var constructor = WPGMZA.Integration.Gutenberg.getConstructor();
+		return new constructor();
+	};
+
+	// Allow the Pro module to extend and create the module, only create here when Pro isn't loaded
+	if (!WPGMZA.isProVersion()) WPGMZA.integrationModules.gutenberg = WPGMZA.Integration.Gutenberg.createInstance();
 });
 
 // js/v8/compatibility/google-ui-compatibility.js
@@ -5855,7 +5969,7 @@ jQuery(function($) {
 		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
-	WPGMZA.OLMarker.prototype.onClick = function(event)
+	WPGMZA.OLMarker.prototype.onElementClick = function(event)
 	{
 		var self = event.currentTarget.wpgmzaMarker;
 		
@@ -5872,8 +5986,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMarker.prototype.rebindClickListener = function()
 	{
-		$(this.element).off("click", this.onClick);
-		$(this.element).on("click", this.onClick);
+		$(this.element).off("click", this.onElementClick);
+		$(this.element).on("click", this.onElementClick);
 	}
 	
 });

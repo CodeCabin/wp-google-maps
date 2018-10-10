@@ -134,7 +134,7 @@ class ScriptLoader
 				
 				$contents = file_get_contents($file);
 				
-				if(!preg_match('/^\/\*\*.+?\*\//s', $contents, $m))
+				if(!preg_match('/\/\*\*.+?\*\//s', $contents, $m))
 					continue;
 				
 				$header = $m[0];
@@ -208,6 +208,10 @@ class ScriptLoader
 		$scripts = (array)(clone (object)$this->scripts);
 		$includedHandles = array();
 		$combineOrder = array();
+		
+		$ignoreDependencyHandles = array(
+			'wpgmza_api_call'
+		);
 		$unresolvedDependencyHandles = array();
 		
 		while(!empty($scripts))
@@ -239,12 +243,22 @@ class ScriptLoader
 				// echo "Looking at $handle\r\n";
 				
 				foreach($script->dependencies as $dependency)
-					if($dependency != 'wpgmza_api_call' && array_search($dependency, $includedHandles) === false)
-					{
-						// echo "Dependency $dependency not included yet\r\n";
-						$unresolvedDependencyHandles[$handle] = true;
-						continue 2;
-					}
+				{
+					// Ignored handles (eg API call)
+					if(array_search($dependency, $ignoreDependencyHandles) !== false)
+						continue;
+					
+					// Already included handles
+					if(array_search($dependency, $includedHandles) !== false)
+						continue;
+					
+					// External handles not handled by us. This module only handles internal dependencies
+					if(!preg_match('/^wpgmza-/i', $dependency))
+						continue;
+					
+					$unresolvedDependencyHandles[$handle] = true;
+					continue 2;
+				}
 					
 				// echo "Adding $handle ({$script->src})\r\n";
 				
@@ -417,6 +431,7 @@ class ScriptLoader
 		foreach($this->scripts as $handle => $script)
 		{
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
+			
 			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
 		}
 		

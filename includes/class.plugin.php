@@ -13,6 +13,11 @@ class Plugin
 	const PAGE_ADVANCED			= "advanced";
 	const PAGE_CUSTOM_FIELDS	= "custom-fields";
 	
+	private static $enqueueScriptActions = array(
+		'wp_enqueue_scripts',
+		'admin_enqueue_scripts',
+		'enqueue_block_assets'
+	);
 	public static $enqueueScriptsFired = false;
 	
 	public $settings;
@@ -66,6 +71,7 @@ class Plugin
 		$this->settings = (object)array_merge($this->legacySettings, $settings);
 		
 		$this->restAPI = new RestAPI();
+		$this->gutenbergIntegration = Integration\Gutenberg::createInstance();
 		
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
@@ -73,14 +79,13 @@ class Plugin
 		if(!empty($_COOKIE['wpgmza-developer-mode']))
 			$this->settings->developer_mode = true;
 		
-		add_action('wp_enqueue_scripts', function() {
-			Plugin::$enqueueScriptsFired = true;
-		});
-		
-		add_action('admin_enqueue_scripts', function() {
-			Plugin::$enqueueScriptsFired = true;
-		});
-		
+		foreach(Plugin::$enqueueScriptActions as $action)
+		{
+			add_action($action, function() use ($action) {
+				Plugin::$enqueueScriptsFired = true;
+			}, 1);
+		}
+			
 		if($this->settings->engine == 'open-layers')
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
 	}
@@ -123,15 +128,13 @@ class Plugin
 		}
 		else
 		{
-			add_action('wp_enqueue_scripts', function() {
-				$this->scriptLoader->enqueueScripts();
-				$this->scriptLoader->enqueueStyles();
-			});
-			
-			add_action('admin_enqueue_scripts', function() {
-				$this->scriptLoader->enqueueScripts();
-				$this->scriptLoader->enqueueStyles();
-			});
+			foreach(Plugin::$enqueueScriptActions as $action)
+			{
+				add_action($action, function() {
+					$this->scriptLoader->enqueueScripts();
+					$this->scriptLoader->enqueueStyles();
+				});
+			}
 		}
 	}
 	
