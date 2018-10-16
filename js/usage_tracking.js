@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){
+jQuery(function($) {
 
 	var mapid = jQuery("#wpgmza_id").val();
 

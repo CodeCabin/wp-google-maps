@@ -3,7 +3,7 @@
  * @module InfoWindow
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.InfoWindow = function(mapObject)
 	{
@@ -116,4 +116,4 @@
 			this.open();
 	}
 	
-})(jQuery);
+});

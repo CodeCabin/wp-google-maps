@@ -3,7 +3,7 @@
  * @module Polygon
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	WPGMZA.Polygon = function(row, enginePolygon)
 	{
 		var self = this;
@@ -58,4 +58,4 @@
 		return result;
 	}
 	
-})(jQuery);
+});

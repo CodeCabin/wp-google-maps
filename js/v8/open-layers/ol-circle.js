@@ -3,7 +3,7 @@
  * @module OLCircle
  * @requires WPGMZA.Circle
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent = WPGMZA.Circle;
 	
@@ -82,4 +82,4 @@
 		this.layer.setStyle(this.olStyle);
 	}
 	
-})(jQuery);
+});

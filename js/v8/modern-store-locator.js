@@ -3,7 +3,7 @@
  * @module ModernStoreLocator
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * The new modern look store locator. It takes the elements
@@ -174,4 +174,4 @@
 			return new WPGMZA.OLModernStoreLocator(map_id);
 	}
 	
-})(jQuery);
+});

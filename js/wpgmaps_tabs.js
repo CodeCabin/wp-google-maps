@@ -1,6 +1,4 @@
-(function($) {
-
-$("document").ready(function() {
+jQuery(function($) {
 	
    $("#wpgmaps_tabs").tabs();
    $("#wpgmaps_tabs_markers").tabs(); 
@@ -64,13 +62,8 @@ $("document").ready(function() {
 
       $("#wpgmza_theme_selection_"+tid).addClass("wpgmza_theme_selection_activate");
       
-      
-
-
-
       MYMAP.map.setOptions({styles: style_data});
   });
     
+	
 });
-
-})(jQuery);

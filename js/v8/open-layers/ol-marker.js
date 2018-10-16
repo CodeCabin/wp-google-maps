@@ -4,7 +4,7 @@
  * @requires WPGMZA.Marker
  * @pro-requires WPGMZA.ProMarker
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -20,12 +20,8 @@
 		]);
 		
 		this.element = $("<div class='ol-marker'><img src='" + WPGMZA.settings.default_marker_icon + "'/></div>")[0];
+		this.element.wpgmzaMarker = this;
 		
-		$(this.element).on("click", function(event) {
-			self.dispatchEvent("click");
-			self.dispatchEvent("select");
-		});
-
 		$(this.element).on("mouseover", function(event) {
 			self.dispatchEvent("mouseover");
 		});
@@ -40,8 +36,13 @@
 		
 		this.setLabel(this.settings.label);
 		
-		if(row.draggable)
-			this.setDraggable(true);
+		if(row)
+		{
+			if(row.draggable)
+				this.setDraggable(true);
+		}
+		
+		this.rebindClickListener();
 		
 		this.trigger("init");
 	}
@@ -135,17 +136,29 @@
 			
 			if(!this.jQueryDraggableInitialized)
 			{
+				options.start = function(event) {
+					self.onDragStart(event);
+				}
+				
 				options.stop = function(event) {
 					self.onDragEnd(event);
-				}
+				};
 			}
 			
 			$(this.element).draggable(options);
+			this.jQueryDraggableInitialized = true;
+			
+			this.rebindClickListener();
 		}
 		else
 			$(this.element).draggable({disabled: true});
 	}
 	
+	WPGMZA.OLMarker.prototype.onDragStart = function(event)
+	{
+		this.isBeingDragged = true;
+	}
+		
 	WPGMZA.OLMarker.prototype.onDragEnd = function(event)
 	{
 		var offset = {
@@ -168,8 +181,29 @@
 		
 		this.setPosition(latLngAfterDrag);
 		
-		this.trigger({type: "dragend", latLng: latLngAfterDrag})
-		$(this.element).trigger("dragend.wpgmza");
+		this.isBeingDragged = false;
+		this.trigger({type: "dragend", latLng: latLngAfterDrag});
 	}
 	
-})(jQuery);
+	WPGMZA.OLMarker.prototype.onElementClick = function(event)
+	{
+		var self = event.currentTarget.wpgmzaMarker;
+		
+		if(self.isBeingDragged)
+			return; // Don't dispatch click event after a drag
+		
+		self.dispatchEvent("click");
+		self.dispatchEvent("select");
+	}
+	
+	/**
+	 * Binds / rebinds the click listener. This must be bound after draggable is initialized,
+	 * this solves the click listener firing before dragend
+	 */
+	WPGMZA.OLMarker.prototype.rebindClickListener = function()
+	{
+		$(this.element).off("click", this.onElementClick);
+		$(this.element).on("click", this.onElementClick);
+	}
+	
+});

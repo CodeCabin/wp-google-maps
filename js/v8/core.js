@@ -2,7 +2,7 @@
  * @module WPGMZA
  * @summary This is the core Javascript module. Some code exists in ../core.js, the functionality there will slowly be handed over to this module.
  */
-(function($) {
+jQuery(function($) {
 	var core = {
 		maps: [],
 		events: null,
@@ -371,7 +371,21 @@
 			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
 		},
 		
-		googleAPIStatus: window.wpgmza_google_api_status
+		googleAPIStatus: window.wpgmza_google_api_status,
+		
+		isDeviceiOS: function() {
+			
+			return (
+			
+				(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+				
+				||
+				
+				(!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform))
+			
+			);
+			
+		}
 	};
 	
 	if(window.WPGMZA)
@@ -385,7 +399,7 @@
 		WPGMZA[key] = value;
 	}
 	
-	$(document).ready(function(event) {
+	jQuery(function($) {
 		
 		// Combined script warning
 		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
@@ -424,4 +438,7 @@
 		}
 		
 	});
-})(jQuery);
+	
+	
+	
+});

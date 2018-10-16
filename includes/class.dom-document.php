@@ -89,7 +89,6 @@ class DOMDocument extends \DOMDocument
 			throw new \Exception("$src is empty");
 		
 		$html = DOMDocument::convertUTF8ToHTMLEntities($html);
-		
 		$suppress_warnings = !(defined('WP_DEBUG') && WP_DEBUG);
 		
 		// From PHP 5.4.0 onwards, loadHTML takes 2 arguments
@@ -231,7 +230,7 @@ class DOMDocument extends \DOMDocument
 		
 		for($node = $body->firstChild; $node != null; $node = $node->nextSibling)
 			$result .= $this->saveHTML($node);
-		
+			
 		return $result;
 	}
 }

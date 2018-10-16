@@ -4,6 +4,8 @@ namespace WPGMZA;
 
 class Crud implements \IteratorAggregate, \JsonSerializable
 {
+	const BULK_READ		= "bulk-read";
+	
 	private static $cached_columns_by_table_name;
 	private static $cached_column_name_map_by_table_name;
 
@@ -37,7 +39,6 @@ class Crud implements \IteratorAggregate, \JsonSerializable
 			throw new \Exception('Invalid ID');
 		
 		$this->table_name = $table_name;
-		
 		$this->id = $id;
 		
 		if(!isset(Crud::$cached_columns_by_table_name))

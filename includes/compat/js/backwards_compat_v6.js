@@ -1,3 +1,4 @@
+// TODO: Move this file into /js and out of /includes which is for PHP
 jQuery(function($){
 	jQuery(window).on("load", function(){
 		if(typeof wpgmza_backwards_compat_v6_marker_tab_headings !== "undefined"){

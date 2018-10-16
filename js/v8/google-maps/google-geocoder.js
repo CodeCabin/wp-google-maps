@@ -3,7 +3,7 @@
  * @module GoogleGeocoder
  * @requires WPGMZA.Geocoder
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleGeocoder = function()
 	{
@@ -42,7 +42,9 @@
 						geometry: {
 							location: latLng
 						},
-						latLng: latLng
+						latLng: latLng,
+						lat: latLng.lat,
+						lng: latLng.lng
 					}
 				];
 				
@@ -89,4 +91,4 @@
 		});
 	}
 	
-})(jQuery);
+});

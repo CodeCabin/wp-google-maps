@@ -4,7 +4,7 @@
  * @requires WPGMZA.Marker
  * @pro-requires WPGMZA.ProMarker
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -140,6 +140,11 @@
 		img.src = params.url;
 	}
 	
+	WPGMZA.GoogleMarker.prototype.setOptions = function(options)
+	{
+		this.googleMarker.setOptions(options);
+	}
+	
 	/**
 	 * Set the marker animation
 	 * @return void
@@ -166,4 +171,4 @@
 		this.googleMarker.setDraggable(draggable);
 	}
 	
-})(jQuery);
+});

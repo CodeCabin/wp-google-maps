@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){
+jQuery(function($) {
 
 	// NB: GDPR
     /*jQuery("body").on("click", "#wpgmza_signup_newsletter_btn", function() {

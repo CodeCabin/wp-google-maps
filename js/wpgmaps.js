@@ -44,6 +44,8 @@ function wpgmza_open_info_window(infoWindow, content)
 	var guid = wpgmza_get_guid();
 	var div = $("<div hidden data-info-window-guid='" + guid + "'/>");
 	
+	wpgmza_init_infowindow();
+	
 	infoWindow.setContent(div);
 	infoWindow.open();
 	
@@ -89,60 +91,58 @@ function InitMap() {
 		wpgmza_create_places_autocomplete();
 	}
 }
-jQuery(function() {
-	
-    jQuery(document).ready(function(){
-        if (/1\.([0-7])\.([0-9])/.test(jQuery.fn.jquery)) {
-            setTimeout(function(){ 
-                document.getElementById('wpgmza_map').innerHTML = 'Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.';
-            }, 6000);
-        } else {
-			
-			// Fastclick adapation
-			jQuery(document).on({'DOMNodeInserted': function() {
-				jQuery('.pac-item, .pac-item span', this).addClass('needsclick');
-				}
-			}, '.pac-container');
-			
-			var temp;
-			var selector = "#wpgmza_map";
-			var mapElement = jQuery(selector);
-			
-			var width = wpgmaps_localize[wpgmaps_mapid]['map_width']+wpgmaps_localize[wpgmaps_mapid]['map_width_type'];
-			var height = wpgmaps_localize[wpgmaps_mapid]['map_height']+wpgmaps_localize[wpgmaps_mapid]['map_height_type'];
-			
-			if((temp = mapElement.attr("data-shortcode-width")) != "inherit")
-				width = temp;
-			if((temp = mapElement.attr("data-shortcode-height")) != "inherit")
-				height = temp;
-			
-            mapElement.css({
-                width: width,
-                height: height
-            });  
-			
-           	InitMap();
-            jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('accordionactivate', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.wpb_tabs_nav li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.ui-tabs-nav li', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.tp-tabs li a', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.nav-tabs li a', function(event, ui) { InitMap(); });
-            jQuery('body').on('click', '.vc_tta-panel-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.ult_exp_section',function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.x-accordion-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.x-nav-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tab-title', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tab-link', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.et_pb_tabs_controls li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.fusion-tab-heading', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.et_pb_tab', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.tri-tabs-nav span', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '.gdl-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
-            jQuery('body').on('click', '#tabnav  li', function(){setTimeout(function(){InitMap();}, 500); });
-        }
-    });
+
+jQuery(function($) {
+	if (/1\.([0-7])\.([0-9])/.test(jQuery.fn.jquery)) {
+		setTimeout(function(){ 
+			document.getElementById('wpgmza_map').innerHTML = 'Error: Your version of jQuery is outdated. WP Google Maps requires jQuery version 1.7+ to function correctly. Go to Maps->Settings and check the box that allows you to over-ride your current jQuery to try eliminate this problem.';
+		}, 6000);
+	} else {
+		
+		// Fastclick adapation
+		jQuery(document).on({'DOMNodeInserted': function() {
+			jQuery('.pac-item, .pac-item span', this).addClass('needsclick');
+			}
+		}, '.pac-container');
+		
+		var temp;
+		var selector = "#wpgmza_map";
+		var mapElement = jQuery(selector);
+		
+		var width = wpgmaps_localize[wpgmaps_mapid]['map_width']+wpgmaps_localize[wpgmaps_mapid]['map_width_type'];
+		var height = wpgmaps_localize[wpgmaps_mapid]['map_height']+wpgmaps_localize[wpgmaps_mapid]['map_height_type'];
+		
+		if((temp = mapElement.attr("data-shortcode-width")) != "inherit")
+			width = temp;
+		if((temp = mapElement.attr("data-shortcode-height")) != "inherit")
+			height = temp;
+		
+		mapElement.css({
+			width: width,
+			height: height
+		});  
+		
+		InitMap();
+		jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('accordionactivate', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.wpb_tabs_nav li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.ui-tabs-nav li', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.tp-tabs li a', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.nav-tabs li a', function(event, ui) { InitMap(); });
+		jQuery('body').on('click', '.vc_tta-panel-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.ult_exp_section',function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.x-accordion-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.x-nav-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tab-title', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tab-link', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.et_pb_tabs_controls li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.fusion-tab-heading', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.et_pb_tab', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.tri-tabs-nav span', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '.gdl-tabs li', function(){setTimeout(function(){InitMap();}, 500); });
+		jQuery('body').on('click', '#tabnav  li', function(){setTimeout(function(){InitMap();}, 500); });
+	}
 });
 
 var MYMAP = {
@@ -186,9 +186,8 @@ function wpgmza_create_places_autocomplete() {
 	};
 	
 	var restriction = wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_store_locator_restrict'];
-
-	if(restriction && restriction.length)
-
+	
+	if(restriction)
 		options.componentRestrictions = {
 			country: restriction
 		};
@@ -261,6 +260,10 @@ MYMAP.init = function(selector, latLng, zoom) {
 	}
 
 	var element = jQuery(selector)[0];
+	
+	// DIVI compatibility fix
+	if(!element)
+		return;
 	
 	element.setAttribute("data-map-id", 1);
 	element.setAttribute("data-maps-engine", WPGMZA.settings.engine);
@@ -346,7 +349,8 @@ MYMAP.init = function(selector, latLng, zoom) {
 		if(event.target instanceof WPGMZA.Marker)
 			return;
 		
-        infoWindow.close();
+		if(window.infoWindow)
+			infoWindow.close();
     });
     
     window.addEventListener("keydown", function(e) {
@@ -356,33 +360,23 @@ MYMAP.init = function(selector, latLng, zoom) {
 	});
 }
 
-//var infoWindow = new google.maps.InfoWindow();
-var infoWindow;
-jQuery(document).ready(function() {
-	infoWindow = WPGMZA.InfoWindow.createInstance();
-	if (typeof wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "undefined" && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] !== "") { infoWindow.setOptions({maxWidth:wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']}); }
-});
-
-/*google.maps.event.addDomListener(window, 'resize', function() {
-    var myLatLng = new google.maps.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
-    MYMAP.map.setCenter(myLatLng);
-});*/
-
-if(!window.WPGMZA)
-	window.WPGMZA = {};
-
-WPGMZA.KM_PER_MILE = 1.60934;
-WPGMZA.MILE_PER_KM = 0.621371;
-
-WPGMZA.UNITS_MILES = 1;
-WPGMZA.UNITS_KM = 2;
+function wpgmza_init_infowindow()   
+{
+	if(!window.WPGMZA)
+		return;
+	
+	window.infoWindow = WPGMZA.InfoWindow.createInstance();
+	
+	if(wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'] && wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width'].length)
+		infoWindow.setOptions({maxWidth: wpgmaps_localize_global_settings['wpgmza_settings_infowindow_width']});
+}
 
 function wpgmza_get_zoom_from_radius(radius, units)
 {
 	// With thanks to Jeff Jason http://jeffjason.com/2011/12/google-maps-radius-to-zoom/
 	
-	if(units == WPGMZA.UNITS_MILES)
-		radius *= WPGMZA.KM_PER_MILE;
+	if(units == WPGMZA.Distance.MILES)
+		radius *= WPGMZA.Distance.KILOMETERS_PER_MILE;
 	
 	return Math.round(14-Math.log(radius)/Math.LN2);
 }
@@ -391,7 +385,13 @@ var wpgmza_last_default_circle = null;
 
 function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 {
-	switch(wpgmaps_localize[map_id].other_settings.wpgmza_store_locator_radius_style)
+	var style = wpgmaps_localize[map_id].other_settings.wpgmza_store_locator_radius_style;
+	
+	// Force legacy style on iOS, it appears CanvasLayer crashes some iOS devices
+	if(WPGMZA.isDeviceiOS())
+		style = "legacy";
+	
+	switch(style)
 	{
 		case "modern":
 			if(MYMAP.modernStoreLocatorCircle)
@@ -402,7 +402,7 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 			MYMAP.modernStoreLocatorCircle.setOptions({
 				visible: true,
 				center: center,
-				radius: radius * (distance_type == 1 ? WPGMZA.KM_PER_MILE : 1),
+				radius: radius * (distance_type == 1 ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1),
 				radiusString: radius
 			});
 			
@@ -525,7 +525,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                         }
 						
 						marker.on(temp_actiontype, function() {
-                            infoWindow.close();
+							if(window.infoWindow)
+								infoWindow.close();
 							if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 							{
 								infoWindow.setContent(html);
@@ -608,6 +609,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 							lat: parseFloat(lat),
 							lng: parseFloat(lng)
 						};
+
+						// Prevent JS error in Gutenberg editor (Temporary fix)
+						if(WPGMZA.is_admin == "1")
+							return;
 						
                         MYMAP.bounds.extend(point);
 						
@@ -633,6 +638,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
                             var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
                             if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
+								wpgmza_init_infowindow();
+								
                                 infoWindow.setContent(html);
                                 infoWindow.open(MYMAP.map, marker);
                             }
@@ -642,9 +649,12 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	                        }
 	                        //google.maps.event.addListener(marker, temp_actiontype, function() {
 							marker.on(temp_actiontype, function() {
-	                            infoWindow.close();
+								if(window.infoWindow)
+									infoWindow.close();
 								if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 								{
+									wpgmza_init_infowindow();
+									
 									infoWindow.setContent(html);
 									infoWindow.open(MYMAP.map, marker);
 								}
@@ -774,7 +784,9 @@ function fillInAddress() {
   var place = autocomplete.getPlace();
 }
 
-wpgmza_create_places_autocomplete();
+jQuery(window).on("load", function() {
+	wpgmza_create_places_autocomplete();
+});
 
 
 function searchLocations(map_id) {
@@ -801,15 +813,28 @@ function searchLocations(map_id) {
 	
 	geocoder.geocode(options, function(results, status) {
 		
+		var event = {
+			type: 		"storelocatorgeocodecomplete",
+			results:	results,
+			status:		status
+		};
+		
+		MYMAP.map.trigger(event);
+		
 		if(status == WPGMZA.Geocoder.SUCCESS)
+		{
 			searchLocationsNear(map_id,results[0].geometry.location);
+		}
 		else
+		{
 			alert(address + ' not found');
+		}
 		
 	});
 }
 function clearLocations() {
-    infoWindow.close();
+	if(window.infoWindow)
+		infoWindow.close();
 }
 function searchLocationsNear(mapid,center_searched) {
     clearLocations();
@@ -834,6 +859,13 @@ function searchLocationsNear(mapid,center_searched) {
 		marker_sl.setMap(null);
 	}
     MYMAP.placeMarkers(wpgmaps_markerurl+'?u='+UniqueCode,wpgmaps_localize[wpgmaps_mapid].id,radius,center_searched,distance_type);
+	
+	var event = {
+		type: 		"storelocatorresult",
+		position:	center_searched
+	};
+	
+	MYMAP.map.trigger(event);
 }
 
 function toRad(Value) {
@@ -844,7 +876,7 @@ function toRad(Value) {
 (function($) {
 	
 	if(!window.WPGMZA)
-		window.WPGMZA = {};
+		return;
 	
 	WPGMZA.hexToRgba = function(hex) {
 		var c;
@@ -869,28 +901,7 @@ function toRad(Value) {
 		return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 	}
 
-	WPGMZA.GoogleAPIErrorHandler = function() {
-		
-		if(WPGMZA.settings.engine != "google-maps")
-			return;
-		
-		var _error = console.error;
-		
-		console.error = function(message)
-		{
-			var m = message.match(/^Google Maps API error: (\w+) (.+)/);
-			
-			if(m)
-			{
-				var friendlyMessage = m[1].replace(/([A-Z])/g, " $1") + " - See " + m[2] + " for more information";
-				alert(friendlyMessage);
-			}
-			
-			_error.apply(this, arguments);
-		}
-	}
-	
-	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
+	// GoogleAPIErrorHandler moved to /js/v8/google-api-error-handler.js
 	
 })(jQuery);
 

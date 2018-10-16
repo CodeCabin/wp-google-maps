@@ -3,7 +3,7 @@
  * @module GoogleModernStoreLocator
  * @requires WPGMZA.ModernStoreLocator
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocator = function(map_id)
 	{
@@ -22,4 +22,4 @@
 	WPGMZA.GoogleModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator.prototype);
 	WPGMZA.GoogleModernStoreLocator.prototype.constructor = WPGMZA.GoogleModernStoreLocator;
 	
-})(jQuery);
+});

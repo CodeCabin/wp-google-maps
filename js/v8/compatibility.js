@@ -3,7 +3,7 @@
  * @module Compatibility
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Compatibility = function()
 	{
@@ -25,4 +25,4 @@
 	
 	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
 	
-})(jQuery);
+});

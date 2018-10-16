@@ -3,7 +3,7 @@
  * @module LatLng
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 
 	/**
 	 * Constructor
@@ -88,6 +88,14 @@
 		return this._lat + ", " + this._lng;
 	}
 	
+	WPGMZA.LatLng.fromGoogleLatLng = function(googleLatLng)
+	{
+		return new WPGMZA.LatLng(
+			googleLatLng.lat(),
+			googleLatLng.lng()
+		);
+	}
+	
 	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
 	{
 		return new google.maps.LatLng({
@@ -126,4 +134,4 @@
 		this.lng		= lambda2 * 180 / Math.PI;
 	}
 	
-})(jQuery);
+});

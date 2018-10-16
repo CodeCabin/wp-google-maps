@@ -22,7 +22,7 @@ class MarkerFilter
 	}
 }
 
-class ProMarkerFilter extends MarkerFilter
+/*class ProMarkerFilter extends MarkerFilter
 {
 	public function __construct()
 	{
@@ -33,3 +33,4 @@ class ProMarkerFilter extends MarkerFilter
 $filter = MarkerFilter::createInstance();
 
 var_dump($filter);
+*/

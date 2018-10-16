@@ -3,7 +3,7 @@
  * @module MapSettings
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettings = function(element)
 	{
@@ -14,6 +14,13 @@
 		//var json = JSON.parse(window["wpgmza_map_settings_" + id]);
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
+		
+		for(var key in WPGMZA.settings)
+		{
+			var value = WPGMZA.settings[key];
+			
+			this[key] = value;
+		}
 		
 		for(var key in json)
 		{
@@ -136,8 +143,10 @@
         options.disableDoubleClickZoom	= !(this.wpgmza_settings_map_clickzoom == 'yes');
         options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
 		
-		if(this.force_greedy_gestures)
+		if(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes")
 			options.gestureHandling = "greedy";
+		else
+			options.gestureHandling = "cooperative";
 		
 		switch(parseInt(this.map_type))
 		{
@@ -169,4 +178,4 @@
 		
 		return options;
 	}
-})(jQuery);
+});

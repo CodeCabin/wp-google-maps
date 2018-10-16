@@ -3,7 +3,7 @@
  * @module Polyline
  * @requires WPGMZA.MapObject
  */
-(function($) {
+jQuery(function($) {
 	WPGMZA.Polyline = function(row, googlePolyline)
 	{
 		var self = this;
@@ -53,4 +53,4 @@
 	}
 	
 	
-})(jQuery);
+});

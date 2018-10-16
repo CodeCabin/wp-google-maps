@@ -3,7 +3,7 @@
  * @module MapSettingsPage
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.MapSettingsPage = function()
 	{
@@ -59,7 +59,7 @@
 		}
 	}
 	
-	$(document).ready(function(event) {
+	jQuery(function($) {
 		
 		if(!window.location.href.match(/wp-google-maps-menu-settings/))
 			return;
@@ -68,4 +68,4 @@
 		
 	});
 	
-})(jQuery);
+});

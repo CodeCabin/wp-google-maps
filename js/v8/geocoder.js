@@ -3,7 +3,7 @@
  * @module Geocoder
  * @requires WPGMZA
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.Geocoder = function()
 	{
@@ -63,4 +63,4 @@
 		throw new Error("You must supply either a latLng or address");
 	}
 	
-})(jQuery);
+});

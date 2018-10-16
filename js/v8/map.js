@@ -3,7 +3,7 @@
  * @module Map
  * @requires WPGMZA.EventDispatcher
  */
-(function($) {
+jQuery(function($) {
 	
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@
 		this.polylines = [];
 		this.circles = [];
 		
-		this.loadSettings();
+		this.loadSettings(options);
 	}
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -71,10 +71,22 @@
 	 * Loads the maps settings and sets some defaults
 	 * @return void
 	 */
-	WPGMZA.Map.prototype.loadSettings = function()
+	WPGMZA.Map.prototype.loadSettings = function(options)
 	{
 		var settings = new WPGMZA.MapSettings(this.element);
-		this.settings = $.extend({}, WPGMZA.settings, settings);
+		var other_settings = settings.other_settings;
+		
+		delete settings.other_settings;
+		
+		if(other_settings)
+			for(var key in other_settings)
+				settings[key] = other_settings[key];
+			
+		if(options)
+			for(var key in options)
+				settings[key] = options[key];
+			
+		this.settings = settings;
 	}
 	
 	/**
@@ -427,17 +439,14 @@
 	{
 		// Native events
 		this.trigger("boundschanged");
-		$(this.element).trigger("boundschanged.wpgmza");
 		
 		// Google / legacy compatibility events
 		this.trigger("bounds_changed");
-		$(this.element).trigger("bounds_changed");
 	}
 	
 	WPGMZA.Map.prototype.onIdle = function(event)
 	{
 		$(this.element).trigger("idle");
-		$(this.element).trigger("idle.wpgmza");
 	}
 	
 	/*$(document).ready(function() {
@@ -459,4 +468,4 @@
 		// Call again each second to load AJAX maps
 		setInterval(createMaps, 1000);
 	});*/
-})(jQuery);
+});

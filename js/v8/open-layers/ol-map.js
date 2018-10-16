@@ -4,7 +4,7 @@
  * @requires WPGMZA.Map
  * @pro-requires WPGMZA.ProMap
  */
-(function($) {
+jQuery(function($) {
 	
 	var Parent;
 	
@@ -62,9 +62,16 @@
 		});
 		this.olMap.addLayer(this.markerLayer);
 		
+		// Listen for drag start
+		this.olMap.on("movestart", function(event) {
+			self.isBeingDragged = true;
+		});
+		
 		// Listen for end of pan so we can wrap longitude if needs be
 		this.olMap.on("moveend", function(event) {
 			self.wrapLongitude();
+			
+			self.isBeingDragged = false;
 			self.dispatchEvent("dragend");
 			self.onIdle();
 		});
@@ -74,8 +81,6 @@
 			self.dispatchEvent("zoom_changed");
 			self.dispatchEvent("zoomchanged");
 			self.onIdle();
-			
-			$(self.element).trigger("zoomchanged.wpgmza");
 		});
 		
 		// Listen for bounds changing
@@ -108,11 +113,15 @@
 			
 			if(event.which == 1 || event.button == 1)
 			{
-				// Left
+				if(self.isBeingDragged)
+					return;
+				
+				// Left click
 				self.trigger({
 					type: "click",
 					latLng: latLng
 				});
+				
 				return;
 			}
 			
@@ -412,10 +421,13 @@
 		var latLng = this.pixelsToLatLng(relX, relY);
 		
 		this.trigger({type: "rightclick", latLng: latLng});
-		$(this.element).trigger("rightclick.wpgmza");
 		
+		// Legacy event compatibility
+		$(this.element).trigger({type: "rightclick", latLng: latLng});
+		
+		// Prevent menu
 		event.preventDefault();
 		return false;
 	}
 	
-})(jQuery);
+});

@@ -18,25 +18,21 @@ if ('undefined' === typeof window.jQuery) {
     
 }
 
-jQuery(function() {
+jQuery(function($) {
 
+	if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
+		setTimeout(function(){ 
+			for(var entry in wpgmaps_localize) {
+				document.getElementById('wpgmza_map_'+entry).innerHTML = wpgmza_jquery_error_string_2;
+			}
+		}, 3000);
+	} else {
 
-    jQuery(document).ready(function(){
-        if (/1\.(0|1|2|3|4|5|6|7)\.(0|1|2|3|4|5|6|7|8|9)/.test(jQuery.fn.jquery)) {
-            setTimeout(function(){ 
-                for(var entry in wpgmaps_localize) {
-                    document.getElementById('wpgmza_map_'+entry).innerHTML = wpgmza_jquery_error_string_2;
-                }
-            }, 3000);
-        } else {
-
-            for(var entry in wpgmaps_localize) {
-                InitMap(wpgmaps_localize[entry]['id'],false);
-            }
-           
-        }
-
-    });
+		for(var entry in wpgmaps_localize) {
+			InitMap(wpgmaps_localize[entry]['id'],false);
+		}
+	   
+	}
 
 });
 

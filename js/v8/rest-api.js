@@ -4,14 +4,12 @@
  * @requires WPGMZA
  * @summary Wrapped for the rest API
  */
-(function($) {
+jQuery(function($) {
 	
 	WPGMZA.RestAPI = function()
 	{
-		
+		WPGMZA.RestAPI.URL = WPGMZA.resturl;
 	}
-	
-	WPGMZA.RestAPI.URL = "/wp-json/wpgmza/v1";
 	
 	WPGMZA.RestAPI.createInstance = function() 
 	{
@@ -23,7 +21,10 @@
 		if(typeof route != "string" || !route.match(/^\//))
 			throw new Error("Invalid route");
 		
+		if(WPGMZA.RestAPI.URL.match(/\/$/))
+			route = route.replace(/^\//, "");
+		
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
-})(jQuery);
+});

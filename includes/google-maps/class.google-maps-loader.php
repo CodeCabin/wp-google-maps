@@ -2,6 +2,7 @@
 
 namespace WPGMZA;
 
+// TODO: Extend Factory
 class GoogleMapsLoader
 {
 	private static $googleAPILoadCalled = false;
@@ -67,9 +68,11 @@ class GoogleMapsLoader
 				$params['v'] = Plugin::$settings->api_version;
 		}
 		
+		*/
+		
 		// API Key
-		if(!empty(Plugin::$settings->google_maps_api_key))
-			$params['key'] = Plugin::$settings->google_maps_api_key;*/
+		//if(!empty($wpgmza->settings->google_maps_api_key))
+			//$params['key'] = $wpgmza->settings->google_maps_api_key;
 		
 		//if($wpgmza->getCurrentPage() == 'map-edit')
 			//$params['libraries'] = 'drawing';
