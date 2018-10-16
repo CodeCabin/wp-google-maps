@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.38
+Version: 7.10.39
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,11 +11,14 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.38 :- Medium priority
- * Gutenberg integration
+ * 7.10.39 :- 2018-10-15 :- High priority
+ * Fixed JS error when Gutenberg framework not loaded
+ *
+ * 7.10.38 :- 2018-10-15 :- Medium priority
  * Added factory class
  * Added DIVI compatibility fix
  * Added new table name constants
+ * Modules added to pave the way for Gutenberg integration
  * Adjusted script loader to support external dependencies
  * Fixed trailing slash breaking rest API routes on some setups
  * Fixed wpgmza_basic_get_admin_path causing URL wrapper not supported
@@ -8798,11 +8801,22 @@ if(!function_exists('wpgmza_enqueue_fontawesome'))
 	}
 }
 
-if(!empty($_GET['wpgmza-build']))
-{
-	$wpgmza = new WPGMZA\Plugin();
-	$scriptLoader = new WPGMZA\ScriptLoader($wpgmza->isProVersion());
-	$scriptLoader->build();
-	echo "Build successful";
-	exit;
-}
+add_action('plugins_loaded', function() {
+	
+	if(!empty($_GET['wpgmza-build']))
+	{
+		$scriptLoader = new WPGMZA\ScriptLoader(false);
+		$scriptLoader->build();
+	
+		if(class_exists('WPGMZA\\ProPlugin'))
+		{
+			$scriptLoader = new WPGMZA\ScriptLoader(true);
+			$scriptLoader->build();
+		}
+		
+		echo "Build successful";
+		
+		exit;
+	}
+	
+});

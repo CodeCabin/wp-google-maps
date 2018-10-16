@@ -1,34 +1,4 @@
 
-// js/v8/compatibility.js
-/**
- * @namespace WPGMZA
- * @module Compatibility
- * @requires WPGMZA
- */
-jQuery(function($) {
-	
-	WPGMZA.Compatibility = function()
-	{
-		this.preventDocumentWriteGoogleMapsAPI();
-	}
-	
-	WPGMZA.Compatibility.prototype.preventDocumentWriteGoogleMapsAPI = function()
-	{
-		var old = document.write;
-		
-		document.write = function(content)
-		{
-			if(content.match && content.match(/maps\.google/))
-				return;
-			
-			old.call(document, content);
-		}
-	}
-	
-	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
-	
-});
-
 // js/v8/core.js
 /**
  * @module WPGMZA
@@ -472,6 +442,36 @@ jQuery(function($) {
 	});
 	
 	
+	
+});
+
+// js/v8/compatibility.js
+/**
+ * @namespace WPGMZA
+ * @module Compatibility
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	WPGMZA.Compatibility = function()
+	{
+		this.preventDocumentWriteGoogleMapsAPI();
+	}
+	
+	WPGMZA.Compatibility.prototype.preventDocumentWriteGoogleMapsAPI = function()
+	{
+		var old = document.write;
+		
+		document.write = function(content)
+		{
+			if(content.match && content.match(/maps\.google/))
+				return;
+			
+			old.call(document, content);
+		}
+	}
+	
+	WPGMZA.compatiblityModule = new WPGMZA.Compatibility();
 	
 });
 
@@ -3453,23 +3453,25 @@ jQuery(function($) {
 /**
  * Internal block libraries
  */
-var __ = wp.i18n.__;
-var registerBlockType = wp.blocks.registerBlockType;
-var _wp$editor = wp.editor,
-    InspectorControls = _wp$editor.InspectorControls,
-    BlockControls = _wp$editor.BlockControls;
-var _wp$components = wp.components,
-    Dashicon = _wp$components.Dashicon,
-    Toolbar = _wp$components.Toolbar,
-    Button = _wp$components.Button,
-    Tooltip = _wp$components.Tooltip,
-    PanelBody = _wp$components.PanelBody,
-    TextareaControl = _wp$components.TextareaControl,
-    TextControl = _wp$components.TextControl,
-    RichText = _wp$components.RichText;
-
-
 jQuery(function ($) {
+
+	if (!wp || !wp.i18n || !wp.blocks) return;
+
+	var __ = wp.i18n.__;
+	var registerBlockType = wp.blocks.registerBlockType;
+	var _wp$editor = wp.editor,
+	    InspectorControls = _wp$editor.InspectorControls,
+	    BlockControls = _wp$editor.BlockControls;
+	var _wp$components = wp.components,
+	    Dashicon = _wp$components.Dashicon,
+	    Toolbar = _wp$components.Toolbar,
+	    Button = _wp$components.Button,
+	    Tooltip = _wp$components.Tooltip,
+	    PanelBody = _wp$components.PanelBody,
+	    TextareaControl = _wp$components.TextareaControl,
+	    TextControl = _wp$components.TextControl,
+	    RichText = _wp$components.RichText;
+
 
 	WPGMZA.Integration.Gutenberg = function () {
 		registerBlockType('gutenberg-wpgmza/block', this.getBlockDefinition());

@@ -216,6 +216,23 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.39 :- 2018-10-15 :- High priority =
+* Fixed JS error when Gutenberg framework not loaded
+
+= 7.10.38 :- 2018-10-15 :- Medium priority =
+* Added factory class
+* Added DIVI compatibility fix
+* Added new table name constants
+* Modules added to pave the way for Gutenberg integration
+* Adjusted script loader to support external dependencies
+* Fixed trailing slash breaking rest API routes on some setups
+* Fixed wpgmza_basic_get_admin_path causing URL wrapper not supported
+*
+= 7.10.37 :- 2018-09-27 :- Medium priority =
+* Fixed undefined variable on iOS breaking store locator
+* Fixed edit marker using REST API not working when API route has two slashes
+* Fixed map not appearing with particular versions of dataTables where the packaged version is not used
+
 = 7.10.36 :- 2018-09-25 :- Medium Priority =
 * Fixed change in 7.10.35 causing problems with OLMarker click event, preventing infowindow opening
 * Dropped .gitignore which was causing deployment issues, now using .gitattributes to ignore minified files

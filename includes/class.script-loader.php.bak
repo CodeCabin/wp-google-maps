@@ -311,7 +311,6 @@ class ScriptLoader
 		
 		$combined = implode("\r\n", $combined);
 		
-		// TODO: Uncomment and test
 		//if(file_exists($dest) && md5(file_get_contents($dest)) == md5($combined))
 			//return;	// No changes, no need to build
 		

@@ -609,6 +609,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 							lat: parseFloat(lat),
 							lng: parseFloat(lng)
 						};
+
+						// Prevent JS error in Gutenberg editor (Temporary fix)
+						if(WPGMZA.is_admin == "1")
+							return;
 						
                         MYMAP.bounds.extend(point);
 						

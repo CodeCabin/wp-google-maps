@@ -11,27 +11,30 @@
 /**
  * Internal block libraries
  */
-const { __ } = wp.i18n;
-
-const { registerBlockType } = wp.blocks;
-
-const {
-	InspectorControls,
-	BlockControls
-} = wp.editor;
-
-const {
-	Dashicon,
-	Toolbar,
-	Button,
-	Tooltip,
-	PanelBody,
-	TextareaControl,
-	TextControl,
-	RichText
-} = wp.components;
-
 jQuery(function($) {
+	
+	if(!wp || !wp.i18n || !wp.blocks)
+		return;
+	
+	const { __ } = wp.i18n;
+
+	const { registerBlockType } = wp.blocks;
+
+	const {
+		InspectorControls,
+		BlockControls
+	} = wp.editor;
+
+	const {
+		Dashicon,
+		Toolbar,
+		Button,
+		Tooltip,
+		PanelBody,
+		TextareaControl,
+		TextControl,
+		RichText
+	} = wp.components;
 	
 	WPGMZA.Integration.Gutenberg = function()
 	{
