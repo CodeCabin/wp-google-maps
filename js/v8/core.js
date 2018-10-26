@@ -77,6 +77,32 @@ jQuery(function($) {
 			];
 		},
 		
+		hexToRgba: function(hex) {
+			var c;
+			if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+				c= hex.substring(1).split('');
+				if(c.length== 3){
+					c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+				}
+				c= '0x'+c.join('');
+				
+				return {
+					r: (c>>16)&255,
+					g: (c>>8)&255,
+					b: c&255,
+					a: 1
+				};
+			}
+			
+			return 0;
+			
+			//throw new Error('Bad Hex');
+		},
+		
+		rgbaToString: function(rgba) {
+			return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
+		},
+		
 		latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
 		
 		/**
@@ -372,6 +398,12 @@ jQuery(function($) {
 		},
 		
 		googleAPIStatus: window.wpgmza_google_api_status,
+		
+		isTouchDevice: function() {
+			
+			return ("ontouchstart" in window);
+			
+		},
 		
 		isDeviceiOS: function() {
 			

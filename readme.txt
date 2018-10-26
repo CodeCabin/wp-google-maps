@@ -216,6 +216,16 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.42 :- 2018-10-25 :- High priority =
+* Closed potential XSS vulnerability in PHP_SELF on map edit page
+
+= 7.10.41 :- 2018-10-24 :- Medium priority =
+* Changed exception to notice when v8 dependencies are missing (fixes issue with Pro < 7.10.37 in developer mode)
+
+= 7.10.40 :- 2018-10-17 :- Medium priority =
+* Added temporary fix for Gutenberg module dependencies preventing wpgmaps.js from loading when in Developer Mode
+* Fixed Infowindow not opening on touch device when using "hover" action
+
 = 7.10.39 :- 2018-10-15 :- High priority =
 * Fixed JS error when Gutenberg framework not loaded
 

@@ -79,6 +79,32 @@ jQuery(function($) {
 			];
 		},
 		
+		hexToRgba: function(hex) {
+			var c;
+			if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+				c= hex.substring(1).split('');
+				if(c.length== 3){
+					c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+				}
+				c= '0x'+c.join('');
+				
+				return {
+					r: (c>>16)&255,
+					g: (c>>8)&255,
+					b: c&255,
+					a: 1
+				};
+			}
+			
+			return 0;
+			
+			//throw new Error('Bad Hex');
+		},
+		
+		rgbaToString: function(rgba) {
+			return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
+		},
+		
 		latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
 		
 		/**
@@ -374,6 +400,12 @@ jQuery(function($) {
 		},
 		
 		googleAPIStatus: window.wpgmza_google_api_status,
+		
+		isTouchDevice: function() {
+			
+			return ("ontouchstart" in window);
+			
+		},
 		
 		isDeviceiOS: function() {
 			
@@ -3198,6 +3230,29 @@ jQuery(function($) {
 	
 });
 
+// js/v8/native-maps-icon.js
+/**
+ * @namespace WPGMZA
+ * @module NativeMapsAppIcon
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	WPGMZA.NativeMapsAppIcon = function() {
+		if(navigator.userAgent.match(/^Apple|iPhone|iPad|iPod/))
+		{
+			this.type = "apple";
+			this.element = $('<span><i class="fab fa-apple" aria-hidden="true"></i></span>');
+		}
+		else
+		{
+			this.type = "google";
+			this.element = $('<span><i class="fab fa-google" aria-hidden="true"></i></span>');
+		}
+	};
+	
+});
+
 // js/v8/polygon.js
 /**
  * @namespace WPGMZA
@@ -3316,6 +3371,43 @@ jQuery(function($) {
 		return result;
 	}
 	
+	
+});
+
+// js/v8/popout-panel.js
+/**
+ * @namespace WPGMZA
+ * @module PopoutPanel
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	/**
+	 * Common functionality for popout panels, which is the
+	 * directions box, directions result box, and the modern
+	 * style marker listing
+	 * @return Object
+	 */
+	WPGMZA.PopoutPanel = function()
+	{
+		
+	};
+	
+	/**
+	 * Opens the direction box
+	 * @return void
+	 */
+	WPGMZA.PopoutPanel.prototype.open = function() {
+		$(this.element).addClass("wpgmza-open");
+	};
+	
+	/**
+	 * Closes the direction box
+	 * @return void
+	 */
+	WPGMZA.PopoutPanel.prototype.close = function() {
+		$(this.element).removeClass("wpgmza-open");
+	};
 	
 });
 

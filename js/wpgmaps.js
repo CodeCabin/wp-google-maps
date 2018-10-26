@@ -519,10 +519,15 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
                             infoWindow.setContent(html);
                             infoWindow.open(MYMAP.map, marker);
                         }
+						
                         temp_actiontype = 'click';
+						
                         if (typeof wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by !== "undefined" && wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by == '2') {
                          	temp_actiontype = 'mouseover';
                         }
+						
+						if(WPGMZA.isTouchDevice())
+							temp_actiontype = "click";
 						
 						marker.on(temp_actiontype, function() {
 							if(window.infoWindow)
@@ -647,6 +652,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	                        if (typeof wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by !== "undefined" && wpgmaps_localize_global_settings.wpgmza_settings_map_open_marker_by == '2') {
 	                         	temp_actiontype = 'mouseover';
 	                        }
+							
+							if(WPGMZA.isTouchDevice())
+								temp_actiontype = "click";
+							
 	                        //google.maps.event.addListener(marker, temp_actiontype, function() {
 							marker.on(temp_actiontype, function() {
 								if(window.infoWindow)
