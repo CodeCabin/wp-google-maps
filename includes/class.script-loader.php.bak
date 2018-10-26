@@ -7,8 +7,6 @@ require_once(plugin_dir_path(__FILE__) . 'open-layers/class.ol-loader.php');
 
 class ScriptLoader
 {
-	private static $dependencyErrorDisplayed = false;
-	
 	private $proMode = false;
 	private $logStarted = false;
 	
@@ -220,33 +218,24 @@ class ScriptLoader
 		{
 			if(++$iterations > 100000)
 			{
-				if(!ScriptLoader::$dependencyErrorDisplayed)
+				//echo "Dumping included handles\r\n";
+				//var_dump($includedHandles);
+				
+				//echo "Dumping remaining scripts\r\n\r\n";
+				//var_dump($scripts);
+				
+				echo "<pre>";
+				echo "Dumping unresolved dependencies\r\n\r\n";
+				//var_dump(array_keys($unresolvedDependencyHandles));
+				
+				foreach($unresolvedDependencyHandles as $handle => $unused)
 				{
-					?>
-					<div class="notice notice-error">
-						<p>
-							WP Google Maps: Build failed. Dumping unresolved dependencies
-						</p>
-						
-						<?php
-							echo "<pre>";
-							foreach($unresolvedDependencyHandles as $handle => $unused)
-							{
-								echo "$handle (in " . implode(', ', $this->dependenciesByHandle[$handle]) . ")\r\n";
-							}
-							echo "</pre>";
-						?>
-						
-						<p>
-							Are you debugging or developing WP Google Maps? If not, please disable developer mode in Maps &rarr; Settings &rarr; Advanced to remove this notice.
-						</p>
-					</div>
-					<?php
-					
-					ScriptLoader::$dependencyErrorDisplayed = true;
+					echo "$handle (in " . implode(', ', $this->dependenciesByHandle[$handle]) . ")\r\n";
 				}
 				
-				return array();
+				echo "</pre>";
+				
+				throw new \Exception('Iteration limit hit possibly due to dependency recusion or unresolved dependencies');
 			}
 			
 			foreach($scripts as $handle => $script)
@@ -322,7 +311,6 @@ class ScriptLoader
 		
 		$combined = implode("\r\n", $combined);
 		
-		// TODO: Uncomment and test
 		//if(file_exists($dest) && md5(file_get_contents($dest)) == md5($combined))
 			//return;	// No changes, no need to build
 		

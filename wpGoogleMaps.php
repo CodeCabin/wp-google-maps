@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.39
+Version: 7.10.42
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,16 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.42 :- 2018-10-25 :- High priority
+ * Closed potential XSS vulnerability in PHP_SELF on map edit page
+ *
+ * 7.10.41 :- 2018-10-24 :- Medium priority
+ * Changed exception to notice when v8 dependencies are missing (fixes issue with Pro < 7.10.37 in developer mode)
+ *
+ * 7.10.40 :- 2018-10-17 :- Medium priority
+ * Added temporary fix for Gutenberg module dependencies preventing wpgmaps.js from loading when in Developer Mode
+ * Fixed Infowindow not opening on touch device when using "hover" action
+ *
  * 7.10.39 :- 2018-10-15 :- High priority
  * Fixed JS error when Gutenberg framework not loaded
  *
@@ -2938,6 +2948,11 @@ function wpgmaps_tag_basic( $atts ) {
 	//$googleMapsAPILoader = new WPGMZA\GoogleMapsAPILoader();
 	//if(!$googleMapsAPILoader->isIncludeAllowed())
 		//wp_deregister_script('wpgmza_api_call');
+
+	// TODO: Come up with a proper solution. Gutenberg dependency breaks developer mode
+	$gutenbergIndex = array_search('wpgmza-gutenberg', $core_dependencies);
+	if($gutenbergIndex !== false)
+		array_splice($core_dependencies, $gutenbergIndex, 1);
 	
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
@@ -5410,7 +5425,7 @@ function wpgmza_basic_menu() {
                         </ul>
                         <div id=\"tabs-1\">
                             <p></p>
-                            <input type='hidden' name='http_referer' value='".$_SERVER['PHP_SELF']."' />
+                            <input type='hidden' name='http_referer' value='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . "' />
                             <input type='hidden' name='wpgmza_id' id='wpgmza_id' value='".$res->id."' />
                             <input id='wpgmza_start_location' name='wpgmza_start_location' type='hidden' size='40' maxlength='100' value='".$res->map_start_location."' />
                             <select id='wpgmza_start_zoom' name='wpgmza_start_zoom' style='display:none;' >
@@ -8820,3 +8835,41 @@ add_action('plugins_loaded', function() {
 	}
 	
 });
+
+/*add_filter('script_loader_tag', function($tag, $handle, $src) {
+	
+	global $debug_core_dependencies;
+	
+	if(!$debug_core_dependencies)
+	{
+		$debug_core_dependencies = array();
+		
+		$scriptLoader = new WPGMZA\ScriptLoader(false);
+		$v8Scripts = $scriptLoader->getPluginScripts();
+		
+		foreach($v8Scripts as $handle => $script)
+		{
+			$debug_core_dependencies[] = $handle;
+		}
+	}
+	
+	if(($index = array_search($handle, $debug_core_dependencies)) !== false)
+	{
+		var_dump("Unsetting $handle");
+		unset($debug_core_dependencies[$index]);
+	}
+	
+	return $tag;
+	
+}, 10, 3);
+
+add_action('wp_footer', function() {
+	
+	global $debug_core_dependencies;
+	
+	var_dump("Dumping dependencies");
+	echo "<pre>";
+	var_dump($debug_core_dependencies);
+	echo "</pre>";
+	
+});*/

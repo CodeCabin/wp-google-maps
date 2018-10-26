@@ -144,6 +144,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-native-maps-app-icon": {
+        "src": "js\/v8\/native-maps-icon.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-polygon": {
         "src": "js\/v8\/polygon.js",
         "pro": false,
@@ -156,6 +163,13 @@
         "pro": false,
         "dependencies": [
             "wpgmza-map-object"
+        ]
+    },
+    "wpgmza-popout-panel": {
+        "src": "js\/v8\/popout-panel.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
         ]
     },
     "wpgmza-wpgmza-rest-api": {
