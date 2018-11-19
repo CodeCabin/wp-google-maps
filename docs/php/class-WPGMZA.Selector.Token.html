@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\Token</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Token</h1>
+
+
+	<div class="description">
+	<p>This class represents a CSS selector token</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.Token.html#55-169" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Token.html#90-104" title="Go to source code">__construct</a>( <span>string <var>$type</var></span>, <span>string <var>$string</var></span> )</code>
+
+		<div class="description short">
+			<p>Constructor.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>Any of the constants defined in this class.</dd>
+					<dt><var>$string</var></dt>
+					<dd>Either a string matching the values of the constants defined in this class, or where $type is IDENTIFIER, STRING or EXPRESSION, the string representing that element of the selector</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isCombinator" id="_isCombinator">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isCombinator">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Token.html#106-121" title="Go to source code">isCombinator</a>( )</code>
+
+		<div class="description short">
+			<p>Retuns true if this token is a CSS combinator (eg > + ~)</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Retuns true if this token is a CSS combinator (eg > + ~)</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isAttributeOperator" id="_isAttributeOperator">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isAttributeOperator">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Token.html#123-141" title="Go to source code">isAttributeOperator</a>( )</code>
+
+		<div class="description short">
+			<p>Returns true if this token is a CSS attribute operator (eg ^= *= |=)</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if this token is a CSS attribute operator (eg ^= *= |=)</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFriendlyType" id="_getFriendlyType">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFriendlyType">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Token.html#143-161" title="Go to source code">getFriendlyType</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the "friendly" type name, eg "IDENTIFIER" for -1, "DOUBLE_QUOTE" for ".</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the "friendly" type name, eg "IDENTIFIER" for -1, "DOUBLE_QUOTE" for ".</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>The constant name based on type value.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__toString" id="___toString">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___toString">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Token.html#163-168" title="Go to source code">__toString</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="OPEN_BRACKET" id="OPEN_BRACKET">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#61" title="Go to source code"><b>OPEN_BRACKET</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#OPEN_BRACKET" class="anchor">#</a>
+				<code><span class="php-quote">'['</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="CLOSE_BRACKET" id="CLOSE_BRACKET">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#62" title="Go to source code"><b>CLOSE_BRACKET</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#CLOSE_BRACKET" class="anchor">#</a>
+				<code><span class="php-quote">']'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="OPEN_PARENTHES" id="OPEN_PARENTHES">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#63" title="Go to source code"><b>OPEN_PARENTHES</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#OPEN_PARENTHES" class="anchor">#</a>
+				<code><span class="php-quote">'('</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="CLOSE_PARENTHES" id="CLOSE_PARENTHES">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#64" title="Go to source code"><b>CLOSE_PARENTHES</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#CLOSE_PARENTHES" class="anchor">#</a>
+				<code><span class="php-quote">')'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="CLASS_SHORTHAND" id="CLASS_SHORTHAND">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#65" title="Go to source code"><b>CLASS_SHORTHAND</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#CLASS_SHORTHAND" class="anchor">#</a>
+				<code><span class="php-quote">'.'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ID_SHORTHAND" id="ID_SHORTHAND">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#66" title="Go to source code"><b>ID_SHORTHAND</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ID_SHORTHAND" class="anchor">#</a>
+				<code><span class="php-quote">'#'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="SINGLE_QUOTE" id="SINGLE_QUOTE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#67" title="Go to source code"><b>SINGLE_QUOTE</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#SINGLE_QUOTE" class="anchor">#</a>
+				<code><span class="php-quote">&quot;'&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ANY_ELEMENT" id="ANY_ELEMENT">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#68" title="Go to source code"><b>ANY_ELEMENT</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ANY_ELEMENT" class="anchor">#</a>
+				<code><span class="php-quote">'*'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="DOUBLE_QUOTE" id="DOUBLE_QUOTE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#69" title="Go to source code"><b>DOUBLE_QUOTE</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#DOUBLE_QUOTE" class="anchor">#</a>
+				<code><span class="php-quote">'&quot;'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PSEUDO" id="PSEUDO">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#70" title="Go to source code"><b>PSEUDO</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PSEUDO" class="anchor">#</a>
+				<code><span class="php-quote">':'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="UNION_OPERATOR" id="UNION_OPERATOR">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#71" title="Go to source code"><b>UNION_OPERATOR</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#UNION_OPERATOR" class="anchor">#</a>
+				<code><span class="php-quote">','</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="DESCENDANT_COMBINATOR" id="DESCENDANT_COMBINATOR">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#72" title="Go to source code"><b>DESCENDANT_COMBINATOR</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#DESCENDANT_COMBINATOR" class="anchor">#</a>
+				<code><span class="php-quote">' '</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="CHILD_COMBINATOR" id="CHILD_COMBINATOR">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#73" title="Go to source code"><b>CHILD_COMBINATOR</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#CHILD_COMBINATOR" class="anchor">#</a>
+				<code><span class="php-quote">'&gt;'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ADJACENT_SIBLING_COMBINATOR" id="ADJACENT_SIBLING_COMBINATOR">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#74" title="Go to source code"><b>ADJACENT_SIBLING_COMBINATOR</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ADJACENT_SIBLING_COMBINATOR" class="anchor">#</a>
+				<code><span class="php-quote">'+'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="GENERAL_SIBLING_COMBINATOR" id="GENERAL_SIBLING_COMBINATOR">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#75" title="Go to source code"><b>GENERAL_SIBLING_COMBINATOR</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#GENERAL_SIBLING_COMBINATOR" class="anchor">#</a>
+				<code><span class="php-quote">'~'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_EQUAL_TO" id="ATTRIBUTE_EQUAL_TO">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#76" title="Go to source code"><b>ATTRIBUTE_EQUAL_TO</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_EQUAL_TO" class="anchor">#</a>
+				<code><span class="php-quote">'='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_WHITESPACE_LIST_CONTAINS" id="ATTRIBUTE_WHITESPACE_LIST_CONTAINS">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#77" title="Go to source code"><b>ATTRIBUTE_WHITESPACE_LIST_CONTAINS</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_WHITESPACE_LIST_CONTAINS" class="anchor">#</a>
+				<code><span class="php-quote">'~='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_BEGINS_WITH" id="ATTRIBUTE_BEGINS_WITH">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#78" title="Go to source code"><b>ATTRIBUTE_BEGINS_WITH</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_BEGINS_WITH" class="anchor">#</a>
+				<code><span class="php-quote">'^='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_ENDS_WITH" id="ATTRIBUTE_ENDS_WITH">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#79" title="Go to source code"><b>ATTRIBUTE_ENDS_WITH</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_ENDS_WITH" class="anchor">#</a>
+				<code><span class="php-quote">'$='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_CONTAINS_SUBSTRING" id="ATTRIBUTE_CONTAINS_SUBSTRING">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#80" title="Go to source code"><b>ATTRIBUTE_CONTAINS_SUBSTRING</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_CONTAINS_SUBSTRING" class="anchor">#</a>
+				<code><span class="php-quote">'*='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="ATTRIBUTE_HYPHEN_LIST_BEGINS_WITH" id="ATTRIBUTE_HYPHEN_LIST_BEGINS_WITH">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#81" title="Go to source code"><b>ATTRIBUTE_HYPHEN_LIST_BEGINS_WITH</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ATTRIBUTE_HYPHEN_LIST_BEGINS_WITH" class="anchor">#</a>
+				<code><span class="php-quote">'|='</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="IDENTIFIER" id="IDENTIFIER">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#83" title="Go to source code"><b>IDENTIFIER</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#IDENTIFIER" class="anchor">#</a>
+				<code>-<span class="php-num">1</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="STRING" id="STRING">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#84" title="Go to source code"><b>STRING</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#STRING" class="anchor">#</a>
+				<code>-<span class="php-num">2</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="EXPRESSION" id="EXPRESSION">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Selector.Token.html#85" title="Go to source code"><b>EXPRESSION</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#EXPRESSION" class="anchor">#</a>
+				<code>-<span class="php-num">3</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="type" id="$type">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Token.html#87" title="Go to source code"><var>$type</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$type" class="anchor">#</a>
+				<code><span class="php-keyword1">null</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="string" id="$string">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Token.html#88" title="Go to source code"><var>$string</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$string" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

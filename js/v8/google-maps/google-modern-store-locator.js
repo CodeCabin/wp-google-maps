@@ -17,6 +17,27 @@ jQuery(function($) {
 			googleMap = MYMAP.map.googleMap;
 		
 		googleMap.controls[google.maps.ControlPosition.TOP_CENTER].push(this.element);
+		
+		// Address autocomplete
+		var options = {
+			types: ["geocode"]
+		};		
+		var restrict = wpgmaps_localize[map_id]["other_settings"]["wpgmza_store_locator_restrict"];
+		
+		this.addressInput = $(this.element).find(".addressInput")[0];
+		
+		if(this.addressInput)
+		{
+			if(restrict && restrict.length)
+				options.componentRestrictions = {
+					country: restrict
+				};
+			
+			this.autoComplete = new google.maps.places.Autocomplete(
+				this.addressInput,
+				options
+			);
+		}
 	}
 	
 	WPGMZA.GoogleModernStoreLocator.prototype = Object.create(WPGMZA.ModernStoreLocator.prototype);

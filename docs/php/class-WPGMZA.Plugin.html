@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Plugin</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li>
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
+				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
+				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
+				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
+				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
+				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsLoader.html" class="deprecated">GoogleMapsLoader</a></li>
+				<li><a href="class-WPGMZA.LatLng.html">LatLng</a></li>
+				<li><a href="class-WPGMZA.Map.html">Map</a></li>
+				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
+				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
+				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
+				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
+				<li class="active"><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
+				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
+				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
+				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
+				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
+				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.html" title="Summary of WPGMZA"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Plugin</h1>
+
+
+	<div class="description">
+	<p>This class represents the plugin itself. Broadly, this module handles practically all interaction with the platform (WP), loading assets as needed, and hooking into the platforms interface to provide menus etc.</p>
+
+<p>It also provides a number of helpful utility functions.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Plugin.html#5-327" title="Go to source code">class.plugin.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#50-112" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			<p>Constructor. Called when plugins_loaded fires.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor. Called when plugins_loaded fires.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__get" id="___get">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___get">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#114-138" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Getter, see property-read above.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Getter, see property-read above.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="loadScripts" id="_loadScripts">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_loadScripts">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#140-171" title="Go to source code">loadScripts</a>( )</code>
+
+		<div class="description short">
+			<p>This function will cause the plugin scripts to be loaded. Firstly it will initialize an instance of ScriptLoader. If the developer mode setting is enabled, the scripts will be rebuilt.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>This function will cause the plugin scripts to be loaded. Firstly it will initialize an instance of ScriptLoader. If the developer mode setting is enabled, the scripts will be rebuilt.</p>
+
+<p>If any of the enqueue scripts, admin enqueue scripts or enqueue block assets (Gutenberg) actions have already fired, this function will immediately ask the script loader to enqueue the plugins scripts and styles.</p>
+
+<p>If none of those actions have fired yet, this function will bind to all three and enqueue the scripts at the correct time.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDefaultSettings" id="_getDefaultSettings">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDefaultSettings">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#173-187" title="Go to source code">getDefaultSettings</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the default settings, passed through the wpgmza_plugin_get_default_settings filter.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the default settings, passed through the wpgmza_plugin_get_default_settings filter.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>An array of key value pairs with the default plugin settings.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLocalizedData" id="_getLocalizedData">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLocalizedData">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#189-227" title="Go to source code">getLocalizedData</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the plugins localized data, that is, the data to be initialized as globals client side (for JavaScript). These variables will be made available as JavaScript globals, through wp_localize_script.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the plugins localized data, that is, the data to be initialized as globals client side (for JavaScript). These variables will be made available as JavaScript globals, through wp_localize_script.</p>
+
+<p>This array is passed through the filter wpgmza_plugin_get_localized_data.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>A key value array of variables to be passed to JavaScript.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCurrentPage" id="_getCurrentPage">
+
+		<td class="attributes"><code>
+			 public 
+
+			string|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCurrentPage">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#229-269" title="Go to source code">getCurrentPage</a>( )</code>
+
+		<div class="description short">
+			<p>Returns a string stating the current page, relevant to this plugin.  Please refer to the constants on this class for a list of available pages. If the current page is not relevant to this plugin, NULL is returned.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns a string stating the current page, relevant to this plugin.  Please refer to the constants on this class for a list of available pages. If the current page is not relevant to this plugin, NULL is returned.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string|null<br>The current page, where relevant to this plugin, or null
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isUsingMinifiedScripts" id="_isUsingMinifiedScripts">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isUsingMinifiedScripts">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#271-278" title="Go to source code">isUsingMinifiedScripts</a>( )</code>
+
+		<div class="description short">
+			<p>Returns true if we are to be using combined or minified JavaScript</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if we are to be using combined or minified JavaScript</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>True if combined or minified scripts are to be used.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isInDeveloperMode" id="_isInDeveloperMode">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isInDeveloperMode">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#280-287" title="Go to source code">isInDeveloperMode</a>( )</code>
+
+		<div class="description short">
+			<p>Returns true if the developer mode setting is checked, or if the developer mode cookie is set.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if the developer mode setting is checked, or if the developer mode cookie is set.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>True if in developer mode, by setting or by cookie.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isProVersion" id="_isProVersion">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isProVersion">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#289-296" title="Go to source code">isProVersion</a>( )</code>
+
+		<div class="description short">
+			<p>Check whether we are running the Pro add-on.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check whether we are running the Pro add-on.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>True if the Pro add-on is installed and activated.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getBasicVersion" id="_getBasicVersion">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getBasicVersion">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#298-312" title="Go to source code">getBasicVersion</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the plugin version, based on the plugin comment header. This value will be cached if it hasn't been read already.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the plugin version, based on the plugin comment header. This value will be cached if it hasn't been read already.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>The version string.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onLoadTextDomainMOFile" id="_onLoadTextDomainMOFile">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onLoadTextDomainMOFile">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#314-326" title="Go to source code">onLoadTextDomainMOFile</a>( <span>string <var>$mofile</var></span>, <span>string <var>$domain</var></span> )</code>
+
+		<div class="description short">
+			<p>Hooks into load_textdomain_mofile, this function is used to override the WordPress repo translations and force the translations bundled with our plugin to be used. These are more complete and accurate than the WordPress community translations.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Hooks into load_textdomain_mofile, this function is used to override the WordPress repo translations and force the translations bundled with our plugin to be used. These are more complete and accurate than the WordPress community translations.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mofile</var></dt>
+					<dd>Path to the .mo file in question.</dd>
+					<dt><var>$domain</var></dt>
+					<dd>The text domain</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="PAGE_MAP_LIST" id="PAGE_MAP_LIST">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#14" title="Go to source code"><b>PAGE_MAP_LIST</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_MAP_LIST" class="anchor">#</a>
+				<code><span class="php-quote">&quot;map-list&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_MAP_EDIT" id="PAGE_MAP_EDIT">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#15" title="Go to source code"><b>PAGE_MAP_EDIT</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_MAP_EDIT" class="anchor">#</a>
+				<code><span class="php-quote">&quot;map-edit&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_SETTINGS" id="PAGE_SETTINGS">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#16" title="Go to source code"><b>PAGE_SETTINGS</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_SETTINGS" class="anchor">#</a>
+				<code><span class="php-quote">&quot;map-settings&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_SUPPORT" id="PAGE_SUPPORT">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#17" title="Go to source code"><b>PAGE_SUPPORT</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_SUPPORT" class="anchor">#</a>
+				<code><span class="php-quote">&quot;map-support&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_CATEGORIES" id="PAGE_CATEGORIES">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#19" title="Go to source code"><b>PAGE_CATEGORIES</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_CATEGORIES" class="anchor">#</a>
+				<code><span class="php-quote">&quot;categories&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_ADVANCED" id="PAGE_ADVANCED">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#20" title="Go to source code"><b>PAGE_ADVANCED</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_ADVANCED" class="anchor">#</a>
+				<code><span class="php-quote">&quot;advanced&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="PAGE_CUSTOM_FIELDS" id="PAGE_CUSTOM_FIELDS">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Plugin.html#21" title="Go to source code"><b>PAGE_CUSTOM_FIELDS</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#PAGE_CUSTOM_FIELDS" class="anchor">#</a>
+				<code><span class="php-quote">&quot;custom-fields&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="enqueueScriptsFired" id="$enqueueScriptsFired">
+		<td class="attributes"><code>
+			public static 
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#28" title="Go to source code"><var>$enqueueScriptsFired</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$enqueueScriptsFired" class="anchor">#</a>
+				<code><span class="php-keyword1">false</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="settings" id="$settings">
+		<td class="attributes"><code>
+			public  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#30-34" title="Go to source code"><var>$settings</var></a>
+
+			<div class="description short">
+				<p>The plugins global settings. Please note this will be dropped and handed over to the GlobalSettings module in 7.11.00. This should not effect interaction with this property - you can continue to access this as an array safely.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>The plugins global settings. Please note this will be dropped and handed over to the GlobalSettings module in 7.11.00. This should not effect interaction with this property - you can continue to access this as an array safely.</p>
+
+					<h4>Deprecated</h4>
+					<div class="list">
+							Will be read-only and an instance of GLobalSettings as of 7.11.00<br>
+					</div>
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$settings" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="scriptLoader" id="$scriptLoader">
+		<td class="attributes"><code>
+			protected  
+			<code><a href="class-WPGMZA.ScriptLoader.html">WPGMZA\ScriptLoader</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#36-39" title="Go to source code"><var>$scriptLoader</var></a>
+
+			<div class="description short">
+				<p>An instance of ScriptLoader, used internally.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>An instance of ScriptLoader, used internally.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$scriptLoader" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="restAPI" id="$restAPI">
+		<td class="attributes"><code>
+			protected  
+			<code><a href="class-WPGMZA.RestAPI.html">WPGMZA\RestAPI</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#41-44" title="Go to source code"><var>$restAPI</var></a>
+
+			<div class="description short">
+				<p>An instance of RestAPI, used internally.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>An instance of RestAPI, used internally.</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$restAPI" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+	<table class="summary properties" id="magicProperties">
+	<caption>Magic properties summary</caption>
+	<tr data-order="spatialFunctionPrefix" id="m$spatialFunctionPrefix">
+		<td class="attributes"><code>
+			public  read-only
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#9" title="Go to source code"><var>$spatialFunctionPrefix</var></a>
+
+			<div class="description short">
+				<p>MySQL versions 8 and above prefix all spatial functions with ST_, previous versions do not. This property will be ST_ where necessary, and an empty string where not. You should use this with all DB calls that make use of spaital functions.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="gdprCompliance" id="m$gdprCompliance">
+		<td class="attributes"><code>
+			public  read-only
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Plugin.html#10" title="Go to source code"><var>$gdprCompliance</var></a>
+
+			<div class="description short">
+				<p>An instance of the GDPRCompliance class.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

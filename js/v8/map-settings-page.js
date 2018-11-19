@@ -5,6 +5,12 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * This class helps manage the map settings pageX
+	 * @class WPGMZA.MapSettingsPage
+	 * @constructor WPGMZA.MapSettingsPage
+	 * @memberof WPGMZA
+	 */
 	WPGMZA.MapSettingsPage = function()
 	{
 		var self = this;
@@ -21,6 +27,11 @@ jQuery(function($) {
 		});
 	}
 	
+	/**
+	 * Updates engine specific controls, hiding irrelevant controls (eg Google controls when OpenLayers is the selected engine) and showing relevant controls.
+	 * @method
+	 * @memberof WPGMZA.MapSettingsPage
+	 */
 	WPGMZA.MapSettingsPage.prototype.updateEngineSpecificControls = function()
 	{
 		var engine = $("select[name='wpgmza_maps_engine']").val();
@@ -29,6 +40,11 @@ jQuery(function($) {
 		$("[data-required-maps-engine='" + engine + "']").show();
 	}
 	
+	/**
+	 * Updates the GDPR controls (eg visibility state) based on the selected GDPR settings
+	 * @method
+	 * @memberof WPGMZA.MapSettingsPage
+	 */
 	WPGMZA.MapSettingsPage.prototype.updateGDPRControls = function()
 	{
 		var showNoticeControls = $("input[name='wpgmza_gdpr_require_consent_before_load']").prop("checked");

@@ -4,6 +4,9 @@ namespace WPGMZA;
 
 require_once(plugin_dir_path(__FILE__) . 'class.selector-to-xpath.php');
 
+/**
+ * An extension of PHPs native \DOMElement, adds JavaScript / jQuery style utilities such as querySelector, prepent, closest
+ */
 class DOMElement extends \DOMElement
 {
 	protected static $xpathConverter;
@@ -55,7 +58,7 @@ class DOMElement extends \DOMElement
 	/** 
 	 * Prepends the subject to this element.
 	 * @param $subject element or array of elements
-	 * @return $this element
+	 * @return \DOMElement This element
 	 */
 	public function prepend($subject)
 	{
@@ -74,6 +77,8 @@ class DOMElement extends \DOMElement
 	
 	/**
 	 * Appends the subject to this element.
+	 * @param mixed $subject Either a \DOMNode, DOMElement, or an arroy of either
+	 * @return \DOMElement This element
 	 */
 	public function append($subject)
 	{
@@ -91,6 +96,7 @@ class DOMElement extends \DOMElement
 	/**
 	 * Traverses from this node up it's ancestors and returns the first node that matches the given selector
 	 * @param mixed $selector Either this node the first ancestor that matches this selector, or NULL if no match is found
+	 * @return mixed The closest matching elmeent, or null if none is found.
 	 */
 	public function closest($selector)
 	{
@@ -176,6 +182,7 @@ class DOMElement extends \DOMElement
 	}
 	
 	/**
+	 * Returns -1 if $b is before $a in the DOM tree
 	 * @internal sort function for DOM position sort
 	 */
 	private static function sortByDOMPosition($a, $b)
@@ -184,6 +191,7 @@ class DOMElement extends \DOMElement
 	}
 	
 	/**
+	 * Converts a selector to an XPath
 	 * @internal Calls the CSS to XPath converter on the specified selector
 	 * @param string $selector The CSS selector
 	 * @return string The resulting XPath expression
@@ -290,7 +298,7 @@ class DOMElement extends \DOMElement
 	 * Sets an inline CSS style on this element. If it's already set, the old value will be removed first
 	 * @param string $name the CSS property name eg 'background-color'
 	 * @param string $value the value of the property eg '#ff4400'
-	 * @return $this
+	 * @return DOMElement $this
 	 */
 	public function setInlineStyle($name, $value)
 	{
@@ -303,7 +311,7 @@ class DOMElement extends \DOMElement
 	/**
 	 * Removes the inline CSS style specified by name
 	 * @param string $name the name of the CSS property eg 'background-color'
-	 * @return $this
+	 * @return DOMElement $this
 	 */
 	public function removeInlineStyle($name)
 	{
@@ -541,6 +549,7 @@ class DOMElement extends \DOMElement
 	 
 	/**
 	 * Sets the value of this element. Intended for form elements only. If this element is a textarea, it will be appended as plain text. If this element is a select, it will attempt to select the option with the specified value. If the input is a radio or checkbox, it will set it accordingly. Otherwise, the value will be put into the value attribute
+	 * @param mixed The value to set
 	 * @throws \Exception If this element is a select, SMART_STRICT_MODE is declared and no option with that value exists
 	 * @throws \Exception If you call this method on a non-form element
 	 * @return This element
@@ -611,7 +620,8 @@ class DOMElement extends \DOMElement
 	
 	/**
 	 * Appends the specified text to this element, shorthand utility function
-	 * @return \Smart\Element This element 
+	 * @param string $text The text to append
+	 * @return DOMElement This element 
 	 */
 	public function appendText($text)
 	{
@@ -621,9 +631,9 @@ class DOMElement extends \DOMElement
 
 	/**
 	 * Utility function to append the specified element after one of this elements children. Will append at the end if after is null
-	 * @param \Smart\Element the element to insert
-	 * @param \Smart\Element one of this elements children, or null
-	 * *@return \Smart\Element this element
+	 * @param DOMElement $elem the element to insert
+	 * @param DOMElement $after one of this elements children, or null
+	 * @return DOMElement this element
 	 */
 	public function insertAfter($elem, $after=null)
 	{
@@ -640,7 +650,7 @@ class DOMElement extends \DOMElement
 	
 	/**
 	 * Clears this element, completely removing all it's contents
-	 * @return \Smart\Element This element
+	 * @return DOMElement This element
 	 */
 	public function clear()
 	{
@@ -651,7 +661,7 @@ class DOMElement extends \DOMElement
 	 
 	/**
 	 * Removes this element from it's parent
-	 * @return \Smart\Element This element
+	 * @return DOMElement This element
 	 */
 	public function remove()
 	{
@@ -661,4 +671,3 @@ class DOMElement extends \DOMElement
 	}
 }
 
-?>

@@ -22,6 +22,11 @@ jQuery(function($) {
 			this.settings.fillOpacity = 0.6;
 		}
 		
+		if(options.fillColor)
+			this.settings.fillColor = options.fillColor;
+		if(options.fillOpacity)
+			this.settings.fillOpacity = options.fillOpacity;
+		
 		this.olStyle = new ol.style.Style(this.getStyleFromSettings());
 		
 		// IMPORTANT: Please note that due to what appears to be a bug in OpenLayers, the following code MUST be exected specifically in this order, or the circle won't appear

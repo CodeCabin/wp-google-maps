@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: info-window.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: info-window.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace WPGMZA
+ * @module InfoWindow
+ * @requires WPGMZA.EventDispatcher
+ */
+jQuery(function($) {
+	
+	/**
+	 * Base class for infoWindows. This acts as an abstract class so that infoWindows for both Google and OpenLayers can be interacted with seamlessly by the overlying logic. &lt;strong>Please &lt;em>do not&lt;/em> call this constructor directly. Always use createInstance rather than instantiating this class directly.&lt;/strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.InfoWindow
+	 * @constructor WPGMZA.InfoWindow
+	 * @memberof WPGMZA
+	 * @see WPGMZA.InfoWindow.createInstance
+	 */
+	WPGMZA.InfoWindow = function(mapObject)
+	{
+		var self = this;
+		
+		WPGMZA.EventDispatcher.call(this);
+		
+		WPGMZA.assertInstanceOf(this, "InfoWindow");
+		
+		if(!mapObject)
+			return;
+		
+		this.mapObject = mapObject;
+		
+		if(mapObject.map)
+		{
+			// This has to be slightly delayed so the map initialization won't overwrite the infowindow element
+			setTimeout(function() {
+				self.onMapObjectAdded(event);
+			}, 100);
+		}
+		else
+			mapObject.addEventListener("added", function(event) { 
+				self.onMapObjectAdded(event);
+			});		
+	}
+	
+	WPGMZA.InfoWindow.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
+	WPGMZA.InfoWindow.prototype.constructor = WPGMZA.InfoWindow;
+	
+	WPGMZA.InfoWindow.OPEN_BY_CLICK = 1;
+	WPGMZA.InfoWindow.OPEN_BY_HOVER = 2;
+	
+	/**
+	 * Fetches the constructor to be used by createInstance, based on the selected maps engine
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 * @return {function} The appropriate constructor
+	 */
+	WPGMZA.InfoWindow.getConstructor = function()
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "open-layers":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.OLProInfoWindow;
+				return WPGMZA.OLInfoWindow;
+				break;
+			
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProInfoWindow;
+				return WPGMZA.GoogleInfoWindow;
+				break;
+		}
+	}
+	
+	/**
+	 * Creates an instance of an InfoWindow, &lt;strong>please &lt;em>always&lt;/em> use this function rather than calling the constructor directly&lt;/strong>
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 * @param {object} options Options for the object (optional)
+	 */
+	WPGMZA.InfoWindow.createInstance = function(mapObject)
+	{
+		var constructor = this.getConstructor();
+		return new constructor(mapObject);
+	}
+	
+	/**
+	 * Gets the content for the info window and passes it to the specified callback - this allows for delayed loading (eg AJAX) as well as instant content
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 * @return void
+	 */
+	WPGMZA.InfoWindow.prototype.getContent = function(callback)
+	{
+		var html = "";
+		
+		if(this.mapObject instanceof WPGMZA.Marker)
+			html = this.mapObject.address;
+		
+		callback(html);
+	}
+	
+	/**
+	 * Opens the info window on the specified map, with the specified map object as the subject.
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 * @param {WPGMZA.Map} map The map to open this InfoWindow on.
+	 * @param {WPGMZA.MapObject} mapObject The map object (eg marker, polygon) to open this InfoWindow on.
+	 * @return boolean FALSE if the info window should not and will not open, TRUE if it will. This can be used by subclasses to establish whether or not the subclassed open should bail or open the window.
+	 */
+	WPGMZA.InfoWindow.prototype.open = function(map, mapObject)
+	{
+		var self = this;
+		
+		this.mapObject = mapObject;
+		
+		if(WPGMZA.settings.disable_infowindows)
+			return false;
+		
+		return true;
+	}
+	
+	/**
+	 * Abstract function, closes this InfoWindow
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 */
+	WPGMZA.InfoWindow.prototype.close = function()
+	{
+		
+	}
+	
+	/**
+	 * Abstract function, sets the content in this InfoWindow
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 */
+	WPGMZA.InfoWindow.prototype.setContent = function(options)
+	{
+		
+	}
+	
+	/**
+	 * Abstract function, sets options on this InfoWindow
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 */
+	WPGMZA.InfoWindow.prototype.setOptions = function(options)
+	{
+		
+	}
+	
+	/**
+	 * Event listener for when the map object is added. This will cause the info window to open if the map object has infoopen set
+	 * @method
+	 * @memberof WPGMZA.InfoWindow
+	 * @return void
+	 */
+	WPGMZA.InfoWindow.prototype.onMapObjectAdded = function()
+	{
+		if(this.mapObject.settings.infoopen == 1)
+			this.open();
+	}
+	
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Compatibility.html">Compatibility</a></li><li><a href="module-CSS.html">CSS</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleAPIErrorHandler.html">GoogleAPIErrorHandler</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-MapSettingsPage.html">MapSettingsPage</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-NativeMapsAppIcon.html">NativeMapsAppIcon</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-PopoutPanel.html">PopoutPanel</a></li><li><a href="module-Version.html">Version</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li><li><a href="WPGMZA.module_RestAPI.html">RestAPI</a></li></ul><h3>Classes</h3><ul><li><a href="WPGMZA.Circle.html">Circle</a></li><li><a href="WPGMZA.Compatibility.html">Compatibility</a></li><li><a href="WPGMZA.Distance.html">Distance</a></li><li><a href="WPGMZA.Event.html">Event</a></li><li><a href="WPGMZA.EventDispatcher.html">EventDispatcher</a></li><li><a href="WPGMZA.FriendlyError.html">FriendlyError</a></li><li><a href="WPGMZA.Geocoder.html">Geocoder</a></li><li><a href="WPGMZA.GoogleAPIErrorHandler.html">GoogleAPIErrorHandler</a></li><li><a href="WPGMZA.InfoWindow.html">InfoWindow</a></li><li><a href="WPGMZA.LatLng.html">LatLng</a></li><li><a href="WPGMZA.LatLngBounds.html">LatLngBounds</a></li><li><a href="WPGMZA.Map.html">Map</a></li><li><a href="WPGMZA.MapEngineDialog.html">MapEngineDialog</a></li><li><a href="WPGMZA.MapObject.html">MapObject</a></li><li><a href="WPGMZA.MapSettings.html">MapSettings</a></li><li><a href="WPGMZA.MapSettingsPage.html">MapSettingsPage</a></li><li><a href="WPGMZA.Marker.html">Marker</a></li><li><a href="WPGMZA.ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="WPGMZA.NativeMapsAppIcon.html">NativeMapsAppIcon</a></li><li><a href="WPGMZA.Polygon.html">Polygon</a></li><li><a href="WPGMZA.Polyline.html">Polyline</a></li><li><a href="WPGMZA.PopoutPanel.html">PopoutPanel</a></li><li><a href="WPGMZA.RestAPI.html">RestAPI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 14 2018 16:51:25 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

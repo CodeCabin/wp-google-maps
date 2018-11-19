@@ -2,13 +2,24 @@
 
 namespace WPGMZA;
 
+/**
+ * This class represents a latitude and longitude coordinate pair, provides type consistency for latitude and longitude, and some utility functions
+ */
 class LatLng
 {
+	/**
+	 * @const A regular expression to match a coordinate pair from a string. The latitdue and longitude will be in matches 1 and 3 respectively.
+	 */
 	const REGEXP = '/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/';
 	
 	private $_lat;
 	private $_lng;
 	
+	/**
+	 * Constructor
+	 * @param mixed $arg Can be a string matching LatLng::REGEXP, or an object/array with lat and lng set.
+	 * @param mixed $lng Where $arg is a number, it will be treated as a float, you should supply a number to $lng too.
+	 */
 	public function __construct($arg=null, $lng=null)
 	{
 		$this->_lat = 0;
@@ -50,6 +61,9 @@ class LatLng
 		}
 	}
 	
+	/**
+	 * Gets the specified property.
+	 */
 	public function __get($name)
 	{
 		switch($name)
@@ -68,6 +82,10 @@ class LatLng
 		}
 	}
 	
+	/**
+	 * Sets the specified property.
+	 * @throws \Exception The value is not numeric (int, float or a numeric string)
+	 */
 	public function __set($name, $value)
 	{
 		switch($name)
@@ -87,6 +105,9 @@ class LatLng
 		}
 	}
 	
+	/**
+	 * Returns this coordinate pair as a comma separated string.
+	 */
 	public function __toString()
 	{
 		return "{$this->_lat}, {$this->_lng}";

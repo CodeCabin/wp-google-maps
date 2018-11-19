@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+/**
+ * Loads the OpenLayers map engine
+ */
 class OLLoader
 {
 	private static $olAPILoadCalled = false;
@@ -14,9 +17,12 @@ class OLLoader
 	{
 		global $wpgmza;
 		
-		$this->loadOpenLayer();
+		$this->loadOpenLayers();
 	}
 	
+	/**
+	 * Loads the OpenLayers libraries and styles
+	 */
 	public function loadOpenLayers()
 	{
 		global $wpgmza;

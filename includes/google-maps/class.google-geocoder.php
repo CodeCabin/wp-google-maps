@@ -2,15 +2,33 @@
 
 namespace WPGMZA;
 
+/**
+ * Server side Google Maps geocoding.
+ */
 class GoogleGeocoder
 {
+	/**
+	 * @var The Google API key to be used for geocoding
+	 */
 	public $apiKey;
 	
+	/**
+	 * Constructor.
+	 * @param string $apiKey The Google Maps API key to use for geocoding
+	 */
 	public function __construct($apiKey)
 	{
 		$this->apiKey = $apiKey;
 	}
 	
+	/**
+	 * Converts an address to a latitude longitude pair.
+	 * @param string $address The address to geocode
+	 * @throws \Exception cURL must be enabled to use this feature
+	 * @throws \Exception Failed to parse JSON response
+	 * @throws \Exception Failed to geocode address for reason given by Google
+	 * @return object An object with the lat and lng of the first coordinate pair returned by Google
+	 */
 	public function getLatLngFromAddress($address)
 	{
 		if(!function_exists('\curl_init'))

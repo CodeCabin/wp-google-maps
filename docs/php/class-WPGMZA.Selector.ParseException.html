@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\ParseException</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class ParseException</h1>
+
+
+	<div class="description">
+	<p>An exception thrown when parsing a CSS selector fails (ie failed to interpret the selector, before conversion starts)</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+Exception
+			 implements 
+<span>Throwable</span>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>WPGMZA\Selector\ParseException</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.ParseException.html#18-37" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Selector.ParseException.html#28-36" title="Go to source code">__construct</a>( <span>string <var>$message</var></span>, <span>integer <var>$code</var> = <span class="php-num">0</span></span>, <span>Exception <var>$previous</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Constructor.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd>The error message</dd>
+					<dt><var>$code</var></dt>
+					<dd>Unused, the error code</dd>
+					<dt><var>$previous</var></dt>
+					<dd>The previous exception, used for exception chaining</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>Exception::__construct()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from Exception</caption>
+	<tr>
+		<td><code>
+__toString(), 
+__wakeup(), 
+getCode(), 
+getFile(), 
+getLine(), 
+getMessage(), 
+getPrevious(), 
+getTrace(), 
+getTraceAsString()
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="css" id="$css">
+		<td class="attributes"><code>
+			public  
+			The
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.ParseException.html#23-26" title="Go to source code"><var>$css</var></a>
+
+			<div class="description short">
+				<p>CSS selector that caused this exception</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>CSS selector that caused this exception</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$css" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from Exception</caption>
+	<tr>
+		<td><code>
+<var>$code</var>, 
+<var>$file</var>, 
+<var>$line</var>, 
+<var>$message</var>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

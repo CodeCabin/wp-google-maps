@@ -5,6 +5,12 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * Small utility class to create an icon for the native maps app, an Apple icon on iOS devices, a Google icon on other devices
+	 * @method WPGMZA.NativeMapsAppIcon
+	 * @constructor WPGMZA.NativeMapsAppIcon
+	 * @memberof WPGMZA
+	 */
 	WPGMZA.NativeMapsAppIcon = function() {
 		if(navigator.userAgent.match(/^Apple|iPhone|iPad|iPod/))
 		{

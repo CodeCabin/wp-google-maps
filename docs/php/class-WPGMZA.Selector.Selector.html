@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\Selector</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Selector</h1>
+
+
+	<div class="description">
+	<p>Represents a single selector, either standalone or as part of a compound selector</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.Selector.html#712-817" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="parse" id="_parse">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parse">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Selector.html#725-816" title="Go to source code">parse</a>( <span><code><a href="class-WPGMZA.Selector.TokenStream.html">WPGMZA\Selector\TokenStream</a></code> <var>$stream</var></span>, <span><code><a href="class-WPGMZA.Selector.PseudoSelector.html">WPGMZA\Selector\PseudoSelector</a></code> <var>$not</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Parses this selector from the given stream.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Parses this selector from the given stream.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$stream</var></dt>
+					<dd>The token stream to read from.</dd>
+					<dt><var>$not</var></dt>
+					<dd>The :not pseudo selector that contains this selector.</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Unexpected end in attribute<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Expected either close bracket or attribute operator<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Unexpected end in attribute<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Expected quote to open string after attribute operator<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Unexpected end in attribute<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Expected quote to terminate string after attribute operator<br>
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>Invalid CSS eg unexpected tokens
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="element" id="$element">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#717" title="Go to source code"><var>$element</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$element" class="anchor">#</a>
+				<code><span class="php-quote">'*'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="id" id="$id">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#718" title="Go to source code"><var>$id</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$id" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="classes" id="$classes">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#719" title="Go to source code"><var>$classes</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$classes" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="attributes" id="$attributes">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#720" title="Go to source code"><var>$attributes</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$attributes" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="pseudos" id="$pseudos">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#721" title="Go to source code"><var>$pseudos</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$pseudos" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="parent" id="$parent">
+		<td class="attributes"><code>
+			public  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Selector.html#723" title="Go to source code"><var>$parent</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$parent" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
