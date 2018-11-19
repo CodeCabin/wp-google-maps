@@ -6,9 +6,12 @@
 jQuery(function($) {
 
 	/**
-	 * Constructor
-	 * @param mixed A latLng literal, or latitude
-	 * @param mixed The latitude, where arg is a longitude
+	 * This class represents a latitude and longitude coordinate pair, and provides utilities to work with coordinates, parsing and conversion.
+	 * @class WPGMZA.LatLng
+	 * @constructor WPGMZA.LatLng
+	 * @memberof WPGMZA
+	 * @param {number|object} arg A latLng literal, or latitude
+	 * @param {number} [lng] The latitude, where arg is a longitude
 	 */
 	WPGMZA.LatLng = function(arg, lng)
 	{
@@ -48,8 +51,21 @@ jQuery(function($) {
 		}
 	}
 	
+	/**
+	 * A regular expression which matches latitude and longitude coordinate pairs from a string. Matches 1 and 3 correspond to latitude and longitude, respectively,
+	 * @constant {RegExp}
+	 * @memberof WPGMZA.LatLng
+	 */
 	WPGMZA.LatLng.REGEXP = /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/;
 	
+	/**
+	 * Returns true if the supplied object is a LatLng literal, also returns true for instances of WPGMZA.LatLng
+	 * @method
+	 * @static
+	 * @memberof WPGMZA.LatLng
+	 * @param {object} obj A LatLng literal, or an instance of WPGMZA.LatLng
+	 * @return {bool} True if this object is a valid LatLng literal or instance of WPGMZA.LatLng
+	 */
 	WPGMZA.LatLng.isValid = function(obj)
 	{
 		if(typeof obj != "object")
@@ -61,6 +77,11 @@ jQuery(function($) {
 		return true;
 	}
 	
+	/**
+	 * The latitude, guaranteed to be a number
+	 * @property lat
+	 * @memberof WPGMZA.LatLng
+	 */
 	Object.defineProperty(WPGMZA.LatLng.prototype, "lat", {
 		get: function() {
 			return this._lat;
@@ -72,6 +93,11 @@ jQuery(function($) {
 		}
 	});
 	
+	/**
+	 * The longitude, guaranteed to be a number
+	 * @property lng
+	 * @memberof WPGMZA.LatLng
+	 */
 	Object.defineProperty(WPGMZA.LatLng.prototype, "lng", {
 		get: function() {
 			return this._lng;
@@ -83,11 +109,25 @@ jQuery(function($) {
 		}
 	});
 	
+	/**
+	 * Returns this latitude and longitude as a string
+	 * @method
+	 * @memberof WPGMZA.LatLng
+	 * @return {string} This object represented as a string
+	 */
 	WPGMZA.LatLng.prototype.toString = function()
 	{
 		return this._lat + ", " + this._lng;
 	}
 	
+	/**
+	 * Returns an instnace of WPGMZA.LatLng from an instance of google.maps.LatLng
+	 * @method
+	 * @static
+	 * @memberof WPGMZA.LatLng
+	 * @param {google.maps.LatLng} The google.maps.LatLng to convert
+	 * @return {WPGMZA.LatLng} An instance of WPGMZA.LatLng built from the supplied google.maps.LatLng
+	 */
 	WPGMZA.LatLng.fromGoogleLatLng = function(googleLatLng)
 	{
 		return new WPGMZA.LatLng(
@@ -96,6 +136,12 @@ jQuery(function($) {
 		);
 	}
 	
+	/**
+	 * Returns an instance of google.maps.LatLng with the same coordinates as this object
+	 * @method
+	 * @memberof WPGMZA.LatLng
+	 * @return {google.maps.LatLng} This object, expressed as a google.maps.LatLng
+	 */
 	WPGMZA.LatLng.prototype.toGoogleLatLng = function()
 	{
 		return new google.maps.LatLng({
@@ -105,10 +151,12 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function moveByDistance
-	 * @summary Moves this latLng by the specified kilometers along the given heading
-	 * @return void
-	 * With many thanks to Hu Kenneth - https://gis.stackexchange.com/questions/234473/get-a-lonlat-point-by-distance-or-between-2-lonlat-points
+	 * Moves this latLng by the specified kilometers along the given heading. This function operates in place, as opposed to creating a new instance of WPGMZA.LatLng. With many thanks to Hu Kenneth - https://gis.stackexchange.com/questions/234473/get-a-lonlat-point-by-distance-or-between-2-lonlat-points
+	 * @method
+	 * @memberof WPGMZA.LatLng
+	 * @param {number} kilometers The number of kilometers to move this LatLng by
+	 * @param {number} heading The heading, in degrees, to move along, where zero is North
+	 * @return {void}
 	 */
 	WPGMZA.LatLng.prototype.moveByDistance = function(kilometers, heading)
 	{

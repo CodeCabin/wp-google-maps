@@ -5,6 +5,13 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * Base class for Map Objects (known as Features in Map Block), that is, markers, polygons, polylines, circles, rectangles and heatmaps. Implements functionality shared by all map objects, such as parsing geometry and serialization.
+	 * @class WPGMZA.MapObject
+	 * @constructor WPGMZA.MapObject
+	 * @memberof WPGMZA
+	 * @augments WPGMZA.EventDispatcher
+	 */
 	WPGMZA.MapObject = function(row)
 	{
 		var self = this;
@@ -54,6 +61,13 @@ jQuery(function($) {
 	WPGMZA.MapObject.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.MapObject.prototype.constructor = WPGMZA.MapObject;
 	
+	/**
+	 * Scans a string for all floating point numbers and build an array of latitude and longitude literals from the matched numbers
+	 * @method
+	 * @memberof WPGMZA.MapObject
+	 * @param {string} string The string to parse numbers from
+	 * @return {array} An array of LatLng literals parsed from the string
+	 */
 	WPGMZA.MapObject.prototype.parseGeometry = function(string)
 	{
 		var stripped, pairs, coords, results = [];
@@ -72,6 +86,12 @@ jQuery(function($) {
 		return results;
 	}
 	
+	/**
+	 * Returns a copy of this object as a JSON object for serializsation
+	 * @method
+	 * @memberof WPGMZA.MapObject
+	 * @return {object} This object as represented by JSON
+	 */
 	WPGMZA.MapObject.prototype.toJSON = function()
 	{
 		return {

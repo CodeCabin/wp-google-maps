@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\TokenStream</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class TokenStream</h1>
+
+
+	<div class="description">
+	<p>This class provides stream functions to navigate an array of tokens</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.TokenStream.html#171-238" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Selector.TokenStream.html#179-187" title="Go to source code">__construct</a>( <span><code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a>[]</code> <var>$arr</var></span> )</code>
+
+		<div class="description short">
+			<p>Constructor</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$arr</var></dt>
+					<dd>array of tokens</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="peek" id="_peek">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_peek">#</a>
+		<code><a href="source-class-WPGMZA.Selector.TokenStream.html#189-212" title="Go to source code">peek</a>( <span>string|null <var>$expectedType</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$calledByRead</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			<p>Peeks at the next token in the stream, without advancing the cursor</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Peeks at the next token in the stream, without advancing the cursor</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$expectedType</var></dt>
+					<dd>The token type to expect.</dd>
+					<dt><var>$calledByRead</var></dt>
+					<dd>Used for internal debug logging.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null<br>The peeked token, or null at the end of the stream.
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>If $expectedType is non-null, and the peeked token is null or not the expected type.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="read" id="_read">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_read">#</a>
+		<code><a href="source-class-WPGMZA.Selector.TokenStream.html#214-228" title="Go to source code">read</a>( <span>string|null <var>$expectedType</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Reads the next token in the stream. This performs the same actions as peek, but will advance the cursor before returning the token. The cursor may not advance past the token count.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Reads the next token in the stream. This performs the same actions as peek, but will advance the cursor before returning the token. The cursor may not advance past the token count.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$expectedType</var></dt>
+					<dd>The token type to expect.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null<br>The peeked token, or null at the end of the stream.
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>If $expectedType is non-null, and the peeked token is null or not the expected type.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="eof" id="_eof">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_eof">#</a>
+		<code><a href="source-class-WPGMZA.Selector.TokenStream.html#230-237" title="Go to source code">eof</a>( )</code>
+
+		<div class="description short">
+			<p>Returns true if the cursor has reached the end of the token stream</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if the cursor has reached the end of the token stream</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="tokens" id="$tokens">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.TokenStream.html#176" title="Go to source code"><var>$tokens</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$tokens" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="cursor" id="$cursor">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.TokenStream.html#177" title="Go to source code"><var>$cursor</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$cursor" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

@@ -4,6 +4,9 @@ namespace WPGMZA;
 
 require_once(plugin_dir_path(__FILE__) . 'class.dom-element.php');
 
+/**
+ * Extension of PHP's native \DOMDocument, providing helpful utility functions to carry out common tasks such as read HTML with inline PHP, populate named elements, import extenral content
+ */
 class DOMDocument extends \DOMDocument
 {
 	private $src_file;
@@ -115,7 +118,13 @@ class DOMDocument extends \DOMDocument
 	}
 	
 	/**
-	 * @internal Handles imports based on the content
+	 * Handles importing the specified filename to the given node. Files with the extension .html or .html.php will be processed and imported. Files with the extension .php will be scanned for a class extending DOMDocument and imported if one is found.
+	 * @param string $subject The filename to import
+	 * @param DOMElement $node The target node
+	 * @param bool $forcePHP Forces inline PHP to be processed
+	 * @throws \Exception When the subject is a PHP file, but no classes are found
+	 * @throws \Exception When the subject is a PHP file, but the last class found in the file is not an instance of DOMDocument
+	 * @return void
 	 */
 	protected function handleImport($subject, $node, $forcePHP=false)
 	{

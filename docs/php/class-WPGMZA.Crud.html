@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Crud</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li>
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
+				<li class="active"><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
+				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
+				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
+				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
+				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsLoader.html" class="deprecated">GoogleMapsLoader</a></li>
+				<li><a href="class-WPGMZA.LatLng.html">LatLng</a></li>
+				<li><a href="class-WPGMZA.Map.html">Map</a></li>
+				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
+				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
+				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
+				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
+				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
+				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
+				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
+				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
+				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
+				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.html" title="Summary of WPGMZA"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Crud</h1>
+
+
+	<div class="description">
+	<p>The CRUD class is a base class which acts as an interface between any
+objects which are stored on in the database and represented in server
+side logic, for example Map, Marker, Polygon</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>WPGMZA\Crud</span></b>			
+			 implements 
+<span>IteratorAggregate</span>, 
+			
+<span>JsonSerializable</span>
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-WPGMZA.Map.html">WPGMZA\Map</a>, 
+			<a href="class-WPGMZA.Marker.html">WPGMZA\Marker</a>
+	</div>
+
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-WPGMZA.GoogleMap.html">WPGMZA\GoogleMap</a>
+	</div>
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Crud.html#5-593" title="Go to source code">class.crud.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#24-68" title="Go to source code">__construct</a>( <span>string <var>$table_name</var></span>, <span>integer|array|object <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
+
+		<div class="description short">
+			<p>Constructor</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$table_name</var></dt>
+					<dd>The table name for this object type</dd>
+					<dt><var>$id_or_fields</var></dt>
+					<dd>The ID of the object to read, or an object or array of data to insert.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_table_name" id="_get_table_name">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_table_name">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#70-77" title="Go to source code">get_table_name</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the table name for this object type</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the table name for this object type</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_columns" id="_get_columns">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_columns">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#79-86" title="Go to source code">get_columns</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the column information (name, type, etc.)</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the column information (name, type, etc.)</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_column_names" id="_get_column_names">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_column_names">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#88-95" title="Go to source code">get_column_names</a>( )</code>
+
+		<div class="description short">
+			<p>Returns an array of the column names represented as strings</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns an array of the column names represented as strings</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_column_type" id="_get_column_type">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_column_type">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#97-112" title="Go to source code">get_column_type</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Return the SQL field type of the specified column</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return the SQL field type of the specified column</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_placeholder_by_type" id="_get_placeholder_by_type">
+
+		<td class="attributes"><code>
+			 protected 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_placeholder_by_type">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#114-162" title="Go to source code">get_placeholder_by_type</a>( <span>string <var>$type</var></span> )</code>
+
+		<div class="description short">
+			<p>Gets the placeholder for a prepared statement based on the SQL column type specified.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the placeholder for a prepared statement based on the SQL column type specified.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>The SQL data type</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>A placeholder, such as %s, %d or %f
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_column_parameter" id="_get_column_parameter">
+
+		<td class="attributes"><code>
+			 protected 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_column_parameter">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#164-175" title="Go to source code">get_column_parameter</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Gets the parameter to be passed to a prepared statement, from this object, by the name of the DB column given.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the parameter to be passed to a prepared statement, from this object, by the name of the DB column given.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd>The database column name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed<br>The value of the specified field name from this object
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_column_placeholders" id="_get_column_placeholders">
+
+		<td class="attributes"><code>
+			 protected 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_column_placeholders">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#177-195" title="Go to source code">get_column_placeholders</a>( )</code>
+
+		<div class="description short">
+			<p>Gets all the placeholders for a prepared statement</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets all the placeholders for a prepared statement</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>An array of string placeholders
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_column_parameters" id="_get_column_parameters">
+
+		<td class="attributes"><code>
+			 protected 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_column_parameters">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#197-215" title="Go to source code">get_column_parameters</a>( )</code>
+
+		<div class="description short">
+			<p>Gets all the values to be passed to a prepared statement from this object</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets all the values to be passed to a prepared statement from this object</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>An array of the values from this object
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_arbitrary_data_column_name" id="_get_arbitrary_data_column_name">
+
+		<td class="attributes"><code>
+			 protected 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_arbitrary_data_column_name">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#217-224" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the column name used to store arbitrary data, for instance, other_data, or NULL for tables which do not have such a field.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the column name used to store arbitrary data, for instance, other_data, or NULL for tables which do not have such a field.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>The name of the column used to store arbitrary data
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="assert_not_trashed" id="_assert_not_trashed">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_assert_not_trashed">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#226-235" title="Go to source code">assert_not_trashed</a>( )</code>
+
+		<div class="description short">
+			<p>Asserts that this object hasn't been trashed and throws an exception if it has</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Asserts that this object hasn't been trashed and throws an exception if it has</p>
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="column_exists" id="_column_exists">
+
+		<td class="attributes"><code>
+			 protected 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_column_exists">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#237-244" title="Go to source code">column_exists</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns true if the named column exists on this map objects table</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if the named column exists on this map objects table</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parse_arbitrary_data" id="_parse_arbitrary_data">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parse_arbitrary_data">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#246-262" title="Go to source code">parse_arbitrary_data</a>( <span> <var>$data</var></span> )</code>
+
+		<div class="description short">
+			<p>Parses arbitrary data following a DB read, for example by unserializing strings or decoding JSON.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Parses arbitrary data following a DB read, for example by unserializing strings or decoding JSON.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="store_arbitrary_data" id="_store_arbitrary_data">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_store_arbitrary_data">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#264-274" title="Go to source code">store_arbitrary_data</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
+
+		<div class="description short">
+			<p>Stores arbitrary data. This is not currently used.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Stores arbitrary data. This is not currently used.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="create" id="_create">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_create">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#276-301" title="Go to source code">create</a>( )</code>
+
+		<div class="description short">
+			<p>Creates the map object in the database</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Creates the map object in the database</p>
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="read" id="_read">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_read">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#303-330" title="Go to source code">read</a>( )</code>
+
+		<div class="description short">
+			<p>Reads the data from the database into this object</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Reads the data from the database into this object</p>
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_read_only" id="_is_read_only">
+
+		<td class="attributes"><code>
+			 protected 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_read_only">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#332-350" title="Go to source code">is_read_only</a>( <span> <var>$key</var></span> )</code>
+
+		<div class="description short">
+			<p>Returns true if the specified property is read only</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns true if the specified property is read only</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>Whether or not the property is read only
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#352-406" title="Go to source code">update</a>( )</code>
+
+		<div class="description short">
+			<p>Updates the map object in the database</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Updates the map object in the database</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="trash" id="_trash">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_trash">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#408-424" title="Go to source code">trash</a>( )</code>
+
+		<div class="description short">
+			<p>Deletes the object from the database and sets the trashed flag</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Deletes the object from the database and sets the trashed flag</p>
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set" id="_set">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#426-456" title="Go to source code">set</a>( <span>string|array|object <var>$arg</var></span>, <span> <var>$val</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Set variables in bulk, this reduces the number of database calls</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set variables in bulk, this reduces the number of database calls</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$arg</var></dt>
+					<dd>a string naming the property to be set (with a second argument which is the value), or an array or object of key and value pairs to be set on this object</dd>
+					<dt><var>$val</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getIterator" id="_getIterator">
+
+		<td class="attributes"><code>
+			 public 
+
+			ArrayIterator
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getIterator">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#458-468" title="Go to source code">getIterator</a>( )</code>
+
+		<div class="description short">
+			<p>Get's the iterator for iterating over map object properties</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get's the iterator for iterating over map object properties</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					ArrayIterator
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>IteratorAggregate::getIterator()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="jsonSerialize" id="_jsonSerialize">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_jsonSerialize">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#470-480" title="Go to source code">jsonSerialize</a>( )</code>
+
+		<div class="description short">
+			<p>Returns the objects properties to be serialized as JSON</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns the objects properties to be serialized as JSON</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>JsonSerializable::jsonSerialize()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__get" id="___get">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___get">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#482-505" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Magic method to get map object fields</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Magic method to get map object fields</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+				<h4>Params</h4>
+				<div class="list">
+						string $name The name of the property to read<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__isset" id="___isset">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___isset">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#507-518" title="Go to source code">__isset</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Checks if a field is set by name</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Checks if a field is set by name</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed.
+				</div>
+
+				<h4>Params</h4>
+				<div class="list">
+						string $name The name of the property to check<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__set" id="___set">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___set">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#520-575" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+		<div class="description short">
+			<p>Sets the property value by name and updates the database</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Sets the property value by name and updates the database</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd>The property name</dd>
+					<dt><var>$value</var></dt>
+					<dd>The value to set on the specified property</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed<br>
+					Exception<br>The specified property is read-only
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__unset" id="___unset">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___unset">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#577-592" title="Go to source code">__unset</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Unsets the named variable, only valid for arbitrary data</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Unsets the named variable, only valid for arbitrary data</p>
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>when attempting to unset a column, as opposed to arbitrary data.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="BULK_READ" id="BULK_READ">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Crud.html#12" title="Go to source code"><b>BULK_READ</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#BULK_READ" class="anchor">#</a>
+				<code><span class="php-quote">&quot;bulk-read&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

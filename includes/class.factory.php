@@ -2,8 +2,22 @@
 
 namespace WPGMZA;
 
+/**
+ * The Factory class is a base class which can be used to make any classes
+ * externally extensible. A filter is added for wpgmza_create_{class} which
+ * is called by createInstance. If this filter returns a subclass of Factory,
+ * that filter will override the default class and will be used.
+ *
+ * IMPORTANT: Any objects which subclass Factory MUST be created by calling
+ * createInstance on the subclass. Calling new on the constructor directly will
+ * not cause this filter to fire, and the extended class will not be used.
+ */
 class Factory
 {
+	/**
+	 * Creates an instance of the desired subclass, this will return the default instance if no filter is used to override the process, or will return the extended class if a filter has been bound
+	 * @throws \Exception
+	 */
 	public static function createInstance()
 	{
 		$class = get_called_class();

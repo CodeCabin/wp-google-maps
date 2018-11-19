@@ -216,6 +216,20 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.45 :- 2018-11-12 :- Medium priority =
+* Fixed places autocomplete not initializing with modern store locator
+* Fixed conflict with Autoptimize with large amounts of data by bypassing CSS optimization where shortcode is present
+* Enter key now triggers search on modern store locator
+
+= 7.10.44 :- 2018-11-05 :- Medium priority =
+* Fixed Modern Store Locator Circle not working when Google Maps geometry library not loaded
+* Fixed legacy-map-edit-page.js not enqueued when Gold add-on activated (with Pro >= 7.10.30)
+* Fixed store locator circle color settings not respected in OpenLayers
+* Improved unresolved dependency report, now reports requirements
+
+= 7.10.43 :- 2018-10-31 :- High priority =
+* Improved previous security fix
+
 = 7.10.42 :- 2018-10-25 :- High priority =
 * Closed potential XSS vulnerability in PHP_SELF on map edit page
 

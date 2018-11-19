@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\Tokenizer</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Tokenizer</h1>
+
+
+	<div class="description">
+	<p>This class is used to convert CSS strings into an array of CSS tokens</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.Tokenizer.html#240-548" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="pushToken" id="_pushToken">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pushToken">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#248-256" title="Go to source code">pushToken</a>( <span>string <var>$type</var></span>, <span>string <var>$char</var></span> )</code>
+
+		<div class="description short">
+			<p>Pushes a new token to the token array</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Pushes a new token to the token array</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>The token type, @see Token</dd>
+					<dt><var>$char</var></dt>
+					<dd>The character(s) to initialize the new token with</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pushCharToString" id="_pushCharToString">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pushCharToString">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#258-270" title="Go to source code">pushCharToString</a>( <span>string <var>$char</var></span> )</code>
+
+		<div class="description short">
+			<p>Either pushes the specified character to the current token if the current token is a string, or initializes and pushes a new token to the token array.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Either pushes the specified character to the current token if the current token is a string, or initializes and pushes a new token to the token array.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$char</var></dt>
+					<dd>The character(s) to push</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pushCharToIdentifier" id="_pushCharToIdentifier">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pushCharToIdentifier">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#272-284" title="Go to source code">pushCharToIdentifier</a>( <span>string <var>$char</var></span> )</code>
+
+		<div class="description short">
+			<p>Either pushes the specified character to the current token if the current token is an identifier, or initializes and pushes a new token to the token array.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Either pushes the specified character to the current token if the current token is an identifier, or initializes and pushes a new token to the token array.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$char</var></dt>
+					<dd>The character(s) to push</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pushCharToExpression" id="_pushCharToExpression">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pushCharToExpression">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#286-298" title="Go to source code">pushCharToExpression</a>( <span>string <var>$char</var></span> )</code>
+
+		<div class="description short">
+			<p>Either pushes the specified character to the current token if the current token is an expression, or initializes and pushes a new token to the token array.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Either pushes the specified character to the current token if the current token is an expression, or initializes and pushes a new token to the token array.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$char</var></dt>
+					<dd>The character(s) to push</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="popToken" id="_popToken">
+
+		<td class="attributes"><code>
+			 protected 
+
+			<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_popToken">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#300-309" title="Go to source code">popToken</a>( )</code>
+
+		<div class="description short">
+			<p>Pops a token from the end of the token array</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Pops a token from the end of the token array</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code><br>the popped token
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCurrToken" id="_getCurrToken">
+
+		<td class="attributes"><code>
+			 protected 
+
+			<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCurrToken">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#311-320" title="Go to source code">getCurrToken</a>( )</code>
+
+		<div class="description short">
+			<p>Gets the current token (the last token in the token array)</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the current token (the last token in the token array)</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a></code>|null<br>The current token, or null if no tokens are in the array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="tokenize" id="_tokenize">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a>[]</code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_tokenize">#</a>
+		<code><a href="source-class-WPGMZA.Selector.Tokenizer.html#322-547" title="Go to source code">tokenize</a>( <span>string <var>$str</var></span> )</code>
+
+		<div class="description short">
+			<p>Attempts to tokenize the specified string</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Attempts to tokenize the specified string</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$str</var></dt>
+					<dd>The input string</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.Token.html">WPGMZA\Selector\Token</a>[]</code><br>An array of tokens parsed from the string
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ParseException.html">WPGMZA\Selector\ParseException</a></code><br>When parsing the string fails due to invalid CSS
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="tokens" id="$tokens">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Tokenizer.html#245" title="Go to source code"><var>$tokens</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$tokens" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="prevToken" id="$prevToken">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.Tokenizer.html#246" title="Go to source code"><var>$prevToken</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$prevToken" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.42
+Version: 7.10.45
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,24 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.46 :- Low priority
+ * All PHP classes and methods now have documentation blocks
+ * Server side documentation added in /docs/php
+ *
+ * 7.10.45 :- 2018-11-12 :- Medium priority
+ * Fixed places autocomplete not initializing with modern store locator
+ * Fixed conflict with Autoptimize with large amounts of data by bypassing CSS optimization where shortcode is present
+ * Enter key now triggers search on modern store locator
+ *
+ * 7.10.44 :- 2018-11-05 :- Medium priority
+ * Fixed Modern Store Locator Circle not working when Google Maps geometry library not loaded
+ * Fixed legacy-map-edit-page.js not enqueued when Gold add-on activated (with Pro >= 7.10.30)
+ * Fixed store locator circle color settings not respected in OpenLayers
+ * Improved unresolved dependency report, now reports requirements
+ *
+ * 7.10.43 :- 2018-10-31 :- High priority
+ * Improved previous security fix
+ *
  * 7.10.42 :- 2018-10-25 :- High priority
  * Closed potential XSS vulnerability in PHP_SELF on map edit page
  *
@@ -3082,6 +3100,8 @@ function wpgmaps_tag_basic( $atts ) {
 
     do_action("wpgooglemaps_hook_user_js_after_localize",$res);
 
+	// Autoptimize fix, bypass CSS where our map is present as large amounts of inline JS (our localized data) crashes their plugin. Added at their advice.
+	add_filter('autoptimize_filter_css_noptimize', '__return_true');
     
     return $ret_msg;
 }
@@ -6828,11 +6848,12 @@ if (function_exists('wpgmza_register_pro_version')) {
     add_action('wp_ajax_delete_rectangle', 'wpgmaps_action_callback_pro');
     add_action('template_redirect','wpgmaps_check_shortcode');
 
-    if (function_exists('wpgmza_register_gold_version')) {
-        add_action('admin_head', 'wpgmaps_admin_javascript_gold');
-    } else {
-        add_action('admin_head', 'wpgmaps_admin_javascript_pro');
-    }
+    if (function_exists('wpgmza_register_gold_version') && version_compare($wpgmza_pro_version, '7.10.29', '<=')) {
+		// Deprecated with Pro >= 7.10.30, where legacy-map-edit-page.js is used instead
+		add_action('admin_head', 'wpgmaps_admin_javascript_gold');
+	}else{
+		add_action('admin_head', 'wpgmaps_admin_javascript_pro');
+	}
 
     global $wpgmza_pro_version;
     $wpgmza_float_version = floatval( $wpgmza_pro_version );

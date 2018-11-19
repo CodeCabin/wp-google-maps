@@ -1,0 +1,4 @@
+parameters:
+    visibility_levels: [public] # array
+    annotation_groups: [todo, notes] # array
+    overwrite: true # bool

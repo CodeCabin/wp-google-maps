@@ -6,8 +6,11 @@
 jQuery(function($) {
 	
 	/**
-	 * This module is the modern store locator circle
-	 * @constructor
+	 * This is the base class the modern store locator circle. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.ModernStoreLocatorCircle
+	 * @constructor WPGMZA.ModernStoreLocatorCircle
+	 * @param {int} map_id The ID of the map this circle belongs to
+	 * @param {object} [settings] Settings to pass into this circle, such as strokeColor
 	 */
 	WPGMZA.ModernStoreLocatorCircle = function(map_id, settings) {
 		var self = this;
@@ -62,6 +65,12 @@ jQuery(function($) {
 			this.setOptions(settings);
 	};
 	
+	/**
+	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {function} The appropriate contructor
+	 */
 	WPGMZA.ModernStoreLocatorCircle.createInstance = function(map, settings) {
 		
 		if(WPGMZA.settings.engine == "google-maps")
@@ -71,18 +80,39 @@ jQuery(function($) {
 		
 	};
 	
+	/**
+	 * Abstract function to initialize the canvas layer
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.initCanvasLayer = function() {
 		
 	}
 	
+	/**
+	 * Handles the map viewport being resized
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.onResize = function(event) { 
 		this.draw();
 	};
 	
+	/**
+	 * Updates and redraws the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.onUpdate = function(event) { 
 		this.draw();
 	};
 	
+	/**
+	 * Sets options on the circle (for example, strokeColor)
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {object} options An object of options to iterate over and set on this circle.
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.setOptions = function(options) {
 		for(var name in options)
 		{
@@ -95,30 +125,72 @@ jQuery(function($) {
 		}
 	};
 	
+	/**
+	 * Gets the resolution scale for drawing on the circles canvas.
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {number} The device pixel ratio, or 1 where that is not present.
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getResolutionScale = function() {
 		return window.devicePixelRatio || 1;
 	};
 	
+	/**
+	 * Returns the center of the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {object} A latLng literal
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getCenter = function() {
 		return this.getPosition();
 	};
 	
+	/**
+	 * Sets the center of the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {WPGMZA.LatLng|object} A LatLng literal or instance of WPGMZA.LatLng
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.setCenter = function(value) {
 		this.setPosition(value);
 	};
 	
+	/**
+	 * Gets the center of the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {object} The center as a LatLng literal
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getPosition = function() {
 		return this.settings.center;
 	};
 	
+	/**
+	 * Alias for setCenter
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.setPosition = function(position) {
 		this.settings.center = position;
 	};
 	
+	/**
+	 * Gets the circle radius, in kilometers
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {number} The circles radius, in kilometers
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getRadius = function() {
 		return this.settings.radius;
 	};
 	
+	/**
+	 * Sets the circles radius, in kilometers
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {number} radius The radius, in kilometers
+	 * @throws Invalid radius
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.setRadius = function(radius) {
 		
 		if(isNaN(radius))
@@ -127,39 +199,77 @@ jQuery(function($) {
 		this.settings.radius = radius;
 	};
 	
-	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function(visible) {
+	/**
+	 * Gets the visibility of the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @return {bool} Whether or not the circle is visible
+	 */
+	WPGMZA.ModernStoreLocatorCircle.prototype.getVisible = function() {
 		return this.settings.visible;
 	};
 	
+	/**
+	 * Sets the visibility of the circle
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {bool} visible Whether the circle should be visible
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.setVisible = function(visible) {
 		this.settings.visible = visible;
 	};
 	
 	/**
-	 * This function transforms a km radius into canvas space
-	 * @return number
+	 * Abstract function to get the transformed circle radius (see subclasses)
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {number} km The input radius, in kilometers
+	 * @throws Abstract function called
 	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getTransformedRadius = function(km)
 	{
 		throw new Error("Abstract function called");
 	}
 	
+	/**
+	 * Abstract function to set the canvas context
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @param {string} type The context type
+	 * @throws Abstract function called
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getContext = function(type)
 	{
 		throw new Error("Abstract function called");
 	}
 	
+	/**
+	 * Abstract function to get the canvas dimensions
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 * @throws Abstract function called
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.getCanvasDimensions = function()
 	{
 		throw new Error("Abstract function called");
 	}
 	
+	/**
+	 * Validates the circle settings and corrects them where they are invalid
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.validateSettings = function()
 	{
 		if(!WPGMZA.isHexColorString(this.settings.color))
 			this.settings.color = "#63AFF2";
 	}
 	
+	/**
+	 * Draws the circle to the canvas
+	 * @method
+	 * @memberof WPGMZA.ModernStoreLocatorCircle
+	 */
 	WPGMZA.ModernStoreLocatorCircle.prototype.draw = function() {
 		
 		this.validateSettings();

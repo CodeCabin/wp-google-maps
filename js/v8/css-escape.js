@@ -1,8 +1,8 @@
 /**
- * @module WPGMZA.CSS
+ * Polyfill for CSS.escape, with thanks to @mathias
  * @namespace WPGMZA
+ * @module CSS
  * @requires WPGMZA
- * @summary Polyfill for CSS.escape, with thanks to @mathias
  */
 
 /*! https://mths.be/cssescape v1.5.1 by @mathias | MIT license */

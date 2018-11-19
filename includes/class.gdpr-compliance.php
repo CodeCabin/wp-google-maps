@@ -2,8 +2,15 @@
 
 namespace WPGMZA;
 
+/**
+ * This module handles all GDPR functionality for the plugin, including
+ * displaying notices, settings and handling logic
+ */
 class GDPRCompliance
 {
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
@@ -19,6 +26,10 @@ class GDPRCompliance
 		//$this->setDefaultSettings();
 	}
 	
+	/**
+	 * Gets the default GDPR settings
+	 * @return array An array of key value pairs where the key is the setting name
+	 */
 	public function getDefaultSettings()
 	{
 		return array(
@@ -49,26 +60,19 @@ class GDPRCompliance
 		);
 	}
 	
-	/*public function setDefaultSettings()
-	{
-		$settings = get_option('WPGMZA_OTHER_SETTINGS');
-		
-		if(empty($settings))
-			$settings = array();
-		
-		if(isset($settings['wpgmza_gdpr_notice']))
-			return;
-		
-		$settings = array_merge($settings, $this->getDefaultSettings());
-		
-		update_option('WPGMZA_OTHER_SETTINGS', $settings);
-	}*/
-	
+	/**
+	 * Hooks into wpgmza_plugin_get_default_settings filter, to add the default GDPR settings
+	 * @param array The settings array passed in by the Plugin instance
+	 */
 	public function onPluginGetDefaultSettings($settings)
 	{
 		return array_merge($settings, $this->getDefaultSettings());
 	}
 	
+	/**
+	 * Called when the user dismisses the "check our updated privacy policy" admin notice, this call is made over AJAX. This sets a flag so the notice isn't displayed again.
+	 * @return void
+	 */
 	public function onPrivacyPolicyNoticeDismissed()
 	{
 		$wpgmza_other_settings = get_option('WPGMZA_OTHER_SETTINGS');
@@ -83,6 +87,10 @@ class GDPRCompliance
 		exit;
 	}
 	
+	/**
+	 * Called by onGlobalSettingsTabContent to add the content to our GDPR tab on the settings page, triggered by the filter wpgmza_global_settings_tab_content.
+	 * @return DOMDocument The GDPR tab content
+	 */
 	protected function getSettingsTabContent()
 	{
 		global $wpgmza;
@@ -102,6 +110,11 @@ class GDPRCompliance
 		return $document;
 	}
 	
+	/**
+	 * Gets the HTML for the GDPR notice to display on the front end.
+	 * @param bool $checkbox Whether to include a consent checkbox.
+	 * @return string The HTML string for the GDPR notice
+	 */
 	public function getNoticeHTML($checkbox=true)
 	{
 		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
@@ -131,6 +144,10 @@ class GDPRCompliance
 		return $document->saveInnerBody();
 	}
 	
+	/**
+	 * Gets the HTML for the back end "check our updated privacy policy" notice. This will return an empty string if the notice has already been dismissed.
+	 * @return string The notice HTML.
+	 */
 	public function getPrivacyPolicyNoticeHTML()
 	{
 		global $wpgmza;
@@ -145,73 +162,40 @@ class GDPRCompliance
 			";
 	}
 	
+	/**
+	 * Gets the consent prompt HTML, including the consent button.
+	 * @return string The prompt HTML.
+	 */
 	public function getConsentPromptHTML()
 	{
 		return '<div>' . $this->getNoticeHTML(false) . "<p class='wpgmza-centered'><button class='wpgmza-api-consent'>" . __('I agree', 'wp-google-maps') . "</button></div></p>";
 	}
 	
+	/**
+	 * Callback for the wpgmza_global_settings_tabs filter. This adds the GDPR tab. Please note this is the tab itself, as opposed to the tab content.
+	 * @param string $input The HTML string passed in by the filter.
+	 * @return string The HTML for the tab.
+	 */
 	public function onGlobalSettingsTabs($input)
 	{
 		return $input . "<li><a href=\"#wpgmza-gdpr-compliance\">".__("GDPR Compliance","wp-google-maps")."</a></li>";
 	}
 	
+	/**
+	 * Callback for the wpgmza_global_settings_tab_content filter. This adds the GPDR tab content. Please note this is for the tab content, as opposed to the tab itself.
+	 * @param string $input The HTML string passed in by the filter.
+	 * @return string The HTML for the tab content.
+	 */
 	public function onGlobalSettingsTabContent($input)
 	{
 		$document = $this->getSettingsTabContent();
 		return $input . $document->saveInnerBody();
 	}
 	
-	/*public function onAdminNotices()
-	{
-		global $wpgmza;
-		
-		$settings = get_option('WPGMZA_OTHER_SETTINGS');
-		
-		if(!empty($settings['wpgmza_gdpr_enabled']))
-			return;
-		
-		if(!empty($_COOKIE['wpgmza-gdpr-user-has-dismissed-admin-warning']))
-			return;
-		
-		echo '
-			<div class="notice admin-notice notice-error">
-				<p>
-					<strong>
-						' . __('WP Google Maps - Warning - GDPR Compliance Disabled - Action Required', 'wp-google-maps') . '
-					</strong>
-				</p>
-				<p>
-					' . __('GDPR compliance has been disabled, read more about the implications of this here: ', 'wp-google-maps') . '
-					<a href="https://www.eugdpr.org/" target="_blank">' . __('EU GDPR', 'wp-google-maps') . '</a>
-				</p>
-				<p>
-					' . __('Additionally please take a look at WP Google Maps <a href="https://www.wpgmaps.com/privacy-policy">Privacy Policy</a>') . '
-				</p>
-				<p>
-					' . __('It is highly recommended that you enable GDPR compliance to ensure your user data is regulated.') . '
-				</p>
-				
-				<form action="' . admin_url('admin-post.php') . '" method="POST">
-					<input type="hidden" name="action" value="wpgmza_dismiss_admin_gdpr_warning"/>
-					<input type="hidden" name="redirect" value="' . $_SERVER['REQUEST_URI'] . '"/>
-				
-					<p>
-						<a href="' . admin_url('admin.php?page=wp-google-maps-menu-settings') . '" class="button button-secondary">' . __('Privacy Settings', 'wp-google-maps') . '</a>
-					
-						<button type="submit" class="button button-primary" style="background-color: #DC3232 !important; border: none !important; box-shadow: 0 1px 0 #DA2825; text-shadow: 0px -1px 1px #DA2825">' . __('Dismiss & Accept Responsibility', 'wp-google-maps') . '</button>
-					</p>
-				</form>
-			</div>
-		';
-	}
-	
-	public function onDismissAdminWarning()
-	{
-		setcookie('wpgmza-gdpr-user-has-dismissed-admin-warning', 'true', 2147483647);
-		wp_redirect($_POST['redirect']);
-		exit;
-	}*/
-	
+	/**
+	 * Handles POST data when the settings page saves.
+	 * @return void
+	 */
 	public function onPOST()
 	{
 		$document = $this->getSettingsTabContent();

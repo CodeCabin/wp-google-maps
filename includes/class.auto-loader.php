@@ -1,11 +1,21 @@
 <?php
-
 namespace WPGMZA;
 
+/**
+ * The AutoLoader class can be used to scan a directory and register any
+ * classes found in the PHP files there, recursively.
+ *
+ * These classes will be registered for autoloading.
+ *
+ * This class may be built on to use a JSON cache in the future.
+ */
 class AutoLoader
 {
 	protected $filenamesByClass;
 	
+	/**
+	 * The AutoLoader constructor.
+	 */
 	public function __construct()
 	{
 		 // TODO: Maybe cache these in a JSON object and only refreshin developer mode
@@ -13,6 +23,11 @@ class AutoLoader
 		 $this->filenamesByClass = array();
 	}
 	
+	/**
+	 * Updates the JSON cache of classes
+	 * @todo implement
+	 * @return void
+	 */
 	protected function updateCache()
 	{
 		// TODO: Not yet implemented
@@ -27,8 +42,9 @@ class AutoLoader
 	}
 	
 	/**
-	 * Gets all the defined classes in a file
-	 * @return string The fully qualified class
+	 * Gets the first class defined in the specified file
+	 * @param string $file The file to scan for a class
+	 * @return string The fully qualified class, or NULL if none found
 	 * NB: With thanks to netcoder - https://stackoverflow.com/questions/7153000/get-class-name-from-file
 	 */
 	public function getClassesInFile($file)
@@ -88,6 +104,11 @@ class AutoLoader
 		return $result;
 	}
 	
+	/**
+	 * Gets all the classes in PHP files in the specified path, recursively
+	 * @param string $path The path to scan
+	 * @return array An array of all the fully qualified 
+	 */
 	public function getClassesInPathByFilename($path)
 	{
 		// var_dump("Getting classes in $path");
@@ -107,6 +128,11 @@ class AutoLoader
 		return $results;
 	}
 	
+	/**
+	 * Recursively scans all PHP files in the given patch and registers any classes found.
+	 * @param string $path The path to scan
+	 * @return void
+	 */
 	public function registerClassesInPath($path)
 	{
 		global $wpgmza;
@@ -125,6 +151,12 @@ class AutoLoader
 		$this->updateCache();
 	}
 	
+	/**
+	 * This function is registered with PHPs native spl_autoloader_register to require the file associated with the class. This function is to be treated as private and should only be called by PHP itself.
+	 * @internal
+	 * @param string $class The class passed in by PHP
+	 * @return void
+	 */
 	public function callback($class)
 	{
 		$pattern = "/^(\\\\?)WPGMZA/";

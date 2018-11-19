@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: google-api-error-handler.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: google-api-error-handler.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace WPGMZA
+ * @module GoogleAPIErrorHandler
+ * @requires WPGMZA
+ */
+jQuery(function($) { 
+
+	/**
+	 * This class catches Google Maps API errors and presents them in a friendly manner, before sending them on to the consoles default error handler.
+	 * @class WPGMZA.GoogleAPIErrorHandler
+	 * @constructor WPGMZA.GoogleAPIErrorHandler
+	 * @memberof WPGMZA
+	 */
+	WPGMZA.GoogleAPIErrorHandler = function() {
+		
+		var self = this;
+		
+		// Don't do anything if Google isn't the selected API
+		if(WPGMZA.settings.engine != "google-maps")
+			return;
+		
+		// Only allow on the map edit page, or front end if user has administrator role
+		if(!(WPGMZA.currentPage == "map-edit" || (WPGMZA.is_admin == 0 &amp;&amp; WPGMZA.userCanAdministrator == 1)))
+			return;
+		
+		this.element = $(WPGMZA.html.googleMapsAPIErrorDialog);
+		
+		if(WPGMZA.is_admin == 1)
+			this.element.find(".wpgmza-front-end-only").remove();
+		
+		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
+		this.templateListItem = this.element.find("li.template").remove();
+		
+		this.messagesAlreadyDisplayed = {};
+		
+		if(WPGMZA.settings.developer_mode)
+			return;
+		
+		// Override error function
+		var _error = console.error;
+		
+		console.error = function(message)
+		{
+			self.onErrorMessage(message);
+			
+			_error.apply(this, arguments);
+		}
+	}
+	
+	/**
+	 * Overrides console.error to scan the error message for Google Maps API error messages.
+	 * @method 
+	 * @memberof WPGMZA.GoogleAPIErrorHandler
+	 * @param {string} message The error message passed to the console
+	 */
+	WPGMZA.GoogleAPIErrorHandler.prototype.onErrorMessage = function(message)
+	{
+		var m;
+		var regexURL = /http(s)?:\/\/[^\s]+/gm;
+		
+		if((m = message.match(/You have exceeded your (daily )?request quota for this API/)) || (m = message.match(/This API project is not authorized to use this API/)))
+		{
+			var urls = message.match(regexURL);
+			this.addErrorMessage(m[0], urls);
+		}
+		else if(m = message.match(/^Google Maps.+error: (.+)\s+(http(s?):\/\/.+)/m))
+		{
+			this.addErrorMessage(m[1].replace(/([A-Z])/g, " $1"), [m[2]]);
+		}
+	}
+	
+	/**
+	 * Called by onErrorMessage when a Google Maps API error is picked up, this will add the specified message to the Maps API error message dialog, along with URLs to compliment it. This function ignores duplicate error messages.
+	 * @method
+	 * @memberof WPGMZA.GoogleAPIErrorHandler
+	 * @param {string} message The message, or part of the message, intercepted from the console
+	 * @param {array} [urls] An array of URLs relating to the error message to compliment the message.
+	 */
+	WPGMZA.GoogleAPIErrorHandler.prototype.addErrorMessage = function(message, urls)
+	{
+		if(this.messagesAlreadyDisplayed[message])
+			return;
+		
+		var li = this.templateListItem.clone();
+		$(li).find(".wpgmza-message").html(message);
+		
+		var buttonContainer = $(li).find(".wpgmza-documentation-buttons");
+		
+		var buttonTemplate = $(li).find(".wpgmza-documentation-buttons>a");
+		buttonTemplate.remove();
+		
+		if(urls &amp;&amp; urls.length)
+		{
+			for(var i = 0; i &lt; urls.length; i++)
+			{
+				var url = urls[i];
+				var button = buttonTemplate.clone();
+				var icon = "fa-external-link";
+				var text = WPGMZA.localized_strings.documentation;
+				
+				button.attr("href", urls[i]);
+				
+				if(url.match(/google.+documentation/))
+				{
+					icon = "fa-google";
+				}
+				else if(url.match(/maps-no-account/))
+				{
+					icon = "fa-wrench"
+					text = WPGMZA.localized_strings.verify_project;
+				}
+				else if(url.match(/console\.developers\.google/))
+				{
+					icon = "fa-wrench";
+					text = WPGMZA.localized_strings.api_dashboard;
+				}
+				
+				$(button).find("i").addClass(icon);
+				$(button).append(text);
+			}
+			
+			buttonContainer.append(button);
+		}
+		
+		$(this.errorMessageList).append(li);
+		
+		if(!this.dialog)
+			this.dialog = $(this.element).remodal();
+		
+		switch(this.dialog.getState())
+		{
+			case "open":
+			case "opened":
+			case "opening":
+				break;
+				
+			default:
+				this.dialog.open();
+				break;
+		}
+		
+		this.messagesAlreadyDisplayed[message] = true;
+	}
+	
+	WPGMZA.googleAPIErrorHandler = new WPGMZA.GoogleAPIErrorHandler();
+
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Compatibility.html">Compatibility</a></li><li><a href="module-CSS.html">CSS</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleAPIErrorHandler.html">GoogleAPIErrorHandler</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-MapSettingsPage.html">MapSettingsPage</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-NativeMapsAppIcon.html">NativeMapsAppIcon</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-PopoutPanel.html">PopoutPanel</a></li><li><a href="module-Version.html">Version</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li><li><a href="WPGMZA.module_RestAPI.html">RestAPI</a></li></ul><h3>Classes</h3><ul><li><a href="WPGMZA.Circle.html">Circle</a></li><li><a href="WPGMZA.Compatibility.html">Compatibility</a></li><li><a href="WPGMZA.Distance.html">Distance</a></li><li><a href="WPGMZA.Event.html">Event</a></li><li><a href="WPGMZA.EventDispatcher.html">EventDispatcher</a></li><li><a href="WPGMZA.FriendlyError.html">FriendlyError</a></li><li><a href="WPGMZA.Geocoder.html">Geocoder</a></li><li><a href="WPGMZA.GoogleAPIErrorHandler.html">GoogleAPIErrorHandler</a></li><li><a href="WPGMZA.InfoWindow.html">InfoWindow</a></li><li><a href="WPGMZA.LatLng.html">LatLng</a></li><li><a href="WPGMZA.LatLngBounds.html">LatLngBounds</a></li><li><a href="WPGMZA.Map.html">Map</a></li><li><a href="WPGMZA.MapEngineDialog.html">MapEngineDialog</a></li><li><a href="WPGMZA.MapObject.html">MapObject</a></li><li><a href="WPGMZA.MapSettings.html">MapSettings</a></li><li><a href="WPGMZA.MapSettingsPage.html">MapSettingsPage</a></li><li><a href="WPGMZA.Marker.html">Marker</a></li><li><a href="WPGMZA.ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="WPGMZA.NativeMapsAppIcon.html">NativeMapsAppIcon</a></li><li><a href="WPGMZA.Polygon.html">Polygon</a></li><li><a href="WPGMZA.Polyline.html">Polyline</a></li><li><a href="WPGMZA.PopoutPanel.html">PopoutPanel</a></li><li><a href="WPGMZA.RestAPI.html">RestAPI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 14 2018 16:51:25 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

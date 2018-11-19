@@ -11,6 +11,9 @@ require_once(plugin_dir_path(__DIR__) . 'google-maps/class.google-maps-loader.ph
  * here, you should probably implement it in ProMap or Map instead
  */
 
+/**
+ * This module is currently redundant
+ */
 class GoogleMap extends Map
 {
 	public function __construct($id, $shortcode_atts=null)

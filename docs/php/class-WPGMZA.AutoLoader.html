@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\AutoLoader</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li>
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
+				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
+				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
+				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
+				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
+				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsLoader.html" class="deprecated">GoogleMapsLoader</a></li>
+				<li><a href="class-WPGMZA.LatLng.html">LatLng</a></li>
+				<li><a href="class-WPGMZA.Map.html">Map</a></li>
+				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
+				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
+				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
+				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
+				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
+				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
+				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
+				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
+				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
+				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.html" title="Summary of WPGMZA"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class AutoLoader</h1>
+
+
+	<div class="description">
+	<p>The AutoLoader class can be used to scan a directory and register any
+classes found in the PHP files there, recursively.</p>
+
+<p>These classes will be registered for autoloading.</p>
+
+<p>This class may be built on to use a JSON cache in the future.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.AutoLoader.html#4-178" title="Go to source code">class.auto-loader.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.AutoLoader.html#16-24" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			<p>The AutoLoader constructor.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>The AutoLoader constructor.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="updateCache" id="_updateCache">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateCache">#</a>
+		<code><a href="source-class-WPGMZA.AutoLoader.html#26-42" title="Go to source code">updateCache</a>( )</code>
+
+		<div class="description short">
+			<p>Updates the JSON cache of classes</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Updates the JSON cache of classes</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getClassesInFile" id="_getClassesInFile">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getClassesInFile">#</a>
+		<code><a href="source-class-WPGMZA.AutoLoader.html#44-105" title="Go to source code">getClassesInFile</a>( <span>string <var>$file</var></span> )</code>
+
+		<div class="description short">
+			<p>Gets the first class defined in the specified file</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets the first class defined in the specified file</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>The file to scan for a class</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br><p>The fully qualified class, or NULL if none found
+NB: With thanks to netcoder - https://stackoverflow.com/questions/7153000/get-class-name-from-file</p>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getClassesInPathByFilename" id="_getClassesInPathByFilename">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getClassesInPathByFilename">#</a>
+		<code><a href="source-class-WPGMZA.AutoLoader.html#107-129" title="Go to source code">getClassesInPathByFilename</a>( <span>string <var>$path</var></span> )</code>
+
+		<div class="description short">
+			<p>Gets all the classes in PHP files in the specified path, recursively</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets all the classes in PHP files in the specified path, recursively</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd>The path to scan</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>An array of all the fully qualified
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="registerClassesInPath" id="_registerClassesInPath">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_registerClassesInPath">#</a>
+		<code><a href="source-class-WPGMZA.AutoLoader.html#131-152" title="Go to source code">registerClassesInPath</a>( <span>string <var>$path</var></span> )</code>
+
+		<div class="description short">
+			<p>Recursively scans all PHP files in the given patch and registers any classes found.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Recursively scans all PHP files in the given patch and registers any classes found.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd>The path to scan</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="filenamesByClass" id="$filenamesByClass">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.AutoLoader.html#14" title="Go to source code"><var>$filenamesByClass</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$filenamesByClass" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

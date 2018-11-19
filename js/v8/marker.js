@@ -4,9 +4,14 @@
  * @requires WPGMZA
  */
 jQuery(function($) {
+	
 	/**
-	 * Constructor
-	 * @param json to load (optional)
+	 * Base class for markers. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.Marker
+	 * @constructor WPGMZA.Marker
+	 * @memberof WPGMZA
+	 * @param {object} [row] Data to map to this object (eg from the database)
+	 * @augments WPGMZA.MapObject
 	 */
 	WPGMZA.Marker = function(row)
 	{
@@ -47,10 +52,10 @@ jQuery(function($) {
 	WPGMZA.Marker.prototype.constructor = WPGMZA.Marker;
 	
 	/**
-	 * Gets the constructor. You can use this instead of hard coding the parent class when inheriting,
-	 * which is helpful for making subclasses that work with Basic only, Pro, Google, OL or a 
-	 * combination of the four.
-	 * @return function
+	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @return {function} The appropriate contructor
 	 */
 	WPGMZA.Marker.getConstructor = function()
 	{
@@ -70,6 +75,12 @@ jQuery(function($) {
 		}
 	}
 	
+	/**
+	 * Creates an instance of a marker, <strong>please <em>always</em> use this function rather than calling the constructor directly</strong>.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {object} [row] Data to map to this object (eg from the database)
+	 */
 	WPGMZA.Marker.createInstance = function(row)
 	{
 		var constructor = WPGMZA.Marker.getConstructor();
@@ -80,6 +91,12 @@ jQuery(function($) {
 	WPGMZA.Marker.ANIMATION_BOUNCE			= "1";
 	WPGMZA.Marker.ANIMATION_DROP			= "2";
 	
+	/**
+	 * Called when the marker has been added to a map
+	 * @method
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 */
 	WPGMZA.Marker.prototype.onAdded = function(event)
 	{
 		var self = this;
@@ -103,8 +120,9 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * This function will hide the last info the user interacted with
-	 * @return void
+	 * This function will hide the last info the user interacted with, so that only one InfoWindow can be open at any given moment.
+	 * @method
+	 * @memberof WPGMZA.Marker
 	 */
 	WPGMZA.Marker.prototype.hidePreviousInteractedInfoWindow = function()
 	{
@@ -114,6 +132,11 @@ jQuery(function($) {
 		this.map.lastInteractedMarker.infoWindow.close();
 	}
 	
+	/**
+	 * Placeholder for future use
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 */
 	WPGMZA.Marker.prototype.openInfoWindow = function()
 	{
 		//this.hidePreviousInteractedInfoWindow();
@@ -121,22 +144,43 @@ jQuery(function($) {
 		//this.map.lastInteractedMarker = this;
 	}
 	
+	/**
+	 * Called when the marker has been clicked
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 */
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
 		
 	}
 	
+	/**
+	 * Called when the marker has been selected, either by the icon being clicked, or from a marker listing
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 */
 	WPGMZA.Marker.prototype.onSelect = function(event)
 	{
 		this.openInfoWindow();
 	}
 	
+	/**
+	 * Called when the user hovers the mouse over this marker
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 */
 	WPGMZA.Marker.prototype.onMouseOver = function(event)
 	{
 		if(this.map.settings.info_window_open_by == WPGMZA.InfoWindow.OPEN_BY_HOVER)
 			this.openInfoWindow();
 	}
 	
+	/**
+	 * Gets the marker icon image URL, without the protocol prefix
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @return {string} The URL to the markers icon image
+	 */
 	WPGMZA.Marker.prototype.getIcon = function()
 	{
 		function stripProtocol(url)
@@ -152,7 +196,9 @@ jQuery(function($) {
 	
 	/**
 	 * Gets the position of the marker
-	 * @return object
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @return {object} LatLng literal of this markers position
 	 */
 	WPGMZA.Marker.prototype.getPosition = function()
 	{
@@ -163,8 +209,10 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Sets the position of the marker
-	 * @return void
+	 * Sets the position of the marker.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {object|WPGMZA.LatLng} latLng The position either as a LatLng literal or instance of WPGMZA.LatLng.
 	 */
 	WPGMZA.Marker.prototype.setPosition = function(latLng)
 	{
@@ -181,8 +229,9 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Set the marker animation
-	 * @return void
+	 * Returns the animation set on this marker (see WPGMZA.Marker ANIMATION_* constants).
+	 * @method
+	 * @memberof WPGMZA.Marker
 	 */
 	WPGMZA.Marker.prototype.getAnimation = function(animation)
 	{
@@ -190,8 +239,10 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Set the marker animation
-	 * @return void
+	 * Sets the animation for this marker (see WPGMZA.Marker ANIMATION_* constants).
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {int} animation The animation to set.
 	 */
 	WPGMZA.Marker.prototype.setAnimation = function(animation)
 	{
@@ -200,16 +251,19 @@ jQuery(function($) {
 	
 	/**
 	 * Get the marker visibility
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Marker
 	 */
-	WPGMZA.Marker.prototype.getVisible = function(visible)
+	WPGMZA.Marker.prototype.getVisible = function()
 	{
 		
 	}
 	
 	/**
-	 * Set the marker visibility. This is used by the store locator etc. and is not a setting
-	 * @return void
+	 * Set the marker visibility. This is used by the store locator etc. and is not a setting. Closes the InfoWindow if the marker is being hidden and the InfoWindow for this marker is open.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {bool} visible Whether the marker should be visible or not
 	 */
 	WPGMZA.Marker.prototype.setVisible = function(visible)
 	{
@@ -217,6 +271,12 @@ jQuery(function($) {
 			this.infoWindow.close();
 	}
 	
+	/**
+	 * Sets the map this marker should be displayed on. If it is already on a map, it will be removed from that map first, before being added to the supplied map.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {WPGMZA.Map} map The map to add this markmer to
+	 */
 	WPGMZA.Marker.prototype.setMap = function(map)
 	{
 		if(!map)
@@ -230,21 +290,45 @@ jQuery(function($) {
 		map.addMarker(this);
 	}
 	
+	/**
+	 * Gets whether this marker is draggable or not
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @return {bool} True if the marker is draggable
+	 */
 	WPGMZA.Marker.prototype.getDraggable = function()
 	{
 		
 	}
 	
+	/**
+	 * Sets whether the marker is draggable
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {bool} draggable Set to true to make this marker draggable
+	 */
 	WPGMZA.Marker.prototype.setDraggable = function(draggable)
 	{
 		
 	}
 	
-	WPGMZA.Marker.prototype.setOptions = function()
+	/**
+	 * Sets options on this marker
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {object} options An object containing the options to be set
+	 */
+	WPGMZA.Marker.prototype.setOptions = function(options)
 	{
 		
 	}
 	
+	/**
+	 * Centers the map this marker belongs to on this marker
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @throws Marker hasn't been added to a map
+	 */
 	WPGMZA.Marker.prototype.panIntoView = function()
 	{
 		if(!this.map)
@@ -254,8 +338,10 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Returns the marker as a JSON object
-	 * @return object
+	 * Overrides MapObject.toJSON, serializes the marker to a JSON object
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @return {object} A JSON representation of this marker
 	 */
 	WPGMZA.Marker.prototype.toJSON = function()
 	{
