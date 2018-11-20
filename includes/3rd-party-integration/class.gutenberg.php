@@ -60,8 +60,10 @@ class Gutenberg extends \WPGMZA\Factory
 		if(empty($wpgmza->settings->developer_mode))
 			return;
 		
+		// NB: Commented out, false positives were causing this file to be wiped
+		
 		// Strip out JS module code for browser compatibility
-		$filename = plugin_dir_path(WPGMZA_FILE) . 'js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js';
+		/*$filename = plugin_dir_path(WPGMZA_FILE) . 'js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js';
 		
 		$contents = file_get_contents($filename);
 		
@@ -69,7 +71,10 @@ class Gutenberg extends \WPGMZA\Factory
 		
 		$contents = preg_replace('/exports\.default = /', '', $contents);
 		
-		file_put_contents($filename, $contents);
+		if(empty($contents))
+			throw new \Exception('Gutenberg module would be blank');
+		
+		file_put_contents($filename, $contents);*/
 	}
 	
 	/**

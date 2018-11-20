@@ -105,7 +105,7 @@ class GoogleMapsAPILoader
 		
 		// Default params for google maps
 		$params = array(
-			'v' 		=> '3.31',
+			'v' 		=> 'quarterly',
 			'language'	=> $locale,
 			'suffix'	=> $suffix
 		);
@@ -119,10 +119,8 @@ class GoogleMapsAPILoader
 			$params['key'] = get_option('wpgmza_temp_api');
 		
 		// API Version
-		$settings = (array)GoogleMapsAPILoader::$settings;
-		
-		if(!empty($settings['wpgmza_api_version']))
-			$params['v'] = $settings['wpgmza_api_version'];
+		// NB: Fixed to "montly" as of 7.10.46
+		$settings['wpgmza_api_version'] = 'quarterly';
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');

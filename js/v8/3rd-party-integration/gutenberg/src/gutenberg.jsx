@@ -12,7 +12,7 @@
  * Internal block libraries
  */
 jQuery(function($) {
-	
+
 	if(!window.wp || !wp.i18n || !wp.blocks)
 		return;
 	

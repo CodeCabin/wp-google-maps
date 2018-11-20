@@ -239,13 +239,6 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
         }
         if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
 
-        
-        $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-        if (isset($wpgmza_settings['wpgmza_api_version']) && $wpgmza_settings['wpgmza_api_version'] != "") {
-            $api_version_string = "v=".$wpgmza_settings['wpgmza_api_version']."&";
-        } else {
-            $api_version_string = "v=3.exp&";
-        }
         ?>
         <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
         <script type="text/javascript" >

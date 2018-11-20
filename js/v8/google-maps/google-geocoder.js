@@ -5,6 +5,14 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * Subclass, used when Google is the maps engine. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.GoogleGeocoder
+	 * @constructor WPGMZA.GoogleGeocoder
+	 * @memberof WPGMZA
+	 * @augments WPGMZA.Geocoder
+	 * @see WPGMZA.Geocoder.createInstance
+	 */
 	WPGMZA.GoogleGeocoder = function()
 	{
 		

@@ -59,7 +59,7 @@ class GoogleMapsLoader
 		
 		// Default params for google maps
 		$params = array(
-			'v' 		=> '3.29',
+			'v' 		=> 'quarterly',
 			'language'	=> $locale,
 			'suffix'	=> $suffix
 		);
