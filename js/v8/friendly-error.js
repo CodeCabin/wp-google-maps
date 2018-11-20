@@ -5,6 +5,18 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * Deprecated
+	 * @class WPGMZA.FriendlyError
+	 * @constructor WPGMZA.FriendlyError
+	 * @memberof WPGMZA
+	 * @deprecated
+	 */
+	WPGMZA.FriendlyError = function()
+	{
+		
+	}
+	
 	/*var template = '\
 		<div class="notice notice-error"> \
 			<p> \

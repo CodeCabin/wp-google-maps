@@ -1,29 +1,5 @@
 <tr data-required-maps-engine='google-maps'>
 	<td>
-		<label><?php _e('Use Google Maps API:', 'wp-google-maps'); ?></label>
-	</td>
-	<td>
-		<select name="wpgmza_api_version">
-			<option value="3.exp">
-				<?php
-				_e('3.exp (Experimental)', 'wp-google-maps');
-				?>
-			</option>
-			<option value="3.31">
-				<?php
-				_e('3.31', 'wp-google-maps');
-				?>
-			</option>
-			<option value="3.30">
-				<?php
-				_e('3.30 (Retired)', 'wp-google-maps');
-				?>
-			</option>
-		</select>
-	</td>
-</tr>
-<tr data-required-maps-engine='google-maps'>
-	<td>
 		<label><?php _e('Load Maps Engine API:', 'wp-google-maps'); ?></label>
 	</td>
 	<td>

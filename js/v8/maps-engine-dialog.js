@@ -5,6 +5,13 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * The modal dialog presented to the user in the map edit page, prompting them to choose a map engine, if they haven't done so already
+	 * @class WPGMZA.MapEngineDialog
+	 * @constructor WPGMZA.MapEngineDialog
+	 * @memberof WPGMZA
+	 * @param {HTMLElement} element to create modal dialog from
+	 */
 	WPGMZA.MapsEngineDialog = function(element)
 	{
 		var self = this;
@@ -30,6 +37,12 @@ jQuery(function($) {
 		});
 	}
 	
+	/**
+	 * Triggered when an engine is selected. Makes an AJAX call to the server to save the selected engine.
+	 * @method
+	 * @memberof WPGMZA.MapEngineDialog
+	 * @param {object} event The click event from the selected button.
+	 */
 	WPGMZA.MapsEngineDialog.prototype.onButtonClicked = function(event)
 	{
 		$(event.target).prop("disabled", true);

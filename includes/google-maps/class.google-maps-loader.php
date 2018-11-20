@@ -2,16 +2,28 @@
 
 namespace WPGMZA;
 
-// TODO: Extend Factory
+/**
+ * This module loads the Google Maps API unconditionally (as opposed to the GoogleMapsAPILoader)
+ * @deprecated This functionality will be merged into one class with GoogleMapsAPILoader
+ * @see GoogleMapsAPILoader
+ */
 class GoogleMapsLoader
 {
 	private static $googleAPILoadCalled = false;
 	
+	/**
+	 * This will be handled by the Factory class
+	 * @deprecated
+	 */
 	public static function _createInstance()
 	{
 		return new GoogleMapsLoader();
 	}
 	
+	/**
+	 * This will be handled by the Factory class
+	 * @deprecated
+	 */
 	public static function createInstance()
 	{
 		return static::_createInstance();
@@ -19,7 +31,7 @@ class GoogleMapsLoader
 	
 	/**
 	 * Gets the parameters to be sent to the Google Maps API load call
-	 * @return array
+	 * @return array An array of key value parameters to be passed to the load URL
 	 */
 	protected function getGoogleMapsAPIParams()
 	{
@@ -47,10 +59,14 @@ class GoogleMapsLoader
 		
 		// Default params for google maps
 		$params = array(
-			'v' 		=> '3.29',
+			'v' 		=> 'quarterly',
 			'language'	=> $locale,
 			'suffix'	=> $suffix
 		);
+		
+		// Libraries
+		$libraries = array('geometry', 'places', 'visualization');
+		$params['libraries'] = implode(',', $libraries);
 		
 		// API Version
 		/*if(!empty(Plugin::$settings->api_version))
@@ -115,6 +131,10 @@ class GoogleMapsLoader
 		add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
 	}
 	
+	/**
+	 * Gets the HTML for the settings panel for this module, which appears in the general settings tab.
+	 * @return string The HTML string for the settings panel
+	 */
 	public function preventOtherGoogleMapsTag($tag, $handle, $src)
 	{
 		if(preg_match('/maps\.google/i', $src))

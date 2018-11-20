@@ -8,9 +8,12 @@ jQuery(function($) {
 	var Parent = WPGMZA.MapObject;
 	
 	/**
-	 * @class Circle
-	 * @summary Represents a generic circle. <b>Please do not instantiate this object directly, use createInstance</b>
-	 * @return {WPGMZA.Circle}
+	 * Base class for circles. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.Circle
+	 * @constructor WPGMZA.Circle
+	 * @memberof WPGMZA
+	 * @augments WPGMZA.MapObject
+	 * @see WPGMZA.Circle.createInstance
 	 */
 	WPGMZA.Circle = function(options, engineCircle)
 	{
@@ -28,8 +31,9 @@ jQuery(function($) {
 	WPGMZA.Circle.prototype.constructor = WPGMZA.Circle;
 	
 	/**
-	 * @function createInstance
-	 * @summary Creates an instance of a circle, <b>please always use this function rather than calling the constructor directly</b>
+	 * Creates an instance of a circle, <strong>please <em>always</em> use this function rather than calling the constructor directly</strong>.
+	 * @method
+	 * @memberof WPGMZA.Circle
 	 * @param {object} options Options for the object (optional)
 	 */
 	WPGMZA.Circle.createInstance = function(options)
@@ -45,7 +49,10 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function getCenter
+	 * Gets the circles center
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
 	 * @returns {WPGMZA.LatLng}
 	 */
 	WPGMZA.Circle.prototype.getCenter = function()
@@ -54,9 +61,11 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function setCenter
+	 * Sets the circles center
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
 	 * @param {object|WPGMZA.LatLng} latLng either a literal or as a WPGMZA.LatLng
-	 * @returns {void}
 	 */
 	WPGMZA.Circle.prototype.setCenter = function(latLng)
 	{
@@ -65,8 +74,11 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function getRadius
-	 * @summary Returns the circles radius in kilometers
+	 * Gets the circles radius, in kilometers
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
+	 * @param {object|WPGMZA.LatLng} latLng either a literal or as a WPGMZA.LatLng
 	 * @returns {WPGMZA.LatLng}
 	 */
 	WPGMZA.Circle.prototype.getRadius = function()
@@ -75,8 +87,11 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function setRadius
-	 * @param {number} The radius
+	 * Sets the circles radius, in kilometers
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
+	 * @param {number} radius The radius
 	 * @returns {void}
 	 */
 	WPGMZA.Circle.prototype.setRadius = function(radius)
@@ -85,8 +100,10 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function getMap
-	 * @summary Returns the map that this circle is being displayed on
+	 * Returns the map that this circle is being displayed on
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
 	 * @return {WPGMZA.Map}
 	 */
 	WPGMZA.Circle.prototype.getMap = function()
@@ -95,9 +112,11 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * @function setMap
-	 * @param {WPGMZA.Map} The target map
-	 * @summary Puts this circle on a map
+	 * Puts this circle on a map
+	 *
+	 * @method
+	 * @memberof WPGMZA.Circle
+	 * @param {WPGMZA.Map} map The target map
 	 * @return {void}
 	 */
 	WPGMZA.Circle.prototype.setMap = function(map)

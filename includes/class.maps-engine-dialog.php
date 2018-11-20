@@ -2,8 +2,15 @@
 
 namespace WPGMZA;
 
+/**
+ * This class represents the map engine selection dialog, which is presented to the user on the map edit page.
+ */
 class MapsEngineDialog
 {
+	/**
+	 * Processes AJAX POST when the user makes a selection
+	 * @return void
+	 */
 	public static function post()
 	{
 		$settings = get_option('WPGMZA_OTHER_SETTINGS');
@@ -17,6 +24,10 @@ class MapsEngineDialog
 		exit;
 	}
 	
+	/**
+	 * Echos the dialog HTML
+	 * @return void
+	 */
 	public function html()
 	{
 		?>

@@ -2,8 +2,14 @@
 
 namespace WPGMZA;
 
+/**
+ * Base class for remodal dependent modal dialogs. This class enqueues the relevant scripts and styles.
+ */
 class ModalDialog extends DOMDocument
 {
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		DOMDocument::__construct();

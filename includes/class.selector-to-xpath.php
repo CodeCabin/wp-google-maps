@@ -1,28 +1,61 @@
 <?php
+/**
+ * This file contains several classes used by DOMDocument to parse CSS selectors and return their XPath equivalents.
+ * These modules are mostly for internal use, however are documented here for convenience.
+ */
 
 namespace WPGMZA\Selector;
 
+/**
+ * Useful when debugging CSS selector to XPath query conversion
+ * @param string $str The string to output
+ */
 function trace($str)
 {
 	echo $str . "\r\n";
 }
 
+/**
+ * An exception thrown when parsing a CSS selector fails (ie failed to interpret the selector, before conversion starts)
+ */
 class ParseException extends \Exception
 {
+	/**
+	 * @var The CSS selector that caused this exception
+	 */
 	public $css;
 	
-	public function __construct($message, $code = 0, Exception $previous = null) {
+	/**
+	 * Constructor.
+	 * @param string $message The error message
+	 * @param int $code Unused, the error code
+	 * @param \Exception $previous The previous exception, used for exception chaining
+	 */
+	public function __construct($message, $code = 0, \Exception $previous = null) {
         \Exception::__construct($message, $code, $previous);
     }
 }
 
+/**
+ * An exception thrown when conversion from a CSS selector to an XPath query failed (ie the selector was successfully parsed, but conversion to it's XPath equivalent failed).
+ */
 class ConvertException extends \Exception
 {
+	/**
+	 * Constructor.
+	 * @param string $message The error message
+	 * @param int $code Unused, the error code
+	 * @param \Exception $previous The previous exception, used for exception chaining
+	 */
 	public function __construct($message, $code = 0, Exception $previous = null) {
         \Exception::__construct($message, $code, $previous);
     }
 }
 
+/**
+ * This class represents a CSS selector token
+ * @method __toString The "friendly" type of this token, tabs and then the raw string.
+ */
 class Token
 {
 	const OPEN_BRACKET							= '[';
@@ -54,6 +87,11 @@ class Token
 	public $type = null;
 	public $string;
 	
+	/**
+	 * Constructor.
+	 * @param string $type Any of the constants defined in this class.
+	 * @param string $string Either a string matching the values of the constants defined in this class, or where $type is IDENTIFIER, STRING or EXPRESSION, the string representing that element of the selector
+	 */
 	public function __construct($type, $string)
 	{
 		if(empty($string) && $string !== '0' || $string === '')
@@ -65,6 +103,10 @@ class Token
 		//trace("Created token '$string' with type " . $this->getFriendlyType() . "\r\n");
 	}
 	
+	/**
+	 * Retuns true if this token is a CSS combinator (eg > + ~)
+	 * @return bool
+	 */
 	public function isCombinator()
 	{
 		switch($this->type)
@@ -78,6 +120,10 @@ class Token
 		return false;
 	}
 	
+	/**
+	 * Returns true if this token is a CSS attribute operator (eg ^= *= |=)
+	 * @return bool
+	 */
 	public function isAttributeOperator()
 	{
 		switch($this->type)
@@ -94,6 +140,10 @@ class Token
 		return false;
 	}
 	
+	/**
+	 * Returns the "friendly" type name, eg "IDENTIFIER" for -1, "DOUBLE_QUOTE" for ".
+	 * @return string The constant name based on type value.
+	 */
 	public function getFriendlyType()
 	{
 		$ref = new \ReflectionClass(__CLASS__);
@@ -118,17 +168,31 @@ class Token
 	}
 }
 
+/**
+ * This class provides stream functions to navigate an array of tokens
+ */
 class TokenStream
 {
 	protected $tokens;
 	protected $cursor;
 	
+	/**
+	 * Constructor
+	 * @param Token[] An array of tokens
+	 */
 	public function __construct($arr)
 	{
 		$this->tokens = $arr;
 		$this->cursor = 0;
 	}
 	
+	/**
+	 * Peeks at the next token in the stream, without advancing the cursor
+	 * @param string|null $expectedType The token type to expect.
+	 * @param int $calledByRead Used for internal debug logging.
+	 * @throws ParseException If $expectedType is non-null, and the peeked token is null or not the expected type.
+	 * @return Token|null The peeked token, or null at the end of the stream.
+	 */
 	public function peek($expectedType=null, $calledByRead=0)
 	{
 		//$backtrace = debug_backtrace();
@@ -147,6 +211,12 @@ class TokenStream
 		return $token;
 	}
 	
+	/**
+	 * Reads the next token in the stream. This performs the same actions as peek, but will advance the cursor before returning the token. The cursor may not advance past the token count.
+	 * @param string|null $expectedType The token type to expect.
+	 * @throws ParseException If $expectedType is non-null, and the peeked token is null or not the expected type.
+	 * @return Token|null The peeked token, or null at the end of the stream.
+	 */
 	public function read($expectedType=null)
 	{
 		$token = $this->peek($expectedType, 1);
@@ -157,22 +227,38 @@ class TokenStream
 		return $token;
 	}
 	
+	/**
+	 * Returns true if the cursor has reached the end of the token stream
+	 * @return bool
+	 */
 	public function eof()
 	{
 		return ($this->cursor >= count($this->tokens));
 	}
 }
 
+/**
+ * This class is used to convert CSS strings into an array of CSS tokens
+ */
 class Tokenizer
 {
 	protected $tokens;
 	protected $prevToken;
 	
+	/**
+	 * Pushes a new token to the token array
+	 * @param string $type The token type, @see Token
+	 * @param string $char The character(s) to initialize the new token with
+	 */
 	protected function pushToken($type, $char)
 	{
 		return array_push($this->tokens, new Token($type, $char));
 	}
 	
+	/**
+	 * Either pushes the specified character to the current token if the current token is a string, or initializes and pushes a new token to the token array.
+	 * @param string $char The character(s) to push
+	 */
 	protected function pushCharToString($char)
 	{
 		//trace("Pushing '$char'\r\n");
@@ -183,6 +269,10 @@ class Tokenizer
 			$this->pushToken(Token::STRING, $char);
 	}
 
+	/**
+	 * Either pushes the specified character to the current token if the current token is an identifier, or initializes and pushes a new token to the token array.
+	 * @param string $char The character(s) to push
+	 */
 	protected function pushCharToIdentifier($char)
 	{
 		//trace("Pushing '$char'\r\n");
@@ -193,6 +283,10 @@ class Tokenizer
 			$this->pushToken(Token::IDENTIFIER, $char);
 	}
 	
+	/**
+	 * Either pushes the specified character to the current token if the current token is an expression, or initializes and pushes a new token to the token array.
+	 * @param string $char The character(s) to push
+	 */
 	protected function pushCharToExpression($char)
 	{
 		//trace("Pushing '$char'\r\n");
@@ -203,6 +297,10 @@ class Tokenizer
 			$this->pushToken(Token::EXPRESSION, $char);
 	}
 	
+	/**
+	 * Pops a token from the end of the token array
+	 * @return Token the popped token
+	 */
 	protected function popToken()
 	{
 		$result = array_pop($this->tokens);
@@ -210,6 +308,10 @@ class Tokenizer
 		return $result;
 	}
 	
+	/**
+	 * Gets the current token (the last token in the token array)
+	 * @return Token|null The current token, or null if no tokens are in the array
+	 */
 	protected function getCurrToken()
 	{
 		if(empty($this->tokens))
@@ -217,6 +319,12 @@ class Tokenizer
 		return $this->tokens[ count($this->tokens) - 1 ];
 	}
 	
+	/**
+	 * Attempts to tokenize the specified string
+	 * @param string $str The input string
+	 * @throws ParseException When parsing the string fails due to invalid CSS
+	 * @return Token[] An array of tokens parsed from the string
+	 */
 	public function tokenize($str)
 	{
 		// Tokenize
@@ -439,12 +547,26 @@ class Tokenizer
 	}
 }
 
+/**
+ * This class represents a CSS pseudo selector, for example, :nth-child, :empty, :not
+ */
 class PseudoSelector
 {
 	public $name;
 	public $expression;
 	public $selector;
 	
+	/**
+	 * Parses this selector from the given stream, on the supplied selector
+	 * @param TokenStream $stream The token stream to read from
+	 * @param Selector $selector The CSS selector this pseudo-selector is part of
+	 * @throws ParseException Pseudo selector not supported server side
+	 * @throws ParseException Pseudo selector not yet implemented
+	 * @throws ParseException Unknown pseudo selector
+	 * @throws ParseException :not pseudo selector cannot be nested (as per the CSS specs)
+	 * @throws ParseException Invalid CSS in the selector
+	 * @return void
+	 */
 	public function parse($stream, $selector)
 	{
 		$first = $stream->read(Token::PSEUDO);
@@ -516,12 +638,26 @@ class PseudoSelector
 	}
 }
 
+/**
+ * A CSS attribute selector, such as [data-example], [data-example="value"] or [data-example$="ends-with"]
+ */
 class AttributeSelector
 {
 	public $name;
 	public $operator;
 	public $value;
 	
+	/**
+	 * Parses the attribute selector from the supplied stream. Please note these classes expect attribute selectors to be enclosed in quotes.
+	 * @param TokenStream $stream The token stream to read from
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected either close bracket or attribute operator
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected quote to open string after attribute operator
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected quote to terminate string after attribute operator
+	 * @throws ParseException Invalid CSS eg unexpected tokens
+	 */
 	public function parse($stream)
 	{
 		// Expect [ first
@@ -573,6 +709,9 @@ class AttributeSelector
 	}
 }
 
+/**
+ * Represents a single selector, either standalone or as part of a compound selector
+ */
 class Selector
 {
 	public $element = '*';
@@ -583,6 +722,18 @@ class Selector
 	
 	public $parent;
 	
+	/**
+	 * Parses this selector from the given stream.
+	 * @param TokenStream $stream The token stream to read from.
+	 * @param PseudoSelector $not The :not pseudo selector that contains this selector.
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected either close bracket or attribute operator
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected quote to open string after attribute operator
+	 * @throws ParseException Unexpected end in attribute
+	 * @throws ParseException Expected quote to terminate string after attribute operator
+	 * @throws ParseException Invalid CSS eg unexpected tokens
+	 */
 	public function parse($stream, $not=null)
 	{
 		$first = $stream->peek();
@@ -665,16 +816,27 @@ class Selector
 	}
 }
 
+/**
+ * Used to parse a selector or compound selectors
+ */
 class Parser
 {
 	protected $tokenizer;
 	protected $elements;
 	
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		$this->tokenizer = new Tokenizer();
 	}
 	
+	/**
+	 * Parses the selector(s) supplied
+	 * @param string $selector The string of selector(s) to parse
+	 * @return Selector[] An array of selectors parsed from the string
+	 */
 	public function parse($selector)
 	{
 		$tokens = $this->tokenizer->tokenize($selector);
@@ -704,16 +866,28 @@ class Parser
 	
 }
 
+/**
+ * Used to convert CSS selectors to XPath queries
+ */
 class XPathConverter
 {
 	protected $parser;
 	protected $xpath;
 	
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		$this->parser = new Parser();
 	}
 	
+	/**
+	 * Converts a CSS attribute selector to its XPath equivalent and pushes the XPath query string to memory
+	 * @param AttributeSelector $attr The CSS attribute selector
+	 * @throws ConvertException Unrecognised attribute operator
+	 * @return void
+	 */
 	protected function convertAttribute($attr)
 	{
 		$name = $attr->name;
@@ -756,6 +930,12 @@ class XPathConverter
 		array_push($this->xpath, "[$inner]");
 	}
 	
+	/**
+	 * Converts a CSS pseudo selector to its XPath equivalent and pushes the XPath query string to memory
+	 * @param AttributeSelector $pseudo The CSS pseudo selector
+	 * @throws ConvertException Don't know how to convert selector (may not be implemented)
+	 * @return void
+	 */
 	protected function convertPseudo($pseudo)
 	{
 		$name = $pseudo->name;
@@ -813,6 +993,11 @@ class XPathConverter
 		array_push($this->xpath, "[$inner]");
 	}
 	
+	/**
+	 * Converts a CSS selector to its XPath equivalent and pushes the XPath query string to memory
+	 * @param Selector $selector The CSS selector to convert.
+	 * @return void
+	 */
 	protected function convertSelector($selector)
 	{
 		//trace("Converting selector " . print_r($selector, true));
@@ -846,6 +1031,11 @@ class XPathConverter
 				$this->convertPseudo($pseudo);
 	}
 	
+	/**
+	 * Converts an element (eg a single, non-compound CSS selector) to it's XPath equivalent
+	 * @param Selector $element The selector to convert
+	 * @throws ConvertException Unexpected element
+	 */
 	protected function convertElement($element)
 	{
 		//trace("Converting element " . print_r($element, true));
@@ -891,6 +1081,11 @@ class XPathConverter
 			throw new ConvertException('Unexpected element');
 	}
 	
+	/**
+	 * Converts the given CSS selector string into it's XPath equivalent
+	 * @param string $str The input CSS selector to convert
+	 * @return string The XPath equivalent of the supplied selector
+	 */
 	public function convert($str)
 	{
 		//trace("=== Parsing $str ===\r\n");

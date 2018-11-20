@@ -2,8 +2,14 @@
 
 namespace WPGMZA;
 
+/**
+ * Used to facilitate communication and caching between the client and the Nominatim Geocoding service
+ */
 class NominatimGeocodeCache
 {
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		global $wpdb;
@@ -23,6 +29,11 @@ class NominatimGeocodeCache
 		}
 	}
 	
+	/**
+	 * Returns the cached result from the local geocode cache
+	 * @param string $query The address being queried
+	 * @return object|null The cached geocode result, or null where no result is found
+	 */
 	public function get($query)
 	{
 		global $wpdb;
@@ -41,6 +52,11 @@ class NominatimGeocodeCache
 		return $json;
 	}
 	
+	/**
+	 * Caches the supplied response, from the supplied query
+	 * @param string $query The queried address
+	 * @param string $response The returned response to cache
+	 */
 	public function set($query, $response)
 	{
 		global $wpdb;
@@ -59,6 +75,10 @@ class NominatimGeocodeCache
 	}
 }
 
+/**
+ * Bind function to query Nominatim cache.
+ * @deprecated This will be moved to the REST API in the future
+ */
 function query_nominatim_cache()
 {
 	
@@ -72,6 +92,10 @@ function query_nominatim_cache()
 	exit;
 }
 
+/**
+ * Bind function to store a response on the Nominatim cache.
+ * @deprecated This will be moved to the REST API in the future
+ */
 function store_nominatim_cache()
 {
 	$cache = new NominatimGeocodeCache();

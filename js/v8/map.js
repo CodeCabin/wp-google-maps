@@ -6,8 +6,13 @@
 jQuery(function($) {
 	
 	/**
-	 * Constructor
-	 * @param element to contain map
+	 * Base class for maps. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
+	 * @class WPGMZA.Map
+	 * @constructor WPGMZA.Map
+	 * @memberof WPGMZA
+	 * @param {HTMLElement} element to contain map
+	 * @param {object} [options] Options to apply to this map
+	 * @augments WPGMZA.EventDispatcher
 	 */
 	WPGMZA.Map = function(element, options)
 	{
@@ -41,6 +46,12 @@ jQuery(function($) {
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.Map.prototype.constructor = WPGMZA.Map;
 	
+	/**
+	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @return {function} The appropriate contructor
+	 */
 	WPGMZA.Map.getConstructor = function()
 	{
 		switch(WPGMZA.settings.engine)
@@ -60,7 +71,15 @@ jQuery(function($) {
 				break;
 		}
 	}
-	
+
+	/**
+	 * Creates an instance of a map, <strong>please <em>always</em> use this function rather than calling the constructor directly</strong>.
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {HTMLElement} element to contain map
+	 * @param {object} [options] Options to apply to this map
+	 * @return {WPGMZA.Map} An instance of WPGMZA.Map
+	 */
 	WPGMZA.Map.createInstance = function(element, options)
 	{
 		var constructor = WPGMZA.Map.getConstructor();
@@ -69,7 +88,8 @@ jQuery(function($) {
 	
 	/**
 	 * Loads the maps settings and sets some defaults
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
 	 */
 	WPGMZA.Map.prototype.loadSettings = function(options)
 	{
@@ -90,17 +110,9 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * This override should automatically dispatch a .wpgmza scoped event on the element
-	 * TODO: Implement
-	 */
-	/*WPGMZA.Map.prototype.trigger = function(event)
-	{
-		
-	}*/
-	
-	/**
 	 * Sets options in bulk on map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
 	 */
 	WPGMZA.Map.prototype.setOptions = function(options)
 	{
@@ -108,11 +120,6 @@ jQuery(function($) {
 			this.settings[name] = options[name];
 	}
 	
-	/**
-	 * Gets the distance between two latLngs in kilometers
-	 * NB: Static function
-	 * @return number
-	 */
 	var earthRadiusMeters = 6371;
 	var piTimes360 = Math.PI / 360;
 	
@@ -123,7 +130,13 @@ jQuery(function($) {
 	/**
 	 * This gets the distance in kilometers between two latitude / longitude points
 	 * TODO: Move this to the distance class, or the LatLng class
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {number} lat1 Latitude from the first coordinate pair
+	 * @param {number} lon1 Longitude from the first coordinate pair
+	 * @param {number} lat2 Latitude from the second coordinate pair
+	 * @param {number} lon1 Longitude from the second coordinate pair
+	 * @return {number} The distance between the latitude and longitudes, in kilometers
 	 */
 	WPGMZA.Map.getGeographicDistance = function(lat1, lon1, lat2, lon2)
 	{
@@ -141,6 +154,12 @@ jQuery(function($) {
 		return d;
 	}
 	
+	/**
+	 * Centers the map on the supplied latitude and longitude
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {object|WPGMZA.LatLng} latLng A LatLng literal or an instance of WPGMZA.LatLng
+	 */
 	WPGMZA.Map.prototype.setCenter = function(latLng)
 	{
 		if(!("lat" in latLng && "lng" in latLng))
@@ -148,8 +167,11 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Sets the dimensions of the map
-	 * @return void
+	 * Sets the dimensions of the map engine element
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {number} width Width as a CSS string
+	 * @param {number} height Height as a CSS string
 	 */
 	WPGMZA.Map.prototype.setDimensions = function(width, height)
 	{
@@ -165,7 +187,12 @@ jQuery(function($) {
 	
 	/**
 	 * Adds the specified marker to this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Marker} marker The marker to add
+	 * @fires markeradded
+	 * @fires WPGMZA.Marker#added
+	 * @throws Argument must be an instance of WPGMZA.Marker
 	 */
 	WPGMZA.Map.prototype.addMarker = function(marker)
 	{
@@ -182,7 +209,13 @@ jQuery(function($) {
 	
 	/**
 	 * Removes the specified marker from this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Marker} marker The marker to remove
+	 * @fires markerremoved
+	 * @fires WPGMZA.Marker#removed
+	 * @throws Argument must be an instance of WPGMZA.Marker
+	 * @throws Wrong map error
 	 */
 	WPGMZA.Map.prototype.removeMarker = function(marker)
 	{
@@ -200,6 +233,13 @@ jQuery(function($) {
 		marker.dispatchEvent({type: "removed"});
 	}
 	
+	/**
+	 * Gets a marker by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the marker to get
+	 * @return {WPGMZA.Marker|null} The marker, or null if no marker with the specified ID is found
+	 */
 	WPGMZA.Map.prototype.getMarkerByID = function(id)
 	{
 		for(var i = 0; i < this.markers.length; i++)
@@ -211,6 +251,14 @@ jQuery(function($) {
 		return null;
 	}
 	
+	/**
+	 * Removes a marker by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the marker to remove
+	 * @fires markerremoved
+	 * @fires WPGMZA.Marker#removed
+	 */
 	WPGMZA.Map.prototype.removeMarkerByID = function(id)
 	{
 		var marker = this.getMarkerByID(id);
@@ -223,7 +271,11 @@ jQuery(function($) {
 	
 	/**
 	 * Adds the specified polygon to this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Polygon} polygon The polygon to add
+	 * @fires polygonadded
+	 * @throws Argument must be an instance of WPGMZA.Polygon
 	 */
 	WPGMZA.Map.prototype.addPolygon = function(polygon)
 	{
@@ -238,7 +290,12 @@ jQuery(function($) {
 	
 	/**
 	 * Removes the specified polygon from this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Polygon} polygon The polygon to remove
+	 * @fires polygonremoved
+	 * @throws Argument must be an instance of WPGMZA.Polygon
+	 * @throws Wrong map error
 	 */
 	WPGMZA.Map.prototype.deletePolygon = function(polygon)
 	{
@@ -254,6 +311,13 @@ jQuery(function($) {
 		this.dispatchEvent({type: "polygonremoved", polygon: polygon});
 	}
 	
+	/**
+	 * Gets a polygon by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the polygon to get
+	 * @return {WPGMZA.Polygon|null} The polygon, or null if no polygon with the specified ID is found
+	 */
 	WPGMZA.Map.prototype.getPolygonByID = function(id)
 	{
 		for(var i = 0; i < this.polygons.length; i++)
@@ -265,6 +329,12 @@ jQuery(function($) {
 		return null;
 	}
 	
+	/**
+	 * Removes a polygon by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the polygon to remove
+	 */
 	WPGMZA.Map.prototype.deletePolygonByID = function(id)
 	{
 		var polygon = this.getPolygonByID(id);
@@ -292,7 +362,11 @@ jQuery(function($) {
 	
 	/**
 	 * Adds the specified polyline to this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Polyline} polyline The polyline to add
+	 * @fires polylineadded
+	 * @throws Argument must be an instance of WPGMZA.Polyline
 	 */
 	WPGMZA.Map.prototype.addPolyline = function(polyline)
 	{
@@ -307,7 +381,12 @@ jQuery(function($) {
 	
 	/**
 	 * Removes the specified polyline from this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Polyline} polyline The polyline to remove
+	 * @fires polylineremoved
+	 * @throws Argument must be an instance of WPGMZA.Polyline
+	 * @throws Wrong map error
 	 */
 	WPGMZA.Map.prototype.deletePolyline = function(polyline)
 	{
@@ -323,6 +402,13 @@ jQuery(function($) {
 		this.dispatchEvent({type: "polylineremoved", polyline: polyline});
 	}
 	
+	/**
+	 * Gets a polyline by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the polyline to get
+	 * @return {WPGMZA.Polyline|null} The polyline, or null if no polyline with the specified ID is found
+	 */
 	WPGMZA.Map.prototype.getPolylineByID = function(id)
 	{
 		for(var i = 0; i < this.polylines.length; i++)
@@ -334,6 +420,12 @@ jQuery(function($) {
 		return null;
 	}
 	
+	/**
+	 * Removes a polyline by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the polyline to remove
+	 */
 	WPGMZA.Map.prototype.deletePolylineByID = function(id)
 	{
 		var polyline = this.getPolylineByID(id);
@@ -346,7 +438,11 @@ jQuery(function($) {
 	
 	/**
 	 * Adds the specified circle to this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Circle} circle The circle to add
+	 * @fires polygonadded
+	 * @throws Argument must be an instance of WPGMZA.Circle
 	 */
 	WPGMZA.Map.prototype.addCircle = function(circle)
 	{
@@ -361,7 +457,12 @@ jQuery(function($) {
 	
 	/**
 	 * Removes the specified circle from this map
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {WPGMZA.Circle} circle The circle to remove
+	 * @fires circleremoved
+	 * @throws Argument must be an instance of WPGMZA.Circle
+	 * @throws Wrong map error
 	 */
 	WPGMZA.Map.prototype.removeCircle = function(circle)
 	{
@@ -377,6 +478,13 @@ jQuery(function($) {
 		this.dispatchEvent({type: "circleremoved", circle: circle});
 	}
 	
+	/**
+	 * Gets a circle by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the circle to get
+	 * @return {WPGMZA.Circle|null} The circle, or null if no circle with the specified ID is found
+	 */
 	WPGMZA.Map.prototype.getCircleByID = function(id)
 	{
 		for(var i = 0; i < this.circles.length; i++)
@@ -388,6 +496,12 @@ jQuery(function($) {
 		return null;
 	}
 	
+	/**
+	 * Removes a circle by ID
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {int} id The ID of the circle to remove
+	 */
 	WPGMZA.Map.prototype.deleteCircleByID = function(id)
 	{
 		var circle = this.getCircleByID(id);
@@ -400,7 +514,11 @@ jQuery(function($) {
 	
 	/**
 	 * Nudges the map viewport by the given pixel coordinates
-	 * @return void
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @param {number} x Number of pixels to nudge along the x axis
+	 * @param {number} y Number of pixels to nudge along the y axis
+	 * @throws Invalid coordinates supplied
 	 */
 	WPGMZA.Map.prototype.nudge = function(x, y)
 	{
@@ -418,8 +536,9 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Triggered when the window resizes
-	 * @return void
+	 * Called when the window resizes
+	 * @method
+	 * @memberof WPGMZA.Map
 	 */
 	WPGMZA.Map.prototype.onWindowResize = function(event)
 	{
@@ -427,14 +546,22 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Listener for when the engine map div is resized
-	 * @return void
+	 * Called when the engine map div is resized
+	 * @method
+	 * @memberof WPGMZA.Map
 	 */
 	WPGMZA.Map.prototype.onElementResized = function(event)
 	{
 		
 	}
 	
+	/**
+	 * Called when the map viewport bounds change. Fires the legacy bounds_changed event.
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @fires boundschanged
+	 * @fires bounds_changed
+	 */
 	WPGMZA.Map.prototype.onBoundsChanged = function(event)
 	{
 		// Native events
@@ -444,6 +571,12 @@ jQuery(function($) {
 		this.trigger("bounds_changed");
 	}
 	
+	/**
+	 * Called when the map viewport becomes idle (eg movement done, tiles loaded)
+	 * @method
+	 * @memberof WPGMZA.Map
+	 * @fires idle
+	 */
 	WPGMZA.Map.prototype.onIdle = function(event)
 	{
 		$(this.element).trigger("idle");

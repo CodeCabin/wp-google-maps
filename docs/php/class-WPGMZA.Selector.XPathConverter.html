@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\Selector\XPathConverter</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.AttributeSelector.html">AttributeSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Parser.html">Parser</a></li>
+				<li><a href="class-WPGMZA.Selector.PseudoSelector.html">PseudoSelector</a></li>
+				<li><a href="class-WPGMZA.Selector.Selector.html">Selector</a></li>
+				<li><a href="class-WPGMZA.Selector.Token.html">Token</a></li>
+				<li><a href="class-WPGMZA.Selector.Tokenizer.html">Tokenizer</a></li>
+				<li><a href="class-WPGMZA.Selector.TokenStream.html">TokenStream</a></li>
+				<li class="active"><a href="class-WPGMZA.Selector.XPathConverter.html">XPathConverter</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-WPGMZA.Selector.ConvertException.html">ConvertException</a></li>
+				<li><a href="class-WPGMZA.Selector.ParseException.html">ParseException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.Selector.trace.html">trace</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.Selector.html" title="Summary of WPGMZA\Selector"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class XPathConverter</h1>
+
+
+	<div class="description">
+	<p>Used to convert CSS selectors to XPath queries</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a>\<a href="namespace-WPGMZA.Selector.html">Selector</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.Selector.XPathConverter.html#869-1102" title="Go to source code">class.selector-to-xpath.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#877-883" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			<p>Constructor.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="convertAttribute" id="_convertAttribute">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convertAttribute">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#885-931" title="Go to source code">convertAttribute</a>( <span><code><a href="class-WPGMZA.Selector.AttributeSelector.html">WPGMZA\Selector\AttributeSelector</a></code> <var>$attr</var></span> )</code>
+
+		<div class="description short">
+			<p>Converts a CSS attribute selector to its XPath equivalent and pushes the XPath query string to memory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts a CSS attribute selector to its XPath equivalent and pushes the XPath query string to memory</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$attr</var></dt>
+					<dd>The CSS attribute selector</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ConvertException.html">WPGMZA\Selector\ConvertException</a></code><br>Unrecognised attribute operator
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="convertPseudo" id="_convertPseudo">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convertPseudo">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#933-994" title="Go to source code">convertPseudo</a>( <span><code><a href="class-WPGMZA.Selector.AttributeSelector.html">WPGMZA\Selector\AttributeSelector</a></code> <var>$pseudo</var></span> )</code>
+
+		<div class="description short">
+			<p>Converts a CSS pseudo selector to its XPath equivalent and pushes the XPath query string to memory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts a CSS pseudo selector to its XPath equivalent and pushes the XPath query string to memory</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$pseudo</var></dt>
+					<dd>The CSS pseudo selector</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ConvertException.html">WPGMZA\Selector\ConvertException</a></code><br>Don't know how to convert selector (may not be implemented)
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="convertSelector" id="_convertSelector">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convertSelector">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#996-1032" title="Go to source code">convertSelector</a>( <span><code><a href="class-WPGMZA.Selector.Selector.html">WPGMZA\Selector\Selector</a></code> <var>$selector</var></span> )</code>
+
+		<div class="description short">
+			<p>Converts a CSS selector to its XPath equivalent and pushes the XPath query string to memory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts a CSS selector to its XPath equivalent and pushes the XPath query string to memory</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd>The CSS selector to convert.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="convertElement" id="_convertElement">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convertElement">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#1034-1082" title="Go to source code">convertElement</a>( <span><code><a href="class-WPGMZA.Selector.Selector.html">WPGMZA\Selector\Selector</a></code> <var>$element</var></span> )</code>
+
+		<div class="description short">
+			<p>Converts an element (eg a single, non-compound CSS selector) to it's XPath equivalent</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts an element (eg a single, non-compound CSS selector) to it's XPath equivalent</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$element</var></dt>
+					<dd>The selector to convert</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-WPGMZA.Selector.ConvertException.html">WPGMZA\Selector\ConvertException</a></code><br>Unexpected element
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="convert" id="_convert">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convert">#</a>
+		<code><a href="source-class-WPGMZA.Selector.XPathConverter.html#1084-1101" title="Go to source code">convert</a>( <span>string <var>$str</var></span> )</code>
+
+		<div class="description short">
+			<p>Converts the given CSS selector string into it's XPath equivalent</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts the given CSS selector string into it's XPath equivalent</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$str</var></dt>
+					<dd>The input CSS selector to convert</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>The XPath equivalent of the supplied selector
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="parser" id="$parser">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.XPathConverter.html#874" title="Go to source code"><var>$parser</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$parser" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="xpath" id="$xpath">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-WPGMZA.Selector.XPathConverter.html#875" title="Go to source code"><var>$xpath</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$xpath" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

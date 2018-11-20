@@ -2,9 +2,17 @@
 
 namespace WPGMZA;
 
+// TODO: Remove, an autoloader is now used
 require_once(plugin_dir_path(__FILE__) . 'google-maps/class.google-maps-loader.php');
 require_once(plugin_dir_path(__FILE__) . 'open-layers/class.ol-loader.php');
 
+/**
+ * This class takes care of all mechanisms regarding script building and loading.
+ *
+ * When in developer mode, or when running a build script, this class will rebuilt the combined script file, in the correct order, or issue a message where dependencies are missing or circular.
+ *
+ * When not in developer mode, this class is simply used to enqueue the minified file, or, the combined file if that is more up to date. That can happen when changes have been made and the combined file has been re-built without the minified file being rebuilt.
+ */
 class ScriptLoader
 {
 	private static $dependencyErrorDisplayed = false;
@@ -12,8 +20,17 @@ class ScriptLoader
 	private $proMode = false;
 	private $logStarted = false;
 	
+	/**
+	 * @var object[] Objects describing each script file, where the array key is the script handle.
+	 * @deprecated This is not currently for external use and may be removed.
+	 */
 	public $scripts;
 	
+	/**
+	 * Constructor.
+	 * @param bool $proMode Whether or not to enqueue (and optionally build) the Pro scripts.
+	 * @todo This class should inherit Factory rather than using a variable to represent pro.
+	 */
 	public function __construct($proMode)
 	{
 		$this->proMode = $proMode;
@@ -24,6 +41,11 @@ class ScriptLoader
 			$this->scriptsFileLocation = plugin_dir_path(__DIR__) . 'js/v8/scripts.json';
 	}
 	
+	/**
+	 * Internal function used for logging, useful when debugging the build process. This function will erase the log for each PHP execution lifespan.
+	 * @param string $str The string to log. Will be prefixed with a timestamp.
+	 * @return void
+	 */
 	protected function log($str)
 	{
 		$dest = __DIR__ . '/build.log';
@@ -35,6 +57,13 @@ class ScriptLoader
 		file_put_contents($dest, date("Y-m-d H:i:s :-\t") . $str . "\r\n", FILE_APPEND);
 	}
 	
+	/**
+	 * Recursive glob. This function is used to match files given the specified pattern, recursively.
+	 * @param string $pattern The pattern to match
+	 * @param int $flags Flags to pass to glob
+	 * @return string[] An array of matching files.
+	 * @see http://php.net/manual/en/function.glob.php
+	 */
 	protected function rglob($pattern, $flags = 0)
 	{
 		$files = glob($pattern, $flags); 
@@ -48,6 +77,11 @@ class ScriptLoader
 		return $files;
 	}
 	
+	/**
+	 * Converts a JavaScript module name to a script handle, for instance WPGMZA.GoogleMarker will be converted to wpgmza-google-marker.
+	 * @param string $module The JavaScript module name.
+	 * @return string The associated script handle.
+	 */
 	protected function getHandleFromModuleName($module)
 	{
 		return trim(preg_replace('/^wpgmza\./', 'wpgmza-',
@@ -57,6 +91,14 @@ class ScriptLoader
 		));
 	}
 	
+	/**
+	 * This function returns an array of library scripts that the plugin depends on, where the array key is the script handle and the value is the script URL.
+	 *
+	 * This function will also enqueue all the required jQuery UI scripts required by our plugin as they are needed, for example on the admin pages.
+	 *
+	 * The result is passed through the filter wpgmza-get-library-dependencies before being returned.
+	 * @return array A key value array of scripts, where the key is the handle and the value is the script URL.
+	 */
 	protected function getLibraryScripts()
 	{
 		global $wpgmza;
@@ -65,24 +107,12 @@ class ScriptLoader
 		
 		$libraryDependencies = array(
 			'datatables'		=> $plugin_dir_url . 'js/jquery.dataTables.min.js',
-			'js-cookie'		=> $plugin_dir_url . 'lib/js.cookie.min.js',
+			'jquery-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
 			// 'modernizr-custom'	=> $plugin_dir_url . 'lib/modernizr-custom.js',
 			'remodal'			=> $plugin_dir_url . 'lib/' . ($wpgmza->isUsingMinifiedScripts() ? 'remodal.min.js' : 'remodal.js'),
 			// 'resize-sensor'		=> $plugin_dir_url . 'lib/ResizeSensor.js',
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
-		
-		/*if($wpgmza->isProVersion())
-		{
-			$pro_dir = plugin_dir_url(WPGMZA_PRO_FILE);
-			
-			$libraryDependencies = array_merge($libraryDependencies, array(
-				'jstree'				=> $pro_dir . ($wpgmza->isUsingMinifiedScripts() ? 'lib/jstree.min.js' : 'lib/jstree.js'),
-				'jszip'					=> $pro_dir . 'lib/jszip.min.js',
-				'jquery-multiselect'	=> $pro_dir . 'lib/jquery.multiselect.js',
-				'owl-carousel'			=> $pro_dir . 'lib/owl.carousel.min.js'
-			));
-		}*/
 		
 		if($wpgmza->getCurrentPage() && is_admin())
 		{
@@ -99,6 +129,10 @@ class ScriptLoader
 		return apply_filters('wpgmza-get-library-dependencies', $libraryDependencies);
 	}
 	
+	/**
+	 * Returns the directories to be scanned for JavaScript files.
+	 * @return array An array of directories, where the keys and values match.
+	 */
 	protected function getScanDirectories()
 	{
 		$result = array(
@@ -111,6 +145,14 @@ class ScriptLoader
 		return $result;
 	}
 	
+	/**
+	 * This function performs the following actions:
+	 *
+	 * - Scans the relevant directories for all JavaScript files.
+	 * - Reads the comment header from each JavaScript file.
+	 * - Converts each found module name to a script handle, and records it in $this->scripts with the handle as the key, the source file and dependencies as the value.
+	 * @return void
+	 */
 	protected function scanDependencies()
 	{
 		$this->scripts = array();
@@ -201,6 +243,19 @@ class ScriptLoader
 		file_put_contents($this->scriptsFileLocation, json_encode($this->scripts, JSON_PRETTY_PRINT));
 	}
 	
+	/**
+	 * This function performs the following actions:
+	 *
+	 * - Takes a snapshot of $this->scripts, we'll call this the pending queue
+	 * - Creates an empty list, we'll call this the combine order queue
+	 * - For each script in the pending queue, if the scripts dependencies are satisfied, the script is moved off the pending queue and onto the back of the combine order queue
+	 * 
+	 * This process is repeated until either the pending queue is empty, or a built in iteration limit is hit. When the iteration limit is hit, this usually indicates either missing dependencies or circular dependencies. A notice will be issued when this happens.
+	 *
+	 * You must call scanDependencies before getCombineOrder.
+	 * @note As the plugin becomes increasingly complex, the 100,000 iteration limit may give false positives.
+	 * @return object[] An indexed array of script objects, in the order that they must be combined in to respect their dependencies.
+	 */
 	public function getCombineOrder()
 	{
 		if(!$this->scripts)
@@ -230,9 +285,11 @@ class ScriptLoader
 						
 						<?php
 							echo "<pre>";
-							foreach($unresolvedDependencyHandles as $handle => $unused)
+							foreach($unresolvedDependencyHandles as $handle => $reference)
 							{
 								echo "$handle (in " . implode(', ', $this->dependenciesByHandle[$handle]) . ")\r\n";
+								echo "Requires:\r\n" . implode("\r\n", $reference);
+								echo "\r\n";
 							}
 							echo "</pre>";
 						?>
@@ -251,7 +308,7 @@ class ScriptLoader
 			
 			foreach($scripts as $handle => $script)
 			{
-				// echo "\r\nLooking at $handle\r\n";
+				 //echo "\r\nLooking at $handle\r\n";
 				
 				foreach($script->dependencies as $dependency)
 				{
@@ -276,7 +333,9 @@ class ScriptLoader
 						continue;
 					}
 					
-					$unresolvedDependencyHandles[$handle] = true;
+					if(empty($unresolvedDependencyHandles[$handle]))
+						$unresolvedDependencyHandles[$handle] = array();
+					$unresolvedDependencyHandles[$handle][$dependency] = $dependency;
 					
 					//echo "$dependency not yet included, skipping\r\n";
 					continue 2;
@@ -297,6 +356,10 @@ class ScriptLoader
 		return $combineOrder;
 	}
 	
+	/**
+	 * Builds all the plugin scripts into a combined (concatenated) string. The function will then check if the md5 hash of the existing combined script file matches the hash of the string in memory. If they match, the combined file is up to date and is left untouched. If they do not match, the combined file is updated.
+	 * @return void
+	 */
 	public function buildCombinedFile()
 	{
 		global $wpgmza;
@@ -322,19 +385,29 @@ class ScriptLoader
 		
 		$combined = implode("\r\n", $combined);
 		
-		// TODO: Uncomment and test
-		//if(file_exists($dest) && md5(file_get_contents($dest)) == md5($combined))
-			//return;	// No changes, no need to build
+		if(file_exists($dest) && md5(file_get_contents($dest)) == md5($combined))
+			return;	// No changes, leave the file alone. Updating the file would cause the combined script to be newer than the minified script
+		
+		if(empty($combined))
+			throw new \Exception('Combined file would be blank.');
 		
 		file_put_contents($dest, $combined);
 	}
 	
+	/**
+	 * This function performs a full rebuild of the combined script file
+	 * @return void
+	 */
 	public function build()
 	{
 		$this->scanDependencies();
 		$this->buildCombinedFile();
 	}
 	
+	/**
+	 * Enqueues all required stylesheets
+	 * @return void
+	 */
 	public function enqueueStyles()
 	{	
 		global $wpgmza;
@@ -347,8 +420,8 @@ class ScriptLoader
 	}
 	
 	/**
-	 * Returns an array of objects representing all scripts used by the plugin
-	 * @return array
+	 * Returns an array of objects representing all scripts used by the plugin. In developer mode, this will be one script for each module, when not in developer mode, this will either be the combined or minified file, dependeing on which is more up to date.
+	 * @return object[] An array of objects representing the scripts.
 	 */
 	public function getPluginScripts()
 	{
@@ -390,6 +463,10 @@ class ScriptLoader
 		return $scripts;
 	}
 	
+	/**
+	 * Enqueues all the libraries required by the plugin scripts, then enqueues the plugin scripts and localized data (JavaScript globals).
+	 * @return void
+	 */
 	public function enqueueScripts()
 	{
 		global $wpgmza;
@@ -468,6 +545,10 @@ class ScriptLoader
 		//$this->enqueueCustomJavascript();
 	}
 	
+	/**
+	 * Enqueues the plugins localized data, as fetched from Plugin::getLocalizedData
+	 * @return void
+	 */
 	public function enqueueLocalizedData()
 	{
 		global $wpgmza;

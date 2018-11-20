@@ -18,7 +18,7 @@
         "pro": false,
         "dependencies": []
     },
-    "wpgmza-wpgmza-css": {
+    "wpgmza-css": {
         "src": "js\/v8\/css-escape.js",
         "pro": false,
         "dependencies": [

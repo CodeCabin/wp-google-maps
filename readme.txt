@@ -215,6 +215,29 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+ 
+= 7.10.46 :- 2018-11-20 :- Medium priority =
+* Fixed store locator circle and radius not displayed when no markers are present
+* Fixed browser compatibility code causing Gutenberg dependency failure
+* Google API version is now fixed at "Quarterly" (solves RetiredVersion notice)
+* Unified store locator circle and radius logic for both XML and DB marker pull
+* All PHP classes and methods now have documentation blocks
+* Server side documentation added in /docs/php
+* Client side documentation added in /docs/js
+
+= 7.10.45 :- 2018-11-12 :- Medium priority =
+* Fixed places autocomplete not initializing with modern store locator
+* Fixed conflict with Autoptimize with large amounts of data by bypassing CSS optimization where shortcode is present
+* Enter key now triggers search on modern store locator
+
+= 7.10.44 :- 2018-11-05 :- Medium priority =
+* Fixed Modern Store Locator Circle not working when Google Maps geometry library not loaded
+* Fixed legacy-map-edit-page.js not enqueued when Gold add-on activated (with Pro >= 7.10.30)
+* Fixed store locator circle color settings not respected in OpenLayers
+* Improved unresolved dependency report, now reports requirements
+
+= 7.10.43 :- 2018-10-31 :- High priority =
+* Improved previous security fix
 
 = 7.10.42 :- 2018-10-25 :- High priority =
 * Closed potential XSS vulnerability in PHP_SELF on map edit page

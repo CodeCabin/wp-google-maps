@@ -12,8 +12,8 @@
  * Internal block libraries
  */
 jQuery(function($) {
-	
-	if(!wp || !wp.i18n || !wp.blocks)
+
+	if(!window.wp || !wp.i18n || !wp.blocks)
 		return;
 	
 	const { __ } = wp.i18n;

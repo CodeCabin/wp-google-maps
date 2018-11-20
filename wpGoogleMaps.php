@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.42
+Version: 7.10.46
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,29 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.46 :- 2018-11-20 :- Medium priority
+ * Fixed store locator circle and radius not displayed when no markers are present
+ * Fixed browser compatibility code causing Gutenberg dependency failure
+ * Google API version is now fixed at "Quarterly" (solves RetiredVersion notice)
+ * Unified store locator circle and radius logic for both XML and DB marker pull
+ * All PHP classes and methods now have documentation blocks
+ * Server side documentation added in /docs/php
+ * Client side documentation added in /docs/js
+ *
+ * 7.10.45 :- 2018-11-12 :- Medium priority
+ * Fixed places autocomplete not initializing with modern store locator
+ * Fixed conflict with Autoptimize with large amounts of data by bypassing CSS optimization where shortcode is present
+ * Enter key now triggers search on modern store locator
+ *
+ * 7.10.44 :- 2018-11-05 :- Medium priority
+ * Fixed Modern Store Locator Circle not working when Google Maps geometry library not loaded
+ * Fixed legacy-map-edit-page.js not enqueued when Gold add-on activated (with Pro >= 7.10.30)
+ * Fixed store locator circle color settings not respected in OpenLayers
+ * Improved unresolved dependency report, now reports requirements
+ *
+ * 7.10.43 :- 2018-10-31 :- High priority
+ * Improved previous security fix
+ *
  * 7.10.42 :- 2018-10-25 :- High priority
  * Closed potential XSS vulnerability in PHP_SELF on map edit page
  *
@@ -977,9 +1000,7 @@ function wpgmaps_init() {
     if (!isset($current_version) || $current_version != $wpgmza_version) {
 
         $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-        if (isset($wpgmza_settings['wpgmza_api_version']) && ($wpgmza_settings['wpgmza_api_version'] == "3.14" || $wpgmza_settings['wpgmza_api_version'] == "3.15" || $wpgmza_settings['wpgmza_api_version'] == "3.23" || $wpgmza_settings['wpgmza_api_version'] == "3.24" || $wpgmza_settings['wpgmza_api_version'] == "3.25" || $wpgmza_settings['wpgmza_api_version'] == "3.26")) {
-            $wpgmza_settings['wpgmza_api_version'] = "3.31";
-        }
+        
         update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
 
         wpgmaps_handle_db();
@@ -1288,12 +1309,7 @@ function wpgmaps_admin_edit_marker_javascript() {
     $wpgmza_lng = $res->lng;
     $wpgmza_map_type = "ROADMAP";
 
-    $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-    if (isset($wpgmza_settings['wpgmza_api_version']) && $wpgmza_settings['wpgmza_api_version'] != "") {
-        $api_version_string = "v=".$wpgmza_settings['wpgmza_api_version']."&";
-    } else {
-        $api_version_string = "v=3.exp&";
-    }
+	$api_version_string = 'v=quarterly';
 
     $wpgmza_locale = get_locale();
     $wpgmza_suffix = ".com";
@@ -1469,17 +1485,7 @@ function wpgmaps_admin_javascript_basic() {
             $res = array();
             $res[$wpgmza_current_map_id] = wpgmza_get_map_data($wpgmza_current_map_id);
             
-            
-            if (isset($wpgmza_settings['wpgmza_api_version'])) { 
-                $api_version = $wpgmza_settings['wpgmza_api_version'];
-                if (isset($api_version) && $api_version != "") {
-                    $api_version_string = "v=$api_version&";
-                } else {
-                    $api_version_string = "v=3.exp&";
-                }
-            } else {
-                $api_version_string = "v=3.exp&";
-            }
+			$api_version_string = 'v=quarterly';
             
             $map_other_settings = maybe_unserialize($res[$wpgmza_current_map_id]->other_settings);
             $res[$wpgmza_current_map_id]->other_settings = $map_other_settings;
@@ -2013,16 +2019,7 @@ function wpgmaps_user_javascript_basic() {
     $res[$wpgmza_current_map_id] = wpgmza_get_map_data($wpgmza_current_map_id);
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
     
-    if (isset($wpgmza_settings['wpgmza_api_version'])) { 
-        $api_version = $wpgmza_settings['wpgmza_api_version'];
-        if (isset($api_version) && $api_version != "") {
-            $api_version_string = "v=$api_version&";
-        } else {
-            $api_version_string = "v=3.exp&";
-        }
-    } else {
-        $api_version_string = "v=3.exp&";
-    }
+	$api_version_string = 'quarterly';
     
     $map_other_settings = maybe_unserialize($res[$wpgmza_current_map_id]->other_settings);
     $res[$wpgmza_current_map_id]->other_settings = $map_other_settings;
@@ -2969,17 +2966,8 @@ function wpgmaps_tag_basic( $atts ) {
     $res[$wpgmza_current_map_id] = wpgmza_get_map_data($wpgmza_current_map_id);
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
     
-    if (isset($wpgmza_settings['wpgmza_api_version'])) { 
-        $api_version = $wpgmza_settings['wpgmza_api_version'];
-        if (isset($api_version) && $api_version != "") {
-            $api_version_string = "v=$api_version&";
-        } else {
-            $api_version_string = "v=3.exp&";
-        }
-    } else {
-        $api_version_string = "v=3.exp&";
-    }
-    
+	$api_version_string = 'quarterly';
+	
     $map_other_settings = maybe_unserialize($res[$wpgmza_current_map_id]->other_settings);
     $res[$wpgmza_current_map_id]->other_settings = $map_other_settings;
     $res[$wpgmza_current_map_id]->map_width_type = stripslashes($res[$wpgmza_current_map_id]->map_width_type);
@@ -3082,6 +3070,8 @@ function wpgmaps_tag_basic( $atts ) {
 
     do_action("wpgooglemaps_hook_user_js_after_localize",$res);
 
+	// Autoptimize fix, bypass CSS where our map is present as large amounts of inline JS (our localized data) crashes their plugin. Added at their advice.
+	add_filter('autoptimize_filter_css_noptimize', '__return_true');
     
     return $ret_msg;
 }
@@ -3281,7 +3271,6 @@ function wpgmza_settings_page_post()
 
 	if (isset($_POST['wpgmza_settings_map_open_marker_by'])) { $wpgmza_data['wpgmza_settings_map_open_marker_by'] = sanitize_text_field($_POST['wpgmza_settings_map_open_marker_by']); }
 
-	if (isset($_POST['wpgmza_api_version'])) { $wpgmza_data['wpgmza_api_version'] = sanitize_text_field($_POST['wpgmza_api_version']); }
 	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza_data['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
 	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza_data['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
 	
@@ -4481,19 +4470,8 @@ function wpgmaps_settings_page_basic() {
     if (isset($wpgmza_settings['wpgmza_settings_map_scroll'])) { $wpgmza_settings_map_scroll = $wpgmza_settings['wpgmza_settings_map_scroll']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_draggable'])) { $wpgmza_settings_map_draggable = $wpgmza_settings['wpgmza_settings_map_draggable']; }
     if (isset($wpgmza_settings['wpgmza_settings_map_clickzoom'])) { $wpgmza_settings_map_clickzoom = $wpgmza_settings['wpgmza_settings_map_clickzoom']; }
-    if (isset($wpgmza_settings['wpgmza_api_version'])) { $wpgmza_api_version = $wpgmza_settings['wpgmza_api_version']; }
     if (isset($wpgmza_settings['wpgmza_custom_css'])) { $wpgmza_custom_css = $wpgmza_settings['wpgmza_custom_css']; } else { $wpgmza_custom_css  = ""; }
 	if (isset($wpgmza_settings['wpgmza_custom_js'])) { $wpgmza_custom_js = $wpgmza_settings['wpgmza_custom_js']; } else { $wpgmza_custom_js  = ""; }
-
-    $wpgmza_api_version_selected = array();
-    $wpgmza_api_version_selected[0] = "";
-    $wpgmza_api_version_selected[1] = "";
-    $wpgmza_api_version_selected[2] = "";
-    
-    if (isset($wpgmza_api_version) && $wpgmza_api_version == "3.30") { $wpgmza_api_version_selected[0] = "selected"; }
-    else if (isset($wpgmza_api_version) && $wpgmza_api_version == "3.31") { $wpgmza_api_version_selected[1] = "selected"; }
-    else if (isset($wpgmza_api_version) && $wpgmza_api_version == "3.exp") { $wpgmza_api_version_selected[2] = "selected"; }
-    else { $wpgmza_api_version_selected[0] = "selected"; }
     
     $wpgmza_settings_map_open_marker_by_checked[0] = "";
     $wpgmza_settings_map_open_marker_by_checked[1] = "";
@@ -6828,11 +6806,12 @@ if (function_exists('wpgmza_register_pro_version')) {
     add_action('wp_ajax_delete_rectangle', 'wpgmaps_action_callback_pro');
     add_action('template_redirect','wpgmaps_check_shortcode');
 
-    if (function_exists('wpgmza_register_gold_version')) {
-        add_action('admin_head', 'wpgmaps_admin_javascript_gold');
-    } else {
-        add_action('admin_head', 'wpgmaps_admin_javascript_pro');
-    }
+    if (function_exists('wpgmza_register_gold_version') && version_compare($wpgmza_pro_version, '7.10.29', '<=')) {
+		// Deprecated with Pro >= 7.10.30, where legacy-map-edit-page.js is used instead
+		add_action('admin_head', 'wpgmaps_admin_javascript_gold');
+	}else{
+		add_action('admin_head', 'wpgmaps_admin_javascript_pro');
+	}
 
     global $wpgmza_pro_version;
     $wpgmza_float_version = floatval( $wpgmza_pro_version );

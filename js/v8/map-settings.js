@@ -5,6 +5,12 @@
  */
 jQuery(function($) {
 	
+	/**
+	 * Handles map settings, parsing them from the data-settings attribute on the maps HTML element.
+	 * NB: This will be split into GoogleMapSettings and OLMapSettings in the future.
+	 * @class WPGMZA.MapSettings
+	 * @constructor WPGMZA.MapSettings
+	 */
 	WPGMZA.MapSettings = function(element)
 	{
 		var str = element.getAttribute("data-settings");
@@ -33,6 +39,12 @@ jQuery(function($) {
 		}
 	}
 	
+	/**
+	 * Returns settings on this object converted to OpenLayers view options
+	 * @method
+	 * @memberof WPGMZA.MapSettings
+	 * @return {object} The map settings, in a format understood by OpenLayers
+	 */
 	WPGMZA.MapSettings.prototype.toOLViewOptions = function()
 	{
 		var options = {
@@ -86,6 +98,12 @@ jQuery(function($) {
 		return options;
 	}
 	
+	/**
+	 * Returns settings on this object converted to Google's MapOptions spec.
+	 * @method
+	 * @memberof WPGMZA.MapSettings
+	 * @return {object} The map settings, in the format specified by google.maps.MapOptions
+	 */
 	WPGMZA.MapSettings.prototype.toGoogleMapsOptions = function()
 	{
 		var self = this;
