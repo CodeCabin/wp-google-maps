@@ -241,7 +241,7 @@ jQuery(function($) {
 	
 	WPGMZA.OLMap.prototype.getZoom = function()
 	{
-		return Math.round( this.olMap.getView().getZoom() ) + 1;
+		return Math.round( this.olMap.getView().getZoom() );
 	}
 	
 	WPGMZA.OLMap.prototype.setZoom = function(value)

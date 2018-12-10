@@ -4487,7 +4487,7 @@ jQuery(function($) {
  */
 jQuery(function ($) {
 
-	if (!window.wp || !wp.i18n || !wp.blocks) return;
+	if (!window.wp || !wp.i18n || !wp.blocks || !wp.editor) return;
 
 	var __ = wp.i18n.__;
 	var registerBlockType = wp.blocks.registerBlockType;
@@ -4501,7 +4501,9 @@ jQuery(function ($) {
 	    Tooltip = _wp$components.Tooltip,
 	    PanelBody = _wp$components.PanelBody,
 	    TextareaControl = _wp$components.TextareaControl,
+	    CheckboxControl = _wp$components.CheckboxControl,
 	    TextControl = _wp$components.TextControl,
+	    SelectControl = _wp$components.SelectControl,
 	    RichText = _wp$components.RichText;
 
 
@@ -4514,10 +4516,87 @@ jQuery(function ($) {
 	};
 
 	WPGMZA.Integration.Gutenberg.prototype.getBlockInspectorControls = function (props) {
+
+		/*
+  <TextControl
+  				name="overrideWidthAmount"
+  				label={__("Override Width Amount")}
+  				checked={props.overrideWidthAmount}
+  				onChange={onPropertiesChanged}
+  				/>
+  			
+  			<SelectControl
+  				name="overrideWidthUnits"
+  				label={__("Override Width Units")}
+  				options={[
+  					{value: "px", label: "px"},
+  					{value: "%", label: "%"},
+  					{value: "vw`", label: "vw"},
+  					{value: "vh", label: "vh"}
+  				]}
+  				onChange={onPropertiesChanged}
+  				/>
+  				
+  			<CheckboxControl
+  				name="overrideHeight"
+  				label={__("Override Height")}
+  				checked={props.overrideWidth}
+  				onChange={onPropertiesChanged}
+  				/>
+  				
+  			<TextControl
+  				name="overrideHeightAmount"
+  				label={__("Override Height Amount")}
+  				checked={props.overrideWidthAmount}
+  				onChange={onPropertiesChanged}
+  				/>
+  			
+  			<SelectControl
+  				name="overrideHeightUnits"
+  				label={__("Override Height Units")}
+  				options={[
+  					{value: "px", label: "px"},
+  					{value: "%", label: "%"},
+  					{value: "vw`", label: "vw"},
+  					{value: "vh", label: "vh"}
+  				]}
+  				onChange={onPropertiesChanged}
+  				/>
+  				*/
+
+		var onOverrideWidthCheckboxChanged = function onOverrideWidthCheckboxChanged(value) {};
+
 		return React.createElement(
 			InspectorControls,
 			{ key: "inspector" },
-			React.createElement(PanelBody, { title: __('Map Settings') })
+			React.createElement(
+				PanelBody,
+				{ title: __('Map Settings') },
+				React.createElement(
+					"p",
+					{ "class": "map-block-gutenberg-button-container" },
+					React.createElement(
+						"a",
+						{ href: WPGMZA.adminurl + "admin.php?page=wp-google-maps-menu&action=edit&map_id=1",
+							target: "_blank",
+							"class": "button button-primary" },
+						React.createElement("i", { "class": "fa fa-pencil-square-o", "aria-hidden": "true" }),
+						__('Go to Map Editor')
+					)
+				),
+				React.createElement(
+					"p",
+					{ "class": "map-block-gutenberg-button-container" },
+					React.createElement(
+						"a",
+						{ href: "https://www.wpgmaps.com/documentation/creating-your-first-map/",
+							target: "_blank",
+							"class": "button button-primary" },
+						React.createElement("i", { "class": "fa fa-book", "aria-hidden": "true" }),
+						__('View Documentation')
+					)
+				)
+			)
 		);
 	};
 
@@ -4545,7 +4624,7 @@ jQuery(function ($) {
 					React.createElement(
 						"span",
 						{ "class": "wpgmza-gutenberg-block-title" },
-						__("WP Google Maps")
+						__("Your map will appear here on your websites front end")
 					)
 				)];
 			},
@@ -5754,9 +5833,9 @@ jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocator = function(map_id)
 	{
-		WPGMZA.ModernStoreLocator.call(this, map_id);
+		var googleMap, self = this;
 		
-		var googleMap;
+		WPGMZA.ModernStoreLocator.call(this, map_id);
 		
 		if(WPGMZA.isProVersion())
 			googleMap = MYMAP[map_id].map.googleMap;
@@ -5767,11 +5846,12 @@ jQuery(function($) {
 		
 		// Address autocomplete
 		var options = {
+			fields: ["name", "formatted_address"],
 			types: ["geocode"]
-		};		
+		};
 		var restrict = wpgmaps_localize[map_id]["other_settings"]["wpgmza_store_locator_restrict"];
 		
-		this.addressInput = $(this.element).find(".addressInput")[0];
+		this.addressInput = $(this.element).find(".addressInput, #addressInput")[0];
 		
 		if(this.addressInput)
 		{
@@ -6666,7 +6746,7 @@ jQuery(function($) {
 	
 	WPGMZA.OLMap.prototype.getZoom = function()
 	{
-		return Math.round( this.olMap.getView().getZoom() ) + 1;
+		return Math.round( this.olMap.getView().getZoom() );
 	}
 	
 	WPGMZA.OLMap.prototype.setZoom = function(value)
@@ -6879,7 +6959,7 @@ jQuery(function($) {
 			parseFloat(this.lat)
 		]);
 		
-		this.element = $("<div class='ol-marker'><img src='" + WPGMZA.settings.default_marker_icon + "'/></div>")[0];
+		this.element = $("<div class='ol-marker'><img src='" + WPGMZA.settings.default_marker_icon + "' alt=''/></div>")[0];
 		this.element.wpgmzaMarker = this;
 		
 		$(this.element).on("mouseover", function(event) {

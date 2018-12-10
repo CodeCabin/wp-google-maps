@@ -1,9 +1,51 @@
 .wpgmza-gutenberg-block
 {
 	padding: 1em;
+	height: 300px;
+	background: #F3F3F4;
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.wpgmza-gutenberg-block .wpgmza-gutenberg-block-title
+{
+	white-space: nowrap;
+	font-size: 9pt;
+	color: #333;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.wpgmza-gutenberg-block .dashicon.dashicons-location-alt
+{
+	height: 64px;
+	width: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #e0e0e0;
 }
 
 .wpgmza-gutenberg-block-title
 {
 	padding-left: 0.5em;
+}
+
+.map-block-gutenberg-button-container
+{
+	text-align: center;
+}
+
+.map-block-gutenberg-button-container>a
+{
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.map-block-gutenberg-button-container i
+{
+	padding-right: 0.34em;
 }

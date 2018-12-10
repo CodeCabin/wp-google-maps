@@ -13,7 +13,7 @@
  */
 jQuery(function($) {
 
-	if(!window.wp || !wp.i18n || !wp.blocks)
+	if(!window.wp || !wp.i18n || !wp.blocks || !wp.editor)
 		return;
 	
 	const { __ } = wp.i18n;
@@ -32,7 +32,9 @@ jQuery(function($) {
 		Tooltip,
 		PanelBody,
 		TextareaControl,
+		CheckboxControl,
 		TextControl,
+		SelectControl,
 		RichText
 	} = wp.components;
 	
@@ -48,9 +50,82 @@ jQuery(function($) {
 	
 	WPGMZA.Integration.Gutenberg.prototype.getBlockInspectorControls = function(props)
 	{
+		
+		
+		/*
+		<TextControl
+						name="overrideWidthAmount"
+						label={__("Override Width Amount")}
+						checked={props.overrideWidthAmount}
+						onChange={onPropertiesChanged}
+						/>
+					
+					<SelectControl
+						name="overrideWidthUnits"
+						label={__("Override Width Units")}
+						options={[
+							{value: "px", label: "px"},
+							{value: "%", label: "%"},
+							{value: "vw`", label: "vw"},
+							{value: "vh", label: "vh"}
+						]}
+						onChange={onPropertiesChanged}
+						/>
+						
+					<CheckboxControl
+						name="overrideHeight"
+						label={__("Override Height")}
+						checked={props.overrideWidth}
+						onChange={onPropertiesChanged}
+						/>
+						
+					<TextControl
+						name="overrideHeightAmount"
+						label={__("Override Height Amount")}
+						checked={props.overrideWidthAmount}
+						onChange={onPropertiesChanged}
+						/>
+					
+					<SelectControl
+						name="overrideHeightUnits"
+						label={__("Override Height Units")}
+						options={[
+							{value: "px", label: "px"},
+							{value: "%", label: "%"},
+							{value: "vw`", label: "vw"},
+							{value: "vh", label: "vh"}
+						]}
+						onChange={onPropertiesChanged}
+						/>
+						*/
+		
+		const onOverrideWidthCheckboxChanged = value => {
+			
+			
+			
+		};
+		
 		return (
 			<InspectorControls key="inspector">
 				<PanelBody title={ __( 'Map Settings' ) } >
+					
+					<p class="map-block-gutenberg-button-container">
+						<a href={WPGMZA.adminurl + "admin.php?page=wp-google-maps-menu&action=edit&map_id=1"} 
+							target="_blank" 
+							class="button button-primary">
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+							{__('Go to Map Editor')}
+						</a>
+					</p>
+					
+					<p class="map-block-gutenberg-button-container">
+						<a href="https://www.wpgmaps.com/documentation/creating-your-first-map/"
+							target="_blank"
+							class="button button-primary">
+							<i class="fa fa-book" aria-hidden="true"></i>
+							{__('View Documentation')}
+						</a>
+					</p>
 					
 				</PanelBody>
 			</InspectorControls>
@@ -85,9 +160,11 @@ jQuery(function($) {
 					<div className={ props.className + " wpgmza-gutenberg-block" }>
 						
 						<Dashicon icon="location-alt"/>
+						
 						<span class="wpgmza-gutenberg-block-title">
-							{ __("WP Google Maps") }
+							{ __("Your map will appear here on your websites front end") }
 						</span>
+						
 					</div>
 				];
 			},

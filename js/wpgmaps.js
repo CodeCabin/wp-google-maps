@@ -182,6 +182,7 @@ function wpgmza_create_places_autocomplete() {
 		return;
 	
 	var options = {
+		fields: ["name", "formatted_address"],
 		types: ["geocode"]
 	};
 	
@@ -498,6 +499,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
                         var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
                         if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
+							
+							if(!window.infoWindow)
+								wpgmza_init_infowindow();
+							
                             infoWindow.setContent(html);
                             infoWindow.open(MYMAP.map, marker);
                         }
@@ -516,6 +521,9 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 								infoWindow.close();
 							if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 							{
+								if(!window.infoWindow)
+									wpgmza_init_infowindow();
+								
 								infoWindow.setContent(html);
 								infoWindow.open(MYMAP.map, marker);
 							}
@@ -790,7 +798,7 @@ jQuery("body").on("keypress","#addressInput", function(event) {
 var autocomplete;
 function fillInAddress() {
   // Get the place details from the autocomplete object.
-  var place = autocomplete.getPlace();
+  //var place = autocomplete.getPlace();
 }
 
 jQuery(window).on("load", function() {
