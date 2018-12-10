@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.46
+Version: 7.10.50
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,23 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.50 :- 2018-12-10 :- Low priority
+ * Added blank alt attribute to OpenLayers marker img element
+ * Updated WP version supported to 5.0
+ *
+ * 7.10.49 :- 2018-12-05 :- Low priority
+ * Improved Gutenberg integration (new buttons added)
+ *
+ * 7.10.48 :- 2018-12-03 :- Low priority
+ * Added a check for wp.editor in Gutenberg JS module
+ * Fixed InfoWindow not initialized before open called when using marker open by default setting
+ * Fixed WPGMZA.OLMap returning zoom one level too far in (fixes map zooms in one level on save)
+ *
+ * 7.10.47 :- 2018-11-22 :- Low priority
+ * Removed all redundant calls to getPlace
+ * Places AutoCompletes now only request the "name" and "formatted_address" fields
+ * Changed "Create an API key now" link
+ *
  * 7.10.46 :- 2018-11-20 :- Medium priority
  * Fixed store locator circle and radius not displayed when no markers are present
  * Fixed browser compatibility code causing Gutenberg dependency failure
@@ -7502,7 +7519,7 @@ function google_maps_api_key_warning(){
         echo "<p>".__("Before creating a map please follow these steps:","wp-google-maps")."";
         echo "<ol>";
         echo "<li>";
-        echo " <a target='_BLANK' href='https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true' class=''>".__("Create an API key now","wp-google-maps")."</a>";
+        echo " <a target='_BLANK' href='https://www.wpgmaps.com/get-a-google-maps-api-key/' class=''>".__("Create an API key now","wp-google-maps")."</a>";
         echo "</li>";
         echo "<li><form method='POST'>";
         echo __('Paste your API key here and press save:','wp-google-maps');

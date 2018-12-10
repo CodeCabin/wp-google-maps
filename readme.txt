@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: http://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 4.9.8
+Tested up to: 5.0
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -215,6 +215,23 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 7.10.50 :- 2018-12-10 :- Low priority =
+* Added blank alt attribute to OpenLayers marker img element
+* Updated WP version supported to 5.0
+
+= 7.10.49 :- 2018-12-05 :- Low priority =
+* Improved Gutenberg integration (new buttons added)
+
+= 7.10.48 :- 2018-12-03 :- Low priority =
+* Added a check for wp.editor in Gutenberg JS module 
+* Fixed InfoWindow not initialized before open called when using marker open by default setting
+* Fixed WPGMZA.OLMap returning zoom one level too far in (fixes map zooms in one level on save)
+
+= 7.10.47 :- 2018-11-22 :- Low priority =
+* Removed all redundant calls to getPlace
+* Places AutoCompletes now only request the "name" and "formatted_address" fields
+* Changed "Create an API key now" link
  
 = 7.10.46 :- 2018-11-20 :- Medium priority =
 * Fixed store locator circle and radius not displayed when no markers are present

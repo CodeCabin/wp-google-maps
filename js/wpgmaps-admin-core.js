@@ -37,7 +37,7 @@
 	
     function fillInAddress() {
       // Get the place details from the autocomplete object.
-      var place = autocomplete.getPlace();
+      //var place = autocomplete.getPlace();
     }
 
 	function enableAddMarkerButton(enable)
@@ -204,8 +204,13 @@
 			{
 				/* initialize the autocomplete form */
 				autocomplete = new google.maps.places.Autocomplete(
-				  /** @type {HTMLInputElement} */(document.getElementById('wpgmza_add_address')),
-				  { types: ['geocode'] });
+					document.getElementById('wpgmza_add_address'),
+					{
+						fields: ["name", "formatted_address"],
+						types: ['geocode']
+					}
+				);
+				
 				// When the user selects an address from the dropdown,
 				// populate the address fields in the form.
 				google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -216,8 +221,12 @@
 			if(document.getElementById('wpgmza_store_locator_default_address'))
 			{
 				var store_default_autocomplete = new google.maps.places.Autocomplete(
-                    (document.getElementById('wpgmza_store_locator_default_address')),
-                    { types: ['geocode'] });
+                    document.getElementById('wpgmza_store_locator_default_address'),
+                    {
+						fields: ["name", "formatted_address"],
+						types: ['geocode']
+					}
+				);
 			}
 		}
         

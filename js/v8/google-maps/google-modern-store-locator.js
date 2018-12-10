@@ -7,9 +7,9 @@ jQuery(function($) {
 	
 	WPGMZA.GoogleModernStoreLocator = function(map_id)
 	{
-		WPGMZA.ModernStoreLocator.call(this, map_id);
+		var googleMap, self = this;
 		
-		var googleMap;
+		WPGMZA.ModernStoreLocator.call(this, map_id);
 		
 		if(WPGMZA.isProVersion())
 			googleMap = MYMAP[map_id].map.googleMap;
@@ -20,11 +20,12 @@ jQuery(function($) {
 		
 		// Address autocomplete
 		var options = {
+			fields: ["name", "formatted_address"],
 			types: ["geocode"]
-		};		
+		};
 		var restrict = wpgmaps_localize[map_id]["other_settings"]["wpgmza_store_locator_restrict"];
 		
-		this.addressInput = $(this.element).find(".addressInput")[0];
+		this.addressInput = $(this.element).find(".addressInput, #addressInput")[0];
 		
 		if(this.addressInput)
 		{

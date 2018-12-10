@@ -203,10 +203,9 @@ class Plugin
 		$strings = new Strings();
 		
 		$settings = clone $this->settings;
-		if(isset($settings->wpgmza_settings_ugm_email_address))
-			unset($settings->wpgmza_settings_ugm_email_address);
 		
-		return apply_filters('wpgmza_plugin_get_localized_data', array(
+		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
+			'adminurl'				=> admin_url(),
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'resturl'				=> get_rest_url(null, 'wpgmza/v1'),
 			
@@ -224,6 +223,11 @@ class Plugin
 			'_isProVersion'			=> $this->isProVersion(),
 			'is_admin'				=> (is_admin() ? 1 : 0)
 		));
+		
+		if(!empty($result->settings->wpgmza_settings_ugm_email_address))
+			unset($result->settings->wpgmza_settings_ugm_email_address);
+		
+		return $result;
 	}
 	
 	/**
