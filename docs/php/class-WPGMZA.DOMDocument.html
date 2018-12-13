@@ -118,9 +118,6 @@
 	<h1>Class DOMDocument</h1>
 
 
-	<div class="description">
-	<p>Extension of PHP's native \DOMDocument, providing helpful utility functions to carry out common tasks such as read HTML with inline PHP, populate named elements, import extenral content</p>
-	</div>
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
@@ -159,7 +156,7 @@ DOMDocument
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.DOMDocument.html#7-245" title="Go to source code">class.dom-document.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.DOMDocument.html#7-244" title="Go to source code">class.dom-document.php</a>
 		<br>
 	</div>
 
@@ -179,7 +176,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#14-24" title="Go to source code">__construct</a>( <span> <var>$version</var> = <span class="php-quote">'1.0'</span></span>, <span> <var>$encoding</var> = <span class="php-quote">'UTF-8'</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#11-21" title="Go to source code">__construct</a>( <span> <var>$version</var> = <span class="php-quote">'1.0'</span></span>, <span> <var>$encoding</var> = <span class="php-quote">'UTF-8'</span></span> )</code>
 
 		<div class="description short">
 			<p>Constructor</p>
@@ -215,7 +212,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_convertUTF8ToHTMLEntities">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#26-35" title="Go to source code">convertUTF8ToHTMLEntities</a>( <span> <var>$html</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#23-32" title="Go to source code">convertUTF8ToHTMLEntities</a>( <span> <var>$html</var></span> )</code>
 
 		<div class="description short">
 			
@@ -245,7 +242,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onReady">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#37-44" title="Go to source code">onReady</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#34-41" title="Go to source code">onReady</a>( )</code>
 
 		<div class="description short">
 			<p>Fired after construction when the Document is initialized</p>
@@ -275,7 +272,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onLoaded">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#46-53" title="Go to source code">onLoaded</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#43-50" title="Go to source code">onLoaded</a>( )</code>
 
 		<div class="description short">
 			<p>Fired after content has been loaded</p>
@@ -305,7 +302,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_load">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#55-74" title="Go to source code">load</a>( <span>string <var>$src</var></span>, <span>integer <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#52-71" title="Go to source code">load</a>( <span>string <var>$src</var></span>, <span>integer <var>$options</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Loads the specified file and evaulates nodes</p>
@@ -352,7 +349,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_loadPHPFile">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#76-118" title="Go to source code">loadPHPFile</a>( <span>string <var>$src</var></span>, <span>integer <var>$options</var> = <span class="php-num">0</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#73-115" title="Go to source code">loadPHPFile</a>( <span>string <var>$src</var></span>, <span>integer <var>$options</var> = <span class="php-num">0</span></span> )</code>
 
 		<div class="description short">
 			<p>Loads the specified file and parses any PHP</p>
@@ -393,32 +390,18 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_handleImport">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#120-176" title="Go to source code">handleImport</a>( <span>string <var>$subject</var></span>, <span><code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code> <var>$node</var></span>, <span>boolean <var>$forcePHP</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#117-167" title="Go to source code">handleImport</a>( <span> <var>$subject</var></span>, <span> <var>$node</var></span>, <span> <var>$forcePHP</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
-			<p>Handles importing the specified filename to the given node. Files with the extension .html or .html.php will be processed and imported. Files with the extension .php will be scanned for a class extending DOMDocument and imported if one is found.</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Handles importing the specified filename to the given node. Files with the extension .html or .html.php will be processed and imported. Files with the extension .php will be scanned for a class extending DOMDocument and imported if one is found.</p>
+			
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$subject</var></dt>
-					<dd>The filename to import</dd>
-					<dt><var>$node</var></dt>
-					<dd>The target node</dd>
-					<dt><var>$forcePHP</var></dt>
-					<dd>Forces inline PHP to be processed</dd>
-				</dl></div>
 
 
-				<h4>Throws</h4>
-				<div class="list">
-					Exception<br>When the subject is a PHP file, but no classes are found<br>
-					Exception<br>When the subject is a PHP file, but the last class found in the file is not an instance of DOMDocument
-				</div>
 
 
 
@@ -437,7 +420,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_querySelector">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#179-189" title="Go to source code">querySelector</a>( <span>string <var>$query</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#170-180" title="Go to source code">querySelector</a>( <span>string <var>$query</var></span> )</code>
 
 		<div class="description short">
 			<p>Runs a CSS selector on the element. This is equivilant to Javascripts querySelector</p>
@@ -476,7 +459,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_querySelectorAll">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#191-200" title="Go to source code">querySelectorAll</a>( <span> <var>$query</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#182-191" title="Go to source code">querySelectorAll</a>( <span> <var>$query</var></span> )</code>
 
 		<div class="description short">
 			<p>Runs a CSS selector on the element. This is equivilant to Javascripts querySelectorAll</p>
@@ -510,7 +493,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_populate">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#202-212" title="Go to source code">populate</a>( <span>mixed <var>$src</var></span>, <span> <var>$formatters</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#193-203" title="Go to source code">populate</a>( <span>mixed <var>$src</var></span>, <span> <var>$formatters</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Takes an associative array or object, and populates this element with it</p>
@@ -547,7 +530,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_createErrorElement">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#214-225" title="Go to source code">createErrorElement</a>( <span>string <var>$message</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#205-216" title="Go to source code">createErrorElement</a>( <span>string <var>$message</var></span> )</code>
 
 		<div class="description short">
 			<p>Utility function to create an error element</p>
@@ -586,7 +569,7 @@ DOMDocument
 
 		<td class="name"><div>
 		<a class="anchor" href="#_saveInnerBody">#</a>
-		<code><a href="source-class-WPGMZA.DOMDocument.html#227-244" title="Go to source code">saveInnerBody</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#218-235" title="Go to source code">saveInnerBody</a>( )</code>
 
 		<div class="description short">
 			<p>This function saves only the inside of the <body> element of this document. This is useful when you want to import a HTML document into another, but you don't want to end up with nested <html> elements</p>
@@ -601,6 +584,36 @@ DOMDocument
 				<div class="list">
 					string<br>The HTML string
 				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__get" id="___get">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___get">#</a>
+		<code><a href="source-class-WPGMZA.DOMDocument.html#237-243" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
 
 
 

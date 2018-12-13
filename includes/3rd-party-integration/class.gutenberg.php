@@ -40,6 +40,9 @@ class Gutenberg extends \WPGMZA\Factory
 	{
 		global $wpgmza;
 		
+		if(!is_admin())
+			return;
+		
 		$wpgmza->loadScripts();
 		
 		wp_enqueue_style(
