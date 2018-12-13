@@ -87,6 +87,9 @@ function InitMap() {
 	
 	if(wpgmaps_localize[wpgmaps_mapid].other_settings.store_locator_style == 'modern')
 	{
+		if(!MYMAP.map)
+			return;
+		
 		MYMAP.modernStoreLocator = WPGMZA.ModernStoreLocator.createInstance(wpgmaps_mapid);
 		wpgmza_create_places_autocomplete();
 	}
@@ -608,8 +611,6 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 						// Prevent JS error in Gutenberg editor (Temporary fix)
 						if(WPGMZA.is_admin == "1")
 							return;
-						
-                        MYMAP.bounds.extend(point);
 						
                         if (show_marker_radius === true) {
 							

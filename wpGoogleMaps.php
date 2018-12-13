@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.50
+Version: 7.10.51
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,11 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.51 :- 2018-12-11 :- Low priority
+ * Added tile server URL setting for OpenLayers
+ * Fixed Google vertex context menu preventing OpenLayers engine loading in developer mode
+ * Fixed Gutenberg integration module always loading scripts on front end
+ *
  * 7.10.50 :- 2018-12-10 :- Low priority
  * Added blank alt attribute to OpenLayers marker img element
  * Updated WP version supported to 5.0
@@ -2967,6 +2972,12 @@ function wpgmaps_tag_basic( $atts ) {
 	$gutenbergIndex = array_search('wpgmza-gutenberg', $core_dependencies);
 	if($gutenbergIndex !== false)
 		array_splice($core_dependencies, $gutenbergIndex, 1);
+
+	if(isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers')
+	{
+		if($index = array_search('wpgmza-google-vertex-context-menu', $core_dependencies))
+			array_splice($core_dependencies, $index, 1);
+	}
 	
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
@@ -3270,6 +3281,9 @@ function wpgmza_settings_page_post()
 		else if(isset($wpgmza_data[$remap]))
 			unset($wpgmza_data[$remap]);
 	}
+	
+	if(isset($_POST['tile_server_url']))
+		$wpgmza_data['tile_server_url'] = $_POST['tile_server_url'];
 	
 	if(isset($_POST['wpgmza_load_engine_api_condition']))
 		$wpgmza_data['wpgmza_load_engine_api_condition'] = $_POST['wpgmza_load_engine_api_condition'];
@@ -4752,7 +4766,23 @@ function wpgmaps_settings_page_basic() {
 			</tr>
 			
 			";
-
+			
+			if(isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers')
+			{
+				$tileServerSelect = new WPGMZA\DOMDocument();
+				$tileServerSelect->loadPHPFile(plugin_dir_path(__FILE__) . 'html/tile-server-fieldset.html.php');
+				// TODO: In Pro, check this property exists
+				
+				if(isset($wpgmza_settings['tile_server_url']))
+				{
+					$option = $tileServerSelect->querySelector('option[value="' . $wpgmza_settings['tile_server_url'] . '"]');
+					if($option)
+						$option->setAttribute('selected', 'selected');
+				}
+				
+				$ret .= $tileServerSelect->html;
+			}
+			
 			$api_loader = new WPGMZA\GoogleMapsAPILoader();
 			$ret .= $api_loader->getSettingsHTML();
 			
@@ -5057,7 +5087,7 @@ function wpgmza_map_page() {
 
         if( $name == 'Avada' && intval( $modified_version ) <= 393 && !isset( $wpgmza_settings['wpgmza_settings_force_jquery'] ) ){
 
-            echo "<div class='error'><p>".printf( /* translators: %s: WP Google Maps Settings Link */ __("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check the highlighted checkbox.", "wp-google-maps"), admin_url('/admin.php?page=wp-google-maps-menu-settings#wpgmza_settings_force_jquery') )."</p></div>";
+			echo "<div class='error'><p>".printf( /* translators: %s: WP Google Maps Settings Link */ __("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check the highlighted checkbox.", "wp-google-maps"), admin_url('/admin.php?page=wp-google-maps-menu-settings#wpgmza_settings_force_jquery') )."</p></div>";
 
         }
         
@@ -5079,8 +5109,8 @@ function wpgmza_map_page() {
 
         if( $name == 'Avada' && intval( $modified_version ) <= 393 && !isset( $wpgmza_settings['wpgmza_settings_force_jquery'] ) ){
 
-            echo "<div class='error'><p>".printf( /* translators: %s: WP Google Maps Settings Link */ __("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check the highlighted checkbox.", "wp-google-maps"), admin_url('/admin.php?page=wp-google-maps-menu-settings#wpgmza_settings_force_jquery') )."</p></div>";
-
+			echo "<div class='error'><p>".printf( /* translators: %s: WP Google Maps Settings Link */ __("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check the highlighted checkbox.", "wp-google-maps"), admin_url('/admin.php?page=wp-google-maps-menu-settings#wpgmza_settings_force_jquery') )."</p></div>";
+		
         }            
 
         wpgmaps_list_maps();
@@ -5835,9 +5865,7 @@ function wpgmza_basic_menu() {
                     </table>
 
                             <div class=\"update-nag update-att\">
-                                
-                                        <i class=\"fa fa-arrow-circle-right\"> </i> ".printf( /* translators: %s: WP Google Maps Pro Link */ __("Get the rest of these advanced features with the Pro version for only <a href=\"%s\" target=\"_BLANK\">$39.99 once off</a>. Support and updates included forever.","wp-google-maps"), wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced") )."
-                                    
+								<i class=\"fa fa-arrow-circle-right\"> </i> ".printf( /* translators: %s: WP Google Maps Pro Link */ __("Get the rest of these advanced features with the Pro version for only <a href=\"%s\" target=\"_BLANK\">$39.99 once off</a>. Support and updates included forever.","wp-google-maps"), wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced") )."
                             </div>
 
                             <table class='form-table' id='wpgmaps_advanced_options'>
@@ -5877,7 +5905,7 @@ function wpgmza_basic_menu() {
                         <div id=\"tabs-5\" style=\"font-family:sans-serif;\">
                             <div class=\"update-nag update-att\">
                                 
-                                        <i class=\"fa fa-arrow-circle-right\"> </i> ".printf( /* translators: %s: WP Google Maps Pro Link */ __("Enable Marker Listing with the <a href=\"%s\" target=\"_BLANK\">Pro version for only $39.99 once off</a>. Support and updates included forever.","wp-google-maps"), wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=marker_listing") )."
+                                        <i class=\"fa fa-arrow-circle-right\"> </i> ".__("Enable Marker Listing with the <a href=\"".wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=marker_listing")."\" target=\"_BLANK\">Pro version for only $39.99 once off</a>. Support and updates included forever.","wp-google-maps")."
                                     
                             </div>
                             <br>

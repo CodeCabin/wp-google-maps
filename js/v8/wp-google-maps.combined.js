@@ -6654,8 +6654,13 @@ jQuery(function($) {
 	
 	WPGMZA.OLMap.prototype.getTileLayer = function()
 	{
+		var options = {};
+		
+		if(WPGMZA.settings.tile_server_url)
+			options.url = WPGMZA.settings.tile_server_url;
+		
 		return new ol.layer.Tile({
-			source: new ol.source.OSM()
+			source: new ol.source.OSM(options)
 		});
 	}
 	

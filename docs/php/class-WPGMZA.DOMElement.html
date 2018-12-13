@@ -118,9 +118,6 @@
 	<h1>Class DOMElement</h1>
 
 
-	<div class="description">
-	<p>An extension of PHPs native \DOMElement, adds JavaScript / jQuery style utilities such as querySelector, prepent, closest</p>
-	</div>
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
@@ -155,7 +152,7 @@ DOMElement
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.DOMElement.html#7-672" title="Go to source code">class.dom-element.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.DOMElement.html#7-662" title="Go to source code">class.dom-element.php</a>
 		<br>
 	</div>
 
@@ -175,7 +172,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#14-17" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#11-14" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -207,7 +204,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_querySelector">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#19-30" title="Go to source code">querySelector</a>( <span>string <var>$query</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#16-27" title="Go to source code">querySelector</a>( <span>string <var>$query</var></span> )</code>
 
 		<div class="description short">
 			<p>Runs a CSS selector on the element. This is equivilant to Javascripts querySelector</p>
@@ -246,7 +243,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_querySelectorAll">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#32-56" title="Go to source code">querySelectorAll</a>( <span> <var>$query</var></span>, <span> <var>$sort</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#29-53" title="Go to source code">querySelectorAll</a>( <span> <var>$query</var></span>, <span> <var>$sort</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Runs a CSS selector on the element. This is equivilant to Javascripts querySelectorAll</p>
@@ -273,14 +270,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			DOMElement
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_prepend">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#58-76" title="Go to source code">prepend</a>( <span> <var>$subject</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#55-73" title="Go to source code">prepend</a>( <span> <var>$subject</var></span> )</code>
 
 		<div class="description short">
 			<p>Prepends the subject to this element.</p>
@@ -298,7 +295,7 @@ DOMElement
 
 				<h4>Returns</h4>
 				<div class="list">
-					DOMElement<br>This element
+					<br>$this element
 				</div>
 
 
@@ -312,14 +309,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			DOMElement
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_append">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#78-94" title="Go to source code">append</a>( <span>mixed <var>$subject</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#75-89" title="Go to source code">append</a>( <span> <var>$subject</var></span> )</code>
 
 		<div class="description short">
 			<p>Appends the subject to this element.</p>
@@ -329,16 +326,7 @@ DOMElement
 			<p>Appends the subject to this element.</p>
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$subject</var></dt>
-					<dd>Either a \DOMNode, DOMElement, or an arroy of either</dd>
-				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					DOMElement<br>This element
-				</div>
 
 
 
@@ -351,14 +339,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			mixed
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_closest">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#96-114" title="Go to source code">closest</a>( <span>mixed <var>$selector</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#91-108" title="Go to source code">closest</a>( <span>mixed <var>$selector</var></span> )</code>
 
 		<div class="description short">
 			<p>Traverses from this node up it's ancestors and returns the first node that matches the given selector</p>
@@ -374,10 +362,6 @@ DOMElement
 					<dd>Either this node the first ancestor that matches this selector, or NULL if no match is found</dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					mixed<br>The closest matching elmeent, or null if none is found.
-				</div>
 
 
 
@@ -397,7 +381,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isBefore">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#116-158" title="Go to source code">isBefore</a>( <span> <var>$other</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#110-152" title="Go to source code">isBefore</a>( <span> <var>$other</var></span> )</code>
 
 		<div class="description short">
 			<p>Test if this element comes before the other element in the DOM tree</p>
@@ -431,7 +415,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getBreadth">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#160-170" title="Go to source code">getBreadth</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#154-164" title="Go to source code">getBreadth</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the breadth (sometimes called child index) of this node in regards to it's siblings</p>
@@ -465,7 +449,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDepth">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#172-182" title="Go to source code">getDepth</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#166-176" title="Go to source code">getDepth</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the depth of this node in regards to it's ancestors</p>
@@ -499,14 +483,14 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_selectorToXPath">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#193-207" title="Go to source code">selectorToXPath</a>( <span>string <var>$selector</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#186-199" title="Go to source code">selectorToXPath</a>( <span>string <var>$selector</var></span> )</code>
 
 		<div class="description short">
-			<p>Converts a selector to an XPath</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Converts a selector to an XPath</p>
+			
 
 
 				<h4>Parameters</h4>
@@ -538,7 +522,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_import">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#209-295" title="Go to source code">import</a>( <span>mixed <var>$subject</var></span>, <span> <var>$forcePHP</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#201-287" title="Go to source code">import</a>( <span>mixed <var>$subject</var></span>, <span> <var>$forcePHP</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			<p>Imports the supplied subject into this node.</p>
@@ -576,14 +560,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setInlineStyle">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#297-309" title="Go to source code">setInlineStyle</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#289-301" title="Go to source code">setInlineStyle</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets an inline CSS style on this element. If it's already set, the old value will be removed first</p>
@@ -603,7 +587,7 @@ DOMElement
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>$this
+					<br>$this
 				</div>
 
 
@@ -617,14 +601,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_removeInlineStyle">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#311-334" title="Go to source code">removeInlineStyle</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#303-326" title="Go to source code">removeInlineStyle</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Removes the inline CSS style specified by name</p>
@@ -642,7 +626,7 @@ DOMElement
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>$this
+					<br>$this
 				</div>
 
 
@@ -663,7 +647,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_hasInlineStyle">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#336-345" title="Go to source code">hasInlineStyle</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#328-337" title="Go to source code">hasInlineStyle</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Check if this element has an inline style by name</p>
@@ -698,7 +682,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getInlineStyle">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#347-362" title="Go to source code">getInlineStyle</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#339-354" title="Go to source code">getInlineStyle</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Gets the value of the inline style by name</p>
@@ -737,7 +721,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_addClass">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#364-378" title="Go to source code">addClass</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#356-370" title="Go to source code">addClass</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Adds a class to this elements class attribute. It will be ignored if the class already exists</p>
@@ -776,7 +760,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_removeClass">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#380-399" title="Go to source code">removeClass</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#372-391" title="Go to source code">removeClass</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Removes the specified class from this nodes class attribute</p>
@@ -815,7 +799,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_hasClass">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#401-412" title="Go to source code">hasClass</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#393-404" title="Go to source code">hasClass</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Tests if the specified class exists on this elements class attribute</p>
@@ -854,7 +838,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_populateElement">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#414-456" title="Go to source code">populateElement</a>( <span>The <var>$target</var></span>, <span>string <var>$key</var></span>, <span>string <var>$value</var></span>, <span>array <var>$formatters</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#406-448" title="Go to source code">populateElement</a>( <span>The <var>$target</var></span>, <span>string <var>$key</var></span>, <span>string <var>$value</var></span>, <span>array <var>$formatters</var></span> )</code>
 
 		<div class="description short">
 			<p>Populates the target element. If it is a form element, the value will be set according to the elements type/nodeName. If not, the value will be imported instead.</p>
@@ -895,7 +879,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_populate">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#458-511" title="Go to source code">populate</a>( <span>mixed <var>$src</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$formatters</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#450-503" title="Go to source code">populate</a>( <span>mixed <var>$src</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$formatters</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Takes a source object or associative array and optional array of formatting functions, and populates descendant named elements with the values from that source.</p>
@@ -936,7 +920,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getValue">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#513-548" title="Go to source code">getValue</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#505-540" title="Go to source code">getValue</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the value of this element</p>
@@ -970,7 +954,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setValue">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#550-619" title="Go to source code">setValue</a>( <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#542-610" title="Go to source code">setValue</a>( <span> <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets the value of this element. Intended for form elements only. If this element is a textarea, it will be appended as plain text. If this element is a select, it will attempt to select the option with the specified value. If the input is a radio or checkbox, it will set it accordingly. Otherwise, the value will be put into the value attribute</p>
@@ -980,11 +964,6 @@ DOMElement
 			<p>Sets the value of this element. Intended for form elements only. If this element is a textarea, it will be appended as plain text. If this element is a select, it will attempt to select the option with the specified value. If the input is a radio or checkbox, it will set it accordingly. Otherwise, the value will be put into the value attribute</p>
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$value</var></dt>
-					<dd>value to set</dd>
-				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
@@ -1007,14 +986,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			Smart\Element
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_appendText">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#621-630" title="Go to source code">appendText</a>( <span>string <var>$text</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#612-620" title="Go to source code">appendText</a>( <span> <var>$text</var></span> )</code>
 
 		<div class="description short">
 			<p>Appends the specified text to this element, shorthand utility function</p>
@@ -1024,15 +1003,10 @@ DOMElement
 			<p>Appends the specified text to this element, shorthand utility function</p>
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$text</var></dt>
-					<dd>The text to append</dd>
-				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>This element
+					Smart\Element<br>This element
 				</div>
 
 
@@ -1046,14 +1020,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_insertAfter">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#632-649" title="Go to source code">insertAfter</a>( <span><code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code> <var>$elem</var></span>, <span><code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code> <var>$after</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#622-639" title="Go to source code">insertAfter</a>( <span>Smart\Element <var>$elem</var></span>, <span>Smart\Element <var>$after</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Utility function to append the specified element after one of this elements children. Will append at the end if after is null</p>
@@ -1066,15 +1040,12 @@ DOMElement
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$elem</var></dt>
-					<dd>the element to insert</dd>
+					<dd>element to insert</dd>
 					<dt><var>$after</var></dt>
-					<dd>one of this elements children, or null</dd>
+					<dd><p>of this elements children, or null
+*@return \Smart\Element this element</p></dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>this element
-				</div>
 
 
 
@@ -1087,14 +1058,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			Smart\Element
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_clear">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#651-660" title="Go to source code">clear</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#641-650" title="Go to source code">clear</a>( )</code>
 
 		<div class="description short">
 			<p>Clears this element, completely removing all it's contents</p>
@@ -1107,7 +1078,7 @@ DOMElement
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>This element
+					Smart\Element<br>This element
 				</div>
 
 
@@ -1121,14 +1092,14 @@ DOMElement
 		<td class="attributes"><code>
 			 public 
 
-			<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code>
+			Smart\Element
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_remove">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#662-671" title="Go to source code">remove</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#652-661" title="Go to source code">remove</a>( )</code>
 
 		<div class="description short">
 			<p>Removes this element from it's parent</p>
@@ -1141,7 +1112,7 @@ DOMElement
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-WPGMZA.DOMElement.html">WPGMZA\DOMElement</a></code><br>This element
+					Smart\Element<br>This element
 				</div>
 
 
@@ -1226,7 +1197,7 @@ setUserData()
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-WPGMZA.DOMElement.html#12" title="Go to source code"><var>$xpathConverter</var></a>
+				<a href="source-class-WPGMZA.DOMElement.html#9" title="Go to source code"><var>$xpathConverter</var></a>
 
 			<div class="description short">
 				
