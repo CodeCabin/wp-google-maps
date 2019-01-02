@@ -36,14 +36,15 @@ jQuery(function($) {
 	 */
 	WPGMZA.LatLngBounds.prototype.extend = function(latLng)
 	{
-		if(this.isInInitialState())
-		{
-			this.north = this.south = this.west = this.east = new WPGMZA.LatLng(latLng);
-			return;
-		}
-		
 		if(!(latLng instanceof WPGMZA.LatLng))
 			latLng = new WPGMZA.LatLng(latLng);
+		
+		if(this.isInInitialState())
+		{
+			this.north = this.south = latLng.lat;
+			this.west = this.east = latLng.lng;
+			return;
+		}
 		
 		if(latLng.lat < this.north)
 			this.north = latLng.lat;

@@ -217,6 +217,25 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.55 :- 2018-12-27 :- Medium priority =
+* Changed GoogleMap fitBounds to accept a WPGMZA.LatLngBounds
+* Changed OLMap fitBounds to accept a WPGMZA.LatLngBounds
+* Fixed WPGMZA.LatLngBounds setting individual coordinates to LatLngs
+* Fixed WPGMZA.GoogleMap.fitBounds not working with native LatLngBounds
+
+= 7.10.54 :- 2018-12-20 :- Medium priority
+* Fixed default OpenLayers tiles being fetched over relative URL
+
+= 7.10.53 :- 2018-12-17 :- Medium priority =
+* Added missing file /html/tile-server-fieldset.html.php
+
+= 7.10.52 :- 2018-12-14 :- Low priority =
+* Fixed undefined errors when running Elementor
+* Fixed "Cannot read property 'wpgmza_iw_type' of undefined" preventing infowindow opening
+* Fixed missing spatial prefix on Marker::update_latlng
+* Added class wpgmza-gdpr-compliance to GDPR compliance notice parent div
+* Dynamic content removed from translation strings, printf now used instead
+
 = 7.10.51 :- 2018-12-11 :- Low priority =
 * Added tile server URL setting for OpenLayers
 * Fixed Google vertex context menu preventing OpenLayers engine loading in developer mode

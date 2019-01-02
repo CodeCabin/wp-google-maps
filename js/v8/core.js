@@ -320,13 +320,25 @@ jQuery(function($) {
 		},
 		
 		/**
-		 * This function will get the users position, it first attempts to get high accuracy position (mobile with GPS sensors etc.), if that fails (desktops will time out) then it tries again without high accuracy enabled.
-		 * @method getCurrentPosition
+		 * @function getCurrentPosition
+		 * @summary This function will get the users position, it first attempts to get
+		 * high accuracy position (mobile with GPS sensors etc.), if that fails
+		 * (desktops will time out) then it tries again without high accuracy
+		 * enabled
 		 * @static
 		 * @return {object} The users position as a LatLng literal
 		 */
-		getCurrentPosition: function(callback)
+		getCurrentPosition: function(callback, watch)
 		{
+			var trigger = "userlocationfound";
+			var nativeFunction = "getCurrentPosition";
+			
+			if(watch)
+			{
+				trigger = "userlocationupdated";
+				nativeFunction = "watchPosition";
+			}
+			
 			if(!navigator.geolocation)
 			{
 				console.warn("No geolocation available on this device");
@@ -337,7 +349,7 @@ jQuery(function($) {
 				enableHighAccuracy: true
 			};
 			
-			navigator.geolocation.getCurrentPosition(function(position) {
+			navigator.geolocation[nativeFunction](function(position) {
 				if(callback)
 					callback(position);
 				
@@ -347,7 +359,7 @@ jQuery(function($) {
 				
 				options.enableHighAccuracy = false;
 				
-				navigator.geolocation.getCurrentPosition(function(position) {
+				navigator.geolocation[nativeFunction](function(position) {
 					if(callback)
 						callback(position);
 					
@@ -360,6 +372,11 @@ jQuery(function($) {
 				
 			},
 			options);
+		},
+		
+		watchPosition: function(callback)
+		{
+			return WPGMZA.getCurrentPosition(callback, true);
 		},
 		
 		/**
@@ -433,6 +450,10 @@ jQuery(function($) {
 		 * @return {object} The map object, or null if no such map exists
 		 */
 		getMapByID: function(id) {
+			
+			// Workaround for map ID member not set correctly
+			return MYMAP[id].map;
+			
 			for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)
 					return WPGMZA.maps[i];
