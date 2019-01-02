@@ -21,7 +21,9 @@ class Strings
 			
 			'documentation'				=> __('Documentation', 'wp-google-maps'),
 			'api_dashboard'				=> __('API Dashboard', 'wp-google-maps'),
-			'verify_project'			=> __('Verify Project', 'wp-google-maps')
+			'verify_project'			=> __('Verify Project', 'wp-google-maps'),
+			
+			'failed_to_get_address'		=> __('Failed to get address', 'wp-google-maps')
 		));
 	}
 	

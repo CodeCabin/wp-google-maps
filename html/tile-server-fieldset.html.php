@@ -5,7 +5,7 @@
 		<select name="tile_server_url">
 		
 			<option 
-				value="{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+				value="https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 				data-usage-policy="https://wiki.openstreetmap.org/wiki/Tile_usage_policy">
 				<?php
 				_e('OpenStreetMap', 'map-block');
