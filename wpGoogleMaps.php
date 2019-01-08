@@ -3342,6 +3342,14 @@ function wpgmza_settings_page_post()
 
 	if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( trim($_POST['wpgmza_google_maps_api_key'] )) ); }
 	
+	if($_POST['wpgmza_settings_marker_pull'] == 1)
+    {
+        
+        
+        wpgmaps_update_all_xml_file();
+    }
+
+
 	wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu-settings');
 	exit;
 }
