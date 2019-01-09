@@ -97,8 +97,11 @@ jQuery(function($) {
 		this.overlay.setPosition(origin);
 	}
 	
-	WPGMZA.OLMarker.prototype.setOffset = function(x, y)
+	WPGMZA.OLMarker.prototype.updateOffset = function(x, y)
 	{
+		var x = this._offset.x;
+		var y = this._offset.y;
+		
 		this.element.style.position = "relative";
 		this.element.style.left = x + "px";
 		this.element.style.top = y + "px";

@@ -140,7 +140,7 @@
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.ScriptLoader.html#9-560" title="Go to source code">class.script-loader.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.ScriptLoader.html#9-570" title="Go to source code">class.script-loader.php</a>
 		<br>
 	</div>
 
@@ -160,7 +160,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#29-42" title="Go to source code">__construct</a>( <span>boolean <var>$proMode</var></span> )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#29-44" title="Go to source code">__construct</a>( <span>boolean <var>$proMode</var></span> )</code>
 
 		<div class="description short">
 			<p>Constructor.</p>
@@ -195,7 +195,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_log">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#44-58" title="Go to source code">log</a>( <span>string <var>$str</var></span> )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#46-60" title="Go to source code">log</a>( <span>string <var>$str</var></span> )</code>
 
 		<div class="description short">
 			<p>Internal function used for logging, useful when debugging the build process. This function will erase the log for each PHP execution lifespan.</p>
@@ -230,7 +230,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_rglob">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#60-78" title="Go to source code">rglob</a>( <span>string <var>$pattern</var></span>, <span>integer <var>$flags</var> = <span class="php-num">0</span></span> )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#62-80" title="Go to source code">rglob</a>( <span>string <var>$pattern</var></span>, <span>integer <var>$flags</var> = <span class="php-num">0</span></span> )</code>
 
 		<div class="description short">
 			<p>Recursive glob. This function is used to match files given the specified pattern, recursively.</p>
@@ -275,7 +275,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getHandleFromModuleName">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#80-92" title="Go to source code">getHandleFromModuleName</a>( <span>string <var>$module</var></span> )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#82-94" title="Go to source code">getHandleFromModuleName</a>( <span>string <var>$module</var></span> )</code>
 
 		<div class="description short">
 			<p>Converts a JavaScript module name to a script handle, for instance WPGMZA.GoogleMarker will be converted to wpgmza-google-marker.</p>
@@ -314,7 +314,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getLibraryScripts">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#94-130" title="Go to source code">getLibraryScripts</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#96-132" title="Go to source code">getLibraryScripts</a>( )</code>
 
 		<div class="description short">
 			<p>This function returns an array of library scripts that the plugin depends on, where the array key is the script handle and the value is the script URL.</p>
@@ -352,7 +352,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getScanDirectories">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#132-146" title="Go to source code">getScanDirectories</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#134-148" title="Go to source code">getScanDirectories</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the directories to be scanned for JavaScript files.</p>
@@ -386,7 +386,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_scanDependencies">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#148-244" title="Go to source code">scanDependencies</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#150-246" title="Go to source code">scanDependencies</a>( )</code>
 
 		<div class="description short">
 			<p>This function performs the following actions:</p>
@@ -422,7 +422,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getCombineOrder">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#246-357" title="Go to source code">getCombineOrder</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#248-359" title="Go to source code">getCombineOrder</a>( )</code>
 
 		<div class="description short">
 			<p>This function performs the following actions:</p>
@@ -470,7 +470,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_buildCombinedFile">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#359-395" title="Go to source code">buildCombinedFile</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#361-397" title="Go to source code">buildCombinedFile</a>( )</code>
 
 		<div class="description short">
 			<p>Builds all the plugin scripts into a combined (concatenated) string. The function will then check if the md5 hash of the existing combined script file matches the hash of the string in memory. If they match, the combined file is up to date and is left untouched. If they do not match, the combined file is updated.</p>
@@ -500,7 +500,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_build">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#397-405" title="Go to source code">build</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#399-407" title="Go to source code">build</a>( )</code>
 
 		<div class="description short">
 			<p>This function performs a full rebuild of the combined script file</p>
@@ -530,7 +530,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enqueueStyles">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#407-420" title="Go to source code">enqueueStyles</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#409-422" title="Go to source code">enqueueStyles</a>( )</code>
 
 		<div class="description short">
 			<p>Enqueues all required stylesheets</p>
@@ -560,7 +560,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getPluginScripts">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#422-464" title="Go to source code">getPluginScripts</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#424-466" title="Go to source code">getPluginScripts</a>( )</code>
 
 		<div class="description short">
 			<p>Returns an array of objects representing all scripts used by the plugin. In developer mode, this will be one script for each module, when not in developer mode, this will either be the combined or minified file, dependeing on which is more up to date.</p>
@@ -594,7 +594,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enqueueScripts">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#466-546" title="Go to source code">enqueueScripts</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#468-548" title="Go to source code">enqueueScripts</a>( )</code>
 
 		<div class="description short">
 			<p>Enqueues all the libraries required by the plugin scripts, then enqueues the plugin scripts and localized data (JavaScript globals).</p>
@@ -624,7 +624,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enqueueLocalizedData">#</a>
-		<code><a href="source-class-WPGMZA.ScriptLoader.html#548-559" title="Go to source code">enqueueLocalizedData</a>( )</code>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#550-561" title="Go to source code">enqueueLocalizedData</a>( )</code>
 
 		<div class="description short">
 			<p>Enqueues the plugins localized data, as fetched from Plugin::getLocalizedData</p>
@@ -632,6 +632,36 @@
 
 		<div class="description detailed hidden">
 			<p>Enqueues the plugins localized data, as fetched from Plugin::getLocalizedData</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onScriptLoaderTag" id="_onScriptLoaderTag">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onScriptLoaderTag">#</a>
+		<code><a href="source-class-WPGMZA.ScriptLoader.html#563-569" title="Go to source code">onScriptLoaderTag</a>( <span> <var>$tag</var></span>, <span> <var>$handle</var></span>, <span> <var>$src</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 

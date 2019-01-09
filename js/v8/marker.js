@@ -17,6 +17,8 @@ jQuery(function($) {
 	{
 		var self = this;
 		
+		this._offset = {x: 0, y: 0};
+		
 		WPGMZA.assertInstanceOf(this, "Marker");
 		
 		this.lat = "36.778261";
@@ -90,6 +92,36 @@ jQuery(function($) {
 	WPGMZA.Marker.ANIMATION_NONE			= "0";
 	WPGMZA.Marker.ANIMATION_BOUNCE			= "1";
 	WPGMZA.Marker.ANIMATION_DROP			= "2";
+	
+	Object.defineProperty(WPGMZA.Marker.prototype, "offsetX", {
+		
+		get: function()
+		{
+			return this._offset.x;
+		},
+		
+		set: function(value)
+		{
+			this._offset.x = value;
+			this.updateOffset();
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Marker.prototype, "offsetY", {
+		
+		get: function()
+		{
+			return this._offset.y;
+		},
+		
+		set: function(value)
+		{
+			this._offset.y = value;
+			this.updateOffset();
+		}
+		
+	});
 	
 	/**
 	 * Called when the marker has been added to a map
@@ -226,6 +258,19 @@ jQuery(function($) {
 			this.lat = parseFloat(latLng.lat);
 			this.lng = parseFloat(latLng.lng);
 		}
+	}
+	
+	WPGMZA.Marker.prototype.setOffset = function(x, y)
+	{
+		this._offset.x = x;
+		this._offset.y = y;
+		
+		this.updateOffset();
+	}
+	
+	WPGMZA.Marker.prototype.updateOffset = function()
+	{
+		
 	}
 	
 	/**

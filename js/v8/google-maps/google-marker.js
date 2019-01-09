@@ -111,12 +111,17 @@ jQuery(function($) {
 	 * Sets the position offset of a marker
 	 * @return void
 	 */
-	WPGMZA.GoogleMarker.prototype.setOffset = function(x, y)
+	WPGMZA.GoogleMarker.prototype.updateOffset = function()
 	{
 		var self = this;
 		var icon = this.googleMarker.getIcon();
 		var img = new Image();
 		var params;
+		var x = this._offset.x;
+		var y = this._offset.y;
+		
+		if(!icon)
+			icon = WPGMZA.settings.default_marker_icon;
 		
 		if(typeof icon == "string")
 			params = {

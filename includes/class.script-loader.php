@@ -39,6 +39,8 @@ class ScriptLoader
 			$this->scriptsFileLocation = plugin_dir_path(WPGMZA_PRO_FILE) . 'js/v8/pro-scripts.json';
 		else
 			$this->scriptsFileLocation = plugin_dir_path(__DIR__) . 'js/v8/scripts.json';
+		
+		//add_filter('script_loader_tag', array($this, 'onScriptLoaderTag'), PHP_INT_MAX, 3);
 	}
 	
 	/**
@@ -556,5 +558,13 @@ class ScriptLoader
 		$data = $wpgmza->getLocalizedData();
 		
 		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
+	}
+	
+	public function onScriptLoaderTag($tag, $handle, $src)
+	{
+		if(preg_match('/^wpgmza|wpgmaps/i', $handle))
+			return preg_replace('/defer=([\'"]defer[\'"])?/', '', $tag);
+		
+		return $tag;
 	}
 }

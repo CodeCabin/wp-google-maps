@@ -37,15 +37,9 @@ class GoogleGeocoder
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . urlencode($this->apiKey) . '&sensor=false';
 		
 		$ch = curl_init($url);
+		
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_HOST']);
-		
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		
-		$cacert = realpath($_SERVER['DOCUMENT_ROOT'].'/cacert.pem');
-		if($_SERVER['HTTP_HOST'] == 'localhost' && file_exists($cacert))
-			curl_setopt($ch, CURLOPT_CAINFO, $cacert);
 		
 		$result = curl_exec($ch);
 		

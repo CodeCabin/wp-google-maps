@@ -476,7 +476,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
 					var point = new WPGMZA.LatLng(parseFloat(lat),parseFloat(lng));
 					
-                    MYMAP.bounds.extend(point);
+                    // MYMAP.bounds.extend(point);
 					
                     if (show_marker_radius === true) {
 						
@@ -569,7 +569,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
 
 								var point = searched_center;
-                                MYMAP.bounds.extend(point);
+                                // MYMAP.bounds.extend(point);
 	                            if (typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === "undefined" || wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === 1) {
 		                            var marker = WPGMZA.Marker.createInstance({
 		                                    position: point,
@@ -677,7 +677,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	
 	if (check1 == 0 && radius) {
 		var point = new WPGMZA.LatLng(parseFloat(searched_center.lat),parseFloat(searched_center.lng));
-		MYMAP.bounds.extend(point);
+		// MYMAP.bounds.extend(point);
 		if (typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === "undefined" || wpgmaps_localize[wpgmaps_mapid]['other_settings']['store_locator_bounce'] === 1) {
 			var marker = WPGMZA.Marker.createInstance({
 				position: point,
