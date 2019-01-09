@@ -217,6 +217,10 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.56 :- 2018-01-09 :- Medium Priority =
+* Added function WPGMZA.Distance.between
+* Removed code to disable TLS verification in WPGMZA\GoogleGeocoder
+
 = 7.10.55 :- 2018-12-27 :- Medium priority =
 * Changed GoogleMap fitBounds to accept a WPGMZA.LatLngBounds
 * Changed OLMap fitBounds to accept a WPGMZA.LatLngBounds

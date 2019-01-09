@@ -344,6 +344,7 @@ function create_plugin_instance()
 
 add_action('plugins_loaded', function() {
 	global $wpgmza;
-	add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);
 	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
 });
+
+add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);

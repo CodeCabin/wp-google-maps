@@ -3,6 +3,7 @@
  * @summary This is the core Javascript module. Some code exists in ../core.js, the functionality there will slowly be handed over to this module.
  */
 jQuery(function($) {
+	
 	var core = {
 		/**
 		 * Indexed array of map instances

@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.55
+Version: 7.10.56
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,13 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.57
+ * Corrected year in 7.10.56 changelog
+ *
+ * 7.10.56 :- 2019-01-09 :- Medium Priority
+ * Added function WPGMZA.Distance.between
+ * Removed code to disable TLS verification in WPGMZA\GoogleGeocoder
+ *
  * 7.10.55 :- 2018-12-27 :- Medium priority
  * Changed GoogleMap fitBounds to accept a WPGMZA.LatLngBounds
  * Changed OLMap fitBounds to accept a WPGMZA.LatLngBounds
@@ -6735,7 +6742,7 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
                 $wpgmza_tmp_body .= "<td height=\"40\">".$result->id."</td>";
                 $wpgmza_tmp_body .= "<td height=\"40\">".$icon."<input type=\"hidden\" id=\"wpgmza_hid_marker_icon_".$result->id."\" value=\"".$result->icon."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_anim_".$result->id."\" value=\"".$result->anim."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_category_".$result->id."\" value=\"".$result->category."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_infoopen_".$result->id."\" value=\"".$result->infoopen."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_approved_".$result->id."\" value=\"".$result->approved."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_retina_".$result->id."\" value=\"".$result->retina."\" />";
 				
-				if(defined('WPGMZA_PRO_FILE'))
+				if(defined('WPGMZA_PRO_FILE') && file_exists(plugin_dir_path(WPGMZA_PRO_FILE) . 'includes/custom-fields/class.custom-marker-fields.php'))
 				{
 					require_once(plugin_dir_path(WPGMZA_PRO_FILE) . 'includes/custom-fields/class.custom-marker-fields.php');
 					$custom_fields = new WPGMZA\CustomMarkerFields($result->id);

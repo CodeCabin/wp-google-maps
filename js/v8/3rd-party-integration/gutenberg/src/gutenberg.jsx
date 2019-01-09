@@ -189,7 +189,7 @@ jQuery(function($) {
 	}
 	
 	// Allow the Pro module to extend and create the module, only create here when Pro isn't loaded
-	if(!WPGMZA.isProVersion())
+	if(!WPGMZA.isProVersion() && !(/^6/.test(WPGMZA.pro_version)))
 		WPGMZA.integrationModules.gutenberg = WPGMZA.Integration.Gutenberg.createInstance();
 	
 });
