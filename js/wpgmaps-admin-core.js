@@ -9,7 +9,7 @@
     var WPGM_Path_Polygon = new Array();
     var WPGM_Path = new Array();
     var saveReminderBound = false;
-
+    var lastClicked = false;
 
 	if ('undefined' == typeof window.jQuery) {
 		alert("jQuery is not installed. WP Google Maps requires jQuery in order to function properly. Please ensure you have jQuery installed.")
@@ -107,6 +107,31 @@
 	{
 		$("#wpgmza_table input[name='mark']").prop("checked", "checked");
 	}
+
+	function wpgmza_select_multiple_markers(element, trigger)
+	{
+		// Shift click to select a range of checkboxes.
+		var checks, first, last, checked, sliced;
+		if ( 'undefined' == trigger.shiftKey ) { return true; }
+		if ( trigger.shiftKey ) {
+			if ( !lastClicked ) { return true; }
+			checks = $( lastClicked ).closest( 'table' ).find( ':checkbox' ).filter( ':visible:enabled' );
+			first = checks.index( lastClicked );
+			last = checks.index( element );
+			checked = $(element).prop('checked');
+			if ( 0 < first && 0 < last && first != last ) {
+				sliced = ( last > first ) ? checks.slice( first, last ) : checks.slice( last, first );
+				sliced.prop( 'checked', function() {
+					if ( $(element).closest('tr').is(':visible') )
+						return checked;
+
+					return false;
+				});
+			}
+		}
+		lastClicked = element;
+		return true;
+	}
 	
 	function wpgmza_bulk_delete()
 	{
@@ -192,6 +217,10 @@
 				wpgmza_select_all_markers();
 				return;
 			}
+		});
+
+		$(document.body).on("click", "tbody > tr > td > [name='mark']:checkbox", function(event) {
+			return wpgmza_select_multiple_markers(this, event);
 		});
 
         jQuery("select[name=wpgmza_table_length]").change(function () {
