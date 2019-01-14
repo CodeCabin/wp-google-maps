@@ -83,6 +83,8 @@ class GoogleMapsAPILoader
 	 */
 	protected function getGoogleMapsAPIParams()
 	{
+		global $wpgmza;
+		
 		// Locale
 		$locale = get_locale();
 		$suffix = '.com';
@@ -117,11 +119,7 @@ class GoogleMapsAPILoader
 			$params['key'] = $key;
 		else if(is_admin())
 			$params['key'] = get_option('wpgmza_temp_api');
-		
-		// API Version
-		// NB: Fixed to "montly" as of 7.10.46
-		$settings['wpgmza_api_version'] = 'quarterly';
-		
+				
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');
 		$params['libraries'] = implode(',', $libraries);
@@ -190,6 +188,7 @@ class GoogleMapsAPILoader
 	 */
 	public function isPageIncluded($page_id)
 	{
+		global $wpgmza;
 		global $post;
 		$settings = (array)GoogleMapsAPILoader::$settings;
 		

@@ -39,8 +39,6 @@ class ScriptLoader
 			$this->scriptsFileLocation = plugin_dir_path(WPGMZA_PRO_FILE) . 'js/v8/pro-scripts.json';
 		else
 			$this->scriptsFileLocation = plugin_dir_path(__DIR__) . 'js/v8/scripts.json';
-		
-		//add_filter('script_loader_tag', array($this, 'onScriptLoaderTag'), PHP_INT_MAX, 3);
 	}
 	
 	/**
@@ -110,9 +108,7 @@ class ScriptLoader
 		$libraryDependencies = array(
 			'datatables'		=> $plugin_dir_url . 'js/jquery.dataTables.min.js',
 			'javascript-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
-			// 'modernizr-custom'	=> $plugin_dir_url . 'lib/modernizr-custom.js',
 			'remodal'			=> $plugin_dir_url . 'lib/' . ($wpgmza->isUsingMinifiedScripts() ? 'remodal.min.js' : 'remodal.js'),
-			// 'resize-sensor'		=> $plugin_dir_url . 'lib/ResizeSensor.js',
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
 		

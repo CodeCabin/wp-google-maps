@@ -10,6 +10,8 @@ require_once(plugin_dir_path(__FILE__) . '/class.crud.php');
  */
 class Marker extends Crud implements \JsonSerializable
 {
+	const DEFAULT_ICON = "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png";
+	
 	protected $custom_fields;
 	
 	/**
@@ -87,6 +89,14 @@ class Marker extends Crud implements \JsonSerializable
 		return 'other_data';
 	}
 	
+	public function update()
+	{
+		Crud::update();
+		
+		// TODO: Update markers-has-categories
+	}
+	
+	
 	/**
 	 * Called to update the latlng column for this marker in the database, when any changes are made to this objects properties lat, lng or latlng.
 	 * @return void
@@ -102,7 +112,9 @@ class Marker extends Crud implements \JsonSerializable
 			$this->get_column_parameter('latlng'),
 			$this->id
 		);
-		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng=" . $wpgmza->spatialFunctionPrefix . "GeomFromText(%s) WHERE id=%d", $params);
+		
+		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng={$wpgmza->spatialFunctionPrefix}GeomFromText(%s) WHERE id=%d", $params);
+		
 		$wpdb->query($stmt);
 	}
 	
