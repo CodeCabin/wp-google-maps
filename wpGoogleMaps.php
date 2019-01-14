@@ -790,10 +790,9 @@ $debug_start = (float) array_sum(explode(' ',microtime()));
  * @return void
  */
 function wpgmaps_activate() {
+	global $wpgmza;
     global $wpdb;
     global $wpgmza_version;
-	global $wpgmza;
-	
     $table_name = $wpdb->prefix . "wpgmza";
     $table_name_maps = $wpdb->prefix . "wpgmza_maps";
 	
@@ -953,8 +952,10 @@ function wpgmaps_deactivate() { /* wpgmza_cURL_response("deactivate"); */ }
  * @return void
  */
 function wpgmaps_init() {
+	global $wpgmza;
     global $wpgmza_pro_version;
     global $wpgmza_version;
+	
     wp_enqueue_script("jquery");
     $plugin_dir = basename(dirname(__FILE__))."/languages/";
     load_plugin_textdomain( 'wp-google-maps', false, $plugin_dir );
@@ -975,17 +976,17 @@ function wpgmaps_init() {
     if (!isset($wpgmza_settings['wpgmza_settings_marker_pull']) || $wpgmza_settings['wpgmza_settings_marker_pull'] == "") {
         
         $wpgmza_first_time = get_option("WPGMZA_FIRST_TIME");
-                if (!$wpgmza_first_time) { 
-                    
-                    /* first time, set marker pull to DB */
-                    $wpgmza_settings['wpgmza_settings_marker_pull'] = "0";
-                    update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
+		
+		if (!$wpgmza_first_time) { 
+			/* first time, set marker pull to DB */
+			$wpgmza_settings['wpgmza_settings_marker_pull'] = "0";
+			update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
 
-                } else {
-                    /* previous users - set it to XML (what they were using originally) */				
-                    $wpgmza_settings['wpgmza_settings_marker_pull'] = "1";
-                    update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
-                }
+		} else {
+			/* previous users - set it to XML (what they were using originally) */
+			$wpgmza_settings['wpgmza_settings_marker_pull'] = "1";
+			update_option("WPGMZA_OTHER_SETTINGS",$wpgmza_settings);
+		}
     }
    
     if (function_exists("wpgmza_register_pro_version")) {
@@ -8889,41 +8890,3 @@ add_action('plugins_loaded', function() {
 	}
 	
 });
-
-/*add_filter('script_loader_tag', function($tag, $handle, $src) {
-	
-	global $debug_core_dependencies;
-	
-	if(!$debug_core_dependencies)
-	{
-		$debug_core_dependencies = array();
-		
-		$scriptLoader = new WPGMZA\ScriptLoader(false);
-		$v8Scripts = $scriptLoader->getPluginScripts();
-		
-		foreach($v8Scripts as $handle => $script)
-		{
-			$debug_core_dependencies[] = $handle;
-		}
-	}
-	
-	if(($index = array_search($handle, $debug_core_dependencies)) !== false)
-	{
-		var_dump("Unsetting $handle");
-		unset($debug_core_dependencies[$index]);
-	}
-	
-	return $tag;
-	
-}, 10, 3);
-
-add_action('wp_footer', function() {
-	
-	global $debug_core_dependencies;
-	
-	var_dump("Dumping dependencies");
-	echo "<pre>";
-	var_dump($debug_core_dependencies);
-	echo "</pre>";
-	
-});*/

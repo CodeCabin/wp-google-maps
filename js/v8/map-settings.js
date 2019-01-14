@@ -16,9 +16,6 @@ jQuery(function($) {
 		var str = element.getAttribute("data-settings");
 		var json = JSON.parse(str);
 		
-		//var id = $(element).attr("data-map-id");
-		//var json = JSON.parse(window["wpgmza_map_settings_" + id]);
-		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
 		for(var key in WPGMZA.settings)

@@ -8,15 +8,19 @@ namespace WPGMZA;
  */
 class GDPRCompliance
 {
-	/**
-	 * Constructor
-	 */
+	private static $filtersBound = false;
+	
 	public function __construct()
 	{
-		add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
-		add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'), 10, 1);
-		
-		add_filter('wpgmza_plugin_get_default_settings', array($this, 'onPluginGetDefaultSettings'));
+		if(!GDPRCompliance::$filtersBound)
+		{
+			add_filter('wpgmza_global_settings_tabs', array($this, 'onGlobalSettingsTabs'));
+			add_filter('wpgmza_global_settings_tab_content', array($this, 'onGlobalSettingsTabContent'), 10, 1);
+			
+			add_filter('wpgmza_plugin_get_default_settings', array($this, 'onPluginGetDefaultSettings'));
+			
+			GDPRCompliance::$filtersBound = true;
+		}
 		
 		add_action('wp_ajax_wpgmza_gdpr_privacy_policy_notice_dismissed', array($this, 'onPrivacyPolicyNoticeDismissed'));
 		

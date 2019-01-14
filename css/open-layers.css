@@ -53,7 +53,7 @@
 
 .ol-marker
 {
-	position: relative;
+	/* position: relative; */
 }
 
 .ol-marker>img
