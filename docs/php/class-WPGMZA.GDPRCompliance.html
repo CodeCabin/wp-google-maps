@@ -137,7 +137,7 @@ displaying notices, settings and handling logic</p>
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.GDPRCompliance.html#5-236" title="Go to source code">class.gdpr-compliance.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.GDPRCompliance.html#5-240" title="Go to source code">class.gdpr-compliance.php</a>
 		<br>
 	</div>
 
@@ -157,14 +157,14 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#11-27" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#13-31" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
-			<p>Constructor</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Constructor</p>
+			
 
 
 
@@ -187,7 +187,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDefaultSettings">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#29-61" title="Go to source code">getDefaultSettings</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#33-65" title="Go to source code">getDefaultSettings</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the default GDPR settings</p>
@@ -221,7 +221,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onPluginGetDefaultSettings">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#63-70" title="Go to source code">onPluginGetDefaultSettings</a>( <span>array <var>$settings</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#67-74" title="Go to source code">onPluginGetDefaultSettings</a>( <span>array <var>$settings</var></span> )</code>
 
 		<div class="description short">
 			<p>Hooks into wpgmza_plugin_get_default_settings filter, to add the default GDPR settings</p>
@@ -256,7 +256,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onPrivacyPolicyNoticeDismissed">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#72-88" title="Go to source code">onPrivacyPolicyNoticeDismissed</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#76-92" title="Go to source code">onPrivacyPolicyNoticeDismissed</a>( )</code>
 
 		<div class="description short">
 			<p>Called when the user dismisses the "check our updated privacy policy" admin notice, this call is made over AJAX. This sets a flag so the notice isn't displayed again.</p>
@@ -286,7 +286,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getSettingsTabContent">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#90-111" title="Go to source code">getSettingsTabContent</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#94-115" title="Go to source code">getSettingsTabContent</a>( )</code>
 
 		<div class="description short">
 			<p>Called by onGlobalSettingsTabContent to add the content to our GDPR tab on the settings page, triggered by the filter wpgmza_global_settings_tab_content.</p>
@@ -320,7 +320,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getNoticeHTML">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#113-145" title="Go to source code">getNoticeHTML</a>( <span>boolean <var>$checkbox</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#117-149" title="Go to source code">getNoticeHTML</a>( <span>boolean <var>$checkbox</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			<p>Gets the HTML for the GDPR notice to display on the front end.</p>
@@ -359,7 +359,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getPrivacyPolicyNoticeHTML">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#147-163" title="Go to source code">getPrivacyPolicyNoticeHTML</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#151-167" title="Go to source code">getPrivacyPolicyNoticeHTML</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the HTML for the back end "check our updated privacy policy" notice. This will return an empty string if the notice has already been dismissed.</p>
@@ -393,7 +393,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getConsentPromptHTML">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#165-172" title="Go to source code">getConsentPromptHTML</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#169-176" title="Go to source code">getConsentPromptHTML</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the consent prompt HTML, including the consent button.</p>
@@ -427,7 +427,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onGlobalSettingsTabs">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#174-182" title="Go to source code">onGlobalSettingsTabs</a>( <span>string <var>$input</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#178-186" title="Go to source code">onGlobalSettingsTabs</a>( <span>string <var>$input</var></span> )</code>
 
 		<div class="description short">
 			<p>Callback for the wpgmza_global_settings_tabs filter. This adds the GDPR tab. Please note this is the tab itself, as opposed to the tab content.</p>
@@ -466,7 +466,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onGlobalSettingsTabContent">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#184-193" title="Go to source code">onGlobalSettingsTabContent</a>( <span>string <var>$input</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#188-197" title="Go to source code">onGlobalSettingsTabContent</a>( <span>string <var>$input</var></span> )</code>
 
 		<div class="description short">
 			<p>Callback for the wpgmza_global_settings_tab_content filter. This adds the GPDR tab content. Please note this is for the tab content, as opposed to the tab itself.</p>
@@ -505,7 +505,7 @@ displaying notices, settings and handling logic</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onPOST">#</a>
-		<code><a href="source-class-WPGMZA.GDPRCompliance.html#195-235" title="Go to source code">onPOST</a>( )</code>
+		<code><a href="source-class-WPGMZA.GDPRCompliance.html#199-239" title="Go to source code">onPOST</a>( )</code>
 
 		<div class="description short">
 			<p>Handles POST data when the settings page saves.</p>

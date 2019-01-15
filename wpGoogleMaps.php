@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.56
+Version: 7.10.57
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,7 +11,12 @@ Domain Path: /languages
 */
 
 /*
- * 7.10.57
+ * 7.10.57 :- 2019-01-15 :- Low priority
+ * Engine selection dialog will no longer be displayed if a Google API key has been entered
+ * Google Maps API warning will only be shown after Google Maps API has been explicitly selected
+ * Percentage height warning is now more prominant
+ * Fixed "Get the rest of these advanced features" using printf where it should be sprintf
+ * Bumped "Tested up to" to 5.0.3
  * Corrected year in 7.10.56 changelog
  *
  * 7.10.56 :- 2019-01-09 :- Medium Priority
@@ -4496,11 +4501,11 @@ function wpgmaps_menu_settings_layout() {
 
     $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
-    if( $name == 'Avada' && intval( $modified_version ) <= 393 && !isset( $wpgmza_settings['wpgmza_settings_force_jquery'] ) ){
+    /*if( $name == 'Avada' && intval( $modified_version ) <= 393 && !isset( $wpgmza_settings['wpgmza_settings_force_jquery'] ) ){
 
         echo "<div class='error'><p>".__("We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or check the checkbox labelled 'Over-ride current jQuery with version 1.11.3'.", "wp-google-maps")."</p></div>";
 
-    }
+    }*/
 
     if (function_exists('wpgmza_register_pro_version')) {
         if (function_exists('wpgmaps_settings_page_pro')) {
@@ -4732,13 +4737,7 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                 </tr>";
             $ret .= "               <tr>";
             $ret .= "                        <td width='200' valign='top'>".__("Troubleshooting Options","wp-google-maps").":</td>";
-            $ret .= "                     <td>";
-            $ret .= "                           <div class='switch'><input name='wpgmza_settings_force_jquery' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_settings_force_jquery' value='yes' $wpgmza_force_jquery_checked /> <label for='wpgmza_settings_force_jquery' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> ".__("Over-ride current jQuery with version 1.11.3 (Tick this box if you are receiving jQuery related errors after updating to WordPress 4.5)", 'wp-google-maps')."<br />";
-            $ret .= "                    </td>";
-            $ret .= "                </tr>";
 
-            $ret .= "               <tr>";
-            $ret .= "                        <td width='200' valign='top'></td>";
             $ret .= "                     <td>";
             $ret .= "           
 			
@@ -5536,11 +5535,20 @@ function wpgmza_basic_menu() {
                                 </tr>
                                 <tr>
                                     <td>".__("Height","wp-google-maps").":</td>
-                                    <td><input id='wpgmza_height' name='wpgmza_height' type='text' size='4' maxlength='4' value='".esc_attr($res->map_height)."' />
-                                     <select id='wpgmza_map_height_type' name='wpgmza_map_height_type'>
-                                        <option value=\"px\" $wpgmza_map_height_type_px>px</option>
-                                        <option value=\"%\" $wpgmza_map_height_type_percentage>%</option>
-                                     </select><span style='display:none; width:200px; font-size:10px;' id='wpgmza_height_warning'>".__("We recommend that you leave your height in PX. Depending on your theme, using % for the height may break your map.","wp-google-maps")."</span>
+                                    <td>
+									
+										<input id='wpgmza_height' name='wpgmza_height' type='text' size='4' maxlength='4' value='".esc_attr($res->map_height)."' />
+										
+										<select id='wpgmza_map_height_type' name='wpgmza_map_height_type'>
+											<option value=\"px\" $wpgmza_map_height_type_px>px</option>
+											<option value=\"%\" $wpgmza_map_height_type_percentage>%</option>
+										</select>
+
+										<span id='wpgmza_height_warning' class='notice notice-warning' style='display: none; height: 1em;'>
+
+											".__("We recommend that you leave your height in PX. Depending on your theme, using % for the height may break your map.","wp-google-maps")."
+
+										</span>
 
                                     </td>
                                 </tr>
@@ -5903,7 +5911,14 @@ function wpgmza_basic_menu() {
 
                             <div class=\"update-nag update-att\">
                                 
-								<i class=\"fa fa-arrow-circle-right\"> </i> ".printf( /* translators: %s: WP Google Maps Pro Link */ __("Get the rest of these advanced features with the Pro version for only <a href=\"%s\" target=\"_BLANK\">$39.99 once off</a>. Support and updates included forever.","wp-google-maps"), wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced") )."
+								<i class=\"fa fa-arrow-circle-right\"> </i> " .
+								sprintf( /* translators: %s: WP Google Maps Pro Link */ 
+									__(
+										"Get the rest of these advanced features with the Pro version for only <a href=\"%s\" target=\"_BLANK\">$39.99 once off</a>. Support and updates included forever.",
+										"wp-google-maps"
+									), 
+									wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced") 
+								) . "
                                     
                             </div>
 
@@ -7572,7 +7587,7 @@ function google_maps_api_key_warning(){
 	
 	global $wpgmza;
 	
-	if($wpgmza->settings->engine != 'google-maps')
+	if($wpgmza->settings->engine != 'google-maps' || empty($wpgmza->settings->engine))
 		return;
 	
     $g_api_key = get_option('wpgmza_google_maps_api_key');

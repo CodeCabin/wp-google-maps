@@ -2242,9 +2242,6 @@ jQuery(function($) {
 		var str = element.getAttribute("data-settings");
 		var json = JSON.parse(str);
 		
-		//var id = $(element).attr("data-map-id");
-		//var json = JSON.parse(window["wpgmza_map_settings_" + id]);
-		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
 		for(var key in WPGMZA.settings)
@@ -3102,6 +3099,9 @@ jQuery(function($) {
 		if(WPGMZA.settings.wpgmza_maps_engine_dialog_done)
 			return;
 		
+		if(WPGMZA.settings.google_maps_api_key)
+			return;
+		
 		WPGMZA.mapsEngineDialog = new WPGMZA.MapsEngineDialog(element);
 		
 	});
@@ -3408,6 +3408,7 @@ jQuery(function($) {
 	/**
 	 * Get the marker visibility
 	 * @method
+	 * @todo Implement
 	 * @memberof WPGMZA.Marker
 	 */
 	WPGMZA.Marker.prototype.getVisible = function()
