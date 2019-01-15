@@ -156,7 +156,7 @@
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.Marker.html#8-125" title="Go to source code">class.marker.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.Marker.html#8-137" title="Go to source code">class.marker.php</a>
 		<br>
 	</div>
 
@@ -176,7 +176,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#15-27" title="Go to source code">__construct</a>( <span>integer|array|object <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#17-29" title="Go to source code">__construct</a>( <span>integer|array|object <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			<p>Constructor</p>
@@ -213,7 +213,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_create_instance">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#29-36" title="Go to source code">create_instance</a>( <span> <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#31-38" title="Go to source code">create_instance</a>( <span> <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			<p>Deprecated. The Factory class will take over this functionality</p>
@@ -246,7 +246,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_jsonSerialize">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#38-51" title="Go to source code">jsonSerialize</a>( )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#40-53" title="Go to source code">jsonSerialize</a>( )</code>
 
 		<div class="description short">
 			<p>Returns a clone of this marker for JSON serialization. Unsets latlng binary spatial data which corrupts JSON, and sets custom field data.</p>
@@ -288,7 +288,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_placeholder_by_type">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#53-66" title="Go to source code">get_placeholder_by_type</a>( <span>string <var>$type</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#55-68" title="Go to source code">get_placeholder_by_type</a>( <span>string <var>$type</var></span> )</code>
 
 		<div class="description short">
 			<p>Overrides Crud::get_placeholder_by_type to correctly handle inserting and updating spatial data placeholders.</p>
@@ -329,7 +329,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_parameter">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#68-79" title="Go to source code">get_column_parameter</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#70-81" title="Go to source code">get_column_parameter</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Overrides Crud::get_column_parameter to correctly handle inserting and updating spatial data values.</p>
@@ -370,7 +370,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_arbitrary_data_column_name">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#81-88" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#83-90" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
 
 		<div class="description short">
 			<p>Returns "other_data", which is the name of the column used to store arbitrary data on thet marker table.</p>
@@ -394,6 +394,46 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-WPGMZA.Marker.html#92-97" title="Go to source code">update</a>( )</code>
+
+		<div class="description short">
+			<p>Updates the map object in the database</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Updates the map object in the database</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.Crud.html#_update">WPGMZA\Crud::update()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="update_latlng" id="_update_latlng">
 
 		<td class="attributes"><code>
@@ -406,7 +446,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_update_latlng">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#90-107" title="Go to source code">update_latlng</a>( )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#100-119" title="Go to source code">update_latlng</a>( )</code>
 
 		<div class="description short">
 			<p>Called to update the latlng column for this marker in the database, when any changes are made to this objects properties lat, lng or latlng.</p>
@@ -436,7 +476,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-WPGMZA.Marker.html#109-124" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Marker.html#121-136" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets the named property, calling update_latlng where needed.</p>
@@ -478,6 +518,8 @@
 			<a href="class-WPGMZA.Crud.html#___isset">__isset()</a>, 
 			<a href="class-WPGMZA.Crud.html#___unset">__unset()</a>, 
 			<a href="class-WPGMZA.Crud.html#_assert_not_trashed">assert_not_trashed()</a>, 
+			<a href="class-WPGMZA.Crud.html#_bulk_read">bulk_read()</a>, 
+			<a href="class-WPGMZA.Crud.html#_bulk_trash">bulk_trash()</a>, 
 			<a href="class-WPGMZA.Crud.html#_column_exists">column_exists()</a>, 
 			<a href="class-WPGMZA.Crud.html#_create">create()</a>, 
 			<a href="class-WPGMZA.Crud.html#_getIterator">getIterator()</a>, 
@@ -492,8 +534,7 @@
 			<a href="class-WPGMZA.Crud.html#_read">read()</a>, 
 			<a href="class-WPGMZA.Crud.html#_set">set()</a>, 
 			<a href="class-WPGMZA.Crud.html#_store_arbitrary_data">store_arbitrary_data()</a>, 
-			<a href="class-WPGMZA.Crud.html#_trash">trash()</a>, 
-			<a href="class-WPGMZA.Crud.html#_update">update()</a>
+			<a href="class-WPGMZA.Crud.html#_trash">trash()</a>
 		</code></td>
 	</tr>
 	</table>
@@ -504,12 +545,40 @@
 
 
 
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="DEFAULT_ICON" id="DEFAULT_ICON">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Marker.html#13" title="Go to source code"><b>DEFAULT_ICON</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#DEFAULT_ICON" class="anchor">#</a>
+				<code><span class="php-quote">&quot;//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
 
 	<table class="summary inherited">
 	<caption>Constants inherited from <a href="class-WPGMZA.Crud.html#constants">WPGMZA\Crud</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-WPGMZA.Crud.html#BULK_READ"><b>BULK_READ</b></a>
+			<a href="class-WPGMZA.Crud.html#BULK_READ"><b>BULK_READ</b></a>, 
+			<a href="class-WPGMZA.Crud.html#SINGLE_READ"><b>SINGLE_READ</b></a>
 		</code></td>
 	</tr>
 	</table>
@@ -525,7 +594,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-WPGMZA.Marker.html#13" title="Go to source code"><var>$custom_fields</var></a>
+				<a href="source-class-WPGMZA.Marker.html#15" title="Go to source code"><var>$custom_fields</var></a>
 
 			<div class="description short">
 				

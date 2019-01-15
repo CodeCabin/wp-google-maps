@@ -158,7 +158,7 @@ side logic, for example Map, Marker, Polygon</p>
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.Crud.html#5-593" title="Go to source code">class.crud.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.Crud.html#5-637" title="Go to source code">class.crud.php</a>
 		<br>
 	</div>
 
@@ -178,7 +178,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#24-68" title="Go to source code">__construct</a>( <span>string <var>$table_name</var></span>, <span>integer|array|object <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#25-81" title="Go to source code">__construct</a>( <span>string <var>$table_name</var></span>, <span>integer|array|object <var>$id_or_fields</var> = -<span class="php-num">1</span></span>, <span> <var>$read_mode</var> = Crud::SINGLE_READ</span> )</code>
 
 		<div class="description short">
 			<p>Constructor</p>
@@ -194,7 +194,69 @@ side logic, for example Map, Marker, Polygon</p>
 					<dd>The table name for this object type</dd>
 					<dt><var>$id_or_fields</var></dt>
 					<dd>The ID of the object to read, or an object or array of data to insert.</dd>
+					<dt><var>$read_mode</var></dt>
+					<dd></dd>
 				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="bulk_read" id="_bulk_read">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_bulk_read">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#83-94" title="Go to source code">bulk_read</a>( <span> <var>$data</var></span>, <span> <var>$constructor</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="bulk_trash" id="_bulk_trash">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_bulk_trash">#</a>
+		<code><a href="source-class-WPGMZA.Crud.html#96-112" title="Go to source code">bulk_trash</a>( <span> <var>$ids</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
 
 
 
@@ -215,7 +277,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_table_name">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#70-77" title="Go to source code">get_table_name</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#114-121" title="Go to source code">get_table_name</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the table name for this object type</p>
@@ -249,7 +311,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_columns">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#79-86" title="Go to source code">get_columns</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#123-130" title="Go to source code">get_columns</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the column information (name, type, etc.)</p>
@@ -283,7 +345,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_names">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#88-95" title="Go to source code">get_column_names</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#132-139" title="Go to source code">get_column_names</a>( )</code>
 
 		<div class="description short">
 			<p>Returns an array of the column names represented as strings</p>
@@ -317,7 +379,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_type">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#97-112" title="Go to source code">get_column_type</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#141-156" title="Go to source code">get_column_type</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Return the SQL field type of the specified column</p>
@@ -351,7 +413,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_placeholder_by_type">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#114-162" title="Go to source code">get_placeholder_by_type</a>( <span>string <var>$type</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#158-206" title="Go to source code">get_placeholder_by_type</a>( <span>string <var>$type</var></span> )</code>
 
 		<div class="description short">
 			<p>Gets the placeholder for a prepared statement based on the SQL column type specified.</p>
@@ -390,7 +452,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_parameter">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#164-175" title="Go to source code">get_column_parameter</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#208-219" title="Go to source code">get_column_parameter</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Gets the parameter to be passed to a prepared statement, from this object, by the name of the DB column given.</p>
@@ -429,7 +491,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_placeholders">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#177-195" title="Go to source code">get_column_placeholders</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#221-239" title="Go to source code">get_column_placeholders</a>( )</code>
 
 		<div class="description short">
 			<p>Gets all the placeholders for a prepared statement</p>
@@ -463,7 +525,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_column_parameters">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#197-215" title="Go to source code">get_column_parameters</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#241-259" title="Go to source code">get_column_parameters</a>( )</code>
 
 		<div class="description short">
 			<p>Gets all the values to be passed to a prepared statement from this object</p>
@@ -497,7 +559,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_arbitrary_data_column_name">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#217-224" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#261-268" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the column name used to store arbitrary data, for instance, other_data, or NULL for tables which do not have such a field.</p>
@@ -531,7 +593,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_assert_not_trashed">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#226-235" title="Go to source code">assert_not_trashed</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#270-279" title="Go to source code">assert_not_trashed</a>( )</code>
 
 		<div class="description short">
 			<p>Asserts that this object hasn't been trashed and throws an exception if it has</p>
@@ -565,7 +627,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_column_exists">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#237-244" title="Go to source code">column_exists</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#281-288" title="Go to source code">column_exists</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns true if the named column exists on this map objects table</p>
@@ -599,7 +661,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_parse_arbitrary_data">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#246-262" title="Go to source code">parse_arbitrary_data</a>( <span> <var>$data</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#290-306" title="Go to source code">parse_arbitrary_data</a>( <span> <var>$data</var></span> )</code>
 
 		<div class="description short">
 			<p>Parses arbitrary data following a DB read, for example by unserializing strings or decoding JSON.</p>
@@ -629,7 +691,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_store_arbitrary_data">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#264-274" title="Go to source code">store_arbitrary_data</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#308-318" title="Go to source code">store_arbitrary_data</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Stores arbitrary data. This is not currently used.</p>
@@ -659,7 +721,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_create">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#276-301" title="Go to source code">create</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#320-345" title="Go to source code">create</a>( )</code>
 
 		<div class="description short">
 			<p>Creates the map object in the database</p>
@@ -693,7 +755,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_read">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#303-330" title="Go to source code">read</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#347-374" title="Go to source code">read</a>( <span> <var>$mode</var></span> )</code>
 
 		<div class="description short">
 			<p>Reads the data from the database into this object</p>
@@ -727,7 +789,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_is_read_only">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#332-350" title="Go to source code">is_read_only</a>( <span> <var>$key</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#376-394" title="Go to source code">is_read_only</a>( <span> <var>$key</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns true if the specified property is read only</p>
@@ -761,7 +823,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_update">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#352-406" title="Go to source code">update</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#396-450" title="Go to source code">update</a>( )</code>
 
 		<div class="description short">
 			<p>Updates the map object in the database</p>
@@ -799,7 +861,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_trash">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#408-424" title="Go to source code">trash</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#452-468" title="Go to source code">trash</a>( )</code>
 
 		<div class="description short">
 			<p>Deletes the object from the database and sets the trashed flag</p>
@@ -833,7 +895,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#426-456" title="Go to source code">set</a>( <span>string|array|object <var>$arg</var></span>, <span> <var>$val</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#470-500" title="Go to source code">set</a>( <span>string|array|object <var>$arg</var></span>, <span> <var>$val</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Set variables in bulk, this reduces the number of database calls</p>
@@ -878,7 +940,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getIterator">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#458-468" title="Go to source code">getIterator</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#502-512" title="Go to source code">getIterator</a>( )</code>
 
 		<div class="description short">
 			<p>Get's the iterator for iterating over map object properties</p>
@@ -918,7 +980,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_jsonSerialize">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#470-480" title="Go to source code">jsonSerialize</a>( )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#514-524" title="Go to source code">jsonSerialize</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the objects properties to be serialized as JSON</p>
@@ -958,7 +1020,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#482-505" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#526-549" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Magic method to get map object fields</p>
@@ -1000,7 +1062,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___isset">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#507-518" title="Go to source code">__isset</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#551-562" title="Go to source code">__isset</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Checks if a field is set by name</p>
@@ -1042,7 +1104,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#520-575" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#564-619" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets the property value by name and updates the database</p>
@@ -1084,7 +1146,7 @@ side logic, for example Map, Marker, Polygon</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___unset">#</a>
-		<code><a href="source-class-WPGMZA.Crud.html#577-592" title="Go to source code">__unset</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Crud.html#621-636" title="Go to source code">__unset</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Unsets the named variable, only valid for arbitrary data</p>
@@ -1117,12 +1179,36 @@ side logic, for example Map, Marker, Polygon</p>
 
 	<table class="summary constants" id="constants">
 	<caption>Constants summary</caption>
+	<tr data-order="SINGLE_READ" id="SINGLE_READ">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.Crud.html#12" title="Go to source code"><b>SINGLE_READ</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#SINGLE_READ" class="anchor">#</a>
+				<code><span class="php-quote">&quot;single-read&quot;</span></code>
+			</div>
+		</td>
+	</tr>
 	<tr data-order="BULK_READ" id="BULK_READ">
 
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.Crud.html#12" title="Go to source code"><b>BULK_READ</b></a>
+				<a href="source-class-WPGMZA.Crud.html#13" title="Go to source code"><b>BULK_READ</b></a>
 			</code>
 
 			<div class="description short">
