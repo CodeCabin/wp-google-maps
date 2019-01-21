@@ -16,6 +16,7 @@ class Strings
 	{
 		return apply_filters('wpgmza_localized_strings', array(
 			'unsecure_geolocation' 		=> __('Many browsers are no longer allowing geolocation from unsecured origins. You will need to secure your site with an SSL certificate (HTTPS) or this feature may not work for your visitors', 'wp-google-maps'),
+			'use_my_location'			=> __('Use my location', 'wp-google-maps'),
 			
 			'google_api_not_loaded'		=> __('The map cannot be initialized because the Maps API has not been loaded. Please check your settings.', 'wp-google-maps'),
 			

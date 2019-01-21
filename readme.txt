@@ -217,6 +217,10 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.10.58 :- 2019-01-18 :- Low priority =
+* Added code to catch Geocoding Service errors in GoogleAPIErrorHandler
+* Fixed wrong database prefix in wpgmaps_return_markers when running on a multisite installation
+ 
 = 7.10.57 :- 2019-01-15 :- Low priority =
 * Engine selection dialog will no longer be displayed if a Google API key has been entered
 * Google Maps API warning will only be shown after Google Maps API has been explicitly selected
