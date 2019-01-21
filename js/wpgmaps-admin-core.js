@@ -1274,4 +1274,21 @@ function add_rectangle(mapid, data)
 	rectangle_array.push(rectangle);
 }
 
+function updateRoadmapThemeWarning()
+{
+	if($("select[name='wpgmza_map_type']").val() == 1)
+	{
+		// We'll hide the warning here
+		$(".wpgmza-theme-and-roadmap-warning").hide();
+	}
+	else
+	{
+		// We'll show the warning here
+		$(".wpgmza-theme-and-roadmap-warning").show();
+	}
+}
+
+updateRoadmapThemeWarning();
+$("select[name='wpgmza_map_type']").on("change", updateRoadmapThemeWarning);
+
 })(jQuery);
