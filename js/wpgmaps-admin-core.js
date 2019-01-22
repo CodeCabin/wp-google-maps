@@ -1274,4 +1274,23 @@ function add_rectangle(mapid, data)
 	rectangle_array.push(rectangle);
 }
 
+// Perry Perry Sauce coads
+function updateRoadmapThemeWarning(){
+
+	var mapTypeSelectValue = $("select[name='wpgmza_map_type']").val();
+	var warningElements = $(".wpgmza-theme-and-roadmap-warning");
+
+	if(mapTypeSelectValue == 1 || mapTypeSelectValue == 4){
+		//Hide warning here
+		warningElements.hide();
+	} else {
+		//Show warning here
+		warningElements.show();
+	}
+}
+
+updateRoadmapThemeWarning();
+$("select[name='wpgmza_map_type']").on("change", updateRoadmapThemeWarning);
+
+
 })(jQuery);
