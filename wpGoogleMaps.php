@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.10.57
+Version: 7.10.58
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,10 @@ Domain Path: /languages
 */
 
 /*
+ * 7.10.58 :- 2019-01-18 :- Low priority
+ * Added code to catch Geocoding Service errors in GoogleAPIErrorHandler
+ * Fixed wrong database prefix in wpgmaps_return_markers when running on a multisite installation
+ *
  * 7.10.57 :- 2019-01-15 :- Low priority
  * Engine selection dialog will no longer be displayed if a Google API key has been entered
  * Google Maps API warning will only be shown after Google Maps API has been explicitly selected
@@ -21,6 +25,7 @@ Domain Path: /languages
  *
  * 7.10.56 :- 2019-01-09 :- Medium Priority
  * Added function WPGMZA.Distance.between
+ * All XML caches are now regenerated when switching to XML pull
  * Removed code to disable TLS verification in WPGMZA\GoogleGeocoder
  *
  * 7.10.55 :- 2018-12-27 :- Medium priority
@@ -2386,8 +2391,9 @@ function wpgmaps_return_markers($mapid = false,$marker_id = false) {
         return;
     }
     global $wpdb;
-    
-    $table_name = $wpdb->prefix . "wpgmza";
+    global $wpgmza_tblname;
+	
+	$table_name = $wpgmza_tblname;
 	
 	$columns = implode(', ', wpgmza_get_marker_columns());
 	
@@ -3356,12 +3362,7 @@ function wpgmza_settings_page_post()
 	if( isset( $_POST['wpgmza_google_maps_api_key'] ) ){ update_option( 'wpgmza_google_maps_api_key', sanitize_text_field( trim($_POST['wpgmza_google_maps_api_key'] )) ); }
 	
 	if($_POST['wpgmza_settings_marker_pull'] == 1)
-    {
-        
-        
         wpgmaps_update_all_xml_file();
-    }
-
 
 	wp_redirect(get_admin_url() . 'admin.php?page=wp-google-maps-menu-settings');
 	exit;
@@ -5578,6 +5579,7 @@ function wpgmza_basic_menu() {
                                     </select>
 
                                     <span class='notice notice-warning wpgmza-theme-and-roadmap-warning'>" . __('Themes can only be used with the Roadmap and Terrain map types.', 'wp-google-maps') . "</span>
+
                                     </td>
                                 </tr>
 

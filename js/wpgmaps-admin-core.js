@@ -1292,5 +1292,4 @@ function updateRoadmapThemeWarning(){
 updateRoadmapThemeWarning();
 $("select[name='wpgmza_map_type']").on("change", updateRoadmapThemeWarning);
 
-
 })(jQuery);
