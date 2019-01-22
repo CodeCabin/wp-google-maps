@@ -5577,8 +5577,9 @@ function wpgmza_basic_menu() {
                                         <option value=\"3\" ".$wpgmza_map_type[3].">".__("Hybrid","wp-google-maps")."</option>
                                         <option value=\"4\" ".$wpgmza_map_type[4].">".__("Terrain","wp-google-maps")."</option>
                                     </select>
-									
-									<span class='notice notice-warning wpgmza-theme-and-roadmap-warning'>" . __('Themes can only be used with the Roadmap map type.', 'wp-google-maps') . "</span>
+
+                                    <span class='notice notice-warning wpgmza-theme-and-roadmap-warning'>" . __('Themes can only be used with the Roadmap and Terrain map types.', 'wp-google-maps') . "</span>
+
                                     </td>
                                 </tr>
 
@@ -5587,8 +5588,8 @@ function wpgmza_basic_menu() {
                         <div id=\"tabs-7\" class='wpgmza-open-layers-feature-unavailable'>
 							<h4>".__("Select a theme for your map","wp-google-maps")."</h4>
 							
-							<span class='notice notice-warning wpgmza-theme-and-roadmap-warning'>" . __('Themes can only be used with the Roadmap map type.', 'wp-google-maps') . "</span>
-							
+							<span class='notice notice-warning wpgmza-theme-and-roadmap-warning'>" . __('Themes can only be used with the Roadmap and Terrain map types.', 'wp-google-maps') . "</span>
+
                             <table class='' id='wpgmaps_theme_table'>
                                 <tr>
                                     <td width='50%'>        
