@@ -41,6 +41,13 @@ jQuery(function($) {
 		if(WPGMZA.RestAPI.URL.match(/\/$/))
 			route = route.replace(/^\//, "");
 		
+		if(!params)
+			params = {};
+		
+		params.beforeSend = function(xhr) {
+			xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
+		};
+		
 		$.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	

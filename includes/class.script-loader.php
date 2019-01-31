@@ -112,6 +112,15 @@ class ScriptLoader
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
 		
+		/*if($wpgmza->isProVersion())
+		{
+			$pro_dir = plugin_dir_url(WPGMZA_PRO_FILE);
+			
+			$libraryDependencies = array_merge($libraryDependencies, array(
+				$pro_dir . 'lib/pagination.min.js'
+			));
+		}*/
+		
 		if($wpgmza->getCurrentPage() && is_admin())
 		{
 			wp_enqueue_script('jquery-ui-core');
@@ -552,15 +561,7 @@ class ScriptLoader
 		global $wpgmza;
 		
 		$data = $wpgmza->getLocalizedData();
-		
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
-	}
-	
-	public function onScriptLoaderTag($tag, $handle, $src)
-	{
-		if(preg_match('/^wpgmza|wpgmaps/i', $handle))
-			return preg_replace('/defer=([\'"]defer[\'"])?/', '', $tag);
-		
-		return $tag;
+
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
 	}
 }

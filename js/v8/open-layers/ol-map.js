@@ -34,11 +34,11 @@ jQuery(function($) {
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
 			if(interaction instanceof ol.interaction.DragPan)
-				interaction.setActive( (this.settings.wpgmza_settings_map_draggable == "yes" ? false : true) );
+				interaction.setActive( (self.settings.wpgmza_settings_map_draggable == "yes" ? false : true) );
 			else if(interaction instanceof ol.interaction.DoubleClickZoom)
-				interaction.setActive( (this.settings.wpgmza_settings_map_clickzoom ? false : true) );
+				interaction.setActive( (self.settings.wpgmza_settings_map_clickzoom ? false : true) );
 			else if(interaction instanceof ol.interaction.MouseWheelZoom)
-				interaction.setActive( (this.settings.wpgmza_settings_map_scroll == "yes" ? false : true) );
+				interaction.setActive( (self.settings.wpgmza_settings_map_scroll == "yes" ? false : true) );
 			
 		}, this);
 		
@@ -47,7 +47,7 @@ jQuery(function($) {
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
 			if(control instanceof ol.control.Zoom && WPGMZA.settings.wpgmza_settings_map_zoom == "yes")
-				this.olMap.removeControl(control);
+				self.olMap.removeControl(control);
 			
 		}, this);
 		
@@ -134,6 +134,8 @@ jQuery(function($) {
 		// Dispatch event
 		if(!WPGMZA.isProVersion())
 		{
+			this.trigger("init");
+			
 			this.dispatchEvent("created");
 			WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
 		}

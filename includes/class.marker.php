@@ -37,6 +37,12 @@ class Marker extends Crud implements \JsonSerializable
 		return apply_filters('wpgmza_create_marker_instance', $id_or_fields);
 	}
 	
+	public static function get_table_name_static()
+	{
+		global $wpdb;
+		return "{$wpdb->prefix}wpgmza";
+	}
+	
 	/**
 	 * Returns a clone of this marker for JSON serialization. Unsets latlng binary spatial data which corrupts JSON, and sets custom field data.
 	 * @return array A JSON representation of this marker, without spatial data and with custom field ata.

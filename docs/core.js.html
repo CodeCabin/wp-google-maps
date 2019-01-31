@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module WPGMZA
+ * @summary This is the core Javascript module. Some code exists in ../core.js, the functionality there will slowly be handed over to this module.
+ */
+(function($) {
+	var core = {
+		maps: [],
+		events: null,
+		settings: null,
+		
+		loadingHTML: '&lt;div class="wpgmza-preloader">&lt;div class="wpgmza-loader">...&lt;/div>&lt;/div>',
+		
+		/**
+		 * @function guid
+		 * @summary Utility function returns a GUID
+		 * @static
+		 * @return {string} The GUID
+		 */
+		guid: function() { // Public Domain/MIT
+		  var d = new Date().getTime();
+			if (typeof performance !== 'undefined' &amp;&amp; typeof performance.now === 'function'){
+				d += performance.now(); //use high-precision timer if available
+			}
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+				var r = (d + Math.random() * 16) % 16 | 0;
+				d = Math.floor(d / 16);
+				return (c === 'x' ? r : (r &amp; 0x3 | 0x8)).toString(16);
+			});
+		},
+		
+		/**
+		 * @function hexOpacityToRGBA
+		 * @summary Takes a hex string and opacity value and converts it to Openlayers RGBA format
+		 * @param {string} colour The hex color string
+		 * @param {number} opacity The opacity from 0.0 - 1.0
+		 * @static
+		 * @return {array} RGBA where color components are 0 - 255 and opacity is 0.0 - 1.0
+		 */
+		hexOpacityToRGBA: function(colour, opacity)
+		{
+			hex = parseInt(colour.replace(/^#/, ""), 16);
+			return [
+				(hex &amp; 0xFF0000) >> 16,
+				(hex &amp; 0xFF00) >> 8,
+				hex &amp; 0xFF,
+				parseFloat(opacity)
+			];
+		},
+		
+		latLngRegexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/,
+		
+		/**
+		 * @function isLatLngString
+		 * @summary Utility function returns true is string is a latitude and longitude
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {array} the matched latitude and longitude or null if no match
+		 */
+		isLatLngString: function(str)
+		{
+			if(typeof str != "string")
+				return null;
+			
+			// Remove outer brackets
+			if(str.match(/^\(.+\)$/))
+				str = str.replace(/^\(|\)$/, "");
+			
+			var m = str.match(WPGMZA.latLngRegexp);
+			
+			if(!m)
+				return null;
+			
+			return {
+				lat: parseFloat(m[1]),
+				lng: parseFloat(m[3])
+			};
+		},
+		
+		/**
+		 * @function stringToLatLng
+		 * @summary Utility function returns a latLng literal given a valid latLng string
+		 * @param str {string} The string to attempt to parse as coordinates
+		 * @static
+		 * @return {object} LatLng literal
+		 */
+		stringToLatLng: function(str)
+		{
+			var result = WPGMZA.isLatLngString(str);
+			
+			if(!result)
+				throw new Error("Not a valid latLng");
+			
+			return result;
+		},
+		
+		/**
+		 * @function getImageDimensions
+		 * @summary Utility function to get the dimensions of an image, caches results for best performance
+		 * @param src {string} Image source URL
+		 * @param callback {function} Callback to recieve image dimensions
+		 * @static
+		 * @return {void}
+		 */
+		imageDimensionsCache: {},
+		getImageDimensions: function(src, callback)
+		{
+			if(WPGMZA.imageDimensionsCache[src])
+			{
+				callback(WPGMZA.imageDimensionsCache[src]);
+				return;
+			}
+			
+			var img = document.createElement("img");
+			img.onload = function(event) {
+				var result = {
+					width: image.width,
+					height: image.height
+				};
+				WPGMZA.imageDimensionsCache[src] = result;
+				callback(result);
+			};
+			img.src = src;
+		},
+		
+		/**
+		 * @function isDeveloperMode
+		 * @summary Returns true if developer mode is set
+		 * @static 
+		 * @return {boolean} True if developer mode is on
+		 */
+		isDeveloperMode: function()
+		{
+			return this.developer_mode || (window.Cookies &amp;&amp; window.Cookies.get("wpgmza-developer-mode"));
+		},
+		
+		/**
+		 * @function isProVersion
+		 * @summary Returns true if the Pro add-on is active
+		 * @static
+		 * @return {boolean} True if the Pro add-on is active
+		 */
+		isProVersion: function()
+		{
+			return (this._isProVersion == "1");
+		},
+		
+		/**
+		 * @function openMediaDialog
+		 * @summary Opens the WP media dialog and returns the result to a callback
+		 * @param {function} callback Callback to recieve the attachment ID as the first parameter and URL as the second
+		 * @static
+		 * @return {void}
+		 */
+		openMediaDialog: function(callback) {
+			// Media upload
+			var file_frame;
+			
+			// If the media frame already exists, reopen it.
+			if ( file_frame ) {
+				// Set the post ID to what we want
+				file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
+				// Open frame
+				file_frame.open();
+				return;
+			}
+			
+			// Create the media frame.
+			file_frame = wp.media.frames.file_frame = wp.media({
+				title: 'Select a image to upload',
+				button: {
+					text: 'Use this image',
+				},
+				multiple: false	// Set to true to allow multiple files to be selected
+			});
+			
+			// When an image is selected, run a callback.
+			file_frame.on( 'select', function() {
+				// We set multiple to false so only get one image from the uploader
+				attachment = file_frame.state().get('selection').first().toJSON();
+				
+				callback(attachment.id, attachment.url);
+			});
+			
+			// Finally, open the modal
+			file_frame.open();
+		},
+		
+		/**
+		 * @function getCurrentPosition
+		 * @summary This function will get the users position, it first attempts to get
+		 * high accuracy position (mobile with GPS sensors etc.), if that fails
+		 * (desktops will time out) then it tries again without high accuracy
+		 * enabled
+		 * @static
+		 * @return {object} The users position as a LatLng literal
+		 */
+		getCurrentPosition: function(callback)
+		{
+			if(!navigator.geolocation)
+			{
+				console.warn("No geolocation available on this device");
+				return;
+			}
+			
+			var options = {
+				enableHighAccuracy: true
+			};
+			
+			navigator.geolocation.getCurrentPosition(function(position) {
+				callback(position);
+			},
+			function(error) {
+				
+				options.enableHighAccuracy = false;
+				
+				navigator.geolocation.getCurrentPosition(function(position) {
+					callback(position);
+				},
+				function(error) {
+					console.warn(error.code, error.message);
+				},
+				options);
+				
+			},
+			options);
+		},
+		
+		/**
+		 * @function runCatchableTask
+		 * @summary Runs a catchable task and displays a friendly error if the function throws an error
+		 * @param {function} callback The function to run
+		 * @param {HTMLElement} friendlyErrorContainer The container element to hold the error
+		 * @static
+		 * @return {void}
+		 */
+		runCatchableTask: function(callback, friendlyErrorContainer) {
+			
+			if(WPGMZA.isDeveloperMode())
+				callback();
+			else
+				try{
+					callback();
+				}catch(e) {
+					var friendlyError = new WPGMZA.FriendlyError(e);
+					$(friendlyErrorContainer).html("");
+					$(friendlyErrorContainer).append(friendlyError.element);
+					$(friendlyErrorContainer).show();
+				}
+		},
+		
+		/**
+		 * @function assertInstanceOf
+		 * @summary
+		 * This function is for checking inheritence has been setup correctly.
+		 * For objects that have engine and Pro specific classes, it will automatically
+		 * add the engine and pro prefix to the supplied string and if such an object
+		 * exists it will test against that name rather than the un-prefix argument
+		 * supplied.
+		 *
+		 * For example, if we are running the Pro addon with Google maps as the engine,
+		 * if you supply Marker as the instance name the function will check to see
+		 * if instance is an instance of GoogleProMarker
+		 * @param {object} instance The object to check
+		 * @param {string} instanceName The class name as a string which this object should be an instance of
+		 * @static
+		 * @return {void}
+		 */
+		assertInstanceOf: function(instance, instanceName) {
+			var engine, fullInstanceName, assert;
+			var pro = WPGMZA.isProVersion() ? "Pro" : "";
+			
+			switch(WPGMZA.settings.engine)
+			{
+				case "google-maps":
+					engine = "Google";
+					break;
+				
+				default:
+					engine = "OL";
+					break;
+			}
+			
+			if(WPGMZA[engine + pro + instanceName])
+				fullInstanceName = engine + pro + instanceName;
+			else if(WPGMZA[pro + instanceName])
+				fullInstanceName = pro + instanceName;
+			else if(WPGMZA[engine + instanceName])
+				fullInstanceName = engine + instanceName;
+			else
+				fullInstanceName = instanceName;
+			
+			assert = instance instanceof WPGMZA[fullInstanceName];
+			
+			if(!assert)
+				throw new Error("Object must be an instance of " + fullInstanceName + " (did you call a constructor directly, rather than createInstance?)");
+		},
+		
+		/**
+		 * @function getMapByID
+		 * @param {mixed} id The ID of the map to retrieve
+		 * @static
+		 * @return {object} The map object, or null if no such map exists
+		 */
+		getMapByID: function(id) {
+			for(var i = 0; i &lt; WPGMZA.maps.length; i++) {
+				if(WPGMZA.maps[i].id == id)
+					return WPGMZA.maps[i];
+			}
+			
+			return null;
+		},
+		
+		/**
+		 * @function isGoogleAutocompleteSupported
+		 * @summary Shorthand function to determine if the Places Autocomplete is available
+		 * @static
+		 * @return {boolean}
+		 */
+		isGoogleAutocompleteSupported: function() {
+			return typeof google === 'object' &amp;&amp; typeof google.maps === 'object' &amp;&amp; typeof google.maps.places === 'object' &amp;&amp; typeof google.maps.places.Autocomplete === 'function';
+		}
+	};
+	
+	if(window.WPGMZA)
+		window.WPGMZA = $.extend(window.WPGMZA, core);
+	else
+		window.WPGMZA = core;
+	
+	for(var key in WPGMZA_localized_data)
+	{
+		var value = WPGMZA_localized_data[key];
+		WPGMZA[key] = value;
+	}
+	
+	/*for(var key in WPGMZA_localized_data)
+		WPGMZA[key] = WPGMZA_localized_data[key];
+
+	$(document).ready(function(event) {
+		// Datatables to throw errors
+		if($.fn.dataTable)
+			$.fn.dataTable.ext.errMode = 'throw';
+		
+		// Combined script warning
+		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
+			console.warn("Minified script is out of date, using combined script instead.");
+		
+		// Check for multiple jQuery versions
+		var elements = $("script").filter(function() {
+			return this.src.match(/(^|\/)jquery\.(min\.)?js(\?|$)/i);
+		});
+
+		if(elements.length > 1)
+			console.warn("Multiple jQuery versions detected: ", elements);
+	
+		// Disable map edit page preloader in developer more
+		if(WPGMZA.isDeveloperMode())
+			$("#wpgmza-map-edit-page form.wpgmza").show();
+	
+		// Shortcode boxes
+		$(".wpgmza_copy_shortcode").on("click", function() {
+			var temp = $("&lt;input>");
+			var temp2 = $('&lt;div id="wpgmza_tmp" style="display: none;" width:100%; text-align:center;"/>');
+			$(document.body).append(temp);
+			temp.val($(this).val()).select();
+			document.execCommand("copy");
+			temp.remove();
+			$(this).after(temp2);
+			$(temp2).html(
+				$("[data-shortcode-copy-string]").attr("data-shortcode-copy-string")
+			);
+			$(temp2).fadeIn();
+			setTimeout(function() {
+				$(temp2).fadeOut();
+			}, 1000);
+			setTimeout(function() {
+				$(temp2).remove();
+			}, 1500);
+		});
+		
+		// Fancy switches
+		// $("form.wpgmza .cmn-toggle").each(function(index, el) {
+		// 	
+		// 	$(el).wrap("&lt;div class='switch'/>");
+		// 	$(el).after("&lt;label for=""/>")
+		// 	
+		// });
+		
+		$("form.wpgmza").on("click", ".switch label", function(event) {
+			var input = $(this).prev(".cmn-toggle");
+			
+			if(input.prop("disabled"))
+				return;
+			
+			var val = !input.prop("checked");
+			
+			input.prop("checked", val);
+			
+			if(val)
+				input.attr("checked", "checked");
+			else
+				input.removeAttr("checked");
+			
+			input.trigger("change");
+		});
+		
+		// Geolocation warnings
+		if(window.location.protocol != 'https:')
+		{
+			var warning = '&lt;span class="notice notice-warning">' + WPGMZA.localized_strings.unsecure_geolocation + "&lt;/span>";
+			
+			$(".wpgmza-geolocation-setting").after(
+				$(warning)
+			);
+		}
+		
+		// Switch off thanks for feedback message
+		document.cookie = "wpgmza_feedback_thanks=false; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+	});*/
+})(jQuery);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleCircle.html">GoogleCircle</a></li><li><a href="module-GoogleGeocoder.html">GoogleGeocoder</a></li><li><a href="module-GoogleInfoWindow.html">GoogleInfoWindow</a></li><li><a href="module-GoogleMap.html">GoogleMap</a></li><li><a href="module-GoogleMarker.html">GoogleMarker</a></li><li><a href="module-GoogleModernStoreLocator.html">GoogleModernStoreLocator</a></li><li><a href="module-GoogleModernStoreLocatorCircle.html">GoogleModernStoreLocatorCircle</a></li><li><a href="module-GooglePolygon.html">GooglePolygon</a></li><li><a href="module-GooglePolyline.html">GooglePolyline</a></li><li><a href="module-GoogleVertexContextMenu.html">GoogleVertexContextMenu</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLCircle.html">OLCircle</a></li><li><a href="module-OLGeocoder.html">OLGeocoder</a></li><li><a href="module-OLInfoWindow.html">OLInfoWindow</a></li><li><a href="module-OLMap.html">OLMap</a></li><li><a href="module-OLMarker.html">OLMarker</a></li><li><a href="module-OLModernStoreLocator.html">OLModernStoreLocator</a></li><li><a href="module-OLModernStoreLocatorCircle.html">OLModernStoreLocatorCircle</a></li><li><a href="module-OLPolygon.html">OLPolygon</a></li><li><a href="module-OLPolyline.html">OLPolyline</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li></ul><h3>Classes</h3><ul><li><a href="module-Circle-Circle.html">Circle</a></li><li><a href="module-ModernStoreLocatorCircle-WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLGeocoder-OLGeocoder.html">OLGeocoder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed May 16 2018 13:18:38 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

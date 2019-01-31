@@ -9,7 +9,7 @@ namespace WPGMZA;
  * @property-read string $spatialFunctionPrefix MySQL versions 8 and above prefix all spatial functions with ST_, previous versions do not. This property will be ST_ where necessary, and an empty string where not. You should use this with all DB calls that make use of spaital functions.
  * @property-read string $gdprCompliance An instance of the GDPRCompliance class.
  */
-class Plugin
+class Plugin extends Factory
 {
 	const PAGE_MAP_LIST			= "map-list";
 	const PAGE_MAP_EDIT			= "map-edit";
@@ -27,21 +27,12 @@ class Plugin
 	);
 	public static $enqueueScriptsFired = false;
 	
-	/** 
-	 * @var array The plugins global settings. Please note this will be dropped and handed over to the GlobalSettings module in 7.11.00. This should not effect interaction with this property - you can continue to access this as an array safely.
-	 * @deprecated Will be read-only and an instance of GLobalSettings as of 7.11.00
-	 */
-	public $settings;
+	private $_settings;
+	private $_gdprCompliance;
+	private $_restAPI;
+	private $_spatialFunctionPrefix = '';
 	
-	/**
-	 * @var ScriptLoader An instance of ScriptLoader, used internally.
-	 */
 	protected $scriptLoader;
-	
-	/**
-	 * @var RestAPI An instance of RestAPI, used internally.
-	 */
-	protected $restAPI;
 	
 	private $mysqlVersion = null;
 	private $cachedVersion = null;
@@ -58,16 +49,20 @@ class Plugin
 		
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
 		
+		// TODO: Could / should cache this above
+		if(!empty($this->mysqlVersion) && preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] > 8)
+			$this->_spatialFunctionPrefix = 'ST_';
+		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
 		if(!$this->legacySettings)
 			$this->legacySettings = array();
 		
-		$settings = $this->getDefaultSettings();
-		
-		// $temp = GlobalSettings::createInstance();
-		
 		// Legacy compatibility
 		global $wpgmza_pro_version;
+		
+		$this->_settings = new GlobalSettings();
+		$this->_restAPI = RestAPI::createInstance();
+		$this->gutenbergIntegration = Integration\Gutenberg::createInstance();
 		
 		// TODO: This should be in default settings, this code is duplicaetd
 		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
@@ -89,16 +84,13 @@ class Plugin
 			});
 		}
 		
-		$this->settings = (object)array_merge($this->legacySettings, $settings);
-		
-		$this->restAPI = new RestAPI();
-		$this->gutenbergIntegration = Integration\Gutenberg::createInstance();
-		
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
 		if(!empty($_COOKIE['wpgmza-developer-mode']))
 			$this->settings->developer_mode = true;
+		
+		add_action('init', array($this, 'onInit'));
 		
 		foreach(Plugin::$enqueueScriptActions as $action)
 		{
@@ -111,6 +103,14 @@ class Plugin
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
 	}
 	
+	public function __set($name, $value)
+	{
+		if(isset($this->{"_$name"}))
+			throw new \Exception('Property is read only');
+		
+		$this->{$name} = $value;
+	}
+	
 	/**
 	 * Getter, see property-read above.
 	 */
@@ -118,23 +118,20 @@ class Plugin
 	{
 		switch($name)
 		{
-			case "spatialFunctionPrefix":
-				$result = '';
-				
-				if(!empty($this->mysqlVersion) && preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] >= 8)
-					$result = 'ST_';
-				
-				return $result;
-				break;
-				
-			case "gdprCompliance":
-				// Temporary shim
-				global $wpgmzaGDPRCompliance;
-				return $wpgmzaGDPRCompliance;
+			case 'settings':
+			case 'gdprCompliance':
+			case 'restAPI':
+			case 'spatialFunctionPrefix':
+				return $this->{'_' . $name};
 				break;
 		}
 		
 		return $this->{$name};
+	}
+	
+	public function onInit()
+	{
+		$this->_gdprCompliance = new GDPRCompliance();
 	}
 	
 	/**
@@ -170,32 +167,8 @@ class Plugin
 		}
 	}
 	
-	/**
-	 * Gets the default settings, passed through the wpgmza_plugin_get_default_settings filter.
-	 * @return array An array of key value pairs with the default plugin settings.
-	 */
-	public function getDefaultSettings()
-	{
-		$defaultEngine = 'google-maps';
-		
-		return apply_filters('wpgmza_plugin_get_default_settings', array(
-			'engine' 				=> $defaultEngine,
-			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
-			'default_marker_icon'	=> "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
-			'developer_mode'		=> !empty($this->legacySettings['developer_mode'])
-		));
-	}
-	
-	/**
-	 * Gets the plugins localized data, that is, the data to be initialized as globals client side (for JavaScript). These variables will be made available as JavaScript globals, through wp_localize_script.
-	 *
-	 * This array is passed through the filter wpgmza_plugin_get_localized_data.
-	 * @return array A key value array of variables to be passed to JavaScript.
-	 */
 	public function getLocalizedData()
 	{
-		global $wpgmzaGDPRCompliance;
-		
 		$document = new DOMDocument();
 		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/google-maps-api-error-dialog.html.php');
 		$googleMapsAPIErrorDialogHTML = $document->saveInnerBody();
@@ -207,20 +180,24 @@ class Plugin
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
-			'resturl'				=> get_rest_url(null, 'wpgmza/v1'),
-			
+
 			'html'					=> array(
 				'googleMapsAPIErrorDialog' => $googleMapsAPIErrorDialogHTML
 			),
 			
+			'resturl'				=> get_rest_url(null, 'wpgmza/v1'),
+			'restnonce'				=> wp_create_nonce('wp_rest'),
+
 			'settings' 				=> $settings,
 			'currentPage'			=> $this->getCurrentPage(),
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
-			
 			'localized_strings'		=> $strings->getLocalizedStrings(),
-			'api_consent_html'		=> $wpgmzaGDPRCompliance->getConsentPromptHTML(),
+			'api_consent_html'		=> $this->gdprCompliance->getConsentPromptHTML(),
 			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion(),
+			
+			'defaultMarkerIcon'		=> Marker::DEFAULT_ICON,
+
 			'is_admin'				=> (is_admin() ? 1 : 0)
 		));
 		
@@ -296,6 +273,9 @@ class Plugin
 	 */
 	public function isProVersion()
 	{
+		if(defined('WPGMZA_PRO_VERSION') && version_compare(WPGMZA_PRO_VERSION, '7.10.00', '<'))
+			return true;	// Pre ProPlugin
+		
 		return false;
 	}
 	
@@ -330,21 +310,16 @@ class Plugin
 	}
 }
 
-/** 
- * The Factory class will take over this functionality from 7.11.00 onwards. Do not use this hook. 
- * @deprecated 
- */
-function create_plugin_instance()
-{
-	if(defined('WPGMZA_PRO_VERSION'))
-		return new ProPlugin();
-	
-	return new Plugin();
-}
-
 add_action('plugins_loaded', function() {
+	
 	global $wpgmza;
-	$wpgmza = apply_filters('wpgmza_create_plugin_instance', null);
+	
+	if(defined('WPGMZA_PRO_VERSION') && version_compare(WPGMZA_PRO_VERSION, '7.11.00', '<') && class_exists('WPGMZA\\ProPlugin'))
+	{
+		$wpgmza = new ProPlugin();
+		return;
+	}
+	
+	$wpgmza = Plugin::createInstance();
+	
 });
-
-add_filter('wpgmza_create_plugin_instance', 'WPGMZA\\create_plugin_instance', 10, 0);

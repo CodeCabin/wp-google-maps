@@ -223,6 +223,9 @@ jQuery(function($) {
 			return url.replace(/^http(s?):/, "");
 		}
 		
+		if(WPGMZA.defaultMarkerIcon)
+			return stripProtocol(WPGMZA.defaultMarkerIcon);
+		
 		return stripProtocol(WPGMZA.settings.default_marker_icon);
 	}
 	

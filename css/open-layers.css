@@ -53,14 +53,14 @@
 
 .ol-marker
 {
-	/* position: relative; */
+	position: relative;
 }
 
 .ol-marker>img
 {
-	position: absolute;
+	/*position: absolute;
 	bottom: 0px;
-	transform: translateX(-50%);
+	transform: translateX(-50%);*/
 	max-width: none;
 	z-index: 2;
 }

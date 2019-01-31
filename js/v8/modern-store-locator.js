@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module ModernStoreLocator
  * @requires WPGMZA
+ * @pro-requires WPGMZA.UseMyLocationButton
  */
 jQuery(function($) {
 	
@@ -136,7 +137,7 @@ jQuery(function($) {
 
 		
 		if(numCategories) {
-			this.optionsButton = $('<span class="wpgmza_store_locator_options_button"><i class="fas fa-list"></i></span>');
+			this.optionsButton = $('<span class="wpgmza_store_locator_options_button"><i class="fa fa-list"></i></span>');
 			$(this.searchButton).before(this.optionsButton);
 		}
 		

@@ -41,6 +41,10 @@ jQuery(function($) {
 		this.circles = [];
 		
 		this.loadSettings(options);
+		
+		this.initStoreLocator();
+		
+		this.markerFilter = WPGMZA.MarkerFilter.createInstance(this);
 	}
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -109,6 +113,22 @@ jQuery(function($) {
 		this.settings = settings;
 	}
 	
+	WPGMZA.Map.prototype.initStoreLocator = function()
+	{
+		var storeLocatorElement = $(".wpgmza_sl_main_div");
+		if(storeLocatorElement.length)
+			this.storeLocator = WPGMZA.StoreLocator.createInstance(this, storeLocatorElement[0]);
+	}
+	
+	/**
+	 * This override should automatically dispatch a .wpgmza scoped event on the element
+	 * TODO: Implement
+	 */
+	/*WPGMZA.Map.prototype.trigger = function(event)
+	{
+		
+	}*/
+	
 	/**
 	 * Sets options in bulk on map
 	 * @method
@@ -120,6 +140,11 @@ jQuery(function($) {
 			this.settings[name] = options[name];
 	}
 	
+	/**
+	 * Gets the distance between two latLngs in kilometers
+	 * NB: Static function
+	 * @return number
+	 */
 	var earthRadiusMeters = 6371;
 	var piTimes360 = Math.PI / 360;
 	
@@ -582,23 +607,4 @@ jQuery(function($) {
 		$(this.element).trigger("idle");
 	}
 	
-	/*$(document).ready(function() {
-		function createMaps()
-		{
-			// TODO: Test that this works for maps off screen (which borks google)
-			$(".wpgmza-map").each(function(index, el) {
-				if(!el.wpgmzaMap)
-				{
-					WPGMZA.runCatchableTask(function() {
-						WPGMZA.Map.createInstance(el);
-					}, el);
-				}
-			});
-		}
-		
-		createMaps();
-		
-		// Call again each second to load AJAX maps
-		setInterval(createMaps, 1000);
-	});*/
 });

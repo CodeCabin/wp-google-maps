@@ -567,3 +567,8 @@ input.cmn-toggle-yes-no:checked + label:after {
 	font-weight: bold;
 	padding-right: 0.3em;
 }
+
+[aria-controls="wpgmza-gdpr-compliance"]
+{
+	margin-left: 3px;
+}

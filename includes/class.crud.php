@@ -7,7 +7,7 @@ namespace WPGMZA;
  * objects which are stored on in the database and represented in server
  * side logic, for example Map, Marker, Polygon
  */
-class Crud implements \IteratorAggregate, \JsonSerializable
+class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 {
 	const SINGLE_READ		= "single-read";
 	const BULK_READ			= "bulk-read";
