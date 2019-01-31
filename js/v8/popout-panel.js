@@ -14,7 +14,7 @@ jQuery(function($) {
 	WPGMZA.PopoutPanel = function()
 	{
 		
-	};
+	}
 	
 	/**
 	 * Opens the direction box

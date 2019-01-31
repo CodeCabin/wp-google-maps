@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: info-window.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: info-window.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace WPGMZA
+ * @module InfoWindow
+ * @requires WPGMZA.EventDispatcher
+ */
+(function($) {
+	
+	WPGMZA.InfoWindow = function(mapObject)
+	{
+		var self = this;
+		
+		WPGMZA.EventDispatcher.call(this);
+		
+		WPGMZA.assertInstanceOf(this, "InfoWindow");
+		
+		if(!mapObject)
+			return;
+		
+		this.mapObject = mapObject;
+		
+		if(mapObject.map)
+		{
+			// This has to be slightly delayed so the map initialization won't overwrite the infowindow element
+			setTimeout(function() {
+				self.onMapObjectAdded(event);
+			}, 100);
+		}
+		else
+			mapObject.addEventListener("added", function(event) { 
+				self.onMapObjectAdded(event);
+			});		
+	}
+	
+	WPGMZA.InfoWindow.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
+	WPGMZA.InfoWindow.prototype.constructor = WPGMZA.InfoWindow;
+	
+	WPGMZA.InfoWindow.OPEN_BY_CLICK = 1;
+	WPGMZA.InfoWindow.OPEN_BY_HOVER = 2;
+	
+	WPGMZA.InfoWindow.getConstructor = function()
+	{
+		switch(WPGMZA.settings.engine)
+		{
+			case "google-maps":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProInfoWindow;
+				return WPGMZA.GoogleInfoWindow;
+				break;
+				
+			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.OLProInfoWindow;
+				return WPGMZA.OLInfoWindow;
+				break;
+		}
+	}
+	
+	WPGMZA.InfoWindow.createInstance = function(mapObject)
+	{
+		var constructor = this.getConstructor();
+		return new constructor(mapObject);
+	}
+	
+	/**
+	 * Gets the content for the info window and passes it to the specified callback - this allows for delayed loading (eg AJAX) as well as instant content
+	 * @return void
+	 */
+	WPGMZA.InfoWindow.prototype.getContent = function(callback)
+	{
+		var html = "";
+		
+		if(this.mapObject instanceof WPGMZA.Marker)
+			html = this.mapObject.address;
+		
+		callback(html);
+	}
+	
+	/**
+	 * Opens the info window
+	 * @return boolean FALSE if the info window should not &amp; will not open, TRUE if it will
+	 */
+	WPGMZA.InfoWindow.prototype.open = function(map, mapObject)
+	{
+		var self = this;
+		
+		this.mapObject = mapObject;
+		
+		if(WPGMZA.settings.disable_infowindows)
+			return false;
+		
+		return true;
+	}
+	
+	WPGMZA.InfoWindow.prototype.close = function()
+	{
+		
+	}
+	
+	/**
+	 * Event listener for when the map object is added. This will cause the info window to open if the map object has infoopen set
+	 * @return void
+	 */
+	WPGMZA.InfoWindow.prototype.onMapObjectAdded = function()
+	{
+		if(this.mapObject.settings.infoopen == 1)
+			this.open();
+	}
+	
+})(jQuery);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleCircle.html">GoogleCircle</a></li><li><a href="module-GoogleGeocoder.html">GoogleGeocoder</a></li><li><a href="module-GoogleInfoWindow.html">GoogleInfoWindow</a></li><li><a href="module-GoogleMap.html">GoogleMap</a></li><li><a href="module-GoogleMarker.html">GoogleMarker</a></li><li><a href="module-GoogleModernStoreLocator.html">GoogleModernStoreLocator</a></li><li><a href="module-GoogleModernStoreLocatorCircle.html">GoogleModernStoreLocatorCircle</a></li><li><a href="module-GooglePolygon.html">GooglePolygon</a></li><li><a href="module-GooglePolyline.html">GooglePolyline</a></li><li><a href="module-GoogleVertexContextMenu.html">GoogleVertexContextMenu</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLCircle.html">OLCircle</a></li><li><a href="module-OLGeocoder.html">OLGeocoder</a></li><li><a href="module-OLInfoWindow.html">OLInfoWindow</a></li><li><a href="module-OLMap.html">OLMap</a></li><li><a href="module-OLMarker.html">OLMarker</a></li><li><a href="module-OLModernStoreLocator.html">OLModernStoreLocator</a></li><li><a href="module-OLModernStoreLocatorCircle.html">OLModernStoreLocatorCircle</a></li><li><a href="module-OLPolygon.html">OLPolygon</a></li><li><a href="module-OLPolyline.html">OLPolyline</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li></ul><h3>Classes</h3><ul><li><a href="module-Circle-Circle.html">Circle</a></li><li><a href="module-ModernStoreLocatorCircle-WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLGeocoder-OLGeocoder.html">OLGeocoder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed May 16 2018 13:18:38 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

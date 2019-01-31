@@ -168,7 +168,7 @@ jQuery(function($) {
 	{
 		Parent.prototype.setVisible.call(this, visible);
 		
-		this.googleMarker.setVisible(visible);
+		this.googleMarker.setVisible(visible ? true : false);
 	}
 	
 	WPGMZA.GoogleMarker.prototype.setDraggable = function(draggable)

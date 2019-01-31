@@ -45,6 +45,10 @@ jQuery(function($) {
 			
 			_error.apply(this, arguments);
 		}
+		
+		// Check for no API key
+		if(WPGMZA.settings.engine == "google-maps" && (!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length))
+			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, "https://www.wpgmaps.com/get-a-google-maps-api-key/");
 	}
 	
 	/**

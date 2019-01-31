@@ -217,6 +217,31 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.01 :- Medium priority =
+* Fixed undefined notice in AjaxTable when using Pro marker listings
+* Fixed legacy Google error message breaking Gutenberg editor when no key is present
+* Fixed legacy compatibility issue with Global Settings module
+
+= 7.11.00 :- 2019-01-30 :- Medium priority =
+* Added new GlobalSettings module
+* Optimized marker tables and listings giving significant performance boost when viewing marker listings, editing, adding and deleting markers
+* Nominatim Cache now records country restriction
+* Improved robusticity of data-settings attribute handling
+* Added WPGMZA.LatLng.prototype.toLatLngLiteral
+* Added check for jQuery slider in wpgmaps_tabs.js
+* Added check for WordPress REST API and notices where that is not present
+* Removed 5,000 marker live edit limit following performance optimizations
+* Deprecated redundant WPGMZA_SETTINGS option
+* Moved all code from main PHP file to legacy-core.php
+* Checks for namespace, DOMDocument and WP REST API added in main file, a warning is issued if these are missing rather than a fatal error
+* Fixed undefined index wpgmza_settings_marker_pull on new installations
+* Fixed country restriction broken in OpenLayers
+* Fixed interaction controls (disable pan, double click zoom and mousewheel) ignored in OpenLayers due to wrong scope
+* Fixed zoom limits not respected in OpenLayers
+* Fixed zoom limits incorrectly interpreted by Google
+* Fixed "minZoom cannot exceed maxZoom" breaking Google maps when settings are reversed
+* Fixed country restriction not respected by OpenLayers
+
 = 7.10.58 :- 2019-01-18 :- Low priority =
 * Added code to catch Geocoding Service errors in GoogleAPIErrorHandler
 * Fixed wrong database prefix in wpgmaps_return_markers when running on a multisite installation

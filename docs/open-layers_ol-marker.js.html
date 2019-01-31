@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: open-layers/ol-marker.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: open-layers/ol-marker.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace WPGMZA
+ * @module OLMarker
+ * @requires WPGMZA.Marker
+ * @pro-requires WPGMZA.ProMarker
+ */
+(function($) {
+	
+	var Parent;
+	
+	WPGMZA.OLMarker = function(row)
+	{
+		var self = this;
+		
+		Parent.call(this, row);
+
+		var origin = ol.proj.fromLonLat([
+			parseFloat(this.lng),
+			parseFloat(this.lat)
+		]);
+		
+		this.element = $("&lt;div class='ol-marker'>&lt;img src='" + WPGMZA.settings.default_marker_icon + "'/>&lt;/div>")[0];
+		
+		$(this.element).on("click", function(event) {
+			self.dispatchEvent("click");
+			self.dispatchEvent("select");
+		});
+
+		$(this.element).on("mouseover", function(event) {
+			self.dispatchEvent("mouseover");
+		});
+		
+		this.overlay = new ol.Overlay({
+			element: this.element
+		});
+		this.overlay.setPosition(origin);
+		
+		if(this.animation)
+			this.setAnimation(this.animation);
+		
+		this.setLabel(this.settings.label);
+		
+		if(row.draggable)
+			this.setDraggable(true);
+		
+		this.trigger("init");
+	}
+	
+	if(WPGMZA.isProVersion())
+		Parent = WPGMZA.ProMarker;
+	else
+		Parent = WPGMZA.Marker;
+	WPGMZA.OLMarker.prototype = Object.create(Parent.prototype);
+	WPGMZA.OLMarker.prototype.constructor = WPGMZA.OLMarker;
+	
+	WPGMZA.OLMarker.prototype.addLabel = function()
+	{
+		this.setLabel(this.getLabelText());
+	}
+	
+	WPGMZA.OLMarker.prototype.setLabel = function(label)
+	{
+		if(!label)
+		{
+			if(this.label)
+				$(this.element).find(".ol-marker-label").remove();
+			
+			return;
+		}
+		
+		if(!this.label)
+		{
+			this.label = $("&lt;div class='ol-marker-label'/>");
+			$(this.element).append(this.label);
+		}
+		
+		this.label.html(label);
+	}
+	
+	WPGMZA.OLMarker.prototype.setVisible = function(visible)
+	{
+		Parent.prototype.setVisible(visible);
+		
+		this.overlay.getElement().style.display = (visible ? "block" : "none");
+	}
+	
+	WPGMZA.OLMarker.prototype.setPosition = function(latLng)
+	{
+		Parent.prototype.setPosition.call(this, latLng);
+		
+		var origin = ol.proj.fromLonLat([
+			parseFloat(this.lng),
+			parseFloat(this.lat)
+		]);
+	
+		this.overlay.setPosition(origin);
+	}
+	
+	WPGMZA.OLMarker.prototype.setOffset = function(x, y)
+	{
+		this.element.style.position = "relative";
+		this.element.style.left = x + "px";
+		this.element.style.top = y + "px";
+	}
+	
+	WPGMZA.OLMarker.prototype.setAnimation = function(anim)
+	{
+		Parent.prototype.setAnimation.call(this, anim);
+		
+		switch(anim)
+		{
+			case WPGMZA.Marker.ANIMATION_NONE:
+				$(this.element).removeAttr("data-anim");
+				break;
+			
+			case WPGMZA.Marker.ANIMATION_BOUNCE:
+				$(this.element).attr("data-anim", "bounce");
+				break;
+			
+			case WPGMZA.Marker.ANIMATION_DROP:
+				$(this.element).attr("data-anim", "drop");
+				break;
+		}
+	}
+	
+	WPGMZA.OLMarker.prototype.setDraggable = function(draggable)
+	{
+		var self = this;
+		
+		if(draggable)
+		{
+			var options = {
+				disabled: false
+			};
+			
+			if(!this.jQueryDraggableInitialized)
+			{
+				options.stop = function(event) {
+					self.onDragEnd(event);
+				}
+			}
+			
+			$(this.element).draggable(options);
+		}
+		else
+			$(this.element).draggable({disabled: true});
+	}
+	
+	WPGMZA.OLMarker.prototype.onDragEnd = function(event)
+	{
+		var offset = {
+			top:	parseFloat( $(this.element).css("top").match(/-?\d+/)[0] ),
+			left:	parseFloat( $(this.element).css("left").match(/-?\d+/)[0] )
+		};
+		
+		$(this.element).css({
+			top: 	"0px",
+			left: 	"0px"
+		});
+		
+		console.log(offset);
+		
+		var currentLatLng 		= this.getPosition();
+		var pixelsBeforeDrag 	= this.map.latLngToPixels(currentLatLng);
+		var pixelsAfterDrag		= {
+			x: pixelsBeforeDrag.x + offset.left,
+			y: pixelsBeforeDrag.y + offset.top
+		};
+		var latLngAfterDrag		= this.map.pixelsToLatLng(pixelsAfterDrag);
+		
+		this.setPosition(latLngAfterDrag);
+		
+		this.trigger({type: "dragend", latLng: latLngAfterDrag})
+		$(this.element).trigger("dragend.wpgmza");
+	}
+	
+})(jQuery);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleCircle.html">GoogleCircle</a></li><li><a href="module-GoogleGeocoder.html">GoogleGeocoder</a></li><li><a href="module-GoogleInfoWindow.html">GoogleInfoWindow</a></li><li><a href="module-GoogleMap.html">GoogleMap</a></li><li><a href="module-GoogleMarker.html">GoogleMarker</a></li><li><a href="module-GoogleModernStoreLocator.html">GoogleModernStoreLocator</a></li><li><a href="module-GoogleModernStoreLocatorCircle.html">GoogleModernStoreLocatorCircle</a></li><li><a href="module-GooglePolygon.html">GooglePolygon</a></li><li><a href="module-GooglePolyline.html">GooglePolyline</a></li><li><a href="module-GoogleVertexContextMenu.html">GoogleVertexContextMenu</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLCircle.html">OLCircle</a></li><li><a href="module-OLGeocoder.html">OLGeocoder</a></li><li><a href="module-OLInfoWindow.html">OLInfoWindow</a></li><li><a href="module-OLMap.html">OLMap</a></li><li><a href="module-OLMarker.html">OLMarker</a></li><li><a href="module-OLModernStoreLocator.html">OLModernStoreLocator</a></li><li><a href="module-OLModernStoreLocatorCircle.html">OLModernStoreLocatorCircle</a></li><li><a href="module-OLPolygon.html">OLPolygon</a></li><li><a href="module-OLPolyline.html">OLPolyline</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li></ul><h3>Classes</h3><ul><li><a href="module-Circle-Circle.html">Circle</a></li><li><a href="module-ModernStoreLocatorCircle-WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLGeocoder-OLGeocoder.html">OLGeocoder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed May 16 2018 13:18:38 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

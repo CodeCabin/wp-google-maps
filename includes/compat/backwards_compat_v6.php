@@ -28,6 +28,7 @@ add_action('wpgooglemaps_hook_user_js_after_core', 'wpgmza_check_user_backwards_
 */
 function wpgmza_check_user_backwards_compat_v6(){
 	if(wpgmza_check_pro_compat_required_v6()){
+		
 		wp_register_script('wpgmaps-user-backwards-compat', plugins_url('js/backwards_compat_user_v6.js', __FILE__), array('jquery'), '1.0', true);
 
 		wp_localize_script('wpgmaps-user-backwards-compat', 'wpgmza_circle_data_array', wpgmza_backwards_compat_get_all_circle_data());
@@ -86,7 +87,7 @@ function wpgmza_check_pro_compat_required_v6(){
 	if(function_exists("wpgmza_register_pro_version")){
 		global $wpgmza_pro_version;
 
-		if(floatval($wpgmza_pro_version) <= 6.20){
+		if(version_compare($wpgmza_pro_version, '7.0.0', '<')) {
 			return true;
 		}
 	}

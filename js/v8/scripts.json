@@ -123,6 +123,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-marker-filter": {
+        "src": "js\/v8\/marker-filter.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
     "wpgmza-marker": {
         "src": "js\/v8\/marker.js",
         "pro": false,
@@ -174,6 +181,20 @@
     },
     "wpgmza-wpgmza-rest-api": {
         "src": "js\/v8\/rest-api.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-store-locator": {
+        "src": "js\/v8\/store-locator.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-text": {
+        "src": "js\/v8\/text.js",
         "pro": false,
         "dependencies": [
             "wpgmza"
@@ -274,6 +295,20 @@
             "wpgmza-polyline"
         ]
     },
+    "wpgmza-google-text-overlay": {
+        "src": "js\/v8\/google-maps\/google-text-overlay.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-text"
+        ]
+    },
+    "wpgmza-google-text": {
+        "src": "js\/v8\/google-maps\/google-text.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-text"
+        ]
+    },
     "wpgmza-google-vertex-context-menu": {
         "src": "js\/v8\/google-maps\/google-vertex-context-menu.js",
         "pro": false,
@@ -342,6 +377,27 @@
         "pro": false,
         "dependencies": [
             "wpgmza-polyline"
+        ]
+    },
+    "wpgmza-ol-text": {
+        "src": "js\/v8\/open-layers\/ol-text.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-text"
+        ]
+    },
+    "wpgmza-admin-marker-data-table": {
+        "src": "js\/v8\/tables\/admin-marker-datatable.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-data-table"
+        ]
+    },
+    "wpgmza-data-table": {
+        "src": "js\/v8\/tables\/datatable.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
         ]
     }
 }

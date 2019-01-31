@@ -13,27 +13,37 @@ jQuery(function($) {
 	 */
 	WPGMZA.MapSettings = function(element)
 	{
+		var self = this;
 		var str = element.getAttribute("data-settings");
 		var json = JSON.parse(str);
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
-		for(var key in WPGMZA.settings)
+		function addSettings(input)
 		{
-			var value = WPGMZA.settings[key];
+			if(!input)
+				return;
 			
-			this[key] = value;
+			for(var key in input)
+			{
+				if(key == "other_settings")
+					continue; // Ignore other_settings
+				
+				var value = input[key];
+				
+				if(String(value).match(/^-?\d+$/))
+					value = parseInt(value);
+					
+				self[key] = value;
+			}
 		}
 		
-		for(var key in json)
-		{
-			var value = json[key];
-			
-			if(String(value).match(/^-?\d+$/))
-				value = parseInt(value);
-				
-			this[key] = value;
-		}
+		addSettings(WPGMZA.settings);
+		
+		addSettings(json);
+		
+		if(json && json.other_settings)
+			addSettings(json.other_settings);
 	}
 	
 	/**
@@ -87,10 +97,11 @@ jQuery(function($) {
 		
 		// Zoom limits
 		// TODO: This matches the Google code, so some of these could be potentially put on a parent class
-		if(!empty("min_zoom"))
-			options.minZoom = parseInt(this.min_zoom);
-		if(!empty("max_zoom"))
-			options.maxZoom = parseInt(this.max_zoom);
+		if(this.map_min_zoom && this.map_max_zoom)
+		{
+			options.minZoom = Math.min(this.map_min_zoom, this.map_max_zoom);
+			options.maxZoom = Math.max(this.map_min_zoom, this.map_max_zoom);
+		}
 		
 		return options;
 	}
@@ -142,10 +153,11 @@ jQuery(function($) {
 				lng: parseFloat(this.center.lng)
 			});
 		
-		if(!empty("min_zoom"))
-			options.minZoom = parseInt(this.min_zoom);
-		if(!empty("max_zoom"))
-			options.maxZoom = parseInt(this.max_zoom);
+		if(this.map_min_zoom && this.map_max_zoom)
+		{
+			options.minZoom = Math.min(this.map_min_zoom, this.map_max_zoom);
+			options.maxZoom = Math.max(this.map_min_zoom, this.map_max_zoom);
+		}
 		
 		// These settings are all inverted because the checkbox being set means "disabled"
 		options.zoomControl				= !(this.wpgmza_settings_map_zoom == 'yes');
