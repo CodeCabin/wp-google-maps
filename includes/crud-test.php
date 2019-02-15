@@ -7,13 +7,13 @@ namespace WPGMZA;
 require_once(__DIR__ . '/class.marker.php');
 
 // Create a new marker
-$marker = Marker::create_instance();
+$marker = Marker::createInstance();
 
 // Trash it
 $marker->trash();
 
 // Create a new marker with data
-$marker = Marker::create_instance(array(
+$marker = Marker::createInstance(array(
 	'map_id'	=> 1,
 	'lat'		=> 52,
 	'lng'		=> -2,
@@ -75,13 +75,13 @@ echo "Marker ID: " . $id . PHP_EOL;
 unset($marker);
 
 // Load an existing marker
-$marker = Marker::create_instance($id);
+$marker = Marker::createInstance($id);
 
 // Get rid of the marker now we're done with it
 $marker->trash();
 
 // Now lets do some really cool stuff
-$marker = Marker::create_instance();
+$marker = Marker::createInstance();
 
 // The Marker object loads the markers custom fields through a CustomMarkerFields object
 $marker->custom_fields->my_custom_field = 'How cool is this';

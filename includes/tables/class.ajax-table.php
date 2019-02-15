@@ -99,6 +99,9 @@ class AjaxTable extends Table
 		{
 			$markerIDs = $input_params['overrideMarkerIDs'];
 			
+			if(is_string($markerIDs))
+				$markerIDs = explode(',', $markerIDs);
+			
 			if(empty($markerIDs))
 				return '0';
 			else
@@ -259,11 +262,16 @@ class AjaxTable extends Table
 		$qstr .= " ORDER BY $order_column $order_dir";
 		
 		// Limit
-		if(isset($input_params['length']))
+		$length = $input_params['length'];
+		if(isset($length) && 
+			$length != '-1' && 
+			!preg_match('/^all$/i', $length))
+		{
 			$qstr .= " LIMIT " . intval($input_params['length']);
 
-		if(isset($input_params['start']))
-			$qstr .= " OFFSET " . intval($input_params['start']);
+			if(isset($input_params['start']))
+				$qstr .= " OFFSET " . intval($input_params['start']);
+		}
 		
 		// Total count
 		$count_query_params = array();

@@ -217,7 +217,26 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
-= 7.11.01 :- Medium priority =
+= 7.11.04 :- 2019-02-13 :- Medium priority =
+* Added extra functions to LatLngBounds to support upcoming Gold patch  (extendByPixelMargin, contains)
+* Added Caltopo to tile servers
+* Added Latvian translation
+* Shortcode attributes are now passed to map element through data-shortcode-attributes
+* DataTables loads unminified in developer mode
+* DataTables no longer enqueued twice on map edit page
+* DataTables translation re-applied following new AJAX implementation
+* Changed wrong text domains in translation functions in tile-server-fieldset.html.php
+
+= 7.11.03 :- 2019-02-06 :- Low priority =
+* DataTables issue no longer present when running Developer Mode
+* Fixed "display all" breaking admin marker table
+* Fixed "Map Type" not being applied
+
+= 7.11.02 :- 2019-01-31 :- High priority =
+* Added override method to Settings module so settings are overridable without altering database
+* Fixed fatal error in legacy-core.php when running older versions of Pro without Custom Fields
+
+= 7.11.01 :- 2019-01-30 :- Medium priority =
 * Fixed undefined notice in AjaxTable when using Pro marker listings
 * Fixed legacy Google error message breaking Gutenberg editor when no key is present
 * Fixed legacy compatibility issue with Global Settings module
