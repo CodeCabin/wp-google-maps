@@ -105,10 +105,12 @@ class ScriptLoader
 		
 		$plugin_dir_url = plugin_dir_url(__DIR__);
 		
+		$minified = ($wpgmza->isUsingMinifiedScripts() ? '.min' : '');
+		
 		$libraryDependencies = array(
-			'datatables'		=> $plugin_dir_url . 'js/jquery.dataTables.min.js',
-			'javascript-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
-			'remodal'			=> $plugin_dir_url . 'lib/' . ($wpgmza->isUsingMinifiedScripts() ? 'remodal.min.js' : 'remodal.js'),
+			'datatables'		=> $plugin_dir_url . "js/jquery.dataTables{$minified}.js",
+			'javascript-cookie'	=> $plugin_dir_url . 'lib/jquery-cookie.js',
+			'remodal'			=> $plugin_dir_url . "lib/remodal{$minified}.js",
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
 		

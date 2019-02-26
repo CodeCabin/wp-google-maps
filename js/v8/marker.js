@@ -31,6 +31,8 @@ jQuery(function($) {
 		this.approved = 1;
 		this.pic = null;
 		
+		this.disableInfoWindow = false;
+		
 		WPGMZA.MapObject.apply(this, arguments);
 		
 		if(row && row.heatmap)
@@ -151,17 +153,12 @@ jQuery(function($) {
 			self.trigger("select");
 	}
 	
-	/**
-	 * This function will hide the last info the user interacted with, so that only one InfoWindow can be open at any given moment.
-	 * @method
-	 * @memberof WPGMZA.Marker
-	 */
-	WPGMZA.Marker.prototype.hidePreviousInteractedInfoWindow = function()
+	WPGMZA.Marker.prototype.initInfoWindow = function()
 	{
-		if(!this.map.lastInteractedMarker)
+		if(this.infoWindow)
 			return;
 		
-		this.map.lastInteractedMarker.infoWindow.close();
+		this.infoWindow = WPGMZA.InfoWindow.createInstance();
 	}
 	
 	/**
@@ -171,9 +168,18 @@ jQuery(function($) {
 	 */
 	WPGMZA.Marker.prototype.openInfoWindow = function()
 	{
-		//this.hidePreviousInteractedInfoWindow();
-		//this.infoWindow.open(this.map, this);
-		//this.map.lastInteractedMarker = this;
+		if(!this.map)
+		{
+			console.warn("Cannot open infowindow for marker with no map");
+			return;
+		}
+		
+		if(this.map.lastInteractedMarker)
+			this.map.lastInteractedMarker.infoWindow.close();
+		this.map.lastInteractedMarker = this;
+		
+		this.initInfoWindow();
+		this.infoWindow.open(this.map, this);
 	}
 	
 	/**
@@ -183,7 +189,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
-		
+
 	}
 	
 	/**
@@ -237,10 +243,10 @@ jQuery(function($) {
 	 */
 	WPGMZA.Marker.prototype.getPosition = function()
 	{
-		return {
+		return new WPGMZA.LatLng({
 			lat: parseFloat(this.lat),
 			lng: parseFloat(this.lng)
-		};
+		});
 	}
 	
 	/**
@@ -320,6 +326,11 @@ jQuery(function($) {
 			this.infoWindow.close();
 	}
 	
+	WPGMZA.Marker.prototype.getMap = function()
+	{
+		return this.map;
+	}
+	
 	/**
 	 * Sets the map this marker should be displayed on. If it is already on a map, it will be removed from that map first, before being added to the supplied map.
 	 * @method
@@ -332,11 +343,11 @@ jQuery(function($) {
 		{
 			if(this.map)
 				this.map.removeMarker(this);
-			
-			return;
 		}
+		else
+			map.addMarker(this);
 		
-		map.addMarker(this);
+		this.map = map;
 	}
 	
 	/**

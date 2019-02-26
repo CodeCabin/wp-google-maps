@@ -60,6 +60,13 @@ jQuery(function($) {
 			
 		});
 		
+		$(addressInput).on("input", function(event) {
+			
+			self.searchButton.show();
+			self.resetButton.hide();
+			
+		});
+		
 		inner.append($(original).find("select.wpgmza_sl_radius_select"));
 		// inner.append($(original).find(".wpgmza_filter_select_" + map_id));
 		

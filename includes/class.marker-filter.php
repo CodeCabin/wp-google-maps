@@ -11,8 +11,9 @@ class MarkerFilter extends Factory
 	
 	public function __construct($options=null)
 	{
-		foreach($options as $key => $value)
-			$this->{$key} = $value;
+		if($options)
+			foreach($options as $key => $value)
+				$this->{$key} = $value;
 	}
 	
 	public function __get($name)
@@ -56,6 +57,18 @@ class MarkerFilter extends Factory
 		$this->{$name} = $value;
 	}
 	
+	protected function loadMap()
+	{
+		global $wpdb;
+		
+		$id = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}wpgmza_maps LIMIT 1");
+		
+		if(!$id)
+			return;
+		
+		$this->map = new Map($id);
+	}
+	
 	protected function applyRadiusClause($query)
 	{
 		if(!$this->center || !$this->radius)
@@ -63,6 +76,10 @@ class MarkerFilter extends Factory
 		
 		$lat = $this->_center['lat'] / 180 * 3.1415926;
 		$lng = $this->_center['lng'] / 180 * 3.1415926;
+		$radius = $this->radius;
+		
+		if($this->map && $this->map->storeLocatorDistanceUnits == Distance::UNITS_MI)
+			$radius *= Distance::KILOMETERS_PER_MILE;
 		
 		$query->where['radius'] = '
 			(
@@ -98,7 +115,7 @@ class MarkerFilter extends Factory
 		$query->params[] = $lat;
 		$query->params[] = $lng;
 		
-		$query->params[] = $this->radius;
+		$query->params[] = $radius;
 	}
 	
 	public function getQuery()

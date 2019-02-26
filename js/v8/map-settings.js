@@ -15,7 +15,23 @@ jQuery(function($) {
 	{
 		var self = this;
 		var str = element.getAttribute("data-settings");
-		var json = JSON.parse(str);
+		var json;
+		
+		try{
+			json = JSON.parse(str);
+		}catch(e) {
+			
+			str = str.replace(/\\%/g, "%");
+			str = str.replace(/\\\\"/g, '\\"');
+			
+			try{
+				json = JSON.parse(str);
+			}catch(e) {
+				json = {};
+				console.warn("Failed to parse map settings JSON");
+			}
+			
+		}
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
 		
@@ -167,7 +183,7 @@ jQuery(function($) {
         options.fullscreenControl		= !(this.wpgmza_settings_map_full_screen_control == 'yes');
         
         options.draggable				= !(this.wpgmza_settings_map_draggable == 'yes');
-        options.disableDoubleClickZoom	= !(this.wpgmza_settings_map_clickzoom == 'yes');
+        options.disableDoubleClickZoom	= (this.wpgmza_settings_map_clickzoom == 'yes');
         options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
 		
 		if(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes")
@@ -175,7 +191,7 @@ jQuery(function($) {
 		else
 			options.gestureHandling = "cooperative";
 		
-		switch(parseInt(this.map_type))
+		switch(parseInt(this.type))
 		{
 			case 2:
 				options.mapTypeId = google.maps.MapTypeId.SATELLITE;

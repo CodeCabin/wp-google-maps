@@ -42,6 +42,9 @@ jQuery(function($) {
 		if(!WPGMZA.InfoWindow.prototype.open.call(this, map, mapObject))
 			return false;
 		
+		// Set parent for events to bubble up
+		this.parent = map;
+		
 		if(this.overlay)
 			this.mapObject.map.olMap.removeOverlay(this.overlay);
 			
@@ -57,7 +60,7 @@ jQuery(function($) {
 		
 		$(this.element).show();
 		
-		this.dispatchEvent("infowindowopen");
+		this.trigger("infowindowopen");
 	}
 	
 	WPGMZA.OLInfoWindow.prototype.close = function(event)
@@ -69,6 +72,8 @@ jQuery(function($) {
 			return;
 		
 		WPGMZA.InfoWindow.prototype.close.call(this);
+		
+		this.trigger("infowindowclose");
 		
 		this.mapObject.map.olMap.removeOverlay(this.overlay);
 		this.overlay = null;

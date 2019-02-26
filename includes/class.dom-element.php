@@ -247,7 +247,7 @@ class DOMElement extends \DOMElement
 				$html = DOMDocument::convertUTF8ToHTMLEntities($subject);
 				
 				$temp = new DOMDocument('1.0', 'UTF-8');
-				$str = "<div id='domdocument-import-payload___'>" . $subject . "</div>";
+				$str = "<div id='domdocument-import-payload___'>" . $html . "</div>";
 				
 				if(!empty($wpgmza->settings->developer_mode))
 					$temp->loadHTML($str);

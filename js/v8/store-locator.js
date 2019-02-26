@@ -20,6 +20,11 @@ jQuery(function($) {
 		this.map.on("storelocatorgeocodecomplete", function(event) {
 			self.onGeocodeComplete(event);
 		});
+		
+		// Legacy store locator reset
+		$(document.body).on("click", ".wpgmza_sl_reset_button_" + map.id, function(event) {
+			self.onReset(event);
+		});
 	}
 	
 	WPGMZA.StoreLocator.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -32,7 +37,7 @@ jQuery(function($) {
 	
 	Object.defineProperty(WPGMZA.StoreLocator.prototype, "radius", {
 		"get": function() {
-			return $(this.element).find(".wpgmza_sl_radius_select").val();
+			return $("#radiusSelect_" + this.map.id).val();
 		}
 	});
 	
@@ -48,6 +53,13 @@ jQuery(function($) {
 			this._center = null;
 		else
 			this._center = new WPGMZA.LatLng( event.results[0].latLng );
+		
+		this.map.markerFilter.update();
+	}
+	
+	WPGMZA.StoreLocator.prototype.onReset = function(event)
+	{
+		this._center = null;
 		
 		this.map.markerFilter.update();
 	}

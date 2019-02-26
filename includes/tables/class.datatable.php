@@ -23,12 +23,22 @@ class DataTable extends AjaxTable
 	
 	protected function getOrderBy($input_params, $column_keys)
 	{
-		return $column_keys[ (int)$input_params['order'][0]['column'] ];
+		$orderBy = $column_keys[ (int)$input_params['order'][0]['column'] ];
+		
+		if(!empty($orderBy))
+			return $orderBy;
+		
+		return "{$this->table_name}.id";
 	}
 	
 	protected function getOrderDirection($input_params)
 	{
-		return $input_params['order'][0]['dir'] != 'asc' ? 'desc' : 'asc';
+		$orderDirection = $input_params['order'][0]['dir'] != 'asc' ? 'desc' : 'asc';
+		
+		if(!empty($orderDirection))
+			return $orderDirection;
+		
+		return 'ASC';
 	}
 	
 	public function getDataTableOptions()

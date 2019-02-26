@@ -113,6 +113,9 @@ jQuery(function($) {
 		if(WPGMZA.settings.disable_infowindows)
 			return false;
 		
+		if(this.mapObject.disableInfoWindow)
+			return false;
+		
 		return true;
 	}
 	
@@ -123,7 +126,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.InfoWindow.prototype.close = function()
 	{
-		
+		this.trigger("infowindowclose");
 	}
 	
 	/**

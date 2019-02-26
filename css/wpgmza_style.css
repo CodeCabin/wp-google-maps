@@ -829,3 +829,8 @@ ul.wpgmza_marker_list_class {
 	color: red;
 	font-size: 0.8em;
 }
+
+.wpgmza-google-html-overlay
+{
+	position: absolute;
+}
