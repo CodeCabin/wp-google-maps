@@ -11,11 +11,11 @@ jQuery(function($) {
 		
 		WPGMZA.DataTable.call(this, element);
 		
-		$(element).find(".select_all_markers").on("click", function(event) {
+		$(element).find(".wpgmza.select_all_markers").on("click", function(event) {
 			self.onSelectAll(event);
 		});
 		
-		$(element).find(".bulk_delete").on("click", function(event) {
+		$(element).find(".wpgmza.bulk_delete").on("click", function(event) {
 			self.onBulkDelete(event);
 		});
 	}

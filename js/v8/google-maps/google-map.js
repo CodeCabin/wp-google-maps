@@ -297,16 +297,25 @@ jQuery(function($) {
 		var northEast = bounds.getNorthEast();
 		var southWest = bounds.getSouthWest();
 		
-		return {
-			topLeft: {
-				lat: northEast.lat(),
-				lng: southWest.lng()
-			},
-			bottomRight: {
-				lat: southWest.lat(),
-				lng: northEast.lng()
-			}
+		var nativeBounds = new WPGMZA.LatLngBounds({});
+		
+		nativeBounds.north = northEast.lat();
+		nativeBounds.south = southWest.lat();
+		nativeBounds.west = southWest.lng();
+		nativeBounds.east = northEast.lng();
+		
+		// Backward compatibility
+		nativeBounds.topLeft = {
+			lat: northEast.lat(),
+			lng: southWest.lng()
 		};
+		
+		nativeBounds.bottomRight = {
+			lat: southWest.lat(),
+			lng: northEast.lng()
+		};
+		
+		return nativeBounds;
 	}
 	
 	/**

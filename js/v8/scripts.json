@@ -246,6 +246,13 @@
             "wpgmza-geocoder"
         ]
     },
+    "wpgmza-google-html-overlay": {
+        "src": "js\/v8\/google-maps\/google-html-overlay.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-google-info-window": {
         "src": "js\/v8\/google-maps\/google-info-window.js",
         "pro": false,

@@ -48,7 +48,7 @@ jQuery(function($) {
 			xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
 		};
 		
-		$.ajax(WPGMZA.RestAPI.URL + route, params);
+		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
 });

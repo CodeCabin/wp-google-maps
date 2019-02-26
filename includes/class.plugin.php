@@ -50,7 +50,7 @@ class Plugin extends Factory
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
 		
 		// TODO: Could / should cache this above
-		if(!empty($this->mysqlVersion) && preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] > 8)
+		if(!empty($this->mysqlVersion) && preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] >= 8)
 			$this->_spatialFunctionPrefix = 'ST_';
 		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
@@ -144,6 +144,8 @@ class Plugin extends Factory
 	 */
 	public function loadScripts()
 	{
+		$self = $this;
+		
 		if(!$this->scriptLoader)
 			$this->scriptLoader = new ScriptLoader($this->isProVersion());
 		
@@ -159,9 +161,9 @@ class Plugin extends Factory
 		{
 			foreach(Plugin::$enqueueScriptActions as $action)
 			{
-				add_action($action, function() {
-					$this->scriptLoader->enqueueScripts();
-					$this->scriptLoader->enqueueStyles();
+				add_action($action, function() use ($self) {
+					$self->scriptLoader->enqueueScripts();
+					$self->scriptLoader->enqueueStyles();
 				});
 			}
 		}
@@ -198,7 +200,8 @@ class Plugin extends Factory
 			
 			'defaultMarkerIcon'		=> Marker::DEFAULT_ICON,
 
-			'is_admin'				=> (is_admin() ? 1 : 0)
+			'is_admin'				=> (is_admin() ? 1 : 0),
+			'locale'				=> get_locale()
 		));
 		
 		if(!empty($result->settings->wpgmza_settings_ugm_email_address))

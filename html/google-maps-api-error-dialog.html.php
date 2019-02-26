@@ -31,6 +31,13 @@
 	
 	<ul>
 		<li>
+			<a href="https://www.wpgmaps.com/documentation/you-have-exceeded-your-request-quota-for-this-api/">
+				<?php
+				_e('“You have exceeded your request quota for this API”', 'wp-google-maps');
+				?>
+			</a>
+		</li>
+		<li>
 			<a href="https://www.wpgmaps.com/documentation/troubleshooting/this-page-cant-load-google-maps-correctly/">
 				<?php
 				_e('“This page can’t load Google Maps correctly”', 'wp-google-maps');

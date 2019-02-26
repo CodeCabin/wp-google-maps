@@ -42,6 +42,14 @@ jQuery(function($) {
 		
 		this.loadSettings(options);
 		
+		this.shortcodeAttributes = {};
+		if($(this.element).attr("data-shortcode-attributes"))
+			try{
+				this.shortcodeAttributes = JSON.parse($(this.element).attr("data-shortcode-attributes"))
+			}catch(e) {
+				console.warn("Error parsing shortcode attributes");
+			}
+		
 		this.initStoreLocator();
 		
 		this.markerFilter = WPGMZA.MarkerFilter.createInstance(this);
@@ -102,9 +110,9 @@ jQuery(function($) {
 		
 		delete settings.other_settings;
 		
-		if(other_settings)
+		/*if(other_settings)
 			for(var key in other_settings)
-				settings[key] = other_settings[key];
+				settings[key] = other_settings[key];*/
 			
 		if(options)
 			for(var key in options)
@@ -604,7 +612,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.Map.prototype.onIdle = function(event)
 	{
-		$(this.element).trigger("idle");
+		this.trigger("idle");
 	}
 	
 });

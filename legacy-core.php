@@ -2,28 +2,6 @@
 
 require_once(plugin_dir_path(__FILE__) . 'constants.php');
 
-if(!function_exists('wpgmza_show_rest_api_missing_error'))
-{
-	function wpgmza_show_rest_api_missing_error()
-	{
-		?>
-		<div class="notice notice-error">
-				<p>
-					<?php
-					_e('<strong>WP Google Maps:</strong> This plugin requires the WordPress REST API, which does not appear to be present on this installation. Please update WordPress to version 4.7 or above.', 'wp-google-maps');
-					?>
-				</p>
-			</div>
-		<?php
-	}
-
-	if(!function_exists('get_rest_url'))
-	{
-		add_action('admin_notices', 'wpgmza_show_rest_api_missing_error');
-		return;
-	}
-}
-
 define("WPGMZA_DIR_PATH", plugin_dir_path(__FILE__));
 define('WPGMZA_FILE', __FILE__);
 
@@ -900,7 +878,7 @@ function wpgmaps_admin_javascript_basic() {
 			
             wp_enqueue_style( 'wpgmaps_admin_style', plugins_url('css/wpgmza_style.css', __FILE__),array(),$wpgmza_version.'b');
             wp_enqueue_style( 'wpgmaps_admin_datatables_style', plugins_url('css/data_table.css', __FILE__),array(),$wpgmza_version.'b');
-            wp_enqueue_script('wpgmaps_admin_datatables', plugins_url('/js/jquery.dataTables.min.js',__FILE__), $wpgaps_core_dependancy, $wpgmza_version.'b' , false);
+            //wp_enqueue_script('wpgmaps_admin_datatables', plugins_url('/js/jquery.dataTables.min.js',__FILE__), $wpgaps_core_dependancy, $wpgmza_version.'b' , false);
 
 
 
@@ -1761,8 +1739,9 @@ function wpgmaps_return_markers($mapid = false,$marker_id = false) {
         return;
     }
     global $wpdb;
-    
-    $table_name = $wpdb->prefix . "wpgmza";
+    global $wpgmza_tblname;
+	
+    $table_name = $wpgmza_tblname;
 	
 	$columns = implode(', ', wpgmza_get_marker_columns());
 	
@@ -2325,6 +2304,28 @@ function wpgmaps_tag_basic( $atts ) {
 		$attr = str_replace('\\\\%', '%', $escaped);
 		$attr = stripslashes($attr);
 		$map_attributes = "data-settings='" . $attr . "'";
+	}
+	
+	// Using DOMDocument here to properly format the data-shortcode-attributes attribute
+	$document = new WPGMZA\DOMDocument();
+	$document->loadHTML('<div id="debug"></div>');
+	
+	$el = $document->querySelector("#debug");
+	$el->setAttribute('data-shortcode-attributes', json_encode($atts));
+	
+	$html = $document->saveHTML();
+	
+	if(preg_match('/data-shortcode-attributes=".+"/', $html, $m) || preg_match('/data-shortcode-attributes=\'.+\'/', $html, $m))
+	{
+		$map_attributes .= ' ' . $m[0];
+	}
+	else
+	{
+		// Fallback if for some reason we can't match the attribute string
+		$escaped = esc_attr(json_encode($atts));
+		$attr = str_replace('\\\\%', '%', $escaped);
+		$attr = stripslashes($attr);
+		$map_attributes = " data-shortcode-attributes='" . $attr . "'";
 	}
 	
     if (!$map_align || $map_align == "" || $map_align == "1") { $map_align = "float:left;"; }
@@ -6142,10 +6143,9 @@ function wpgmza_return_marker_list($map_id,$admin = true,$width = "100%",$mashup
 			$wpgmza_tmp_body .= "<td height=\"40\">".$result->id."</td>";
 			$wpgmza_tmp_body .= "<td height=\"40\">".$icon."<input type=\"hidden\" id=\"wpgmza_hid_marker_icon_".$result->id."\" value=\"".$result->icon."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_anim_".$result->id."\" value=\"".$result->anim."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_category_".$result->id."\" value=\"".$result->category."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_infoopen_".$result->id."\" value=\"".$result->infoopen."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_approved_".$result->id."\" value=\"".$result->approved."\" /><input type=\"hidden\" id=\"wpgmza_hid_marker_retina_".$result->id."\" value=\"".$result->retina."\" />";
 			
-			$customFieldsModuleFile = plugin_dir_path(WPGMZA_PRO_FILE) . 'includes/custom-fields/class.custom-marker-fields.php';
-			if(defined('WPGMZA_PRO_FILE') && file_exists($customFieldsModuleFile))
+			if(defined('WPGMZA_PRO_FILE') && file_exists(plugin_dir_path(WPGMZA_PRO_FILE) . 'includes/custom-fields/class.custom-marker-fields.php'))
 			{
-				require_once($customFieldsModuleFile);
+				require_once(plugin_dir_path(WPGMZA_PRO_FILE) . 'includes/custom-fields/class.custom-marker-fields.php');
 				$custom_fields = new WPGMZA\CustomMarkerFields($result->id);
 				$custom_fields_json = json_encode($custom_fields);
 				$custom_fields_json = htmlspecialchars($custom_fields_json);

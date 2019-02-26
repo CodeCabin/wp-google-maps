@@ -53,7 +53,7 @@ class RestAPI extends Factory
 		));
 		
 		register_rest_route(RestAPI::NS, '/datatables/', array(
-			'methods'				=> 'POST',
+			'methods'				=> array('GET', 'POST'),
 			'callback'				=> array($this, 'datatables')
 		));
 	}

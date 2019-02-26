@@ -121,6 +121,53 @@ jQuery(function($) {
 	}
 	
 	/**
+	 * Queries the users current location and passes it to a callback, you can pass
+	 * geocodeAddress through options if you would like to also receive the address
+	 * @method
+	 * @memberof WPGMZA.LatLng
+	 * @param {function} A callback to receive the WPGMZA.LatLng
+	 * @param {object} An object of options, only geocodeAddress is currently supported
+	 * @return void
+	 */
+	WPGMZA.LatLng.fromCurrentPosition = function(callback, options)
+	{
+		if(!options)
+			options = {};
+		
+		if(!callback)
+			return;
+		
+		WPGMZA.getCurrentPosition(function(position) {
+			
+			var latLng = new WPGMZA.LatLng({
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			});
+			
+			if(options.geocodeAddress)
+			{
+				var geocoder = WPGMZA.Geocoder.createInstance();
+				
+				geocoder.getAddressFromLatLng({
+					latLng: latLng
+				}, function(results) {
+					
+					if(results.length)
+						latLng.address = results[0];
+					
+					callback(latLng);
+					
+				});
+				
+				
+			}	
+			else
+				callback(latLng);
+			
+		});
+	}
+	
+	/**
 	 * Returns an instnace of WPGMZA.LatLng from an instance of google.maps.LatLng
 	 * @method
 	 * @static

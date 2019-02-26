@@ -20,6 +20,21 @@ class Map extends Crud
 		Crud::__construct("{$wpdb->prefix}wpgmza_maps", $id_or_fields);
 	}
 	
+	public function __get($name)
+	{
+		switch($name)
+		{
+			case "storeLocatorDistanceUnits":
+				if(!empty($this->wpgmza_store_locator_distance))
+					return Distance::UNITS_MI;
+				else
+					return Distance::UNITS_KM;
+				break;
+		}
+		
+		return Crud::__get($name);
+	}
+	
 	/**
 	 * Deprecated. The Factory class will takeover here
 	 * @deprecated

@@ -632,7 +632,7 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 	                        } else { d_string = ''; }
 
 
-                            var html='<span style=\'min-width:100px; display:block;\'>'+wpmgza_address+'</span>'+d_string;
+                            var html='<span>'+wpmgza_address+'</span>'+d_string;
                             if (wpmgza_infoopen === "1" && !wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"]) {
 								wpgmza_init_infowindow();
 								
@@ -648,8 +648,8 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 								temp_actiontype = "click";
 							
 	                        //google.maps.event.addListener(marker, temp_actiontype, function() {
-							marker.on(temp_actiontype, function() {
-								if(window.infoWindow)
+							marker.on(temp_actiontype, function(event) {
+								/*if(window.infoWindow)
 									infoWindow.close();
 								if(!wpgmaps_localize_global_settings["wpgmza_settings_disable_infowindows"])
 								{
@@ -657,7 +657,10 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 									
 									infoWindow.setContent(html);
 									infoWindow.open(MYMAP.map, marker);
-								}
+								}*/
+								
+								this.openInfoWindow();
+								this.infoWindow.setContent(html);
 	                        });
 	                        
 	                        marker_array[wpmgza_marker_id] = marker;

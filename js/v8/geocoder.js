@@ -92,7 +92,7 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Attempts to convert latitud eand longitude coordinates into a street address. By default this will simply return the coordinates wrapped in an array.
+	 * Attempts to convert latitude eand longitude coordinates into a street address. By default this will simply return the coordinates wrapped in an array.
 	 * @method
 	 * @memberof WPGMZA.Geocoder
 	 * @param {object} options The options to geocode, latLng is mandatory.

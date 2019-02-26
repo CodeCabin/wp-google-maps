@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 5.0.3
+Tested up to: 5.1
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -217,7 +217,51 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
-= 7.11.01 :- Medium priority =
+= 7.11.08 :- 2019-02-25 :- Medium priority =
+* Google Maps API error dialog is now shown when in developer mode
+* Fixed missing link on "No API Keys" message in Google Maps API error dialog
+* Fixed "undefined" InfoWindow opening
+* Removed 100px minimum width from InfoWindows
+
+= 7.11.07 :- 2019-02-22 :- Medium priority =
+* Added Distance class
+* Added property storeLocatorDistanceUnits to WPGMZA\Map
+* Fixed Spatial function prefix not applied for version 8 due to wrong operator
+* Fixed MarkerFilter radius clause ignoring store locator distance units setting
+* Removed console.log call in GoogleMarker setVisible
+
+= 7.11.06 :- 2019-02-20 :- Low priority =
+* WPGMZA.RestAPI.prototype.call now returns xhr
+* Improved modern store locator UX by switching reset button back to search button when text is inputted into address field
+* Fixed "disable double click zoom" logic flipped
+* Fixed undefined notice in AjaxTable breaking carousel marker listing in Pro when display_errors is true
+* Fixed bulk delete not working due to removed legacy function
+
+= 7.11.05 :- 2019-02-15 :- Medium priority =
+* Improved WP Migrate DB integration by adding our plugin to their whitelist when WP Migrate DB is activated
+* Re-added data-wpgmza-datatable-options attribute to datatables
+* Fixed encoding issues in marker listing caused by UTF-8 to HTML entities conversion not being used
+
+= 7.11.04 :- 2019-02-13 :- Medium priority =
+* Added extra functions to LatLngBounds to support upcoming Gold patch  (extendByPixelMargin, contains)
+* Added Caltopo to tile servers
+* Added Latvian translation
+* Shortcode attributes are now passed to map element through data-shortcode-attributes
+* DataTables loads unminified in developer mode
+* DataTables no longer enqueued twice on map edit page
+* DataTables translation re-applied following new AJAX implementation
+* Changed wrong text domains in translation functions in tile-server-fieldset.html.php
+
+= 7.11.03 :- 2019-02-06 :- Low priority =
+* DataTables issue no longer present when running Developer Mode
+* Fixed "display all" breaking admin marker table
+* Fixed "Map Type" not being applied
+
+= 7.11.02 :- 2019-01-31 :- High priority =
+* Added override method to Settings module so settings are overridable without altering database
+* Fixed fatal error in legacy-core.php when running older versions of Pro without Custom Fields
+
+= 7.11.01 :- 2019-01-30 :- Medium priority =
 * Fixed undefined notice in AjaxTable when using Pro marker listings
 * Fixed legacy Google error message breaking Gutenberg editor when no key is present
 * Fixed legacy compatibility issue with Global Settings module

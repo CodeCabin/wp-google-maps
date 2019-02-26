@@ -14,7 +14,15 @@ if(!class_exists('WPGMZA\\Integration\\WPMigrateDB'))
 		 */
 		public function __construct()
 		{
+			add_filter('wpmdb_compatibility_plugin_whitelist', array($this, 'onCompatibilityPluginWhitelist'));
 			add_filter('wpmdb_process_column_as_binary', array($this, 'onProcessColumnAsBinary'), 10, 2);
+		}
+		
+		public function onCompatibilityPluginWhitelist($plugins)
+		{
+			$plugins[] = 'wp-google-maps';
+			$plugins[] = 'wp-google-maps-pro';
+			return $plugins;
 		}
 		
 		/**

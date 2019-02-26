@@ -1,0 +1,3838 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wpgooglemaps\n"
+"POT-Creation-Date: 2016-07-18 13:38+0200\n"
+"PO-Revision-Date: 2019-02-07 12:55+0200\n"
+"Last-Translator: Aivars Ērglis <aivars.erglis@gmail.com>\n"
+"Language-Team: Aivars Erglis aivars.erglis@gmail.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n%10==0 || (n%100>=11 && n%100<=19) ? 0 : n"
+"%10==1 && n%100!=11 ? 1 : 2);\n"
+"Language: lv\n"
+"X-Poedit-SearchPath-0: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps\n"
+"X-Poedit-SearchPath-1: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps-pro\n"
+"X-Poedit-SearchPath-2: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps-gold\n"
+"X-Poedit-SearchPath-3: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
+"maps-ugm\n"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:243
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3712
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:764
+msgid "settings"
+msgstr "iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:244
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3713
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:765
+#, php-format
+msgid ""
+"Your Google Maps API key has been successfully saved. This API key can be "
+"changed in the %s page"
+msgstr ""
+"Jūsu Google Maps API atslēga ir veiksmīgi saglabāta. Šo API atslēgu var "
+"mainīt šajā % s lapā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:720
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:839
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:4217
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:4341
+msgid "Geocode was not successful for the following reason"
+msgstr "Ģeokods nav derīgs šādu iemeslu dēļ"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1173
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1335
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2550
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3636
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:4704
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:4867
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5825
+msgid "More details"
+msgstr "Sīkāka informācija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1595
+msgid "Advanced Map Settings"
+msgstr "Kartes papildus iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1600
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1950
+msgid "Enable Mass Marker Support"
+msgstr "Iespējot Mass Marker atbalstu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1603
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1843
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1953
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1537
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1594
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1791
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1803
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1878
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1881
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1884
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2207
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:178
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:196
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:205
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3861
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3976
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4174
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4181
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4212
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4931
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4971
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5012
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5030
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5039
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5050
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5103
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5107
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5396
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5451
+msgid "Yes"
+msgstr "Jā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1604
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1843
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1954
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1538
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1551
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1594
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1791
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1803
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1878
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1881
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1884
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2206
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:179
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:197
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:206
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3861
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3976
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4174
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4181
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4212
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4930
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4934
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4944
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4971
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5012
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5030
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5039
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5050
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5102
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5107
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5395
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5450
+msgid "No"
+msgstr "Nē"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1610
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6677
+msgid "Save"
+msgstr "Saglabāt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1689
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5375
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:551
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+"API pieprasījuma laikā radās neparedzēta HTTP kļūda.</p> <p><a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Mēģiniet vēlreiz</a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1694
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5380
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:556
+msgid "An unknown error occurred"
+msgstr "Radās nezināma kļūda"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1756
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6186
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6562
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3193
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3445
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3623
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3807
+msgid "Your settings have been saved."
+msgstr "Jūsu iestatījumi ir saglabāti."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1811
+msgid "Location Tracking"
+msgstr "Atrašanās vietas izsekošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1838
+msgid "Real time location tracking"
+msgstr "Atrašanās vietas izsekošana reālā laikā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1841
+msgid "Enable Location Tracking"
+msgstr "Iespējot atrašanās vietas izsekošanu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1849
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1796
+msgid "Default User Location Icon"
+msgstr "Lietotāja atrašanās vietas noklusējuma ikona"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1850
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1670
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1797
+msgid "Upload Icon"
+msgstr "Augšupielādēt ikonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1854
+msgid "Show"
+msgstr "Rādīt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1856
+msgid "Route"
+msgstr "Maršruts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1856
+msgid "Last Location"
+msgstr "Pēdējā atrašanās vieta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1862
+msgid "Route Styling"
+msgstr "Maršruta ceļa stils"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1870
+msgid "Route Colour - Normal"
+msgstr "Maršruta ceļa krāsa - Normal"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1877
+msgid "Route Colour - Hover"
+msgstr "Maršruta ceļa krāsa - Hover"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1884
+msgid "Route Opacity"
+msgstr "Maršruta ceļa necaurredzamība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1891
+msgid "Route Thickness"
+msgstr "Maršruta ceļa biezums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1906
+msgid "Devices"
+msgstr "Ierīces"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1924
+msgid "Marker Clustering"
+msgstr "Marķieru kopu veidošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1984
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1987
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1990
+msgid "Real Time Location Tracking"
+msgstr "Reāllaika atrašanās vietas izsekošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1995
+msgid ""
+"Track your location via our app and plot your current location on a map, "
+"publicly or privately."
+msgstr ""
+"Izmantojot mūsu lietotni izsekojiet savu atrašanās vietu un izvietojiet, "
+"publiski vai privāti savu pašreizējo atrašanās vietu kartē."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2004
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:182
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:221
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:264
+msgid "Create Map"
+msgstr "Izveidot karti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2049
+#, php-format
+msgid "Location as at %1$s"
+msgstr "Atrašanās vieta kā %1$s"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2131
+msgid "Successfully accepted the device. Thank you"
+msgstr "Veiksmīgi pieņēma ierīci. Paldies"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2172
+msgid "Device has been removed. Thank you"
+msgstr "Ierīce ir noņemta. Paldies"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2193
+msgid "Marker Data Cleared."
+msgstr "Marķējuma dati ir dzēsti."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2230
+msgid "A new device needs your approval to enable real time location tracking."
+msgstr ""
+"Lai nodrošinātu reālā laika uzskaiti jaunai ierīcei ir nepieciešams Jūsu "
+"apstiprinājums."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2231
+msgid "Device ID:"
+msgstr "Ierīces ID:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2232
+#, php-format
+msgid "To accept this device, Please follow this link: %1$s"
+msgstr "Lai reģistrētu šo ierīci, lūdzu, sekojiet šai saitei: %1$s"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2238
+msgid "To reject the device, simply ignore this email."
+msgstr "Lai noraidītu šo ierīci, vienkārši ignorējiet šo e-pasta ziņojumu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2239
+msgid ""
+"A new device needs your approval to enable real time location tracking - WP "
+"Google Maps"
+msgstr ""
+"Lai iespējotu reālā laika uzskaiti - WP Google Maps jaunai ierīcei, ir "
+"nepieciešams jūsu apstiprinājums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2369
+msgid "No devices"
+msgstr "Nav ierīču"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1051
+msgid "including Pro &amp; Gold add-ons"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1051
+msgid "including Pro add-on"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1056
+msgid ""
+"Please <a href='update-core.php'>update your WP Google Maps GOLD version</"
+"a>. Your current Gold version is not compatible with the current Pro version."
+msgstr ""
+"Lūdzu, <a href='update-core.php'> atjauniniet savu WP Google Maps GOLD "
+"versiju </a>. Jūsu pašreizējā Gold versija nav saderīga ar pašreizējo Pro "
+"versiju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1139
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6983
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2991
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4619
+msgid "ZIP / Address:"
+msgstr "ZIP / Adrese:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1140
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6984
+msgid "Title / Description:"
+msgstr "Nosaukums / Apraksts:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1189
+msgid "No marker list"
+msgstr "Nav marķieru saraksta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1192
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6915
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5145
+msgid "Basic table"
+msgstr "Pamata tabula"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1195
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6914
+msgid "Basic list"
+msgstr "Pamata saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1198
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6916
+msgid "Advanced table"
+msgstr "Paplašinātā tabula"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1201
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6912
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:255
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5147
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5227
+msgid "Carousel"
+msgstr "Karuselis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1280
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5845
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6917
+msgid "Default Infowindow"
+msgstr "Noklusētais informācijas avots"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1282
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5847
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6918
+msgid "Modern Infowindow"
+msgstr "Mūsdienīgs informācijas avots"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1284
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5849
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6920
+msgid "Modern Plus Infowindow"
+msgstr "Mūsdienīgs, paplašināts informācijas avots"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1286
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5851
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6921
+msgid "Circular Infowindow"
+msgstr "Apļveida informācijas avots"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1288
+msgid "Currently using your selection chosen in the global settings"
+msgstr "Pašlaik izmantojat atlasi, kas izvēlēta globālos iestatījumos"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1353
+msgid "Download this as a CSV file"
+msgstr "Lejupielādējiet to kā CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1353
+msgid "Download this data as a CSV file"
+msgstr "Lejupielādējiet šos datus kā CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1365
+msgid "Please update your basic version to use this function."
+msgstr "Lai izmantotu šo funkciju, lūdzu atjauniniet savu pamata versiju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1367
+msgid "Add a New Dataset"
+msgstr "Pievienojiet jaunu datu kopu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1381
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4762
+msgid "Create your Map"
+msgstr "Izveidojiet savu karti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1381
+msgid "New"
+msgstr "Jauns"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1388
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4767
+msgid "General Settings"
+msgstr "Vispārīgie iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1389
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:30
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4768
+msgid "Themes"
+msgstr "Tēmas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1390
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2596
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2846
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3645
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:197
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:200
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:278
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:369
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4769
+msgid "Directions"
+msgstr "Maršruti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1391
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:138
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:141
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:30
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:23
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4770
+msgid "Store Locator"
+msgstr "Veikalu meklētājs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1392
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5595
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4294
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4771
+msgid "Advanced Settings"
+msgstr "Papildu iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1393
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4772
+msgid "Marker Listing Options"
+msgstr "Marķējuma saraksta opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1431
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4805
+msgid "Short code"
+msgstr "Short code"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1432
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4806
+msgid "copy this into your post or page to display the map"
+msgstr "lai parādītu karti kopējiet to savā ziņojumā vai lapā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1436
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4809
+msgid "Map Name"
+msgstr "Kartes nosaukums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1440
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4835
+msgid "Zoom Level"
+msgstr "Tālummaiņas līmenis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1447
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7208
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4510
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4813
+msgid "Width"
+msgstr "Platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1454
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4820
+#, php-format
+msgid "Set to 100% for a responsive map"
+msgstr "Ievadiet 100% f resposīvai kartei"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1459
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7209
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4511
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4825
+msgid "Height"
+msgstr "Augstums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1464
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4830
+#, php-format
+msgid ""
+"We recommend that you leave your height in PX. Depending on your theme, "
+"using % for the height may break your map."
+msgstr ""
+"Mēs iesakām atstāt savu augstumu PX. Atkarībā no tēmas, izmantojot % f "
+"augstums var izjaukt jūsu karti."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1476
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4864
+msgid "Select a theme for your map"
+msgstr "Izvēlieties savas kartes izskata Tēmu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1513
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4898
+msgid "Or use a custom theme"
+msgstr "Vai izmantojiet pielāgotu kartes Tēmu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1514
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4899
+msgid "Browse the theme directory"
+msgstr "Pārlūkojiet tēmu direktoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1515
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4900
+msgid "Paste your custom theme data here:"
+msgstr "Ielīmējiet pielāgotos tēmas datus šeit:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1517
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4902
+msgid "Preview"
+msgstr "Priekšskatījums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1535
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4928
+msgid "Enable Directions?"
+msgstr "Vai iespējot norādījumus?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1547
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4940
+msgid "Directions Box Open by Default?"
+msgstr "Box Open norādījumi pēc noklusējuma?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1552
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4945
+msgid "Yes, on the left"
+msgstr "Jā, pa kreisi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1553
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4946
+msgid "Yes, on the right"
+msgstr "Jā, pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1554
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4947
+msgid "Yes, above"
+msgstr "Jā, virs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1555
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4948
+msgid "Yes, below"
+msgstr "Jā, zem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1561
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4954
+msgid "Directions Box Width"
+msgstr "Norāžu lodziņa platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1566
+msgid "px"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1567
+msgid "%"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1572
+msgid "Default 'To' address"
+msgstr "Noklusētā 'Uz' adrese"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1588
+msgid "General options"
+msgstr "Vispārīgās opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1592
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4968
+msgid "Enable Store Locator"
+msgstr "Iespējot veikalu katalogu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1599
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4976
+msgid "Restrict to country"
+msgstr "Ierobežot uz valsti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1608
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4982
+msgid "No country selected"
+msgstr "Neviena valsts nav atlasīta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1620
+msgid "Insert country TLD. For example, use DE for Germany."
+msgstr "Ievietojiet valsts TLD. Piemēram, izmantojiet DE Vācijai."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1620
+msgid "Leave blank for no restrictions."
+msgstr "Atstājiet tukšu, lai nebūtu ierobežojumu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1626
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4996
+msgid "Show distance in"
+msgstr "Rādīt attālumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1629
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:153
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4999
+msgid "Miles"
+msgstr "Jūdzes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1629
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:153
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4999
+msgid "Kilometers"
+msgstr "Kilometri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1635
+msgid "Store Locator Placement"
+msgstr "Veikala izvietojuma izvietošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1638
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2036
+msgid "Below Map"
+msgstr "Zem kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1638
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2036
+msgid "Above Map"
+msgstr "Virs kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1644
+msgid "Allow category selection"
+msgstr "Atļaut kategorijas izvēli"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1652
+msgid "Allow users to use their location as the starting point"
+msgstr "Ļauj lietotājiem izmantot savu atrašanās vietu kā sākuma punktu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1657
+msgid ""
+"Please ensure that \"show user's location\" is enabled in the \"Advanced "
+"Settings\" tab."
+msgstr ""
+"Lūdzu, pārliecinieties, ka cilne \"Papildu iestatījumi\" ir iespējota "
+"\"rādīt lietotāja atrašanās vietu\"."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1661
+msgid "Show center point as an icon"
+msgstr "Rādīt centrālo punktu kā ikonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1669
+msgid "Default Icon"
+msgstr "Noklusējuma ikona"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1674
+msgid "Hide all markers until a search is done"
+msgstr "Slēpt visus marķierus, līdz tiek veikta meklēšana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1688
+msgid "Query String"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1693
+msgid "Enable title search"
+msgstr "Iespējot nosaukuma meklēšanu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1702
+msgid "Title search String"
+msgstr "Nosaukuma meklēšana String"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1707
+msgid "Style options"
+msgstr "Stila opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1712
+msgid "Line color"
+msgstr "Līnijas krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1720
+msgid "Line opacity"
+msgstr "Līnijas necaurredzamība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1723
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1739
+msgid "(0 - 1.0) example: 0.5 for 50%"
+msgstr "(0 - 1.0) piemēram 0.5 līdz 50%"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1728
+msgid "Fill color"
+msgstr "Laukuma krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1736
+msgid "Fill opacity"
+msgstr "Laukuma necaurredzamība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1748
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5019
+msgid "View"
+msgstr "Skatīt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1748
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5019
+msgid "Store Locator Documentation"
+msgstr "Veikalu katalogu dokumentācija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1761
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5095
+msgid "Default Marker Image"
+msgstr "Noklusējuma marķiera attēls"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1762
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2180
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2184
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:101
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:183
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5096
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5463
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5467
+msgid "Upload Image"
+msgstr "Augšupielādēt attēlu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1762
+msgid ""
+"Get great map markers <a href='http://www.wpgmaps.com/marker-icons/' "
+"target='_BLANK' title='Great Google Map Markers'>here</a>"
+msgstr ""
+"Iegūstiet lieliskus kartes marķierus <a href='http://www.wpgmaps.com/marker-"
+"icons/' target='_BLANK' title='Great Google karšu marķieri'> šeit </a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1766
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4851
+msgid "Map type"
+msgstr "Kartes veids"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1768
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7217
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4519
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4853
+msgid "Roadmap"
+msgstr "Ceļu karte"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1769
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7218
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4520
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4854
+msgid "Satellite"
+msgstr "Satelīts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1770
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7219
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4521
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4855
+msgid "Hybrid"
+msgstr "Hibrīdskats"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1771
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7220
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4522
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4856
+msgid "Terrain"
+msgstr "Apvidus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1777
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4841
+msgid "Map Alignment"
+msgstr "Kartes piesaskaņošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1779
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4843
+msgid "Left"
+msgstr "Pa kreisi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1780
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4844
+msgid "Center"
+msgstr "Centrā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1781
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4845
+msgid "Right"
+msgstr "Pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1782
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2197
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4846
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5144
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5384
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5439
+msgid "None"
+msgstr "Nekas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1788
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5100
+msgid "Show User's Location?"
+msgstr "Rādīt lietotāja atrašanās vietu?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1800
+msgid "Click marker opens link"
+msgstr "Klikšķis un marķiera atver saiti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1811
+msgid "Maximum Zoom Out Level"
+msgstr "Maksimālais tālummaiņas līmenis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1840
+msgid "Maximum Zoom In Level"
+msgstr "Maksimālais tālummaiņas līmenis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1875
+msgid "Enable Layers"
+msgstr "Iespējot slāņus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1879
+msgid "Bicycle Layer"
+msgstr "Veloceļu slānis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1882
+msgid "Traffic Layer"
+msgstr "Satiksmes slānis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1885
+msgid "Transit Layer"
+msgstr "Tranzīta slānis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1891
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5119
+msgid "KML/GeoRSS URL"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1893
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5121
+msgid "The KML/GeoRSS layer will over-ride most of your map settings"
+msgstr "KML / GeoRSS slānis pārsniegs lielāko daļu kartes iestatījumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1893
+msgid "For multiple sources, separate each one by a comma."
+msgstr "Vairākiem avotiem atdaliet katru ar komatu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1897
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5125
+msgid "Fusion table ID"
+msgstr "Fusion tabulas ID"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1899
+msgid ""
+"Read data directly from your Fusion Table. For more information, see <a "
+"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
+"maps-api.html</a>"
+msgstr ""
+"Lasiet datus tieši no Fusion tabulas. Papildinformāciju skatiet sadaļā <a "
+"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"api.html'> http://googlemapsmania.blogspot.com/2010/05 /fusion-tables-google-"
+"maps-api.html </a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1909
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5874
+msgid "Infowindow Style"
+msgstr "Informācijas loga stils"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1927
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2024
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5894
+msgid "Your selection:"
+msgstr "Jūsu izvēle:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1960
+msgid "Infowindow Colors"
+msgstr "Informācijas loga krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1964
+msgid "Primary Color"
+msgstr "Primārā krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1972
+msgid "Accent Color"
+msgstr "Krāsu akcents"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1980
+msgid "Text Color"
+msgstr "Teksta krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2003
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:247
+msgid "Marker Listing Style"
+msgstr "Marķējuma saraksta stils"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2033
+msgid "Marker Listing Placement"
+msgstr "Marķējuma saraksta izvietojums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2042
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5161
+msgid "Order markers by"
+msgstr "Izvēlēties marķierus pēc"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2045
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7206
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7395
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:527
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:470
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:491
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:414
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:673
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:657
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4508
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4562
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5164
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5581
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5867
+msgid "ID"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2046
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2161
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6597
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6682
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7207
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:416
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:441
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:464
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/widget_module.class.php:42
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4509
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4565
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5165
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5455
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5869
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5888
+msgid "Title"
+msgstr "Nosaukuma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2047
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:418
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:443
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:466
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4566
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5166
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5871
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5890
+msgid "Address"
+msgstr "Adreses"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2048
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2171
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:419
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:444
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:467
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5167
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5460
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5872
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5891
+msgid "Description"
+msgstr "Apraksta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2049
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2188
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7050
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:528
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:417
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:442
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:465
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3039
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5168
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5469
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5870
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5889
+msgid "Category"
+msgstr "Kategorijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2052
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5171
+msgid "Ascending"
+msgstr "Augošā secībā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2053
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5172
+msgid "Descending"
+msgstr "Dilstošā secībā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2064
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5184
+msgid "Move list inside map"
+msgstr "Pārvietot sarakstu kartes iekšpusē"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2067
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5187
+msgid "Move your marker list inside the map area"
+msgstr "Pārvietojiet savu marķiera sarakstu kartes apgabalā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2067
+msgid "(still in beta)"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2088
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5189
+msgid "Placement: "
+msgstr "Izvietojums "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2090
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5191
+msgid "Top Center"
+msgstr "Augšā centrā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2091
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5192
+msgid "Top Left"
+msgstr "Augšā pa kreisi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2092
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5193
+msgid "Top Right"
+msgstr "Augšā pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2093
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5194
+msgid "Left Top "
+msgstr "Pa kreisi "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2094
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5195
+msgid "Right Top"
+msgstr "Pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2095
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5196
+#, fuzzy
+msgid "Left Center"
+msgstr "Centrēt pa kreisi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2096
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5197
+#, fuzzy
+msgid "Right Center"
+msgstr "Centrēt pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2097
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5198
+msgid "Left Bottom"
+msgstr "Pa kreisi lejā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2098
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5199
+msgid "Right Bottom"
+msgstr "Pa labi lejā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2099
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5200
+msgid "Bottom Center"
+msgstr "Lejā centrā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2100
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5201
+msgid "Bottom Left"
+msgstr "Lejā pa kreisi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2101
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5202
+msgid "Bottom Right"
+msgstr "Lejā pa labi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2103
+msgid "Container Width: "
+msgstr "Konteineru platums "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2104
+msgid "Container Height: "
+msgstr "Konteinera augstums "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2114
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5153
+msgid "Filter by Category"
+msgstr "Filtrēt pēc kategorijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2117
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5156
+msgid "Allow users to filter by category?"
+msgstr "Vai atļaut lietotājiem filtrēt pēc kategorijas?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2136
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5352
+msgid "Save Map"
+msgstr "Saglabāt karti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2138
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5355
+msgid ""
+"Tip: Use your mouse to change the layout of your map. When you have "
+"positioned the map to your desired location, press \"Save Map\" to keep your "
+"settings."
+msgstr ""
+"Padoms. Lai mainītu kartes izkārtojumu izmantojiet peli. Lai saglabātu "
+"iestatījumus, nospiediet \"Saglabāt karti\" pēc tam kad esat novietojis "
+"karti sev vēlamajā atrašanās vietā."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2148
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5362
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5371
+msgid "Markers"
+msgstr "Marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2149
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:35
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5489
+msgid "Polygons"
+msgstr "Poligoni"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2150
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:40
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:35
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5365
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5494
+msgid "Polylines"
+msgstr "Polilīnijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2151
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5366
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5499
+msgid "Heatmaps"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2156
+msgid "Add a marker"
+msgstr "Pievienojiet marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2166
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5375
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5430
+msgid "Address/GPS"
+msgstr "Adrese/GPS"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2167
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5376
+msgid "Or right click on the map"
+msgstr "Vai ar peles labo pogu noklikšķiniet uz kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2179
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5462
+msgid "Pic URL"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2181
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5464
+msgid "Link URL"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2182
+msgid "Format: http://www.domain.com"
+msgstr "Formāts: http://www.domain.com"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2183
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5466
+msgid "Custom Marker"
+msgstr "Pielāgots marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2184
+msgid "ignore if you want to use the default marker"
+msgstr "ignorēt, ja vēlaties izmantot noklusējuma marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2185
+msgid "This is a retina ready marker"
+msgstr "Tas ir tīklenes gatavs marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2194
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5381
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5436
+msgid "Animation"
+msgstr "Animācija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2198
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5385
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5440
+msgid "Bounce"
+msgstr "Atlēciens"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2199
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5386
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5441
+msgid "Drop"
+msgstr "Iekrist"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2203
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5392
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5447
+msgid "InfoWindow open by default"
+msgstr "Informācijas logs atvērts pēc noklusējuma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2213
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5402
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5478
+msgid "Add Marker"
+msgstr "Pievienot marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2213
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:352
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5402
+msgid "Adding"
+msgstr "Pievienošana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2214
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5403
+msgid "Save Marker"
+msgstr "Saglabāt marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2214
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5403
+msgid "Saving"
+msgstr "Saglabāšana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2217
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5406
+msgid "Remember to save your marker"
+msgstr "Atcerieties saglabāt savu marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2227
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6588
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6672
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:25
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:29
+msgid "Add a Polygon"
+msgstr "Pievienot poligonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2228
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5490
+msgid "Add a New Polygon"
+msgstr "Pievienot jaunu poligonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2232
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:25
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:28
+msgid "Add a Polyline"
+msgstr "Pievienot polilīniju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2233
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5495
+msgid "Add a New Polyline"
+msgstr "Pievienot jaunu polilīniju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2237
+msgid "Add a dataset"
+msgstr "Pievienojiet datu kopu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2251
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5517
+msgid "Remember to save your map!"
+msgstr "Atcerieties saglabāt karti!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2259
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5530
+msgid "Your Markers"
+msgstr "Jūsu marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2269
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5553
+msgid ""
+"WP Google Maps encourages you to make use of the amazing icons created by "
+"Nicolas Mollet's Maps Icons Collection"
+msgstr ""
+"WP Google Maps rosina izmantot Nicolas Mollet Maps ikonu kolekcijas radītās "
+"lieliskās ikonas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2269
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5553
+msgid "and to credit him when doing so."
+msgstr "un šādi atbalstīt viņu ieguldījumu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2442
+msgid ""
+"The map ID you have entered does not exist. Please enter a map ID that "
+"exists."
+msgstr "Ievadītais kartes ID nepastāv. Lūdzu, ievadiet patieso kartes ID."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2647
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2648
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7000
+msgid "Use my location"
+msgstr "Izmantojiet manu atrašanās vietu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2677
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2684
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2692
+msgid "Filter by"
+msgstr "Filtrēt pēc"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2846
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:278
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:369
+#, fuzzy
+msgid "Get directions to"
+msgstr "Norāde uz"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2877
+#, fuzzy
+msgid "Get Directions"
+msgstr "Norāde"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2882
+msgid "For"
+msgstr "Priekš"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2886
+msgid "Driving"
+msgstr "Braukšana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2887
+msgid "Walking"
+msgstr "Iešana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2888
+msgid "Bicycling"
+msgstr "Velosipēds"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2891
+msgid "show options"
+msgstr "rādīt opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2892
+msgid "hide options"
+msgstr "slēpt opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2894
+msgid "Avoid Tolls"
+msgstr "Izvairieties no maksas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2895
+msgid "Avoid Highways"
+msgstr "Izvairieties no automaģistrālēm"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2901
+msgid "From"
+msgstr "No"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2909
+msgid "To"
+msgstr "Uz"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2919
+msgid "Go"
+msgstr "Iet"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2962
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2995
+msgid "Fetching directions..."
+msgstr "Norādījumu saņemšana ..."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2965
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2997
+msgid "Reset directions"
+msgstr "Atjaunot virzienus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2967
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2999
+msgid "Print directions"
+msgstr "Drukāšanas virzieni"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3073
+msgid "Thank you. Your marker is awaiting approval."
+msgstr "Paldies. Jūsu marķieris gaida apstiprinājumu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3641
+msgid "Get directions"
+msgstr "Saņemt norādes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3642
+msgid "My location"
+msgstr "Mana atrašanās vieta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3643
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2114
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2255
+msgid "km away"
+msgstr "km attālumā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3644
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2112
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2253
+msgid "miles away"
+msgstr "jūdžu attālumā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3648
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3650
+msgid "Please fill out both the \"from\" and \"to\" fields"
+msgstr "Lūdzu, aizpildiet laukus \"no\" un \"uz\""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3653
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3655
+msgid "Getting your current location address..."
+msgstr "Pašreizējās atrašanās vietas adreses iegūšana ..."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3659
+msgid "Show _MENU_ entries"
+msgstr "Rādīt _MENU_ ierakstus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3660
+msgid "Nothing found - sorry"
+msgstr "Nekas nav atrasts - žēl"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3661
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ records"
+msgstr "Rādīt _START_ līdz _END_ un _TOTAL_ ierakstiem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3662
+msgid "Showing 0 to 0 of 0 records"
+msgstr "Rādīt 0 līdz 0 no 0 ierakstiem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3663
+msgid "(filtered from _MAX_ total records)"
+msgstr "(filtrēts no _MAX_ kopējiem ierakstiem)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3664
+msgid "First"
+msgstr "Pirmais"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3665
+msgid "Last"
+msgstr "Pēdējais"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3666
+msgid "Next"
+msgstr "Nākošais"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3667
+msgid "Previous"
+msgstr "Iepriekšējais"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3668
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7070
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3046
+msgid "Search"
+msgstr "Meklēt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3673
+msgid "Please prove that you are human by checking the checkbox above"
+msgstr ""
+"Lūdzu, pierādīt, ka esat cilvēks, atzīmējot iepriekš norādīto izvēles rūtiņu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5020
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/widget_module.class.php:7
+msgid "WP Google Maps"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5020
+msgid ""
+"Please ensure you have <strong>both</strong> the <strong>Basic</strong> and "
+"<strong>Pro</strong> versions of WP Google Maps installed and activated at "
+"the same time in order for the plugin to function correctly."
+msgstr ""
+"Lai spraudnis darbotos pareizi, lūdzu, pārliecinieties, ka jums ir <strong> "
+"gan </strong> </strong>, gan <strong> pamata </strong> un <strong> Pro </"
+"strong> WP Google Maps versijas."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5067
+msgid "Download ALL marker data to a CSV file"
+msgstr "Lejupielādēt VISUS marķiera datus CSV failā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5068
+msgid "Download ALL map data to a CSV file"
+msgstr "Lejupielādēt VISUS kartes datus CSV failā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5069
+msgid "Download ALL polygon data to a CSV file"
+msgstr "Lejupielādēt VISUS poligona datus CSV failā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5070
+msgid "Download ALL polyline data to a CSV file"
+msgstr "Lejupielādēt VISUS polilīniju datus CSV failā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5072
+msgid "Advanced Options"
+msgstr "Papildus opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5087
+msgid "Map Data"
+msgstr "Kartes dati"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5088
+msgid "Marker Data"
+msgstr "Marķieru dati"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5089
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:471
+msgid "Polygon Data"
+msgstr "Poligonu dati"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5090
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:492
+msgid "Polyline Data"
+msgstr "Polilīniju dati"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5095
+msgid "Upload Map CSV File"
+msgstr "Augšupielādēt kartes CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5103
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5117
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5139
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5158
+msgid "Replace existing data with data in file"
+msgstr "Nomainīt esošos datus ar faila datiem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5106
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5123
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5142
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5161
+msgid "Upload File"
+msgstr "Augšupielādēt failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5107
+msgid "Download Map Data"
+msgstr "Lejupielādēt kartes datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5113
+msgid "Upload Marker CSV File"
+msgstr "Augšupielādēt marķiera CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5118
+msgid ""
+"Automatically geocode addresses to GPS co-ordinates if none are supplied"
+msgstr ""
+"Automātiski ģeogrāfiski kodējiet adreses uz GPS koordinātām, ja tās nav "
+"piegādātas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5120
+msgid "Google API Key (Required)"
+msgstr "Google API atslēga (obligāti)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5121
+msgid ""
+"You will need a Google Maps Geocode API key for this to work. See <a "
+"href='https://developers.google.com/maps/documentation/geocoding/"
+"#Limits'>Geocoding Documentation</a>"
+msgstr ""
+"Lai to paveiktu, jums būs nepieciešama Google Maps ģeogrāfiskā koda API "
+"atslēga. Skatiet <a href='https://developers.google.com/maps/documentation/"
+"geocoding/#Limits'> ģeokodēšanas dokumentāciju </a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5121
+msgid "There is a 0.12second delay between each request"
+msgstr "Starp katru pieprasījumu ir 0.12 sekundes kavēšanās"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5124
+msgid "Download Marker Data"
+msgstr "Lejupielādēt marķiera datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5131
+msgid "Upload Polygon CSV File"
+msgstr "Augšupielādēt poligona CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5143
+msgid "Download Polygon Data"
+msgstr "Lejupielādēt poligona datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5150
+msgid "Upload Polyline CSV File"
+msgstr "Augšupielādēt polilīnijas CSV failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5162
+msgid "Download Polyline Data"
+msgstr "Lejupielādēt polilīnijas datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5166
+msgid "Need help? Read the documentation."
+msgstr "Nepieciešama palīdzība? Lasiet dokumentāciju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5175
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6471
+msgid "WP Google Maps Support"
+msgstr "WP Google Maps atbalsts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5178
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6474
+msgid "Documentation"
+msgstr "Dokumentācija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5180
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6476
+msgid ""
+"Getting started? Read through some of these articles to help you along your "
+"way."
+msgstr "Darba sākšana? Izlasiet dažus no šiem rakstiem, tie jums palīdzēs."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5181
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6477
+msgid "Documentation:"
+msgstr "Dokumentācija:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5183
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6479
+msgid "Creating your first map"
+msgstr "Pirmās kartes izveide"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5184
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6480
+msgid "Using your map as a Widget"
+msgstr "Karte, kā logrīks jeb Widget"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5185
+msgid "Exporting and Importing your map markers"
+msgstr "Kartes marķieru eksportēšana un importēšana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5186
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6481
+msgid "Changing the Google Maps language"
+msgstr "Google Maps valodas maiņa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5187
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6482
+msgid "WP Google Maps Documentation"
+msgstr "WP Google Maps dokumentācija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5187
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6482
+msgid "View all documentation."
+msgstr "Skatīt visu dokumentāciju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5191
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6486
+msgid "Troubleshooting"
+msgstr "Problēmu novēršana"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5193
+msgid ""
+"WP Google Maps Pro has a diverse and wide range of features which may, from "
+"time to time, run into conflicts with the thousands of themes and other "
+"plugins on the market."
+msgstr ""
+"WP Google Maps Pro ir daudzveidīgs un plašs funkciju klāsts, kas laiku pa "
+"laikam var nonākt konfliktā ar tūkstošiem tēmām un citiem tirgū esošajiem "
+"spraudņiem."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5194
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6489
+msgid "Common issues:"
+msgstr "Biežāk sastaptās problēmas:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5196
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6491
+msgid "My map is not showing on my website"
+msgstr "Mana karte manā tīmekļa vietnē netiek rādīta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5197
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6492
+msgid "My markers are not showing on my map in the front-end"
+msgstr "Mani marķieri manā kartē netiek rādīti priekšplānā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5198
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6493
+msgid "I'm getting jQuery errors showing on my website"
+msgstr "Manā tīmekļa vietnē parādās jQuery kļūdas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5202
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:40
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:45
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3831
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6497
+msgid "Support"
+msgstr "Atbalsts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5204
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6499
+msgid "Still need help? Use one of these links below."
+msgstr "Joprojām nepieciešama palīdzība? Izmantojiet vienu no šīm saitēm."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5206
+msgid "Support desk"
+msgstr "Atbalsta dienests"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5207
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6502
+msgid "Contact us"
+msgstr "Sazinies ar mums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5223
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4015
+msgid "WP Google Map Settings"
+msgstr "WP Google Map iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5247
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3826
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4149
+msgid "Maps"
+msgstr "Kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5248
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4150
+msgid "InfoWindows"
+msgstr "InfoLogs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5249
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:236
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:239
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4151
+msgid "Marker Listing"
+msgstr "Marķieru saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5250
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3829
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4152
+msgid "Advanced"
+msgstr "Papildus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5251
+msgid "Visitor Generated Markers"
+msgstr "Apmeklētāju radītie marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5252
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4153
+msgid "Error Log"
+msgstr "Kļūdu atskaite"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5270
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4373
+msgid "WP Google Maps Error log"
+msgstr "WP Google Maps kļūdu atskaite"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5271
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4374
+msgid ""
+"Having issues? Perhaps something below can give you a clue as to what's "
+"wrong. Alternatively, email this through to nick@wpgmaps.com for help!"
+msgstr ""
+"Vai rodas problēmas? Varbūt kaut kas zemāk var dot jums pavedienu par to, "
+"kas ir nepareizi. Varat arī nosūtīt to pa e-pastu uz nick@wpgmaps.com, lai "
+"saņemtu palīdzību!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5284
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:212
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4381
+msgid "Save Settings"
+msgstr "Saglabāt iestatījmus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5393
+msgid "Visitor Generated Markers Settings"
+msgstr "Apmeklētāju radīto marķieru uzstādījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5394
+msgid "Purchase the Visitor Generated Markers Add-on"
+msgstr "Iegādājieties apmeklētāju radīto marķieru papildinājumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5394
+msgid ""
+"to enable this feature. <br /><br />If you have already purchased it please "
+"ensure that you have uploaded activated the plugin."
+msgstr ""
+"lai iespējotu šo funkciju. <br /> <br /> Ja esat to jau iegādājies, lūdzu, "
+"pārliecinieties, ka esat augšupielādējis spraudni."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5469
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4233
+msgid "Marker Listing Settings"
+msgstr "Marķieru saraksta iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5470
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4234
+msgid ""
+"Changing these settings will alter the way the marker list appears on your "
+"website."
+msgstr ""
+"Šo iestatījumu maiņa mainīs veidu, kā marķieru saraksts parādās jūsu vietnē."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5473
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4240
+msgid "Advanced Marker Listing"
+msgstr "Paplašinātais marķieru saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5473
+msgid "Basic Marker Listings"
+msgstr "Pamata marķieru saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5476
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4243
+msgid "Column settings"
+msgstr "Kolonnu ietatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5478
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4245
+msgid "Hide the Icon column"
+msgstr "Paslēpt ikonu sarakstu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5479
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4246
+msgid "Hide the Title column"
+msgstr "Paslēpt nosaukumu kolonnu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5480
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4247
+msgid "Hide the Address column"
+msgstr "Paslēpt adreses kolonnu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5481
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4248
+msgid "Hide the Category column"
+msgstr "Paslēpt kategoriju kolonnu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5482
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4249
+msgid "Hide the Description column"
+msgstr "Paslēpt apraksta kolonnu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5486
+msgid "Show X items by default"
+msgstr "Rādīt X pēc noklusējuma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5501
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4255
+msgid "Carousel Marker Listing"
+msgstr "Karuseļa marķieru saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5504
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4258
+msgid "Theme selection"
+msgstr "Tēmas izvēle"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5507
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4261
+msgid "Sky"
+msgstr "Debesis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5508
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4262
+msgid "Sun"
+msgstr "Saule"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5509
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4263
+msgid "Earth"
+msgstr "Zeme"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5510
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4264
+msgid "Monotone"
+msgstr "Monotons"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5511
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4265
+msgid "PinkPurple"
+msgstr "Rozā violeta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5512
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4266
+msgid "White"
+msgstr "Balts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5513
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4267
+msgid "Black"
+msgstr "Melns"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5518
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4272
+msgid "Carousel settings"
+msgstr "Karuseļa iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5520
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4274
+msgid "Hide the Image"
+msgstr "Paslēpt attēlu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5521
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4275
+msgid "Hide the Title"
+msgstr "Paslēpt nosaukumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5522
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4276
+msgid "Hide the Marker Icon"
+msgstr "Paslēpt marķiera ikonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5523
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4277
+msgid "Hide the Address"
+msgstr "Paslēpt adresi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5524
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4278
+msgid "Hide the Description"
+msgstr "Paslēpt aprakstu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5525
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4279
+msgid "Hide the Marker Link"
+msgstr "Paslēpt marķiera linku"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5526
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4280
+msgid "Hide the Directions Link"
+msgstr "Paslēpt apraksta linku"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5527
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4281
+msgid "Resize Images with Timthumb"
+msgstr "Pārveidot par sīkattēlu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5528
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4282
+msgid "Enable lazyload of images"
+msgstr "Iespējot attēla formātu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5529
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4283
+msgid "Enable autoheight"
+msgstr "Iespējot autoaugstums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5530
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4284
+msgid "Enable pagination"
+msgstr "Iespējot lapdali"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5531
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4285
+msgid "Enable navigation"
+msgstr "Iespējot navigāciju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5532
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4286
+msgid "Items"
+msgstr "Vienums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5533
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4287
+msgid "Autoplay after x milliseconds (1000 = 1 second)"
+msgstr "Automātiska atskaņošana pēc x milisekundēm (1000 = 1 sekunde)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5548
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5549
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4311
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4321
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4342
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4352
+msgid "You can use the following"
+msgstr "Varat izmantot tālāk minēto"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5577
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4127
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6457
+msgid "This folder does not exist. Please create it."
+msgstr "Šī mape nepastāv. Lūdzu, izveidojiet to."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5583
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4130
+msgid "File Permissions:"
+msgstr "Failu atļaujas:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5583
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4130
+msgid ""
+" - The plugin does not have write access to this folder. Please CHMOD this "
+"folder to 755 or 777, or change the location"
+msgstr ""
+" - Spraudnim nav ieraksta piekļuves šai mapei. Lūdzu, CHMOD šo mapi 755 vai "
+"777 vai mainiet atrašanās vietu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5601
+msgid "Google Maps API Key (optional)"
+msgstr "Google Maps API atslēga (pēc izvēles)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5604
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4305
+msgid ""
+"This API key can be obtained from the <a href='https://console.developers."
+"google.com' target='_BLANK'>Google Developers Console</a>. Our <a "
+"href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"target='_BLANK'>documentation</a> provides a full guide on how to obtain "
+"this. "
+msgstr ""
+"Šo API atslēgu var iegūt <a href='https://console.developers.google.com' "
+"target='_BLANK'> Google izstrādātāju konsolē </a>. Mūsu <a href='http://www."
+"wpgmaps.com/documentation/creating-a-google-maps-api-key/' target='_BLANK'> "
+"dokumentācija </a> sniedz pilnīgu rokasgrāmatu par to, kā iegūt to "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5610
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4336
+msgid ""
+"We suggest that you change the two fields below ONLY if you are experiencing "
+"issues when trying to save the marker XML files."
+msgstr ""
+"Iesakām zemāk redzamos divus laukus mainīt TIKAI tad, ja rodas problēmas, "
+"mēģinot saglabāt marķiera XML failus."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5613
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4330
+msgid "Pull marker data from"
+msgstr "Noņemiet marķiera datus no"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5615
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4332
+msgid "Database (Great for small amounts of markers)"
+msgstr "Datu bāze (lieliski piemērots nelieliem marķieriem)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5616
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4333
+msgid "XML File  (Great for large amounts of markers)"
+msgstr "XML fails (lieliski piemērots nelieliem marķieriem)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5620
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4307
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4338
+msgid "Marker data XML directory"
+msgstr "Marķiera datu XML katalogs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5626
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5636
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4312
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4322
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4343
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4353
+msgid "Currently using"
+msgstr "Pašlaik izmanto"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5630
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4316
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4347
+msgid "Marker data XML URL"
+msgstr "Marķiera datu XML URL"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5640
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5643
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4357
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4360
+msgid "Custom CSS"
+msgstr "Pielāgota CSS"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5725
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4156
+msgid "Map Settings"
+msgstr "Kartes iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5732
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4159
+msgid "General Map Settings"
+msgstr "Vispārējie kartes iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5734
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4161
+msgid "Disable StreetView"
+msgstr "Atspējot StreetView"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5735
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4162
+msgid "Disable Zoom Controls"
+msgstr "Atspējot tālummaiņas vadīklas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5736
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4163
+msgid "Disable Pan Controls"
+msgstr "Atspējot vadības paneļus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5737
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4164
+msgid "Disable Map Type Controls"
+msgstr "Atspējot kartes tipa kontroli"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5738
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4165
+msgid "Disable Mouse Wheel Zoom"
+msgstr "Atspējot peles riteni"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5739
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4166
+msgid "Disable Mouse Dragging"
+msgstr "Atspējot pārvietošanu ar peli"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5740
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4167
+msgid "Disable Mouse Double Click Zooming"
+msgstr "Atspējot tālummaiņu a peles dubultklikšķi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5744
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4224
+msgid "Open Marker InfoWindows by"
+msgstr "Atveriet Marker InfoLogu pēc"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5748
+msgid "Filter by category displayed as"
+msgstr "Filtrēt pēc kategorijas, kas parādīta kā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5750
+msgid "Dropdown"
+msgstr "Nolaižamā izvēlne"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5751
+msgid "Checkboxes"
+msgstr "Izvēles rūtiņas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5757
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4172
+msgid "Troubleshooting Options"
+msgstr "Problēmu novēršanas opcijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5759
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4174
+msgid ""
+"Over-ride current jQuery with version 1.11.3 (Tick this box if you are "
+"receiving jQuery related errors after updating to WordPress 4.5)"
+msgstr ""
+"Tekošais jQuery ar 1.11.3 versiju (atzīmējiet šo lodziņu, ja pēc "
+"atjaunināšanas programmā WordPress 4.5 ir saņemtas ar jQuery saistītas "
+"kļūdas)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5766
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4181
+msgid ""
+"Do not load the Google Maps API (Only check this if your theme loads the "
+"Google Maps API by default)"
+msgstr ""
+"Neielādējiet Google Maps API (pārbaudiet to tikai tad, ja jūsu tēma pēc "
+"noklusējuma ielādē Google Maps API)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5771
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4186
+msgid "Use Google Maps API"
+msgstr "Izmantojiet Google Maps API"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5782
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4197
+msgid "Lowest level of access to the map editor"
+msgstr "Zemākais piekļuves līmenis kartes redaktoram"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5794
+msgid "Retina Icon Width"
+msgstr "Retina ikonas platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5798
+msgid "Retina Icon Height"
+msgstr "Retina ikonas augstums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5853
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5855
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6922
+msgid "No Global Setting"
+msgstr "Nav globāla iestatījuma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5868
+msgid "InfoWindow Settings"
+msgstr "InfoLoga iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5904
+msgid "Image Thumbnails"
+msgstr "Attēla sīktēls"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5906
+msgid "Do not use TimThumb"
+msgstr "Nelietojiet TimThumb"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5907
+msgid ""
+"(Timthumb support will be discontinued in the next pro version release. "
+"Please check this box and make the necessary changes to your images using "
+"the settings below.)"
+msgstr ""
+"(Timthumb atbalsts tiks pārtraukts nākamajā moduļa versijā. Lūdzu, "
+"atzīmējiet šo lodziņu un veiciet vajadzīgās izmaiņas attēlos, izmantojot "
+"tālāk norādītos iestatījumus.)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5912
+msgid "Resize Images"
+msgstr "Attēlu izmēru maiņa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5914
+msgid "Resize all images to the below sizes"
+msgstr "Mainīt izmērus visiem attēliem uz zemāk norādītajiem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5918
+msgid "Default Image Width"
+msgstr "Noklusējuma attēla platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5919
+msgid "(can be left blank - max width will be limited to max infowindow width)"
+msgstr ""
+"(var atstāt tukšu - maksimālais platums tiks ierobežots līdz maksimālajam "
+"InfoLoga platumam)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5922
+msgid "Default Image Height"
+msgstr "Noklusējuma attēla augstums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5923
+msgid ""
+"(can be left blank - leaving both the width and height blank will revert to "
+"full size images being used)"
+msgstr ""
+"(var atstāt tukšu - atstājot gan platumu, gan augstumu tukšu, tiks izmantoti "
+"pilna izmēra attēli)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5926
+msgid "Max InfoWindow Width"
+msgstr "Maksimālais InfoLoga platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5927
+msgid "(Minimum: 200px)"
+msgstr "(Minimāli: 200px)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5930
+msgid "Other settings"
+msgstr "Citi iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5932
+msgid "Open links in a new window"
+msgstr "Atvērt saites jaunā logā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5933
+msgid "(Tick this if you want to open your links in a new window)"
+msgstr "(Atzīmējiet šo, ja vēlaties atvērt savas saites jaunā logā)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5934
+msgid "Hide the address field"
+msgstr "Paslēpt adreses lauku"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5938
+msgid "Link text"
+msgstr "Saites teksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6215
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3217
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3651
+msgid "Your marker location has been saved."
+msgstr "Jūsu marķiera atrašanās vieta ir saglabāta."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6270
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3270
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3682
+msgid "Your polygon has been created."
+msgstr "Jūsu poligons ir izveidots."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6330
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3326
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3714
+msgid "Your polygon has been saved."
+msgstr "Jūsu poligons ir saglabāts."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6364
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3369
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3745
+msgid "Your polyline has been created."
+msgstr "Jūsu polilīnija ir izveidota."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6399
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3411
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3777
+msgid "Your polyline has been saved."
+msgstr "Jūsu polilīnija ir saglabāta."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6442
+msgid "Your dataset has been created."
+msgstr "Jūsu datu kopa ir izveidota."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6487
+msgid "Your dataset has been saved."
+msgstr "Jūsu datu kopa ir saglabāta."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6594
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6679
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7396
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8007
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8095
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:35
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:121
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:674
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:34
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:119
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:658
+msgid "Name"
+msgstr "Nosaukums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6600
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6685
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:421
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:41
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:127
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4569
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5874
+msgid "Link"
+msgstr "Saite"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6603
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6688
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:28
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:44
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:130
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:42
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:127
+msgid "Line Color"
+msgstr "Līnijas krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6606
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6691
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:47
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:133
+msgid "Line Opacity"
+msgstr "Līnijas necaurredzamība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6609
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6694
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:29
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:50
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:136
+msgid "Fill Color"
+msgstr "Laukuma krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6612
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6697
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8023
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8111
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:30
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:53
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:139
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:50
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:135
+msgid "Opacity"
+msgstr "Necaurredzamība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6615
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6700
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:56
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:142
+msgid "On Hover Line Color"
+msgstr "On Hover līnijas krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6618
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6703
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:59
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:145
+msgid "On Hover Fill Color"
+msgstr "On Hover laukuma krāsa"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6621
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6706
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:62
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:148
+msgid "On Hover Opacity"
+msgstr "On Hover necaurspīdīgums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6630
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6714
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:73
+msgid "Click on the map to insert a vertex."
+msgstr "Noklikšķiniet uz kartes, lai ievietotu virsotni."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6631
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6715
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:74
+msgid "Click on a vertex to remove it."
+msgstr "Noklikšķiniet uz virsotnes, lai to noņemtu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6632
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6716
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:75
+msgid "Drag a vertex to move it."
+msgstr "Velciet virsotni, lai to pārvietotu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6640
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6724
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:42
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:90
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:81
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:167
+msgid "Save Polygon"
+msgstr "Saglabāt poligonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6913
+msgid "No marker listing"
+msgstr "Nav marķieru saraksta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6919
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5641
+msgid "Copied to clipboard"
+msgstr "Kopēts starpliktuvē"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7015
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8031
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8119
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3004
+msgid "Radius"
+msgstr "Rādiuss"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7021
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3010
+msgid "1mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7022
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3011
+msgid "5mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7023
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3012
+msgid "10mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7024
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3013
+msgid "25mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7025
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3014
+msgid "50mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7026
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3015
+msgid "75mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7027
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3016
+msgid "100mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7028
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3017
+msgid "150mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7029
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3018
+msgid "200mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7030
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3019
+msgid "300mi"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7032
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3021
+msgid "1km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7033
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3022
+msgid "5km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7034
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3023
+msgid "10km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7035
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3024
+msgid "25km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7036
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3025
+msgid "50km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7037
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3026
+msgid "75km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7038
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3027
+msgid "100km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7039
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3028
+msgid "150km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7040
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3029
+msgid "200km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7041
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3030
+msgid "300km"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7071
+msgid "Reset"
+msgstr "Atiestatīt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7210
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4512
+msgid "Type"
+msgstr "Tips"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7211
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4513
+msgid "Shortcode"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7221
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:536
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4524
+msgid "Trash"
+msgstr "Miskaste"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7222
+msgid "Duplicate"
+msgstr "Dublikāts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7225
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7416
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:540
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:495
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:516
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:701
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:685
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4530
+msgid "Edit"
+msgstr "Rediģēt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7397
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:472
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:493
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:422
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:675
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:659
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5875
+msgid "Action"
+msgstr "Rīcība"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7417
+msgid "Delete this dataset"
+msgstr "Dzēst datu kopu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8001
+msgid "Add heatmap data"
+msgstr "Pievienot Heatmap datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8015
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8103
+msgid "Gradient"
+msgstr "Gradients"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8018
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8106
+msgid "Default"
+msgstr "Noklusējuma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8018
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8106
+msgid "Blue"
+msgstr "Zils"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8056
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8142
+msgid "Save Dataset"
+msgstr "Saglabāt datu kopu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8088
+msgid "Edit Dataset"
+msgstr "Rediģēt datu kopu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:15
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:18
+msgid "Marker Categories"
+msgstr "Marķieru kategorijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:15
+msgid "Add New Category"
+msgstr "Pievienot jaunu kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4468
+msgid "Pro Version"
+msgstr "Pro versija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+msgid "Create marker categories"
+msgstr "Izveidot marķieru kategorijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4468
+msgid "with the"
+msgstr "ar"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:19
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4468
+msgid "of WP Google Maps for only"
+msgstr "tikai WP Google Maps"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:24
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4489
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4549
+msgid "Problems with the plugin? See the troubleshooting manual."
+msgstr "Problēmas ar spraudni? Skatiet problēmu novēršanas rokasgrāmatu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:32
+msgid "There was a problem deleting the category."
+msgstr "Dzēšot kategoriju, radās problēma."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+msgid "Delete your Category"
+msgstr "Dzēst savu kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:35
+msgid "Are you sure you want to delete the category"
+msgstr "Vai tiešām vēlaties dzēst kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:85
+msgid "Add a Marker Category"
+msgstr "Pievienot marķiera kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:89
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:171
+msgid "Category Name"
+msgstr "Kategorijas nosaukums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:99
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:181
+msgid "Category Marker"
+msgstr "Kategorijas marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:101
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:183
+msgid ""
+"Get great map markers <a href='http://mapicons.nicolasmollet.com/' "
+"target='_BLANK' title='Great Google Map Markers'>here</a>"
+msgstr ""
+"Iegūstiet lieliskus kartes marķierus <a href='http://mapicons.nicolasmollet."
+"com/' target='_BLANK' title='Great Google Map Markers'> šeit </a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:104
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:186
+msgid "Retina Ready"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:105
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:187
+msgid "This marker is a retina-ready marker"
+msgstr "Šis marķieris ir retina-ready marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:114
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:196
+msgid "Assigned to "
+msgstr "Piešķirts "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:127
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:210
+msgid "Save Category"
+msgstr "Saglabāt kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:166
+msgid "Edit a Marker Category"
+msgstr "Labot marķiera kategoriju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:292
+msgid "Your category has been created."
+msgstr "Jūsu kategorija ir izveidota."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:364
+msgid "Your category has been saved."
+msgstr "Jūsu kategorija ir saglabāta."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:374
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:408
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:439
+msgid "All"
+msgstr "Viss"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:412
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:463
+msgid "<em><small>No categories found</small></em>"
+msgstr "<em> <small> Neviena kategorija nav atrasta </small> </em>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:498
+msgid "All maps"
+msgstr "Visas kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:529
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:415
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4563
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5868
+msgid "Icon"
+msgstr "Ikona"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:530
+msgid "Linked maps"
+msgstr "Saistītās kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:255
+msgid "Header 1 should be 'id', not"
+msgstr "Header 1 jābūt “id”, nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:256
+msgid "Header 2 should be 'map_id', not"
+msgstr "Header 2 jābūt 'map_id', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:257
+msgid "Header 3 should be 'address', not"
+msgstr "Header 3 jābūt 'address', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:258
+msgid "Header 4 should be 'description', not"
+msgstr "Header 4 jābūt 'description', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:259
+msgid "Header 5 should be 'pic', not"
+msgstr "Header 5 jābūt 'pic', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:260
+msgid "Header 6 should be 'link', not"
+msgstr "Header 6 jābūt 'link', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:261
+msgid "Header 7 should be 'icon', not"
+msgstr "Header 7 jābūt 'icon', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:262
+msgid "Header 8 should be 'lat', not"
+msgstr "Header 8 jābūt 'lat', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:263
+msgid "Header 9 should be 'lng', not"
+msgstr "Header 9 jābūt 'lng', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:264
+msgid "Header 10 should be 'anim', not"
+msgstr "Header 10 jābūt 'anim', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:265
+msgid "Header 11 should be 'title', not"
+msgstr "Header 11 jābūt 'title', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:266
+msgid "Header 12 should be 'infoopen', not"
+msgstr "Header 12 jābūt 'infoopen', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:267
+msgid "Header 13 should be 'category', not"
+msgstr "Header 13 jābūt 'category', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:268
+msgid "Header 14 should be 'approved', not"
+msgstr "Header 14 jābūt 'approved', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:269
+msgid "Header 15 should be 'retina', not"
+msgstr "Header 15 jābūt 'retina', nevis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:271
+msgid "CSV import failed"
+msgstr "CSV importēšana neizdevās"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:341
+#, php-format
+msgid "Cannot import line %d as the LAT and/or LNG is not defined."
+msgstr "Nevar importēt rindu% d, jo LAT un / vai LNG nav definēts."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:370
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:501
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:581
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_export_import.class.php:662
+msgid "Your CSV file has been successfully imported"
+msgstr "Jūsu CSV fails ir veiksmīgi importēts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:73
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:114
+msgid "Edit Polygon"
+msgstr "Labot poligonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:496
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:702
+msgid "Delete this polygon"
+msgstr "Dzēst poligonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polygons.php:496
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:517
+msgid "Delete"
+msgstr "Dzēst"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:42
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:90
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:81
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:164
+msgid "Save Polyline"
+msgstr "Saglabāt polilīniju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:73
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:112
+msgid "Edit Polyline"
+msgstr "Labot polilīniju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_polylines.php:517
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:686
+msgid "Delete this polyline"
+msgstr "Dzēst šo polilīniju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:13
+msgid "Select a Map Type (beta)"
+msgstr "Atlasiet kartes veidu (beta)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:149
+msgid "Show distance in:"
+msgstr "Rādīt attālumu:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:159
+msgid "Show bouncing icon:"
+msgstr "Rādīt lēkājošo ikonu:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:169
+msgid "Hide markers until search is done:"
+msgstr "Slēpt marķierus, līdz meklēšana ir pabeigta:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:209
+msgid "Default 'To' Address:"
+msgstr "Noklusējuma adrese:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:213
+msgid "Enter Address"
+msgstr "Ievadiet adresi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:252
+msgid "Basic Table"
+msgstr "Pamata tabula"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:253
+msgid "Basic List"
+msgstr "Pamata saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:254
+msgid "Advanced Table"
+msgstr "Papildu tabula"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:279
+msgid "Blank Map"
+msgstr "Tukša karte"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:221
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5829
+msgid "View this link"
+msgstr "Skatīt šo saiti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:234
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:235
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5843
+msgid "Edit this marker"
+msgstr "Rediģējiet šo marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:237
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5846
+msgid "Approve this marker"
+msgstr "Apstipriniet šo marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:239
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5848
+msgid "Delete this marker"
+msgstr "Dzēsiet šo marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:420
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:327
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5873
+msgid "Image"
+msgstr "Attēls"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:169
+msgid "Visitor Generated Markers - Settings"
+msgstr "Apmeklētāju ģenerētie marķieri - Iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:175
+msgid "Enable Visitor Generated Markers?"
+msgstr "Vai iespējot apmeklētājus radītos marķierus?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:184
+msgid "Who can add markers?"
+msgstr "Kas var pievienot marķierus?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:187
+msgid "Everyone"
+msgstr "Ikviens"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:188
+msgid "Registered Users"
+msgstr "Reģistrētie lietotāji"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:193
+msgid "Allow users to select a marker category?"
+msgstr "Vai atļaut lietotājiem izvēlēties marķiera kategoriju?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:202
+msgid "Allow users to upload images?"
+msgstr "Vai atļaut lietotājiem augšupielādēt attēlus?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:306
+msgid "Add your own marker"
+msgstr "Pievienojiet savu marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:314
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:315
+msgid "Marker Title"
+msgstr "Marķiera nosaukums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:318
+msgid "Marker Address or GPS Location"
+msgstr "Marķiera adrese vai GPS atrašanās vieta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:319
+msgid "Marker Address"
+msgstr "Marķiera adrese"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:319
+msgid "Or click on the map and drag to add a marker"
+msgstr "Vai noklikšķiniet uz kartes un velciet, lai pievienotu marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:322
+msgid "Marker Description"
+msgstr "Marķiera apraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:338
+msgid "Marker Category"
+msgstr "Marķiera kategorija"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:348
+msgid "Please tick this box to prove you are human"
+msgstr "Lūdzu, atzīmējiet šo lodziņu, lai pierādītu, ka esat cilvēks"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:352
+msgid "Add marker"
+msgstr "Pievienot marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:456
+msgid "A new marker has been submitted for your map"
+msgstr "Jūsu kartē ir iesniegts jauns marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:588
+msgid ""
+"Please <a href='./update-core.php'>update</a> your Pro Add-on to at least "
+"version 5.50 to allow for these settings"
+msgstr ""
+"Lūdzu, <a href='./update-core.php'> atjauniniet savu Pro papildinājumu </a> "
+"līdz 5.50 versijai, lai atļautu šos iestatījumus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:592
+msgid "Visitor Generated Marker Settings"
+msgstr "Apmeklētāja ģenerētā marķiera iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:596
+msgid "Visitor Marker Input Settings"
+msgstr "Apmeklētāja marķiera ievades iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:598
+msgid "Strip all HTML tags in descriptions and titles"
+msgstr "Svītrot visus HTML tagus aprakstos un nosaukumos"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:599
+msgid "Automatically approve visitor generated markers"
+msgstr "Automātiski apstipriniet apmeklētāju radītos marķierus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:600
+msgid "Email me whenever there is a new marker"
+msgstr "Nosūtiet man e-pastu, kad ir jauns marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:600
+msgid "Email address:"
+msgstr "Epasta adrese:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:22
+msgid "Welcome to"
+msgstr "Laipni lūdzam"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:24
+msgid ""
+"Amazing maps. Simple interface. Powerful functionality. World Class Support."
+msgstr ""
+"Pārsteidzošas kartes. Vienkāršs interfeiss. Spēcīga funkcionalitāte. "
+"Pasaules klases atbalsts."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:26
+msgid "What's new?"
+msgstr "Kas jauns?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:31
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:24
+msgid "Let users search for products, branches and stores near them"
+msgstr ""
+"Ļaujiet lietotājiem meklēt blakus esošos produktus, filiāles un veikalus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:36
+msgid "Create service areas or coverage maps with polygons"
+msgstr "Izveidojiet pakalpojumu zonas vai pārklājuma kartes ar daudzstūriem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:41
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:36
+msgid "Create custom routes or outlines using polylines"
+msgstr "Izveidojiet pielāgotus maršrutus vai kontūras, izmantojot polilīnijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:53
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:49
+msgid "How did you find out about us?"
+msgstr "Kā jūs uzzinājāt par mums?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:60
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:56
+msgid "WordPress.org plugin repository"
+msgstr "WordPress.org spraudņa glabātuve"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:61
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:57
+msgid "What search term did you use?"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:65
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:61
+msgid "Google or other search engine"
+msgstr "Google vai cita meklētājprogramma"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:69
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:65
+msgid "Friend recommendation"
+msgstr "Drauga ieteikums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:73
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:69
+msgid "Other"
+msgstr "Cits"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:74
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:70
+msgid "Please explain"
+msgstr "Lūdzu, paskaidrojiet"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:96
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:92
+msgid "New to WP Google Maps?"
+msgstr "Vai esat WP Google Maps jauns?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:93
+msgid "You may want to"
+msgstr "Jūs varētu vēlēties"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:93
+msgid "review our documentation"
+msgstr "pārskatiet mūsu dokumentāciju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:97
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:93
+msgid ""
+"before you get started. If you're a tech-savvy individual, you may skip this "
+"step."
+msgstr "pirms sākat darbu. Ja esat tehnoloģiski gudrs, varat izlaist šo soli."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:100
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:96
+msgid "Help me!"
+msgstr "Palīdzi man!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:101
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:97
+msgid "Visit our"
+msgstr "Apmeklējiet mūsu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:101
+msgid "Support Forum"
+msgstr "Atbalsta forumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:101
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:97
+msgid "for quick and friendly help. We'll answer your request within 24hours."
+msgstr ""
+"ātrai un draudzīgai palīdzībai. Mēs atbildēsim uz jūsu pieprasījumu 24 "
+"stundu laikā."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:104
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:100
+msgid "Feedback"
+msgstr "Atsauksmes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:101
+msgid "We need you to help us make this plugin better."
+msgstr "Mums ir nepieciešams, lai palīdzētu mums padarīt šo spraudni labāku."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:101
+msgid "Send us your feedback"
+msgstr "Nosūtiet mums savas atsauksmes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:105
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:101
+msgid "and we'll act on it as soon as humanly possible."
+msgstr "un mēs rīkosimies pēc iespējas ātrāk."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/WPGM_templates.php:109
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:105
+msgid "OK! Let's start"
+msgstr "LABI! Sāksim"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/widget_module.class.php:9
+msgid "Add your map as a widget"
+msgstr "Pievienojiet savu karti kā logrīku"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/widget_module.class.php:47
+msgid "Select your map:"
+msgstr "Atlasiet savu karti:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:3
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:4
+msgid "Welcome to WP Google Maps version 6.3"
+msgstr "Laipni lūdzam WP Google Maps versijā 6.3"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:5
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:6
+msgid ""
+"Thank you for updating! WP Google Maps version 6 helps you build amazing "
+"maps through a simple interface and powerful functionality along with world "
+"class support."
+msgstr ""
+"Paldies par atjaunināšanu! WP Google Maps 6 versija palīdz veidot "
+"pārsteidzošas kartes, izmantojot vienkāršu interfeisu un spēcīgu "
+"funkcionalitāti kopā ar pasaules klases atbalstu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:10
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:11
+msgid "Welcome"
+msgstr "Laipni lūdzam"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:11
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:12
+msgid "Credits"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:15
+msgid "WP Google Maps is created by an international team of developers."
+msgstr "WP Google Maps izveido starptautiska izstrādātāju komanda."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:16
+msgid "Project Leaders"
+msgstr "Projektu vadītāji"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:22
+msgid "Founder &amp; Lead Developer"
+msgstr "Dibinātājs un Galvenais izstrādātājs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:25
+msgid "Contributers"
+msgstr "Atbalstītāji"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:30
+msgid "Developer"
+msgstr "Izstrādātājs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:35
+msgid "Developer &amp; Support"
+msgstr "Izstrādātājs & amp; Atbalsts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:50
+msgid "Marketing"
+msgstr "Mārketings"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:55
+msgid "Security suggestions"
+msgstr "Drošības ieteikumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:59
+msgid "Want to see your name on this page?"
+msgstr "Vai vēlaties redzēt savu vārdu šajā lapā?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:59
+msgid "Get involved on GitHub."
+msgstr "Iesaistieties GitHub."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:18
+msgid "Unlimited Markers"
+msgstr "Neierobežots marķieru skaits"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:19
+msgid "Create as many markers as you like"
+msgstr "Izveidojiet tik daudz marķieru, cik vēlaties"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:31
+msgid ""
+"Select from various <a href='http://wpgmaps.com/map-themes/' "
+"target='_BLANK'>map themes</a>, or make your own."
+msgstr ""
+"Izvēlieties no dažādām <a href='http://wpgmaps.com/map-themes/' "
+"target='_BLANK'> kartes tēmām </a> vai izveidojiet savu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:97
+msgid "Support Desk"
+msgstr "Atbalsta birojs"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:56
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:59
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:62
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:142
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:145
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:148
+msgid "Pro version only"
+msgstr "Tikai Pro versijā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:38
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polygons.php:124
+msgid "Get the Pro add-on"
+msgstr "Iegūstiet Pro papildinājumu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:58
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/wp-google-maps-polylines.php:143
+msgid "Line Thickness"
+msgstr "Līnijas biezums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:320
+msgid "My first map"
+msgstr "Mana pirmā karte"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:543
+msgid ""
+"<strong>WP Google Maps cannot find the directory it uses to save marker data "
+"to. Please confirm that <em>"
+msgstr ""
+"<strong> WP Google Maps nevar atrast direktoriju, ko lieto, lai saglabātu "
+"marķiera datus. Lūdzu, apstipriniet, ka <em>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:543
+msgid ""
+"</em>exists. Please also ensure that you assign file permissions of 755 (or "
+"777) to this directory."
+msgstr ""
+"</em> pastāv. Lūdzu, pārliecinieties, ka piešķirat šai direktorijai 755 (vai "
+"777) failu atļaujas."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:549
+msgid ""
+"Timthumb does not have 'write' permission for the cache directory. Please "
+"enable 'write' permissions (755 or 777) for "
+msgstr ""
+"Timthumb nav \"rakstīt\" atļaujas kešatmiņas direktorijai. Lūdzu, "
+"iespējojiet \"rakstīt\" atļaujas (755 vai 777) "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:551
+msgid "in order for images to show up while using Timthumb. Please see "
+msgstr "lai parādītu attēlus, izmantojot Timthumb. Lūdzu apskati "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:553
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6027
+msgid "this page"
+msgstr "šajā lapā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:555
+msgid ""
+"for help on how to do it. Alternatively, you can disable the use of Timthumb "
+"in Maps->Settings"
+msgstr ""
+"lai saņemtu palīdzību, kā to izdarīt. Varat arī atspējot Timthumb lietošanu "
+"programmās Maps-> Settings"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2436
+msgid "DOMDocument is not enabled"
+msgstr "DOMDocument nav iespējots"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2540
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2550
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2555
+msgid "Could not save XML file"
+msgstr "Nevarēja saglabāt XML failu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2894
+msgid "Error: The map ID"
+msgstr "Kļūda: kartes ID"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:2894
+msgid "does not exist"
+msgstr "neeksistē"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3228
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3283
+msgid "You cannot save a blank polygon"
+msgstr "Jūs nevarat saglabāt tukšu daudzstūri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3338
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3382
+msgid "You cannot save a blank polyline"
+msgstr "Jūs nevarat saglabāt tukšu poliānu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3478
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3482
+msgid "Thank you for your feedback!"
+msgstr "Paldies par jūsu atsauksmēm!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3828
+msgid "Categories"
+msgstr "Kategorijas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3830
+msgid "Settings"
+msgstr "Iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3850
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3963
+msgid "Experiencing problems with the plugin?"
+msgstr "Vai rodas problēmas ar spraudni?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3850
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3963
+msgid "See the troubleshooting manual."
+msgstr "Skatiet problēmu novēršanas rokasgrāmatu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3850
+msgid "Or ask a question on our "
+msgstr "Vai uzdodiet jautājumu par mūsu "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3850
+msgid "Support forum."
+msgstr "Atbalsta forums."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3857
+msgid "There was a problem deleting the map."
+msgstr "Dzēšot karti, radās problēma."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3861
+msgid "Delete your map"
+msgstr "Dzēst karti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3861
+msgid "Are you sure you want to delete the map"
+msgstr "Vai tiešām vēlaties izdzēst karti"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3870
+msgid "There was a problem duplicating the map."
+msgstr "Kartes dublēšanas laikā radās problēma."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3972
+msgid "There was a problem deleting the marker."
+msgstr "Dzēšot marķieri, radās problēma."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3976
+msgid "Delete Marker"
+msgstr "Dzēst marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3976
+msgid "Are you sure you want to delete this marker:"
+msgstr "Vai tiešām vēlaties dzēst šo marķieri:"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3997
+msgid ""
+"We have detected a conflict between your current theme's version and our "
+"plugin. Should you be experiencing issues with your maps displaying, please "
+"update Avada to version 3.9.4 or check the checkbox labelled 'Over-ride "
+"current jQuery with version 1.11.3'."
+msgstr ""
+"Esam atklājuši konfliktu starp jūsu pašreizējās tēmas versiju un mūsu "
+"spraudni. Ja rodas problēmas, kas saistītas ar jūsu kartēm, lūdzu, "
+"atjauniniet Avada versiju 3.9.4 vai atzīmējiet izvēles rūtiņu ar nosaukumu "
+"“Over-ride current jQuery ar 1.11.3 versiju”."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4210
+msgid "Enable Usage Tracking"
+msgstr "Iespējot lietošanas izsekošanu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4212
+msgid ""
+"Allow us to anonymously track how you use your maps and we will send you a "
+"15% Sola Plugins coupon as a token of our gratitude (Coupon will be sent to "
+"the administrator's email address)"
+msgstr ""
+"Ļaujiet mums anonīmi izsekot, kā jūs izmantojat savas kartes, un mēs "
+"nosūtīsim jums 15% Sola spraudņu kuponu kā pateicības simbolu (kupons tiks "
+"nosūtīts uz administratora e-pasta adresi)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4221
+msgid "Marker InfoWindow Settings"
+msgstr "Marķiera InfoLoga iestatījumi"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4296
+msgid "Google Maps API Key"
+msgstr "Google Maps API atslēga"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4300
+msgid "Google Maps API Key (required)"
+msgstr "Google Maps API atslēga (nepieciešama)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4327
+msgid "Marker Data Location"
+msgstr "Marķējuma dati Atrašanās vieta"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4421
+#, php-format
+msgid ""
+"<h3>We need your love!</h3><p>If you are enjoying our plugin, please "
+"consider <a href=\"%1$s\" target=\"_blank\" class=\"button button-primary"
+"\">reviewing WP Google Maps</a>. It would mean the world to us! If you are "
+"experiencing issues with the plugin, please <a href=\"%2$s\" target=\"_blank"
+"\"  class=\"button button-secondary\">contact us</a> and we will help you as "
+"soon as humanly possible!</p>"
+msgstr ""
+"<h3> Mums ir nepieciešama Jūsu atzinība! </h3> <p> Ja izmantojat mūsu "
+"spraudni, lūdzu, apsveriet <a href=\"%1$s\" target=\"_blank\" class=\"button "
+"button-primary\"> WP pārskatīšanu Google Maps </a>. Tas nozīmētu pasauli "
+"mums! Ja rodas problēmas ar spraudni, lūdzu, <a href=\"%2$s\" target=\"_blank"
+"\" class=\"button button-secondary\"> sazinieties ar mums </a> un mēs jums "
+"palīdzēsim pēc iespējas ātrāk ! </p>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4426
+msgid "We will not nag you again, promise!"
+msgstr "Mēs vēlreiz neapbrīnosim, apsolām!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4426
+msgid "Close"
+msgstr "Aizvērt"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4446
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4467
+msgid "My Maps"
+msgstr "Manas kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4446
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4546
+msgid "Add New"
+msgstr "Pievieno jaunu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4446
+msgid "Wizard"
+msgstr "Vednis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4458
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4480
+msgid ""
+"We have detected a conflict between your current theme's version and our "
+"plugin. Should you be experiencing issues with your maps displaying, please "
+"update Avada to version 3.9.4 or go to <a href='"
+msgstr ""
+"Esam atklājuši konfliktu starp jūsu pašreizējās tēmas versiju un mūsu "
+"spraudni. Ja rodas problēmas ar jūsu kartēm, lūdzu, atjauniniet Avada "
+"versiju 3.9.4 vai dodieties uz <a href = '"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4468
+msgid "Create unlimited maps"
+msgstr "Izveidojiet neierobežotas kartes"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4546
+msgid "My Markers"
+msgstr "Mani marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4564
+msgid "Linked to"
+msgstr "Kas saistītas ar"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4567
+msgid "GPS"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4568
+msgid "Pic"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4705
+msgid ""
+"Add custom icons, titles, descriptions, pictures and links to your markers "
+"with the"
+msgstr ""
+"Pievienojiet pielāgotās ikonas, nosaukumus, aprakstus, attēlus un saites uz "
+"jūsu marķieriem ar"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4705
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4706
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5542
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5546
+msgid "Pro Edition"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4705
+msgid "of this plugin for just"
+msgstr "šo spraudni tikai par"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4706
+msgid "Purchase the Pro Edition"
+msgstr "Iegādājieties Pro Edition"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4706
+msgid "of WP Google Maps and save your markers to a CSV file!"
+msgstr "-WP Google Maps un saglabājiet marķierus CSV failā!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4731
+msgid "Please note"
+msgstr "Lūdzu, ņemiet vērā"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4731
+msgid ""
+"We've noticed that you are using W3 Total Cache and that you have CDN "
+"enabled.<br /><br />In order for the markers to show up on your map, you "
+"need to add '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' to the "
+"'<strong>rejected files</strong>' list in the <a href='admin.php?"
+"page=w3tc_cdn#advanced'>CDN settings page</a> of W3 Total Cache"
+msgstr ""
+"Mēs esam ievērojuši, ka izmantojat W3 kopējo kešatmiņu un ka jums ir "
+"iespējots CDN. <br /> <br /> Lai marķieri tiktu parādīti jūsu kartē, "
+"jāpievieno <strong> <strong> <em> { augšupielādes_dir} / wp-google-maps * </"
+"strong> </em> 'uz <a href='admin.php?page=w3tc_cdn#advanced'> <a href='admin."
+"php?page=w3tc_cdn#advanced'> saraksta <strong> <strong> noraidītie faili ” "
+"WN Total Cache CDN iestatījumu lapa </a>"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4773
+msgid "Pro Upgrade"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5004
+msgid "Query string"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5009
+msgid "Show bouncing icon"
+msgstr "Rādīt veselīgu ikonu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5026
+msgid "Enable Bicycle Layer?"
+msgstr "Vai iespējot velosipēdistu slāni?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5035
+msgid "Enable Traffic Layer?"
+msgstr "Vai iespējot satiksmes slāni?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5046
+msgid "Enable Public Transport Layer?"
+msgstr "Vai iespējot sabiedriskā transporta slāni?"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5057
+msgid "Maximum Zoom Level"
+msgstr "Maksimālais tālummaiņas līmenis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5089
+msgid ""
+"Get the rest of these advanced features with the Pro version for only <a "
+"href=\"http://www.wpgmaps.com/purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">$39.99 once off</"
+"a>. Support and updates included forever."
+msgstr ""
+"Iegūstiet pārējās šīs uzlabotās funkcijas, izmantojot Pro versiju tikai <a "
+"href=\"http://www.wpgmaps.com/purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\"> $ 39,99 vienreiz "
+"izslēgtai </ a >. Atbalsts un atjauninājumi ir iekļauti uz visiem laikiem."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5127
+msgid "Read data directly from your Fusion Table."
+msgstr "Lasiet datus tieši no Fusion tabulas."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5135
+msgid ""
+"Enable Marker Listing with the <a href=\"http://www.wpgmaps.com/purchase-"
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">Pro version "
+"for only $39.99 once off</a>. Support and updates included forever."
+msgstr ""
+"Iespējojiet marķieru sarakstu, izmantojot <a href=\"http://www.wpgmaps.com/"
+"purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\"> vienreizēju "
+"versiju tikai par 39,99 ASV dolāriem </a>. Atbalsts un atjauninājumi ir "
+"iekļauti uz visiem laikiem."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5141
+msgid "List Markers"
+msgstr "Marķieru saraksts"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5146
+msgid "Advanced table with real time search and filtering"
+msgstr "Papildu tabula ar reālā laika meklēšanu un filtrēšanu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5147
+msgid "beta"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5218
+msgid "Basic"
+msgstr "Pamata"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5219
+msgid "Show a basic list of your markers"
+msgstr "Rādīt galveno marķieru sarakstu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5228
+msgid "Beautiful, responsive, mobile-friendly carousel marker listing"
+msgstr ""
+"Skaists, atsaucīgs, mobilajam lietotājam draudzīgs karuseļveida marķieris"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5236
+msgid "Tabular"
+msgstr "Tabulas"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5237
+msgid "Advanced, tabular marker listing functionality with real time filtering"
+msgstr "Papildu tabulas marķieru saraksts ar reālā laika filtrēšanu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5363
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5424
+msgid "Advanced markers"
+msgstr "Uzlaboti marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5364
+msgid "Polygon"
+msgstr "Poligons"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5412
+msgid "Please add the current marker before trying to add another marker"
+msgstr ""
+"Lūdzu, pievienojiet pašreizējo marķieri, pirms mēģināt pievienot citu "
+"marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5426
+msgid "Add advanced markers"
+msgstr "Pievienojiet uzlabotus marķierus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5426
+msgid "with the Pro version"
+msgstr "ar Pro versiju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5472
+msgid "Select"
+msgstr "Izvēlieties"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5500
+msgid "Add dynamic heatmap data"
+msgstr "Pievienot dinamiskos karstuma kartes datus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5500
+msgid "with the Pro version."
+msgstr "ar Pro versiju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5501
+msgid "View a demo."
+msgstr "Skatīt demonstrāciju."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5510
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5606
+msgid "The map could not load."
+msgstr "Karti nevar ielādēt."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5510
+msgid ""
+"This is normally caused by a conflict with another plugin or a JavaScript "
+"error that is preventing our plugin's Javascript from executing. Please try "
+"disable all plugins one by one and see if this problem persists."
+msgstr ""
+"To parasti izraisa konflikts ar citu spraudni vai JavaScript kļūda, kas "
+"neļauj mūsu spraudņa Javascript izpildei. Lūdzu, mēģiniet atslēgt visus "
+"spraudņus pa vienam un redzēt, vai šī problēma joprojām pastāv."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5537
+msgid "Add detailed information to your markers!"
+msgstr "Pievienot detalizētu informāciju saviem marķieriem!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5537
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5541
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5545
+msgid "Add custom markers to your map!"
+msgstr "Pievienojiet savam kartē pielāgotus marķierus!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5538
+msgid "Add detailed information to your markers for only"
+msgstr "Pievienojiet detalizētu informāciju tikai saviem marķieriem"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5538
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5542
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5546
+msgid "Click"
+msgstr ""
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5538
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5542
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5546
+msgid "here"
+msgstr "šeit"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5542
+msgid ""
+"Add different marker icons, or your own icons to make your map really stand "
+"out!"
+msgstr ""
+"Pievienojiet dažādas marķiera ikonas vai savas ikonas, lai padarītu jūsu "
+"karti patiešām izcilu!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5546
+msgid "Allow your visitors to get directions to your markers!"
+msgstr "Ļaujiet apmeklētājiem iegūt norādes uz jūsu marķieriem!"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5581
+msgid "Edit Marker Location"
+msgstr "Rediģēt marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5590
+msgid "Marker Latitude"
+msgstr "Marķiera platums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5594
+msgid "Marker Longitude"
+msgstr "Marķiera garums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5599
+msgid "Save Marker Location"
+msgstr "Saglabāt marķieri"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5600
+msgid ""
+"Tip: Use your mouse to change the location of the marker. Simply click and "
+"drag it to your desired location."
+msgstr ""
+"Padoms. Izmantojiet peli, lai mainītu marķiera atrašanās vietu. Vienkārši "
+"noklikšķiniet un velciet to uz vēlamo atrašanās vietu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5606
+msgid ""
+"This is normally caused by a conflict with another plugin or a JavaScript "
+"error that is preventing our plugin's Javascript from executing. Please try "
+"disable all plugins one by one and see if this problem persists. If it "
+"persists, please contact nick@wpgmaps.com for support."
+msgstr ""
+"To parasti izraisa konflikts ar citu spraudni vai JavaScript kļūda, kas "
+"neļauj mūsu spraudņa Javascript izpildei. Lūdzu, mēģiniet atslēgt visus "
+"spraudņus pa vienam un redzēt, vai šī problēma joprojām pastāv. Ja tas "
+"turpinās, lūdzu, sazinieties ar nick@wpgmaps.com, lai saņemtu atbalstu."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5778
+msgid ""
+"There are too many markers to make use of the live edit function. The "
+"maximum amount for this functionality is 5000 markers. Anything more than "
+"that could crash your browser. In order to edit your markers, you would need "
+"to download the table in CSV format, edit it and re-upload it."
+msgstr ""
+"Ir pārāk daudz marķieru, lai izmantotu tiešraides rediģēšanas funkciju. "
+"Maksimālā summa šai funkcijai ir 5000 marķieri. Kaut kas vairāk, nekā tas "
+"varētu crash jūsu pārlūkprogrammā. Lai rediģētu savus marķierus, jums ir "
+"nepieciešams lejupielādēt tabulu CSV formātā, rediģēt un atkārtoti "
+"augšupielādēt to."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5844
+msgid "Edit this marker location"
+msgstr "Rediģējiet šo marķiera atrašanās vietu"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6023
+msgid ""
+"The plugin directory does not have 'write' permissions. Please enable "
+"'write' permissions (755) for "
+msgstr ""
+"Spraudņa direktorijā nav “rakstīšanas” atļauju. Lūdzu, iespējojiet \"rakstīt"
+"\" atļaujas (755) "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6025
+msgid "in order for this plugin to work! Please see "
+msgstr "lai šis spraudnis darbotos! Lūdzu apskati "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6029
+msgid "for help on how to do it."
+msgstr "lai saņemtu palīdzību, kā to izdarīt."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6460
+msgid ""
+"WP Google Maps does not have write permission to the marker location "
+"directory. This is required to store marker data. Please CHMOD the folder "
+msgstr ""
+"WP Google Maps nav rakstīšanas atļaujas marķiera atrašanās vietas "
+"direktorijai. Tas nepieciešams, lai saglabātu marķiera datus. Lūdzu izmainīt "
+"CHMOD šai mapei "
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6460
+msgid ""
+" to 755 or 777, or change the directory in the Maps->Settings page. (Current "
+"file permissions are "
+msgstr ""
+" uz 755 vai 777 vai mainiet direktoriju lapā Kartes-> Iestatījumi. "
+"(Pašreizējās failu atļaujas ir"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6488
+msgid ""
+"WP Google Maps has a diverse and wide range of features which may, from time "
+"to time, run into conflicts with the thousands of themes and other plugins "
+"on the market."
+msgstr ""
+"WP Google Maps ir daudzveidīgs un plašs funkciju klāsts, kas laiku pa laikam "
+"var nonākt konfliktā ar tūkstošiem tēmām un citiem tirgū esošajiem "
+"papildinājumiem."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6501
+msgid "Support forum"
+msgstr "Atbalsta forums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6658
+msgid "United States of America"
+msgstr "Amerikas Savienotās Valstis"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6668
+msgid "View the instruction video"
+msgstr "Skatiet videoklipa norādījumus"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6669
+msgid "Read the documentation"
+msgstr "Izlasiet dokumentāciju"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6670
+msgid "Important Notification"
+msgstr "Svarīgs paziņojums"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6671
+msgid "You can read more about that here."
+msgstr "Par to varat uzzināt šeit."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6672
+msgid ""
+"Before you begin please note that *ALL* Google Maps now require an API key "
+"to function."
+msgstr ""
+"Pirms sākat, lūdzu, ņemiet vērā, ka * ALL * Google Maps tagad prasa API "
+"atslēgu, lai darbotos."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6673
+msgid "Create an API key now (free)"
+msgstr "Tagad izveidojiet API atslēgu (bezmaksas)"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6674
+msgid "Once created, simply paste your API key here and press save."
+msgstr ""
+"Kad esat izveidojis, vienkārši ielīmējiet savu API atslēgu šeit un "
+"nospiediet Saglabāt."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6675
+#, php-format
+msgid "Need help? %s or %s."
+msgstr "Vajadzīga palīdzība? % s vai% s."
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6676
+msgid "Google Maps JavaScript API Key: "
+msgstr "Google Maps JavaScript API atslēga"
+
+#: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6678
+msgid "Once saved, it may take up to 5 minutes for your map to display."
+msgstr ""
+"Pēc saglabāšanas var paiet līdz 5 minūtēm, līdz jūsu karte tiks parādīta."
