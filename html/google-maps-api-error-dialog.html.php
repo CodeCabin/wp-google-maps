@@ -1,4 +1,4 @@
-<div id="wpgmza-google-api-error-dialog" data-remodal-id="wpgmza-google-api-error-dialog">
+<div>
 
 	<h2><?php _e('Maps API Error', 'wp-google-maps'); ?></h2>
 	
@@ -10,7 +10,7 @@
 			?>
 		</p>
 	
-		<ul id="wpgmza-google-api-error-list">
+		<ul class="wpgmza-google-api-error-list">
 			<li class="template notice notice-error">
 				<span class="wpgmza-message"></span>
 				<span class="wpgmza-documentation-buttons">
@@ -79,10 +79,10 @@
 		?>
 	</p>
 	
-	<button data-remodal-action="confirm" class="remodal-confirm">
+	<!--<button data-remodal-action="confirm" class="remodal-confirm">
 		<?php
 		_e('Dismiss', 'wp-google-maps');
 		?>
-	</button>
+	</button>-->
 
 </div>

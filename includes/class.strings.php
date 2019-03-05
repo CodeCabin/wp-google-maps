@@ -26,7 +26,12 @@ class Strings
 			'verify_project'			=> __('Verify Project', 'wp-google-maps'),
 			
 			'failed_to_get_address'		=> __('Failed to get address', 'wp-google-maps'),
-			'failed_to_create_marker'	=> __('Failed to create marker %d - this marker will cannot be placed on the map.', 'wp-google-maps')
+			'failed_to_create_marker'	=> __('Failed to create marker %d - this marker will cannot be placed on the map.', 'wp-google-maps'),
+			
+			'my_location'				=> __('My Location', 'wp-google-maps'),
+			
+			'kilometers_away'			=> __('km away', 'wp-google-maps'),
+			'miles_away'				=> __('miles away', 'wp-google-maps')
 		));
 	}
 	

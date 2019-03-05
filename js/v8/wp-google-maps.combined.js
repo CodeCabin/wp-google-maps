@@ -1305,7 +1305,7 @@ jQuery(function($) {
 	}
 	
 	/**
-	 * Attempts to convert latitud eand longitude coordinates into a street address. By default this will simply return the coordinates wrapped in an array.
+	 * Attempts to convert latitude eand longitude coordinates into a street address. By default this will simply return the coordinates wrapped in an array.
 	 * @method
 	 * @memberof WPGMZA.Geocoder
 	 * @param {object} options The options to geocode, latLng is mandatory.
@@ -1369,7 +1369,7 @@ jQuery(function($) {
 		if(WPGMZA.is_admin == 1)
 			this.element.find(".wpgmza-front-end-only").remove();
 		
-		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
+		this.errorMessageList = this.element.find(".wpgmza-google-api-error-list");
 		this.templateListItem = this.element.find("li.template").remove();
 		
 		this.messagesAlreadyDisplayed = {};
@@ -1426,6 +1426,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleAPIErrorHandler.prototype.addErrorMessage = function(message, urls)
 	{
+		var self = this;
+		
 		if(this.messagesAlreadyDisplayed[message])
 			return;
 		
@@ -1473,7 +1475,7 @@ jQuery(function($) {
 		
 		$(this.errorMessageList).append(li);
 		
-		if(!this.dialog)
+		/*if(!this.dialog)
 			this.dialog = $(this.element).remodal();
 		
 		switch(this.dialog.getState())
@@ -1486,7 +1488,24 @@ jQuery(function($) {
 			default:
 				this.dialog.open();
 				break;
-		}
+		}*/
+		
+		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+			
+			var container = $(el).find(".wpgmza-google-maps-api-error-overlay");
+
+			if(container.length == 0)
+			{
+				container = $("<div class='wpgmza-google-maps-api-error-overlay'></div>");
+				container.html(self.element.html());
+			}
+			
+			setTimeout(function() {
+				$(el).append(container);
+			}, 100);
+		});
+		
+		$(".gm-err-container").parent().css({"z-index": 1});
 		
 		this.messagesAlreadyDisplayed[message] = true;
 	}
@@ -1785,6 +1804,53 @@ jQuery(function($) {
 	}
 	
 	/**
+	 * Queries the users current location and passes it to a callback, you can pass
+	 * geocodeAddress through options if you would like to also receive the address
+	 * @method
+	 * @memberof WPGMZA.LatLng
+	 * @param {function} A callback to receive the WPGMZA.LatLng
+	 * @param {object} An object of options, only geocodeAddress is currently supported
+	 * @return void
+	 */
+	WPGMZA.LatLng.fromCurrentPosition = function(callback, options)
+	{
+		if(!options)
+			options = {};
+		
+		if(!callback)
+			return;
+		
+		WPGMZA.getCurrentPosition(function(position) {
+			
+			var latLng = new WPGMZA.LatLng({
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			});
+			
+			if(options.geocodeAddress)
+			{
+				var geocoder = WPGMZA.Geocoder.createInstance();
+				
+				geocoder.getAddressFromLatLng({
+					latLng: latLng
+				}, function(results) {
+					
+					if(results.length)
+						latLng.address = results[0];
+					
+					callback(latLng);
+					
+				});
+				
+				
+			}	
+			else
+				callback(latLng);
+			
+		});
+	}
+	
+	/**
 	 * Returns an instnace of WPGMZA.LatLng from an instance of google.maps.LatLng
 	 * @method
 	 * @static
@@ -2022,7 +2088,10 @@ jQuery(function($) {
 		if(this.west < this.east)
 			return (latLng.lng >= this.west && latLng.lng <= this.east);
 		
-		return (latLng.lng >= this.west || this.lng <= this.east);
+		if(this.west < this.east)
+			return (latLng.lng >= this.west || this.lng <= this.east);
+		
+		return (latLng.lng <= this.west || this.lng >= this.east);
 	}
 	
 	WPGMZA.LatLngBounds.prototype.toString = function()
@@ -2181,10 +2250,16 @@ jQuery(function($) {
 	{
 		var constructor;
 		
-		if(WPGMZA.settings.engine == "google-maps")
-			constructor = WPGMZA.GoogleCircle;
-		else
-			constructor = WPGMZA.OLCircle;
+		switch(WPGMZA.settings.engine)
+		{
+			case "open-layers":
+				constructor = WPGMZA.OLCircle;
+				break;
+			
+			default:
+				constructor = WPGMZA.GoogleCircle;
+				break;
+		}
 		
 		return new constructor(options);
 	}
@@ -3473,8 +3548,6 @@ jQuery(function($) {
 	{
 		var self = this;
 		
-		// this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
-		
 		this.addEventListener("click", function(event) {
 			self.onClick(event);
 		});
@@ -3489,6 +3562,9 @@ jQuery(function($) {
 		
 		if(this.map.settings.marker == this.id)
 			self.trigger("select");
+		
+		if(this.infoopen == "1")
+			this.openInfoWindow();
 	}
 	
 	WPGMZA.Marker.prototype.initInfoWindow = function()
@@ -4263,6 +4339,7 @@ jQuery(function($) {
 	{
 		var self = this;
 		var original;
+		var map = WPGMZA.getMapByID(map_id);
 		
 		WPGMZA.assertInstanceOf(this, "ModernStoreLocator");
 		
@@ -4301,7 +4378,7 @@ jQuery(function($) {
 		
 		$(addressInput).on("keydown", function(event) {
 			
-			if(event.keyCode == 13)
+			if(event.keyCode == 13 && self.searchButton.is(":visible"))
 				self.searchButton.trigger("click");
 			
 		});
@@ -4337,10 +4414,14 @@ jQuery(function($) {
 				
 				self.searchButton.hide();
 				self.resetButton.show();
+				
+				map.storeLocator.state = WPGMZA.StoreLocator.STATE_APPLIED;
 			});
 			this.resetButton.on("click", function(event) {
 				self.resetButton.hide();
 				self.searchButton.show();
+				
+				map.storeLocator.state = WPGMZA.StoreLocator.STATE_INITIAL;
 			});
 		}
 		
@@ -4772,13 +4853,18 @@ jQuery(function($) {
 		
 		this.map = map;
 		this.element = element;
+		this.state = WPGMZA.StoreLocator.STATE_INITIAL;
 		
 		// TODO: This will be moved into this module instead of listening to the map event
 		this.map.on("storelocatorgeocodecomplete", function(event) {
 			self.onGeocodeComplete(event);
 		});
 		
-		// Legacy store locator reset
+		// Legacy store locator buttons
+		$(document.body).on("click", ".wpgmza_sl_search_button_" + map.id, function(event) {
+			self.onSearch(event);
+		});
+		
 		$(document.body).on("click", ".wpgmza_sl_reset_button_" + map.id, function(event) {
 			self.onReset(event);
 		});
@@ -4786,6 +4872,9 @@ jQuery(function($) {
 	
 	WPGMZA.StoreLocator.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.StoreLocator.prototype.constructor = WPGMZA.StoreLocator;
+	
+	WPGMZA.StoreLocator.STATE_INITIAL		= "initial";
+	WPGMZA.StoreLocator.STATE_APPLIED		= "applied";
 	
 	WPGMZA.StoreLocator.createInstance = function(map, element)
 	{
@@ -4814,8 +4903,15 @@ jQuery(function($) {
 		this.map.markerFilter.update();
 	}
 	
+	WPGMZA.StoreLocator.prototype.onSearch = function(event)
+	{
+		this.state = WPGMZA.StoreLocator.STATE_APPLIED;
+	}
+	
 	WPGMZA.StoreLocator.prototype.onReset = function(event)
 	{
+		this.state = WPGMZA.StoreLocator.STATE_INITIAL;
+		
 		this._center = null;
 		
 		this.map.markerFilter.update();
@@ -5338,7 +5434,7 @@ jQuery(function($) {
 	if(WPGMZA.settings.engine != "google-maps")
 		return;
 	
-	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
+	if(!window.google || !window.google.maps)
 		return;
 	
 	WPGMZA.GoogleHTMLOverlay = function(map)
@@ -5458,8 +5554,6 @@ jQuery(function($) {
 	WPGMZA.GoogleInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.GoogleInfoWindow.prototype.constructor = WPGMZA.GoogleInfoWindow;
 	
-	WPGMZA.GoogleInfoWindow.WRAPPER_GUID = "a924f451-bd89-4a92-beab-4664ec729535";
-	
 	WPGMZA.GoogleInfoWindow.prototype.setMapObject = function(mapObject)
 	{
 		if(mapObject instanceof WPGMZA.Marker)
@@ -5505,7 +5599,7 @@ jQuery(function($) {
 			this.googleObject
 		);
 		
-		var guid = WPGMZA.GoogleInfoWindow.WRAPPER_GUID;
+		var guid = WPGMZA.guid();
 		var html = "<div id='" + guid + "'>" + this.content + "</div>";
 
 		this.googleInfoWindow.setContent(html);
@@ -7113,7 +7207,7 @@ jQuery(function($) {
 		var self = this;
 		var latLng = mapObject.getPosition();
 		
-		if(!WPGMZA.InfoWindow.prototype.open.call(this, map, mapObject))
+		if(!Parent.prototype.open.call(this, map, mapObject))
 			return false;
 		
 		// Set parent for events to bubble up
@@ -7155,6 +7249,8 @@ jQuery(function($) {
 	
 	WPGMZA.OLInfoWindow.prototype.setContent = function(html)
 	{
+		console.log(html);
+		
 		$(this.element).html("<i class='fa fa-times ol-info-window-close' aria-hidden='true'></i>" + html);
 	}
 	

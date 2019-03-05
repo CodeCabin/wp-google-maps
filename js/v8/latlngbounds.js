@@ -124,7 +124,10 @@ jQuery(function($) {
 		if(this.west < this.east)
 			return (latLng.lng >= this.west && latLng.lng <= this.east);
 		
-		return (latLng.lng >= this.west || this.lng <= this.east);
+		if(this.west < this.east)
+			return (latLng.lng >= this.west || this.lng <= this.east);
+		
+		return (latLng.lng <= this.west || this.lng >= this.east);
 	}
 	
 	WPGMZA.LatLngBounds.prototype.toString = function()

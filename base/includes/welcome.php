@@ -1,7 +1,13 @@
 <?php global $wpgmza_global_array; ?>
 <div class="wrap about-wrap">
 <p>&nbsp;</p>
-<h1><?php echo sprintf( __( "Welcome to WP Google Maps version %s","wp-google-maps"), "7.0" ); ?></h1>
+
+<h1><?php 
+
+global $wpgmza;
+printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->getBasicVersion());
+
+?></h1>
 
 <div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 

@@ -28,8 +28,18 @@
     height: 250px;
 }
 
-.ui-tabs-nav li {
+#wpgmaps_tabs .ui-tabs-nav li,
+	#wpgmaps_tabs_markers .ui-tabs-nav li
+{
+	padding: 0px !important;
+	display: inline-block;
+}
+
+#wpgmaps_tabs .ui-tabs-nav li > a,
+	#wpgmaps_tabs_markers .ui-tabs-nav li > a
+{
     display: inline-block;
+	padding: 10px 15px;
 }
 
 .ui-widget-header {

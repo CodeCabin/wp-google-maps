@@ -10,7 +10,7 @@ jQuery(function($) {
 	if(WPGMZA.settings.engine != "google-maps")
 		return;
 	
-	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
+	if(!window.google || !window.google.maps)
 		return;
 	
 	WPGMZA.GoogleHTMLOverlay = function(map)

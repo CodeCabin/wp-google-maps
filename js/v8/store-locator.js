@@ -15,13 +15,18 @@ jQuery(function($) {
 		
 		this.map = map;
 		this.element = element;
+		this.state = WPGMZA.StoreLocator.STATE_INITIAL;
 		
 		// TODO: This will be moved into this module instead of listening to the map event
 		this.map.on("storelocatorgeocodecomplete", function(event) {
 			self.onGeocodeComplete(event);
 		});
 		
-		// Legacy store locator reset
+		// Legacy store locator buttons
+		$(document.body).on("click", ".wpgmza_sl_search_button_" + map.id, function(event) {
+			self.onSearch(event);
+		});
+		
 		$(document.body).on("click", ".wpgmza_sl_reset_button_" + map.id, function(event) {
 			self.onReset(event);
 		});
@@ -29,6 +34,9 @@ jQuery(function($) {
 	
 	WPGMZA.StoreLocator.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.StoreLocator.prototype.constructor = WPGMZA.StoreLocator;
+	
+	WPGMZA.StoreLocator.STATE_INITIAL		= "initial";
+	WPGMZA.StoreLocator.STATE_APPLIED		= "applied";
 	
 	WPGMZA.StoreLocator.createInstance = function(map, element)
 	{
@@ -57,8 +65,15 @@ jQuery(function($) {
 		this.map.markerFilter.update();
 	}
 	
+	WPGMZA.StoreLocator.prototype.onSearch = function(event)
+	{
+		this.state = WPGMZA.StoreLocator.STATE_APPLIED;
+	}
+	
 	WPGMZA.StoreLocator.prototype.onReset = function(event)
 	{
+		this.state = WPGMZA.StoreLocator.STATE_INITIAL;
+		
 		this._center = null;
 		
 		this.map.markerFilter.update();

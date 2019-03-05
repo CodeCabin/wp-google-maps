@@ -1,6 +1,11 @@
 <div class="wrap about-wrap">
 
-<h1><?php _e("Welcome to WP Google Maps version 7.0","wp-google-maps"); ?></h1>
+<h1><?php 
+
+global $wpgmza;
+printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->getBasicVersion());
+
+?></h1>
 
 <div class="about-text"><?php _e("Thank you for updating! WP Google Maps version 7 helps you build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 
