@@ -424,6 +424,7 @@ class ScriptLoader
 		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
 		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 		
+		wp_enqueue_style('wpgmza-common', plugin_dir_url(__DIR__) . 'css/common.css');
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
 	}

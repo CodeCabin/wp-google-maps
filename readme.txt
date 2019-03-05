@@ -217,6 +217,19 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.10 :- 2019-03-05 :- Low priority =
+* Changed Google Maps API error handler to render in a panel rather than in a modal dialog
+* Removed "In light of recent E GDPR regulation" admin notice
+* Fixed clicking listen item outside link has no effect on map edit page tabs
+
+= 7.11.09 :- 2019-02-28 :- Medium priority =
+* Added disableInfoWindow to map objects which is used by InfoWindow.prototype.open
+* Added LatLng.fromCurrentPosition
+* Added warning and explanation when Google Maps is selected but API loader is not allowed to load the API
+* Non-standard jQuery versions now issue console warning rather than cancelling map initialisation
+* Map element now fires infowindow close event
+* Fixed infowindow close event firing after infowindow element removed
+
 = 7.11.08 :- 2019-02-25 :- Medium priority =
 * Google Maps API error dialog is now shown when in developer mode
 * Fixed missing link on "No API Keys" message in Google Maps API error dialog

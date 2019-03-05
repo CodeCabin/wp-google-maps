@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.09
+Version: 7.11.10
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,9 +11,19 @@ Domain Path: /languages
 */
 
 /*
- * 7.11.09
+ * 7.11.11
+ * Allowed LatLngBounds to wrap around 180th meridian, Gold now clusters correctly on wide or zoomed out maps
+ *
+ * 7.11.10 :- 2019-03-05 :- Low priority
+ * Changed Google Maps API error handler to render in a panel rather than in a modal dialog
+ * Removed "In light of recent GDPR regulation" admin notice
+ * Fixed clicking listen item outside link has no effect on map edit page tabs
+ *
+ * 7.11.09 :- 2019-02-28 :- Medium priority
  * Added disableInfoWindow to map objects which is used by InfoWindow.prototype.open
  * Added LatLng.fromCurrentPosition
+ * Added warning and explanation when Google Maps is selected but API loader is not allowed to load the API
+ * Non-standard jQuery versions now issue console warning rather than cancelling map initialisation
  * Map element now fires infowindow close event
  * Fixed infowindow close event firing after infowindow element removed
  *

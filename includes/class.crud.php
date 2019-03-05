@@ -604,7 +604,8 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$stmt = $wpdb->prepare("SELECT $arbitrary_data_column_name FROM {$this->table_name} WHERE id=%d", array($this->id));
 		
-		$data = maybe_unserialize($wpdb->get_var());
+		$raw = $wpdb->get_var($stmt);
+		$data = maybe_unserialize($raw);
 		
 		if(empty($data))
 			$data = array();

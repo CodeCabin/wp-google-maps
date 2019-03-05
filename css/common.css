@@ -1,0 +1,113 @@
+/** Override the auto complete styles */
+.pac-container {
+    border-radius: 2px;
+    border-top: none;
+    font-family: Roboto, sans-serif;
+
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    -o-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+}
+
+.pac-container .pac-item{
+    border-top: none;
+}
+
+.pac-container .pac-item .pac-item-query{
+    color: #333;
+
+}
+
+.wpgmza-google-maps-api-error-overlay,
+	.wpgmza-google-maps-api-error-overlay *
+{
+	text-align: left;
+}
+
+.wpgmza-google-api-error-list
+{
+	list-style: none;
+}
+
+.wpgmza-google-api-error-list li
+{
+	background: ghostwhite;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+
+.wpgmza-google-api-error-list li:before
+{
+	content: "\26D4";
+	color: red;
+}
+
+.wpgmza-google-maps-api-error-overlay a
+{
+	color: blue;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons
+{
+	float: right;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a
+{
+	color: #444444;
+    background: #F3F3F3;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 9pt;
+    outline: none;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a:hover {
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: #F7F7F7;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a:active {
+    box-shadow: inset 1px 1px 1px #DFDFDF;   
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a i
+{
+	font-weight: bold;
+	padding-right: 0.3em;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-front-end-only
+{
+	color: red;
+	font-size: 0.8em;
+}
+
+.wpgmza-google-html-overlay
+{
+	position: absolute;
+}
+
+.wpgmza-google-maps-api-error-overlay
+{
+	position: absolute;
+	
+	top: 0px;
+	left: 0px;
+	
+	width: 100%;
+	height: 100%;
+	
+	background: rgba(255,255,255,0.8);
+	padding: 1em;
+	
+	text-align: center;
+	z-index: 2;
+	
+	overflow-y: scroll;
+}

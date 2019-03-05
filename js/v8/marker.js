@@ -135,8 +135,6 @@ jQuery(function($) {
 	{
 		var self = this;
 		
-		// this.infoWindow = WPGMZA.InfoWindow.createInstance(this);
-		
 		this.addEventListener("click", function(event) {
 			self.onClick(event);
 		});
@@ -151,6 +149,9 @@ jQuery(function($) {
 		
 		if(this.map.settings.marker == this.id)
 			self.trigger("select");
+		
+		if(this.infoopen == "1")
+			this.openInfoWindow();
 	}
 	
 	WPGMZA.Marker.prototype.initInfoWindow = function()

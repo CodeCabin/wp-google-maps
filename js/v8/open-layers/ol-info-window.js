@@ -39,7 +39,7 @@ jQuery(function($) {
 		var self = this;
 		var latLng = mapObject.getPosition();
 		
-		if(!WPGMZA.InfoWindow.prototype.open.call(this, map, mapObject))
+		if(!Parent.prototype.open.call(this, map, mapObject))
 			return false;
 		
 		// Set parent for events to bubble up
@@ -81,6 +81,8 @@ jQuery(function($) {
 	
 	WPGMZA.OLInfoWindow.prototype.setContent = function(html)
 	{
+		console.log(html);
+		
 		$(this.element).html("<i class='fa fa-times ol-info-window-close' aria-hidden='true'></i>" + html);
 	}
 	

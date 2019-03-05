@@ -58,16 +58,41 @@ class GoogleMapsAPILoader
 	 */
 	const ENQUEUED						= 'ENQUEUED';
 	
+	private static $apiWillNotLoadWarningDisplayed = false;
+	
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
+		global $wpgmza;
+		
 		$include_allowed = $this->isIncludeAllowed($status);
 		$isAllowed = $this->isIncludeAllowed($status);
 		
 		wp_enqueue_script('wpgmza_data', plugin_dir_url(__DIR__) . 'wpgmza_data.js');
 		wp_localize_script('wpgmza_data', 'wpgmza_google_api_status', (array)$status);
+		
+		if($wpgmza->settings->engine == "google-maps" && !$isAllowed && !GoogleMapsAPILoader::$apiWillNotLoadWarningDisplayed)
+		{
+			GoogleMapsAPILoader::$apiWillNotLoadWarningDisplayed = true;
+			
+			add_action('admin_notices', function() use ($status) {
+				?>
+				<div class="notice notice-warning is-dismissable">
+					<p>
+						<?php
+						_e( sprintf(
+							'WP Google Maps: You have selected the Google Maps engine, but the Google Maps API is not being loaded for the following reason: %s.<br/>We recommend you uncheck "Do not load Google Maps API" and set "Load Maps Engine API" to "Where Required" in your <a href="%s">maps settings page</a>', 
+							$status->message,
+							admin_url('admin.php?page=wp-google-maps-menu-settings')
+						));
+						?>
+					</p>
+				</div>
+				<?php
+			});
+		}
 	}
 	
 	/**

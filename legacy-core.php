@@ -2,6 +2,28 @@
 
 require_once(plugin_dir_path(__FILE__) . 'constants.php');
 
+if(!function_exists('wpgmza_show_rest_api_missing_error'))
+{
+	function wpgmza_show_rest_api_missing_error()
+	{
+		?>
+		<div class="notice notice-error">
+				<p>
+					<?php
+					_e('<strong>WP Google Maps:</strong> This plugin requires the WordPress REST API, which does not appear to be present on this installation. Please update WordPress to version 4.7 or above.', 'wp-google-maps');
+					?>
+				</p>
+			</div>
+		<?php
+	}
+
+	if(!function_exists('get_rest_url'))
+	{
+		add_action('admin_notices', 'wpgmza_show_rest_api_missing_error');
+		return;
+	}
+}
+
 define("WPGMZA_DIR_PATH", plugin_dir_path(__FILE__));
 define('WPGMZA_FILE', __FILE__);
 
@@ -4840,7 +4862,6 @@ function wpgmza_basic_menu() {
 	$maps_engine_dialog_html = $maps_engine_dialog->html();
 	
 	global $wpgmzaGDPRCompliance;
-	$gdpr_privacy_notice_html = $wpgmzaGDPRCompliance->getPrivacyPolicyNoticeHTML();
 	
 	// Admin marker table
 	$ajaxParameters = array(
@@ -4861,8 +4882,6 @@ function wpgmza_basic_menu() {
                 <div class='wide'>
 
                     <h2>".__("Create your Map","wp-google-maps")."</h2>
-					
-					$gdpr_privacy_notice_html
 					
                     <form action='' method='post' id='wpgmaps_options'>
                     
