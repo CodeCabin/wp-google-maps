@@ -55,9 +55,9 @@ jQuery(function($) {
 			q: options.address,
 			format: "json"
 		};
-		
-		if(options.componentRestrictions && options.componentRestrictions.country)
-			data.countryCodes = options.componentRestrictions.country;
+
+        if(options.componentRestrictions && options.componentRestrictions.country)
+        	data.countrycodes = options.componentRestrictions.country;
 		
 		$.ajax("https://nominatim.openstreetmap.org/search/", {
 			data: data,
