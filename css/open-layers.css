@@ -53,14 +53,14 @@
 
 .ol-marker
 {
-	/* position: relative; */
+	position: relative;
 }
 
 .ol-marker>img
 {
-	position: absolute;
+	/*position: absolute;
 	bottom: 0px;
-	transform: translateX(-50%);
+	transform: translateX(-50%);*/
 	max-width: none;
 	z-index: 2;
 }
@@ -156,4 +156,14 @@
 	width: 100%;
 	max-width: 100% !important;
 	z-index: 99;
+}
+
+.wpgmza-modern-store-locator
+{
+	pointer-events: none;
+}
+
+.wpgmza-modern-store-locator>.wpgmza-inner
+{
+	pointer-events: all;
 }

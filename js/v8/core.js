@@ -338,6 +338,9 @@ jQuery(function($) {
 			{
 				trigger = "userlocationupdated";
 				nativeFunction = "watchPosition";
+				
+				// Call again immediatly to get current position, watchPosition won't fire until the user moves
+				WPGMZA.getCurrentPosition(callback, false);
 			}
 			
 			if(!navigator.geolocation)
@@ -453,7 +456,10 @@ jQuery(function($) {
 		getMapByID: function(id) {
 			
 			// Workaround for map ID member not set correctly
-			return MYMAP[id].map;
+			
+			if(WPGMZA.isProVersion())
+				return MYMAP[id].map;
+			return MYMAP.map;
 			
 			for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)

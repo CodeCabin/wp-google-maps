@@ -69,7 +69,7 @@ jQuery(function($) {
 		if(WPGMZA.settings.wpgmza_maps_engine_dialog_done)
 			return;
 		
-		if(WPGMZA.settings.google_maps_api_key)
+		if(WPGMZA.settings.wpgmza_google_maps_api_key && WPGMZA.settings.wpgmza_google_maps_api_key.length)
 			return;
 		
 		WPGMZA.mapsEngineDialog = new WPGMZA.MapsEngineDialog(element);

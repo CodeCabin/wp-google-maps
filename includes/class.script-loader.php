@@ -105,12 +105,23 @@ class ScriptLoader
 		
 		$plugin_dir_url = plugin_dir_url(__DIR__);
 		
+		$minified = ($wpgmza->isUsingMinifiedScripts() ? '.min' : '');
+		
 		$libraryDependencies = array(
-			'datatables'		=> $plugin_dir_url . 'js/jquery.dataTables.min.js',
-			'javascript-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
-			'remodal'			=> $plugin_dir_url . 'lib/' . ($wpgmza->isUsingMinifiedScripts() ? 'remodal.min.js' : 'remodal.js'),
+			'datatables'		=> $plugin_dir_url . "js/jquery.dataTables{$minified}.js",
+			'javascript-cookie'	=> $plugin_dir_url . 'lib/jquery-cookie.js',
+			'remodal'			=> $plugin_dir_url . "lib/remodal{$minified}.js",
 			'spectrum'			=> $plugin_dir_url . 'lib/spectrum.js'
 		);
+		
+		/*if($wpgmza->isProVersion())
+		{
+			$pro_dir = plugin_dir_url(WPGMZA_PRO_FILE);
+			
+			$libraryDependencies = array_merge($libraryDependencies, array(
+				$pro_dir . 'lib/pagination.min.js'
+			));
+		}*/
 		
 		if($wpgmza->getCurrentPage() && is_admin())
 		{
@@ -413,6 +424,7 @@ class ScriptLoader
 		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
 		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 		
+		wp_enqueue_style('wpgmza-common', plugin_dir_url(__DIR__) . 'css/common.css');
 		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
 	}
@@ -552,15 +564,7 @@ class ScriptLoader
 		global $wpgmza;
 		
 		$data = $wpgmza->getLocalizedData();
-		
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', (array)$data);
-	}
-	
-	public function onScriptLoaderTag($tag, $handle, $src)
-	{
-		if(preg_match('/^wpgmza|wpgmaps/i', $handle))
-			return preg_replace('/defer=([\'"]defer[\'"])?/', '', $tag);
-		
-		return $tag;
+
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
 	}
 }

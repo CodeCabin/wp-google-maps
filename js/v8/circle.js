@@ -40,10 +40,16 @@ jQuery(function($) {
 	{
 		var constructor;
 		
-		if(WPGMZA.settings.engine == "google-maps")
-			constructor = WPGMZA.GoogleCircle;
-		else
-			constructor = WPGMZA.OLCircle;
+		switch(WPGMZA.settings.engine)
+		{
+			case "open-layers":
+				constructor = WPGMZA.OLCircle;
+				break;
+			
+			default:
+				constructor = WPGMZA.GoogleCircle;
+				break;
+		}
 		
 		return new constructor(options);
 	}

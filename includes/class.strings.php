@@ -19,12 +19,19 @@ class Strings
 			'use_my_location'			=> __('Use my location', 'wp-google-maps'),
 			
 			'google_api_not_loaded'		=> __('The map cannot be initialized because the Maps API has not been loaded. Please check your settings.', 'wp-google-maps'),
+			'no_google_maps_api_key'	=> __('You have not entered a Google Maps API Key. Please see our documentation on obtaining an API key.', 'wp-google-maps'),
 			
 			'documentation'				=> __('Documentation', 'wp-google-maps'),
 			'api_dashboard'				=> __('API Dashboard', 'wp-google-maps'),
 			'verify_project'			=> __('Verify Project', 'wp-google-maps'),
 			
-			'failed_to_get_address'		=> __('Failed to get address', 'wp-google-maps')
+			'failed_to_get_address'		=> __('Failed to get address', 'wp-google-maps'),
+			'failed_to_create_marker'	=> __('Failed to create marker %d - this marker will cannot be placed on the map.', 'wp-google-maps'),
+			
+			'my_location'				=> __('My Location', 'wp-google-maps'),
+			
+			'kilometers_away'			=> __('km away', 'wp-google-maps'),
+			'miles_away'				=> __('miles away', 'wp-google-maps')
 		));
 	}
 	

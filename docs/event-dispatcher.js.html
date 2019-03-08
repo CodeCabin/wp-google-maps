@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: event-dispatcher.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: event-dispatcher.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace WPGMZA
+ * @module EventDispatcher
+ * @requires WPGMZA
+ */
+(function($) {
+	
+	WPGMZA.EventDispatcher = function()
+	{
+		WPGMZA.assertInstanceOf(this, "EventDispatcher");
+		
+		this._listenersByType = [];
+	}
+
+	WPGMZA.EventDispatcher.prototype.addEventListener = function(type, listener, thisObject, useCapture)
+	{
+		var arr;
+		
+		var types = type.split(/\s+/);
+		if(types.length > 1)
+		{
+			for(var i = 0; i &lt; types.length; i++)
+				this.addEventListener(types[i], listener, thisObject, useCapture);
+			
+			return;
+		}
+		
+		if(!(listener instanceof Function))
+			throw new Error("Listener must be a function");
+
+		if(!(arr = this._listenersByType[type]))
+			arr = this._listenersByType[type] = [];
+			
+		var obj = {
+			listener: listener,
+			thisObject: (thisObject ? thisObject : this),
+			useCapture: (useCapture ? true : false)
+			};
+			
+		arr.push(obj);
+	}
+
+	WPGMZA.EventDispatcher.prototype.on = WPGMZA.EventDispatcher.prototype.addEventListener;
+
+	WPGMZA.EventDispatcher.prototype.removeEventListener = function(type, listener, thisObject, useCapture)
+	{
+		var arr, index, obj;
+
+		if(!(arr = this._listenersByType[type]))
+			return;
+			
+		if(!thisObject)
+			thisObject = this;
+			
+		useCapture = (useCapture ? true : false);
+		
+		for(var i = 0; i &lt; arr.length; i++)
+		{
+			obj = arr[i];
+		
+			if(obj.listener == listener &amp;&amp; obj.thisObject == thisObject &amp;&amp; obj.useCapture == useCapture)
+			{
+				arr.splice(i, 1);
+				return;
+			}
+		}
+	}
+
+	WPGMZA.EventDispatcher.prototype.off = WPGMZA.EventDispatcher.prototype.removeEventListener;
+
+	WPGMZA.EventDispatcher.prototype.hasEventListener = function(type)
+	{
+		return (_listenersByType[type] ? true : false);
+	}
+
+	WPGMZA.EventDispatcher.prototype.dispatchEvent = function(event)
+	{
+		if(!(event instanceof WPGMZA.Event))
+		{
+			if(typeof event == "string")
+				event = new WPGMZA.Event(event);
+			else
+			{
+				var src = event;
+				event = new WPGMZA.Event();
+				for(var name in src)
+					event[name] = src[name];
+			}
+		}
+
+		event.target = this;
+			
+		var path = [];
+		for(var obj = this.parent; obj != null; obj = obj.parent)
+			path.unshift(obj);
+		
+		event.phase = WPGMZA.Event.CAPTURING_PHASE;
+		for(var i = 0; i &lt; path.length &amp;&amp; !event._cancelled; i++)
+			path[i]._triggerListeners(event);
+			
+		if(event._cancelled)
+			return;
+			
+		event.phase = WPGMZA.Event.AT_TARGET;
+		this._triggerListeners(event);
+			
+		event.phase = WPGMZA.Event.BUBBLING_PHASE;
+		for(i = path.length - 1; i >= 0 &amp;&amp; !event._cancelled; i--)
+			path[i]._triggerListeners(event);
+	}
+
+	WPGMZA.EventDispatcher.prototype.trigger = WPGMZA.EventDispatcher.prototype.dispatchEvent;
+
+	WPGMZA.EventDispatcher.prototype._triggerListeners = function(event)
+	{
+		var arr, obj;
+		
+		if(!(arr = this._listenersByType[event.type]))
+			return;
+			
+		for(var i = 0; i &lt; arr.length; i++)
+		{
+			obj = arr[i];
+			
+			if(event.phase == WPGMZA.Event.CAPTURING_PHASE &amp;&amp; !obj.useCapture)
+				continue;
+				
+			obj.listener.call(arr[i].thisObject, event);
+		}
+	}
+
+	WPGMZA.events = new WPGMZA.EventDispatcher();
+
+})(jQuery);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Circle.html">Circle</a></li><li><a href="module-Distance.html">Distance</a></li><li><a href="module-Event.html">Event</a></li><li><a href="module-EventDispatcher.html">EventDispatcher</a></li><li><a href="module-FriendlyError.html">FriendlyError</a></li><li><a href="module-Geocoder.html">Geocoder</a></li><li><a href="module-GoogleCircle.html">GoogleCircle</a></li><li><a href="module-GoogleGeocoder.html">GoogleGeocoder</a></li><li><a href="module-GoogleInfoWindow.html">GoogleInfoWindow</a></li><li><a href="module-GoogleMap.html">GoogleMap</a></li><li><a href="module-GoogleMarker.html">GoogleMarker</a></li><li><a href="module-GoogleModernStoreLocator.html">GoogleModernStoreLocator</a></li><li><a href="module-GoogleModernStoreLocatorCircle.html">GoogleModernStoreLocatorCircle</a></li><li><a href="module-GooglePolygon.html">GooglePolygon</a></li><li><a href="module-GooglePolyline.html">GooglePolyline</a></li><li><a href="module-GoogleVertexContextMenu.html">GoogleVertexContextMenu</a></li><li><a href="module-InfoWindow.html">InfoWindow</a></li><li><a href="module-LatLng.html">LatLng</a></li><li><a href="module-LatLngBounds.html">LatLngBounds</a></li><li><a href="module-Map.html">Map</a></li><li><a href="module-MapObject.html">MapObject</a></li><li><a href="module-MapsEngineDialog.html">MapsEngineDialog</a></li><li><a href="module-MapSettings.html">MapSettings</a></li><li><a href="module-Marker.html">Marker</a></li><li><a href="module-ModernStoreLocator.html">ModernStoreLocator</a></li><li><a href="module-ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLCircle.html">OLCircle</a></li><li><a href="module-OLGeocoder.html">OLGeocoder</a></li><li><a href="module-OLInfoWindow.html">OLInfoWindow</a></li><li><a href="module-OLMap.html">OLMap</a></li><li><a href="module-OLMarker.html">OLMarker</a></li><li><a href="module-OLModernStoreLocator.html">OLModernStoreLocator</a></li><li><a href="module-OLModernStoreLocatorCircle.html">OLModernStoreLocatorCircle</a></li><li><a href="module-OLPolygon.html">OLPolygon</a></li><li><a href="module-OLPolyline.html">OLPolyline</a></li><li><a href="module-Polygon.html">Polygon</a></li><li><a href="module-Polyline.html">Polyline</a></li><li><a href="module-WPGMZA.html">WPGMZA</a></li></ul><h3>Classes</h3><ul><li><a href="module-Circle-Circle.html">Circle</a></li><li><a href="module-ModernStoreLocatorCircle-WPGMZA.ModernStoreLocatorCircle.html">ModernStoreLocatorCircle</a></li><li><a href="module-OLGeocoder-OLGeocoder.html">OLGeocoder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed May 16 2018 13:18:38 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

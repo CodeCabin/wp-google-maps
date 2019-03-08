@@ -103,97 +103,11 @@
 		unbindSaveReminder();
 	}
 	
-	function wpgmza_select_all_markers()
-	{
-		$("#wpgmza_table input[name='mark']").prop("checked", "checked");
-	}
-	
-	function wpgmza_bulk_delete()
-	{
-		var ids = [];
-		
-		// Gather IDs to delete
-		$("#wpgmza_table input[name='mark']:checked").each(function(index, el) {
-			ids.push( $(el).closest("tr").attr("id").match(/\d+$/)[0] );
-		});
-		
-		if(ids.length == 0)
-		{
-			alert("No markers selected");
-			return;
-		}
-		
-		// Prompt user to confirm
-		if(!confirm("Confirm deleting " + ids.length + " marker(s)"))
-			return;
-		
-		// Get ready
-		var data = {
-			action: "delete_marker",
-			security: wpgmaps_nonce,
-			map_id: wpgmaps_mapid
-		};
-		
-		// Count responses separately since were shifting ids straight off the array async
-		var counter = ids.length;
-		
-		function sendDeleteRequest(id)
-		{
-			$.post(ajaxurl, $.extend({marker_id: id}, data), function(response) {
-				if(--counter == 1)
-				{
-					// Send very last one synchronous so tables don't collide
-					var last = ids.shift();
-					sendDeleteRequest(last);
-				}
-				else if(counter == 0)
-				{
-					// Receive last response
-					jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
-					wpgmza_reinitialisetbl();
-				}
-			});
-			
-			wpgmaps_markers_array[id].setMap(null);
-			delete wpgmaps_markers_array[id];
-		}
-		
-		// Send all but one delete request async, last one is send inside sendDeleteRequest
-		while(ids.length > 1)
-		{
-			var id = ids.shift();
-			sendDeleteRequest(id);
-		}
-	}
-
-	jQuery(function($) {
-		
-		if(WPGMZA.isProVersion())
-		{
-			if(console && console.warn)
-				console.warn("Unexpected plugin load order");
-			
-			return;
-		}
-		
+    jQuery(document).ready(function(){
 		$("input[type='submit'].button-primary").on("click", function() {
 			unbindSaveReminder();
 		});
 		
-		$(document.body).on("click", function(event) {
-			if($(event.target).is(".wpgmza.bulk_delete"))
-			{
-				wpgmza_bulk_delete();
-				return;
-			}
-			
-			if($(event.target).is(".wpgmza.select_all_markers"))
-			{
-				wpgmza_select_all_markers();
-				return;
-			}
-		});
-
         jQuery("select[name=wpgmza_table_length]").change(function () {
             wpgmza_table_length = jQuery(this).val();
         })
@@ -230,18 +144,20 @@
 			}
 		}
         
-        wpgmzaTable = jQuery('#wpgmza_table').DataTable({
+        /*wpgmzaTable = jQuery('#wpgmza_table').DataTable({
             "bProcessing": true,
             "aaSorting": [[ 0, "desc" ]]
-        });
+        });*/
 		
+		/**
+		 * Previously this would re-initialize the control. This shim
+		 * simply now triggers an AJAX update
+		 */
         function wpgmza_reinitialisetbl() {
-            //wpgmzaTable.fnClearTable( 0 );
-            if (wpgmza_table_length === "") { wpgmza_table_length = 10; }
-            var wpgmzaTable = jQuery('#wpgmza_table').DataTable({
-                "bProcessing": true,
-                "iDisplayLength": wpgmza_table_length
-            });
+			
+			var elem = $("#wpgmza_marker_holder>[data-wpgmza-table]")[0];
+			elem.wpgmzaDataTable.reload();
+			
         }
 		
         function wpgmza_InitMap() {
@@ -285,7 +201,7 @@
                 returned_data = JSON.parse(response);
                 wpgmaps_localize_marker_data = returned_data.marker_data;
                 
-                jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
+                //jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
                 wpgmza_reinitialisetbl();
             });
 
@@ -403,8 +319,26 @@
         var wpgmza_edit_lat = ""; 
         var wpgmza_edit_lng = ""; 
         jQuery("body").on("click", ".wpgmza_edit_btn", function() {
+			
             var cur_id = jQuery(this).attr("id");
-            wpgmza_edit_address = jQuery("#wpgmza_hid_marker_address_"+cur_id).val();
+			
+			WPGMZA.restAPI.call("/markers/" + cur_id, {
+				success: function(result, textStatus, xhr) {
+					
+					console.log(result);
+					
+					jQuery("#wpgmza_edit_id").val(cur_id);
+					
+					jQuery("#wpgmza_add_address").val( result.address );
+					jQuery("#wpgmza_animation").val( result.anim );
+					jQuery("#wpgmza_infoopen").val( result.infoopen );
+					jQuery("#wpgmza_addmarker_div").hide();
+					jQuery("#wpgmza_editmarker_div").show();
+					
+				}
+			});
+			
+            /*wpgmza_edit_address = jQuery("#wpgmza_hid_marker_address_"+cur_id).val();
             var wpgmza_edit_title = jQuery("#wpgmza_hid_marker_title_"+cur_id).val();
             var wpgmza_edit_anim = jQuery("#wpgmza_hid_marker_anim_"+cur_id).val();
             var wpgmza_edit_infoopen = jQuery("#wpgmza_hid_marker_infoopen_"+cur_id).val();
@@ -421,7 +355,10 @@
             jQuery("#wpgmza_animation").val(wpgmza_edit_anim);
             jQuery("#wpgmza_infoopen").val(wpgmza_edit_infoopen);
             jQuery("#wpgmza_addmarker_div").hide();
-            jQuery("#wpgmza_editmarker_div").show();
+            jQuery("#wpgmza_editmarker_div").show();*/
+			
+			
+			
         });
 
         jQuery("#wpgmza_addmarker").click(function(){
@@ -481,8 +418,6 @@
 
                     add_marker(marker_data);
 
-                    //wpgmza_InitMap();
-                    jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
                     enableAddMarkerButton(true);
                     jQuery("#wpgmza_add_address").val("");
                     jQuery("#wpgmza_animation").val("0");
@@ -529,7 +464,6 @@
                             marker_data.point = new WPGMZA.LatLng(wpgm_lat,wpgm_lng);
                             add_marker(marker_data);
 
-                            jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
                             enableAddMarkerButton(true);
                             jQuery("#wpgmza_add_address").val("");
                             jQuery("#wpgmza_animation").val("0");
@@ -616,7 +550,7 @@
                         
                         jQuery("#wpgmza_add_address").val("");
                         jQuery("#wpgmza_add_title").val("");
-                        jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
+                        //jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
                         jQuery("#wpgmza_addmarker_div").show();
                         jQuery("#wpgmza_editmarker_loading").hide();
                         jQuery("#wpgmza_edit_id").val("");
@@ -663,7 +597,7 @@
                         
                         jQuery("#wpgmza_add_address").val("");
                         jQuery("#wpgmza_add_title").val("");
-                        jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
+                        //jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
                         jQuery("#wpgmza_addmarker_div").show();
                         jQuery("#wpgmza_editmarker_loading").hide();
                         jQuery("#wpgmza_edit_id").val("");
@@ -1274,17 +1208,18 @@ function add_rectangle(mapid, data)
 	rectangle_array.push(rectangle);
 }
 
-// Perry Perry Sauce coads
-function updateRoadmapThemeWarning(){
-
+function updateRoadmapThemeWarning()
+{
 	var mapTypeSelectValue = $("select[name='wpgmza_map_type']").val();
 	var warningElements = $(".wpgmza-theme-and-roadmap-warning");
-
-	if(mapTypeSelectValue == 1 || mapTypeSelectValue == 4){
-		//Hide warning here
+	
+	if(mapTypeSelectValue == 1 || mapTypeSelectValue == 4)
+	{
+		// We'll hide the warning here
 		warningElements.hide();
-	} else {
-		//Show warning here
+	}
+	else
+	{
 		warningElements.show();
 	}
 }

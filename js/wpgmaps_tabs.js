@@ -3,18 +3,18 @@ jQuery(function($) {
    $("#wpgmaps_tabs").tabs();
    $("#wpgmaps_tabs_markers").tabs(); 
    
-   $( "#slider-range-max" ).slider({
-      range: "max",
-      min: 1,
-      max: 21,
-      value: $( "#amount" ).val(),
-      slide: function( event, ui ) {
-        $("#wpgmza_start_zoom").val(ui.value);
-        MYMAP.map.setZoom(ui.value);
-        
-        
-      }
-    });
+   if($( "#slider-range-max" ).slider) {
+		$( "#slider-range-max" ).slider({
+			range: "max",
+			min: 1,
+			max: 21,
+			value: $( "#amount" ).val(),
+			slide: function( event, ui ) {
+				$("#wpgmza_start_zoom").val(ui.value);
+					MYMAP.map.setZoom(ui.value);
+			}
+		});
+   }
     
     $('#wpgmza_map_height_type').on('change', function() {
         if (this.value === "%") {

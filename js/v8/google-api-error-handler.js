@@ -28,13 +28,13 @@ jQuery(function($) {
 		if(WPGMZA.is_admin == 1)
 			this.element.find(".wpgmza-front-end-only").remove();
 		
-		this.errorMessageList = this.element.find("#wpgmza-google-api-error-list");
+		this.errorMessageList = this.element.find(".wpgmza-google-api-error-list");
 		this.templateListItem = this.element.find("li.template").remove();
 		
 		this.messagesAlreadyDisplayed = {};
 		
-		if(WPGMZA.settings.developer_mode)
-			return;
+		//if(WPGMZA.settings.developer_mode)
+			//return;
 		
 		// Override error function
 		var _error = console.error;
@@ -45,6 +45,10 @@ jQuery(function($) {
 			
 			_error.apply(this, arguments);
 		}
+		
+		// Check for no API key
+		if(WPGMZA.settings.engine == "google-maps" && (!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length))
+			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/get-a-google-maps-api-key/"]);
 	}
 	
 	/**
@@ -57,6 +61,9 @@ jQuery(function($) {
 	{
 		var m;
 		var regexURL = /http(s)?:\/\/[^\s]+/gm;
+		
+		if(!message)
+			return;
 		
 		if((m = message.match(/You have exceeded your (daily )?request quota for this API/)) || (m = message.match(/This API project is not authorized to use this API/)) || (m = message.match(/^Geocoding Service: .+/)))
 		{
@@ -78,6 +85,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleAPIErrorHandler.prototype.addErrorMessage = function(message, urls)
 	{
+		var self = this;
+		
 		if(this.messagesAlreadyDisplayed[message])
 			return;
 		
@@ -100,9 +109,10 @@ jQuery(function($) {
 				
 				button.attr("href", urls[i]);
 				
-				if(url.match(/google.+documentation/))
+				/*if(url.match(/google.+documentation/))
 				{
-					icon = "fa-google";
+					// icon = "fa-google";
+					icon = "fa-wrench"
 				}
 				else if(url.match(/maps-no-account/))
 				{
@@ -113,7 +123,7 @@ jQuery(function($) {
 				{
 					icon = "fa-wrench";
 					text = WPGMZA.localized_strings.api_dashboard;
-				}
+				}*/
 				
 				$(button).find("i").addClass(icon);
 				$(button).append(text);
@@ -124,7 +134,7 @@ jQuery(function($) {
 		
 		$(this.errorMessageList).append(li);
 		
-		if(!this.dialog)
+		/*if(!this.dialog)
 			this.dialog = $(this.element).remodal();
 		
 		switch(this.dialog.getState())
@@ -137,7 +147,24 @@ jQuery(function($) {
 			default:
 				this.dialog.open();
 				break;
-		}
+		}*/
+		
+		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+			
+			var container = $(el).find(".wpgmza-google-maps-api-error-overlay");
+
+			if(container.length == 0)
+			{
+				container = $("<div class='wpgmza-google-maps-api-error-overlay'></div>");
+				container.html(self.element.html());
+			}
+			
+			setTimeout(function() {
+				$(el).append(container);
+			}, 100);
+		});
+		
+		$(".gm-err-container").parent().css({"z-index": 1});
 		
 		this.messagesAlreadyDisplayed[message] = true;
 	}

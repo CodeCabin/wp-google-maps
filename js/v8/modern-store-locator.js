@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module ModernStoreLocator
  * @requires WPGMZA
+ * @pro-requires WPGMZA.UseMyLocationButton
  */
 jQuery(function($) {
 	
@@ -16,6 +17,7 @@ jQuery(function($) {
 	{
 		var self = this;
 		var original;
+		var map = WPGMZA.getMapByID(map_id);
 		
 		WPGMZA.assertInstanceOf(this, "ModernStoreLocator");
 		
@@ -54,8 +56,15 @@ jQuery(function($) {
 		
 		$(addressInput).on("keydown", function(event) {
 			
-			if(event.keyCode == 13)
+			if(event.keyCode == 13 && self.searchButton.is(":visible"))
 				self.searchButton.trigger("click");
+			
+		});
+		
+		$(addressInput).on("input", function(event) {
+			
+			self.searchButton.show();
+			self.resetButton.hide();
 			
 		});
 		
@@ -83,10 +92,14 @@ jQuery(function($) {
 				
 				self.searchButton.hide();
 				self.resetButton.show();
+				
+				map.storeLocator.state = WPGMZA.StoreLocator.STATE_APPLIED;
 			});
 			this.resetButton.on("click", function(event) {
 				self.resetButton.hide();
 				self.searchButton.show();
+				
+				map.storeLocator.state = WPGMZA.StoreLocator.STATE_INITIAL;
 			});
 		}
 		
@@ -136,7 +149,7 @@ jQuery(function($) {
 
 		
 		if(numCategories) {
-			this.optionsButton = $('<span class="wpgmza_store_locator_options_button"><i class="fas fa-list"></i></span>');
+			this.optionsButton = $('<span class="wpgmza_store_locator_options_button"><i class="fa fa-list"></i></span>');
 			$(this.searchButton).before(this.optionsButton);
 		}
 		
