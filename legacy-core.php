@@ -4230,7 +4230,7 @@ function wpgmaps_settings_page_basic() {
 			global $wpgmza;
 			$developer_mode_checked = '';
 			
-			if($wpgmza->settings->developer_mode)
+			if(!empty($wpgmza->settings->developer_mode))
 				$developer_mode_checked = 'checked="checked"';
 			
             $ret .= "                <tr>";

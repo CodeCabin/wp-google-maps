@@ -138,12 +138,11 @@ class MarkerFilter extends Factory
 		
 		$query = $this->getQuery();
 		
-		if($fields == null)
+		if(empty($fields))
 			$query->fields[] = '*';
 		else
 			foreach($fields as $field)
 				$query->fields[] = $field;
-			//$query->fields = $fields;
 		
 		$sql = $query->build();
 		
@@ -167,19 +166,3 @@ class MarkerFilter extends Factory
 	
 	
 }
-
-/*$filter = MarkerFilter::createInstance();
-
-header('Content-type: text/plain');
-
-$filter->map_id = 1;
-$filter->center = array(
-	'lat'	=> 51,
-	'lng'	=> -3
-);
-$filter->radius = 500;
-//$filter->keywords = 'test';
-
-print_r( $filter->getFilteredIDs() );
-
-exit;*/

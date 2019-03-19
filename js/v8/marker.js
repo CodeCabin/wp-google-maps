@@ -190,7 +190,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
-
+		
 	}
 	
 	/**

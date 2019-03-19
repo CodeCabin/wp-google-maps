@@ -13,8 +13,10 @@ jQuery(function($) {
 		this.element.wpgmzaDataTable = this;
 		this.dataTableElement = this.getDataTableElement();
 
+		var settings = this.getDataTableSettings();
+		
 		this.phpClass			= $(element).attr("data-wpgmza-php-class");
-		this.dataTable			= $(this.dataTableElement).DataTable(this.getDataTableSettings());
+		this.dataTable			= $(this.dataTableElement).DataTable(settings);
 		this.wpgmzaDataTable	= this;
 	}
 	
@@ -40,6 +42,9 @@ jQuery(function($) {
 				method: "POST",	// We don't use GET because the request can get bigger than some browsers maximum URL lengths
 				data: function(data, settings) {
 					return self.onAJAXRequest(data, settings);
+				},
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
 				}
 			};
 			

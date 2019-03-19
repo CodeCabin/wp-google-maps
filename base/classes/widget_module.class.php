@@ -28,12 +28,21 @@ class wpgmza_widget extends WP_Widget {
      * @return void
      */
     public function widget( $args, $instance ) {
+		
+		if(!isset($instance['title']))
+			$instance['title'] = '';
+		
         $title = apply_filters( 'widget_title', $instance['title'] );
         
         echo $args['before_widget'];
         if ( ! empty( $title ) )
         echo $args['before_title'] . $title . $args['after_title'];
         
+		if(!isset($instance['selection']))
+		{
+			global $wpdb;
+			$instance['selection'] = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}wpgmza_maps ORDER BY id DESC LIMIT 1");
+		}
 
         echo do_shortcode("[wpgmza id='".$instance['selection']."']");
         

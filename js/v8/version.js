@@ -24,6 +24,10 @@ jQuery(function($) {
 		
 	}
 	
+	WPGMZA.Version.GREATER_THAN		= 1;
+	WPGMZA.Version.EQUAL_TO			= 0;
+	WPGMZA.Version.LESS_THAN		= -1;
+	
 	/**
 	 * Compare two software version numbers (e.g. 1.7.1)
 	 * Returns:

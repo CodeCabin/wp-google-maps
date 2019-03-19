@@ -25,7 +25,7 @@ class Map extends Crud
 		switch($name)
 		{
 			case "storeLocatorDistanceUnits":
-				if(!empty($this->wpgmza_store_locator_distance))
+				if(!empty($this->store_locator_distance) && $this->store_locator_distance == 1)
 					return Distance::UNITS_MI;
 				else
 					return Distance::UNITS_KM;

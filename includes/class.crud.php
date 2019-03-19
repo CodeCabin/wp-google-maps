@@ -366,7 +366,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$arbitrary_data_column_name = $this->get_arbitrary_data_column_name();
 		
-		if($arbitrary_data_column_name && isset($this->fields->arbitrary_data_column_name))
+		if($arbitrary_data_column_name && isset($this->fields[$arbitrary_data_column_name]))
 		{
 			$this->parse_arbitrary_data($this->fields[$arbitrary_data_column_name]);
 			unset($this->fields[$arbitrary_data_column_name]);

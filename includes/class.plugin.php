@@ -87,9 +87,6 @@ class Plugin extends Factory
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
-		if(!empty($_COOKIE['wpgmza-developer-mode']))
-			$this->settings->developer_mode = true;
-		
 		add_action('init', array($this, 'onInit'));
 		
 		foreach(Plugin::$enqueueScriptActions as $action)
@@ -149,7 +146,7 @@ class Plugin extends Factory
 		if(!$this->scriptLoader)
 			$this->scriptLoader = new ScriptLoader($this->isProVersion());
 		
-		if(!empty($this->settings->developer_mode))
+		if($this->isInDeveloperMode())
 			$this->scriptLoader->build();
 		
 		if(Plugin::$enqueueScriptsFired)
@@ -258,7 +255,7 @@ class Plugin extends Factory
 	 */
 	public function isUsingMinifiedScripts()
 	{
-		return empty($this->settings->developer_mode);
+		return $this->isInDeveloperMode();
 	}
 	
 	/**
