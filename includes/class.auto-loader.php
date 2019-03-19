@@ -139,7 +139,7 @@ class AutoLoader
 		global $wpgmza;
 		
 		//$cacheFile = $relative . 'includes/auto-loader-cache.json';
-		//$useCache = empty($wpgmza->settings->developer_mode) && file_exists($cacheFile);
+		//$useCache = !$wpgmza->isInDeveloperMode() && file_exists($cacheFile);
 		
 		$classesByFilename = $this->getClassesInPathByFilename($path);
 			

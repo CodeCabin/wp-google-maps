@@ -217,6 +217,24 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.14 :- 2019-03-14 :- Low priority =
+* Added convenience function WPGMZA.getQueryParamValue
+* Most PHP now uses isInDeveloperMode() rather than referencing the setting directly
+* Fixed setting developer mode cookie would set developer mode in database
+
+= 7.11.13 :- 2019-03-11 :- Low priority =
+* Fixed adding "select" function to Array prototype colliding with "select" event listener for markers
+* Fixed sorting direction not respected in AjaxTable following 7.11.11 changes
+
+= 7.11.12 :- 2019-03-08 :- Low priority =
+* Removed debugging code from class.query.php
+* Fixed mismatched setting name for Store Locator distance units causing "miles" to be ignored
+
+= 7.11.11 :- 2019-03-07 :- Low priority =
+* Allowed LatLngBounds to wrap around 180th meridian, Gold now clusters correctly on wide or zoomed out maps
+* Fixed wildcard not being used when no fields passed to Query
+* Fixed notices and inconsistencies with Elementor integration
+
 = 7.11.10 :- 2019-03-05 :- Low priority =
 * Changed Google Maps API error handler to render in a panel rather than in a modal dialog
 * Removed "In light of recent E GDPR regulation" admin notice

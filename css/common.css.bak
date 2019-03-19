@@ -112,18 +112,8 @@
 	overflow-y: scroll;
 }
 
-[data-wpgmza-table]
-{
-	overflow: visible;
-}
-
 .wpgmza-modern-store-locator .wpgmza_cat_checkbox_holder
 {
 	margin: 0 auto;
 	pointer-events: all;
-}
-
-.ol-info-window-plain
-{
-	min-width: 240px;
 }

@@ -145,6 +145,10 @@ class GDPRCompliance
 		@$document->loadHTML( utf8_decode($html) );
 		$document->populate($wpgmza_other_settings);
 		
+		/*echo "<pre>";
+		debug_print_backtrace();
+		echo "</pre>";*/
+		
 		return $document->saveInnerBody();
 	}
 	
@@ -155,6 +159,9 @@ class GDPRCompliance
 	public function getPrivacyPolicyNoticeHTML()
 	{
 		global $wpgmza;
+		
+		// Dropped in 7.11.*
+		return '';
 		
 		if(!empty($wpgmza->settings->privacy_policy_notice_dismissed))
 			return '';

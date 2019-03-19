@@ -249,7 +249,7 @@ class DOMElement extends \DOMElement
 				$temp = new DOMDocument('1.0', 'UTF-8');
 				$str = "<div id='domdocument-import-payload___'>" . $html . "</div>";
 				
-				if(!empty($wpgmza->settings->developer_mode))
+				if($wpgmza->isInDeveloperMode())
 					$temp->loadHTML($str);
 				else
 					@$temp->loadHTML($str);

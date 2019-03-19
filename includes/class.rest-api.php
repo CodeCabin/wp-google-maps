@@ -75,15 +75,15 @@ class RestAPI extends Factory
 			case 'GET':
 				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m))
 				{
-					// TODO: Marker::createInstance should be used here
-					$marker = new Marker($m[1]);
+					$marker = Marker::createInstance($m[1]);
 					return $marker;
 				}
 				
 				$fields = null;
-				if(empty($_GET['fields']))
+				
+				if(isset($_GET['fields']) && is_string($_GET['fields']))
 					$fields = explode(',', $_GET['fields']);
-				else
+				else if(!empty($_GET['fields']))
 					$fields = $_GET['fields'];
 				
 				if(!empty($_GET['filter']))

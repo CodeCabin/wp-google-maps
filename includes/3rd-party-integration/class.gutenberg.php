@@ -60,7 +60,7 @@ class Gutenberg extends \WPGMZA\Factory
 	{
 		global $wpgmza;
 		
-		if(empty($wpgmza->settings->developer_mode))
+		if(!$wpgmza->isInDeveloperMode())
 			return;
 		
 		// NB: Commented out, false positives were causing this file to be wiped

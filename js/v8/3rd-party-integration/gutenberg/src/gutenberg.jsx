@@ -13,7 +13,7 @@
  */
 jQuery(function($) {
 
-	if(!window.wp || !wp.i18n || !wp.blocks || !wp.editor)
+	if(!window.wp || !wp.i18n || !wp.blocks || !wp.editor || !wp.components)
 		return;
 	
 	const { __ } = wp.i18n;

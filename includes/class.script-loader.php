@@ -16,6 +16,7 @@ require_once(plugin_dir_path(__FILE__) . 'open-layers/class.ol-loader.php');
 class ScriptLoader
 {
 	private static $dependencyErrorDisplayed = false;
+	private static $combinedFileBlankErrorDisplayed = false;
 	
 	private $proMode = false;
 	private $logStarted = false;
@@ -398,7 +399,37 @@ class ScriptLoader
 			return;	// No changes, leave the file alone. Updating the file would cause the combined script to be newer than the minified script
 		
 		if(empty($combined))
-			throw new \Exception('Combined file would be blank.');
+		{
+			if(function_exists('add_action'))
+			{
+				if(!ScriptLoader::$combinedFileBlankErrorDisplayed)
+				{
+					add_action('admin_notices', function() {
+						?>
+						<div class='notice notice-error'>
+							<?php
+							_e("
+							<p>
+								<strong>WP Google Maps:</strong> Failed to build combined script file, the resulting file would be blank.
+							</p>
+							<p>
+								<strong>Developers:</strong> Please check that the file is writable and that all script dependencies are resolved.
+							</p>
+							<p>
+								<strong>Users:</strong> Please disable \"Developer Mode\" in Maps &rarr; Settings &rarr; Advanced.
+							</p>
+							");
+							?>
+						</div>
+						<?php
+					});
+					
+					ScriptLoader::$combinedFileBlankErrorDisplayed = true;
+				}
+			}
+			else
+				throw new \Exception('Combined file would be blank.');
+		}
 		
 		file_put_contents($dest, $combined);
 	}

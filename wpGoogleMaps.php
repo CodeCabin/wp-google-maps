@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.10
+Version: 7.11.15
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,8 +11,29 @@ Domain Path: /languages
 */
 
 /*
- * 7.11.11
+ * 7.11.15
+ * Added caching warning to GDPR Compliance settings panel
+ * Added check for wp.components in Gutenberg module
+ * Relaxed "combined file would be blank" from exception to an admin notice when in the WordPress environment
+ *
+ * 7.11.14 :- 2019-03-14 :- Low priority
+ * Added convenience function WPGMZA.getQueryParamValue
+ * Most PHP now uses isInDeveloperMode() rather than referencing the setting directly
+ * Fixed setting developer mode cookie would set developer mode in database
+ *
+ * 7.11.13 :- 2019-03-11 :- Low priority 
+ * Fixed adding "select" function to Array prototype colliding with "select" event listener for markers
+ * Fixed sorting direction not respected in AjaxTable following 7.11.11 changes
+ *
+ * 7.11.12 :- 2019-03-08 :- Low priority
+ * Removed debugging code from class.query.php
+ * Fixed mismatched setting name for Store Locator distance units causing "miles" to be ignored
+ *
+ * 7.11.11 :- 2019-03-07 :- Low priority
  * Allowed LatLngBounds to wrap around 180th meridian, Gold now clusters correctly on wide or zoomed out maps
+ * Altered AjaxTable to treat text fields containing numeric data as numeric, giving more natural sort order on those fields
+ * Fixed wildcard not being used when no fields passed to Query
+ * Fixed notices and inconsistencies with Elementor integration
  *
  * 7.11.10 :- 2019-03-05 :- Low priority
  * Changed Google Maps API error handler to render in a panel rather than in a modal dialog

@@ -54,6 +54,10 @@ jQuery(function($) {
 		
 		inner.append(addressInput);
 		
+		var button;
+		if(button = $(original).find("button.wpgmza-use-my-location"))
+			inner.append(button);
+		
 		$(addressInput).on("keydown", function(event) {
 			
 			if(event.keyCode == 13 && self.searchButton.is(":visible"))
