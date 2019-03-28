@@ -181,4 +181,9 @@ jQuery(function($) {
 		this.googleMarker.setDraggable(draggable);
 	}
 	
+	WPGMZA.GoogleMarker.prototype.setOpacity = function(opacity)
+	{
+		this.googleMarker.setOpacity(opacity);
+	}
+	
 });

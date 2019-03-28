@@ -57,4 +57,23 @@ jQuery(function($) {
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
 	WPGMZA.GoogleCircle.prototype.constructor = WPGMZA.GoogleCircle;
 	
+	WPGMZA.GoogleCircle.prototype.setCenter = function(center)
+	{
+		WPGMZA.Circle.prototype.setCenter.apply(this, arguments);
+		
+		this.googleCircle.setCenter(center);
+	}
+	
+	WPGMZA.GoogleCircle.prototype.setRadius = function(radius)
+	{
+		WPGMZA.Circle.prototype.setRadius.apply(this, arguments);
+		
+		this.googleCircle.setRadius(parseFloat(radius) * 1000);
+	}
+	
+	WPGMZA.GoogleCircle.prototype.setVisible = function(visible)
+	{
+		this.googleCircle.setVisible(visible ? true : false);
+	}
+	
 });

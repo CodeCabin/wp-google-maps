@@ -164,6 +164,11 @@ jQuery(function($) {
 			$(this.element).draggable({disabled: true});
 	}
 	
+	WPGMZA.OLMarker.prototype.setOpacity = function(opacity)
+	{
+		$(this.element).css({opacity: opacity});
+	}
+	
 	WPGMZA.OLMarker.prototype.onDragStart = function(event)
 	{
 		this.isBeingDragged = true;

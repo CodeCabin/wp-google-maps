@@ -217,6 +217,13 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.15 :- 2019-03-25 :- Medium priority =
+* Added caching warning to GDPR Compliance settings panel
+* Added check for wp.components in Gutenberg module
+* Renamed Croation translations to correct -hr.* suffix
+* Fixed incorrect logic causing unapproved markers to appear in Pro marker listings
+* Relaxed "combined file would be blank" from exception to an admin notice when in the WordPress environment
+
 = 7.11.14 :- 2019-03-14 :- Low priority =
 * Added convenience function WPGMZA.getQueryParamValue
 * Most PHP now uses isInDeveloperMode() rather than referencing the setting directly

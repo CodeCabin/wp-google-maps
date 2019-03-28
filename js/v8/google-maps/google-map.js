@@ -136,21 +136,23 @@ jQuery(function($) {
 				lat: parseFloat(clone.center.lat),
 				lng: parseFloat(clone.center.lng)
 			};
-
-		// New Hide POI setting
-
-		if (this.settings.hide_point_of_interest == "1") {
+		
+		if(this.settings.hide_points_of_interest == "1")
+		{
 			var noPoi = {
-						featureType: "poi",
-						elementType: "labels",
-						stylers: [{
-									visibility: "off"
-								}]
-						};
-						if ( !clone.styles || typeof clone.styles == "undefined" ){
-							clone.styles = [];
-						}
-						clone.styles.push( noPoi );
+				featureType: "poi",
+				elementType: "labels",
+				stylers: [
+					{
+						visibility: "off"
+					}
+				]
+			};
+			
+			if(!clone.styles)
+				clone.styles = [];
+			
+			clone.styles.push(noPoi);
 		}
 		
 		this.googleMap.setOptions(clone);
