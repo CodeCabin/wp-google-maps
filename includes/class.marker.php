@@ -140,6 +140,11 @@ class Marker extends Crud implements \JsonSerializable
 				break;
 		}
 	}
+	
+	public function getPosition()
+	{
+		return new LatLng($this->lat, $this->lng);
+	}
 }
 
 // DEPRECATED: This will be handed over to the factory class

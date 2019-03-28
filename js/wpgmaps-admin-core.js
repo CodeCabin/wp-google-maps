@@ -1220,6 +1220,7 @@ function updateRoadmapThemeWarning()
 	}
 	else
 	{
+		// We'll show the warning here
 		warningElements.show();
 	}
 }

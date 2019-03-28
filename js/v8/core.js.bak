@@ -257,15 +257,6 @@ jQuery(function($) {
 			img.src = src;
 		},
 		
-		decodeEntities: function(input)
-		{
-			return input.replace(/&(nbsp|amp|quot|lt|gt);/g, function(m, e) {
-				return m[e];
-			}).replace(/&#(\d+);/gi, function(m, e) {
-				return String.fromCharCode(parseInt(e, 10));
-			});
-		},
-		
 		/**
 		 * Returns true if developer mode is set or if developer mode cookie is set
 		 * @method isDeveloperMode

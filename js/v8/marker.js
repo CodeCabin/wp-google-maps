@@ -384,6 +384,11 @@ jQuery(function($) {
 		
 	}
 	
+	WPGMZA.Marker.prototype.setOpacity = function(opacity)
+	{
+		
+	}
+	
 	/**
 	 * Centers the map this marker belongs to on this marker
 	 * @method

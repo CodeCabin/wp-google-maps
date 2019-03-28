@@ -127,3 +127,70 @@
 {
 	min-width: 240px;
 }
+
+.wpgmza-gallery-input li
+{
+	position: relative;
+	
+	width: 120px;
+	height: 120px;
+	margin: 0.25em;
+	
+	display: inline-block;
+	vertical-align: top;
+	
+	background-size: cover;
+	box-sizing: border-box;
+}
+
+.wpgmza-gallery-input li.wpgmza-add-new-picture
+{
+	cursor: pointer;
+	border: #E8E8E8 dashed 6px;
+	color: #E8E8E8;
+}
+
+.wpgmza-gallery-input li.wpgmza-add-new-picture:hover
+{
+	border-color: lightgray;
+	color: lightgray;
+}
+
+.wpgmza-gallery-input li.wpgmza-add-new-picture>i
+{
+	position: absolute;
+	
+	left: 50%;
+	top: 50%;
+	
+	transform: translate(-50%, -50%);
+	
+	font-size: 32px;
+}
+
+.wpgmza-marker-panel fieldset>*
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpgmza-marker-panel fieldset>label
+{
+	width: 180px;
+}
+
+.wpgmza-marker-icon-preview
+{
+	width: 32px;
+	height: 32px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: #E8E8E8 dashed 6px;
+}
+
+.wpgmza-marker-icon-picker>*
+{
+	display: inline-block;
+	vertical-align: middle;
+}

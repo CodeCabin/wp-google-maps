@@ -45,7 +45,7 @@ class RestAPI extends Factory
 		));
 		
 		register_rest_route(RestAPI::NS, '/markers(\/\d+)?/', array(
-			'methods'				=> array('GET'),
+			'methods'				=> 'GET',
 			'callback'				=> array($this, 'markers')
 		));
 		

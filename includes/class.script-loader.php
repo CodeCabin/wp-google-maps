@@ -468,7 +468,7 @@ class ScriptLoader
 	{
 		global $wpgmza;
 		
-		if($wpgmza->isUsingMinifiedScripts())
+		if(!$wpgmza->isInDeveloperMode())
 		{
 			$dir = ($this->proMode ? plugin_dir_path(WPGMZA_PRO_FILE) : plugin_dir_path(__DIR__));
 			

@@ -11,12 +11,16 @@ Domain Path: /languages
 */
 
 /*
- * 7.11.16 :- 2019-03-27 :- Low priority
+ * 7.11.16 :- 2019-03-28 :- Low priority
+ * Added Catalan translation files
  * Added hide POI logic to WPGMZA.GoogleMap
- * 
- * 7.11.15
+ * Added new global setting WPGMZA.settings.hide_points_of_interest
+ *
+ * 7.11.15 :- 2019-03-25 :- Medium priority
  * Added caching warning to GDPR Compliance settings panel
  * Added check for wp.components in Gutenberg module
+ * Renamed Croation translations to correct -hr.* suffix
+ * Fixed incorrect logic causing unapproved markers to appear in Pro marker listings
  * Relaxed "combined file would be blank" from exception to an admin notice when in the WordPress environment
  *
  * 7.11.14 :- 2019-03-14 :- Low priority

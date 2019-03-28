@@ -48,6 +48,11 @@ jQuery(function($) {
 			xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
 		};
 		
+		if(!params.error)
+			params.error = function(xhr, status, message) {
+				throw new Error(message);
+			}
+		
 		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	

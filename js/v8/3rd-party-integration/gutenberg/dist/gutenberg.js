@@ -15,7 +15,7 @@
  */
 jQuery(function ($) {
 
-	if (!window.wp || !wp.i18n || !wp.blocks || !wp.editor) return;
+	if (!window.wp || !wp.i18n || !wp.blocks || !wp.editor || !wp.components) return;
 
 	var __ = wp.i18n.__;
 	var registerBlockType = wp.blocks.registerBlockType;

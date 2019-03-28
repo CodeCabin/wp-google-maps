@@ -671,7 +671,12 @@ MarkerClusterer.prototype.getExtendedBounds = function(bounds) {
  * @private
  */
 MarkerClusterer.prototype.isMarkerInBounds_ = function(marker, bounds) {
-  return bounds.contains(marker.getPosition());
+  var latlng = marker.getPosition();
+  
+  if(window.WPGMZA && latlng instanceof WPGMZA.LatLng)
+	  latlng = latlng.toGoogleLatLng();
+  
+  return bounds.contains(latlng);
 };
 
 
