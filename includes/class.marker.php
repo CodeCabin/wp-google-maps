@@ -12,6 +12,7 @@ class Marker extends Crud implements \JsonSerializable
 {
 	const DEFAULT_ICON = "//maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png";
 	
+	private static $columns;
 	protected $custom_fields;
 	
 	/**
@@ -26,6 +27,19 @@ class Marker extends Crud implements \JsonSerializable
 		
 		if(class_exists('WPGMZA\\CustomMarkerFields'))
 			$this->custom_fields = apply_filters('wpgmza_get_marker_custom_fields', $this->id);
+	}
+	
+	public static function getColumns()
+	{
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_MARKERS;
+		
+		if(Marker::$columns)
+			return Marker::$columns;
+		
+		Marker::$columns = $wpdb->get_results('SHOW COLUMNS FROM ' . $WPGMZA_TABLE_NAME_MARKERS);
+		
+		return Marker::$columns;
 	}
 	
 	/**

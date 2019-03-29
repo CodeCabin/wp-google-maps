@@ -629,7 +629,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$column_names = $this->get_column_names();
 		
 		if(array_search($name, $column_names) !== false)
-			throw \Exception('Only arbitrary data can be unset. Columns must be set to NULL instead');
+			throw new \Exception('Only arbitrary data can be unset. Columns must be set to NULL instead');
 		
 		unset($this->fields[$name]);
 		
