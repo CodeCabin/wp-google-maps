@@ -116,7 +116,7 @@ jQuery(function($) {
 			this.enableTrafficLayer(true);
 		if(this.settings.transport == 1)
 			this.enablePublicTransportLayer(true);
-		this.showPointsOfInterest(this.settings.show_points_of_interest);
+		this.showPointsOfInterest(this.settings.show_point_of_interest);
 		
 		// Move the loading wheel into the map element (it has to live outside in the HTML file because it'll be overwritten by Google otherwise)
 		$(this.engineElement).append($(this.element).find(".wpgmza-loader"));
@@ -137,7 +137,7 @@ jQuery(function($) {
 				lng: parseFloat(clone.center.lng)
 			};
 		
-		if(this.settings.hide_points_of_interest == "1")
+		if(this.settings.hide_point_of_interest == "1")
 		{
 			var noPoi = {
 				featureType: "poi",

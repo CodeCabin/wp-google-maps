@@ -217,6 +217,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.16 :- 2019-03-28 :- Low priority =
+* Added Catalan translation files
+* Added hide POI logic to WPGMZA.GoogleMap
+* Added new global setting WPGMZA.settings.hide_points_of_interest
+
 = 7.11.15 :- 2019-03-25 :- Medium priority =
 * Added caching warning to GDPR Compliance settings panel
 * Added check for wp.components in Gutenberg module
