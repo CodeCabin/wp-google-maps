@@ -2232,8 +2232,6 @@ function wpgmaps_tag_basic( $atts ) {
     global $wpgmza_override;
 	global $wpgmza;
 
-	
-	
     extract( shortcode_atts( array(
         'id' 		=> '1', 
 		'width' 	=> 'inherit',
@@ -2348,6 +2346,11 @@ function wpgmaps_tag_basic( $atts ) {
 		$attr = str_replace('\\\\%', '%', $escaped);
 		$attr = stripslashes($attr);
 		$map_attributes = " data-shortcode-attributes='" . $attr . "'";
+	}
+	
+	if(!empty($atts['classname']))
+	{
+		$map_attributes .= " class='{$atts['classname']}'";
 	}
 	
     if (!$map_align || $map_align == "" || $map_align == "1") { $map_align = "float:left;"; }

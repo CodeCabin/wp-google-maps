@@ -197,6 +197,9 @@ Try [Nifty Maps](http://www.niftymaps.co) - Comprehensive Map Builder for all we
 
 == Upgrade Notice ==
 
+= 7.11.19 =
+Please update to 7.11.18 or above to ensure you are using the latest security enhancements.
+
 = 6.3.15 =
 Please update your WP Google Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
@@ -216,6 +219,17 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 7.11.19 :- 2019-04-02 :- Low priority =
+* Readme.txt Upgrade Notice updated
+* Fixed markers sometimes off position when using OpenLayers
+
+= 7.11.18 :- 2019-04-02 :- High priority =
+* Fixed potential REST API exploit (affects 7.11.00 - 7.11.17 - with thanks to Thomas Chauchefoin)
+
+= 7.11.17 :- 2019-04-02 :- Low priority =
+* Added shortcode attribute classname
+* Fixed Custom CSS classes in Gutenberg editor not being applied
 
 = 7.11.16 :- 2019-03-28 :- Low priority =
 * Added Catalan translation files
