@@ -194,3 +194,10 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+.ol-marker>img
+{
+	position: absolute;
+	bottom: 0;
+	transform: translate(-50%, 0%);
+}

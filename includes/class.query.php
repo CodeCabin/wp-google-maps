@@ -154,11 +154,11 @@ class Query
 			case 'SELECT':
 				if(empty($this->_fields))
 					throw new \Exception('You must specify fields to select');
-			
+				
 				$arr = $this->_fields->toArray();
 				
 				if(!empty($arr))
-					$str = implode(', ', $this->_fields->toArray());
+					$str = implode(', ', $arr);
 				else
 					$str = '*';
 			
