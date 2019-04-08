@@ -13,6 +13,7 @@ Domain Path: /languages
 /*
  * 7.11.20
  * Added Mexican Spanish (es_MX) translations
+ * Fixed country restriction not respected by OpenLayers
  *
  * 7.11.19 :- 2019-04-02 :- Low priority
  * Readme.txt Upgrade Notice updated

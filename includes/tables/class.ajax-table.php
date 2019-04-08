@@ -294,6 +294,10 @@ class AjaxTable extends Table
 		
 		$total_count = (int)$wpdb->get_var($stmt);
 		
+		//print_r($qstr);
+		//print_r($query_params);
+		//exit;
+		
 		// Body
 		if(!empty($query_params))
 			$stmt = $wpdb->prepare($qstr, $query_params);
