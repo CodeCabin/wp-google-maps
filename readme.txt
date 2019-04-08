@@ -220,6 +220,14 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.21 :- 2019-04-08 :- Low priority =
+* Updated PO files from sources
+* Fixed rectangles not working when using v6 of Pro
+* Fixed store locator covers polygons making them unclickable
+
+= 7.11.20 : 
+ * Added Mexican Spanish (es_MX) translations
+
 = 7.11.19 :- 2019-04-02 :- Low priority =
 * Readme.txt Upgrade Notice updated
 * Fixed markers sometimes off position when using OpenLayers

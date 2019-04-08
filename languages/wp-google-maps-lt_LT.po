@@ -2,31 +2,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgooglemaps\n"
 "POT-Creation-Date: 2016-07-18 13:38+0200\n"
-"PO-Revision-Date: 2016-07-18 13:38+0200\n"
+"PO-Revision-Date: 2019-04-03 14:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: 101.lt\n"
 "Language: lt_LT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: ../../../../../xampp/htdocs/Websites/maps_fresh/wp-"
+"content/plugins\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress38\\wp-content\\plugins\\wp-"
-"google-maps\n"
-"X-Poedit-SearchPath-1: C:\\wamp\\www\\wordpress38\\wp-content\\plugins\\wp-"
-"google-maps-pro\n"
-"X-Poedit-SearchPath-2: C:\\wamp\\www\\wordpress38\\wp-content\\plugins\\wp-"
-"google-maps-gold\n"
-"X-Poedit-SearchPath-3: C:\\wamp\\www\\wordpress38\\wp-content\\plugins\\wp-"
-"google-maps-ugm\n"
+"X-Poedit-SearchPath-0: wp-google-maps\n"
+"X-Poedit-SearchPath-1: wp-google-maps-gold\n"
+"X-Poedit-SearchPath-2: wp-google-maps-pro\n"
+"X-Poedit-SearchPath-3: wp-google-maps-ugm\n"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:243
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3712
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:764
-#, fuzzy
 msgid "settings"
 msgstr "Nustatymai"
 
@@ -140,7 +136,6 @@ msgstr "Ne"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1610
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6677
-#, fuzzy
 msgid "Save"
 msgstr "Išsaugoti žemėlapį"
 
@@ -179,7 +174,6 @@ msgid "Real time location tracking"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1841
-#, fuzzy
 msgid "Enable Location Tracking"
 msgstr "Aktyvuoti parduotuvių paiešką"
 
@@ -191,7 +185,6 @@ msgstr ""
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1850
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1670
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1797
-#, fuzzy
 msgid "Upload Icon"
 msgstr "Įkelti paveikslėlį"
 
@@ -204,7 +197,6 @@ msgid "Route"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1856
-#, fuzzy
 msgid "Last Location"
 msgstr "Žymeklio duomenų vieta"
 
@@ -221,12 +213,10 @@ msgid "Route Colour - Hover"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1884
-#, fuzzy
 msgid "Route Opacity"
 msgstr "Linijos tamsumas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1891
-#, fuzzy
 msgid "Route Thickness"
 msgstr "Linijos storis"
 
@@ -235,7 +225,6 @@ msgid "Devices"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1924
-#, fuzzy
 msgid "Marker Clustering"
 msgstr "Žymeklių sąrašas"
 
@@ -255,7 +244,6 @@ msgstr ""
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:182
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:221
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:264
-#, fuzzy
 msgid "Create Map"
 msgstr "Sukurti žemėlapį"
 
@@ -273,7 +261,6 @@ msgid "Device has been removed. Thank you"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:2193
-#, fuzzy
 msgid "Marker Data Cleared."
 msgstr "Žymeklio duomenų vieta"
 
@@ -334,7 +321,6 @@ msgid "Title / Description:"
 msgstr "Pavadinimas / Aprašymas:"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1189
-#, fuzzy
 msgid "No marker list"
 msgstr "Žymeklių sąrašas"
 
@@ -346,13 +332,11 @@ msgstr "Bazinė lentelė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1195
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6914
-#, fuzzy
 msgid "Basic list"
 msgstr "Bazinė lentelė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1198
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6916
-#, fuzzy
 msgid "Advanced table"
 msgstr "Išplėstiniai žymekliai"
 
@@ -367,28 +351,24 @@ msgstr "Karuselė"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1280
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5845
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6917
-#, fuzzy
 msgid "Default Infowindow"
 msgstr "Info langas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1282
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5847
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6918
-#, fuzzy
 msgid "Modern Infowindow"
 msgstr "Info langas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1284
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5849
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6920
-#, fuzzy
 msgid "Modern Plus Infowindow"
 msgstr "Info langas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1286
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5851
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6921
-#, fuzzy
 msgid "Circular Infowindow"
 msgstr "Info langas"
 
@@ -409,7 +389,6 @@ msgid "Please update your basic version to use this function."
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1367
-#, fuzzy
 msgid "Add a New Dataset"
 msgstr "Sukurti naują kategoriją"
 
@@ -419,7 +398,6 @@ msgid "Create your Map"
 msgstr "Sukurti žemėlapį"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1381
-#, fuzzy
 msgid "New"
 msgstr "Pridėti naują"
 
@@ -519,7 +497,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1476
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4864
-#, fuzzy
 msgid "Select a theme for your map"
 msgstr "Ištrinti žemėlapį"
 
@@ -535,13 +512,11 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1515
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4900
-#, fuzzy
 msgid "Paste your custom theme data here:"
 msgstr "Įklijuoti JSON duomenis čia "
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1517
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4902
-#, fuzzy
 msgid "Preview"
 msgstr "Ankstesnis"
 
@@ -608,7 +583,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1608
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4982
-#, fuzzy
 msgid "No country selected"
 msgstr "Įgalinti kategorijos pasirinkimą"
 
@@ -638,7 +612,6 @@ msgid "Kilometers"
 msgstr "Kilometrai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1635
-#, fuzzy
 msgid "Store Locator Placement"
 msgstr "Parduotuvės lokatoriaus dokumentavimas"
 
@@ -649,7 +622,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1638
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2036
-#, fuzzy
 msgid "Above Map"
 msgstr "Išsaugoti žemėlapį"
 
@@ -658,7 +630,6 @@ msgid "Allow category selection"
 msgstr "Įgalinti kategorijos pasirinkimą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1652
-#, fuzzy
 msgid "Allow users to use their location as the starting point"
 msgstr "Leisti vartotojams pasirinkti žymeklio kategoriją?"
 
@@ -673,7 +644,6 @@ msgid "Show center point as an icon"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1669
-#, fuzzy
 msgid "Default Icon"
 msgstr "Info langas"
 
@@ -745,7 +715,6 @@ msgid "Upload Image"
 msgstr "Įkelti paveikslėlį"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1762
-#, fuzzy
 msgid ""
 "Get great map markers <a href='http://www.wpgmaps.com/marker-icons/' "
 "target='_BLANK' title='Great Google Map Markers'>here</a>"
@@ -825,12 +794,10 @@ msgid "Click marker opens link"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1811
-#, fuzzy
 msgid "Maximum Zoom Out Level"
 msgstr "Priartinimo lygis"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1840
-#, fuzzy
 msgid "Maximum Zoom In Level"
 msgstr "Priartinimo lygis"
 
@@ -883,45 +850,37 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1909
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5874
-#, fuzzy
 msgid "Infowindow Style"
 msgstr "Info lango nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1927
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2024
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5894
-#, fuzzy
 msgid "Your selection:"
 msgstr "Temos pasirinkimas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1960
-#, fuzzy
 msgid "Infowindow Colors"
 msgstr "Info lango nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1964
-#, fuzzy
 msgid "Primary Color"
 msgstr "Linijos spalva"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1972
-#, fuzzy
 msgid "Accent Color"
 msgstr "Linijos spalva"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1980
-#, fuzzy
 msgid "Text Color"
 msgstr "Linijos spalva"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2003
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:247
-#, fuzzy
 msgid "Marker Listing Style"
 msgstr "Žymeklių sąrašas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2033
-#, fuzzy
 msgid "Marker Listing Placement"
 msgstr "Žymeklių sąrašas"
 
@@ -1036,43 +995,36 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2090
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5191
-#, fuzzy
 msgid "Top Center"
 msgstr "Centras"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2091
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5192
-#, fuzzy
 msgid "Top Left"
 msgstr "Kairė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2092
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5193
-#, fuzzy
 msgid "Top Right"
 msgstr "Dešinė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2093
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5194
-#, fuzzy
 msgid "Left Top "
 msgstr "Kairė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2094
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5195
-#, fuzzy
 msgid "Right Top"
 msgstr "Dešinė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2095
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5196
-#, fuzzy
 msgid "Left Center"
 msgstr "Centras"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2096
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5197
-#, fuzzy
 msgid "Right Center"
 msgstr "Centras"
 
@@ -1088,7 +1040,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2099
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5200
-#, fuzzy
 msgid "Bottom Center"
 msgstr "Centras"
 
@@ -1280,7 +1231,6 @@ msgid "Add a New Polyline"
 msgstr "Pridėti naują linijinę diagramą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2237
-#, fuzzy
 msgid "Add a dataset"
 msgstr "Pridėti žymeklį"
 
@@ -1309,7 +1259,6 @@ msgid "and to credit him when doing so."
 msgstr "bei nurodyti jo autorystę kuomet tai darysite."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2442
-#, fuzzy
 msgid ""
 "The map ID you have entered does not exist. Please enter a map ID that "
 "exists."
@@ -1422,7 +1371,6 @@ msgstr "mylių nuo"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3648
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3650
-#, fuzzy
 msgid "Please fill out both the \"from\" and \"to\" fields"
 msgstr "Prašome užpildyti abu 'iš' ir 'į' laukelius"
 
@@ -1497,17 +1445,14 @@ msgid "Download ALL marker data to a CSV file"
 msgstr "Atsisiųsti visų žymeklių duomenis CSV byloje"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5068
-#, fuzzy
 msgid "Download ALL map data to a CSV file"
 msgstr "Atsisiųsti visų žymeklių duomenis CSV byloje"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5069
-#, fuzzy
 msgid "Download ALL polygon data to a CSV file"
 msgstr "Atsisiųsti visų žymeklių duomenis CSV byloje"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5070
-#, fuzzy
 msgid "Download ALL polyline data to a CSV file"
 msgstr "Atsisiųsti visų žymeklių duomenis CSV byloje"
 
@@ -1516,12 +1461,10 @@ msgid "Advanced Options"
 msgstr "Papildomi nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5087
-#, fuzzy
 msgid "Map Data"
 msgstr "Žemėlapio pavadinimas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5088
-#, fuzzy
 msgid "Marker Data"
 msgstr "Žymeklio duomenų vieta"
 
@@ -1536,7 +1479,6 @@ msgid "Polyline Data"
 msgstr "Linijinės diagramos duomenys"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5095
-#, fuzzy
 msgid "Upload Map CSV File"
 msgstr "Įkelti CSV bylą"
 
@@ -1559,7 +1501,6 @@ msgid "Download Map Data"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5113
-#, fuzzy
 msgid "Upload Marker CSV File"
 msgstr "Įkelti CSV bylą"
 
@@ -1573,7 +1514,6 @@ msgid "Google API Key (Required)"
 msgstr "Google API raktas (Būtinas)"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5121
-#, fuzzy
 msgid ""
 "You will need a Google Maps Geocode API key for this to work. See <a "
 "href='https://developers.google.com/maps/documentation/geocoding/"
@@ -1587,27 +1527,22 @@ msgid "There is a 0.12second delay between each request"
 msgstr "Tarp kiekvienos užklausos yra 0.12 ekundės vėlavimas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5124
-#, fuzzy
 msgid "Download Marker Data"
 msgstr "Atsisiųsti visų žymeklių duomenis CSV byloje"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5131
-#, fuzzy
 msgid "Upload Polygon CSV File"
 msgstr "Įkelti CSV bylą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5143
-#, fuzzy
 msgid "Download Polygon Data"
 msgstr "Daugiakampio duomenys"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5150
-#, fuzzy
 msgid "Upload Polyline CSV File"
 msgstr "Įkelti CSV bylą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5162
-#, fuzzy
 msgid "Download Polyline Data"
 msgstr "Linijinės diagramos duomenys"
 
@@ -1617,13 +1552,11 @@ msgstr "Reikia pagalbos? Skaityti dokumentaciją"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5175
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6471
-#, fuzzy
 msgid "WP Google Maps Support"
 msgstr "WP Google žemėlapiai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5178
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6474
-#, fuzzy
 msgid "Documentation"
 msgstr "Parduotuvės lokatoriaus dokumentavimas"
 
@@ -1636,13 +1569,11 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5181
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6477
-#, fuzzy
 msgid "Documentation:"
 msgstr "Parduotuvės lokatoriaus dokumentavimas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5183
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6479
-#, fuzzy
 msgid "Creating your first map"
 msgstr "Sukurti žemėlapį"
 
@@ -1662,19 +1593,16 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5187
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6482
-#, fuzzy
 msgid "WP Google Maps Documentation"
 msgstr "WP Google Map nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5187
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6482
-#, fuzzy
 msgid "View all documentation."
 msgstr "peržiūrėti mūsų dokumentaciją"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5191
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6486
-#, fuzzy
 msgid "Troubleshooting"
 msgstr "Trikdžių nustatymai"
 
@@ -1710,7 +1638,6 @@ msgstr ""
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:45
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:3831
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6497
-#, fuzzy
 msgid "Support"
 msgstr "Pagalbos forumas"
 
@@ -1720,7 +1647,6 @@ msgid "Still need help? Use one of these links below."
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5206
-#, fuzzy
 msgid "Support desk"
 msgstr "Pagalbos forumas"
 
@@ -1823,7 +1749,6 @@ msgid "Advanced Marker Listing"
 msgstr "Papildomas žymeklių sąrašas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5473
-#, fuzzy
 msgid "Basic Marker Listings"
 msgstr "Žymeklių sąrašas"
 
@@ -2011,7 +1936,6 @@ msgstr ""
 "aplanką į 755 arbba 777, arba pakeiskite vietą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5601
-#, fuzzy
 msgid "Google Maps API Key (optional)"
 msgstr "Google API raktas (Būtinas)"
 
@@ -2146,7 +2070,6 @@ msgstr "Trikdžių nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5759
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4174
-#, fuzzy
 msgid ""
 "Over-ride current jQuery with version 1.11.3 (Tick this box if you are "
 "receiving jQuery related errors after updating to WordPress 4.5)"
@@ -2172,7 +2095,6 @@ msgid "Lowest level of access to the map editor"
 msgstr "Žemiausias priėjimo lygis žemėlapio redaguotojui"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5794
-#, fuzzy
 msgid "Retina Icon Width"
 msgstr "Nuorodų rėmelio plotis"
 
@@ -2183,7 +2105,6 @@ msgstr ""
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5853
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5855
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6922
-#, fuzzy
 msgid "No Global Setting"
 msgstr "Nustatymai"
 
@@ -2207,7 +2128,6 @@ msgid ""
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5912
-#, fuzzy
 msgid "Resize Images"
 msgstr "Keisti nuotraukos dydį su Timthumb"
 
@@ -2238,7 +2158,6 @@ msgid "Max InfoWindow Width"
 msgstr "Maksimalus info lango plotis"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5927
-#, fuzzy
 msgid "(Minimum: 200px)"
 msgstr "(Mažiausiai: 250px)"
 
@@ -2293,12 +2212,10 @@ msgid "Your polyline has been saved."
 msgstr "Jūsų linijinė diagrama išsaugota."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6442
-#, fuzzy
 msgid "Your dataset has been created."
 msgstr "Jūsų kategorija sukurta "
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6487
-#, fuzzy
 msgid "Your dataset has been saved."
 msgstr "Jūsų kategorija išsaugota"
 
@@ -2412,7 +2329,6 @@ msgid "Save Polygon"
 msgstr "Išsaugoti daugiakampį"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:6913
-#, fuzzy
 msgid "No marker listing"
 msgstr "Žymeklių sąrašas"
 
@@ -2539,7 +2455,6 @@ msgstr "Tipas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7211
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4513
-#, fuzzy
 msgid "Shortcode"
 msgstr "Trumpinys"
 
@@ -2575,7 +2490,6 @@ msgid "Action"
 msgstr "Atlikti"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:7417
-#, fuzzy
 msgid "Delete this dataset"
 msgstr "Ištrinti žymeklį"
 
@@ -2600,7 +2514,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8056
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:8142
-#, fuzzy
 msgid "Save Dataset"
 msgstr "Išsaugoti kategoriją"
 
@@ -2700,7 +2613,6 @@ msgid "Save Category"
 msgstr "Išsaugoti kategoriją"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:166
-#, fuzzy
 msgid "Edit a Marker Category"
 msgstr "Sukurti žymeklio kategoriją"
 
@@ -2851,42 +2763,34 @@ msgid "Select a Map Type (beta)"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:149
-#, fuzzy
 msgid "Show distance in:"
 msgstr "Atstumą rodyti"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:159
-#, fuzzy
 msgid "Show bouncing icon:"
 msgstr "Rodyti šokinėjantį žymeklį "
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:169
-#, fuzzy
 msgid "Hide markers until search is done:"
 msgstr "Slėpti visus žymeklius kol baigsis paieška"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:209
-#, fuzzy
 msgid "Default 'To' Address:"
 msgstr "Adresas 'Į' pagal nutylėjimą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:213
-#, fuzzy
 msgid "Enter Address"
 msgstr "Žymeklio adresas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:252
-#, fuzzy
 msgid "Basic Table"
 msgstr "Bazinė lentelė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:253
-#, fuzzy
 msgid "Basic List"
 msgstr "Bazinė lentelė"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_wizard.php:254
-#, fuzzy
 msgid "Advanced Table"
 msgstr "Išplėstiniai žymekliai"
 
@@ -3160,13 +3064,11 @@ msgid "Add your map as a widget"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/classes/widget_module.class.php:47
-#, fuzzy
 msgid "Select your map:"
 msgstr "Ištrinti žemėlapį"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:3
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:4
-#, fuzzy
 msgid "Welcome to WP Google Maps version 6.3"
 msgstr "Naudojatės WP Google Maps pirmą kartą?"
 
@@ -3180,7 +3082,6 @@ msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:10
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:11
-#, fuzzy
 msgid "Welcome"
 msgstr "Sveiki atvykę į"
 
@@ -3214,7 +3115,6 @@ msgid "Developer &amp; Support"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/credits.php:50
-#, fuzzy
 msgid "Marketing"
 msgstr "Žymeklių sąrašas"
 
@@ -3231,12 +3131,10 @@ msgid "Get involved on GitHub."
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:18
-#, fuzzy
 msgid "Unlimited Markers"
 msgstr "Žymeklių sąrašas"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:19
-#, fuzzy
 msgid "Create as many markers as you like"
 msgstr "Sukurti žymeklio kategoriją"
 
@@ -3247,7 +3145,6 @@ msgid ""
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:97
-#, fuzzy
 msgid "Support Desk"
 msgstr "Pagalbos forumas"
 
@@ -3414,7 +3311,6 @@ msgid ""
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4210
-#, fuzzy
 msgid "Enable Usage Tracking"
 msgstr "Įgalinti numeraciją"
 
@@ -3430,12 +3326,10 @@ msgid "Marker InfoWindow Settings"
 msgstr "Žymeklio info lango nustatymai"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4296
-#, fuzzy
 msgid "Google Maps API Key"
 msgstr "Naudoti Google Maps API"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4300
-#, fuzzy
 msgid "Google Maps API Key (required)"
 msgstr "Google API raktas (Būtinas)"
 
@@ -3574,7 +3468,6 @@ msgid "Enable Public Transport Layer?"
 msgstr "Įgalinti viešojo transporto sluoksnį?"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5057
-#, fuzzy
 msgid "Maximum Zoom Level"
 msgstr "Priartinimo lygis"
 
@@ -3669,12 +3562,10 @@ msgid "Add dynamic heatmap data"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5500
-#, fuzzy
 msgid "with the Pro version."
 msgstr "su Pro versija"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5501
-#, fuzzy
 msgid "View a demo."
 msgstr "peržiūrėti mūsų dokumentaciją"
 
@@ -3768,7 +3659,6 @@ msgstr ""
 "prašome susisiekti nick@wpgmaps.com dėl pagalbos."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5778
-#, fuzzy
 msgid ""
 "There are too many markers to make use of the live edit function. The "
 "maximum amount for this functionality is 5000 markers. Anything more than "
@@ -3781,7 +3671,6 @@ msgstr ""
 "reikės atsisiųsti duomenis CSV formatu, pataisyti ir įkelti iš naujo."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5844
-#, fuzzy
 msgid "Edit this marker location"
 msgstr "Redaguoti žymeklio vietą"
 
@@ -3825,7 +3714,6 @@ msgid ""
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6501
-#, fuzzy
 msgid "Support forum"
 msgstr "Pagalbos forume."
 
@@ -3834,12 +3722,10 @@ msgid "United States of America"
 msgstr ""
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6668
-#, fuzzy
 msgid "View the instruction video"
 msgstr "Slėpti aprašymo nuorodą"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:6669
-#, fuzzy
 msgid "Read the documentation"
 msgstr "Reikia pagalbos? Skaityti dokumentaciją"
 
