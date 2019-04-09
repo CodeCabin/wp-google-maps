@@ -98,6 +98,18 @@ class Plugin extends Factory
 			
 		if($this->settings->engine == 'open-layers')
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
+	
+			if (isset($this->settings->wpgmza_settings_marker_pull) && $this->settings->wpgmza_settings_marker_pull == '1'){
+
+				if(!file_exists(wpgmza_return_marker_path())){
+						
+					$this->settings->wpgmza_settings_marker_pull = '0';
+					add_action('admin_notices', function() {
+						echo '<div class="error"><p><strong>' . __('WP Google Maps: Cannot find the specified XML folder. You have been switched back to the Database method', 'wp-google-maps') . '</strong></p></div>';
+					});
+				}
+			}
+
 	}
 	
 	public function __set($name, $value)

@@ -13,6 +13,7 @@ Domain Path: /languages
 /*
  * 7.11.20
  * Added Mexican Spanish (es_MX) translations
+ * Revert back to DB pull when XML folder not present
  *
  * 7.11.19 :- 2019-04-02 :- Low priority
  * Readme.txt Upgrade Notice updated
