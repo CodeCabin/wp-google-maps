@@ -45,7 +45,7 @@ jQuery(function($){
 	}
 
 	function add_rectangle(mapid, data)	{
-		data.map = MYMAP[mapid].map.googleMap;
+		data.map = MYMAP[mapid].map;
 		
 		data.fillColor = data.color;
 		data.fillOpacity = parseFloat(data.opacity);
