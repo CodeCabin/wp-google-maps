@@ -404,7 +404,6 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 				center: center,
 				radius: radius * (distance_type == 1 ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1),
 				radiusString: radius
-				polygon.setZindex(4);
 			});
 			
 			break;
