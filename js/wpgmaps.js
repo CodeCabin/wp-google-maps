@@ -416,8 +416,7 @@ function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 				fillColor: '#FF0000',
 				fillOpacity: 0.15,
 				map: MYMAP.map,
-				center: center,
-				clickable: false
+				center: center
 			};
 			
 			if (distance_type == "1")

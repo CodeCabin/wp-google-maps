@@ -502,6 +502,44 @@ class DOMElement extends \DOMElement
 		return $this;
 	}
 	
+	public function serializeFormData()
+	{
+		$data = array();
+		
+		foreach($this->querySelectorAll('input, select, textarea') as $input)
+		{
+			$name = $input->getAttribute('name');
+			
+			if(!$name)
+				continue;
+			
+			switch($input->getAttribute('type'))
+			{
+				case 'checkbox':
+				
+					if($input->getValue())
+						$data[$name] = true;
+					else
+						$data[$name] = false;
+					
+					break;
+					
+				case 'radio':
+				
+					if($input->getAttribute('checked'))
+						$data[$name] = $input->getAttribute('value');
+				
+					break;
+				
+				default:
+					$data[$name] = $input->getValue();
+					break;
+			}
+		}
+		
+		return $data;
+	}
+	
 	/**
 	 * Gets the value of this element
 	 * @return mixed A string if the element a text input, textarea or plain node, a boolean if the element is a checkbox or radio, or the value of the selected option if this element is a select

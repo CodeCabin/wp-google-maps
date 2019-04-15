@@ -11,8 +11,15 @@ Domain Path: /languages
 */
 
 /*
- * 7.11.21 :- 2019-04-15 :- Low priority
- * Corrected store locator circle covers polygons making them unclickable
+ * 7.11.21
+ * Added serializeFormData to DOMDocument and DOMElement
+ * Added new event for InfoWindows - domready.wpgmza
+ * Added new function WPGMZA.extend for shorthand extension of modules
+ * Added warning when WPGMZA.RestAPI.call is called (as opposed to WPGMZA.restAPI.call)
+ * Implemented factory method for map settings page JS module
+ * Changed RestAPI to not throw an error when a call is aborted
+ * Changed DB version checks to use global version string (this module is currently not used)
+ * Fixed missing comma in DB installation code preventing marker table from being created (this module is currently not used)
  *
  * 7.11.20 :- 2019-04-09 :- Low priority
  * Added Mexican Spanish (es_MX) translations

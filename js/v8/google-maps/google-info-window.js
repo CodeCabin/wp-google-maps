@@ -41,6 +41,11 @@ jQuery(function($) {
 			return;
 		
 		this.googleInfoWindow = new google.maps.InfoWindow();
+		
+		google.maps.event.addListener(this.googleInfoWindow, "domready", function(event) {
+			self.trigger("domready");
+		});
+		
 		google.maps.event.addListener(this.googleInfoWindow, "closeclick", function(event) {
 			self.mapObject.map.trigger("infowindowclose");
 		});

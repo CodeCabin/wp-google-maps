@@ -78,6 +78,15 @@ jQuery(function($) {
 			
 		},
 		
+		extend: function(child, parent) {
+			
+			var constructor = child;
+			
+			child.prototype = Object.create(parent.prototype);
+			child.prototype.constructor = constructor;
+			
+		},
+		
 		/**
 		 * Generates and returns a GUID
 		 * @method guid
