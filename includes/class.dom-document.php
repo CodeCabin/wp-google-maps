@@ -202,6 +202,13 @@ class DOMDocument extends \DOMDocument
 		return $this->documentElement->populate($src, $formatters);
 	}
 	
+	public function serializeFormData()
+	{
+		if(!$this->documentElement)
+			throw new \Exception('Document is empty');
+		return $this->documentElement->serializeFormData();
+	}
+	
 	/**
 	 * Utility function to create an error element
 	 * @param string $message The error message

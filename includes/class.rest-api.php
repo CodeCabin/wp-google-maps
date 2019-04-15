@@ -192,7 +192,7 @@ class RestAPI extends Factory
 				
 				if(isset($request['id']))
 				{
-					$marker = new Marker($request['id']);
+					$marker = Marker::createInstance($request['id']);
 					$marker->trash();
 				}
 				

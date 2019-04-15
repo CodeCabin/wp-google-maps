@@ -7,16 +7,18 @@ class Database
 	public function __construct()
 	{
 		global $wpgmza;
+		global $wpgmza_version;
 		
 		$this->version = get_option('wpgmza_db_version');
 		
-		if(version_compare($this->version, $wpgmza->getBasicVersion(), '<'))
+		if(version_compare($this->version, $wpgmza_version, '<'))
 			$this->install();
 	}
 	
 	public function install()
 	{
 		global $wpgmza;
+		global $wpgmza_version;
 		
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		
@@ -27,7 +29,7 @@ class Database
 		$this->installCircleTable();
 		$this->installRectangleTable();
 		
-		update_option('wpgmza_db_version', $wpgmza->getBasicVersion());
+		update_option('wpgmza_db_version', $wpgmza_version);
 	}
 	
 	protected function installMapsTable()
@@ -101,7 +103,7 @@ class Database
 			other_data LONGTEXT NOT NULL,
 			latlng POINT,
 			integration_source VARCHAR(32) NULL,
-			integration_context INT(11) NULL
+			integration_context INT(11) NULL,
 			PRIMARY KEY  (id)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
