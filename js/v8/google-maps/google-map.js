@@ -126,11 +126,7 @@ jQuery(function($) {
 	{
 		Parent.prototype.setOptions.call(this, options);
 		
-		var converted = $.extend(options, this.settings.toGoogleMapsOptions());
-		
-		//this.googleMap.setOptions(converted);
-		
-		var clone = $.extend({}, converted);
+		var clone = $.extend({}, options);
 		if(!clone.center instanceof google.maps.LatLng && (clone.center instanceof WPGMZA.LatLng || typeof clone.center == "object"))
 			clone.center = {
 				lat: parseFloat(clone.center.lat),
