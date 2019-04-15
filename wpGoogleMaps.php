@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 7.11.21 :- 2019-04-15 :- Low priority
+ * Corrected store locator circle covers polygons making them unclickable
+ *
  * 7.11.20 :- 2019-04-09 :- Low priority
  * Added Mexican Spanish (es_MX) translations
  * Added revert back to DB pull when XML folder not present
