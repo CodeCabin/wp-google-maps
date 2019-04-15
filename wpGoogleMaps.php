@@ -11,14 +11,11 @@ Domain Path: /languages
 */
 
 /*
- * 7.11.21 - 2019-04-08 - Low priority
+ * 7.11.20 :- 2019-04-09 :- Low priority
+ * Added Mexican Spanish (es_MX) translations
+ * Added revert back to DB pull when XML folder not present
  * Updated PO files from sources
  * Fixed rectangles not working when using v6 of Pro
- * Fixed store locator covers polygons making them unclickable
- *
- * 7.11.20
- * Added Mexican Spanish (es_MX) translations
- * Revert back to DB pull when XML folder not present
  *
  * 7.11.19 :- 2019-04-02 :- Low priority
  * Readme.txt Upgrade Notice updated
