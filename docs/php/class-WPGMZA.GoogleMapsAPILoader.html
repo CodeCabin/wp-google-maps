@@ -49,12 +49,18 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
 				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
 				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
 				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
 				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
 				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
 				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
 				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
 				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
 				<li class="active"><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
@@ -63,13 +69,18 @@
 				<li><a href="class-WPGMZA.Map.html">Map</a></li>
 				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
 				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
 				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
 				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
 				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
 				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
 				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
 				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
 				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
 			</ul>
 
 
@@ -79,7 +90,6 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
-				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
 				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
 				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
 			</ul>
@@ -138,7 +148,7 @@
 
 				<b>Deprecated:</b>
 				This class will be merged into GoogleLoader, the API conditionality mechanisms will be abstracted to APILoader for use with OpenLayers<br>
-			<b>Located at</b> <a href="source-class-WPGMZA.GoogleMapsAPILoader.html#8-375" title="Go to source code">class.google-maps-api-loader.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.GoogleMapsAPILoader.html#8-399" title="Go to source code">class.google-maps-api-loader.php</a>
 		<br>
 	</div>
 
@@ -158,7 +168,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#62-78" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#63-96" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			<p>Constructor</p>
@@ -188,7 +198,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getGoogleMapsAPIParams">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#80-130" title="Go to source code">getGoogleMapsAPIParams</a>( )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#98-148" title="Go to source code">getGoogleMapsAPIParams</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the parameters to be sent to the Google Maps API load call</p>
@@ -222,7 +232,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerGoogleMaps">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#132-170" title="Go to source code">registerGoogleMaps</a>( )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#150-189" title="Go to source code">registerGoogleMaps</a>( )</code>
 
 		<div class="description short">
 			<p>This function loads the Google API if it hasn't been called already</p>
@@ -252,7 +262,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_enqueueGoogleMaps">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#172-182" title="Go to source code">enqueueGoogleMaps</a>( )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#191-201" title="Go to source code">enqueueGoogleMaps</a>( )</code>
 
 		<div class="description short">
 			<p>This function will enqueue the Google Maps API, if the conditions to include it are met. Otherwise, this function will do nothing.</p>
@@ -282,7 +292,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isPageIncluded">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#184-207" title="Go to source code">isPageIncluded</a>( <span>integer <var>$page_id</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#203-227" title="Go to source code">isPageIncluded</a>( <span>integer <var>$page_id</var></span> )</code>
 
 		<div class="description short">
 			<p>Checks whether the specified page ID has been explicitly included in the plugin settings</p>
@@ -321,7 +331,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isPageExcluded">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#209-230" title="Go to source code">isPageExcluded</a>( <span>integer <var>$page_id</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#229-252" title="Go to source code">isPageExcluded</a>( <span>integer <var>$page_id</var></span> )</code>
 
 		<div class="description short">
 			<p>Checks whether the specified page ID has been explicitly excluded in the plugin settings</p>
@@ -360,7 +370,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isIncludeAllowed">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#232-330" title="Go to source code">isIncludeAllowed</a>( <span>string <var>&amp; $status</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#254-352" title="Go to source code">isIncludeAllowed</a>( <span>string <var>&amp; $status</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Checks if including the Google API is allowed, based on all the relevant settings.</p>
@@ -399,7 +409,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_preventOtherGoogleMapsTag">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#332-354" title="Go to source code">preventOtherGoogleMapsTag</a>( <span>string <var>$tag</var></span>, <span>string <var>$handle</var></span>, <span>string <var>$src</var></span> )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#354-376" title="Go to source code">preventOtherGoogleMapsTag</a>( <span>string <var>$tag</var></span>, <span>string <var>$handle</var></span>, <span>string <var>$src</var></span> )</code>
 
 		<div class="description short">
 			<p>This function hooks into script_loader_tag. If any other plugin or the theme has enqueued a script containing "maps.google", an empty string will be returned, preventing that script loader tag from being rendered. Only the script with the handle wpgmza_api_call will be allowed through. This can be bound using the "prevent other plugins and theme loading maps API" setting.</p>
@@ -442,7 +452,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getSettingsHTML">#</a>
-		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#356-373" title="Go to source code">getSettingsHTML</a>( )</code>
+		<code><a href="source-class-WPGMZA.GoogleMapsAPILoader.html#378-397" title="Go to source code">getSettingsHTML</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the HTML for the settings panel for this module, which appears in the general settings tab.</p>
@@ -480,7 +490,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#17-20" title="Go to source code"><b>REMOVE_API_CHECKED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#16-19" title="Go to source code"><b>REMOVE_API_CHECKED</b></a>
 			</code>
 
 			<div class="description short">
@@ -508,7 +518,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#22-25" title="Go to source code"><b>USER_CONSENT_NOT_GIVEN</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#21-24" title="Go to source code"><b>USER_CONSENT_NOT_GIVEN</b></a>
 			</code>
 
 			<div class="description short">
@@ -536,7 +546,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#27-30" title="Go to source code"><b>ENGINE_NOT_GOOGLE_MAPS</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#26-29" title="Go to source code"><b>ENGINE_NOT_GOOGLE_MAPS</b></a>
 			</code>
 
 			<div class="description short">
@@ -564,7 +574,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#32-35" title="Go to source code"><b>PAGE_EXPLICITLY_INCLUDED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#31-34" title="Go to source code"><b>PAGE_EXPLICITLY_INCLUDED</b></a>
 			</code>
 
 			<div class="description short">
@@ -592,7 +602,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#37-40" title="Go to source code"><b>PAGE_EXPLICITLY_EXCLUDED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#36-39" title="Go to source code"><b>PAGE_EXPLICITLY_EXCLUDED</b></a>
 			</code>
 
 			<div class="description short">
@@ -620,7 +630,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#42-45" title="Go to source code"><b>NEVER_LOAD_API_SELECTED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#41-44" title="Go to source code"><b>NEVER_LOAD_API_SELECTED</b></a>
 			</code>
 
 			<div class="description short">
@@ -648,7 +658,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#47-50" title="Go to source code"><b>ONLY_LOAD_FRONT_END_SELECTED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#46-49" title="Go to source code"><b>ONLY_LOAD_FRONT_END_SELECTED</b></a>
 			</code>
 
 			<div class="description short">
@@ -676,7 +686,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#52-55" title="Go to source code"><b>ONLY_LOAD_BACK_END_SELECTED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#51-54" title="Go to source code"><b>ONLY_LOAD_BACK_END_SELECTED</b></a>
 			</code>
 
 			<div class="description short">
@@ -704,7 +714,7 @@
 		<td class="attributes"><code>string</code></td>
 		<td class="name">
 			<code>
-				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#57-60" title="Go to source code"><b>ENQUEUED</b></a>
+				<a href="source-class-WPGMZA.GoogleMapsAPILoader.html#56-59" title="Go to source code"><b>ENQUEUED</b></a>
 			</code>
 
 			<div class="description short">

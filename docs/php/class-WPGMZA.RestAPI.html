@@ -49,12 +49,18 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
 				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
 				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
 				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
 				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
 				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
 				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
 				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
 				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
 				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
@@ -63,13 +69,18 @@
 				<li><a href="class-WPGMZA.Map.html">Map</a></li>
 				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
 				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
 				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
 				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
 				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
 				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
 				<li class="active"><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
 				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
 				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
 			</ul>
 
 
@@ -79,7 +90,6 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
-				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
 				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
 				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
 			</ul>
@@ -122,6 +132,20 @@
 	<p>This class facilitates all communication between the client and any server side modules which can be interacted with through the WordPress REST API.</p>
 	</div>
 
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-WPGMZA.Factory.html"><span>WPGMZA\Factory</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>WPGMZA\RestAPI</span></b>			
+			
+			
+		</dd>
+	</dl>
 
 
 
@@ -136,7 +160,7 @@
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.RestAPI.html#5-75" title="Go to source code">class.rest-api.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.RestAPI.html#5-229" title="Go to source code">class.rest-api.php</a>
 		<br>
 	</div>
 
@@ -216,7 +240,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onRestAPIInit">#</a>
-		<code><a href="source-class-WPGMZA.RestAPI.html#36-46" title="Go to source code">onRestAPIInit</a>( )</code>
+		<code><a href="source-class-WPGMZA.RestAPI.html#36-64" title="Go to source code">onRestAPIInit</a>( )</code>
 
 		<div class="description short">
 			<p>Callback for the rest_api_init action, this function registers the plugins REST API routes.</p>
@@ -224,6 +248,66 @@
 
 		<div class="description detailed hidden">
 			<p>Callback for the rest_api_init action, this function registers the plugins REST API routes.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="maps" id="_maps">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_maps">#</a>
+		<code><a href="source-class-WPGMZA.RestAPI.html#66-100" title="Go to source code">maps</a>( <span> <var>$request</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sanitizeFieldNames" id="_sanitizeFieldNames">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sanitizeFieldNames">#</a>
+		<code><a href="source-class-WPGMZA.RestAPI.html#102-116" title="Go to source code">sanitizeFieldNames</a>( <span> <var>$fields</var></span>, <span> <var>$table</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -246,7 +330,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_markers">#</a>
-		<code><a href="source-class-WPGMZA.RestAPI.html#48-74" title="Go to source code">markers</a>( <span>WP_REST_Request <var>$request</var></span> )</code>
+		<code><a href="source-class-WPGMZA.RestAPI.html#118-214" title="Go to source code">markers</a>( <span>WP_REST_Request <var>$request</var></span> )</code>
 
 		<div class="description short">
 			<p>Callback for the /markers REST API route.</p>
@@ -273,8 +357,46 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="datatables" id="_datatables">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_datatables">#</a>
+		<code><a href="source-class-WPGMZA.RestAPI.html#216-228" title="Go to source code">datatables</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	</table>
 
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.Factory.html#methods">WPGMZA\Factory</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.Factory.html#_createInstance">createInstance()</a>
+		</code></td>
+	</tr>
+	</table>
 
 
 
