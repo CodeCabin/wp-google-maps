@@ -49,12 +49,18 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
 				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
 				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
 				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
 				<li class="active"><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
 				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
 				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
 				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
 				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
 				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
@@ -63,13 +69,18 @@
 				<li><a href="class-WPGMZA.Map.html">Map</a></li>
 				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
 				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
 				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
 				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
 				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
 				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
 				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
 				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
 				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
 			</ul>
 
 
@@ -79,7 +90,6 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
-				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
 				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
 				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
 			</ul>
@@ -152,7 +162,7 @@ DOMElement
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.DOMElement.html#7-662" title="Go to source code">class.dom-element.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.DOMElement.html#7-700" title="Go to source code">class.dom-element.php</a>
 		<br>
 	</div>
 
@@ -908,6 +918,36 @@ DOMElement
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="serializeFormData" id="_serializeFormData">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_serializeFormData">#</a>
+		<code><a href="source-class-WPGMZA.DOMElement.html#505-541" title="Go to source code">serializeFormData</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="getValue" id="_getValue">
 
 		<td class="attributes"><code>
@@ -920,7 +960,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getValue">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#505-540" title="Go to source code">getValue</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#543-578" title="Go to source code">getValue</a>( )</code>
 
 		<div class="description short">
 			<p>Gets the value of this element</p>
@@ -954,7 +994,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setValue">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#542-610" title="Go to source code">setValue</a>( <span> <var>$value</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#580-648" title="Go to source code">setValue</a>( <span> <var>$value</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets the value of this element. Intended for form elements only. If this element is a textarea, it will be appended as plain text. If this element is a select, it will attempt to select the option with the specified value. If the input is a radio or checkbox, it will set it accordingly. Otherwise, the value will be put into the value attribute</p>
@@ -993,7 +1033,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_appendText">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#612-620" title="Go to source code">appendText</a>( <span> <var>$text</var></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#650-658" title="Go to source code">appendText</a>( <span> <var>$text</var></span> )</code>
 
 		<div class="description short">
 			<p>Appends the specified text to this element, shorthand utility function</p>
@@ -1027,7 +1067,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_insertAfter">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#622-639" title="Go to source code">insertAfter</a>( <span>Smart\Element <var>$elem</var></span>, <span>Smart\Element <var>$after</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#660-677" title="Go to source code">insertAfter</a>( <span>Smart\Element <var>$elem</var></span>, <span>Smart\Element <var>$after</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Utility function to append the specified element after one of this elements children. Will append at the end if after is null</p>
@@ -1065,7 +1105,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_clear">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#641-650" title="Go to source code">clear</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#679-688" title="Go to source code">clear</a>( )</code>
 
 		<div class="description short">
 			<p>Clears this element, completely removing all it's contents</p>
@@ -1099,7 +1139,7 @@ DOMElement
 
 		<td class="name"><div>
 		<a class="anchor" href="#_remove">#</a>
-		<code><a href="source-class-WPGMZA.DOMElement.html#652-661" title="Go to source code">remove</a>( )</code>
+		<code><a href="source-class-WPGMZA.DOMElement.html#690-699" title="Go to source code">remove</a>( )</code>
 
 		<div class="description short">
 			<p>Removes this element from it's parent</p>

@@ -49,12 +49,18 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
 				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
 				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
 				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
 				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
 				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
 				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
 				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
 				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
 				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
@@ -63,13 +69,18 @@
 				<li><a href="class-WPGMZA.Map.html">Map</a></li>
 				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
 				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
 				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
 				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
 				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
 				<li class="active"><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
 				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
 				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
 				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
 			</ul>
 
 
@@ -79,7 +90,6 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
-				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
 				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
 				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
 			</ul>
@@ -124,6 +134,20 @@
 <p>It also provides a number of helpful utility functions.</p>
 	</div>
 
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-WPGMZA.Factory.html"><span>WPGMZA\Factory</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>WPGMZA\Plugin</span></b>			
+			
+			
+		</dd>
+	</dl>
 
 
 
@@ -138,7 +162,7 @@
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.Plugin.html#5-331" title="Go to source code">class.plugin.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.Plugin.html#5-321" title="Go to source code">class.plugin.php</a>
 		<br>
 	</div>
 
@@ -158,7 +182,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#50-112" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#41-111" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			<p>Constructor. Called when plugins_loaded fires.</p>
@@ -166,6 +190,36 @@
 
 		<div class="description detailed hidden">
 			<p>Constructor. Called when plugins_loaded fires.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__set" id="___set">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___set">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#113-119" title="Go to source code">__set</a>( <span> <var>$name</var></span>, <span> <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -188,7 +242,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#114-138" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#121-137" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			<p>Getter, see property-read above.</p>
@@ -196,6 +250,36 @@
 
 		<div class="description detailed hidden">
 			<p>Getter, see property-read above.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onInit" id="_onInit">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onInit">#</a>
+		<code><a href="source-class-WPGMZA.Plugin.html#139-142" title="Go to source code">onInit</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -218,7 +302,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_loadScripts">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#140-171" title="Go to source code">loadScripts</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#144-177" title="Go to source code">loadScripts</a>( )</code>
 
 		<div class="description short">
 			<p>This function will cause the plugin scripts to be loaded. Firstly it will initialize an instance of ScriptLoader. If the developer mode setting is enabled, the scripts will be rebuilt.</p>
@@ -240,69 +324,29 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="getDefaultSettings" id="_getDefaultSettings">
-
-		<td class="attributes"><code>
-			 public 
-
-			array
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_getDefaultSettings">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#173-187" title="Go to source code">getDefaultSettings</a>( )</code>
-
-		<div class="description short">
-			<p>Gets the default settings, passed through the wpgmza_plugin_get_default_settings filter.</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Gets the default settings, passed through the wpgmza_plugin_get_default_settings filter.</p>
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					array<br>An array of key value pairs with the default plugin settings.
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="getLocalizedData" id="_getLocalizedData">
 
 		<td class="attributes"><code>
 			 public 
 
-			array
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getLocalizedData">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#189-231" title="Go to source code">getLocalizedData</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#179-218" title="Go to source code">getLocalizedData</a>( )</code>
 
 		<div class="description short">
-			<p>Gets the plugins localized data, that is, the data to be initialized as globals client side (for JavaScript). These variables will be made available as JavaScript globals, through wp_localize_script.</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Gets the plugins localized data, that is, the data to be initialized as globals client side (for JavaScript). These variables will be made available as JavaScript globals, through wp_localize_script.</p>
-
-<p>This array is passed through the filter wpgmza_plugin_get_localized_data.</p>
+			
 
 
 
-				<h4>Returns</h4>
-				<div class="list">
-					array<br>A key value array of variables to be passed to JavaScript.
-				</div>
 
 
 
@@ -322,7 +366,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getCurrentPage">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#233-273" title="Go to source code">getCurrentPage</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#220-260" title="Go to source code">getCurrentPage</a>( )</code>
 
 		<div class="description short">
 			<p>Returns a string stating the current page, relevant to this plugin.  Please refer to the constants on this class for a list of available pages. If the current page is not relevant to this plugin, NULL is returned.</p>
@@ -356,7 +400,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isUsingMinifiedScripts">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#275-282" title="Go to source code">isUsingMinifiedScripts</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#262-269" title="Go to source code">isUsingMinifiedScripts</a>( )</code>
 
 		<div class="description short">
 			<p>Returns true if we are to be using combined or minified JavaScript</p>
@@ -390,7 +434,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isInDeveloperMode">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#284-291" title="Go to source code">isInDeveloperMode</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#271-278" title="Go to source code">isInDeveloperMode</a>( )</code>
 
 		<div class="description short">
 			<p>Returns true if the developer mode setting is checked, or if the developer mode cookie is set.</p>
@@ -424,7 +468,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_isProVersion">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#293-300" title="Go to source code">isProVersion</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#280-290" title="Go to source code">isProVersion</a>( )</code>
 
 		<div class="description short">
 			<p>Check whether we are running the Pro add-on.</p>
@@ -458,7 +502,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getBasicVersion">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#302-316" title="Go to source code">getBasicVersion</a>( )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#292-306" title="Go to source code">getBasicVersion</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the plugin version, based on the plugin comment header. This value will be cached if it hasn't been read already.</p>
@@ -492,7 +536,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onLoadTextDomainMOFile">#</a>
-		<code><a href="source-class-WPGMZA.Plugin.html#318-330" title="Go to source code">onLoadTextDomainMOFile</a>( <span>string <var>$mofile</var></span>, <span>string <var>$domain</var></span> )</code>
+		<code><a href="source-class-WPGMZA.Plugin.html#308-320" title="Go to source code">onLoadTextDomainMOFile</a>( <span>string <var>$mofile</var></span>, <span>string <var>$domain</var></span> )</code>
 
 		<div class="description short">
 			<p>Hooks into load_textdomain_mofile, this function is used to override the WordPress repo translations and force the translations bundled with our plugin to be used. These are more complete and accurate than the WordPress community translations.</p>
@@ -523,6 +567,14 @@
 	</tr>
 	</table>
 
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.Factory.html#methods">WPGMZA\Factory</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.Factory.html#_createInstance">createInstance()</a>
+		</code></td>
+	</tr>
+	</table>
 
 
 
@@ -732,81 +784,27 @@
 			</div>
 		</td>
 	</tr>
-	<tr data-order="settings" id="$settings">
-		<td class="attributes"><code>
-			public  
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-WPGMZA.Plugin.html#30-34" title="Go to source code"><var>$settings</var></a>
-
-			<div class="description short">
-				<p>The plugins global settings. Please note this will be dropped and handed over to the GlobalSettings module in 7.11.00. This should not effect interaction with this property - you can continue to access this as an array safely.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>The plugins global settings. Please note this will be dropped and handed over to the GlobalSettings module in 7.11.00. This should not effect interaction with this property - you can continue to access this as an array safely.</p>
-
-					<h4>Deprecated</h4>
-					<div class="list">
-							Will be read-only and an instance of GLobalSettings as of 7.11.00<br>
-					</div>
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$settings" class="anchor">#</a>
-				<code></code>
-			</div>
-		</td>
-	</tr>
 	<tr data-order="scriptLoader" id="$scriptLoader">
 		<td class="attributes"><code>
 			protected  
-			<code><a href="class-WPGMZA.ScriptLoader.html">WPGMZA\ScriptLoader</a></code>
+			
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-WPGMZA.Plugin.html#36-39" title="Go to source code"><var>$scriptLoader</var></a>
+				<a href="source-class-WPGMZA.Plugin.html#35" title="Go to source code"><var>$scriptLoader</var></a>
 
 			<div class="description short">
-				<p>An instance of ScriptLoader, used internally.</p>
+				
 			</div>
 
 			<div class="description detailed hidden">
-				<p>An instance of ScriptLoader, used internally.</p>
+				
 
 			</div>
 		</td>
 		<td class="value">
 			<div>
 				<a href="#$scriptLoader" class="anchor">#</a>
-				<code></code>
-			</div>
-		</td>
-	</tr>
-	<tr data-order="restAPI" id="$restAPI">
-		<td class="attributes"><code>
-			protected  
-			<code><a href="class-WPGMZA.RestAPI.html">WPGMZA\RestAPI</a></code>
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-WPGMZA.Plugin.html#41-44" title="Go to source code"><var>$restAPI</var></a>
-
-			<div class="description short">
-				<p>An instance of RestAPI, used internally.</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>An instance of RestAPI, used internally.</p>
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$restAPI" class="anchor">#</a>
 				<code></code>
 			</div>
 		</td>

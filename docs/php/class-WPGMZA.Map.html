@@ -49,12 +49,18 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
 				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
 				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
 				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
 				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
 				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
 				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
 				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
 				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
 				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
@@ -63,13 +69,18 @@
 				<li class="active"><a href="class-WPGMZA.Map.html">Map</a></li>
 				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
 				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
 				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
 				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
 				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
 				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
 				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
 				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
 				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
 			</ul>
 
 
@@ -79,7 +90,6 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
-				<li><a href="function-WPGMZA.create_plugin_instance.html" class="deprecated">create_plugin_instance</a></li>
 				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
 				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
 			</ul>
@@ -124,6 +134,13 @@
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
+			<a href="class-WPGMZA.Factory.html"><span>WPGMZA\Factory</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-WPGMZA.Crud.html"><span>WPGMZA\Crud</span></a>
 			
 			 implements 
@@ -133,7 +150,7 @@
 			
 			
 		</dd>
-		<dd style="padding-left:30px">
+		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>WPGMZA\Map</span></b>			
 			
@@ -158,7 +175,7 @@
 		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-WPGMZA.Map.html#7-40" title="Go to source code">class.map.php</a>
+			<b>Located at</b> <a href="source-class-WPGMZA.Map.html#7-55" title="Go to source code">class.map.php</a>
 		<br>
 	</div>
 
@@ -203,6 +220,50 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="__get" id="___get">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___get">#</a>
+		<code><a href="source-class-WPGMZA.Map.html#23-36" title="Go to source code">__get</a>( <span> <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Magic method to get map object fields</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Magic method to get map object fields</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Exception<br>The object has been trashed
+				</div>
+
+				<h4>Params</h4>
+				<div class="list">
+						string $name The name of the property to read<br>
+				</div>
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.Crud.html#___get">WPGMZA\Crud::__get()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="create_instance" id="_create_instance" class="deprecated">
 
 		<td class="attributes"><code>
@@ -215,7 +276,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_create_instance">#</a>
-		<code><a href="source-class-WPGMZA.Map.html#23-30" title="Go to source code">create_instance</a>( <span> <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-WPGMZA.Map.html#38-45" title="Go to source code">create_instance</a>( <span> <var>$id_or_fields</var> = -<span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			<p>Deprecated. The Factory class will takeover here</p>
@@ -248,7 +309,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_arbitrary_data_column_name">#</a>
-		<code><a href="source-class-WPGMZA.Map.html#32-39" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
+		<code><a href="source-class-WPGMZA.Map.html#47-54" title="Go to source code">get_arbitrary_data_column_name</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the name of the column used to store arbitrary data, which is "other_settings" on the map table.</p>
@@ -278,7 +339,6 @@
 	<caption>Methods inherited from <a href="class-WPGMZA.Crud.html#methods">WPGMZA\Crud</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-WPGMZA.Crud.html#___get">__get()</a>, 
 			<a href="class-WPGMZA.Crud.html#___isset">__isset()</a>, 
 			<a href="class-WPGMZA.Crud.html#___set">__set()</a>, 
 			<a href="class-WPGMZA.Crud.html#___unset">__unset()</a>, 
@@ -304,6 +364,14 @@
 			<a href="class-WPGMZA.Crud.html#_store_arbitrary_data">store_arbitrary_data()</a>, 
 			<a href="class-WPGMZA.Crud.html#_trash">trash()</a>, 
 			<a href="class-WPGMZA.Crud.html#_update">update()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.Factory.html#methods">WPGMZA\Factory</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.Factory.html#_createInstance">createInstance()</a>
 		</code></td>
 	</tr>
 	</table>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class WPGMZA\AdminMarkerDataTable</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-WPGMZA.html">
+						WPGMZA<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-WPGMZA.Integration.html">
+						Integration					</a>
+
+						</li>
+				<li>
+					<a href="namespace-WPGMZA.Selector.html">
+						Selector					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-WPGMZA.AdminMarkerDataTable.html">AdminMarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.AjaxTable.html">AjaxTable</a></li>
+				<li><a href="class-WPGMZA.AutoLoader.html">AutoLoader</a></li>
+				<li><a href="class-WPGMZA.Crud.html">Crud</a></li>
+				<li><a href="class-WPGMZA.Database.html">Database</a></li>
+				<li><a href="class-WPGMZA.DataTable.html">DataTable</a></li>
+				<li><a href="class-WPGMZA.Distance.html">Distance</a></li>
+				<li><a href="class-WPGMZA.DOMDocument.html">DOMDocument</a></li>
+				<li><a href="class-WPGMZA.DOMElement.html">DOMElement</a></li>
+				<li><a href="class-WPGMZA.Factory.html">Factory</a></li>
+				<li><a href="class-WPGMZA.GDPRCompliance.html">GDPRCompliance</a></li>
+				<li><a href="class-WPGMZA.GlobalSettings.html">GlobalSettings</a></li>
+				<li><a href="class-WPGMZA.GoogleGeocoder.html">GoogleGeocoder</a></li>
+				<li><a href="class-WPGMZA.GoogleMap.html">GoogleMap</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsAPILoader.html" class="deprecated">GoogleMapsAPILoader</a></li>
+				<li><a href="class-WPGMZA.GoogleMapsLoader.html" class="deprecated">GoogleMapsLoader</a></li>
+				<li><a href="class-WPGMZA.LatLng.html">LatLng</a></li>
+				<li><a href="class-WPGMZA.Map.html">Map</a></li>
+				<li><a href="class-WPGMZA.MapsEngineDialog.html">MapsEngineDialog</a></li>
+				<li><a href="class-WPGMZA.Marker.html">Marker</a></li>
+				<li><a href="class-WPGMZA.MarkerDataTable.html">MarkerDataTable</a></li>
+				<li><a href="class-WPGMZA.MarkerFilter.html">MarkerFilter</a></li>
+				<li><a href="class-WPGMZA.ModalDialog.html">ModalDialog</a></li>
+				<li><a href="class-WPGMZA.NominatimGeocodeCache.html">NominatimGeocodeCache</a></li>
+				<li><a href="class-WPGMZA.OLLoader.html">OLLoader</a></li>
+				<li><a href="class-WPGMZA.Plugin.html">Plugin</a></li>
+				<li><a href="class-WPGMZA.Query.html">Query</a></li>
+				<li><a href="class-WPGMZA.QueryFragment.html">QueryFragment</a></li>
+				<li><a href="class-WPGMZA.RestAPI.html">RestAPI</a></li>
+				<li><a href="class-WPGMZA.ScriptLoader.html">ScriptLoader</a></li>
+				<li><a href="class-WPGMZA.Strings.html">Strings</a></li>
+				<li><a href="class-WPGMZA.Table.html">Table</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-WPGMZA.create_marker_instance_delegate.html">create_marker_instance_delegate</a></li>
+				<li><a href="function-WPGMZA.query_nominatim_cache.html" class="deprecated">query_nominatim_cache</a></li>
+				<li><a href="function-WPGMZA.store_nominatim_cache.html" class="deprecated">store_nominatim_cache</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-WPGMZA.html" title="Summary of WPGMZA"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class AdminMarkerDataTable</h1>
+
+
+	<div class="description">
+	<p>The Factory class is a base class which can be used to make any classes
+externally extensible. A filter is added for wpgmza_create_{class} which
+is called by createInstance. If this filter returns a subclass of Factory,
+that filter will override the default class and will be used.</p>
+
+<p>IMPORTANT: Any objects which subclass Factory MUST be created by calling
+createInstance on the subclass. Calling new on the constructor directly will
+not cause this filter to fire, and the extended class will not be used.</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-WPGMZA.Factory.html"><span>WPGMZA\Factory</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-WPGMZA.Table.html"><span>WPGMZA\Table</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-WPGMZA.AjaxTable.html"><span>WPGMZA\AjaxTable</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-WPGMZA.DataTable.html"><span>WPGMZA\DataTable</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-WPGMZA.MarkerDataTable.html"><span>WPGMZA\MarkerDataTable</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>WPGMZA\AdminMarkerDataTable</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-WPGMZA.html">WPGMZA</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-WPGMZA.AdminMarkerDataTable.html#5-106" title="Go to source code">tables/class.admin-marker-datatable.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-WPGMZA.AdminMarkerDataTable.html#9-25" title="Go to source code">__construct</a>( <span> <var>$ajax_parameters</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.MarkerDataTable.html#___construct">WPGMZA\MarkerDataTable::__construct()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getColumns" id="_getColumns">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getColumns">#</a>
+		<code><a href="source-class-WPGMZA.AdminMarkerDataTable.html#27-41" title="Go to source code">getColumns</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.MarkerDataTable.html#_getColumns">WPGMZA\MarkerDataTable::getColumns()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getActionButtons" id="_getActionButtons">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getActionButtons">#</a>
+		<code><a href="source-class-WPGMZA.AdminMarkerDataTable.html#43-68" title="Go to source code">getActionButtons</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="filterColumns" id="_filterColumns">
+
+		<td class="attributes"><code>
+			 protected 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_filterColumns">#</a>
+		<code><a href="source-class-WPGMZA.AdminMarkerDataTable.html#70-97" title="Go to source code">filterColumns</a>( <span> <var>&amp; $columns</var></span>, <span> <var>$input_params</var></span> )</code>
+
+		<div class="description short">
+			<p>Override this function to add additional columns to the query</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Override this function to add additional columns to the query</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.AjaxTable.html#_filterColumns">WPGMZA\AjaxTable::filterColumns()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSearchClause" id="_getSearchClause">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSearchClause">#</a>
+		<code><a href="source-class-WPGMZA.AdminMarkerDataTable.html#99-105" title="Go to source code">getSearchClause</a>( <span> <var>$input_params</var></span>, <span> <var>&amp; $query_params</var></span>, <span> <var>$exclude_columns</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-WPGMZA.AjaxTable.html#_getSearchClause">WPGMZA\AjaxTable::getSearchClause()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.DataTable.html#methods">WPGMZA\DataTable</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.DataTable.html#_data">data()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_getDataTableOptions">getDataTableOptions()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_getOrderBy">getOrderBy()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_getOrderDirection">getOrderDirection()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_getRecords">getRecords()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_initTableDOM">initTableDOM()</a>, 
+			<a href="class-WPGMZA.DataTable.html#_setDataTableOptions">setDataTableOptions()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.AjaxTable.html#methods">WPGMZA\AjaxTable</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.AjaxTable.html#_filterOrderBy">filterOrderBy()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_filterOrderDirection">filterOrderDirection()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_filterResults">filterResults()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getAjaxParameters">getAjaxParameters()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getAttributeParams">getAttributeParams()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getColumnNameByIndex">getColumnNameByIndex()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getHavingClause">getHavingClause()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getRestAPIRoute">getRestAPIRoute()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_getWhereClause">getWhereClause()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_setAjaxParameters">setAjaxParameters()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_setAttributeParams">setAttributeParams()</a>, 
+			<a href="class-WPGMZA.AjaxTable.html#_setRestAPIRoute">setRestAPIRoute()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.Table.html#methods">WPGMZA\Table</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.Table.html#___get">__get()</a>, 
+			<a href="class-WPGMZA.Table.html#___set">__set()</a>, 
+			<a href="class-WPGMZA.Table.html#_getElement">getElement()</a>, 
+			<a href="class-WPGMZA.Table.html#_html">html()</a>, 
+			<a href="class-WPGMZA.Table.html#_loadDocument">loadDocument()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-WPGMZA.Factory.html#methods">WPGMZA\Factory</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-WPGMZA.Factory.html#_createInstance">createInstance()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="ID_PLACEHOLDER" id="ID_PLACEHOLDER">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-WPGMZA.AdminMarkerDataTable.html#7" title="Go to source code"><b>ID_PLACEHOLDER</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#ID_PLACEHOLDER" class="anchor">#</a>
+				<code><span class="php-quote">'__5d5621cf7b6bb90bfb7bda85a0df7293'</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
