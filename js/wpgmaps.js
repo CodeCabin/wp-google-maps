@@ -244,6 +244,16 @@ MYMAP.init = function(selector, latLng, zoom) {
         myOptions.styles = myOptions.styles.concat(wpgmza_theme_data);
     }
 
+    if(typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_auto_night'] != 'undefined' && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_auto_night'] == 1 ){
+    	
+    	var date = new Date();
+		var isNightTime = date.getHours() < 7 || date.getHours() > 19;
+
+    	if(isNightTime) {
+    		myOptions.styles = myOptions.styles.concat(WPGMZA.Map.nightTimeThemeData);
+    	}
+    }
+
 	if(!wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_show_points_of_interest'])
 	{
 		// Only create a new array if styles aren't set already, so no existing styles are overwritten
