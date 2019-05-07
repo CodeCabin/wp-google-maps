@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 7.21.22 :-
+ * Fixed ModernStoreLocator creating OpenLayers store locator when engine setting is null and defaulting to Google
+ *
  * 7.11.21 :- 2019-04-16 :- Low priority
  * Added serializeFormData to DOMDocument and DOMElement
  * Added new event for InfoWindows - domready.wpgmza
