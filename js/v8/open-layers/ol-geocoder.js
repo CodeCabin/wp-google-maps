@@ -89,6 +89,25 @@ jQuery(function($) {
 			method: "POST"
 		});
 	}
+
+	/**
+	 * @function clearCache
+	 * @access protected
+	 * @summary Clears the Nomanatim geocode cache
+	 * @returns {void}
+	 */
+	WPGMZA.OLGeocoder.prototype.clearCache = function(callback)
+	{
+		$.ajax(WPGMZA.ajaxurl, {
+			data: {
+				action: "wpgmza_clear_nominatim_cache"
+			},
+			method: "POST",
+			success: function(response){
+				callback(response);
+			}
+		});
+	}
 	
 	WPGMZA.OLGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
