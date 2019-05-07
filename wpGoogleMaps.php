@@ -10,7 +10,10 @@ Text Domain: wp-google-maps
 Domain Path: /languages
 */
 
-/*
+/* 7.11.22 :- 2019-04-24 :- Low priority
+ * Added the ability to toggle auto night mode as well as a theme
+ * Added a min height to bakend map so that it does not break when height is set to 100%
+ *
  * 7.11.21 :- 2019-04-16 :- Low priority
  * Added serializeFormData to DOMDocument and DOMElement
  * Added new event for InfoWindows - domready.wpgmza
