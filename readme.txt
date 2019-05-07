@@ -279,7 +279,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 = 7.11.10 :- 2019-03-05 :- Low priority =
 * Changed Google Maps API error handler to render in a panel rather than in a modal dialog
-* Removed "In light of recent E GDPR regulation" admin notice
+* Removed "In light of recent GDPR regulation" admin notice
 * Fixed clicking listen item outside link has no effect on map edit page tabs
 
 = 7.11.09 :- 2019-02-28 :- Medium priority =
