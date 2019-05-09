@@ -998,31 +998,20 @@ if(!function_exists('get_rest_url'))
 	return;
 }
 
-// NB: Make's static methods on Plugin class immediately available
-if(!@include_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php'))
+function wpgmza_preload_is_in_developer_mode()
 {
-	add_action('admin_notices', function() {
+	$globalSettings = get_option('wpgmza_global_settings');
 		
-		?>
-		<div class="notice notice-error is-dismissible">
-			<p>
-				<strong>
-				<?php
-				_e('WP Google Maps', 'wp-google-maps');
-				?></strong>:
-				<?php
-				_e('The main plugin module is missing. Please re-install WP Google Maps.', 'wp-google-maps');
-				?>
-			</p>
-		</div>
-		<?php
-		
-	});
+	if(empty($globalSettings))
+		return !empty($_COOKIE['wpgmza-developer-mode']);
 	
-	return;
+	if(!($globalSettings = json_decode($globalSettings)))
+		return false;
+	
+	return isset($globalSettings->developer_mode) && $globalSettings->developer_mode == true;
 }
 
-if(method_exists('WPGMZA\\Plugin', 'preloadIsInDeveloperMode') && WPGMZA\Plugin::preloadIsInDeveloperMode())
+if(wpgmza_preload_is_in_developer_mode())
 {
 	require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
 }

@@ -173,7 +173,7 @@ class AutoLoader
 		
 		$file = $this->filenamesByClass[$class];
 		
-		if(Plugin::preloadIsInDeveloperMode())
+		if(wpgmza_preload_is_in_developer_mode())
 			wpgmza_require_once( $file );
 		else
 			try{

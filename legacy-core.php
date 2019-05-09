@@ -1,7 +1,5 @@
 <?php
 
-wpgmza_require_once(plugin_dir_path(__FILE__) . 'constants.php');
-
 if(!function_exists('wpgmza_require_once'))
 {
 	function wpgmza_require_once($filename)
@@ -12,6 +10,8 @@ if(!function_exists('wpgmza_require_once'))
 		require_once($filename);
 	}
 }
+
+wpgmza_require_once(plugin_dir_path(__FILE__) . 'constants.php');
 
 if(!function_exists('wpgmza_show_rest_api_missing_error'))
 {
