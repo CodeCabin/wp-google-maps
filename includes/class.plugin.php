@@ -277,6 +277,19 @@ class Plugin extends Factory
 		return !(empty($this->settings->developer_mode) && !isset($_COOKIE['wpgmza-developer-mode']));
 	}
 	
+	public static function preloadIsInDeveloperMode()
+	{
+		$globalSettings = get_option('wpgmza_global_settings');
+		
+		if(empty($globalSettings))
+			return !empty($_COOKIE['wpgmza-developer-mode']);
+		
+		if(!($globalSettings = json_decode($globalSettings)))
+			return false;
+		
+		return isset($globalSettings->developer_mode) && $globalSettings->developer_mode == true;
+	}
+	
 	/**
 	 * Check whether we are running the Pro add-on.
 	 * @return bool True if the Pro add-on is installed and activated.
@@ -322,14 +335,42 @@ class Plugin extends Factory
 
 add_action('plugins_loaded', function() {
 	
-	global $wpgmza;
-	
-	if(defined('WPGMZA_PRO_VERSION') && version_compare(WPGMZA_PRO_VERSION, '7.11.00', '<') && class_exists('WPGMZA\\ProPlugin'))
+	function create()
 	{
-		$wpgmza = new ProPlugin();
-		return;
+		global $wpgmza;
+		
+		if(defined('WPGMZA_PRO_VERSION') && version_compare(WPGMZA_PRO_VERSION, '7.11.00', '<') && class_exists('WPGMZA\\ProPlugin'))
+		{
+			$wpgmza = new ProPlugin();
+			return;
+		}
+		
+		$wpgmza = Plugin::createInstance();
 	}
 	
-	$wpgmza = Plugin::createInstance();
+	if(Plugin::preloadIsInDeveloperMode())
+		create();
+	else
+		try{
+			create();
+		}catch(Exception $e){
+			add_action('admin_notices', function() use ($e) {
+				
+				?>
+				<div class="notice notice-error is-dismissible">
+					<p>
+						<?php
+						_e('WP Google Maps', 'wp-google-maps');
+						?>:
+						<?php
+						_e('The plugin cannot initialise due to a fatal error. This is usually due to missing files or incompatible software. Please re-install the plugin and any relevant add-ons. We recommend that you use at least PHP 5.6. Technical details are as follows: ', 'wp-google-maps');
+						echo $e->getMessage();
+						?>
+					</p>
+				</div>
+				<?php
+				
+			});
+		}
 	
 });
