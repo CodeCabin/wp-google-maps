@@ -49,6 +49,9 @@ class ScriptLoader
 	 */
 	protected function log($str)
 	{
+		// Disabled in production. Left here for developers wishing to debug build issues.
+		return;
+		
 		$dest = __DIR__ . '/build.log';
 		
 		if(!$this->logStarted)

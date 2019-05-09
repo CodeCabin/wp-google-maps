@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.21
+Version: 7.11.23
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,10 +11,18 @@ Domain Path: /languages
 */
 
 /*
- * 7.21.22 :-
- * Fixed ModernStoreLocator creating OpenLayers store locator when engine setting is null and defaulting to Google
+ * 7.21.23
+ * Tested with WordPress 5.2
+ * Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
+ *
+ * 7.21.22 :- 2019-05-08 :- Low priority
  * Added the ability to toggle auto night mode as well as a theme
  * Added a min height to bakend map so that it does not break when height is set to 100%
+ * Added shift-click range selection to admin marker table
+ * Added code to automatically regenerate readme.txt changelog
+ * Fixed ModernStoreLocator creating OpenLayers store locator when engine setting is null and defaulting to Google
+ * Fixed beforeunload listener always bound on map edit page (fixed Save Changes? prompt shown even if no changes were made)
+ * Dropped logging in ScriptLoader module
  *
  * 7.11.21 :- 2019-04-16 :- Low priority
  * Added serializeFormData to DOMDocument and DOMElement
@@ -774,6 +782,141 @@ Domain Path: /languages
  * Removed the "map could not load" error
  * Fixed a bug that when threw off gps co-ordinates when adding a lat,lng as an address
  * 
+ * 6.0.18
+ * You can now select which roles can access the map editor
+ *
+ * 6.0.17
+ * Minor update: PO files updated
+ *
+ * 6.0.16
+ * You can now choose which folder your markers are saved in
+ * Better error reporting for file permission issues
+ *
+ * 6.0.15
+ * Small bug fixes
+ * Map marker location bug fix
+ * Russian translation added by Borisa Djuraskovic
+ *
+ * 6.0.14
+ * Code improvements
+ * Added option for selecting Celsius or Fahrenheit with the Google Maps weather layer 
+ *
+ * 6.0.13
+ * Fixed PHP warnings and the plugin is now PHP 5.5 compatible
+ *
+ * 6.0.12
+ * Fixed a google map marker XML file location bug
+ *
+ * 6.0.11
+ * Small bug fix on the WP Google Maps welcome page
+ *
+ * 6.0.10
+ * Tested on WP 3.9
+ * Fixed a bug that only displayed two map marker categories for the store locator (pro)
+ * Added the option to select which Google Map API version you would like to use. There were issues when using Google Map API v3.15 (lines were created on the map for no reason. The default is now Google Map API V3.14)
+ *
+ * 6.0.9
+ * Maps now automatically work in Tabs without having to add any code
+ * Added a "zoom level" slider to the Google map settings
+ * Added a check for GoDaddy Wordpress hosting and the APC object cache due to the issues that arise while using it
+ * Fixed a polyline bug
+ * Added "stroke opacity" options to polygons
+ * Added a warning when users want to use % for the map height
+ *
+ * 6.0.8
+ * Fixed a Mac Firefox style issue with the WP Google Maps Store Locator
+ * Fixed a function error in the polyline functions file
+ *
+ * 6.0.7
+ * Upgrading of plugin is now handled correctly
+ *
+ * 6.0.6
+ * Multisite bug fixes
+ * XML marker file bug fixes (thank you Endymion00)
+ *
+ * 6.0.5
+ * Markers are now stored in the uploads folder
+ * Small bug fixes
+ *
+ * 6.0.4
+ * Performance update
+ *
+ * 6.0.3
+ * Small bug fix
+ *
+ * 6.0.2
+ * Style bug fix
+ *
+ * 6.0.1
+ * Small bug fix
+ *
+ * 6.0.0
+ * Fixed a map width bug with the datatables layout. Now falls in line with the map width.
+ * Added more options to the map settings page
+ * Fixed a bug that forced a new geocode on every marker edit, even if the address wasnt changed
+ * Updated TimThumb from 2.8.11 to 2.8.13
+ * You can now choose for your map InfoWindows to open from mouse click or hover
+ * Better error handling when the map cannot show due to conflicts or JS errors
+ * Fixed the bug that caused high memory usage
+ * Major bug fixes
+ *
+ * 5.24
+ * Bug fix - The map style changed the style of your theme.
+ *
+ * 5.23
+ * Add animations to your map markers (lite)
+ * Choose to have the infowindow open by default (lite)
+ * Add the bicycle and traffic layer to your map (lite)
+ * Substantial coding improvements and bug fixes
+ *
+ * 5.22
+ * Fixed the marker sort order bug
+ *
+ * 5.21
+ * Fixed a bug that if clicking the "add maker" button produced an error, the "add marker" button would disappear.
+ *
+ * 5.20
+ * Categories can now be hidden from the marker list
+ * German translation added thanks to Matteo Ender
+ *
+ * 5.19
+ * Fixed a styling bug with Firefox
+ * Fixed the bug that caused all markers to be lost upon upgrading
+ *
+ * 5.18
+ * Added improved styling to the address in the map infowindow
+ *
+ * 5.17
+ * Fixed update bug
+ *
+ * 5.16
+ * Plugin now checks to see if the Google Maps API is already loaded before trying to load it again
+ * Fixed some SSL bugs
+ *
+ * 5.15
+ * Added marker category functionality
+ * Added Google Map Mashup functionality
+ * Fixed small bugs
+ * Added backwards compatibility for older versions of WordPress
+ * Replaced deprecated WordPress function calls
+ * Added Spanish translation - Thank you Fernando!
+ *
+ * 5.14
+ * The map plugin now uses the new media manager
+ * Fixed some styling conflicts
+ * Added missing strings to localization
+ * Updated to the latest Timthumb version
+ *
+ * 5.13
+ * Fixed a small bug
+ *
+ * 5.12
+ * Removed deprecated code
+ *
+ * 5.11
+ * Added SSL bug fixes
+ * Fixed a bug that wasnt allowing users to edit the exact location
+ *
  */
 
 /*
@@ -855,4 +998,54 @@ if(!function_exists('get_rest_url'))
 	return;
 }
 
-require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
+// NB: Make's static methods on Plugin class immediately available
+if(!@include_once(plugin_dir_path(__FILE__) . 'includes/class.plugin.php'))
+{
+	add_action('admin_notices', function() {
+		
+		?>
+		<div class="notice notice-error is-dismissible">
+			<p>
+				<strong>
+				<?php
+				_e('WP Google Maps', 'wp-google-maps');
+				?></strong>:
+				<?php
+				_e('The main plugin module is missing. Please re-install WP Google Maps.', 'wp-google-maps');
+				?>
+			</p>
+		</div>
+		<?php
+		
+	});
+	
+	return;
+}
+
+if(method_exists('WPGMZA\\Plugin', 'preloadIsInDeveloperMode') && WPGMZA\Plugin::preloadIsInDeveloperMode())
+{
+	require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
+}
+else
+	try{
+		require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
+	}catch(Exception $e) {
+		add_action('admin_notices', function() use ($e) {
+	
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p>
+					<strong>
+					<?php
+					_e('WP Google Maps', 'wp-google-maps');
+					?></strong>:
+					<?php
+					_e('The plugin failed to load due to a fatal error. This is usually due to missing files, or incompatible software. Please re-install the plugin. We recommend you use PHP 5.6 or above. Technical details are as follows: ', 'wp-google-maps');
+					echo $e->getMessage();
+					?>
+				</p>
+			</div>
+			<?php
+			
+		});
+	}
