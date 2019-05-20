@@ -87,7 +87,7 @@ class Plugin extends Factory
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 		
-		add_action('init', array($this, 'onInit'));
+		add_action('init', array($this, 'onInit'), 9);
 		
 		foreach(Plugin::$enqueueScriptActions as $action)
 		{
