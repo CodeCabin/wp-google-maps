@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 7.21.24
+ * Fixed error where _gdprCompliance on Plugin class would be empty for Gutenberg integration
+ *
  * 7.21.23
  * Tested with WordPress 5.2
  * Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
