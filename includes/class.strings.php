@@ -41,7 +41,9 @@ class Strings
 			'save_marker'				=> __('Save Marker', 'wp-google-maps'),
 			'please_wait'				=> __('Please Wait...', 'wp-google-maps'),
 			'zero_results'				=> __('Zero results found', 'wp-google-maps'),
-			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps')
+			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps'),
+			
+			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps')
 		));
 	}
 	

@@ -175,6 +175,10 @@ jQuery(function($) {
 			return;
 		}
 		
+		// NB: This is a workaround for "undefined" in InfoWindows (basic only) on map edit page
+		if(WPGMZA.currentPage == "map-edit" && !WPGMZA.pro_version)
+			return;
+		
 		if(this.map.lastInteractedMarker)
 			this.map.lastInteractedMarker.infoWindow.close();
 		this.map.lastInteractedMarker = this;

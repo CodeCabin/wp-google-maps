@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.23
+Version: 7.11.24
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,11 +11,27 @@ Domain Path: /languages
 */
 
 /*
- * 7.21.23
+ * 7.11.25 - 2019-05-21 :- Low priority
+ * Added CSS max width fix to override themes breaking OpenLayers markers
+ * Added WPGMZA.Text and WPGMZA.GoogleText modules
+ * Developer mode and SCRIPT_DEBUG will now enqueue OpenLayers unminified
+ * WPGMZA.LatLngBounds can now take an instance of WPGMZA.LatLngBounds in constructor arguments
+ * Renamed deletePolygon, deletePolyline to removePolygon, removePolyline etc. on WPGMZA.Map
+ * Fixed links not clickable in Pro InfoWindows
+ * Fixed typo in backreference to WPGMZA.Polyline in OpenLayers polyline feature
+ * Fixed issue with WPGMZA.LatLngBounds around 180th meridian
+ * Fixed country restriction not working with OpenLayers
+ *
+ * 7.11.24 :- 2019-05-20 :- Medium priority
+ * Store Locator module no longer triggers a filter update when the address was not found
+ *
+ * 7.11.23 :- 2019-05-13 :- Medium priority
  * Tested with WordPress 5.2
  * Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
+ * Fixed LatLngBounds issue with 180th meridian
+ * Fixed "undefined" in map edit page infowindows
  *
- * 7.21.22 :- 2019-05-08 :- Low priority
+ * 7.11.22 :- 2019-05-08 :- Low priority
  * Added the ability to toggle auto night mode as well as a theme
  * Added a min height to bakend map so that it does not break when height is set to 100%
  * Added shift-click range selection to admin marker table

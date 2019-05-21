@@ -306,7 +306,7 @@
         "src": "js\/v8\/google-maps\/google-text-overlay.js",
         "pro": false,
         "dependencies": [
-            "wpgmza-text"
+            "wpgmza-google-text"
         ]
     },
     "wpgmza-google-text": {
