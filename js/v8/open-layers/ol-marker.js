@@ -29,7 +29,8 @@ jQuery(function($) {
 		this.overlay = new ol.Overlay({
 			element: this.element,
 			position: origin,
-			positioning: "bottom-center"
+			positioning: "bottom-center",
+			stopEvent: false
 		});
 		this.overlay.setPosition(origin);
 		

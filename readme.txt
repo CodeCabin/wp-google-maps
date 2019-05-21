@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.21.24 :- 2019-05-20 :- Medium priority =
+* Store Locator module no longer triggers a filter update when the address was not found
+
+= 7.21.23 :- 2019-05-13 :- Medium priority =
+* Tested with WordPress 5.2
+* Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
+* Fixed LatLngBounds issue with 180th meridian
+* Fixed "undefined" in map edit page infowindows
+
 = 7.21.22 :- 2019-05-08 :- Low priority =
 * Added the ability to toggle auto night mode as well as a theme
 * Added a min height to bakend map so that it does not break when height is set to 100%
@@ -1125,6 +1134,14 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
 
 
 

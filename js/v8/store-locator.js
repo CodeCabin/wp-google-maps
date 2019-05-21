@@ -58,7 +58,10 @@ jQuery(function($) {
 	WPGMZA.StoreLocator.prototype.onGeocodeComplete = function(event)
 	{
 		if(!event.results || !event.results.length)
+		{
 			this._center = null;
+			return;
+		}
 		else
 			this._center = new WPGMZA.LatLng( event.results[0].latLng );
 		

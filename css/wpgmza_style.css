@@ -735,3 +735,7 @@ ul.wpgmza_marker_list_class {
     letter-spacing: 0.05em;
 }
 
+.ol-marker > img
+{
+	max-width: none !important;
+}

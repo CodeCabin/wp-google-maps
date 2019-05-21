@@ -49,7 +49,8 @@ jQuery(function($) {
 			this.mapObject.map.olMap.removeOverlay(this.overlay);
 			
 		this.overlay = new ol.Overlay({
-			element: this.element
+			element: this.element,
+			stopEvent: false
 		});
 		
 		this.overlay.setPosition(ol.proj.fromLonLat([

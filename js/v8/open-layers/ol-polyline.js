@@ -50,7 +50,7 @@ jQuery(function($) {
 		});
 		
 		this.layer.getSource().getFeatures()[0].setProperties({
-			wpgmzaPolyling: this
+			wpgmzaPolyline: this
 		});
 	}
 	

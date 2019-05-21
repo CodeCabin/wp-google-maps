@@ -16,14 +16,39 @@ jQuery(function($) {
 	{
 		//console.log("Created bounds", southWest, northEast);
 		
-		if(southWest && northEast)
+		if(southWest instanceof WPGMZA.LatLngBounds)
+		{
+			var other = southWest;
+			this.south = other.south;
+			this.north = other.north;
+			this.west = other.west;
+			this.east = other.east;
+		}
+		else if(southWest && northEast)
 		{
 			// TODO: Add checks and errors
 			this.south = southWest.lat;
 			this.north = northEast.lat;
 			this.west = southWest.lng;
-			this.east = southWest.lng;
+			this.east = northEast.lng;
 		}
+	}
+	
+	WPGMZA.LatLngBounds.fromGoogleLatLngBounds = function(googleLatLngBounds)
+	{
+		if(!(googleLatLngBounds instanceof google.maps.LatLngBounds))
+			throw new Error("Argument must be an instance of google.maps.LatLngBounds");
+		
+		var result = new WPGMZA.LatLngBounds();
+		var southWest = googleLatLngBounds.getSouthWest();
+		var northEast = googleLatLngBounds.getNorthEast();
+		
+		result.north = northEast.lat();
+		result.south = southWest.lat();
+		result.west = southWest.lng();
+		result.east = northEast.lng();
+		
+		return result;
 	}
 	
 	/**
@@ -105,7 +130,7 @@ jQuery(function($) {
 		this.west = southWest.lng;
 		this.east = northEast.lng;
 		
-		//console.log("Extended", temp, "to", this.toString());
+		// console.log("Extended", temp, "to", this.toString());
 	}
 	
 	WPGMZA.LatLngBounds.prototype.contains = function(latLng)
@@ -124,10 +149,7 @@ jQuery(function($) {
 		if(this.west < this.east)
 			return (latLng.lng >= this.west && latLng.lng <= this.east);
 		
-		if(this.west < this.east)
-			return (latLng.lng >= this.west || this.lng <= this.east);
-		
-		return (latLng.lng <= this.west || this.lng >= this.east);
+		return (latLng.lng <= this.west || latLng.lng >= this.east);
 	}
 	
 	WPGMZA.LatLngBounds.prototype.toString = function()
