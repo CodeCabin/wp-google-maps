@@ -139,4 +139,3 @@ add_action('wp_ajax_wpgmza_store_nominatim_cache', 			'WPGMZA\\store_nominatim_c
 add_action('wp_ajax_nopriv_wpgmza_store_nominatim_cache', 	'WPGMZA\\store_nominatim_cache');
 
 add_action('wp_ajax_wpgmza_clear_nominatim_cache', 			'WPGMZA\\clear_nominatim_cache');
-add_action('wp_ajax_nopriv_wpgmza_clear_nominatim_cache', 	'WPGMZA\\clear_nominatim_cache');

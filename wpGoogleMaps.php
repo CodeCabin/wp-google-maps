@@ -21,11 +21,12 @@ Domain Path: /languages
  * Fixed typo in backreference to WPGMZA.Polyline in OpenLayers polyline feature
  * Fixed issue with WPGMZA.LatLngBounds around 180th meridian
  * Fixed country restriction not working with OpenLayers
+ * Fixed error where _gdprCompliance on Plugin class would be empty for Gutenberg integration
  *
  * 7.11.24 :- 2019-05-20 :- Medium priority
  * Store Locator module no longer triggers a filter update when the address was not found
  *
- * 7.11.23 :- 2019-05-13 :- Medium priority
+ * 7.21.23
  * Tested with WordPress 5.2
  * Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
  * Fixed LatLngBounds issue with 180th meridian

@@ -1120,7 +1120,7 @@ function add_polygon(polygonid) {
 
     WPGM_Path_Polygon[polygonid] = new google.maps.Polygon({
          path: WPGM_PathData,
-         clickable: true, /* must add option for this */ 
+         clickable: false, /* must add option for this */ 
          strokeColor: "#"+tmp_data['linecolor'],
          fillOpacity: tmp_data['opacity'],
          strokeOpacity: tmp_data['lineopacity'],
