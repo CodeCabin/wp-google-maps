@@ -26,6 +26,21 @@ jQuery(function($) {
 		return new WPGMZA.RestAPI();
 	}
 	
+	WPGMZA.RestAPI.prototype.compressParams = function(params)
+	{
+		var string		= JSON.stringify(params);
+		var encoder		= new TextEncoder();
+		var input		= encoder.encode(string);
+		var compressed	= pako.deflate(input);
+		var raw			= Array.prototype.map.call(compressed, function(ch) {
+			return String.fromCharCode(ch);
+		}).join("");
+		
+		var base64		= btoa(raw);
+		
+		return base64;
+	}
+	
 	/**
 	 * Makes an AJAX to the REST API, this function is a wrapper for $.ajax
 	 * @method
@@ -56,6 +71,15 @@ jQuery(function($) {
 				throw new Error(message);
 			}
 		
+		if(params.useCompressedPathVariable)
+		{
+			var data = params.data;
+			
+			delete params.data;
+			
+			route += "/base64" + this.compressParams(data);
+		}
+		
 		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	
@@ -66,5 +90,21 @@ jQuery(function($) {
 		
 		nativeCallFunction.apply(this, arguments);
 	}
+	
+	
+	$(window).on("load", function(event) {
+		
+		WPGMZA.restAPI.call("/test", {
+			
+			data: {
+				foo: "bar"
+			},
+			
+			useCompressedPathVariable: true
+			
+		});
+		
+	});
+	
 	
 });

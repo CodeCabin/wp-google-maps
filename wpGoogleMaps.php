@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.24
+Version: 7.11.28
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,16 +11,34 @@ Domain Path: /languages
 */
 
 /*
+ * 7.11.28 :- 2019-06-03 :- Medium priority
+ * Added nonce to settings form on admin post action
+ * Fixed errors on PHP installations where documentElement is not a property on DOMDocument
+ *
+ * 7.11.27 :- 2019-05-29 :- Medium priority
+ * Added keypress listener for enter on store locator for configurations which don't emit keydown
+ * Changed (experimental) compressed REST datatables GET request to use a cachable path variable rather than query string
+ * Fixed classes that subclass WPGMZA.AdvancedTableDataTable not having "Show X items" setting applied in Pro
+ * Fixed missing spatial function prefixes in WPGMZA\MarkerFilter::applyRadiusClause, now works with MySQL 8.*
+ * Fixed "no results found" not showing when new MarkerFilter returns zero results
+ * DataTables AJAX route no longer issues notice when used without a HTTP_REFERER
+ * 
+ * 7.11.26 - 2019-05-22 :- Medium Priority
+ * Tested with WordPress 5.2.1
+ * REST API only passes map ID to child classes of MarkerListing and AdvancedTable
+ * Fixed admin marker table not loading due to the above
+ * 
  * 7.11.25 - 2019-05-21 :- Low priority
  * Added CSS max width fix to override themes breaking OpenLayers markers
  * Added WPGMZA.Text and WPGMZA.GoogleText modules
+ * Added experimental setting WPGMZA.settings.useCompressedDataTablesRequests
  * Developer mode and SCRIPT_DEBUG will now enqueue OpenLayers unminified
  * WPGMZA.LatLngBounds can now take an instance of WPGMZA.LatLngBounds in constructor arguments
  * Renamed deletePolygon, deletePolyline to removePolygon, removePolyline etc. on WPGMZA.Map
+ * wpgmaps_check_shortcode no longer sets short_code_active to false
  * Fixed links not clickable in Pro InfoWindows
- * Fixed typo in backreference to WPGMZA.Polyline in OpenLayers polyline feature
  * Fixed issue with WPGMZA.LatLngBounds around 180th meridian
- * Fixed country restriction not working with OpenLayers
+ * Fixed various typos
  * Fixed error where _gdprCompliance on Plugin class would be empty for Gutenberg integration
  *
  * 7.11.24 :- 2019-05-20 :- Medium priority

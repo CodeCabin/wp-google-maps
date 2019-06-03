@@ -6,6 +6,8 @@ class DataTable extends AjaxTable
 {
 	public function __construct($table_name, $ajax_parameters=null, $datatable_options=null)
 	{
+		global $wpgmza;
+		
 		AjaxTable::__construct($table_name, '/datatables/', $ajax_parameters);
 		
 		$this->element->setAttribute('data-wpgmza-datatable', 'true');

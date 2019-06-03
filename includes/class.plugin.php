@@ -199,7 +199,10 @@ class Plugin extends Factory
 
 			'settings' 				=> $settings,
 			'currentPage'			=> $this->getCurrentPage(),
+			
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
+			'serverCanInflate'		=> function_exists('zlib_decode'),
+			
 			'localized_strings'		=> $strings->getLocalizedStrings(),
 			'api_consent_html'		=> $this->gdprCompliance->getConsentPromptHTML(),
 			'basic_version'			=> $this->getBasicVersion(),

@@ -18,11 +18,54 @@ jQuery(function($) {
 		this.phpClass			= $(element).attr("data-wpgmza-php-class");
 		this.dataTable			= $(this.dataTableElement).DataTable(settings);
 		this.wpgmzaDataTable	= this;
+		
+		this.dataTable.ajax.reload();
 	}
+	
+	Object.defineProperty(WPGMZA.DataTable.prototype, "canSendCompressedRequests", {
+		
+		"get": function() {
+			
+			return (
+				WPGMZA.serverCanInflate == 1 && 
+				"Uint8Array" in window && 
+				"TextEncoder" in window && 
+				!WPGMZA.settings.forceDatatablesPOST && 
+				WPGMZA.settings.useCompressedDataTablesRequests
+			);
+			
+		}
+		
+	});
 	
 	WPGMZA.DataTable.prototype.getDataTableElement = function()
 	{
 		return $(this.element).find("table");
+	}
+	
+	/*WPGMZA.DataTable.AjaxURL = function(dataTable)
+	{
+		this.dataTable = dataTable;
+	}
+	
+	WPGMZA.DataTable.AjaxURL.prototype.toString = function()
+	{
+		var data 		= this.dataTable.onAJAXRequest(data, settings);
+		var element 	= this.dataTable.element;
+		var route 		= $(element).attr("data-wpgmza-rest-api-route");
+		
+		console.log(data);
+		
+		return "placeholder";
+	}*/
+	
+	var blank = function() {
+		
+	};
+	
+	blank.prototype.toString = function()
+	{
+		return "";
 	}
 	
 	WPGMZA.DataTable.prototype.getDataTableSettings = function()
@@ -30,18 +73,38 @@ jQuery(function($) {
 		var self = this;
 		var element = this.element;
 		var options = {};
-		var ajax;
+		var route;
+		var method = this.canSendCompressedRequests ? "GET" : "POST";
+		var url;
 		
 		if($(element).attr("data-wpgmza-datatable-options"))
 			options = JSON.parse($(element).attr("data-wpgmza-datatable-options"));
 		
-		if(ajax = $(element).attr("data-wpgmza-rest-api-route"))
+		if(route = $(element).attr("data-wpgmza-rest-api-route"))
 		{
+			url = WPGMZA.resturl + route;
+			
+			options.deferLoading = true;
+			
 			options.ajax = {
-				url: WPGMZA.resturl + ajax,
-				method: "POST",	// We don't use GET because the request can get bigger than some browsers maximum URL lengths
+				cache: true,
+				url: url,
+				method: method,	// We don't use GET because the request can get bigger than some browsers maximum URL lengths
 				data: function(data, settings) {
-					return self.onAJAXRequest(data, settings);
+					
+					var request = self.onAJAXRequest(data, settings);
+					
+					if(self.canSendCompressedRequests)
+					{
+						// NB: We use a custom base64 encoding because percent signs are not permitted in the REST URL, and slashes would indicate a path. This is a resource, and not a path
+						var customBase64Encoded = request.wpgmzaDataTableRequestData.replace(/\//g, "-");
+						
+						self.dataTable.ajax.url(url + customBase64Encoded);
+						return {};
+					}
+					
+					return request;
+					
 				},
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
@@ -52,11 +115,10 @@ jQuery(function($) {
 			options.serverSide = true;
 		}
 		
-		if($(this.element).attr("data-wpgmza-php-class") == "WPGMZA\\MarkerListing\\AdvancedTable" && WPGMZA.settings.wpgmza_default_items)
-		{
+		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items)
 			options.iDisplayLength = parseInt(WPGMZA.settings.wpgmza_default_items);
-			options.aLengthMenu = [5, 10, 25, 50, 100];
-		}
+		
+		options.aLengthMenu = [5, 10, 25, 50, 100];
 		
 		var languageURL;
 
@@ -358,6 +420,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.DataTable.prototype.onAJAXRequest = function(data, settings)
 	{
+		// TODO: Move this to the REST API module and add useCompressedPathVariable
 		var params = {
 			"phpClass":	this.phpClass
 		};
@@ -368,8 +431,26 @@ jQuery(function($) {
 		
 		$.extend(data, params);
 		
-		return {
+		var uncompressed = {
 			wpgmzaDataTableRequestData: data
+		};
+		
+		if(!this.canSendCompressedRequests)
+			return uncompressed;
+		
+		var string		= JSON.stringify(data);
+		var encoder		= new TextEncoder();
+		var input		= encoder.encode(string);
+		var compressed	= pako.deflate(input);
+		
+		var raw			= Array.prototype.map.call(compressed, function(ch) {
+			return String.fromCharCode(ch);
+		}).join("");
+		
+		var base64		= btoa(raw);
+		
+		return {
+			wpgmzaDataTableRequestData: base64
 		};
 	}
 	

@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 5.2
+Tested up to: 5.2.1
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -123,7 +123,7 @@ WP Google Maps Pro
 * [Marker listings - Simple](https://www.wpgmaps.com/demo/list-markers/)
 * [Marker listings - Advanced](https://www.wpgmaps.com/demo/map-with-markers-listed-below-advanced/)
 * [Google Maps Directions](https://www.wpgmaps.com/demo/directions/)
-* [Resposive Map](https://www.wpgmaps.com/demo/responsive-maps/)
+* [Responsive Map](https://www.wpgmaps.com/demo/responsive-maps/)
 * [Marker Categories](https://www.wpgmaps.com/demo/marker-categories/) (Filtering)
 * [Advanced Store Locator](https://www.wpgmaps.com/demo/store-locator/)
 * [WP Google Maps Editor](https://www.wpgmaps.com/demo/screenshots-back-end/) (Back-end Screenshots)
@@ -220,16 +220,46 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
-= 7.21.24 :- 2019-05-20 :- Medium priority =
+= 7.11.28 :- 2019-06-03 :- Medium priority =
+* Added nonce to settings form on admin post action
+* Fixed errors on PHP installations where documentElement is not a property on DOMDocument
+
+= 7.11.27 :- 2019-05-29 :- Medium priority =
+* Added keypress listener for enter on store locator for configurations which don't emit keydown
+* Changed (experimental) compressed REST datatables GET request to use a cachable path variable rather than query string
+* Fixed classes that subclass WPGMZA.AdvancedTableDataTable not having "Show X items" setting applied in Pro
+* Fixed missing spatial function prefixes in WPGMZA\MarkerFilter::applyRadiusClause, now works with MySQL 8.*
+* Fixed "no results found" not showing when new MarkerFilter returns zero results
+* DataTables AJAX route no longer issues notice when used without a HTTP_REFERER
+
+= 7.11.26 - 2019-05-22 :- Medium Priority =
+* Tested with WordPress 5.2.1
+* REST API only passes map ID to child classes of MarkerListing and AdvancedTable
+* Fixed admin marker table not loading due to the above
+
+= 7.11.25 - 2019-05-21 :- Low priority =
+* Added CSS max width fix to override themes breaking OpenLayers markers
+* Added WPGMZA.Text and WPGMZA.GoogleText modules
+* Added experimental setting WPGMZA.settings.useCompressedDataTablesRequests
+* Developer mode and SCRIPT_DEBUG will now enqueue OpenLayers unminified
+* WPGMZA.LatLngBounds can now take an instance of WPGMZA.LatLngBounds in constructor arguments
+* Renamed deletePolygon, deletePolyline to removePolygon, removePolyline etc. on WPGMZA.Map
+* wpgmaps_check_shortcode no longer sets short_code_active to false
+* Fixed links not clickable in Pro InfoWindows
+* Fixed issue with WPGMZA.LatLngBounds around 180th meridian
+* Fixed various typos
+* Fixed error where _gdprCompliance on Plugin class would be empty for Gutenberg integration
+
+= 7.11.24 :- 2019-05-20 :- Medium priority =
 * Store Locator module no longer triggers a filter update when the address was not found
 
-= 7.21.23 :- 2019-05-13 :- Medium priority =
+= 7.21.23 =
 * Tested with WordPress 5.2
 * Added more robust error handling for missing files and failed initialisations (when NOT in developer mode)
 * Fixed LatLngBounds issue with 180th meridian
 * Fixed "undefined" in map edit page infowindows
 
-= 7.21.22 :- 2019-05-08 :- Low priority =
+= 7.11.22 :- 2019-05-08 :- Low priority =
 * Added the ability to toggle auto night mode as well as a theme
 * Added a min height to bakend map so that it does not break when height is set to 100%
 * Added shift-click range selection to admin marker table
@@ -1134,6 +1164,19 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
