@@ -94,7 +94,7 @@ class DOMElement extends \DOMElement
 	 */
 	public function closest($selector)
 	{
-		if($this === $this->ownerDocument->documentElement)
+		if($this === $this->ownerDocument->getDocumentElementSafe())
 			throw new \Exception('Method not valid on document element');
 		
 		for($el = $this; $el->parentNode != null; $el = $el->parentNode)
@@ -212,10 +212,10 @@ class DOMElement extends \DOMElement
 		
 		if($subject instanceof \DOMDocument)
 		{
-			if(!$subject->documentElement)
+			if(!$subject->getDocumentElementSafe())
 				throw new \Exception('Document is empty');
 			
-			$node = $this->ownerDocument->importNode($subject->documentElement, true);
+			$node = $this->ownerDocument->importNode($subject->getDocumentElementSafe(), true);
 
 		}
 		else if($subject instanceof \DOMNode)
@@ -234,7 +234,7 @@ class DOMElement extends \DOMElement
 			else
 				$temp->load($subject);
 			
-			$node = $this->ownerDocument->importNode($temp->documentElement, true);
+			$node = $this->ownerDocument->importNode($temp->getDocumentElementSafe(), true);
 		}
 		else if(is_string($subject))
 		{

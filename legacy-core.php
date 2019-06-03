@@ -2679,6 +2679,12 @@ function wpgmza_settings_page_post()
 	global $wpdb;
 	global $wpgmza;
 	
+	if(!wp_verify_nonce($_POST['wpgmza_settings_page_post_nonce'], 'wpgmza_settings_page_post'))
+	{
+		http_response_code(403);
+		exit;
+	}
+	
 	if($wpgmza)
 		$wpgmza->gdprCompliance->onPOST();
 	
@@ -4076,7 +4082,10 @@ function wpgmaps_settings_page_basic() {
         $map_settings_action = '';
 		
             $ret = "<form action='" . get_admin_url() . "admin-post.php' method='post' id='wpgmaps_options'>";
+			
 			$ret .= '<input name="action" value="wpgmza_settings_page_post" type="hidden"/>';
+			$ret .= wp_nonce_field('wpgmza_settings_page_post', 'wpgmza_settings_page_post_nonce');
+			
             $ret .= "    <p>$prov_msg</p>";
 
 
@@ -6377,7 +6386,7 @@ if (function_exists('wpgmza_register_pro_version')) {
 function wpgmaps_check_shortcode() {
     global $posts;
     global $short_code_active;
-    $short_code_active = false;
+    // $short_code_active = false;
     $pattern = get_shortcode_regex();
 
     foreach ($posts as $wpgmpost) {
