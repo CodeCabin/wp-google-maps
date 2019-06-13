@@ -57,7 +57,10 @@ class DataTable extends AjaxTable
 	{
 		$result = AjaxTable::data($input_params);
 		
-		$result->draw = $input_params['draw'];
+		if(isset($input_params['draw']))
+			$result->draw = $input_params['draw'];
+		else
+			$result->draw = $_SERVER['HTTP_X_DATATABLES_DRAW'];
 		
 		return $result;
 	}

@@ -28,7 +28,20 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLGeocoder.prototype.getResponseFromCache = function(query, callback)
 	{
-		$.ajax(WPGMZA.ajaxurl, {
+		WPGMZA.restAPI.call("/geocode-cache", {
+			data: {
+				query: JSON.stringify(query)
+			},
+			success: function(response, xhr, status) {
+				// Legacy compatibility support
+				response.lng = response.lon;
+				
+				callback(response);
+			},
+			useCompressedPathVariable: true
+		});
+		
+		/*$.ajax(WPGMZA.ajaxurl, {
 			data: {
 				action: "wpgmza_query_nominatim_cache",
 				query: JSON.stringify(query)
@@ -39,7 +52,7 @@ jQuery(function($) {
 				
 				callback(response);
 			}
-		});
+		});*/
 	}
 	
 	/**

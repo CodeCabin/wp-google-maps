@@ -76,6 +76,7 @@ jQuery(function($) {
 		}).join("");
 		
 		var base64		= btoa(raw);
+		
 		return base64.replace(/\//g, "-") + suffix;
 	}
 	
@@ -176,4 +177,24 @@ jQuery(function($) {
 		
 		nativeCallFunction.apply(this, arguments);
 	}
+	
+	/*$(window).on("load", function(event) {
+		
+		var arr = [];
+		
+		for(var i = 0; i < 2048; i++)
+			arr.push(Math.random());
+		
+		WPGMZA.restAPI.call("/test", {
+			
+			useCompressedPathVariable: true,
+			method: "POST",
+			data: {
+				test: arr
+			}
+			
+		});
+		
+	});*/
+	
 });

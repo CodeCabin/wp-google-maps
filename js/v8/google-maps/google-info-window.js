@@ -85,12 +85,12 @@ jQuery(function($) {
 			
 			if(div.length)
 			{
+				clearInterval(intervalID);
+				
 				div[0].wpgmzaMapObject = self.mapObject;
 				
 				self.element = div[0];
 				self.trigger("infowindowopen");
-				
-				clearInterval(intervalID);
 			}
 			
 		}, 50);

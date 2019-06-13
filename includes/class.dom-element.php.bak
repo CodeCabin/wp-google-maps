@@ -13,20 +13,6 @@ class DOMElement extends \DOMElement
 		\DOMElement::__construct();
 	}
 	
-	public function __get($name)
-	{
-		switch($name)
-		{
-			case "html":
-				
-				return $this->ownerDocument->saveHTML( $this );
-			
-				break;
-		}
-		
-		return \DOMElement::__get($name);
-	}
-	
 	/**
 	 * Runs a CSS selector on the element. This is equivilant to Javascripts querySelector
 	 * @param string $query a CSS selector

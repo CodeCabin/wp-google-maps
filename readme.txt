@@ -220,6 +220,21 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.30 :- 2019-06-12 :- Medium priority =
+* Added /decompress REST API endpoint for debugging compressed path variable requests
+* Added integration with WP REST Cache by Acato
+* Added Elias Fano encoding modules for efficient transmission of marker ID's on compressed path variable requests
+* REST API module now no longer loads the entire WP REST API client side library
+* Moved clearInterval on Google infowindow to before event is triggered, the event will no longer fire repeatedly if any attached listeners cause an error
+* Fixed bulk delete not working
+* Removed performance intensive regex checks on template_redirect. Short code flag is now set by short code callbacks
+* Fixed notice in legacy-core.php when no map ID present on shortcode
+* Fixed cannot use scalar value as array when localizing legacy current map ID global
+* Fixed issues with older versions of Pro add-on and admin marker table
+
+= 7.11.29 :- 2019-06-06 :- Low priority =
+* Added support for compressed path variables on REST API module (experimental)
+
 = 7.11.28 :- 2019-06-03 :- Medium priority =
 * Added nonce to settings form on admin post action
 * Fixed errors on PHP installations where documentElement is not a property on DOMDocument
@@ -1164,27 +1179,4 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

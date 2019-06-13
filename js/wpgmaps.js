@@ -1,3 +1,10 @@
+(function() {
+	
+	var temp = wpgmaps_mapid.wpgmza_legacy_current_map_id;
+	window.wpgmaps_mapid = temp;
+	
+})();
+
 var WPGM_Path_Polygon = new Array();
 var WPGM_Path = new Array();
 var infoWindow_poly = Array();

@@ -2242,6 +2242,8 @@ function wpgmaps_tag_basic( $atts ) {
     global $short_code_active;
     global $wpgmza_override;
 	global $wpgmza;
+	
+	$short_code_active = true;
 
     extract( shortcode_atts( array(
         'id' 		=> '1', 
@@ -2250,9 +2252,14 @@ function wpgmaps_tag_basic( $atts ) {
     ), $atts ) );
 
     $ret_msg = "";
-    $wpgmza_current_map_id = $atts['id'];
+	
+	if(isset($atts['id']))
+		$wpgmza_current_map_id = $atts['id'];
+	else
+		$wpgmza_current_map_id = 1;
 
-    $res = wpgmza_get_map_data($atts['id']);
+    $res = wpgmza_get_map_data($wpgmza_current_map_id);
+	
     if (!isset($res)) { echo __("Error: The map ID","wp-google-maps")." (".$wpgmza_current_map_id.") ".__("does not exist","wp-google-maps"); return; }
     
     $user_api_key = get_option( 'wpgmza_google_maps_api_key' );
@@ -2523,7 +2530,7 @@ function wpgmaps_tag_basic( $atts ) {
     
     do_action("wpgooglemaps_basic_hook_user_js_after_core");
 
-    wp_localize_script( 'wpgmaps_core', 'wpgmaps_mapid', $wpgmza_current_map_id);
+    wp_localize_script( 'wpgmaps_core', 'wpgmaps_mapid', array('wpgmza_legacy_current_map_id' => $wpgmza_current_map_id));
     wp_localize_script( 'wpgmaps_core', 'wpgmaps_localize', $res);
     wp_localize_script( 'wpgmaps_core', 'wpgmaps_localize_polygon_settings', $polygonoptions);
     wp_localize_script( 'wpgmaps_core', 'wpgmaps_localize_polyline_settings', $polylineoptions);
@@ -2772,8 +2779,6 @@ function wpgmza_settings_page_post()
 	if (isset($_POST['wpgmza_store_locator_radii'])) { $wpgmza->settings['wpgmza_store_locator_radii'] = sanitize_text_field($_POST['wpgmza_store_locator_radii']); }
 
 	if (isset($_POST['wpgmza_settings_enable_usage_tracking'])) { $wpgmza->settings['wpgmza_settings_enable_usage_tracking'] = sanitize_text_field($_POST['wpgmza_settings_enable_usage_tracking']); }
-
-	//$wpgmza->settings = ;
 	
 	$arr = apply_filters("wpgooglemaps_filter_save_settings", $wpgmza->settings);
 	$wpgmza->settings->set($arr);
@@ -6384,6 +6389,10 @@ if (function_exists('wpgmza_register_pro_version')) {
 
 
 function wpgmaps_check_shortcode() {
+	
+	// NB: Deprecated function, it's reportedly very performance intensive
+	return;
+	
     global $posts;
     global $short_code_active;
     // $short_code_active = false;
