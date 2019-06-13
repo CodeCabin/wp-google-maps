@@ -22,6 +22,14 @@ jQuery(function($) {
 			self.onGeocodeComplete(event);
 		});
 		
+		this.map.on("init", function(event) {
+			
+			self.map.markerFilter.on("filteringcomplete", function(event) {
+				self.onFilteringComplete(event);
+			});
+			
+		});
+		
 		// Legacy store locator buttons
 		$(document.body).on("click", ".wpgmza_sl_search_button_" + map.id, function(event) {
 			self.onSearch(event);
@@ -58,7 +66,10 @@ jQuery(function($) {
 	WPGMZA.StoreLocator.prototype.onGeocodeComplete = function(event)
 	{
 		if(!event.results || !event.results.length)
+		{
 			this._center = null;
+			return;
+		}
 		else
 			this._center = new WPGMZA.LatLng( event.results[0].latLng );
 		
@@ -88,6 +99,14 @@ jQuery(function($) {
 			center: this.center,
 			radius: this.radius
 		};
+	}
+	
+	WPGMZA.StoreLocator.prototype.onFilteringComplete = function(event)
+	{
+		if(event.filteredMarkers.length == 0)
+			$(this.element).find(".wpgmza-not-found-msg").show();
+		else
+			$(this.element).find(".wpgmza-not-found-msg").hide();
 	}
 	
 });

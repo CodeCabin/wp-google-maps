@@ -10,6 +10,39 @@
     var WPGM_Path = new Array();
     var saveReminderBound = false;
 
+	function initShiftClick()
+	{
+		var lastSelectedRow;
+		
+		$(document.body).on("click", "[data-wpgmza-admin-marker-datatable] input[name='mark']", function(event) {
+			
+			var checkbox = event.currentTarget;
+			var row = $(checkbox).closest("tr");
+			
+			if(lastSelectedRow && event.shiftKey)
+			{
+				var prevIndex = lastSelectedRow.index();
+				var currIndex = row.index();
+				var startIndex = Math.min(prevIndex, currIndex);
+				var endIndex = Math.max(prevIndex, currIndex);
+				var rows = $("[data-wpgmza-admin-marker-datatable] tbody>tr");
+				
+				// Clear
+				$("[data-wpgmza-admin-marker-datatable] input[name='mark']").prop("checked", false);
+				
+				for(var i = startIndex; i <= endIndex; i++)
+					$(rows[i]).find("input[name='mark']").prop("checked", true);
+				
+				
+				console.log(prevIndex);
+				console.log(currIndex);
+			}
+			
+			lastSelectedRow = row;
+			
+		});
+	}
+	initShiftClick();
 
 	if ('undefined' == typeof window.jQuery) {
 		alert("jQuery is not installed. WP Google Maps requires jQuery in order to function properly. Please ensure you have jQuery installed.")
@@ -778,11 +811,17 @@ MYMAP.init = function(selector, latLng, zoom) {
     });
     
     
+	var firstBoundsChangedEvent = true;
+	
     MYMAP.map.on('bounds_changed', function() {
         var location = MYMAP.map.getCenter();
         jQuery("#wpgmza_start_location").val(location.lat+","+location.lng);
         jQuery("#wpgmaps_save_reminder").show();
-		bindSaveReminder();
+		
+		if(!firstBoundsChangedEvent)
+			bindSaveReminder();
+		
+		firstBoundsChangedEvent = false;
     });
 
 }
@@ -1081,7 +1120,7 @@ function add_polygon(polygonid) {
 
     WPGM_Path_Polygon[polygonid] = new google.maps.Polygon({
          path: WPGM_PathData,
-         clickable: true, /* must add option for this */ 
+         clickable: false, /* must add option for this */ 
          strokeColor: "#"+tmp_data['linecolor'],
          fillOpacity: tmp_data['opacity'],
          strokeOpacity: tmp_data['lineopacity'],

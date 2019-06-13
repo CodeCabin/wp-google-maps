@@ -17,13 +17,13 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+				return new WPGMZA.OLText(options);
 				break;
 				
 			default:
+				return new WPGMZA.GoogleText(options);
 				break;
 		}
-		
-		return new WPGMZA.Text(options);
 	}
 	
 });

@@ -57,6 +57,7 @@ jQuery(function($) {
 	
 	WPGMZA.Map.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
 	WPGMZA.Map.prototype.constructor = WPGMZA.Map;
+	WPGMZA.Map.nightTimeThemeData = [{"elementType":"geometry","stylers":[{"color":"#242f3e"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#746855"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#242f3e"}]},{"featureType":"administrative.locality","elementType":"labels.text.fill","stylers":[{"color":"#d59563"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#575663"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#d59563"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#263c3f"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#6b9a76"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#38414e"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#212a37"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#9ca5b3"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#746855"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#80823e"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#1f2835"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#f3d19c"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#2f3948"}]},{"featureType":"transit.station","elementType":"labels.text.fill","stylers":[{"color":"#d59563"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#17263c"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#1b737a"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#515c6d"}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"color":"#17263c"}]}];
 	
 	/**
 	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
@@ -330,7 +331,7 @@ jQuery(function($) {
 	 * @throws Argument must be an instance of WPGMZA.Polygon
 	 * @throws Wrong map error
 	 */
-	WPGMZA.Map.prototype.deletePolygon = function(polygon)
+	WPGMZA.Map.prototype.removePolygon = function(polygon)
 	{
 		if(!(polygon instanceof WPGMZA.Polygon))
 			throw new Error("Argument must be an instance of WPGMZA.Polygon");
@@ -368,14 +369,14 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Map
 	 * @param {int} id The ID of the polygon to remove
 	 */
-	WPGMZA.Map.prototype.deletePolygonByID = function(id)
+	WPGMZA.Map.prototype.removePolygonByID = function(id)
 	{
 		var polygon = this.getPolygonByID(id);
 		
 		if(!polygon)
 			return;
 		
-		this.deletePolygon(polygon);
+		this.removePolygon(polygon);
 	}
 	
 	/**
@@ -421,7 +422,7 @@ jQuery(function($) {
 	 * @throws Argument must be an instance of WPGMZA.Polyline
 	 * @throws Wrong map error
 	 */
-	WPGMZA.Map.prototype.deletePolyline = function(polyline)
+	WPGMZA.Map.prototype.removePolyline = function(polyline)
 	{
 		if(!(polyline instanceof WPGMZA.Polyline))
 			throw new Error("Argument must be an instance of WPGMZA.Polyline");
@@ -459,14 +460,14 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Map
 	 * @param {int} id The ID of the polyline to remove
 	 */
-	WPGMZA.Map.prototype.deletePolylineByID = function(id)
+	WPGMZA.Map.prototype.removePolylineByID = function(id)
 	{
 		var polyline = this.getPolylineByID(id);
 		
 		if(!polyline)
 			return;
 		
-		this.deletePolyline(polyline);
+		this.removePolyline(polyline);
 	}
 	
 	/**
@@ -535,14 +536,14 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Map
 	 * @param {int} id The ID of the circle to remove
 	 */
-	WPGMZA.Map.prototype.deleteCircleByID = function(id)
+	WPGMZA.Map.prototype.removeCircleByID = function(id)
 	{
 		var circle = this.getCircleByID(id);
 		
 		if(!circle)
 			return;
 		
-		this.deleteCircle(circle);
+		this.removeCircle(circle);
 	}
 	
 	/**

@@ -1,3 +1,10 @@
+(function() {
+	
+	var temp = wpgmaps_mapid.wpgmza_legacy_current_map_id;
+	window.wpgmaps_mapid = temp;
+	
+})();
+
 var WPGM_Path_Polygon = new Array();
 var WPGM_Path = new Array();
 var infoWindow_poly = Array();
@@ -242,6 +249,16 @@ MYMAP.init = function(selector, latLng, zoom) {
 		
 		wpgmza_theme_data = wpgmza_parse_theme_data(wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data']);
         myOptions.styles = myOptions.styles.concat(wpgmza_theme_data);
+    }
+
+    if(typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_auto_night'] != 'undefined' && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_auto_night'] == 1 ){
+    	
+    	var date = new Date();
+		var isNightTime = date.getHours() < 7 || date.getHours() > 19;
+
+    	if(isNightTime) {
+    		myOptions.styles = myOptions.styles.concat(WPGMZA.Map.nightTimeThemeData);
+    	}
     }
 
 	if(!wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_show_points_of_interest'])

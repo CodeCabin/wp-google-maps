@@ -9,6 +9,8 @@ jQuery(function($) {
 	{
 		var self = this;
 		
+		this.preventCaching = true;
+		
 		WPGMZA.DataTable.call(this, element);
 		
 		$(element).find(".wpgmza.select_all_markers").on("click", function(event) {
@@ -30,8 +32,7 @@ jQuery(function($) {
 		
 		options.createdRow = function(row, data, index)
 		{
-			var ajax = self.dataTable.ajax.json();
-			var meta = ajax.meta[index];
+			var meta = self.lastResponse.meta[index];
 			row.wpgmzaMarkerData = meta;
 		}
 		
@@ -53,7 +54,7 @@ jQuery(function($) {
 			ids.push(row.wpgmzaMarkerData.id);
 		});
 		
-		WPGMZA.restAPI.call("/markers/", {
+		WPGMZA.restAPI.call("/markers/?skip_cache=1", {
 			method: "DELETE",
 			data: {
 				ids: ids

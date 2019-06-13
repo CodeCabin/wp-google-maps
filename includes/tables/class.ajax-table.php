@@ -125,7 +125,7 @@ class AjaxTable extends Table
 			$query_params[] = $input_params['map_id'];
 		}
 		
-		if(!(is_admin() || (preg_match('/page=wp-google-maps-menu/', $_SERVER['HTTP_REFERER']) && current_user_can('administrator'))))
+		if(!(is_admin() || (isset($_SERVER['HTTP_REFERER']) && preg_match('/page=wp-google-maps-menu/', $_SERVER['HTTP_REFERER']) && current_user_can('administrator'))))
 		{
 			$clauses['approved'] = 'approved=%d';
 			$query_params[] = 1;
@@ -293,10 +293,6 @@ class AjaxTable extends Table
 			$stmt = $count_qstr;
 		
 		$total_count = (int)$wpdb->get_var($stmt);
-		
-		//print_r($qstr);
-		//print_r($query_params);
-		//exit;
 		
 		// Body
 		if(!empty($query_params))

@@ -27,6 +27,11 @@ jQuery(function($) {
 		});
 	}
 	
+	WPGMZA.MapSettingsPage.createInstance = function()
+	{
+		return new WPGMZA.MapSettingsPage();
+	}
+	
 	/**
 	 * Updates engine specific controls, hiding irrelevant controls (eg Google controls when OpenLayers is the selected engine) and showing relevant controls.
 	 * @method
@@ -74,13 +79,31 @@ jQuery(function($) {
 			$("#wpgmza_gdpr_override_notice_text").hide("slow");
 		}
 	}
+
+	/**
+	 * Flushes the geocode cache
+	 */
+	WPGMZA.MapSettingsPage.prototype.flushGeocodeCache = function()
+	{
+		var OLGeocoder = new WPGMZA.OLGeocoder();
+		OLGeocoder.clearCache(function(response){
+			jQuery('#wpgmza_flush_cache_btn').removeAttr('disabled');
+		});
+	}
 	
 	jQuery(function($) {
 		
 		if(!window.location.href.match(/wp-google-maps-menu-settings/))
 			return;
 		
-		WPGMZA.mapSettingsPage = new WPGMZA.MapSettingsPage();
+		WPGMZA.mapSettingsPage = WPGMZA.MapSettingsPage.createInstance();
+
+		jQuery(document).ready(function(){
+			jQuery('#wpgmza_flush_cache_btn').on('click', function(){
+				jQuery(this).attr('disabled', 'disabled');
+				WPGMZA.mapSettingsPage.flushGeocodeCache();
+			});
+		});
 		
 	});
 	

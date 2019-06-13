@@ -58,7 +58,7 @@ jQuery(function($) {
 		if(button = $(original).find("button.wpgmza-use-my-location"))
 			inner.append(button);
 		
-		$(addressInput).on("keydown", function(event) {
+		$(addressInput).on("keydown keypress", function(event) {
 			
 			if(event.keyCode == 13 && self.searchButton.is(":visible"))
 				self.searchButton.trigger("click");
@@ -200,10 +200,16 @@ jQuery(function($) {
 	 */
 	WPGMZA.ModernStoreLocator.createInstance = function(map_id)
 	{
-		if(WPGMZA.settings.engine == "google-maps")
-			return new WPGMZA.GoogleModernStoreLocator(map_id);
-		else
-			return new WPGMZA.OLModernStoreLocator(map_id);
+		switch(WPGMZA.settings.engine)
+		{
+			case "open-layers":
+				return new WPGMZA.OLModernStoreLocator(map_id);
+				break;
+			
+			default:
+				return new WPGMZA.GoogleModernStoreLocator(map_id);
+				break;
+		}
 	}
 	
 });

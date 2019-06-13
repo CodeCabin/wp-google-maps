@@ -173,7 +173,33 @@ class AutoLoader
 		
 		$file = $this->filenamesByClass[$class];
 		
-		require_once( $file );
+		if(wpgmza_preload_is_in_developer_mode())
+			wpgmza_require_once( $file );
+		else
+			try{
+				wpgmza_require_once( $file );
+			}catch(\Exception $e) {
+				
+				add_action('admin_notices', function() use ($e) {
+					
+					?>
+					<div class="notice notice-error is-dismissible">
+						<p>
+							<strong>
+							<?php
+							_e('WP Google Maps', 'wp-google-maps');
+							?></strong>:
+							<?php
+							_e('The plugins autoloader failed to register one or more modules. This is usually due to missing files. Please re-install the plugin and any relevant add-ons. Technical details are as follows: ', 'wp-google-maps');
+							echo $e->getMessage();
+							?>
+						</p>
+					</div>
+					<?php
+					
+				});
+				
+			}
 	}
 	
 }

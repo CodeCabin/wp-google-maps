@@ -32,6 +32,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-elias-fano": {
+        "src": "js\/v8\/elias-fano.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-event-dispatcher": {
         "src": "js\/v8\/event-dispatcher.js",
         "pro": false,
@@ -306,7 +313,7 @@
         "src": "js\/v8\/google-maps\/google-text-overlay.js",
         "pro": false,
         "dependencies": [
-            "wpgmza-text"
+            "wpgmza-google-text"
         ]
     },
     "wpgmza-google-text": {

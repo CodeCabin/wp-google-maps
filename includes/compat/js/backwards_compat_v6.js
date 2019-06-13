@@ -43,7 +43,15 @@ jQuery(function($){
 	}
 
 	function add_rectangle(mapid, data)	{
-		data.map = MYMAP.map.googleMap;
+		
+		var map;
+
+		if(MYMAP[mapid].map instanceof google.maps.Map)
+			map = MYMAP[mapid].map;
+		else if(MYMAP[mapid].map instanceof WPGMZA.Map)
+			map = MYMAP[mapid].googleMap;
+
+		data.map = map;
 		
 		data.fillColor = data.color;
 		data.fillOpacity = parseFloat(data.opacity);

@@ -67,8 +67,6 @@ class Marker extends Crud implements \JsonSerializable
 		
 		unset($json['latlng']);
 		
-		$json['custom_field_data'] = $this->custom_fields;
-		
 		return $json;
 	}
 	
