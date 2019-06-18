@@ -76,7 +76,6 @@ jQuery(function($) {
 		}).join("");
 		
 		var base64		= btoa(raw);
-		
 		return base64.replace(/\//g, "-") + suffix;
 	}
 	
@@ -177,5 +176,4 @@ jQuery(function($) {
 		
 		nativeCallFunction.apply(this, arguments);
 	}
-	
 });

@@ -147,6 +147,91 @@ class RestAPI extends Factory
 		}
 	}
 	
+	protected function registerRoute($route, $args)
+	{
+		register_rest_route(RestAPI::NS, $route, $args);
+		
+		if(isset($args['supportsCompressedPathVariable']) && $args['supportsCompressedPathVariable'])
+		{
+			$compressedRoute	= preg_replace('#/$#', '', $route) . RestAPI::CUSTOM_BASE64_REGEX;
+			$callback			= $args['callback'];
+			
+			$arg['callback'] = function($request) use ($callback) {
+				
+				var_dump($this);
+				exit;
+				
+				$callback($request);
+				
+			};
+			
+			register_rest_route(RestAPI::NS, $compressedRoute, $args);
+		}
+	}
+	
+	protected function parseCompressedParameters($param)
+	{
+		$param = preg_replace('/^base64/', '', $param);
+		$param = preg_replace('/-/', '/', $param);
+		$param = base64_decode($param);
+		
+		if(!function_exists('zlib_decode'))
+			throw new \Exception('Server does not support inflate');
+		
+		if(!($string = zlib_decode($param)))
+			throw new \Exception('The server failed to inflate the request');
+		
+		if(!($request = json_decode($string, JSON_OBJECT_AS_ARRAY)))
+			throw new \Exception('The decompressed request could not be interpreted as JSON');
+		
+		return $request;
+	}
+	
+	/**
+	 * This function will interpret the request parameters either from a compressed base64 string,
+	 * or from the $_REQUEST array when no compressed string is present
+	 * @return array The request parameters
+	 */
+	protected function getRequestParameters()
+	{
+		switch($_SERVER['REQUEST_METHOD'])
+		{
+			case 'GET':
+				
+				$uri = $_SERVER['REQUEST_URI'];
+				
+				if(preg_match(RestAPI::CUSTOM_BASE64_REGEX, $_SERVER['REQUEST_URI'], $m))
+					return $this->parseCompressedParameters($m[0]);
+				
+				return $_GET;
+			
+				break;
+			
+			case 'POST':
+			
+				return $_POST;
+				
+				break;
+			
+			case 'DELETE':
+			case 'PUT':
+			
+				$request = array();
+				$body = file_get_contents('php://input');
+				parse_str($body, $request);
+				
+				return $request;
+				
+				break;
+			
+			default:
+			
+				return $_REQUEST;
+				
+				break;
+		}
+	}
+	
 	/**
 	 * Enqueues the wp-api script, required to use the Rest API client side.
 	 * @return void
@@ -155,6 +240,12 @@ class RestAPI extends Factory
 	{
 		// NB: I don't think we need to enqueue the entire API seeing as though we use pure jQuery to make REST calls
 		// wp_enqueue_script('wp-api');
+	}
+	
+	public function test($request)
+	{
+		$params = $this->getRequestParameters();
+		return $params;
 	}
 	
 	/**
@@ -170,7 +261,7 @@ class RestAPI extends Factory
 		$active_plugins = get_option('active_plugins');
 		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins))
 			$wp_query->query_vars['do_not_redirect'] = 1;
-		
+    
 		register_rest_route(RestAPI::NS, '/maps(\/\d+)?/', array(
 			'methods'					=> 'GET',
 			'callback'					=> array($this, 'maps')
@@ -204,7 +295,7 @@ class RestAPI extends Factory
 		$this->registerRoute('/datatables', array(
 			'methods'					=> array('POST'),
 			'callback'					=> array($this, 'datatables')
-		));
+    ));
 		
 		$this->registerRoute('/geocode-cache', array(
 			'methods'					=> array('GET'),
@@ -388,6 +479,31 @@ class RestAPI extends Factory
 		
 	}
 	
+	public function datatablesCompressed($request)
+	{
+		$route = $request->get_route();
+		
+		if(!preg_match('#datatables/(.+)#', $route, $m))
+			return WP_Error('wpgmza_malformed_datatable_request', 'No compressed string found', array('status' => 400));
+		
+		// NB: We use a custom base64 encoding because percent signs are not permitted in the REST URL, and slashes would indicate a path. This is a resource, and not a path
+		$decoded = base64_decode( preg_replace('/-/', '/', $m[1]) );
+		
+		if(!function_exists('zlib_decode'))
+			return WP_Error('wpgmza_invalid_datatable_request', 'The request was deflated, this server does not support inflate');
+		
+		if(!($string = zlib_decode($decoded)))
+			return WP_Error('wpgmza_invalid_datatable_request', 'The server failed to decompress the request');
+		
+		if(!($request = json_decode($string, JSON_OBJECT_AS_ARRAY)))
+			return WP_Error('wpgmza_invalid_datatable_request', 'The decompressed request could not be interpreted as JSON');
+		
+		$request['phpClass'] = addslashes($request['phpClass']);
+		$_REQUEST['wpgmzaDataTableRequestData'] = $request;
+		
+		return $this->datatables();
+	}
+	
 	public function datatables()
 	{
 		$request = $this->getRequestParameters();
@@ -400,7 +516,7 @@ class RestAPI extends Factory
 			$class = '\\' . $request['phpClass'];
 		else
 			$class = '\\' . stripslashes( $request['phpClass'] );
-		
+
 		try{
 			
 			$reflection = new \ReflectionClass($class);

@@ -1184,37 +1184,3 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
