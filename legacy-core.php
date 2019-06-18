@@ -312,7 +312,8 @@ add_action( "activated_plugin", "wpgmza_redirect_on_activate" );
  * @return void
  */
 function wpgmza_redirect_on_activate( $plugin ) {
-    if( $plugin == plugin_basename( __FILE__ ) ) {
+	
+    if(preg_match('/wpGoogleMaps\.php$/', $plugin)) {
         if ( !get_option( "WPGM_V6_FIRST_TIME" ) ) {
             update_option( "WPGM_V6_FIRST_TIME", true );
             // clean the output header and redirect the user
@@ -323,6 +324,7 @@ function wpgmza_redirect_on_activate( $plugin ) {
             exit( wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) ) );
         }
     }
+	
 }
 
 /**
@@ -2555,8 +2557,11 @@ function wpgmaps_tag_basic( $atts ) {
 
     do_action("wpgooglemaps_hook_user_js_after_localize",$res);
 
-	// Autoptimize fix, bypass CSS where our map is present as large amounts of inline JS (our localized data) crashes their plugin. Added at their advice.
-	add_filter('autoptimize_filter_css_noptimize', '__return_true');
+	if(empty($wpgmza->settings->disable_autoptimize_compatibility_fix))
+	{
+		// Autoptimize fix, bypass CSS where our map is present as large amounts of inline JS (our localized data) crashes their plugin. Added at their advice.
+		add_filter('autoptimize_filter_css_noptimize', '__return_true');
+	}
     
     return $ret_msg;
 }
@@ -2720,7 +2725,8 @@ function wpgmza_settings_page_post()
 		"wpgmza_developer_mode",
 		'wpgmza_prevent_other_plugins_and_theme_loading_api',
 		"wpgmza_gdpr_override_notice",
-		"wpgmza_gdpr_require_consent_before_vgm_submit"
+		"wpgmza_gdpr_require_consent_before_vgm_submit",
+		"disable_autoptimize_compatibility_fix"
 	);
 	
 	foreach($checkboxes as $name) {
@@ -4451,6 +4457,20 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                               ".__("Currently using","wp-google-maps").": <strong><em>$marker_url</em></strong></small>";
             $ret .= "                       </td>";
             $ret .= "                   </tr>";
+			
+			$ret .= "             <tr>
+                                     <td width='200' valign='top' style='vertical-align:top;'>".__("Disable Autopimize Compatibility Fix","wp-google-maps").":</td>
+                                  <td>
+                                     <input 
+										type='checkbox' 
+										name='disable_autoptimize_compatibility_fix'
+										" . (!empty($wpgmza->settings->disable_autoptimize_compatibility_fix) ? "checked='checked'" : "") . "
+										/>
+                                        <div>" . __("Use this setting if you are experiencing issues with Autoptimize's CSS aggregation. This may cause issues on setups with a large amount of marker data.", "wp-google-maps") . "</div>
+                                 </td>
+                             </tr>
+			";
+			
             $ret .= "                   </table>";
             $ret .= "<button data-required-maps-engine='open-layers' id='wpgmza_flush_cache_btn' class='button-primary'>".__("Flush Geocode Cache","wp-google-maps")."</button>";
             $ret .= "               <h4>".__("Custom Scripts","wp-google-maps")."</h4>";

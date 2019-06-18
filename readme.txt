@@ -220,6 +220,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.31 :- 2019-06-18 :- Low priority =
+* Added checkbox to disable Autoptimize workaround for setups where the workaround prevents CSS aggregation
+* DataTable module now uses RestAPI module to make AJAX requests
+* Fixed "Permalink Manager Lite" breaking admin marker table when POST requests are used
+
 = 7.11.30 :- 2019-06-12 :- Medium priority =
 * Added /decompress REST API endpoint for debugging compressed path variable requests
 * Added integration with WP REST Cache by Acato
@@ -1179,6 +1184,8 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
 
 
 

@@ -163,6 +163,14 @@ class RestAPI extends Factory
 	 */
 	public function onRestAPIInit()
 	{
+		// NB: Permalink Manager Lite compatibility. This fix prevents the plugin from causing POST REST requests being redirected to GET
+		// NB: We also check the plugin is active to mitigate any potential effects to other plugins. This could be removed, as an optimization
+		global $wp_query;
+		
+		$active_plugins = get_option('active_plugins');
+		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins))
+			$wp_query->query_vars['do_not_redirect'] = 1;
+		
 		register_rest_route(RestAPI::NS, '/maps(\/\d+)?/', array(
 			'methods'					=> 'GET',
 			'callback'					=> array($this, 'maps')
