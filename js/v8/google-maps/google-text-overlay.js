@@ -37,7 +37,7 @@ jQuery(function($) {
 			left: position.x + "px",
 			top: position.y + "px"
 		});
-		
+
 		var panes = this.getPanes();
 		panes.floatPane.appendChild(this.element[0]);
 	}

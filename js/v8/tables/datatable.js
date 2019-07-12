@@ -32,6 +32,22 @@ jQuery(function($) {
 		this.dataTable.ajax.reload();
 	}
 	
+	Object.defineProperty(WPGMZA.DataTable.prototype, "canSendCompressedRequests", {
+		
+		"get": function() {
+			
+			return (
+				WPGMZA.serverCanInflate == 1 && 
+				"Uint8Array" in window && 
+				"TextEncoder" in window && 
+				!WPGMZA.settings.forceDatatablesPOST && 
+				WPGMZA.settings.useCompressedDataTablesRequests
+			);
+			
+		}
+		
+	});
+	
 	WPGMZA.DataTable.prototype.getDataTableElement = function()
 	{
 		return $(this.element).find("table");

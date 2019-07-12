@@ -78,7 +78,6 @@ jQuery(function($) {
 		}).join("");
 		
 		var base64		= btoa(raw);
-		
 		return base64.replace(/\//g, "-") + suffix;
 	}
 	
@@ -221,7 +220,7 @@ jQuery(function($) {
 		
 		nativeCallFunction.apply(this, arguments);
 	}
-	
+
 	$(document.body).on("click", "#wpgmza-rest-api-blocked button.notice-dismiss", function(event) {
 		
 		WPGMZA.restAPI.call("/rest-api/", {
