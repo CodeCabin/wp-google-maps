@@ -479,14 +479,15 @@ jQuery(function($) {
 			
 			if(WPGMZA.isProVersion())
 				return MYMAP[id].map;
+			
 			return MYMAP.map;
 			
-			for(var i = 0; i < WPGMZA.maps.length; i++) {
+			/*for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)
 					return WPGMZA.maps[i];
 			}
 			
-			return null;
+			return null;*/
 		},
 		
 		/**
@@ -615,8 +616,6 @@ jQuery(function($) {
 		}
 		
 	});
-	
-	
 	
 });
 
@@ -1890,7 +1889,7 @@ jQuery(function($) {
 		
 		this.mapObject = mapObject;
 		
-		if(WPGMZA.settings.disable_infowindows)
+		if(WPGMZA.settings.disable_infowindows || WPGMZA.settings.wpgmza_settings_disable_infowindows == "1")
 			return false;
 		
 		if(this.mapObject.disableInfoWindow)
@@ -5124,6 +5123,8 @@ jQuery(function($) {
 	WPGMZA.RestAPI = function()
 	{
 		WPGMZA.RestAPI.URL = WPGMZA.resturl;
+		
+		this.useAJAXFallback = false;
 	}
 	
 	/**
@@ -5190,6 +5191,25 @@ jQuery(function($) {
 		return base64.replace(/\//g, "-") + suffix;
 	}
 	
+	function sendAJAXFallbackRequest(route, params)
+	{
+		var params = $.extend({}, params);
+		
+		if(!params.data)
+			params.data = {};
+		
+		if("route" in params.data)
+			throw new Error("Cannot send route through this method");
+		
+		if("action" in params.data)
+			throw new Error("Cannot send action through this method");
+		
+		params.data.route = route;
+		params.data.action = "wpgmza_rest_api_request";
+		
+		return $.ajax(WPGMZA.ajaxurl, params);
+	}
+	
 	/**
 	 * Makes an AJAX to the REST API, this function is a wrapper for $.ajax
 	 * @method
@@ -5199,6 +5219,9 @@ jQuery(function($) {
 	 */
 	WPGMZA.RestAPI.prototype.call = function(route, params)
 	{
+		if(this.useAJAXFallback)
+			return sendAJAXFallbackRequest(route, params);
+		
 		var attemptedCompressedPathVariable = false;
 		var fallbackRoute = route;
 		var fallbackParams = $.extend({}, params);
@@ -5233,13 +5256,33 @@ jQuery(function($) {
 				if(status == "abort")
 					return;	// Don't report abort, let it happen silently
 				
-				if(xhr.status == 414 && attemptedCompressedPathVariable)
+				switch(xhr.status)
 				{
-					// Fallback for HTTP 414 - Request too long with compressed requests
-					fallbackParams.method = "POST";
-					fallbackParams.useCompressedPathVariable = false;
+					case 401:
+					case 403:
+						// Report back to the server. This is usually due to a security plugin blocking REST requests for non-authenticated users
+						$.post(WPGMZA.ajaxurl, {
+							action: "wpgmza_report_rest_api_blocked"
+						}, function(response) {});
+						
+						console.warn("The REST API was blocked. This is usually due to security plugins blocking REST requests for non-authenticated users.");
+						
+						this.useAJAXFallback = true;
+						
+						return sendAJAXFallbackRequest(fallbackRoute, fallbackParams);
+						break;
 					
-					return WPGMZA.restAPI.call(fallbackRoute, fallbackParams);
+					case 414:
+						if(!attemptedCompressedPathVariable)
+							break;
+					
+						// Fallback for HTTP 414 - Request too long with compressed requests
+						fallbackParams.method = "POST";
+						fallbackParams.useCompressedPathVariable = false;
+						
+						return WPGMZA.restAPI.call(fallbackRoute, fallbackParams);
+					
+						break;
 				}
 				
 				throw new Error(message);
@@ -5287,6 +5330,17 @@ jQuery(function($) {
 		
 		nativeCallFunction.apply(this, arguments);
 	}
+	
+	$(document.body).on("click", "#wpgmza-rest-api-blocked button.notice-dismiss", function(event) {
+		
+		WPGMZA.restAPI.call("/rest-api/", {
+			method: "POST",
+			data: {
+				dismiss_blocked_notice: true
+			}
+		});
+		
+	});
 	
 });
 
@@ -6116,6 +6170,7 @@ jQuery(function($) {
 				clearInterval(intervalID);
 				
 				div[0].wpgmzaMapObject = self.mapObject;
+				div.addClass("wpgmza-infowindow");
 				
 				self.element = div[0];
 				self.trigger("infowindowopen");
@@ -6755,6 +6810,8 @@ jQuery(function($) {
 			
 		this.googleMarker.setLabel(this.settings.label);
 		
+		if(this.anim)
+			this.googleMarker.setAnimation(this.anim);
 		if(this.animation)
 			this.googleMarker.setAnimation(this.animation);
 			
@@ -7826,7 +7883,7 @@ jQuery(function($) {
 		
 		Parent.call(this, mapObject);
 		
-		this.element = $("<div class='ol-info-window-container ol-info-window-plain'></div>")[0];
+		this.element = $("<div class='wpgmza-infowindow ol-info-window-container ol-info-window-plain'></div>")[0];
 			
 		$(this.element).on("click", ".ol-info-window-close", function(event) {
 			self.close();
@@ -8030,6 +8087,9 @@ jQuery(function($) {
 					return;
 				
 				// Left click
+				if($(event.target).closest(".ol-marker").length)
+					return; // A marker was clicked, not the map. Do nothing
+				
 				self.trigger({
 					type: "click",
 					latLng: latLng
@@ -8708,14 +8768,14 @@ jQuery(function($) {
 		
 		return Math.abs(outerPixels.x - centerPixels.x);
 
-		if(!window.testMarker){
+		/*if(!window.testMarker){
 			window.testMarker = WPGMZA.Marker.createInstance({
 				position: outer
 			});
 			WPGMZA.maps[0].addMarker(window.testMarker);
 		}
 		
-		return 100;
+		return 100;*/
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getScale = function()
@@ -9033,7 +9093,14 @@ jQuery(function($) {
 	
 	WPGMZA.DataTable = function(element)
 	{
-		$.fn.dataTable.ext.errMode = "throw";
+		if($.fn.dataTable.ext)
+			$.fn.dataTable.ext.errMode = "throw";
+		else
+		{
+			var version = $.fn.dataTable.version ? $.fn.dataTable.version : "unknown";
+			
+			console.log("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
+		}
 		
 		this.element = element;
 		this.element.wpgmzaDataTable = this;

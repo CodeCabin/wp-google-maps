@@ -255,7 +255,7 @@ class DOMElement extends \DOMElement
 			if(empty($subject))
 				return;
 			
-			if($subject != strip_tags($subject))
+			if($subject != strip_tags($subject) || preg_match('/&.+;/', $subject))
 			{
 				// Subject is a HTML string
 				$html = DOMDocument::convertUTF8ToHTMLEntities($subject);

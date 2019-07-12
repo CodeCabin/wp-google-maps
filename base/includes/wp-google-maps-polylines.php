@@ -28,8 +28,9 @@ function wpgmza_b_pro_add_polyline($mid) {
                 <div class='wide'>
 
                     <h2>".__("Add a Polyline","wp-google-maps")."</h2>
-                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_add_polyline_form'>
-                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
+                    <form action='?page=wp-google-maps-menu&action=edit&map_id=".intval($mid)."' method='post' id='wpgmaps_add_polyline_form'>
+                    <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".intval($mid)."' />
+                    <input type='hidden' name='wpgmaps_polyline-nonce' id='wpgmaps_b_nonce' value='".wp_create_nonce( 'wpgmaps_polyline-nonce' )."' />
                     <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>
@@ -125,6 +126,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_edit_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
                     <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".esc_attr($_GET['poly_id'])."' />
+                    <input type='hidden' name='wpgmaps_polyline-nonce' id='wpgmaps_b_nonce' value='".wp_create_nonce( 'wpgmaps_polyline-nonce' )."' />
                     <table class='wpgmza-listing-comp' style='width:30%;float:left;'>
                         <tr>
                             <td>

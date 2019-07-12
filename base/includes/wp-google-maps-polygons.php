@@ -38,7 +38,8 @@ function wpgmza_b_pro_add_poly($mid) {
                     <h2>".__("Add a Polygon","wp-google-maps")."</h2>
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_add_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
-                    
+                    <input type='hidden' name='wpgmaps_polygon-nonce' id='wpgmaps_b_nonce' value='".wp_create_nonce( 'wpgmaps_polygon-nonce' )."' />
+
                     <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>
                         <td>".__("Name","wp-google-maps")."</td><td><input type=\"text\" value=\"\" name=\"poly_name\" /></td>
@@ -124,6 +125,7 @@ function wpgmza_b_pro_edit_poly($mid) {
                     <form action='?page=wp-google-maps-menu&action=edit&map_id=".esc_attr($mid)."' method='post' id='wpgmaps_edit_poly_form'>
                     <input type='hidden' name='wpgmaps_map_id' id='wpgmaps_map_id' value='".esc_attr($mid)."' />
                     <input type='hidden' name='wpgmaps_poly_id' id='wpgmaps_poly_id' value='".esc_attr($_GET['poly_id'])."' />
+                    <input type='hidden' name='wpgmaps_polygon-nonce' id='wpgmaps_b_nonce' value='".wp_create_nonce( 'wpgmaps_polygon-nonce' )."' />
                         
                     <table class='wpgmza-listing-comp' style='width:30%;float:left; height:400px;'>
                     <tr>

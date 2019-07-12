@@ -101,7 +101,7 @@ class Database
 			type tinyint(1) DEFAULT '0',
 			did varchar(500) NOT NULL,
 			other_data LONGTEXT NOT NULL,
-			latlng POINT
+			latlng POINT,
 			PRIMARY KEY  (id)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 

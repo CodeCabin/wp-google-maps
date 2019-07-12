@@ -188,7 +188,9 @@ class Plugin extends Factory
 		
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
+			
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
+			'ajaxnonce'				=> wp_create_nonce('wpgmza_ajaxnonce'),
 
 			'html'					=> array(
 				'googleMapsAPIErrorDialog' => $googleMapsAPIErrorDialogHTML
