@@ -477,14 +477,15 @@ jQuery(function($) {
 			
 			if(WPGMZA.isProVersion())
 				return MYMAP[id].map;
+			
 			return MYMAP.map;
 			
-			for(var i = 0; i < WPGMZA.maps.length; i++) {
+			/*for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)
 					return WPGMZA.maps[i];
 			}
 			
-			return null;
+			return null;*/
 		},
 		
 		/**
@@ -613,7 +614,5 @@ jQuery(function($) {
 		}
 		
 	});
-	
-	
 	
 });

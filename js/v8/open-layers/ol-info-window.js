@@ -14,7 +14,7 @@ jQuery(function($) {
 		
 		Parent.call(this, mapObject);
 		
-		this.element = $("<div class='ol-info-window-container ol-info-window-plain'></div>")[0];
+		this.element = $("<div class='wpgmza-infowindow ol-info-window-container ol-info-window-plain'></div>")[0];
 			
 		$(this.element).on("click", ".ol-info-window-close", function(event) {
 			self.close();

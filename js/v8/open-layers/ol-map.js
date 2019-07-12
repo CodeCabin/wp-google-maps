@@ -119,6 +119,9 @@ jQuery(function($) {
 					return;
 				
 				// Left click
+				if($(event.target).closest(".ol-marker").length)
+					return; // A marker was clicked, not the map. Do nothing
+				
 				self.trigger({
 					type: "click",
 					latLng: latLng

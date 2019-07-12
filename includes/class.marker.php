@@ -25,6 +25,7 @@ class Marker extends Crud implements \JsonSerializable
 		
 		Crud::__construct("{$wpdb->prefix}wpgmza", $id_or_fields);
 		
+		// TODO: Why is this happening here and not in the ProMarker module? Keep the filter, but move this
 		if(class_exists('WPGMZA\\CustomMarkerFields'))
 			$this->custom_fields = apply_filters('wpgmza_get_marker_custom_fields', $this->id);
 	}

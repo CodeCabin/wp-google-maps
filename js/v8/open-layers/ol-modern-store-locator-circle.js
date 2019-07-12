@@ -82,14 +82,14 @@ jQuery(function($) {
 		
 		return Math.abs(outerPixels.x - centerPixels.x);
 
-		if(!window.testMarker){
+		/*if(!window.testMarker){
 			window.testMarker = WPGMZA.Marker.createInstance({
 				position: outer
 			});
 			WPGMZA.maps[0].addMarker(window.testMarker);
 		}
 		
-		return 100;
+		return 100;*/
 	}
 	
 	WPGMZA.OLModernStoreLocatorCircle.prototype.getScale = function()

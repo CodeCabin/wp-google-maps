@@ -220,10 +220,31 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.36 :- 2019-07-11 :- Low priority =
+* Re-added admin-ajax fallback for when REST API is blocked
+
+= 7.11.35 :- 2019-07-08 :- High priority =
+* Security vulnerabilities fixed (Thank you Plugin Review Team at WordPress.org and pluginvulnerabilities.com)
+
+= 7.11.34 :- 2019-07-07 :- Medium priority =
+* Fixed DataTable sort order unpredictable with mixture of numeric and non-numeric data
+* Rolled back admin-ajax changes pending review
+
+= 7.11.33 :- 2019-07-02 :- Low priority =
+* Added admin-ajax fallback for when REST API is blocked
+* Fixed characters such as accents showing as plain text HTML entities in DOMElement
+* Fixed object must implement countable notice on QueryFragment
+* Regenerated temporary API key
+* Removed unreachable code
+
+= 7.11.32 :- 2019-06-21 :- Low priority =
+* Added mechanism to report 403 Forbidden on REST API, this is usually caused by security plugins blocking REST requests for non-logged in users
+
 = 7.11.31 :- 2019-06-18 :- Low priority =
 * Added checkbox to disable Autoptimize workaround for setups where the workaround prevents CSS aggregation
 * DataTable module now uses RestAPI module to make AJAX requests
 * Fixed "Permalink Manager Lite" breaking admin marker table when POST requests are used
+* Fixed welcome screen not working
 
 = 7.11.30 :- 2019-06-12 :- Medium priority =
 * Added /decompress REST API endpoint for debugging compressed path variable requests
