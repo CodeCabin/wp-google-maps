@@ -55,6 +55,7 @@ Domain Path: /languages
  *
  * 7.11.36 :- 2019-07-11 :- Low priority
  * Re-added admin-ajax fallback for when REST API is blocked
+ * Fixed Polyline color issue
  *
  * 7.11.35 :- 2019-07-08 :- High priority
  * Security vulnerabilities fixed (Thank you Plugin Review Team at WordPress.org and pluginvulnerabilities.com)
