@@ -2,7 +2,8 @@
 
 namespace WPGMZA;
 
-
+if(!defined('ABSPATH'))
+	return;
 
 require_once(plugin_dir_path(__DIR__) . 'lib/codecabin/class.settings.php');
 

@@ -19,7 +19,16 @@ jQuery(function($) {
 			parseFloat(this.lat)
 		]);
 		
-		this.element = $("<div class='ol-marker'><img src='" + WPGMZA.defaultMarkerIcon + "' alt=''/></div>")[0];
+		var img = $("<img alt=''/>")[0];
+		img.onload = function(event) {
+			if(self.map)
+				self.map.olMap.updateSize();
+		}
+		img.src = WPGMZA.defaultMarkerIcon;
+		
+		this.element = $("<div class='ol-marker'></div>")[0];
+		this.element.append(img);
+		
 		this.element.wpgmzaMarker = this;
 		
 		$(this.element).on("mouseover", function(event) {

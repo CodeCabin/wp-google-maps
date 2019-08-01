@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * The AutoLoader class can be used to scan a directory and register any
  * classes found in the PHP files there, recursively.

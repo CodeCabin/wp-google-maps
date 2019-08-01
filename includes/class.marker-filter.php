@@ -4,6 +4,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class MarkerFilter extends Factory
 {
 	protected $_center;

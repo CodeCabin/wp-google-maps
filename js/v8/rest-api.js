@@ -18,6 +18,9 @@ jQuery(function($) {
 		this.useAJAXFallback = false;
 	}
 	
+	WPGMZA.RestAPI.CONTEXT_REST		= "REST";
+	WPGMZA.RestAPI.CONTEXT_AJAX		= "AJAX";
+	
 	/**
 	 * Creates an instance of a RestAPI, <strong>please <em>always</em> use this function rather than calling the constructor directly</strong>.
 	 * @method
@@ -97,7 +100,60 @@ jQuery(function($) {
 		params.data.route = route;
 		params.data.action = "wpgmza_rest_api_request";
 		
+		WPGMZA.restAPI.addNonce(route, params, WPGMZA.RestAPI.CONTEXT_AJAX);
+		
 		return $.ajax(WPGMZA.ajaxurl, params);
+	}
+	
+	WPGMZA.RestAPI.prototype.getNonce = function(route)
+	{
+		var matches = [];
+		
+		for(var pattern in WPGMZA.restnoncetable)
+		{
+			var regex = new RegExp(pattern);
+			
+			if(route.match(regex))
+				matches.push({
+					pattern: pattern,
+					nonce: WPGMZA.restnoncetable[pattern],
+					length: pattern.length
+				});
+		}
+		
+		if(!matches.length)
+			throw new Error("No nonce found for route");
+		
+		matches.sort(function(a, b) {
+			return b.length - a.length;
+		});
+		
+		return matches[0].nonce;
+	}
+	
+	WPGMZA.RestAPI.prototype.addNonce = function(route, params, context)
+	{
+		var self = this;
+		
+		var setRESTNonce = function(xhr) {
+			if(context == WPGMZA.RestAPI.CONTEXT_REST)
+				xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
+			
+			if(params && params.method && !params.method.match(/^GET$/i))
+				xhr.setRequestHeader('X-WPGMZA-Action-Nonce', self.getNonce(route));
+		};
+		
+		if(!params.beforeSend)
+			params.beforeSend = setRESTNonce;
+		else
+		{
+			var base = params.beforeSend;
+			
+			params.beforeSend = function(xhr) {
+				base(xhr);
+				setRESTNonce(xhr);
+			}
+		}
 	}
 	
 	/**
@@ -112,6 +168,7 @@ jQuery(function($) {
 		if(this.useAJAXFallback)
 			return sendAJAXFallbackRequest(route, params);
 		
+		var self = this;
 		var attemptedCompressedPathVariable = false;
 		var fallbackRoute = route;
 		var fallbackParams = $.extend({}, params);
@@ -125,21 +182,7 @@ jQuery(function($) {
 		if(!params)
 			params = {};
 		
-		var setRESTNonce = function(xhr) {
-			xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
-		};
-		
-		if(!params.beforeSend)
-			params.beforeSend = setRESTNonce;
-		else
-		{
-			var base = params.beforeSend;
-			
-			params.beforeSend = function(xhr) {
-				base(xhr);
-				setRESTNonce(xhr);
-			}
-		}
+		this.addNonce(route, params, WPGMZA.RestAPI.CONTEXT_REST);
 		
 		if(!params.error)
 			params.error = function(xhr, status, message) {

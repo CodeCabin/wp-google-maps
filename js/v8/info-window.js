@@ -108,8 +108,6 @@ jQuery(function($) {
 	{
 		var self = this;
 		
-		console.log("InfoWindow open called");
-		
 		this.mapObject = mapObject;
 		
 		if(WPGMZA.settings.disable_infowindows || WPGMZA.settings.wpgmza_settings_disable_infowindows == "1")
@@ -128,8 +126,6 @@ jQuery(function($) {
 	 */
 	WPGMZA.InfoWindow.prototype.close = function()
 	{
-		console.log("InfoWindow close called");
-		
 		this.trigger("infowindowclose");
 	}
 	

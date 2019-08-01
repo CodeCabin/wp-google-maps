@@ -7,7 +7,7 @@ jQuery(function($) {
 	
 	// https://developers.google.com/maps/documentation/javascript/customoverlays
 	
-	if(WPGMZA.settings.engine != "google-maps")
+	if(WPGMZA.settings.engine && WPGMZA.settings.engine != "google-maps")
 		return;
 	
 	if(!window.google || !window.google.maps)

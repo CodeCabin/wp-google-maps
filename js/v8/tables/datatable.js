@@ -133,7 +133,6 @@ jQuery(function($) {
 		var languageURL = this.getLanguageURL();
 		if(languageURL)
 			options.language = {
-				"processing": "test",
 				"url": languageURL
 			};
 		
@@ -144,6 +143,8 @@ jQuery(function($) {
 	{
 		if(!WPGMZA.locale)
 			return null;
+		
+		var languageURL;
 		
 		switch(WPGMZA.locale.substr(0, 2))
 		{
@@ -424,6 +425,8 @@ jQuery(function($) {
 				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Welsh.json";
 				break;
 		}
+		
+		return languageURL;
 	}
 	
 	WPGMZA.DataTable.prototype.onAJAXResponse = function(response)

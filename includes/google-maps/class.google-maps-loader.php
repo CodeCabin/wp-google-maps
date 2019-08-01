@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * This module loads the Google Maps API unconditionally (as opposed to the GoogleMapsAPILoader)
  * @deprecated This functionality will be merged into one class with GoogleMapsAPILoader

@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 if(class_exists('WPGMZA\\GoogleMapsAPILoader'))
 	return;
 

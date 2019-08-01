@@ -333,8 +333,13 @@
 		});
 		
         jQuery('#wpgmza_map_type').on('change', function (e) {
+			
+			if(WPGMZA.settings.engine && WPGMZA.settings.engine != "google-maps")
+				return;
+			
             var optionSelected = jQuery("option:selected", this);
             var valueSelected = this.value;
+			
             if (typeof valueSelected !== "undefined") {
                 if (valueSelected === "1") { maptype = google.maps.MapTypeId.ROADMAP; }
                 else if (valueSelected === "2") { maptype = google.maps.MapTypeId.SATELLITE; }
@@ -344,7 +349,8 @@
             } else {
                 maptype = google.maps.MapTypeId.ROADMAP;
             }
-            MYMAP.map.setMapTypeId(maptype);
+			
+            MYMAP.map.setOptions({mapTypeId: maptype});
         });
 
 
@@ -708,6 +714,10 @@ MYMAP.init = function(selector, latLng, zoom) {
     }
 
 	this.map = WPGMZA.Map.createInstance(jQuery(selector)[0], myOptions);
+	
+	this.map.setOptions({
+		mapTypeId: maptype
+	});
     //this.bounds = new google.maps.LatLngBounds();
 
     if ("undefined" !== typeof wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== false && wpgmaps_localize[wpgmaps_mapid]['other_settings']['wpgmza_theme_data'] !== "") {

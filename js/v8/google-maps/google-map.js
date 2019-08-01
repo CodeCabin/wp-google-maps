@@ -38,7 +38,7 @@ jQuery(function($) {
 		this.loadGoogleMap();
 		
 		if(options)
-			this.setOptions(options);
+			this.setOptions(options, true);
 
 		google.maps.event.addListener(this.googleMap, "click", function(event) {
 			var wpgmzaEvent = new WPGMZA.Event("click");
@@ -122,9 +122,15 @@ jQuery(function($) {
 		$(this.engineElement).append($(this.element).find(".wpgmza-loader"));
 	}
 	
-	WPGMZA.GoogleMap.prototype.setOptions = function(options)
+	WPGMZA.GoogleMap.prototype.setOptions = function(options, initializing)
 	{
 		Parent.prototype.setOptions.call(this, options);
+		
+		if(!initializing)
+		{
+			this.googleMap.setOptions(options);
+			return;
+		}
 		
 		var converted = $.extend(options, this.settings.toGoogleMapsOptions());
 		

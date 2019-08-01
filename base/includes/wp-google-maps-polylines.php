@@ -3,7 +3,8 @@
 Polylines functionality for WP Google Maps
 */
 
-
+if(!defined('ABSPATH'))
+	exit;
 
 /**
  * Render polyline editor HTML

@@ -1,5 +1,8 @@
 <?php
 
+if(!defined('ABSPATH'))
+	exit;
+
 class WPGMAPS_templates {
 
 

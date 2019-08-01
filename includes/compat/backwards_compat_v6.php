@@ -45,7 +45,10 @@ add_action("wpgmza_check_map_editor_backwards_compat", "wpgmza_check_map_editor_
  * Checks if the Pro version is less than the last v6 
  * Set's up backwards compatibility if this is the case
 */
-function wpgmza_check_map_editor_backwards_compat_v6(){
+function wpgmza_check_map_editor_backwards_compat_v6()
+{
+	$map_id = isset($_GET['map_id']) ? (int)$_GET['map_id'] : null;
+	
 	if(isset($_GET['action'])){
 		if ($_GET['action'] == "edit" && isset($_GET['map_id']) && wpgmza_check_pro_compat_required_v6()) {
 			wp_register_script('wpgmaps-admin-backwards-compat', plugins_url('js/backwards_compat_v6.js', __FILE__), array('jquery', "jquery-ui-core"), '1.0', true);
@@ -57,23 +60,23 @@ function wpgmza_check_map_editor_backwards_compat_v6(){
 								<h2>
 									" . __('Add a Circle', 'wp-google-maps') . "
 								</h2>
-								<span><a class=\"button-primary\" href=\"" . get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&action=add_circle&map_id=" . $_GET['map_id'] . "\">" . __("Add a Circle", "wp-google-maps") . "</a></span>
-								" . wpgmza_get_circles_table($_GET['map_id']) . "
+								<span><a class=\"button-primary\" href=\"" . get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&action=add_circle&map_id=" . $map_id . "\">" . __("Add a Circle", "wp-google-maps") . "</a></span>
+								" . wpgmza_get_circles_table($map_id) . "
 							</div>
 							
 							<div id=\"tabs-rectangles\">
 								<h2>
 									" . __('Add a Rectangle', 'wp-google-maps') . "
 								</h2>
-								<span><a class=\"button-primary\" href=\"" . get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&action=add_rectangle&map_id=" . $_GET['map_id'] . "\">" . __("Add a Rectangle", "wp-google-maps") . "</a></span>
-								" . wpgmza_get_rectangles_table($_GET['map_id']) . "
+								<span><a class=\"button-primary\" href=\"" . get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&action=add_rectangle&map_id=" . $map_id . "\">" . __("Add a Rectangle", "wp-google-maps") . "</a></span>
+								" . wpgmza_get_rectangles_table($map_id) . "
 							</div>";
 
 			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_backwards_compat_v6_marker_tab_headings', $tab_heading);
 			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_backwards_compat_v6_marker_tab_content', $tab_content);
 
-			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_circle_data_array', wpgmza_get_circle_data($_GET['map_id']));
-			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_rectangle_data_array', wpgmza_get_rectangle_data($_GET['map_id']));
+			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_circle_data_array', wpgmza_get_circle_data($map_id));
+			wp_localize_script('wpgmaps-admin-backwards-compat', 'wpgmza_rectangle_data_array', wpgmza_get_rectangle_data($map_id));
 
 			wp_enqueue_script('wpgmaps-admin-backwards-compat');
 		}	
