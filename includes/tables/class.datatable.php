@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class DataTable extends AjaxTable
 {
 	public function __construct($table_name, $ajax_parameters=null, $datatable_options=null)

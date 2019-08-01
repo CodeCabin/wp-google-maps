@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * This class represents the plugin itself. Broadly, this module handles practically all interaction with the platform (WP), loading assets as needed, and hooking into the platforms interface to provide menus etc.
  *
@@ -136,6 +139,21 @@ class Plugin extends Factory
 		return $this->{$name};
 	}
 	
+	public function __isset($name)
+	{
+		switch($name)
+		{
+			case 'settings':
+			case 'gdprCompliance':
+			case 'restAPI':
+			case 'spatialFunctionPrefix':
+				return true;
+				break;
+		}
+		
+		return false;
+	}
+	
 	public function onInit()
 	{
 		$this->_gdprCompliance = new GDPRCompliance();
@@ -198,6 +216,7 @@ class Plugin extends Factory
 			
 			'resturl'				=> preg_replace('#/$#', '', get_rest_url(null, 'wpgmza/v1')),
 			'restnonce'				=> wp_create_nonce('wp_rest'),
+			'restnoncetable'		=> $this->restAPI->getNonceTable(),
 
 			'settings' 				=> $settings,
 			'currentPage'			=> $this->getCurrentPage(),
@@ -335,6 +354,12 @@ class Plugin extends Factory
 			$mofile = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . get_locale() . '.mo';
 		
 		return $mofile;
+	}
+	
+	public function isUserAllowedToEdit()
+	{
+		$capability	= (empty($this->settings->wpgmza_settings_access_level) ? 'manage_options' : $this->settings->wpgmza_settings_access_level);
+		return current_user_can($capability);
 	}
 }
 

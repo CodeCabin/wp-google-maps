@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class QueryFragment implements \ArrayAccess, \Countable
 {
 	private $nextIndex = 0;

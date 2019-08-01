@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * This class represents a latitude and longitude coordinate pair, provides type consistency for latitude and longitude, and some utility functions
  */

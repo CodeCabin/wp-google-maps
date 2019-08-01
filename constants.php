@@ -1,5 +1,8 @@
 <?php
 
+if(!defined('ABSPATH'))
+	exit;
+
 global $wpdb;
 
 global $WPGMZA_TABLE_NAME_MARKERS;

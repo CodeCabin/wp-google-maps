@@ -77,6 +77,7 @@ jQuery(function($) {
 		var averageDeltaLog = Math.log2(averageDelta);
 		var lowBitsLength = Math.floor(averageDeltaLog);
 		var lowBitsMask = (1 << lowBitsLength) - 1;
+		var prev = null;
 		
 		var maxCompressedSize = Math.floor(
 			(
@@ -103,6 +104,10 @@ jQuery(function($) {
 		list.forEach(function(docID) {
 			
 			var docIDDelta = (docID - lastDocID - 1);
+			
+			if(prev !== null && docID <= prev)
+				throw new Error("Elias Fano encoding can only be used on a sorted, ascending list of unique integers.");
+			prev = docID;
 			
 			buffer1 <<= lowBitsLength;
 			buffer1 |= (docIDDelta & lowBitsMask);

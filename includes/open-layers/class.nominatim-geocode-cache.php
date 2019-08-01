@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * Used to facilitate communication and caching between the client and the Nominatim Geocoding service
  */
@@ -91,7 +94,6 @@ class NominatimGeocodeCache
  */
 function query_nominatim_cache()
 {
-	
 	$cache = new NominatimGeocodeCache();
 	$record = $cache->get($_GET['query']);
 	
@@ -123,6 +125,14 @@ function store_nominatim_cache()
  */
 function clear_nominatim_cache()
 {
+	global $wpgmza;
+	
+	if(!$wpgmza->isUserAllowedToEdit())
+	{
+		http_response_code(401);
+		return;
+	}
+	
 	$cache = new NominatimGeocodeCache();
 	$cache->clear();
 

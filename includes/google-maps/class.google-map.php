@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 require_once(plugin_dir_path(__DIR__) . 'google-maps/class.google-maps-loader.php');
 
 /*

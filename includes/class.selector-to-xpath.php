@@ -6,6 +6,9 @@
 
 namespace WPGMZA\Selector;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * Useful when debugging CSS selector to XPath query conversion
  * @param string $str The string to output

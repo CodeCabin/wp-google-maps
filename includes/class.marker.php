@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 // TODO: Remove, autoloaders are now used
 require_once(plugin_dir_path(__FILE__) . '/class.crud.php');
 

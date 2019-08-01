@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class MarkerDataTable extends DataTable
 {
 	public function __construct($ajax_parameters=null, $datatable_options=null)

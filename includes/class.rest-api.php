@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * This class facilitates all communication between the client and any server side modules which can be interacted with through the WordPress REST API.
  */
@@ -14,6 +17,7 @@ class RestAPI extends Factory
 	const CUSTOM_BASE64_REGEX = '/base64[A-Za-z0-9+\-]+(={0,3})?(\/[A-Za-z0-9+\-]+(={0,3})?)?/';
 	
 	private $fallbackRoutesByRegex;
+	private $nonceTable;
 	
 	/**
 	 * Constructor
@@ -21,9 +25,13 @@ class RestAPI extends Factory
 	public function __construct()
 	{
 		$this->fallbackRoutesByRegex = array();
+		$this->nonceTable = array();
 		
 		// REST API init
 		add_action('rest_api_init', array($this, 'onRestAPIInit'));
+		
+		add_action('parse_request', array($this, 'onParseRequest'));
+		add_action('init', array($this, 'onInit'));
 		
 		// WP REST Cache integration
 		add_filter('wp_rest_cache/allowed_endpoints', array($this, 'onWPRestCacheAllowedEndpoints'));
@@ -35,33 +43,6 @@ class RestAPI extends Factory
 		// AJAX fallback for when REST API is blocked
 		add_action('wp_ajax_wpgmza_rest_api_request', array($this, 'onAJAXRequest'));
 		add_action('wp_ajax_nopriv_wpgmza_rest_api_request', array($this, 'onAJAXRequest'));
-		
-		// Show REST API blocked notification
-		if($lastBlocked = get_option('wpgmza_last_rest_api_blocked'))
-		{
-			$date 		= \DateTime::createFromFormat(\DateTime::ISO8601, $lastBlocked);
-			$friendly 	= $date->format("H:i Y-m-d");
-			$message 	= sprintf(
-				__('<strong>WP Google Maps:</strong> We recommend allowing REST API requests to the <span style="font-family: monospace;">wpgmza</span> endpoints. One or more REST requests were blocked, a fallback will be used, however, this fallback is less optimal in terms of performance than REST requests. Last reported at %s.', 'wp-google-maps'),
-				$friendly
-			);
-			
-			add_action('admin_notices', function() use ($message) {
-				
-				global $wpgmza;
-				
-				$wpgmza->loadScripts();
-				
-				?>
-				<div id="wpgmza-rest-api-blocked" class='notice notice-warning is-dismissible'>
-					<p>
-						<?php echo $message; ?>
-					</p>
-				</div>
-				<?php
-				
-			});
-		}
 	}
 	
 	public static function isCompressedPathVariableSupported()
@@ -74,21 +55,86 @@ class RestAPI extends Factory
 		return preg_match(RestAPI::CUSTOM_BASE64_REGEX, $_SERVER['REQUEST_URI']);
 	}
 	
-	protected function registerRoute($route, $args)
+	protected function addRestNonce($route)
 	{
+		$this->nonceTable[$route] = wp_create_nonce('wpgmza_' . $route);
+	}
+	
+	public function getNonceTable()
+	{
+		return $this->nonceTable;
+	}
+	
+	protected function checkActionNonce($route)
+	{
+		$route = preg_replace('#^/wpgmza/v1#', '', $route);
+		$nonce = $_SERVER['HTTP_X_WPGMZA_ACTION_NONCE'];
+		
+		$result = wp_verify_nonce($nonce, 'wpgmza_' . $route);
+		
+		return $result !== false;
+	}
+	
+	public function registerRoute($route, $args)
+	{
+		$methodIsOnlyGET = true;
+		
+		if(!empty($args['methods']))
+		{
+			$methods = $args['methods'];
+			
+			if(is_string($methods))
+				$methodIsOnlyGET = $methods == 'GET';
+			else if(is_array($methods))
+			{
+				foreach($methods as $method)
+				{
+					if($method == 'GET')
+						continue;
+					
+					$methodIsOnlyGET = false;
+					break;
+				}
+			}
+		}
+		
+		if(!defined('REST_REQUEST'))
+		{
+			if($methodIsOnlyGET)
+				return;	// No need to add nonces for GET requests to the nonce table
+			
+			$this->addRestNonce($route);
+			
+			if(!wp_doing_ajax())
+				return;
+		}
+		
+		$callback = $args['callback'];
+		
+		$args['callback'] = function($request) use ($route, $callback, $methodIsOnlyGET)
+		{
+			global $wpgmza;
+			
+			$doActionNonceCheck = 
+				empty($args['skipNonceCheck']) &&
+				!$methodIsOnlyGET && 
+				(
+					!$wpgmza->isProVersion() 
+					||
+					version_compare($wpgmza->getProVersion(), '7.11.47', '>=')
+				);
+			
+			if($doActionNonceCheck && !$this->checkActionNonce($route))
+				return new \WP_Error('wpgmza_action_not_allowed', 'You do not have permission to perform this action', array('status' => 403));
+			
+			return $callback($request);
+		};
+		
 		register_rest_route(RestAPI::NS, $route, $args);
 		
 		if(isset($args['useCompressedPathVariable']) && $args['useCompressedPathVariable'])
 		{
-			$compressedRoute	= preg_replace('#/$#', '', $route) . RestAPI::CUSTOM_BASE64_REGEX;
-			$callback			= $args['callback'];
-			
-			$args['callback'] = function($request) use ($callback) {
-				
-				return $callback($request);
-				
-			};
-			
+			$compressedRoute = preg_replace('#/$#', '', $route) . RestAPI::CUSTOM_BASE64_REGEX;
 			register_rest_route(RestAPI::NS, $compressedRoute, $args);
 		}
 		
@@ -186,19 +232,9 @@ class RestAPI extends Factory
 		}
 	}
 	
-	/**
-	 * Callback for the rest_api_init action, this function registers the plugins REST API routes.
-	 * @return void
-	 */
-	public function onRestAPIInit()
+	protected function registerRoutes()
 	{
-		// NB: Permalink Manager Lite compatibility. This fix prevents the plugin from causing POST REST requests being redirected to GET
-		// NB: We also check the plugin is active to mitigate any potential effects to other plugins. This could be removed, as an optimization
-		global $wp_query;
-		
-		$active_plugins = get_option('active_plugins');
-		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins))
-			$wp_query->query_vars['do_not_redirect'] = 1;
+		global $wpgmza;
 		
 		$this->registerRoute('/maps(\/\d+)?/', array(
 			'methods'					=> 'GET',
@@ -219,9 +255,7 @@ class RestAPI extends Factory
 		$this->registerRoute('/markers(\/\d+)?/', array(
 			'methods'					=> array('DELETE'),
 			'callback'					=> array($this, 'markers'),
-			'permission_callback'		=> function() {
-				return current_user_can('administrator');
-			}
+			'permission_callback'		=> array($wpgmza, 'isUserAllowedToEdit')
 		));
 		
 		$this->registerRoute('/datatables', array(
@@ -247,21 +281,36 @@ class RestAPI extends Factory
 			'useCompressedPathVariable'	=> true
 		));
 		
-		$this->registerRoute('/rest-api', array(
-			'methods'					=> array('POST'),
-			'callback'					=> array($this, 'onRestAPI'),
-			'permission_callback'		=> function() {
-				return current_user_can('administrator');
-			}
-		));
+		do_action('wpgmza_register_rest_api_routes');
 	}
 	
-	public function onRestAPI($request)
+	/**
+	 * Callback for the rest_api_init action, this function registers the plugins REST API routes.
+	 * @return void
+	 */
+	public function onRestAPIInit()
 	{
-		if(isset($_POST['dismiss_blocked_notice']))
-			delete_option('wpgmza_last_rest_api_blocked');
+		// NB: Permalink Manager Lite compatibility. This fix prevents the plugin from causing POST REST requests being redirected to GET
+		// NB: We also check the plugin is active to mitigate any potential effects to other plugins. This could be removed, as an optimization
+		global $wp_query;
 		
-		return array('success' => 1);
+		$active_plugins = get_option('active_plugins');
+		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins))
+			$wp_query->query_vars['do_not_redirect'] = 1;
+		
+		$this->registerRoutes();
+	}
+	
+	public function onParseRequest()
+	{
+		// Register routes for the nonce table
+		if(!defined('REST_REQUEST'))
+			$this->registerRoutes();
+	}
+	
+	public function onInit()
+	{
+		$this->registerRoutes();
 	}
 	
 	protected function sendAJAXResponse($result, $code=200)
@@ -312,7 +361,7 @@ class RestAPI extends Factory
 					'status'	=> 404
 				)
 			), 404);
-			return;
+			exit;
 		}
 		
 		// Check permissions
@@ -329,7 +378,7 @@ class RestAPI extends Factory
 						'status'	=> 403
 					)
 				), 403);
-				return;
+				exit;
 			}
 		}
 		
@@ -528,7 +577,7 @@ class RestAPI extends Factory
 			
 		}catch(Exception $e) {
 			
-			return WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
+			return new \WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
 			
 		}
 		
@@ -559,7 +608,7 @@ class RestAPI extends Factory
 			$instance = $class::createInstance();
 		
 		if(!($instance instanceof DataTable))
-			return WP_Error('wpgmza_invalid_datatable_class', 'Specified PHP class must extend WPGMZA\\DataTable', array('status' => 403));
+			return new \WP_Error('wpgmza_invalid_datatable_class', 'Specified PHP class must extend WPGMZA\\DataTable', array('status' => 403));
 		
 		$result = $instance->data($request);
 		

@@ -48,10 +48,18 @@ jQuery(function($) {
 	{
 		var self = this;
 		var ids = [];
+		var map = WPGMZA.maps[0];
 		
 		$(this.element).find("input[name='mark']:checked").each(function(index, el) {
 			var row = $(el).closest("tr")[0];
 			ids.push(row.wpgmzaMarkerData.id);
+		});
+		
+		ids.forEach(function(marker_id) {
+			var marker = map.getMarkerByID(marker_id);
+			
+			if(marker)
+				map.removeMarker(marker);
 		});
 		
 		WPGMZA.restAPI.call("/markers/?skip_cache=1", {

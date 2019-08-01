@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 // header('Content-type: text/plain');
 
 require_once(__DIR__ . '/class.marker.php');

@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * Base class for remodal dependent modal dialogs. This class enqueues the relevant scripts and styles.
  */

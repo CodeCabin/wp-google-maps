@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * The CRUD class is a base class which acts as an interface between any
  * objects which are stored on in the database and represented in server
@@ -18,6 +21,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	private $id;
 	private $table_name;
 	private $fields;
+	private $overrides;
 	private $modified;
 	
 	private $trashed = false;
@@ -32,11 +36,17 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		global $wpdb;
 		
 		$this->fields = array();
+		$this->overrides = array();
 		
 		if(is_object($id_or_fields) || is_array($id_or_fields))
 		{
 			foreach($id_or_fields as $key => $value)
+			{
+				if($key == "id")
+					continue;
+				
 				$this->fields[$key] = $value;
+			}
 			
 			if($read_mode == Crud::BULK_READ)
 			{
@@ -45,7 +55,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 				if(!isset($obj->id))
 					throw new \Exception('Cannot bulk read without ID');
 				
-				$this->id = $obj->id;
+				$id = $this->id = $obj->id;
 			}
 				
 			if($read_mode != Crud::BULK_READ)
@@ -495,6 +505,18 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		}
 		else
 			throw new \Exception('Invalid argument');
+		
+		return $this;
+	}
+	
+	/**
+	 * Sets a variable on the object without writing to the database. Useful for overriding properties
+	 */
+	public function override($key, $value)
+	{
+		$this->assert_not_trashed();
+		
+		$this->overrides[$key] = $value;
 		
 		return $this;
 	}

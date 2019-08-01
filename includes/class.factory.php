@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * The Factory class is a base class which can be used to make any classes
  * externally extensible. A filter is added for wpgmza_create_{class} which
@@ -28,6 +31,7 @@ class Factory
 		if($class == 'WPGMZA\Factory')
 			throw new \Exception('Factory createInstance would return abstract Factory');
 		
+		// TODO: If the created object is a descendant of CRUD 
 		if(empty($args))
 			$filter_args = array($filter, null);
 		else

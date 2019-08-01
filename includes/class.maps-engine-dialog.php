@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * This class represents the map engine selection dialog, which is presented to the user on the map edit page.
  */
@@ -13,6 +16,20 @@ class MapsEngineDialog
 	 */
 	public static function post()
 	{
+		global $wpgmza;
+		
+		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_maps_engine_dialog_set_engine'))
+		{
+			http_response_code(403);
+			exit;
+		}
+		
+		if(!$wpgmza->isUserAllowedToEdit)
+		{
+			http_response_code(401);
+			exit;
+		}
+		
 		$settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
 		$settings['wpgmza_maps_engine'] = $_POST['engine'];
@@ -31,7 +48,10 @@ class MapsEngineDialog
 	public function html()
 	{
 		?>
-		<div id="wpgmza-maps-engine-dialog" style="display: none;">
+		<div 
+			id="wpgmza-maps-engine-dialog" style="display: none;" 
+			data-ajax-nonce="<?php wp_create_nonce('wpgmza_maps_engine_dialog_set_engine'); ?>"
+			>
 			<h1>
 				<?php
 				_e('Choose a maps engine', 'wp-google-maps');

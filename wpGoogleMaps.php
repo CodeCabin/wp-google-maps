@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.35
+Version: 7.11.44
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,48 @@ Domain Path: /languages
 */
 
 /*
+ * 7.11.44 :- 2019-08-01 :- Low priority
+ * Added REST API parameter skipNonceCheck for Live Tracking App
+ * Fixed map type settings not "live" in map edit page
+ * Fixed map type setting not reflected when map edit page initialises
+ *
+ * 7.11.43 :- 2019-07-31 :- Low priority
+ * RestAPI now exposes registerRoute as a public function for add-ons to register REST API routes
+ * New action wpgmza_register_rest_api_routes added
+ *
+ * 7.11.42 :- 2019-07-30 :- Medium priority
+ * Added checks for ABSPATH to all PHP modules
+ * Added a console warning when Array prototype has been improperly extended, which breaks for ... in loops
+ * Improved parameter sanitization
+ * Dropped deprecated usage tracking function
+ * Dropped unused GoogleGeocoder class
+ * Dropped old admin head function, added update notice for users running Pro < 5.24
+ * Fixed AJAX REST API POST calls always failing nonce security check
+ *
+ * 7.11.41 :- 2019-07-29 :- Medium priority
+ * Fixed store locator not working in OpenLayers since 7.11.40 due to missing nonce
+ *
+ * 7.11.40 :- 2019-07-29 :- Medium priority
+ * REST API security enhanced with additional per-route nonces
+ * getScrollAnimationOffset now accounts for WP admin bar height
+ * removeMarker now closes marker InfoWindow before removing it
+ * Fixed notice on map edit page on setups with E_NOTICE error display
+ * Fixed markers not removed from map panel following bulk delete
+ * Fixed GoogleHTMLOverlay is not a constructor when WPGMZA.settings.engine is null
+ *
+ * 7.11.39 :- 2019-07-25 :- Medium priority
+ * Added code to update OpenLayers marker position following icon loading
+ * Fixed marker being off-position before user interaction on certain setups
+ * Fixed dataTables translations not working
+ * Fixed fatal error on map pages when GDPR notice filter returns an empty string
+ * Fixed category icon not respected in map panel when running Pro <= 6.*
+ *
+ * 7.11.38 :- 2019-07-22 :- Low priority
+ * Removed advisory REST AJAX notice due to false positives
+ *
+ * 7.11.37 :- 2019-07-16 :- Low priority
+ * Fixed polyline color control not "live" on polygon edit page
+ *
  * 7.11.36 :- 2019-07-11 :- Low priority
  * Re-added admin-ajax fallback for when REST API is blocked
  *
@@ -1007,6 +1049,9 @@ Domain Path: /languages
  * which would cause syntax errors in case of 1) and fatal errors in case of 2)
  *
  */
+
+if(!defined('ABSPATH'))
+	exit;
 
 if(!function_exists('wpgmza_show_php_version_error'))
 {

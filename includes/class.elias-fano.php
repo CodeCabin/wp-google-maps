@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class EliasFano
 {
 	private static $decodingTablesInitialised = false;

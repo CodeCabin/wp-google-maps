@@ -51,7 +51,8 @@ jQuery(function($) {
 			method: "POST",
 			data: {
 				action: "wpgmza_maps_engine_dialog_set_engine",
-				engine: $("[name='wpgmza_maps_engine']:checked").val()
+				engine: $("[name='wpgmza_maps_engine']:checked").val(),
+				nonce: $("#wpgmza-maps-engine-dialog").attr("data-ajax-nonce")
 			},
 			success: function(response, status, xhr) {
 				window.location.reload();

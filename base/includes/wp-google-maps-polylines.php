@@ -3,7 +3,8 @@
 Polylines functionality for WP Google Maps
 */
 
-
+if(!defined('ABSPATH'))
+	exit;
 
 /**
  * Render polyline editor HTML
@@ -37,7 +38,7 @@ function wpgmza_b_pro_add_polyline($mid) {
                                 ".__("Name","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_line\" name=\"poly_name\" type=\"text\" value=\"\" />
+                                <input id=\"poly_name\" name=\"poly_name\" type=\"text\" value=\"\" />
                             </td>
                         </tr>
                         <tr>
@@ -133,7 +134,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                                 ".__("Name","wp-google-maps")."
                             </td>
                             <td>
-                                <input id=\"poly_line\" name=\"poly_name\" type=\"text\" value=\"".esc_attr(stripslashes($pol->polyname))."\" />
+                                <input id=\"poly_name\" name=\"poly_name\" type=\"text\" value=\"".esc_attr(stripslashes($pol->polyname))."\" />
                             </td>
                         </tr>
                         <tr>

@@ -2,6 +2,9 @@
 
 namespace WPGMZA\Integration;
 
+if(!defined('ABSPATH'))
+	return;
+
 if(!class_exists('WPGMZA\\Integration\\WPMigrateDB'))
 {
 	/**

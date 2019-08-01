@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class AdminMarkerDataTable extends MarkerDataTable
 {
 	const ID_PLACEHOLDER = '__5d5621cf7b6bb90bfb7bda85a0df7293';

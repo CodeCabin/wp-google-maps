@@ -2,6 +2,9 @@
 
 namespace WPGMZA;
 
+if(!defined('ABSPATH'))
+	return;
+
 class AjaxTable extends Table
 {
 	public function __construct($table_name, $rest_api_route, $ajax_parameters=null)

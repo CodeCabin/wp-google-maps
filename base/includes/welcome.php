@@ -1,3 +1,10 @@
+<?php
+
+if(!defined('ABSPATH'))
+	exit;
+
+?>
+
 <?php global $wpgmza_global_array; ?>
 <div class="wrap about-wrap">
 <p>&nbsp;</p>
