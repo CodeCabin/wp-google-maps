@@ -2,6 +2,9 @@
 
 namespace codecabin;
 
+if(!defined('ABSPATH'))
+	return;
+
 class Settings implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 {
 	private $data;

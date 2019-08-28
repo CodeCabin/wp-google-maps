@@ -220,6 +220,24 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.48 :- 2019-08-28 :- Low priority =
+* Fixed polygons and polylines not displaying back end before global settings have been saved
+* Increased link column to accept 2083 characters
+
+= 7.11.47 :- 2019-08-09 :- Medium priority =
+* Fixed map engine dialog submission not working
+* Fixed WPGMZA.EventDispatcher not handing some native events over to DOM correctly
+
+= 7.11.46 :- 2019-08-08 :- Medium priority =
+* Fixed conflict with WooCommerce effecting checkout page on installations with debug notices turned on
+* Fixed WPGMZA.getQueryParamValue matching location hash on last parameter
+
+= 7.11.45 :- 2019-08-07 :- Medium priority =
+* Added ABSPATH checks to .html.php files, class.settings.php and backwards_compat_v6.php
+* Fixed add shape buttons disabled for Google when global settings have never been saved
+* Fixed permissions issues when attempting to save global settings (HTTP error 401)
+* Fixed permissions issues preventing users without manage_options capability from logging in
+
 = 7.11.44 :- 2019-08-01 :- Low priority =
 * Added REST API parameter skipNonceCheck for Live Tracking App
 * Fixed map type settings not "live" in map edit page
@@ -264,6 +282,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 = 7.11.36 :- 2019-07-11 :- Low priority =
 * Re-added admin-ajax fallback for when REST API is blocked
+* Fixed Polyline color issue
 
 = 7.11.35 :- 2019-07-08 :- High priority =
 * Security vulnerabilities fixed (Thank you Plugin Review Team at WordPress.org and pluginvulnerabilities.com)
@@ -1247,6 +1266,17 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
+
+
+
 
 
 

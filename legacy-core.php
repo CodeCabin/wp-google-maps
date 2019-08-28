@@ -699,8 +699,6 @@ function wpgmaps_admin_edit_marker_javascript() {
         }
         MYMAP.init = function(selector, latLng, zoom) {
 			
-			console.log(latLng);
-			
             var myOptions = {
                 zoom:zoom,
                 center: latLng,
@@ -759,24 +757,19 @@ function wpgmaps_admin_edit_marker_javascript() {
  * Outputs the JavaScript for the map editor
  * @return void
  */
-function wpgmaps_admin_javascript_basic() {
-    if (!is_admin())
-		return;
-	
+function wpgmaps_admin_javascript_basic()
+{	
 	global $wpgmza;
 	global $wpdb;
 	global $wpgmza_version;
 	global $wpgmza_tblname_maps;
 	
+    if (!is_admin() || !$wpgmza->isUserAllowedToEdit())
+		return;
+	
 	if(!empty($_POST['wpgmaps_marker-nonce']) && !wp_verify_nonce($_POST['wpgmaps_marker-nonce'], 'wpgmza'))
 	{
 		http_response_code(403);
-		exit;
-	}
-	
-	if(!$wpgmza->isUserAllowedToEdit())
-	{
-		http_response_code(401);
 		exit;
 	}
 	
@@ -2593,7 +2586,7 @@ function wpgmza_settings_page_post()
 		exit;
 	}
 	
-	if($wpgmza->isUserAllowedToEdit())
+	if(!$wpgmza->isUserAllowedToEdit())
 	{
 		http_response_code(401);
 		exit;
@@ -6046,7 +6039,7 @@ function wpgmaps_handle_db() {
           address varchar(700) NOT NULL,
           description mediumtext NOT NULL,
           pic varchar(700) NOT NULL,
-          link varchar(700) NOT NULL,
+          link varchar(2083) NOT NULL,
           icon varchar(700) NOT NULL,
           lat varchar(100) NOT NULL,
           lng varchar(100) NOT NULL,

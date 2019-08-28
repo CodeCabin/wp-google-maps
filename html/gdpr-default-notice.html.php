@@ -1,4 +1,8 @@
 <?php
+
+if(!defined('ABSPATH'))
+	return;
+
 _e('I agree for my personal data to be processed by {COMPANY_NAME}.
 		
 I agree for my personal data, provided via map API calls, to be processed by the API provider, for the purposes of geocoding (converting addresses to coordinates), reverse geocoding and generating directions.
@@ -12,4 +16,3 @@ Please <a href="https://developers.google.com/maps/terms">see here</a> and <a hr
 Where this notice is displayed in place of a map, agreeing to this notice will store a cookie recording your agreement so you are not prompted again.', 
 
 'wp-google-maps');
-?>

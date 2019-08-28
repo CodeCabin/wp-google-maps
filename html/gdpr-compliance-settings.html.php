@@ -1,4 +1,9 @@
-<div id="wpgmza-gdpr-compliance">
+<?php
+
+if(!defined('ABSPATH'))
+	return;
+
+?><div id="wpgmza-gdpr-compliance">
 	
 	<div>
 		<p>

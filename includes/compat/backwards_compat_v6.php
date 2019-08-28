@@ -1,4 +1,8 @@
 <?php
+
+if(!defined('ABSPATH'))
+	return;
+
 /**
  * Handles Backwards Compatibility
 */

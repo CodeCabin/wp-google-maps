@@ -1,4 +1,9 @@
-<tr data-required-map-engine="open-layers">
+<?php
+
+if(!defined('ABSPATH'))
+	return;
+
+?><tr data-required-map-engine="open-layers">
 	<td><?php _e('Tile Server URL:', 'wp-google-maps'); ?></td>
 	<td id="tile_server_controls">
 	

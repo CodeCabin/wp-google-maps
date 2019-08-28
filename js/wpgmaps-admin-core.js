@@ -1106,7 +1106,7 @@ function close_infowindows() {
 
 function add_polygon(polygonid) {
 	
-	if(WPGMZA.settings.engine != "google-maps")
+	if(WPGMZA.settings.engine == "open-layers")
 		return;
 	
     var tmp_data = wpgmaps_localize_polygon_settings[polygonid];
@@ -1165,7 +1165,7 @@ function add_polygon(polygonid) {
 }
 function add_polyline(polyline) {
     
-	if(WPGMZA.settings.engine != "google-maps")
+	if(WPGMZA.settings.engine == "open-layers")
 		return;
     
     var tmp_data = wpgmaps_localize_polyline_settings[polyline];

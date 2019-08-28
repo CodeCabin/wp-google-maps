@@ -91,7 +91,7 @@ class Database
 			address varchar(700) NOT NULL,
 			description mediumtext NOT NULL,
 			pic varchar(700) NOT NULL,
-			link varchar(700) NOT NULL,
+			link varchar(2083) NOT NULL,
 			icon varchar(700) NOT NULL,
 			lat varchar(100) NOT NULL,
 			lng varchar(100) NOT NULL,
