@@ -24,7 +24,7 @@ class MapsEngineDialog
 			exit;
 		}
 		
-		if(!$wpgmza->isUserAllowedToEdit)
+		if(!$wpgmza->isUserAllowedToEdit())
 		{
 			http_response_code(401);
 			exit;
@@ -50,7 +50,7 @@ class MapsEngineDialog
 		?>
 		<div 
 			id="wpgmza-maps-engine-dialog" style="display: none;" 
-			data-ajax-nonce="<?php wp_create_nonce('wpgmza_maps_engine_dialog_set_engine'); ?>"
+			data-ajax-nonce="<?php echo wp_create_nonce('wpgmza_maps_engine_dialog_set_engine'); ?>"
 			>
 			<h1>
 				<?php

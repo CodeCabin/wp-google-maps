@@ -223,19 +223,6 @@ jQuery(function($) {
 		nativeBounds.east = bottomRight[0];
 		
 		return nativeBounds;
-		
-		/*return 
-		
-		return {
-			topLeft: {
-				lat: topLeft[1],
-				lng: topLeft[0]
-			},
-			bottomRight: {
-				lat: bottomRight[1],
-				lng: bottomRight[0]
-			}
-		};*/
 	}
 	
 	/**

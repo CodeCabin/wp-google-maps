@@ -115,7 +115,7 @@ jQuery(function($) {
 	
 	$(window).on("load", function(event) {
 		
-		if(WPGMZA.settings.engine == "google-maps")
+		if(WPGMZA.settings.engine != "open-layers")
 			return;
 		
 		$(".wpgmza-open-layers-feature-unavailable:not(.notice)").each(function(index, el) {

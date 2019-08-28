@@ -552,7 +552,7 @@ jQuery(function($) {
 		
 		getQueryParamValue: function(name) {
 			
-			var regex = new RegExp(name + "=([^&]*)");
+			var regex = new RegExp(name + "=([^&#]*)");
 			var m;
 			
 			if(!(m = window.location.href.match(regex)))

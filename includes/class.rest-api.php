@@ -130,12 +130,15 @@ class RestAPI extends Factory
 			return $callback($request);
 		};
 		
-		register_rest_route(RestAPI::NS, $route, $args);
-		
-		if(isset($args['useCompressedPathVariable']) && $args['useCompressedPathVariable'])
+		if(defined('REST_REQUEST'))
 		{
-			$compressedRoute = preg_replace('#/$#', '', $route) . RestAPI::CUSTOM_BASE64_REGEX;
-			register_rest_route(RestAPI::NS, $compressedRoute, $args);
+			register_rest_route(RestAPI::NS, $route, $args);
+			
+			if(isset($args['useCompressedPathVariable']) && $args['useCompressedPathVariable'])
+			{
+				$compressedRoute = preg_replace('#/$#', '', $route) . RestAPI::CUSTOM_BASE64_REGEX;
+				register_rest_route(RestAPI::NS, $compressedRoute, $args);
+			}
 		}
 		
 		$this->fallbackRoutesByRegex["#$route#"] = $args;
@@ -192,7 +195,7 @@ class RestAPI extends Factory
 	 * or from the $_REQUEST array when no compressed string is present
 	 * @return array The request parameters
 	 */
-	protected function getRequestParameters()
+	public function getRequestParameters()
 	{
 		switch($_SERVER['REQUEST_METHOD'])
 		{

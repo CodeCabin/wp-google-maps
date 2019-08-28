@@ -1,4 +1,9 @@
-<div>
+<?php
+
+if(!defined('ABSPATH'))
+	return;
+
+?><div>
 
 	<h2><?php _e('Maps API Error', 'wp-google-maps'); ?></h2>
 	

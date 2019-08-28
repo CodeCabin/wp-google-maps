@@ -1,4 +1,9 @@
-<tr data-required-maps-engine='google-maps'>
+<?php
+
+if(!defined('ABSPATH'))
+	return;
+
+?><tr data-required-maps-engine='google-maps'>
 	<td>
 		<label><?php _e('Load Maps Engine API:', 'wp-google-maps'); ?></label>
 	</td>

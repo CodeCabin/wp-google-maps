@@ -43,13 +43,8 @@ jQuery(function($) {
 	 */
 	WPGMZA.Version.compare = function(v1, v2)
 	{
-		var v1parts = v1.split('.');
-		var v2parts = v2.split('.');
-
-		// First, validate both numbers are true version numbers
-		if (!validateParts(v1parts) || !validateParts(v2parts)) {
-			return NaN;
-		}
+		var v1parts = v1.match(/\d+/g);
+		var v2parts = v2.match(/\d+/g);
 
 		for (var i = 0; i < v1parts.length; ++i) {
 			if (v2parts.length === i) {
