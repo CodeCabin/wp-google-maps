@@ -232,6 +232,13 @@
             "wp-components"
         ]
     },
+    "wpgmza-astra-theme-compatiblity": {
+        "src": "js\/v8\/compatibility\/astra-theme-compatibility.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-google-ui-compatibility": {
         "src": "js\/v8\/compatibility\/google-ui-compatibility.js",
         "pro": false,

@@ -31,6 +31,7 @@ jQuery(function($) {
 		this.approved = 1;
 		this.pic = null;
 		
+		this.isFilterable = true;
 		this.disableInfoWindow = false;
 		
 		WPGMZA.MapObject.apply(this, arguments);

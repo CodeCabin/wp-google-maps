@@ -54,6 +54,14 @@ class RestAPI extends Factory
 	{
 		return preg_match(RestAPI::CUSTOM_BASE64_REGEX, $_SERVER['REQUEST_URI']);
 	}
+		
+	public static function isDoingAjax()
+	{
+		if(function_exists('wp_doing_ajax'))
+			return wp_doing_ajax();
+		
+		return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
+	}
 	
 	protected function addRestNonce($route)
 	{
@@ -105,13 +113,13 @@ class RestAPI extends Factory
 			
 			$this->addRestNonce($route);
 			
-			if(!wp_doing_ajax())
+			if(!RestAPI::isDoingAjax())
 				return;
 		}
 		
 		$callback = $args['callback'];
 		
-		$args['callback'] = function($request) use ($route, $callback, $methodIsOnlyGET)
+		$args['callback'] = function($request) use ($route, $args, $callback, $methodIsOnlyGET)
 		{
 			global $wpgmza;
 			

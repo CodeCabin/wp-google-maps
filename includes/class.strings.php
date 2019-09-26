@@ -43,7 +43,7 @@ class Strings
 			'add_marker'				=> __('Add Marker', 'wp-google-maps'),
 			'save_marker'				=> __('Save Marker', 'wp-google-maps'),
 			'please_wait'				=> __('Please Wait...', 'wp-google-maps'),
-			'zero_results'				=> __('Zero results found', 'wp-google-maps'),
+			'zero_results'				=> __('No results found for this address', 'wp-google-maps'),
 			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps'),
 			
 			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps')

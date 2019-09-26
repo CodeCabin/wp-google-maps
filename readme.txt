@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 5.2.1
+Tested up to: 5.2.3
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -219,6 +219,22 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 7.11.52 :- 2019-09-24 :- Medium priority =
+* Added Astra theme compatibilty module, fixes InfoWindows not opening with Astra theme
+* Added fallback for older versions of WordPress where wp_doing_ajax is not present, fixes fatal error on WordPress < 4.7
+
+= 7.11.51 :- 2019-09-19 :- Medium Priority =
+* Fixed Modern Store Locator Radius causing Safari (mobile) to reload page
+
+= 7.11.50 :- 2019-09-13 :- Medium priority =
+* Fixed markers not visible in Internet Explorer when using OpenLayers (append is not a method)
+
+= 7.11.49 :- 2019-09-10 :- Medium priority =
+* Added warning when "Do not enqueue datatables" is selected, but dataTables library is not loaded
+* Added comment to wpgmza_data.js to fix issues with empty files and Safari
+* Altered "zero-results" message to "No results found for this address"
+* Fixed skipNonceCheck flag being ignored when Live Tracking App is used
 
 = 7.11.48 :- 2019-08-28 :- Low priority =
 * Fixed polygons and polylines not displaying back end before global settings have been saved
@@ -1266,6 +1282,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
+
 
 
 

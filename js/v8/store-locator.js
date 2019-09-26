@@ -103,7 +103,7 @@ jQuery(function($) {
 	
 	WPGMZA.StoreLocator.prototype.onFilteringComplete = function(event)
 	{
-		if(event.filteredMarkers.length == 0)
+		if(event.filteredMarkers.length == 0 && !(this.state == WPGMZA.StoreLocator.STATE_INITIAL && this.hideMarkersInInitialState))
 			$(this.element).find(".wpgmza-not-found-msg").show();
 		else
 			$(this.element).find(".wpgmza-not-found-msg").hide();

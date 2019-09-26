@@ -161,7 +161,7 @@ jQuery(function($) {
 			
 			setTimeout(function() {
 				$(el).append(container);
-			}, 100);
+			}, 1000);
 		});
 		
 		$(".gm-err-container").parent().css({"z-index": 1});
