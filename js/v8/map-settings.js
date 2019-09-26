@@ -184,7 +184,10 @@ jQuery(function($) {
         
         options.draggable				= !(this.wpgmza_settings_map_draggable == 'yes');
         options.disableDoubleClickZoom	= (this.wpgmza_settings_map_clickzoom == 'yes');
-        options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
+		
+		// NB: This setting is handled differently as setting scrollwheel to true breaks gestureHandling
+		if(this.wpgmza_settings_map_scroll)
+			options.scrollwheel			= false;
 		
 		if(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes")
 			options.gestureHandling = "greedy";

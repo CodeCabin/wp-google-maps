@@ -104,6 +104,8 @@ jQuery(function($) {
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
 		
+		options = {};
+		
 		this.googleMap = new google.maps.Map(this.engineElement, options);
 		
 		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { 
@@ -126,6 +128,9 @@ jQuery(function($) {
 	{
 		Parent.prototype.setOptions.call(this, options);
 		
+		if(options.scrollwheel)
+			delete options.scrollwheel;	// NB: Delete this when true, scrollwheel: true breaks gesture handling
+		
 		if(!initializing)
 		{
 			this.googleMap.setOptions(options);
@@ -133,8 +138,6 @@ jQuery(function($) {
 		}
 		
 		var converted = $.extend(options, this.settings.toGoogleMapsOptions());
-		
-		//this.googleMap.setOptions(converted);
 		
 		var clone = $.extend({}, converted);
 		if(!clone.center instanceof google.maps.LatLng && (clone.center instanceof WPGMZA.LatLng || typeof clone.center == "object"))

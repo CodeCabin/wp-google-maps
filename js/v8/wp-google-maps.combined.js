@@ -7,6 +7,18 @@
 jQuery(function($) {
 	
 	var core = {
+		MARKER_PULL_DATABASE:	"0",
+		MARKER_PULL_XML:		"1",
+		
+		PAGE_MAP_LIST: 			"map-list",
+		PAGE_MAP_EDIT:			"map-edit",
+		PAGE_SETTINGS:			"map-settings",
+		PAGE_SUPPORT:			"map-support",
+		
+		PAGE_CATEGORIES:		"categories",
+		PAGE_ADVANCED:			"advanced",
+		PAGE_CUSTOM_FIELDS:		"custom-fields",
+		
 		/**
 		 * Indexed array of map instances
 		 * @constant {array} maps
@@ -43,6 +55,44 @@ jQuery(function($) {
 		localized_strings: null,
 		
 		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
+		
+		getCurrentPage: function() {
+			
+			switch(WPGMZA.getQueryParamValue("page"))
+			{
+				case "wp-google-maps-menu":
+					if(window.location.href.match(/action=edit/) && window.location.href.match(/map_id=\d+/))
+						return WPGMZA.PAGE_MAP_EDIT;
+				
+					return WPGMZA.PAGE_MAP_LIST;
+					break;
+					
+				case 'wp-google-maps-menu-settings':
+					return WPGMZA.PAGE_SETTINGS;
+					break;
+					
+				case 'wp-google-maps-menu-support':
+					return WPGMZA.PAGE_SUPPORT;
+					break;
+					
+				case 'wp-google-maps-menu-categories':
+					return WPGMZA.PAGE_CATEGORIES;
+					break;
+					
+				case 'wp-google-maps-menu-advanced':
+					return WPGMZA.PAGE_ADVANCED;
+					break;
+					
+				case 'wp-google-maps-menu-custom-fields':
+					return WPGMZA.PAGE_CUSTOM_FIELDS;
+					break;
+					
+				default:
+					return null;
+					break;
+			}
+			
+		},
 		
 		/**
 		 * Override this method to add a scroll offset when using animated scroll, useful for sites with fixed headers.
@@ -477,7 +527,7 @@ jQuery(function($) {
 			
 			// Workaround for map ID member not set correctly
 			
-			if(WPGMZA.isProVersion())
+			if(WPGMZA.isProVersion() && !(MYMAP.map instanceof WPGMZA.Map))
 				return MYMAP[id].map;
 			
 			return MYMAP.map;
@@ -516,7 +566,7 @@ jQuery(function($) {
 		isSafari: function() {
 			
 			var ua = navigator.userAgent.toLowerCase();
-			return (ua.indexOf("safari") != -1 && ua.indexOf("chrome") == -1);
+			return (ua.match(/safari/i) && !ua.match(/chrome/i));
 			
 		},
 		
@@ -1784,7 +1834,7 @@ jQuery(function($) {
 			
 			setTimeout(function() {
 				$(el).append(container);
-			}, 100);
+			}, 1000);
 		});
 		
 		$(".gm-err-container").parent().css({"z-index": 1});
@@ -2950,7 +3000,10 @@ jQuery(function($) {
         
         options.draggable				= !(this.wpgmza_settings_map_draggable == 'yes');
         options.disableDoubleClickZoom	= (this.wpgmza_settings_map_clickzoom == 'yes');
-        options.scrollwheel				= !(this.wpgmza_settings_map_scroll == 'yes');
+		
+		// NB: This setting is handled differently as setting scrollwheel to true breaks gestureHandling
+		if(this.wpgmza_settings_map_scroll)
+			options.scrollwheel			= false;
 		
 		if(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes")
 			options.gestureHandling = "greedy";
@@ -3776,6 +3829,7 @@ jQuery(function($) {
 		this.approved = 1;
 		this.pic = null;
 		
+		this.isFilterable = true;
 		this.disableInfoWindow = false;
 		
 		WPGMZA.MapObject.apply(this, arguments);
@@ -5516,7 +5570,7 @@ jQuery(function($) {
 	
 	WPGMZA.StoreLocator.prototype.onFilteringComplete = function(event)
 	{
-		if(event.filteredMarkers.length == 0)
+		if(event.filteredMarkers.length == 0 && !(this.state == WPGMZA.StoreLocator.STATE_INITIAL && this.hideMarkersInInitialState))
 			$(this.element).find(".wpgmza-not-found-msg").show();
 		else
 			$(this.element).find(".wpgmza-not-found-msg").hide();
@@ -5819,6 +5873,34 @@ jQuery(function ($) {
 
 	// Allow the Pro module to extend and create the module, only create here when Pro isn't loaded
 	if(!WPGMZA.isProVersion() && !(/^6/.test(WPGMZA.pro_version))) WPGMZA.integrationModules.gutenberg = WPGMZA.Integration.Gutenberg.createInstance();
+});
+
+// js/v8/compatibility/astra-theme-compatibility.js
+/**
+ * @namespace WPGMZA
+ * @module AstraThemeCompatiblity
+ * @requires WPGMZA
+ * @description Prevents the document.body.onclick handler firing for markers, which causes the Astra theme to throw an error, preventing the infowindow from opening
+ */
+jQuery(function($) {
+	
+	$(window).on("load", function(event) {
+		
+		var parent = document.body.onclick;
+		
+		if(!parent)
+			return;
+		
+		document.body.onclick = function(event)
+		{
+			if(event.target instanceof WPGMZA.Marker)
+				return;
+			
+			parent(event);
+		}
+		
+	});
+	
 });
 
 // js/v8/compatibility/google-ui-compatibility.js
@@ -6381,6 +6463,8 @@ jQuery(function($) {
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
 		
+		options = {};
+		
 		this.googleMap = new google.maps.Map(this.engineElement, options);
 		
 		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { 
@@ -6403,6 +6487,9 @@ jQuery(function($) {
 	{
 		Parent.prototype.setOptions.call(this, options);
 		
+		if(options.scrollwheel)
+			delete options.scrollwheel;	// NB: Delete this when true, scrollwheel: true breaks gesture handling
+		
 		if(!initializing)
 		{
 			this.googleMap.setOptions(options);
@@ -6410,8 +6497,6 @@ jQuery(function($) {
 		}
 		
 		var converted = $.extend(options, this.settings.toGoogleMapsOptions());
-		
-		//this.googleMap.setOptions(converted);
 		
 		var clone = $.extend({}, converted);
 		if(!clone.center instanceof google.maps.LatLng && (clone.center instanceof WPGMZA.LatLng || typeof clone.center == "object"))
@@ -8540,7 +8625,7 @@ jQuery(function($) {
 		img.src = WPGMZA.defaultMarkerIcon;
 		
 		this.element = $("<div class='ol-marker'></div>")[0];
-		this.element.append(img);
+		this.element.appendChild(img);
 		
 		this.element.wpgmzaMarker = this;
 		
@@ -9156,13 +9241,23 @@ jQuery(function($) {
 	
 	WPGMZA.DataTable = function(element)
 	{
+		if(!$.fn.dataTable)
+		{
+			console.warn("The dataTables library is not loaded. Cannot create a dataTable. Did you enable 'Do not enqueue dataTables'?");
+			
+			if(WPGMZA.settings.wpgmza_do_not_enqueue_datatables && WPGMZA.getCurrentPage() == WPGMZA.PAGE_MAP_EDIT)
+				alert("You have selected 'Do not enqueue DataTables' in WP Google Maps' settings. No 3rd party software is loading the DataTables library. Because of this, the marker table cannot load. Please uncheck this option to use the marker table.");
+			
+			return;
+		}
+		
 		if($.fn.dataTable.ext)
 			$.fn.dataTable.ext.errMode = "throw";
 		else
 		{
 			var version = $.fn.dataTable.version ? $.fn.dataTable.version : "unknown";
 			
-			console.log("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
+			console.warn("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
 		}
 		
 		this.element = element;

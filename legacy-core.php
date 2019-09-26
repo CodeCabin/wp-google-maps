@@ -3837,9 +3837,9 @@ function wpgmaps_settings_page_basic() {
             $ret .= "                </tr>";
 
             $ret .= "               <tr>";
-            $ret .= "                        <td width='200' valign='top'>".__("Disable Two-Finger Pan","wp-google-maps").":</td>";
+            $ret .= "                        <td width='200' valign='top'>".__("Greedy Gesture Handling","wp-google-maps").":</td>";
             $ret .= "                     <td>";
-            $ret .= "                           <div class='switch wpgmza-open-layers-feature-unavailable'><input name='wpgmza_force_greedy_gestures' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_force_greedy_gestures' value='yes' $wpgmza_force_greedy_gestures_checked /> <label for='wpgmza_force_greedy_gestures' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> " . __("Removes the need to use two fingers to move the map on mobile devices", "wp-google-maps");
+            $ret .= "                           <div class='switch wpgmza-open-layers-feature-unavailable'><input name='wpgmza_force_greedy_gestures' type='checkbox' class='cmn-toggle cmn-toggle-yes-no' id='wpgmza_force_greedy_gestures' value='yes' $wpgmza_force_greedy_gestures_checked /> <label for='wpgmza_force_greedy_gestures' data-on='".__("Yes", "wp-google-maps")."' data-off='".__("No", "wp-google-maps")."'></label></div> " . __("Removes the need to use two fingers to move the map on mobile devices, removes 'Use ctrl + scroll to zoom the map'", "wp-google-maps");
             $ret .= "                    </td>";
             $ret .= "                </tr>";
 			

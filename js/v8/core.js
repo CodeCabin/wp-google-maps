@@ -5,6 +5,18 @@
 jQuery(function($) {
 	
 	var core = {
+		MARKER_PULL_DATABASE:	"0",
+		MARKER_PULL_XML:		"1",
+		
+		PAGE_MAP_LIST: 			"map-list",
+		PAGE_MAP_EDIT:			"map-edit",
+		PAGE_SETTINGS:			"map-settings",
+		PAGE_SUPPORT:			"map-support",
+		
+		PAGE_CATEGORIES:		"categories",
+		PAGE_ADVANCED:			"advanced",
+		PAGE_CUSTOM_FIELDS:		"custom-fields",
+		
 		/**
 		 * Indexed array of map instances
 		 * @constant {array} maps
@@ -41,6 +53,44 @@ jQuery(function($) {
 		localized_strings: null,
 		
 		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
+		
+		getCurrentPage: function() {
+			
+			switch(WPGMZA.getQueryParamValue("page"))
+			{
+				case "wp-google-maps-menu":
+					if(window.location.href.match(/action=edit/) && window.location.href.match(/map_id=\d+/))
+						return WPGMZA.PAGE_MAP_EDIT;
+				
+					return WPGMZA.PAGE_MAP_LIST;
+					break;
+					
+				case 'wp-google-maps-menu-settings':
+					return WPGMZA.PAGE_SETTINGS;
+					break;
+					
+				case 'wp-google-maps-menu-support':
+					return WPGMZA.PAGE_SUPPORT;
+					break;
+					
+				case 'wp-google-maps-menu-categories':
+					return WPGMZA.PAGE_CATEGORIES;
+					break;
+					
+				case 'wp-google-maps-menu-advanced':
+					return WPGMZA.PAGE_ADVANCED;
+					break;
+					
+				case 'wp-google-maps-menu-custom-fields':
+					return WPGMZA.PAGE_CUSTOM_FIELDS;
+					break;
+					
+				default:
+					return null;
+					break;
+			}
+			
+		},
 		
 		/**
 		 * Override this method to add a scroll offset when using animated scroll, useful for sites with fixed headers.
@@ -475,7 +525,7 @@ jQuery(function($) {
 			
 			// Workaround for map ID member not set correctly
 			
-			if(WPGMZA.isProVersion())
+			if(WPGMZA.isProVersion() && !(MYMAP.map instanceof WPGMZA.Map))
 				return MYMAP[id].map;
 			
 			return MYMAP.map;
@@ -514,7 +564,7 @@ jQuery(function($) {
 		isSafari: function() {
 			
 			var ua = navigator.userAgent.toLowerCase();
-			return (ua.indexOf("safari") != -1 && ua.indexOf("chrome") == -1);
+			return (ua.match(/safari/i) && !ua.match(/chrome/i));
 			
 		},
 		

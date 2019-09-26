@@ -521,7 +521,12 @@
                         
 
                     } else {
-                        alert("Geocode was not successful for the following reason: " + status);
+						var message = status;
+						
+						if(status == WPGMZA.Geocoder.ZERO_RESULTS)
+							message = WPGMZA.localized_strings.zero_results;
+						
+                        alert("Geocode was not successful for the following reason: " + message);
                         enableAddMarkerButton(true);
 
                     }
@@ -604,7 +609,12 @@
                     });
 
                 } else {
-                    alert("Geocode was not successful for the following reason: " + status);
+					var message = status;
+					
+					if(status == WPGMZA.Geocoder.ZERO_RESULTS)
+						message = WPGMZA.localized_strings.zero_results;
+					
+                    alert("Geocode was not successful for the following reason: " + message);
 					enableEditMarkerButton(true);
                 }
             });

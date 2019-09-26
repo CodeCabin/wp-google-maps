@@ -7,13 +7,23 @@ jQuery(function($) {
 	
 	WPGMZA.DataTable = function(element)
 	{
+		if(!$.fn.dataTable)
+		{
+			console.warn("The dataTables library is not loaded. Cannot create a dataTable. Did you enable 'Do not enqueue dataTables'?");
+			
+			if(WPGMZA.settings.wpgmza_do_not_enqueue_datatables && WPGMZA.getCurrentPage() == WPGMZA.PAGE_MAP_EDIT)
+				alert("You have selected 'Do not enqueue DataTables' in WP Google Maps' settings. No 3rd party software is loading the DataTables library. Because of this, the marker table cannot load. Please uncheck this option to use the marker table.");
+			
+			return;
+		}
+		
 		if($.fn.dataTable.ext)
 			$.fn.dataTable.ext.errMode = "throw";
 		else
 		{
 			var version = $.fn.dataTable.version ? $.fn.dataTable.version : "unknown";
 			
-			console.log("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
+			console.warn("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
 		}
 		
 		this.element = element;
