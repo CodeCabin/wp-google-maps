@@ -46,7 +46,8 @@ class Strings
 			'zero_results'				=> __('No results found for this address', 'wp-google-maps'),
 			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps'),
 			
-			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps')
+			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps'),
+			'all'						=> __('All', 'wp-google-maps')
 		));
 	}
 	

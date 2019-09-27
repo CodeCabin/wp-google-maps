@@ -138,7 +138,7 @@ jQuery(function($) {
 		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items)
 			options.iDisplayLength = parseInt(WPGMZA.settings.wpgmza_default_items);
 		
-		options.aLengthMenu = [5, 10, 25, 50, 100];
+		options.aLengthMenu = [[5, 10, 25, 50, 100, -1], ["5", "10", "25", "50", "100", WPGMZA.localized_strings.all]];
 		
 		var languageURL = this.getLanguageURL();
 		if(languageURL)

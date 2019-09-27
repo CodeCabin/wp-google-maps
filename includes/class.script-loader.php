@@ -498,9 +498,6 @@ class ScriptLoader
 			if(!$minified_file_exists || $delta > 0)
 				$src = $combined;
 			
-			// TODO: Remove this, fix errors
-			// $src = $combined;
-			
 			$scripts = array('wpgmza' => 
 				(object)array(
 					'src'	=> $src,
