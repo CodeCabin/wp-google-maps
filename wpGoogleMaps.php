@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 7.11.53
+ * Fixed "All" missing from datatables page size dropdown
+ *
  * 7.11.52 :- 2019-09-24 :- Medium priority
  * Added Astra theme compatibilty module, fixes InfoWindows not opening with Astra theme
  * Added fallback for older versions of WordPress where wp_doing_ajax is not present, fixes fatal error on WordPress < 4.7
