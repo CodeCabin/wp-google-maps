@@ -366,10 +366,7 @@ function wpgmaps_init() {
     global $wpgmza_version;
 	
     wp_enqueue_script("jquery");
-    $plugin_dir = basename(dirname(__FILE__))."/languages/";
-    load_plugin_textdomain( 'wp-google-maps', false, $plugin_dir );
     
-     
     if (get_option("wpgmza_xml_location") == "") {
         $upload_dir = wp_upload_dir();
         add_option("wpgmza_xml_location",'{uploads_dir}/wp-google-maps/');

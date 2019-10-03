@@ -1,1 +1,1 @@
-// This file is used for localization and will be deprecated in the future
+(function(){}());// This file is used for localization and will be deprecated in the future

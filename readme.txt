@@ -220,6 +220,14 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 7.11.53 :- 2019-10-03 :- Low priority =
+* Fixed "All" missing from datatables page size dropdown
+* Fixed bundled translations only loaded on backend since 7.11.45
+* Added polyfill for slice on Uint8Array, fixing issues with compressed path variables and IE
+* Added no-op JS to wpgmza_data.js
+* Added isFilterable property to Marker
+* Removed .gitattributes from production build
+
 = 7.11.52 :- 2019-09-24 :- Medium priority =
 * Added Astra theme compatibilty module, fixes InfoWindows not opening with Astra theme
 * Added fallback for older versions of WordPress where wp_doing_ajax is not present, fixes fatal error on WordPress < 4.7
@@ -1282,6 +1290,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
 
 
 
