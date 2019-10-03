@@ -157,6 +157,8 @@ class Plugin extends Factory
 	public function onInit()
 	{
 		$this->_gdprCompliance = new GDPRCompliance();
+		
+		load_plugin_textdomain( 'wp-google-maps', false, plugin_dir_path(__DIR__) . "/languages/" );
 	}
 	
 	/**

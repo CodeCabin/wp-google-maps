@@ -165,6 +165,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-polyfills": {
+        "src": "js\/v8\/polyfills.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-polygon": {
         "src": "js\/v8\/polygon.js",
         "pro": false,

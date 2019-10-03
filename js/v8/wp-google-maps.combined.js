@@ -4960,6 +4960,25 @@ jQuery(function($) {
 	
 });
 
+// js/v8/polyfills.js
+/**
+ * @namespace WPGMZA
+ * @module Polyfills
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+
+	// IE11 polyfill for slice not being implemented on Uint8Array (used by text.js)
+	if (!Uint8Array.prototype.slice) {
+		Object.defineProperty(Uint8Array.prototype, 'slice', {
+			value: function (begin, end) {
+				return new Uint8Array(Array.prototype.slice.call(this, begin, end));
+			}
+		});
+	}
+
+});
+
 // js/v8/polygon.js
 /**
  * @namespace WPGMZA
@@ -6462,8 +6481,6 @@ jQuery(function($) {
 	{
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
-		
-		options = {};
 		
 		this.googleMap = new google.maps.Map(this.engineElement, options);
 		
@@ -9372,7 +9389,7 @@ jQuery(function($) {
 		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items)
 			options.iDisplayLength = parseInt(WPGMZA.settings.wpgmza_default_items);
 		
-		options.aLengthMenu = [5, 10, 25, 50, 100];
+		options.aLengthMenu = [[5, 10, 25, 50, 100, -1], ["5", "10", "25", "50", "100", WPGMZA.localized_strings.all]];
 		
 		var languageURL = this.getLanguageURL();
 		if(languageURL)
