@@ -1576,12 +1576,12 @@ msgstr "Filtrer efter"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:278
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wpgmza.php:369
 msgid "Get directions to"
-msgstr "Få anvisninger til"
+msgstr "Een routebeschrijving opvragen"
 
 # @ wp-google-maps
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2877
 msgid "Get Directions"
-msgstr "Få anvisninger"
+msgstr "Routebeschrijving naar"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2882
 msgid "For"
@@ -1632,19 +1632,19 @@ msgstr "Gå"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2962
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2995
 msgid "Fetching directions..."
-msgstr "Henter anvisninger…"
+msgstr "Routebeschrijving opvragen..."
 
 # @ wp-google-maps
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2965
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2997
 msgid "Reset directions"
-msgstr "Nulstil anvisninger"
+msgstr "Reset routebeschrijving"
 
 # @ wp-google-maps
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2967
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:2999
 msgid "Print directions"
-msgstr "Print anvisninger"
+msgstr "Routebeschrijving uitprinten"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3073
 msgid "Thank you. Your marker is awaiting approval."
@@ -1653,7 +1653,7 @@ msgstr "Mange tak. Dine markører venter på godkendelse."
 # @ wp-google-maps
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3641
 msgid "Get directions"
-msgstr "Få anvisninger"
+msgstr "Routebeschrijving naar"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3642
 msgid "My location"

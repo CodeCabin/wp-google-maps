@@ -7,6 +7,8 @@ if(!defined('ABSPATH'))
 
 class AjaxTable extends Table
 {
+	protected $lastInputParams;
+	
 	public function __construct($table_name, $rest_api_route, $ajax_parameters=null)
 	{
 		Table::__construct($table_name);
@@ -233,10 +235,47 @@ class AjaxTable extends Table
 		return $orderDirection;
 	}
 	
+	protected function filterOrderClause($clause)
+	{
+		return $clause;
+	}
+	
+	protected function getSQLBeforeWhere($input_params, &$query_params)
+	{
+		return "";
+	}
+	
+	protected function getSQLAfterWhere($input_params, &$query_params)
+	{
+		return "";
+	}
+	
+	protected function buildQueryString($columns, $where, $having, $input_params, &$query_params)
+	{
+		$imploded = implode(',', $columns);
+		
+		$qstr = "SELECT SQL_CALC_FOUND_ROWS $imploded FROM {$this->table_name} " . $this->getSQLBeforeWhere($input_params, $query_params) . " WHERE $where " . $this->getSQLAfterWhere($input_params, $query_params, $where);
+		
+		if(!empty($having))
+			$qstr .= " HAVING $having";
+		
+		return $qstr;
+	}
+	
+	protected function buildCountQueryString($input_params, &$count_query_params)
+	{
+		$count_where = $this->getWhereClause($input_params, $count_query_params, true);
+		
+		return "SELECT COUNT(id) FROM {$this->table_name} WHERE $count_where";
+	}
+	
 	public function getRecords($input_params)
 	{
 		global $wpdb;
 		global $wpgmza;
+		
+		// Remember input parameters
+		$this->lastInputParams = $input_params;
 		
 		// Build query
 		$columns = $this->getColumns();
@@ -256,11 +295,8 @@ class AjaxTable extends Table
 		// Columns to select
 		$columns = $this->filterColumns($keys, $input_params);
 		
-		$imploded = implode(',', $columns);
-		
-		$qstr = "SELECT SQL_CALC_FOUND_ROWS $imploded FROM {$this->table_name} WHERE $where";
-		if(!empty($having))
-			$qstr .= " HAVING $having";
+		// Build query string
+		$qstr = $this->buildQueryString($columns, $where, $having, $input_params, $query_params);
 		
 		// This code allows for more natural numeric sorting on text fields, not just numeric fields
 		if(empty($order_column))
@@ -269,7 +305,8 @@ class AjaxTable extends Table
 			$order_dir = 'ASC';
 		
 		// NB: Removed ISNULL({$order_column}), {$order_column}+0 {$order_dir}, as this was giving unpredictable results
-		$qstr .= " ORDER BY {$order_column} {$order_dir}";
+		$qstr .= " ORDER BY " . $this->filterOrderClause($order_column) . " {$order_dir}";
+		//$qstr .= " ORDER BY " . $this->filterOrderClause("ISNULL({$order_column}), {$order_column}+0 {$order_dir}, {$order_column} {$order_dir}");
 		
 		// Limit
 		if(isset($input_params['length']))
@@ -288,9 +325,7 @@ class AjaxTable extends Table
 		
 		// Total count
 		$count_query_params = array();
-		$count_where = $this->getWhereClause($input_params, $count_query_params, true);
-		
-		$count_qstr = "SELECT COUNT(id) FROM {$this->table_name} WHERE $count_where";
+		$count_qstr = $this->buildCountQueryString($input_params, $count_query_params);
 		
 		if(!empty($query_params))
 			$stmt = $wpdb->prepare($count_qstr, $count_query_params);

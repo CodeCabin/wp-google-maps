@@ -1,0 +1,27 @@
+.wpgmza-store-locator > div > *,
+	.wpgmza-directions-box-inner > div > *
+{
+	display: inline-block;
+	/* vertical-align: top; */
+}
+
+.wpgmza-store-locator label,
+	.wpgmza-directions-box label
+{
+	width: 180px;
+}
+
+.wpgmza-store-locator input[type="button"],
+	.wpgmza-not-found-msg,
+	div.wpgmza-waypoint-via,
+	.wpgmza-add-waypoint,
+	input.wpgmza-get-directions
+{
+	margin-left: 180px;
+}
+
+input.wpgmza-directions-from,
+	input.wpgmza-directions-to
+{
+	width: calc(80% - 180px);
+}

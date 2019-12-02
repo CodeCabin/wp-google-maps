@@ -61,6 +61,15 @@ jQuery(function($) {
 		
 		$(this.element).show();
 		
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
+		{
+			WPGMZA.getImageDimensions(mapObject.getIcon(), function(size) {
+				
+				$(self.element).css({left: Math.round(size.width / 2) + "px"});
+				
+			});
+		}
+		
 		this.trigger("infowindowopen");
 		this.trigger("domready");
 	}

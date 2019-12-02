@@ -5,9 +5,7 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
-require_once(plugin_dir_path(__DIR__) . 'lib/codecabin/class.settings.php');
-
-class GlobalSettings extends \codecabin\Settings
+class GlobalSettings extends Settings
 {
 	const TABLE_NAME = 'wpgmza_global_settings';
 	const LEGACY_TABLE_NAME = 'WPGMZA_OTHER_SETTINGS';
@@ -16,6 +14,8 @@ class GlobalSettings extends \codecabin\Settings
 	
 	public function __construct()
 	{
+		// TODO: Update XML locations here
+		
 		$self = $this;
 		
 		$legacy_settings_exist = (get_option(GlobalSettings::LEGACY_TABLE_NAME) ? true : false);
@@ -24,7 +24,7 @@ class GlobalSettings extends \codecabin\Settings
 		if($legacy_settings_exist && !$settings_exist)
 			$this->migrate();
 		
-		\codecabin\Settings::__construct(GlobalSettings::TABLE_NAME);
+		Settings::__construct(GlobalSettings::TABLE_NAME);
 		
 		$this->wpgmza_google_maps_api_key = get_option('wpgmza_google_maps_api_key');
 		
@@ -40,7 +40,7 @@ class GlobalSettings extends \codecabin\Settings
 		if($name == 'useLegacyHTML')
 			return true;
 		
-		return \codecabin\Settings::__get($name);
+		return Settings::__get($name);
 	}
 	
 	// TODO: This should inherit from Factory when traits are available
@@ -73,7 +73,8 @@ class GlobalSettings extends \codecabin\Settings
 			'engine' 				=> 'google-maps',
 			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
 			'default_marker_icon'	=> Marker::DEFAULT_ICON,
-			'developer_mode'		=> false
+			'developer_mode'		=> false,
+			'user_interface_style'	=> "default"
 		));
 		
 		return $settings;
@@ -90,32 +91,14 @@ class GlobalSettings extends \codecabin\Settings
 	
 	protected function update()
 	{
-		/*echo "<pre>";
-		debug_print_backtrace();
-		echo "</pre>";*/
-		
-		\codecabin\Settings::update();
+		Settings::update();
 		
 		// Legacy Pro support
 		$this->updatingLegacySettings = true;
 		
-		//var_dump($this->wpgmza_settings_map_full_screen_control);
-		
-		//if(empty($this->wpgmza_settings_map_full_screen_control))
-			//throw new \Exception('why');
-		
 		$legacy = $this->toArray();
 		
-		//var_dump($legacy['wpgmza_settings_map_full_screen_control']);
-		
-		//var_dump("Updating " . GlobalSettings::LEGACY_TABLE_NAME, $legacy);
-		
-		//if(empty($legacy['wpgmza_settings_map_full_screen_control']))
-			//throw new \Exception('Can you not');
-		
 		update_option(GlobalSettings::LEGACY_TABLE_NAME, $legacy);
-		
-		//var_dump("Read back ", get_option(GlobalSettings::LEGACY_TABLE_NAME));
 		
 		$this->updatingLegacySettings = false;
 	}
@@ -136,22 +119,28 @@ class GlobalSettings extends \codecabin\Settings
 	
 	public function jsonSerialize()
 	{
-		$src = \codecabin\Settings::jsonSerialize();
+		$src = Settings::jsonSerialize();
 		$data = clone $src;
 		
 		if(isset($data->wpgmza_settings_ugm_email_address))
 			unset($data->wpgmza_settings_ugm_email_address);
+		
+		if(isset($data->ugmEmailAddress))
+			unset($data->ugmEmailAddress);
 		
 		return $data;
 	}
 	
 	public function toArray()
 	{
-		$src = \codecabin\Settings::toArray();
+		$src = Settings::toArray();
 		$data = (array)$src;
 		
 		if(isset($data['wpgmza_settings_ugm_email_address']))
 			unset($data['wpgmza_settings_ugm_email_address']);
+		
+		if(isset($data['ugmEmailAddress']))
+			unset($data['ugmEmailAddress']);
 		
 		return $data;
 	}

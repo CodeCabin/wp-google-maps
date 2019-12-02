@@ -34,24 +34,7 @@ jQuery(function($) {
 		});
 		
 		if(options)
-		{
-			var googleOptions = {};
-			
-			googleOptions = $.extend({}, options);
-			delete googleOptions.map;
-			delete googleOptions.center;
-			
-			if(options.center)
-				googleOptions.center = new google.maps.LatLng({
-					lat: options.center.lat,
-					lng: options.center.lng
-				});
-			
-			this.googleCircle.setOptions(googleOptions);
-			
-			if(options.map)
-				options.map.addCircle(this);
-		}
+			this.setOptions(options);
 	}
 	
 	WPGMZA.GoogleCircle.prototype = Object.create(WPGMZA.Circle.prototype);
@@ -74,6 +57,39 @@ jQuery(function($) {
 	WPGMZA.GoogleCircle.prototype.setVisible = function(visible)
 	{
 		this.googleCircle.setVisible(visible ? true : false);
+	}
+	
+	WPGMZA.GoogleCircle.prototype.setOptions = function(options)
+	{
+		var googleOptions = {};
+		
+		googleOptions = $.extend({}, options);
+		delete googleOptions.map;
+		delete googleOptions.center;
+		
+		if(options.center)
+			googleOptions.center = new google.maps.LatLng({
+				lat: parseFloat(options.center.lat),
+				lng: parseFloat(options.center.lng)
+			});
+			
+		if(options.radius)
+			googleOptions.radius = parseFloat(options.radius);
+		
+		if(options.color)
+			googleOptions.fillColor = options.color;
+		
+		if(options.opacity)
+		{
+			googleOptions.fillOpacity = parseFloat(options.opacity);
+			googleOptions.strokeOpacity = parseFloat(options.opacity);
+
+		}
+		
+		this.googleCircle.setOptions(googleOptions);
+		
+		if(options.map)
+			options.map.addCircle(this);
 	}
 	
 });

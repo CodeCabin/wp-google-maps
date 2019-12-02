@@ -59,7 +59,7 @@ class MapsEngineDialog
 			</h1>
 			
 			<div class="wpgmza-inner">
-				<div>
+				<div class="wpgmza-border-box__option">
 					<input type="radio" 
 						name="wpgmza_maps_engine"
 						id="wpgmza_maps_engine_open-layers"
@@ -106,7 +106,7 @@ class MapsEngineDialog
 					</label>
 				</div>
 				
-				<div>
+				<div class="wpgmza-border-box__option">
 					<input type="radio" 
 						name="wpgmza_maps_engine"
 						id="wpgmza_maps_engine_google-maps"

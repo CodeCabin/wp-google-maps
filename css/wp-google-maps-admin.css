@@ -29,17 +29,17 @@
 }
 
 #wpgmaps_tabs .ui-tabs-nav li,
-	#wpgmaps_tabs_markers .ui-tabs-nav li
+#wpgmaps_tabs_markers .ui-tabs-nav li
 {
-	padding: 0px !important;
-	display: inline-block;
+  padding: 0px !important;
+  display: inline-block !important;
 }
 
 #wpgmaps_tabs .ui-tabs-nav li > a,
-	#wpgmaps_tabs_markers .ui-tabs-nav li > a
+#wpgmaps_tabs_markers .ui-tabs-nav li > a
 {
-    display: inline-block;
-	padding: 10px 15px;
+  display: inline-block !important;
+  padding: 10px 15px !important;
 }
 
 .ui-widget-header {
@@ -79,9 +79,9 @@
 }
 
 .ui-tabs-panel {
-    background: white;
+    background: white !important;
     margin-top: -19px !important;
-    padding: 13px;
+    padding: 13px !important;
 }
 
 .ui-slider {
@@ -581,4 +581,2120 @@ input.cmn-toggle-yes-no:checked + label:after {
 [aria-controls="wpgmza-gdpr-compliance"]
 {
 	margin-left: 3px;
+}
+
+
+
+.ui-tabs-panel {
+  /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);*/
+  /*  transition: all 0.3s cubic-bezier(.25,.8,.25,1);*/
+}
+
+ 
+
+.error {
+  border-width: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+}
+
+#wpcontent {
+padding: 20px;
+  padding-right: 25px;
+   padding-top: 0;
+  box-sizing: border-box;
+ 
+}
+
+.wrap {
+  margin: 0;
+}
+
+#wpgmza-map-edit__btns {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  z-index: 999;
+  text-align: right;
+  margin: 0;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
+padding: 10px;
+  padding-right: 20px;
+  box-sizing: border-box;
+    border-top: 1px solid #ddd;
+
+}
+#wpgmza-map-edit__btns  input {
+display: inline-block;
+  vertical-align: middle;
+  
+}
+
+#wpgmza-theme-editor {
+box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
+  border-radius: 3px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#wpgmza_map {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
+}
+
+.wpgmza-google-maps-api-error-overlay {
+  background: rgba(0,0,0,0.3) !important;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.wpgmza-google-maps-api-error-overlay h2 {
+  color: #fff;
+  margin-top: 5px;
+}
+.wpgmza-google-maps-api-error-overlay .template.notice {
+  background: transparent;
+  border: 1px solid #fff;
+  padding-bottom: 30px;
+  position: relative;
+}
+
+.wpgmza-google-maps-api-error-overlay a {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a{
+  background: transparent !important;
+  text-decoration: none !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  border-radius: 1px !important;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a:hover {
+  background: #fff !important;
+  color: #333 !important;
+  border: 1px solid #fff !important;
+}
+
+#wpgmza_map {
+  position: relative;
+}
+
+#wpgmza_marker_holder {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  border-radius: 3px;
+}
+
+.dataTables_length,
+.dataTables_filter,
+.wpgmza-marker-listing__actions,
+.dataTables_info,
+.dataTables_paginate{
+  padding: 10px 20px;
+}
+
+.wpgmza-marker-listing__actions {
+  padding-bottom: 15px;
+}
+
+.button-primary,
+.ui-tabs-active,
+.wpgmza_general_btn,
+.wpgmza_file_select_btn{
+  background-color: #2B323C !important;
+  text-shadow: none;
+  border-radius: 2px !important;
+  transition: background .12s ease-in-out !important;
+}
+
+.button-primary:hover,
+.ui-tabs-active:hover,
+.wpgmza_general_btn:hover,
+.wpgmza_file_select_btn:hover {
+  background-color: #616f82 !important;
+}
+
+.button-primary:active,
+.button-primary:focus,
+.ui-tabs-nav a:active,
+.ui-tabs-nav a:focus{
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+body[class*="wp-google-maps"] .ui-tabs-nav {
+  overflow-x: scroll !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  font-size: 0 !important;
+}
+
+body[class*="wp-google-maps"] .ui-tabs {
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+  background: #fff !important;
+  background: #f9f9f9 !important;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+body[class*="wp-google-maps"] .ui-tabs-nav li {
+  display: inline-block !important;
+  font-size: 12px;
+  margin-bottom: 0 !important;
+  border-right: 1px solid #eee;
+ 
+  border-radius: 0;
+  transition: background .13s ease-in-out;
+  
+
+}
+body[class*="wp-google-maps"] .ui-tabs-nav li a {
+}
+
+body[class*="wp-google-maps"] .ui-tabs-panel {
+  border: 1px solid #eee;
+}
+
+body[class*="wp-google-maps"] .ui-state-default {
+  background: #fff;
+}
+
+body[class*="wp-google-maps"] .ui-state-default:hover {
+  background: #f9f9f9;
+}
+
+body[class*="wp-google-maps"] .ui-tabs-panel {
+  margin-top: 0 !important;
+ 
+}
+
+li[aria-controls="wpgmza-gdpr-compliance"] {
+  margin-left: 0;
+}
+
+.wpgmza-upgrade-tab,
+.wpgmza-upgrade-tab a{
+  background: #FACE48 !important;
+}
+
+#wpgmza-pro-features {
+  padding: 0;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.wpgmza-pro-features__item {
+  display: inline-block;
+  width: 33%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 10px ;
+  min-height: 300px;
+}
+.wpgmza-pro-features__item .wpgmza-card {
+  min-height: 360px;
+}
+
+.wpgmza-card {
+  background: #fff;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.wpgmza-pro-features__item img {
+  border: none;
+}
+
+.wpgmza-pro-features__item p {
+}
+
+.wpgmza-feature-item__desc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 20px;
+  font-size: 14px;
+}
+#wpgmza-basic-footer-text {
+  text-align: center !important;
+  margin-top: 20px;
+}
+
+.wpgmza-nag {
+  border: 2px solid black;
+  line-height: 12px;
+  box-sizing: border-box;
+   border-radius: 4px !important;
+}
+#wpgmaps_save_reminder {
+  margin-top: 20px;
+}
+
+.wpgmza.button,
+body[class*="wp-google-maps"] .button.button-secondary{
+  background: transparent;
+  border: 2px solid #2B323C;
+  box-sizing: border-box;
+  line-height: 20px;
+  box-shadow: none;
+  outline: none;
+  transition: background-color .1s ease-in-out;
+}
+
+.wpgmza.button:hover,
+body[class*="wp-google-maps"] .button.button-secondary:hover{
+  background: #2B323C;
+  color: #fff;
+   border: 2px solid #2B323C;
+}
+
+.wpgmza.button:active,
+.wpgmza.button:focus,
+body[class*="wp-google-maps"] .button.button-secondary:active,
+body[class*="wp-google-maps"] .button.button-secondary:focus{
+  outline: none;
+  box-shadow: none;
+  border: 2px solid #2B323C;
+}
+.wpgmza-error-message {
+  border: 2px solid #EE6385;
+  border-width: 2px !important;
+  padding: 20px !important;
+  box-sizing: border-box;
+}
+.wpgmza-error-message  h1 {
+  color: #EE6385;
+  font-size: 17px;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.wpgmza-error-message  a {
+  color: #EE6385;
+}
+
+.wpgmza_copy_shortcode {
+  background: #fffbef !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 7px 5px;
+  font-size: 15px !important;
+  color: #FACE48 !important;
+  border: 2px solid #FACE48 !important;
+  border-radius: 3px !important;
+  cursor: pointer;
+  text-align: center;
+}
+
+.ui-slider-handle {
+  border: 2px solid #FACE48 !important;
+  cursor: pointer !important;
+}
+
+.ui-slider-handle:active,
+.ui-slider-handle:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#slider-range-max {
+  background: #FACE48 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 30px !important;
+}
+
+.ui-slider-range.ui-slider-range-max {
+  background: #f9f9f9 !important;
+}
+
+body[class*="wp-google-maps"] {
+  background: #f5f5f9;
+}
+
+body[class*="wp-google-maps"] .ui-tabs {
+    background: #efeff5 !important;
+}
+
+.update-att {
+  border: 2px solid #FACE48;
+  border-radius: 5px;
+  background: #FACE48;
+  color: #fff;
+  margin: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.update-att a {
+  color: #fff;
+  opacity: .9;
+  font-weight: bold;
+}
+.update-att .fa {
+  margin-right: 10px;
+}
+
+.wpgmza-marker-tab__title {
+ margin-top: 0;
+}
+
+#wpgmaps_tabs_markers .update-att {
+  margin: 0;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#wpgmza-marker-tabs__wrap #tabs-m-2 {
+max-height: 410px;
+  overflow: auto;
+}
+
+#wpgmza-marker-tabs__wrap {
+  margin-bottom: 20px;
+}
+
+#wpgmza-map-edit__markers {
+
+  clear: both;
+  padding-top: 10px;
+}
+
+.wpgmza-button__top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.ui-tabs-panel {
+  position: relative;
+}
+
+body[class*="wp-google-maps"] .button.button-secondary,
+body[class*="wp-google-maps"] .button.button-primary{
+  height: 26px;
+  box-sizing: border-box;
+}
+
+body[class*="wp-google-maps"] .button.button-secondary {
+  height: 29px;
+  line-height: 25px;
+  vertical-align: top;
+}
+
+.wpgmza-clear {
+  clear: both;
+}
+
+.wpgmza-support-notice {
+  background: #0073AA !important;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  margin: 0;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  padding: 10px 20px !important;
+  display: none !important;
+}
+
+.wpgmza-support-notice a {
+  color: #fff;
+}
+
+#wpgmza-theme-editor {
+  padding: 0 !important;
+  background: #f5f5f9 !important;
+}
+
+#wpgmza-theme-editor__edit {
+  position: relative;
+}
+
+#wpgmza-theme-editor__feature {
+  position: sticky;
+  top: 0;
+
+  background: #fff;
+  z-index: 99;
+  
+  border-bottom: 1px solid #eee;
+  padding: 10px 20px;
+  line-height: 28px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 -1px 3px rgba(0,0,0,0.04);
+}
+
+#wpgmza-theme-editor__feature-settings {
+  padding: 20px;
+  padding-top: 10px;
+}
+
+#wpgmza-theme-editor__toggle {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+#wpgmza-map-theme-editor__holder {
+  display: none;
+  position: relative;
+  height: 0;
+  width: 100%;
+}
+
+#wpgmza-map-theme-editor__holder.active {
+  display: block;
+}
+
+#wpgmza-theme-editor {
+  display: block !important;
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 4px !important;
+  transform: none !important;
+  width: 50% !important;
+  z-index: 99 !important;
+  height: 50px !important;
+  transition: all 0.7s cubic-bezier(.25, .8, .25, 1) !important;
+  animation: .3s wpgmzaSlideIn ease-in-out !important;
+}
+
+#wpgmza-theme-editor.active {
+  height: 260px !important;
+}
+
+@keyframes wpgmzaSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+     transform: translateY(0);
+  }
+}
+
+.wpgmza-form-group__multiple {
+  display: flex;
+}
+
+.wpgmza-form-group__multiple fieldset {
+  margin-right: 20px;
+  flex: 1;
+}
+
+#wpgmza-maps-engine-dialog {
+  background: #f5f5f9;
+}
+
+.wpgmza-border-box__option {
+  background: #fff;
+  border-radius: 4px;
+  padding: 30px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 -1px 3px rgba(0,0,0,0.04);
+}
+
+.wpgmza-border-box__option:first-of-type {
+  margin-right: 20px;
+}
+
+.wpgmza-border-box__option:hover,
+.wpgmza-border-box__option.selected{
+  border-color: #2B323C;
+}
+
+#wpgmza-confirm-engine {
+  padding: 3px 30px !important;
+  height: 45px !important;
+  margin-top: 30px;
+  font-size: 15px !important;
+  
+}
+.wpgmza-border-box__option .wpgmza-mock-radio {
+  width: 100% !important;
+  left: 0 !important;
+}
+.wpgmza-border-box__option .wpgmza-mock-radio-button {
+  display: none !important;
+}
+.wpgmza-engine-logo {
+  max-height: 140px;
+  width: auto !important;
+}
+
+#wpgmza-maps-engine-dialog {
+  max-width: 800px
+}
+
+#wpgmza-confirm-engine[disabled],
+#wpgmza-confirm-engine:disabled {
+background: #2b323c66 !important;
+  color: #fff !important;
+}
+
+.wpgmza-promo img {
+  max-width: 200px;
+}
+.feature-section.three-col .col {
+  max-width: 30%;
+  display: inline-block;
+  margin-bottom: 30px;
+
+}
+
+.feature-section {
+  text-align: center;
+
+}
+
+.wpgmza-promo-overlay {
+  width: 100%;
+  background: none;
+  margin: 0 auto;
+  top: -100px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  bottom: unset;
+  padding: 15px 30px;
+  padding-top: 15px;
+  border-radius: 5px;
+  pointer-events: none;
+  width: max-content;
+}
+.wpgmza-promo-overlay * {
+  color: #fff !important;
+}
+
+.wpgmza-map-edit__mouse-tip {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#wpgmza-theme-editor fieldset>label {
+  width: auto;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  line-height: 30px;
+  margin-right: 10px;
+}
+
+#wpgmza-theme-editor fieldset>input,
+#wpgmza-theme-editor fieldset>select{
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+#wpgmza-theme-editor .wpgmza-form-group {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+#wpgmza-theme-editor  fieldset {
+  margin: 0;
+}
+
+#wpgmza-theme-editor  fieldset div {
+  display: inline !important;
+}
+
+#wpgmza-theme-editor  .wpgmza-form-group:last-of-type {
+  margin-bottom: 10px;
+}
+
+
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label:after {
+	background: #face48;
+    border: 1px solid #dcb02a !important;
+	color: #444444;
+}
+
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label {
+  border-radius: 2px;
+  overflow: hidden;
+
+}
+
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label:before {
+  background: #eee;
+  border: 1px solid #ccc;
+}
+
+body[class*="wp-google-maps"] input[type=checkbox]:checked:before {
+  color: #face48;
+}
+body[class*="wp-google-maps"] input.cmn-toggle-round-flat:checked + label,
+body[class*="wp-google-maps"] input.cmn-toggle-round-flat:checked + label:after{
+  background: #face48;
+}
+
+body[class*="wp-google-maps"] .ui-slider-handle {
+  transition: transform .2s ease-in-out;
+}
+body[class*="wp-google-maps"] .ui-slider-handle:hover {
+  transform: scale(1.2);
+}
+
+
+
+
+body[class*="wp-google-maps"] input[type="text"],
+body[class*="wp-google-maps"] select {
+  padding: 6px 8px;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  transition: border .12s ease-in-out;
+}
+body[class*="wp-google-maps"] select  {
+  cursor: pointer;
+}
+body[class*="wp-google-maps"] input[type="text"]:not(.color):hover,
+body[class*="wp-google-maps"] select:hover{
+ border-color: #face48;
+}
+
+body[class*="wp-google-maps"] input[type="text"]::placeholder {
+  color: #ccc;
+}
+
+
+#wpgmaps_tabs_markers input:not([type="checkbox"]):not([type="button"]),
+#wpgmaps_tabs_markers select,
+#wpgmaps_tabs_markers textarea,
+#wpgmza_addmarker
+{
+  width: 100% !important;
+}
+
+
+#wpgmaps_tabs_markers td {
+  padding-bottom: 10px;
+}
+.wpgmza-info__small {
+ color: #333;
+  opacity: .5;
+  padding: 3px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+.wpgmza-info-right {
+  margin-left: 10px;
+}
+
+.wp-core-ui .button,
+.wp-core-ui .button-secondary,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+  border: 2px solid #2B323C;
+  color: #2B323C !important;
+  font-weight: normal;
+  transition: all .12s ease-in-out;
+  background: transparent;
+  border-radius: 4px;
+}
+.wp-core-ui .button:hover,
+.wp-core-ui .button-secondary:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+  border: 2px solid #2B323C;
+  background: #2B323C;
+  color: #fff !important;
+  font-weight: normal;
+}
+
+.wpgmza-flex {
+  display: flex;
+}
+
+.wpgmza-flex a {
+  margin-right: 3px !important;
+}
+
+body[class*="wp-google-maps"] .button-primary, body[class*="wp-google-maps"] .ui-tabs-active {
+  /* color: #fff !important; */
+}
+
+.button.button-secondary,
+.button.button-primary {
+  color: #fff !important;
+}
+body[class*="wp-google-maps"] input[type="text"] {
+  border: none !important;
+  border-bottom: 2px solid #e8e8e8 !important;
+}
+body[class*="wp-google-maps"] input[type="text"]:active,
+body[class*="wp-google-maps"] input[type="text"]:focus,
+body[class*="wp-google-maps"] input[type="text"]:hover{
+  border-color: #2B323C !important;
+}
+ 
+
+.wpgmza-listing-comp {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+  border-radius: 2px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.wpgmza-listing {
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04) !important;
+  border-radius: 3px;
+}
+
+.wpgmza-listing  a {
+  color: #333 !important;
+}
+
+.wpgmza-listing-comp input {
+  width: 100%;
+}
+
+.wpgmza-listing-comp td {
+  padding-bottom: 10px;
+}
+
+#wpgmza-polygon-textarea {
+  display: block;
+  clear: both;
+  padding-top: 20px;
+}
+
+#wpgmza-polygon-textarea textarea {
+margin-top: 10px;
+  width: 100% !important;
+  box-shadow: none;
+}
+
+body[class*="wp-google-maps"] input[type="text"].wpgmza_copy_shortcode {
+  border: 2px solid #face48 !important;
+}
+
+#wpgmza-support__row {
+  background: transparent;
+  display: flex;
+}
+
+.wpgmza-support__col {
+  padding: 10px;
+  box-sizing: border-box;
+  flex: 1;
+
+}
+
+.wpgmza-support__col .wpgmza-card {
+  height: 100%;
+}
+
+.wpgmza-support__col h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.wpgmza-support__col h2 i {
+  margin-right: 10px;
+  color: #face48
+}
+
+#wpbody {
+  padding-top: 5px;
+}
+
+input[type="radio"]
+{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	display: inline-block;
+	position: relative;
+	background-color: #fff;
+	color: #333;
+	height: 15px;
+	width: 15px;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;     
+	margin-right: 7px;
+	outline: none;
+	border: 1px solid #2B323C;
+}
+input[type="radio"]:checked::before
+{
+  content: '';
+  display: block;
+     position: absolute;
+     color: #fff;
+     left: 50%;
+     top: 50%;
+  background: #2B323C;
+  transform: translate(-50%,-50%);
+     
+  width: 7px;
+  height: 7px;
+  margin: 0;
+}
+input[type="radio"]:hover
+{
+     background-color: #fff;
+}
+input[type="radio"]:checked
+{
+     background-color: #fff;
+    border: 1px solid #333;;
+}
+
+input[type="radio"]:active,
+input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+#wpgmaps_tabs select,
+#wpgmaps_tabs input:not([type="checkbox"]):not([type="radio"]){
+  min-width: 200px;
+}
+
+#wpgmza-welcome-page {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#wpgmza-welcome-page .about-text,
+#wpgmza-welcome-page h1 {
+  width: 100%;
+}
+
+
+#wpgmza-welcome-page #wpgmza-support__row {
+justify-content: center;
+}
+
+.wpgmza-flex-grid__item {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.wpgmza-flex-grid__item .wpgmza-card {
+  height: 100%;
+}
+
+#wpgmza-welcome-page .nav-tab {
+  background: #face48;
+  border: none;
+  color: #fff !important;
+  font-weight: normal;
+}
+#wpgmza-welcome-page .nav-tab-wrapper  {
+  text-align: center !important;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.wpgmza-card h4 {
+  margin: 0;
+  margin-bottom: 15px;
+}
+.wpgmza-error-message {
+  border-left-color: #EE6385;
+}
+
+.wpgmza-error-message a {
+  color: #EE6385 !important;
+}
+
+input[type="text"].wpgmza_copy_shortcode {
+  color: #2B323C !important;
+  border: 2px solid #2B323C !important;
+  background: #f4f7fb !important;
+}
+
+.button.button-secondary {
+  color: #2B323C !important;
+}
+
+select[id*="width"],
+select[id*="height"]{
+  min-width: 50px !important;
+}
+
+
+.button-primary:disabled,
+.button-primary[disabled]{
+  background: #2B323C !important;
+  color: #fff !important;
+  opacity: .3
+}
+#wpgm_notice_message_save_marker,
+#wpgm_notice_message_addfirst_marker{
+
+  margin-top: 10px;
+}
+#wpgm_notice_message_save_marker .update-nag,
+#wpgm_notice_message_addfirst_marker .update-nag{
+  padding: 6px 15px !important;
+  border: 2px solid #FACE48;
+  color: #FACE48;
+  box-shadow: none;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center !important;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  border-bottom: 1px solid #ddd;
+}
+table.dataTable tfoot th, table.dataTable tfoot td {
+  border-top: 1px solid #ddd;
+}
+
+
+table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td, table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 {
+  background: #fff;
+}
+
+tbody tr .sorting_1 {
+  text-align: center;
+}
+
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd ,
+table.dataTable.display tbody tr.odd td{
+  background: #f9f9f9 !important;
+}
+
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 {
+  background: #f4f4f4 !important;
+}
+
+tbody tr.even>.sorting_1 {
+  background: #f9f9f9 !important;
+}
+
+table.dataTable.display tbody tr:hover td  {
+  transition: background .12s ease-in-out;
+}
+
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover td {
+  background: #f9f9f9;
+}
+
+table.dataTable.hover tbody tr.odd:hover, table.dataTable.display tbody tr.odd:hover td {
+  background: #f4f4f4 !important;
+}
+
+.wpgmza-listing td {
+  vertical-align: middle;
+}
+
+.wpgmza-wizard-option__info-title {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  padding-top: 0;
+  margin-bottom: 10px;
+}
+.wpgmza-wizard-option__info-title i {
+  margin-right: 10px;
+}
+
+.wpgmza-listing {
+  padding: 0;
+  
+}
+
+.maps_page_wp-google-maps-menu-custom-fields {
+  background: #F5F5F9;
+}
+
+#wpcontent {
+  padding-left: 0;
+  padding: 30px;
+}
+
+#wpgmza-custom-fields h1 {
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+#wpgmza-custom-fields .wp-list-table {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04) !important;
+  border-radius: 3px;
+}
+.wpgmza-infowindow-style-picker {
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+#wrap {
+  
+}
+
+.wpgmza-infowindow-picker__item {
+  padding: 10px;
+  box-sizing: border-box;
+  flex: 1;
+
+}
+
+.wpgmza-infowindow-picker__item .wpgmza-card {
+  padding: 0;
+  height: 170px;
+  min-width: 240px;
+}
+
+.wpgmza-infowindow-picker__item img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 100px;
+  width: auto;
+}
+
+.wpgmza_mlist_selection_activate {
+  border: none !important;
+}
+.wpgmza_mlist_selection_activate .wpgmza-card {
+  border-color: #2B323C;
+}
+.notice-success, div.updated {
+  padding: 10px;
+  border: 2px solid #46b450;
+  color: #46b450;
+  border-radius: 3px;
+}
+.wpgmza-card {
+  display: block !important;
+}
+.wpgmza-marker-listing-picker__item {
+  padding: 6px;
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 200px;
+}
+.wpgmza-marker-listing-picker__item .wpgmza-card {
+  padding: 10px !important;
+  width: 100%;
+  text-align: center;
+}
+.wpgmza-marker-listing-picker__item.selected .wpgmza-card {
+  border-color: #2B323C;
+}
+.wpgmza-marker-listing-picker {
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center; 
+}
+.wpgmza-listing-item__title {
+  display: block;
+  margin-top: 10px;
+}
+.wpgmza-infowindow-style__name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.wpgmza-infowindow-picker__item .wpgmza-card {
+  height: 220px;  
+}
+.wpgmza-infowindow-picker__item img {
+  top: 45%;
+}
+a {
+  color: #2f76e1;
+}
+a:hover {
+  color: #1e5ec0;
+}
+#wpgmza_marker_holder table thead th {
+  border-top: 1px solid #eee;
+}
+#wpgmza_marker_holder table tfoot th {
+  border-bottom: 1px solid #eee;
+  padding: 13px 0;
+}
+.wpgmza-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wpgmza-card ul li {
+  margin: 0;
+  padding: 3px 0;
+}
+.wp-core-ui a.button-primary,
+a.button-primary,
+input.button-primary,
+.wp-core-ui .button-primary{
+  text-shadow: none !important;
+  padding: 10px 15px !important;
+  height: 37px !important;
+  line-height: 18px !important;
+  font-size: 13px;
+}
+.wrap > h1:first-of-type {
+  margin-bottom: 10px;
+  padding-top: 0;
+}
+textarea[name="wpgmza_custom_css"],
+textarea[name="wpgmza_custom_js"]{
+  background: #2B323C;
+  color: #fff !important;
+  padding: 20px 25px;
+  border-radius: 5px;
+}
+body[class*="wp-google-maps"] input[type="text"]:hover,
+body[class*="wp-google-maps"] select:hover {
+   border-color: #2B323C;
+}
+.wpgmza-buttons__right {
+  text-align: right;
+  position: relative;
+  max-width: 100%;
+  padding: 15px 0;
+  box-sizing: border-box;
+}
+textarea[name="wpgmza_custom_js"]:active,
+textarea[name="wpgmza_custom_js"]:focus,
+textarea[name="wpgmza_custom_css"]:active,
+textarea[name="wpgmza_custom_css"]:focus,
+#wpgmza-custom-fields-table input:active,
+#wpgmza-custom-fields-table input:focus{
+  box-shadow: none;
+  outline: none;
+}
+hr {
+  border-color: #f4f4f4 !important;
+}
+
+.maps_page_wp-google-maps-menu-settings .ui-tabs-panel,
+.maps_page_wp-google-maps-menu-advanced .ui-tabs-panel{
+  padding: 20px;
+}
+
+.maps_page_wp-google-maps-menu-settings .ui-tabs-panel h3,
+.maps_page_wp-google-maps-menu-advanced h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+input[type="text"] {
+  background: transparent !important;
+}
+
+input[type="number"],
+input[type="date"],
+input:not([type="checkbox"]):not([type="radio"]){
+	border: 1px solid #ddd;
+	box-shadow: none;
+	padding: 4px 9px;
+	border-radius: 2px;
+	transition: border-color .12s ease-in-out;
+	background: #fff;
+}
+input[type="number"]:hover,
+input[type="number"]:active,
+input[type="number"]:focus,
+input[type="date"]:hover,
+input[type="date"]:focus,
+input[type="date"]:active,
+input:not([type="checkbox"]):hover,
+input:not([type="checkbox"]):active,
+input:not([type="checkbox"]):focus{
+  border-color: #2B323C;
+  outline: none;
+  box-shadow: none;
+}
+
+
+#wpgmza-gdpr-compliance-notice {
+  min-width: 100%;
+}
+
+.wpgmza-buttons__float-right {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+#wpgmza-import-target-map-panel table {
+  border: 1px solid #ddd !important;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  box-shadow: none !important;
+}
+
+
+
+#wpgmza-advanced__get-help-link {
+  text-align: right;
+  padding: 20px;
+}
+
+body[class*="wp-google-maps"] .button.button-secondary:hover {
+  color: #fff !important;
+}
+
+.wpgmza_file_select_btn + #wpgmaps_import_file_name:not(:empty){
+  border: 1px solid #2B323C;
+  padding: 7px 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.notice p {
+  margin: 0;
+}
+
+#wpgmap_import_schedule_list_table,
+#wpgmap_import_file_list_table,
+#import_options table{
+  border: 1px solid #ccc !important;
+  box-shadow: none !important;
+}
+#import_options table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#wpgmap_import_schedule_list_table .import_schedule_edit{
+  margin-top: 10px;
+  display: inline-block;
+}
+
+#wpgmap_import_schedule_list_table span[name="status"] {
+  opacity: .6;
+  margin-left: 20px;
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+}
+
+#wpgmza-category-table * {
+  color: #333;
+}
+
+.wrap .add-new-h2,
+.wrap .add-new-h2:active{
+  color: #2B323C;
+  border: 2px solid #2B323C;
+  padding: 6px 15px;
+  border-radius: 4px;
+  background: transparent;
+  transition: all .12s ease-in-out;
+  
+}
+
+.wrap .add-new-h2:hover,
+.wrap .add-new-h2:focus,
+.wrap .add-new-h2:active {
+  background: #2B323C;
+  color: #fff;
+  border-color: #2B323C;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 2px 5px rgba(0,0,0,0.14) !important;
+}
+
+#wpmgza_unsave_notice {
+  display: inline-block !important;
+  opacity: 0;
+  transition: all .12s ease-in-out;
+  border: 2px solid #0073AA;
+  border-radius: 3px;
+  padding: 7px 10px;
+  color: #0073AA;
+  pointer-events: none;
+}
+
+#wpmgza_unsave_notice.visible {
+  opacity: 1;
+}
+#wpgmaps_add_marker_category table {
+  width: 100%;
+}
+.wpgmza-category-icon__btns {
+  margin: 10px 0;
+}
+
+.wpgmza_general_btn {
+  padding: 10px 15px !important;
+}
+.wpgmza-category-icon__btns {
+  height: 40px;
+}
+.wpgmza-category-icon__btns * {
+  flex: 1;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+
+    padding: 14px !important;
+  height: 100% !important;
+  line-height: 0px !important;
+  font-size: 13px !important;
+}
+.wpgmza-category-icon__btns a {
+
+  line-height: 7px !important;
+  margin-top: 1px !important;
+}
+.wpgmza-center-msg {
+  text-align: center;
+  display: block;
+  font-size: 11px;
+  opacity: .7
+}
+.ui-tabs {
+  padding: 0 !important;;
+}
+
+#wpgmza-save-map-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY( -50%);
+  height: 35px !important;
+  line-height: 0 !important;
+}
+
+.wpgmza-map-edit__mouse-tip {
+  text-align: center;
+  width: 100% !important;
+}
+
+.wpgmza-select-theme-preset,
+.wp-core-ui .wpgmza-select-theme-preset{
+  color: #fff !important;
+  border: 2px solid #fff !important;
+    line-height: 0 !important;
+  height: 32px !important;
+}
+
+.wpgmza-select-theme-preset:hover,
+.wp-core-ui .wpgmza-select-theme-preset:hover {
+  background: #fff !important;
+  color: #333 !important;
+
+}
+#wpgmza-theme-presets .owl-item img {
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  border-radius: 5px !important;
+  transition: all .12s ease-in-out;
+}
+#wpgmza-theme-presets .owl-item img:hover {
+  border-color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 30px rgba(0,0,0,0.14) !important;
+}
+
+
+ .owl-carousel .owl-dot span {
+  background: transparent !important;
+  border: 2px solid #2B323C !important;
+}
+
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+  background: #2B323C !important;
+}
+
+.owl-dot:active,
+.owl-dot:focus,
+.owl-dot:hover {
+  box-shadow: none;
+  outline: none !important;
+}
+
+textarea {
+  border: 2px solid #ccc;
+  box-shadow: none;
+  border-radius: 3px;
+}
+
+textarea:hover,
+#poly_line_list:hover {
+  border-color: #2B323C;
+}
+
+textarea[name="wpgmza_theme_data"] {
+  min-width: 400px;
+  height: 100px;
+}
+
+textarea:active,
+textarea:focus,
+textarea:hover {
+  box-shadow: none;
+  outline: none;
+}
+
+#wpgmaps_tabs {
+  overflow: visible;
+}
+
+#wpgmza-theme-editor {
+  bottom: 0 !important;
+}
+
+#wpgmza-theme-editor {
+  display: none !important;
+}
+
+#wpgmza-theme-editor.active{
+  display: block !important;
+}
+
+#wpgmza-theme-editor__feature-settings {
+ box-sizing: border-box !important; 
+}
+
+#wpgmza-theme-editor__feature-settings * {
+  min-width: unset !important;
+}
+
+#wpgmza-map-edit__btns input {
+}
+
+#wpgmza_addmarker {
+  margin-top: 10px;
+}
+
+#wpgmza-marker-edit-panel > div {
+  margin-top: 10px;
+}
+
+#wpgmza-marker-tabs__wrap > div:first-of-type {
+  margin-bottom: 20px;
+}
+
+.wpgmza-save-marker {
+  width: 100%;
+}
+
+#wpgmaps_options fieldset {
+  margin-bottom: 10px;
+}
+
+.wpgmza-center {
+  text-align: center;
+}
+
+.wpgmza-gallery-input li.wpgmza-add-new-picture {
+  border: 3px dashed #ddd;
+  border-radius: 3px;
+  color: #ddd;
+  transition: all .1s ease-in-out;
+}
+
+.wpgmza-gallery-input li.wpgmza-add-new-picture:hover,
+.wpgmza-gallery-input li:hover{
+  color: #2B323C;
+  border: 3px solid #2B323C;
+}
+
+.wpgmza-gallery-input li {
+  border: 3px dashed #ddd;
+  border-radius: 3px;
+  padding: 30px !iimportant;
+  box-sizing: border-box;
+  background-origin: content-box !important;
+  cursor: pointer;
+
+}
+.wpgmza-gallery-input li:hover .wpgmza-delete-gallery-item {
+  display: block;
+}
+button.wpgmza-delete-gallery-item {
+  bottom: 5px;
+  right: 5px;
+  border-radius: 0;
+  cursor: pointer;
+  display: none;
+}
+
+#wpgmza_marker_holder .wpgmza-flex a {
+  flex: 1;
+}
+
+.notice.notice-warning {
+  border: 2px solid #ffb900;
+  border-radius: 3px;
+  padding: 8px 15px;
+}
+
+.wpgmza-marker-icon-preview {
+  border: none;
+}
+
+.wpgmza-marker-panel label {
+  display: block !important;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+#wpgmaps_options fieldset>label+div, .wpgmza-marker-panel fieldset>label+div {
+  width: 100%;
+  display: block;
+}
+
+.wpgmza-gallery-input {
+  text-align: left;
+}
+
+.wpgmza-text-field__description {
+  display: block;
+  margin-top: 5px;
+  opacity: .7
+}
+
+.wpgmza-marker-library-dialog {
+  background: #F5F5F9;
+  padding-top: 50px;
+}
+
+.wpgmza-marker-library-dialog iframe {
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.04);
+}
+
+#wpgmza-powered-by-mappity {
+  background: #6539C2;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+#wpgmza-powered-by-mappity a {
+  color: #fff;
+}
+
+.wpgmza-input-button__line {
+  display: flex !important;
+}
+
+#wpgmza-marker-tabs__wrap h2 {
+  margin: 0;
+  margin-bottom: 20px;
+}
+#wpgmza-powered-by-mappity {
+  display: none;
+}
+.remodal-is-opened #wpgmza-powered-by-mappity {
+  display: block;
+}
+
+.wpgmza-label-amber {
+  background: #FACE48;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 16px;
+  margin-left: 6px;
+}
+
+input[id*="width"],
+input[id*="height"]{
+  min-width: 70px !important;
+}
+
+.notice.notice-error {
+  border: 2px solid #dc3232;
+  color: #dc3232;
+  box-shadow: none;
+  padding: 10px 15px !important;
+}
+
+#wpgmaps_marker_category_priority {
+  width: 204px;
+}
+
+select,
+textarea,
+input[type="number"],
+input[type="date"],
+input:not([type="checkbox"]):not(.wpgmza_general_btn):not(.button) {
+  border-width: 2px !important;
+}
+
+.wpgmza-label-amber {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+.wpgmza-marker-select__btns input,
+.wpgmza-marker-select__btns a,
+.wpgmza-marker-select__btns span{
+  flex: 1;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  height: max-content;
+}
+
+.wpgmza_file_select_btn {
+  border: 1px solid #eee;
+}
+
+.wpgmza-marker-select__btns #wpgmza_mm img {
+  max-width: 100px;
+}
+#wpgmaps_options h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+#wpgmaps_options td {
+  padding-bottom: 10px;
+}
+
+.wpgmza-marker-select__btns + .wpgmza-center {
+  width: 100%;
+  text-align: center;
+}
+
+.ui-tabs-nav li:hover a {
+  color: #000;
+}
+
+#wpgmaps_tabs_markers .wpgmza-open-layers-feature-coming-soon {
+  margin-top: 50px;
+}
+
+#wpgm_premium {
+  width: 100% !important;
+}
+#wpgm_premium .wpgmza-flex  {
+  flex-wrap: wrap;
+  flex-basis: 20%;
+}
+#wpgm_premium .wpgmza-flex .wpgm_premium_row {
+  flex: 1;
+  flex-basis: 25%;
+}
+#wpgm_premium .wpgm_premium_row {
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.wpgm_premium_row,
+.wpgm_premium_row .wpgmza-card{
+  display: inline-block !important;
+}
+
+.wpgm_premium_row .wpgmza-card {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid ;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.wpgm_premium_row .wpgmza-card:hover {
+  border-color: 
+}
+
+#wpgm_premium .wpgm_premium_row h2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+#wpgm_premium .wpgm_premium_row p {
+  font-size: 15px;
+  line-height: 23px;
+}
+
+.wpgm_details {
+  display: block;
+  clear: both;
+  float: none;
+  width: 100%;
+}
+
+.wpgmza-card .wpgm_icon {
+  width: 25px;
+  height: 25px;
+background-size: cover;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+@media(max-width: 1150px) {
+  #wpgm_premium .wpgmza-flex .wpgm_premium_row {
+    flex: 1;
+    flex-basis: 33%;
+  }
+}
+
+@media(max-width: 800px) {
+  #wpgm_premium .wpgmza-flex .wpgm_premium_row {
+    flex: 1;
+    flex-basis: 50%;
+  }
+}
+
+@media(max-width: 550px) {
+  #wpgm_premium .wpgmza-flex .wpgm_premium_row {
+    flex: 1;
+    flex-basis: 100%;
+  }
+}
+
+#wpgmza-upgrade-now__btn {
+  display: block;
+  margin: 0 auto;
+  padding: 20px !important;
+  height: 50px !important;
+  font-size: 20px !important;
+  border-radius: 5px !important;
+  width: 400px !important;
+  line-height: 10px !important;
+}
+
+#wpgmza-pro-upgrade-tab {
+  text-align: center;
+}
+
+#wpgmza-pro-upgrade-tab h1 {
+  font-weight: bold !important;
+  margin-top: 10px;
+}
+.wpgmza-support-notice {
+  top: -15px;
+  right: -17px;
+  background: #fff !important;
+  border: 3px solid #FACE48 !important;
+  color: #333;
+}
+
+.wpgmza-support-notice a {
+  color: #333;
+}
+
+.wpgmza-popup-notification {
+  position: fixed;
+  bottom: 60px;
+  right: 19px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.04) !important;
+  background: #FACE48;
+  color: #fff;
+  padding: 7px 16px;
+  margin-left: 6px;
+  font-size: 13px;
+  animation: 4s wpgmzaPopupNotification forwards;
+}
+
+@keyframes wpgmzaPopupNotification {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  100% {
+    opacity: 0;
+     transform: translateY(100px);
+  }
+}
+
+body[class*="wp-google-maps"] .wpgmza-listing {
+  border: none !important
+}
+.wpgmza-listing a:active,
+.wpgmza-listing a:focus{
+  outline: none;
+  box-shadow: none;
+}
+
+
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label{
+  overflow: visible !important;
+}
+
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label:hover:after,
+body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label:hover:before{
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+#wpgmza-directions-box-settings label {
+  margin-right: 30px;
+  margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#wpgmaps_tabs input[type="color"] {
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  min-width: unset !important;
+  cursor: pointer;
+}
+
+@media(max-width:600px) {
+  #wpgmza-marker-tabs__wrap > div {
+    float: none;
+    clear: both;
+    display: block;
+    min-width: 100%;
+  }
+
+  .wpgmza-pro-features__item {
+    display: block;
+    width: 100%;
+  }
+}
+
+#wpgmaps_add_poly_form textarea,
+#wpgmaps_add_polyline_form textarea,
+#wpgmaps_add_heatmap_form textarea{
+  width: 100%;
+}
+
+#wpgmaps_add_poly_form .button.button-secondary,
+#wpgmaps_add_polyline_form .button.button-secondary,
+#wpgmaps_add_heatmap_form .button.button-secondary,
+#wpgmaps_add_circle_form .button.button-secondary,
+#wpgmaps_add_rectangle_form .button.button-secondary{
+  height: 38px;
+  line-height: 33px
+}
+
+#wpgmaps_tabs_markers th {
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+#wpgmaps_tabs_markers td {
+  padding: 2px 0;
+  border-bottom: 1px solid #eee;
+}
+body .button-primary,
+body .ui-tabs-active,
+body .wpgmza_general_btn,
+body .wpgmza_file_select_btn {
+  background-color: #2B323C !important;
+  text-shadow: none;
+    border-radius: 2px !important;
+}
+
+.wpgmza-label-amber {
+  color: #2B323C;
+}
+
+input.cmn-toggle-yes-no + label:before, input.cmn-toggle-yes-no + label:after {
+  color: #2B323C;
+}
+
+body[class*="wp-google-maps"] select {
+  padding: 0 5px;
+}
+
+.wpgmza-select-theme-preset, .wp-core-ui .wpgmza-select-theme-preset {
+  background: #fff !important;
+  color: #2B323C !important;
+}
+
+.wpgmza-select-theme-preset:hover, .wp-core-ui .wpgmza-select-theme-preset:hover {
+  background: #f9f9f9 !important;
+  border-color: #2B323C !important;
+}
+
+#wpgmza-title-label {
+  font-weight: 600;
+}
+.wp-core-ui .button-primary {
+  box-shadow: none;
+}
+input[type="checkbox"] {
+  color: #2B323C;
+  border: 1px solid #ccc !important;
+  box-shadow: none; 
+}
+input[type="checkbox"]:checked {
+  background: #333;
+  border-color: #2B323C !important;
+}
+input[type="checkbox"]:before {
+  color: #2B323C !important;
+}
+input[type="checkbox"]:before {
+  color: #2B323C !important;
+
+  color: #fff !important;
+}
+input[type="checkbox"]:active,
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+input[type="checkbox"]:hover {
+  border-color: #2B323C !important;
+}
+input.cmn-toggle-yes-no + label:before, input.cmn-toggle-yes-no + label:after {
+  color: #2B323C;
+  box-sizing: border-box;
+  line-height: 20px;
+}
+.ui-tabs-nav::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; 
+}
+.ui-tabs-nav {
+  -ms-overflow-style: none;
+  scrollbar-height: none;
+}
+.ui-tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+#wpgmaps_tabs_markers #qt_wpgmza-description-editor_toolbar input {
+  width: auto !important;
+}
+.wpgmza-flex__item {
+  flex: 1;
+  text-align: left;
+  padding: 0 !important;
+}
+.wpgmza-flex__item  input {
+  text-align: left;
+  padding-left: 5px !important;
+}
+#wpgmza-category__upload-image-button {
+  max-width: 250px;
+  padding-left: 10px !important;
+}
+#wpgmza-category__upload-image-button button {
+  width: 100%;
+}
+.wpgmza-panel {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+.wpgmza-custom-fields__iconpicker-wrap .iconpicker {
+  border-width: 2px !important;
+}
+#wpgmza-marker-tabs__wrap > div:nth-child(2) {
+  overflow-x: hidden !important;
+}
+.wpgmza-popup-notification {
+  color: #333;
+}
+textarea[name="wpgmza_custom_css"],
+textarea[name="wpgmza_custom_js"] {
+  border-color: #2B323C;
+}
+.cmn-override-big-wide:before,
+.cmn-override-big-wide:after,
+.cmn-override-big:after,
+.cmn-override-big:before{
+  line-height: 30px !important;
+}
+.wpgmza_nag_review_div h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.button-border {
+  border: 2px solid #333;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  line-height: 15px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 3px;
+}
+.button-border__green {
+  border-color: #46b450;
+  color: #46b450;
+  opacity: .6;
+  background: #46b450;
+  color: #fff;
+}
+.button-border__green:hover {
+  color: #fff;
+}
+.wpgmza-form-group__multiple > div {
+  flex: 1;
+  display: flex;
+  padding: 3px;
+  padding-left: 10px;
+  line-height: 30px;
+  box-sizing: border-box;
+}
+.wpgmza-form-group__multiple > div * {
+  flex: 1;
+}
+#wpgmza_theme_editor_element {
+  width:100%;
+}
+#wpgmza-theme-editor input[type="number"] {
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+#wpgmza-theme-editor select {
+  padding-left: 10px !important;
+}
+#wpgmza-theme-editor input[type="color"] {
+  height:25px;
+  padding: 0 2px;
+  width: 25px;
+  cursor: pointer;
+}
+#wpgmza-theme-editor__feature-settings {
+  box-sizing: border-box;
+  padding-bottom: 0;
+}
+#wpgmza-theme-editor {
+  overflow-y: hidden;
+}
+#wpgmza-theme-editor__invert-lightness label {
+  line-height: 16px;
+}
+.wpgmza-marker-icon-picker > * {
+  flex: 1;
+}
+.wpgmza-marker-icon-picker button {
+  margin: 2px !important;
+}
+
+#wpfooter
+{
+	position: static !important;
 }

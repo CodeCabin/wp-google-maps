@@ -53,6 +53,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-fancy-controls": {
+        "src": "js\/v8\/fancy-controls.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-friendly-error": {
         "src": "js\/v8\/friendly-error.js",
         "pro": false,
@@ -90,6 +97,13 @@
     },
     "wpgmza-lat-lng-bounds": {
         "src": "js\/v8\/latlngbounds.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-map-edit-page": {
+        "src": "js\/v8\/map-edit-page.js",
         "pro": false,
         "dependencies": [
             "wpgmza"
@@ -200,6 +214,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-settings-page": {
+        "src": "js\/v8\/settings-page.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-store-locator": {
         "src": "js\/v8\/store-locator.js",
         "pro": false,
@@ -209,6 +230,20 @@
     },
     "wpgmza-text": {
         "src": "js\/v8\/text.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-theme-editor": {
+        "src": "js\/v8\/theme-editor.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-theme-panel": {
+        "src": "js\/v8\/theme-panel.js",
         "pro": false,
         "dependencies": [
             "wpgmza"

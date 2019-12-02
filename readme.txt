@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 5.2.3
+Tested up to: 5.3
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -219,6 +219,80 @@ We no longer support timthumb and we have opted to remove it from WP Google Maps
 Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
 
 == Changelog ==
+
+= 8.0.10 :- 2019-11-26 :- Medium priority =
+* Added animated panning effect for OpenLayers infowindows, including a dynamic offset to make infowindows fully visible on click
+* Removed var_dump from wp-google-maps-polylines.php
+* Restricted include/exclude Maps API on page inputs to comma separated integers
+* Changed default map alignment to "None"
+* Dropped legacy store locator marker and circle code, module now controls this fully
+* Fixed array shorthand parse error in PHP < 5.4
+* Fixed getCurrentPosition only calling the supplied error callback function on the first failure
+* Fixed autocomplete not initialising when global settings have not been saved
+* Fixed shapes not being added when global settings have never been saved
+* Fixed Store Locator setting "show bouncing icon" not working
+* Fixed trashing a map redirects user to map edit page for the trashed map
+* Fixed store locator circles too small when using miles as distance units
+* Fixed store locator not found message not showing
+
+= 8.0.9 :- 2019-11-12 :- Medium priority =
+* Updated Dutch translations
+* Changed Humanitarian tileserver URL to https://
+* Added workaround for syntax error in class.marker.php on PHP versions 5.5 and below
+* Fixed "No API key" error showing until the page is refreshed after entering API key in notice
+* Fixed getCurrentPosition is not a function on setups which don't have this function on the navigator
+* Fixed issue with OpenLayers circle fill color
+
+= 8.0.8 :- 2019-11-04 :- Medium priority =
+* Fixed AJAX fallback routes not registered for GET only REST routes
+* Fixed some REST API routes 404ing with plain permalinks when route URL + is replaced with space
+* Fixed ?skip_cache=1 breaking plain permalink REST URLs by detecting when query variables are in use
+
+= 8.0.7 :- 2019-10-25 :- Medium priority =
+* Tested up to WordPress 5.3
+* Localized all remote images
+* Separated all inline JavaScript and PHP
+* Removed developer documentation
+* Removed redundant files
+* Removed legacy bundled jQuery
+
+= 8.0.6 :- 2019-10-22 :- Low priority =
+* Legacy UI style InfoWindow text width fix now only applies to Google Maps engine
+* Google API script loader now adds data-usercentrics attribute
+* InfoWindow now tracks open / closed state in this.state
+* InfoWindow no longer dispatches infowindowclose.wpgmza event if already closed
+
+= 8.0.5 :- 2019-10-17 :- Medium priority =
+* Fixed additional "undefined" infowindow appearing when using XML cache
+* Fixed XML cache not regenerated when POSTing to marker endpoint
+
+= 8.0.4 :- 2019-10-15 :- Medium priority =
+* Now tested up to WordPress 5.2.4
+* Added REST endpoints for counting and removing duplicate markers
+* Safeguards added to switch back to DB pull if execution time limit or memory limit is reached during XML cache generation
+* Theme parser will now attempt to strip slashes before abandoning parsing
+
+= 8.0.3 :- 2019-10-13 :- Medium priority =
+* Added workaround for Enfold theme issue with Safari preventing map from loading
+* Relaxed CRUD class to issue warning when ID is passed in with field data instead creating a new object
+* Fixed edit marker button not working on map edit page
+
+= 8.0.2 :- 2019-10-10 :- Medium priority =
+* Fixed file not found on settings page when using OpenLayers engine
+* Fixed translation strings not being applied
+* Fixed dragging a marker also pans map when using OpenLayers
+
+= 8.0.1 :- 2019-10-08 :- Medium priority =
+* Fixed Warning: unserialize() expects parameter 1 to be string, array given
+* Fixed restructured code preventing marker delete and approve buttons from working
+* Fixed markers not being removed from map panel following deletion
+
+= 8.0.0 :- 2019-10-07 :- Medium priority =
+* New theme panel and theme editor
+* New User Interface Style setting and variety of UI styles added
+* Several user experience improvements
+* Significant performance improvements and optimizations
+* Significantly enhanced REST API
 
 = 7.11.53 :- 2019-10-03 :- Low priority =
 * Fixed "All" missing from datatables page size dropdown
@@ -1290,6 +1364,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
 
 
 

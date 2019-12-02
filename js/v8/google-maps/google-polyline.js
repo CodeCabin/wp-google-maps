@@ -5,11 +5,11 @@
  */
 jQuery(function($) {
 	
-	WPGMZA.GooglePolyline = function(row, googlePolyline)
+	WPGMZA.GooglePolyline = function(options, googlePolyline)
 	{
 		var self = this;
 		
-		WPGMZA.Polyline.call(this, row, googlePolyline);
+		WPGMZA.Polyline.call(this, options, googlePolyline);
 		
 		if(googlePolyline)
 		{
@@ -18,14 +18,32 @@ jQuery(function($) {
 		else
 		{
 			this.googlePolyline = new google.maps.Polyline(this.settings);			
-			this.googlePolyline.wpgmzaPolyline = this;
 			
-			if(row && row.points)
+			if(options)
 			{
-				var path = this.parseGeometry(row.points);
+				var googleOptions = $.extend({}, options);
+				
+				if(options.polydata)
+					googleOptions.path = this.parseGeometry(options.polydata);
+				
+				if(options.linecolor)
+					googleOptions.strokeColor = "#" + options.linecolor;
+				
+				if(options.linethickness)
+					googleOptions.strokeWeight = parseInt(options.linethickness);
+				
+				if(options.opacity)
+					googleOptions.strokeOpacity = parseFloat(options.opacity);
+			}
+			
+			if(options && options.polydata)
+			{
+				var path = this.parseGeometry(options.polydata);
 				this.setPoints(path);
 			}
 		}
+		
+		this.googlePolyline.wpgmzaPolyline = this;
 		
 		google.maps.event.addListener(this.googlePolyline, "click", function() {
 			self.dispatchEvent({type: "click"});

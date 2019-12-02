@@ -84,7 +84,7 @@ function wpgmza_b_pro_add_polyline($mid) {
                     </div>
 
 
-                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\" height:100px; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_save_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -192,7 +192,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                         </p>
                     </div>
 
-                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
+                     <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"height:100px; background-color:#FFF; padding:5px; overflow:auto;\">{$pol->polydata}</textarea>
                     <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_edit_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
@@ -219,194 +219,82 @@ function wpgmza_b_pro_edit_polyline($mid) {
  * 
  * @return void
  */
-function wpgmaps_b_admin_add_polyline_javascript($mapid) {
-        $res = wpgmza_get_map_data(sanitize_text_field($_GET['map_id']));
-        $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
+function wpgmaps_b_admin_add_polyline_javascript($mapid)
+{
+	$res = wpgmza_get_map_data(sanitize_text_field($_GET['map_id']));
+	$wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
 
-        $wpgmza_lat = $res->map_start_lat;
-        $wpgmza_lng = $res->map_start_lng;
-        $wpgmza_map_type = $res->type;
-        $wpgmza_width = $res->map_width;
-        $wpgmza_height = $res->map_height;
-        $wpgmza_width_type = $res->map_width_type;
-        $wpgmza_height_type = $res->map_height_type;
-        if (!$wpgmza_map_type || $wpgmza_map_type == "" || $wpgmza_map_type == "1") { $wpgmza_map_type = "ROADMAP"; }
-        else if ($wpgmza_map_type == "2") { $wpgmza_map_type = "SATELLITE"; }
-        else if ($wpgmza_map_type == "3") { $wpgmza_map_type = "HYBRID"; }
-        else if ($wpgmza_map_type == "4") { $wpgmza_map_type = "TERRAIN"; }
-        else { $wpgmza_map_type = "ROADMAP"; }
-        $start_zoom = $res->map_start_zoom;
-        if ($start_zoom < 1 || !$start_zoom) {
-            $start_zoom = 5;
-        }
-        if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
-
-        ?>
-        <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
-        <script type="text/javascript" >
-            jQuery(function($) {
-                    function wpgmza_InitMap() {
-                        var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
-                        MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
-                    }
-                    jQuery("#wpgmza_map").css({
-                        height:'<?php echo $wpgmza_height; ?><?php echo $wpgmza_height_type; ?>',
-                        width:'<?php echo $wpgmza_width; ?><?php echo $wpgmza_width_type; ?>'
-                    });
-                    wpgmza_InitMap();
-                    jQuery("#poly_line").focusout(function() {
-                        poly.setOptions({ strokeColor: "#"+jQuery("#poly_line").val() }); 
-                    });
-                    jQuery("#poly_opacity").keyup(function() {
-                        poly.setOptions({ strokeOpacity: jQuery("#poly_opacity").val() }); 
-                    });
-                    jQuery("#poly_thickness").keyup(function() {
-                        poly.setOptions({ strokeWeight: jQuery("#poly_thickness").val() }); 
-                    });
-                    
-                    
-            });
-             // polygons variables
-            var poly;
-            var poly_markers = [];
-            var poly_path = new google.maps.MVCArray;
-            
-
-            var MYMAP = {
-                map: null,
-                bounds: null
-            }
-            MYMAP.init = function(selector, latLng, zoom) {
-                  var myOptions = {
-                    zoom:zoom,
-                    center: latLng,
-                    zoomControl: true,
-                    panControl: true,
-                    mapTypeControl: true,
-                    streetViewControl: true,
-                    mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
-                  }
-                this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
-                this.bounds = new google.maps.LatLngBounds();
-                // polygons
-                poly = new google.maps.Polyline({
-                  strokeWeight: 3,
-                  fillColor: '#66FF00'
-                });
-                poly.setMap(this.map);
-                
-                google.maps.event.addListener(this.map, 'click', addPoint);
-                <?php
-                /* polylines */
-                    $total_polyline_array = wpgmza_b_return_polyline_id_array(sanitize_text_field($_GET['map_id']));
-                    if ($total_polyline_array > 0) {
-                    foreach ($total_polyline_array as $poly_id) {
-                        $polyoptions = wpgmza_b_return_polyline_options($poly_id);
-                        $linecolor = $polyoptions->linecolor;
-                        $fillopacity = $polyoptions->opacity;
-                        $linethickness = $polyoptions->linethickness;
-                        if (!$linecolor) { $linecolor = "000000"; }
-                        if (!$linethickness) { $linethickness = "4"; }
-                        if (!$fillopacity) { $fillopacity = "0.5"; }
-                        $linecolor = "#".$linecolor;
-                        $poly_array = wpgmza_b_return_polyline_array($poly_id);
-                        ?>
-                    
-                <?php if (sizeof($poly_array) > 1) { ?>
-                    var WPGM_PathLineData_<?php echo $poly_id; ?> = [
-                    <?php
-                    $poly_array = wpgmza_b_return_polyline_array($poly_id);
-
-                    foreach ($poly_array as $single_poly) {
-                        $poly_data_raw = str_replace(" ","",$single_poly);
-                        $poly_data_raw = explode(",",$poly_data_raw);
-                        $lat = $poly_data_raw[0];
-                        $lng = $poly_data_raw[1];
-                        ?>
-                        new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
-                        <?php
-                    }
-                    ?>
-                ];
-                var WPGM_PathLine_<?php echo $poly_id; ?> = new google.maps.Polyline({
-                  path: WPGM_PathLineData_<?php echo $poly_id; ?>,
-                  strokeColor: "<?php echo $linecolor; ?>",
-                  strokeOpacity: "<?php echo $fillopacity; ?>",
-                  strokeWeight: "<?php echo $linethickness; ?>"
-                  
-                });
-
-
-
-                WPGM_PathLine_<?php echo $poly_id; ?>.setMap(this.map);
-
-
-
-                <?php } } } ?> 
-
-                <?php if ($kml != false) { ?>
-                var temp = '<?php echo $kml; ?>';
-                arr = temp.split(',');
-                arr.forEach(function(entry) {
-                    var georssLayer = new google.maps.KmlLayer(entry+'?tstamp=<?php echo time(); ?>',{suppressInfoWindows: true, zindex: 0, clickable : false});
-                    georssLayer.setMap(MYMAP.map);
-
-                });
-                <?php } ?>
-
-            }
-            function addPoint(event) {
-                
-                    
-                    var path = poly.getPath();
-                    path.push(event.latLng);
-
-                    var poly_marker = new google.maps.Marker({
-                      position: event.latLng,
-                      map: MYMAP.map,
-                      icon: "<?php echo wpgmaps_get_plugin_url()."/images/marker.png"; ?>",
-                      draggable: true
-                    });
-                    
-
-                    
-                    poly_markers.push(poly_marker);
-                    poly_marker.setTitle("#" + path.length);
-
-                    google.maps.event.addListener(poly_marker, 'click', function() {
-                      poly_marker.setMap(null);
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      poly_markers.splice(i, 1);
-                      path.removeAt(i);
-                      updatePolyPath(path);    
-                      }
-                    );
-
-                    google.maps.event.addListener(poly_marker, 'dragend', function() {
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      path.setAt(i, poly_marker.getPosition());
-                      updatePolyPath(path);    
-                      }
-                    );
-                        
-                        
-                    updatePolyPath(path);    
-              }
-              
-              function updatePolyPath(poly_path) {
-                var temp_array;
-                temp_array = "";
-                poly_path.forEach(function(latLng, index) { 
-//                  temp_array = temp_array + " ["+ index +"] => "+ latLng + ", ";
-                  temp_array = temp_array + latLng + ",";
-                }); 
-                jQuery("#poly_line_list").html(temp_array);
-              }            
-
-
-        </script>
-        <?php
+	$wpgmza_lat = $res->map_start_lat;
+	$wpgmza_lng = $res->map_start_lng;
+	$wpgmza_map_type = $res->type;
+	$wpgmza_width = $res->map_width;
+	$wpgmza_height = $res->map_height;
+	$wpgmza_width_type = $res->map_width_type;
+	$wpgmza_height_type = $res->map_height_type;
+	if (!$wpgmza_map_type || $wpgmza_map_type == "" || $wpgmza_map_type == "1") { $wpgmza_map_type = "ROADMAP"; }
+	else if ($wpgmza_map_type == "2") { $wpgmza_map_type = "SATELLITE"; }
+	else if ($wpgmza_map_type == "3") { $wpgmza_map_type = "HYBRID"; }
+	else if ($wpgmza_map_type == "4") { $wpgmza_map_type = "TERRAIN"; }
+	else { $wpgmza_map_type = "ROADMAP"; }
+	$start_zoom = $res->map_start_zoom;
+	if ($start_zoom < 1 || !$start_zoom) {
+		$start_zoom = 5;
+	}
+	if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
+	
+	$localized_data = array(
+		'wpgmza_lat'			=> $wpgmza_lat,
+		'wpgmza_lng'			=> $wpgmza_lng,
+		'start_zoom'			=> $start_zoom,
+		'wpgmza_width'			=> $wpgmza_width,
+		'wpgmza_width_type'		=> $wpgmza_width_type,
+		'wpgmza_height'			=> $wpgmza_height,
+		'wpgmza_height_type'	=> $wpgmza_height_type,
+		'wpgmza_map_type'		=> $wpgmza_map_type,
+		'polygon_data'			=> array()
+	);
+	
+	$total_poly_array = wpgmza_b_return_polyline_id_array(sanitize_text_field($_GET['map_id']));
+	
+	foreach ($total_poly_array as $poly_id)
+	{
+		$polyoptions = wpgmza_b_return_polyline_options($poly_id);
+		$linecolor = $polyoptions->linecolor;
+		$lineopacity = $polyoptions->opacity;
+		
+		if (!$linecolor) { $linecolor = "000000"; }
+		if ($lineopacity == "") { $lineopacity = "1.0"; }
+		
+		$linecolor = "#".$linecolor;
+		$poly_array = wpgmza_b_return_polyline_array($poly_id);
+		$path_data = array();
+		
+		foreach($poly_array as $single_poly)
+		{
+			$poly_data_raw = str_replace(" ","",$single_poly);
+			$poly_data_raw = explode(",",$poly_data_raw);
+			$lat = $poly_data_raw[0];
+			$lng = $poly_data_raw[1];
+			
+			$path_data[] = array(
+				'lat' => $lat,
+				'lng' => $lng
+			);
+		}
+		
+		$localized_data['polyline_data'][$poly_id] = array(
+			'strokeColor'		=> $linecolor,
+			'fillOpacity'		=> $fillopacity,
+			'strokeOpacity'		=> $lineopacity,
+			'fillColor'			=> $fillcolor,
+			'path'				=> $path_data
+		);
+	}
+	
+	wp_enqueue_style('wpgooglemaps-css', wpgmaps_get_plugin_url() . 'css/wpgmza_style.css');
+	wp_enqueue_script('wpgmza-legacy-polyline-panel', wpgmaps_get_plugin_url() . 'js/legacy/legacy-polyline-panel.js');
+	wp_localize_script('wpgmza-legacy-polyline-panel', 'wpgmza_legacy_polyline_panel_vars', $localized_data);
 }
 
 /**
@@ -420,285 +308,83 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid) {
  * @return void
  */
 function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
-        $res = wpgmza_get_map_data($mapid);
-        
-        $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
+	$res = wpgmza_get_map_data($mapid);
+	
+	$wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
 
-        $wpgmza_lat = $res->map_start_lat;
-        
-        $wpgmza_lng = $res->map_start_lng;
-        $wpgmza_map_type = $res->type;
-        $wpgmza_width = $res->map_width;
-        $wpgmza_height = $res->map_height;
-        $wpgmza_width_type = $res->map_width_type;
-        $wpgmza_height_type = $res->map_height_type;
-        if (!$wpgmza_map_type || $wpgmza_map_type == "" || $wpgmza_map_type == "1") { $wpgmza_map_type = "ROADMAP"; }
-        else if ($wpgmza_map_type == "2") { $wpgmza_map_type = "SATELLITE"; }
-        else if ($wpgmza_map_type == "3") { $wpgmza_map_type = "HYBRID"; }
-        else if ($wpgmza_map_type == "4") { $wpgmza_map_type = "TERRAIN"; }
-        else { $wpgmza_map_type = "ROADMAP"; }
-        $start_zoom = $res->map_start_zoom;
-        if ($start_zoom < 1 || !$start_zoom) {
-            $start_zoom = 5;
-        }
-        if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
-        
-        $wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
-        
-        
-        
-        $poly_array = wpgmza_b_return_polyline_array($polyid);
-
-        $polyoptions = wpgmza_b_return_polyline_options($polyid);
-        $linecolor = $polyoptions->linecolor;
-        $linethickness = $polyoptions->linethickness;
-        $fillopacity = $polyoptions->opacity;
-        if (!$linecolor) { $linecolor = "000000"; }
-        if (!$linethickness) { $linethickness = "4"; }
-        if (!$fillopacity) { $fillopacity = "0.5"; }
-        $linecolor = "#".$linecolor;
-                        
-        ?>
-        <link rel='stylesheet' id='wpgooglemaps-css'  href='<?php echo wpgmaps_get_plugin_url(); ?>/css/wpgmza_style.css' type='text/css' media='all' />
-        <script type="text/javascript" >
-             // polygons variables
-            var poly;
-            var poly_markers = [];
-            var poly_path = new google.maps.MVCArray;
-            var path;
-                
-            jQuery(function($) {
-                
-                    function wpgmza_InitMap() {
-                        var myLatLng = new google.maps.LatLng(<?php echo $wpgmza_lat; ?>,<?php echo $wpgmza_lng; ?>);
-                        MYMAP.init('#wpgmza_map', myLatLng, <?php echo $start_zoom; ?>);
-                    }
-                    jQuery("#wpgmza_map").css({
-                        height:'<?php echo $wpgmza_height; ?><?php echo $wpgmza_height_type; ?>',
-                        width:'<?php echo $wpgmza_width; ?><?php echo $wpgmza_width_type; ?>'
-                    });
-                    wpgmza_InitMap();
-                    
-                    
-                    jQuery("#poly_line").focusout(function() {
-                        poly.setOptions({ strokeColor: "#"+jQuery("#poly_line").val() }); 
-                    });
-                    jQuery("#poly_opacity").keyup(function() {
-                        poly.setOptions({ strokeOpacity: jQuery("#poly_opacity").val() }); 
-                    });
-                    jQuery("#poly_thickness").keyup(function() {
-                        poly.setOptions({ strokeWeight: jQuery("#poly_thickness").val() }); 
-                    });
-            });
-            
-
-            var MYMAP = {
-                map: null,
-                bounds: null
-            }
-            MYMAP.init = function(selector, latLng, zoom) {
-                  var myOptions = {
-                    zoom:zoom,
-                    center: latLng,
-                    zoomControl: true,
-                    panControl: true,
-                    mapTypeControl: true,
-                    streetViewControl: true,
-                    mapTypeId: google.maps.MapTypeId.<?php echo $wpgmza_map_type; ?>
-                  }
-                this.map = new google.maps.Map(jQuery(selector)[0], myOptions);
-                this.bounds = new google.maps.LatLngBounds();
-                // polygons
-                
-                
-                
-                poly = new google.maps.Polyline({
-                    strokeWeight: "<?php echo $linethickness; ?>",
-                    strokeColor: "<?php echo $linecolor; ?>",
-                    strokeOpacity: "<?php echo $fillopacity; ?>"
-                });
-                path = poly.getPath();
-
-                <?php
-                /* polylines */
-                    $total_polyline_array = wpgmza_b_return_polyline_id_array(sanitize_text_field($_GET['map_id']));
-                    if ($total_polyline_array > 0) {
-                    foreach ($total_polyline_array as $poly_id) {
-                        $polyoptions = wpgmza_b_return_polyline_options($poly_id);
-                        $linecolor = $polyoptions->linecolor;
-                        $fillopacity = $polyoptions->opacity;
-                        $linethickness = $polyoptions->linethickness;
-                        if (!$linecolor) { $linecolor = "000000"; }
-                        if (!$linethickness) { $linethickness = "4"; }
-                        if (!$fillopacity) { $fillopacity = "0.5"; }
-                        $linecolor = "#".$linecolor;
-                        $poly_array = wpgmza_b_return_polyline_array($poly_id);
-                        ?>
-                    
-                    <?php if (sizeof($poly_array) > 1) { 
-                        if ($poly_id != $polyid) {
-                    ?>
-                        var WPGM_PathLineData_<?php echo $poly_id; ?> = [
-                        <?php
-                        $poly_array = wpgmza_b_return_polyline_array($poly_id);
-						
-                        foreach ($poly_array as $single_poly) {
-                            $poly_data_raw = str_replace(" ","",$single_poly);
-                            $poly_data_raw = explode(",",$poly_data_raw);
-                            $lat = $poly_data_raw[0];
-                            $lng = $poly_data_raw[1];
-                            ?>
-                            new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>),            
-                            <?php
-                        }
-                        ?>
-                    ];
-					
-                    var WPGM_PathLine_<?php echo $poly_id; ?> = new google.maps.Polyline({
-                      path: WPGM_PathLineData_<?php echo $poly_id; ?>,
-                      strokeColor: "<?php echo $linecolor; ?>",
-                      strokeOpacity: "<?php echo $fillopacity; ?>",
-                      strokeWeight: "<?php echo $linethickness; ?>"
-                      
-                    });
-
-                    WPGM_PathLine_<?php echo $poly_id; ?>.setMap(this.map);
-                    <?php } } } }   ?> 
-
-
-                <?php if ($kml != false) { ?>
-                var temp = '<?php echo $kml; ?>';
-                arr = temp.split(',');
-                arr.forEach(function(entry) {
-                    var georssLayer = new google.maps.KmlLayer(entry+'?tstamp=<?php echo time(); ?>',{suppressInfoWindows: true, zindex: 0, clickable : false});
-                    georssLayer.setMap(MYMAP.map);
-
-                });
-                <?php } ?>
-
-
-                addPolyline();
-                
-				setTimeout(function() {
-					$("#fit-bounds-to-shape").click();
-				}, 500);
-
-            }
-            function addPolyline() {
-                
-                
-                
-                <?php
-              $poly_array = wpgmza_b_return_polyline_array($polyid);
-                    
-                $polyoptions = wpgmza_b_return_polyline_options($polyid);
-                $linecolor = $polyoptions->linecolor;
-                $fillopacity = $polyoptions->opacity;
-                if (!$linecolor) { $linecolor = "000000"; }
-                if (!$fillopacity) { $fillopacity = "0.5"; }
-                $linecolor = "#".$linecolor;
-                
-                foreach ($poly_array as $single_poly) {
-                    $poly_data_raw = str_replace(" ","",$single_poly);
-                    $poly_data_raw = str_replace(")","",$poly_data_raw );
-                    $poly_data_raw = str_replace("(","",$poly_data_raw );
-                    $poly_data_raw = explode(",",$poly_data_raw);
-                    $lat = $poly_data_raw[0];
-                    $lng = $poly_data_raw[1];
-                    ?>
-                    var temp_gps = new google.maps.LatLng(<?php echo $lat; ?>, <?php echo $lng; ?>);
-                    addExistingPoint(temp_gps);
-                    updatePolyPath(path);
-                    
-                    
-                    
-                    <?php
-                }
-                ?>                
-                
-                poly.setMap(MYMAP.map);
-                
-                google.maps.event.addListener(MYMAP.map, 'click', addPoint);
-            }
-            function addExistingPoint(temp_gps) {
-                
-                
-                
-                path.push(temp_gps);
-
-                var poly_marker = new google.maps.Marker({
-                  position: temp_gps,
-                  map: MYMAP.map,
-                  draggable: true
-                });
-                poly_markers.push(poly_marker);
-                poly_marker.setTitle("#" + path.length);
-                google.maps.event.addListener(poly_marker, 'click', function() {
-                      poly_marker.setMap(null);
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      poly_markers.splice(i, 1);
-                      path.removeAt(i);
-                      updatePolyPath(path);    
-                      }
-                    );
-
-                    google.maps.event.addListener(poly_marker, 'dragend', function() {
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      path.setAt(i, poly_marker.getPosition());
-                      updatePolyPath(path);    
-                      }
-                    );
-            }
-            function addPoint(event) {
-                
-                   var path = poly.getPath();
-                    path.push(event.latLng);
-
-                    var poly_marker = new google.maps.Marker({
-                      position: event.latLng,
-                      map: MYMAP.map,
-                      draggable: true
-                    });
-
-
-                    
-                    poly_markers.push(poly_marker);
-                    poly_marker.setTitle("#" + path.length);
-
-                    google.maps.event.addListener(poly_marker, 'click', function() {
-                      poly_marker.setMap(null);
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      poly_markers.splice(i, 1);
-                      path.removeAt(i);
-                      updatePolyPath(path);    
-                      }
-                    );
-
-                    google.maps.event.addListener(poly_marker, 'dragend', function() {
-                      for (var i = 0, I = poly_markers.length; i < I && poly_markers[i] != poly_marker; ++i);
-                      path.setAt(i, poly_marker.getPosition());
-                      updatePolyPath(path);    
-                      }
-                    );
-                        
-                        
-                    updatePolyPath(path);    
-              }
-              
-              function updatePolyPath(poly_path) {
-                var temp_array;
-                temp_array = "";
-                path.forEach(function(latLng, index) { 
-//                  temp_array = temp_array + " ["+ index +"] => "+ latLng + ", ";
-                  temp_array = temp_array + latLng + ",";
-                }); 
-                jQuery("#poly_line_list").html(temp_array);
-              }            
-             
-
-        </script>
-        <?php
+	$wpgmza_lat = $res->map_start_lat;
+	
+	$wpgmza_lng = $res->map_start_lng;
+	$wpgmza_map_type = $res->type;
+	$wpgmza_width = $res->map_width;
+	$wpgmza_height = $res->map_height;
+	$wpgmza_width_type = $res->map_width_type;
+	$wpgmza_height_type = $res->map_height_type;
+	if (!$wpgmza_map_type || $wpgmza_map_type == "" || $wpgmza_map_type == "1") { $wpgmza_map_type = "ROADMAP"; }
+	else if ($wpgmza_map_type == "2") { $wpgmza_map_type = "SATELLITE"; }
+	else if ($wpgmza_map_type == "3") { $wpgmza_map_type = "HYBRID"; }
+	else if ($wpgmza_map_type == "4") { $wpgmza_map_type = "TERRAIN"; }
+	else { $wpgmza_map_type = "ROADMAP"; }
+	$start_zoom = $res->map_start_zoom;
+	if ($start_zoom < 1 || !$start_zoom) {
+		$start_zoom = 5;
+	}
+	if (isset($res->kml)) { $kml = $res->kml; } else { $kml = false; }
+	
+	$localized_data = array(
+		'wpgmza_lat'			=> $wpgmza_lat,
+		'wpgmza_lng'			=> $wpgmza_lng,
+		'start_zoom'			=> $start_zoom,
+		'wpgmza_width'			=> $wpgmza_width,
+		'wpgmza_width_type'		=> $wpgmza_width_type,
+		'wpgmza_height'			=> $wpgmza_height,
+		'wpgmza_height_type'	=> $wpgmza_height_type,
+		'wpgmza_map_type'		=> $wpgmza_map_type,
+		'polygon_data'			=> array()
+	);
+	
+	$total_poly_array = wpgmza_b_return_polyline_id_array(sanitize_text_field($_GET['map_id']));
+	
+	foreach ($total_poly_array as $poly_id)
+	{
+		
+		
+		$polyoptions = wpgmza_b_return_polyline_options($poly_id);
+		
+		$linecolor = $polyoptions->linecolor;
+		$lineopacity = $polyoptions->opacity;
+		
+		if (!$linecolor) { $linecolor = "000000"; }
+		if ($lineopacity == "") { $lineopacity = "1.0"; }
+		
+		$linecolor = "#".$linecolor;
+		$poly_array = wpgmza_b_return_polyline_array($poly_id);
+		$path_data = array();
+		
+		foreach($poly_array as $single_poly)
+		{
+			$poly_data_raw = str_replace(" ","",$single_poly);
+			$poly_data_raw = explode(",",$poly_data_raw);
+			$lat = $poly_data_raw[0];
+			$lng = $poly_data_raw[1];
+			
+			$path_data[] = array(
+				'lat' => $lat,
+				'lng' => $lng
+			);
+		}
+		
+		$localized_data['polyline_data'][$poly_id] = array(
+			'strokeColor'		=> $linecolor,
+			'strokeOpacity'		=> $lineopacity,
+			'path'				=> $path_data
+		);
+	}
+	
+	wp_enqueue_style('wpgooglemaps-css', wpgmaps_get_plugin_url() . 'css/wpgmza_style.css');
+	wp_enqueue_script('wpgmza-legacy-polyline-panel', wpgmaps_get_plugin_url() . 'js/legacy/legacy-polyline-panel.js');
+	wp_localize_script('wpgmza-legacy-polyline-panel', 'wpgmza_legacy_polyline_panel_vars', $localized_data);
 }
 /**
  * Returns the list of polylines displayed in the map editor

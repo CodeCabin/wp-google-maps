@@ -121,4 +121,3 @@ class EliasFano
 		return $list;
 	}
 }
-

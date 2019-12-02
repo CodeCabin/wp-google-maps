@@ -21,6 +21,7 @@ jQuery(function($) {
 		WPGMZA.EventDispatcher.call(this);
 		
 		this.id = -1;
+		this.map_id = null;
 		this.guid = WPGMZA.guid();
 		this.modified = true;
 		this.settings = {};

@@ -48,18 +48,23 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 				$this->fields[$key] = $value;
 			}
 			
+			$obj = (object)$id_or_fields;
+			
 			if($read_mode == Crud::BULK_READ)
 			{
-				$obj = (object)$id_or_fields;
-				
 				if(!isset($obj->id))
 					throw new \Exception('Cannot bulk read without ID');
 				
 				$id = $this->id = $obj->id;
 			}
-				
-			if($read_mode != Crud::BULK_READ)
+			else if(!isset($obj->id))
 				$id = -1;
+				
+			// NB: Relaxed handling to avoid accidental duplication
+			if($read_mode != Crud::BULK_READ && isset($obj->id))
+			{
+				trigger_error('Crud class receieved data including an ID in single read mode. Did you mean to use bulk read, or single read and update?', E_USER_WARNING);
+			}
 		}
 		else if(preg_match('/^-?\d+$/', $id_or_fields))
 			$id = (int)$id_or_fields;
@@ -70,24 +75,50 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$this->id = $id;
 		
+		Crud::cacheColumnsByTableName($table_name);
+		
+		if($read_mode != Crud::BULK_READ)
+		{
+			if($this->id == -1)
+				$this->create();
+			else
+				$this->read(Marker::SINGLE_READ);
+		}
+		else
+		{
+			$arbitraryDataColumnName = $this->get_arbitrary_data_column_name();
+			
+			if(!empty($arbitraryDataColumnName) && !empty($this->fields[$arbitraryDataColumnName]))
+				$this->parse_arbitrary_data($this->fields[$arbitraryDataColumnName]);
+		}
+	}
+	
+	private static function cacheColumnsByTableName($table_name)
+	{
+		global $wpdb;
+		
 		if(!isset(Crud::$cached_columns_by_table_name))
 			Crud::$cached_columns_by_table_name = array();
 		
-		if(!isset(Crud::$cached_columns_by_table_name[$table_name]))
+		if(isset(Crud::$cached_columns_by_table_name[$table_name]))
+			return;
+		
+		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name");
+		
+		Crud::$cached_column_name_map_by_table_name[$table_name] = array();
+		foreach($columns as $col)
 		{
-			$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name");
-			
-			Crud::$cached_column_name_map_by_table_name[$table_name] = array();
-			foreach($columns as $col)
-				Crud::$cached_column_name_map_by_table_name[$table_name][$col->Field] = true;
-			
-			Crud::$cached_columns_by_table_name[$table_name] = $columns;
+			Crud::$cached_column_name_map_by_table_name[$table_name][$col->Field] = $col;
 		}
 		
-		if($this->id == -1)
-			$this->create();
-		else
-			$this->read(Marker::SINGLE_READ);
+		Crud::$cached_columns_by_table_name[$table_name] = $columns;
+	}
+	
+	protected static function getColumnsByTableName($table_name)
+	{
+		Crud::cacheColumnsByTableName($table_name);
+		
+		return Crud::$cached_columns_by_table_name[$table_name];
 	}
 	
 	public static function bulk_read($data, $constructor)
@@ -148,6 +179,11 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		return array_keys( Crud::$cached_column_name_map_by_table_name[$this->table_name] );
 	}
 	
+	public function get_columns_by_name()
+	{
+		return Crud::$cached_column_name_map_by_table_name[$this->table_name];
+	}
+	
 	/**
 	 * Return the SQL field type of the specified column
 	 * @return string
@@ -192,20 +228,6 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 			case 'real':
 				$placeholder = '%f';
 				break;
-				
-			/*case 'geometry':
-			case 'point':
-			case 'linestring':
-			case 'polygon':
-			case 'multipoint':
-			case 'multilinestring':
-			case 'multipolygon':
-			case 'geometrycollection':
-				$placeholders[] = 'NULL';
-				
-				// This can be implemented in a subclass
-				
-				break;*/
 				
 			default:
 				$placeholder = '%s';
@@ -313,6 +335,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		foreach($data as $key => $value)
 			$this->fields[$key] = $value;
+			
+		$name = $this->get_arbitrary_data_column_name();
+		unset($this->fields[$name]);
 	}
 	
 	/**
@@ -348,10 +373,16 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$parameters		= $this->get_column_parameters();
 		
 		$qstr = "INSERT INTO `{$this->table_name}` ($column_names) VALUES ($placeholders)";
+		
 		$stmt = $wpdb->prepare($qstr, $parameters);
 		$wpdb->query($stmt);
 		
 		$this->id = $wpdb->insert_id;
+	}
+	
+	protected function getReadColumns()
+	{
+		return "*";
 	}
 	
 	/**
@@ -369,7 +400,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$results = $wpdb->get_results($stmt);
 		
 		if(empty($results))
-			throw new \Exception('Map object not found');
+			throw new \Exception(get_called_class() . " ID '{$this->id}' not found");
 		
 		$this->fields = (array)$results[0];
 		unset($this->fields['id']);
@@ -542,6 +573,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	{
 		$this->assert_not_trashed();
 		
+		if(!is_array($this->fields))
+			throw new \Exception("Field data is not an array");
+		
 		return array_merge($this->fields, array('id' => $this->id));
 	}
 	
@@ -564,7 +598,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 			case 'modified':
 			case 'custom_fields':
 				return $this->{$name};
-				break;				
+				break;
 		}
 		
 		return null;

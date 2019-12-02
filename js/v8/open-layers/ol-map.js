@@ -54,13 +54,28 @@ jQuery(function($) {
 		if(WPGMZA.settings.wpgmza_settings_map_full_screen_control != "yes")
 			this.olMap.addControl(new ol.control.FullScreen());
 		
-		// Marker layer
-		this.markerLayer = new ol.layer.Vector({
-			source: new ol.source.Vector({
-				features: []
-			})
-		});
-		this.olMap.addLayer(this.markerLayer);
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
+		{
+			// Marker layer
+			this.markerLayer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					features: []
+				})
+			});
+			this.olMap.addLayer(this.markerLayer);
+			
+			this.olMap.on("click", function(event) {
+				self.olMap.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
+					var marker = feature.wpgmzaMarker;
+					
+					if(!marker)
+						return;
+					
+					marker.onClick(event);
+					marker.onSelect(event);
+				});
+			});
+		}
 		
 		// Listen for drag start
 		this.olMap.on("movestart", function(event) {
@@ -143,6 +158,9 @@ jQuery(function($) {
 			
 			this.dispatchEvent("created");
 			WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
+			
+			// Legacy event
+			$(this.element).trigger("wpgooglemaps_loaded");
 		}
 	}
 
@@ -327,14 +345,26 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMap.prototype.addMarker = function(marker)
 	{
-		this.olMap.addOverlay(marker.overlay);
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT)
+			this.olMap.addOverlay(marker.overlay);
+		else
+		{
+			this.markerLayer.getSource().addFeature(marker.feature);
+			marker.featureInSource = true;
+		}
 		
 		Parent.prototype.addMarker.call(this, marker);
 	}
 	
 	WPGMZA.OLMap.prototype.removeMarker = function(marker)
 	{
-		this.olMap.removeOverlay(marker.overlay);
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT)
+			this.olMap.removeOverlay(marker.overlay);
+		else
+		{
+			this.markerLayer.getSource().removeFeature(marker.feature);
+			marker.featureInSource = false;
+		}
 		
 		Parent.prototype.removeMarker.call(this, marker);
 	}
@@ -379,6 +409,20 @@ jQuery(function($) {
 		this.olMap.removeLayer(circle.layer);
 		
 		Parent.prototype.removeCircle.call(this, circle);
+	}
+	
+	WPGMZA.OLMap.prototype.addRectangle = function(rectangle)
+	{
+		this.olMap.addLayer(rectangle.layer);
+		
+		Parent.prototype.addRectangle.call(this, rectangle);
+	}
+	
+	WPGMZA.OLMap.prototype.removeRectangle = function(rectangle)
+	{
+		this.olMap.removeLayer(rectangle.layer);
+		
+		Parent.prototype.removeRectangle.call(this, rectangle);
 	}
 	
 	WPGMZA.OLMap.prototype.pixelsToLatLng = function(x, y)

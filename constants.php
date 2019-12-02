@@ -18,3 +18,5 @@ $WPGMZA_TABLE_NAME_POLYGONS		= $wpdb->prefix . 'wpgmza_polygon';
 $WPGMZA_TABLE_NAME_POLYLINES	= $wpdb->prefix . 'wpgmza_polylines';
 $WPGMZA_TABLE_NAME_CIRCLES		= $wpdb->prefix . 'wpgmza_circles';
 $WPGMZA_TABLE_NAME_RECTANGLES	= $wpdb->prefix . 'wpgmza_rectangles';
+
+define('WPGMZA_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));

@@ -7,6 +7,9 @@ if(!defined('ABSPATH'))
 
 class Query
 {
+	const WHERE			= "where";
+	const HAVING		= "having";
+	
 	private $_type;
 	private $_table;
 	
@@ -14,6 +17,9 @@ class Query
 	
 	private $_join;
 	private $_where;
+	
+	private $_union;
+	
 	private $_groupBy;
 	private $_orderBy;
 	private $_having;
@@ -31,6 +37,9 @@ class Query
 
 		$this->_join 	= new QueryFragment();
 		$this->_where 	= new QueryFragment();
+		
+		$this->_union	= new QueryFragment();
+		
 		$this->_groupBy = new QueryFragment();
 		$this->_orderBy = new QueryFragment();
 		$this->_having 	= new QueryFragment();
@@ -150,55 +159,85 @@ class Query
 		$this->assertTypeValid();
 		$this->assertTableValid();
 		
-		$qstr = $this->_type;
+		$queryStrings = array();
+		$queries = array($this);
 		
-		switch($this->_type)
+		if(count($this->union))
 		{
-			case 'SELECT':
-				if(empty($this->_fields))
-					throw new \Exception('You must specify fields to select');
-				
-				$arr = $this->_fields->toArray();
-				
-				if(!empty($arr))
-					$str = implode(', ', $arr);
-				else
-					$str = '*';
+			if($this->_type != 'SELECT')
+				throw new \Exception('UNION is only supported for SELECT queries');
 			
-				$qstr .= " $str FROM";
-				break;
-			
-			case 'INSERT':
-				$qstr .= " INTO";
-				break;
-				
-			case 'DELETE':
-				$qstr .= " FROM";
-				break;
+			foreach($this->union as $unionQuery)
+			{
+				$queries[] = $unionQuery;
+			}
 		}
 		
-		$qstr .= " " . $this->_table;
-		
-		if(!empty($this->_join))
+		foreach($queries as $query)
 		{
-			$qstr .= ' ';
+			$qstr = $query->_type;
 			
-			foreach($this->_join as $join)
-				$qstr .= 'JOIN ' . $join;
+			switch($query->_type)
+			{
+				case 'SELECT':
+					if(empty($query->_fields))
+						throw new \Exception('You must specify fields to select');
+					
+					$arr = $query->_fields->toArray();
+					
+					if(!empty($arr))
+						$str = implode(', ', $arr);
+					else
+						$str = '*';
+				
+					$qstr .= " $str FROM";
+					break;
+				
+				case 'INSERT':
+					$qstr .= " INTO";
+					break;
+					
+				case 'DELETE':
+					$qstr .= " FROM";
+					break;
+			}
+			
+			$qstr .= " " . $query->_table;
+			
+			if(!empty($query->_join))
+			{
+				$qstr .= ' ';
+				
+				foreach($query->_join as $join)
+					$qstr .= 'JOIN ' . $join;
+			}
+			
+			$where = $query->_where->toArray();
+			if(!empty($where))
+				$qstr .= " WHERE " . implode(' AND ', $where);
+			
+			$having = $query->_having->toArray();
+			if(!empty($having))
+				$qstr .= " HAVING " . implode(' AND ', $having);
+			
+			$params = $query->_params->toArray();
+			
+			if(count($params))
+				$qstr = $wpdb->prepare($qstr, $params);
+			
+			$queryStrings[] = $qstr;
 		}
 		
-		$where = $this->_where->toArray();
-		if(!empty($where))
-			$qstr .= " WHERE " . implode(' AND ', $where);
+		if(count($queryStrings) == 1)
+			$qstr = $queryStrings[0];
+		else
+		{
+			$qstr = implode(' UNION ALL ', $queryStrings);
+		}
 		
 		if(!empty($this->_limit))
 			$qstr .= " LIMIT {$this->_limit}";
 		
-		$params = $this->_params->toArray();
-		
-		if(empty($params))
-			return $qstr;
-		
-		return $wpdb->prepare($qstr, $params);
+		return $qstr;
 	}
 }

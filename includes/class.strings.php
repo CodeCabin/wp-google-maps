@@ -44,10 +44,33 @@ class Strings
 			'save_marker'				=> __('Save Marker', 'wp-google-maps'),
 			'please_wait'				=> __('Please Wait...', 'wp-google-maps'),
 			'zero_results'				=> __('No results found for this address', 'wp-google-maps'),
+			'address_not_found'			=> __('Couldn\'t find this address', 'wp-google-maps'),
 			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps'),
 			
 			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps'),
-			'all'						=> __('All', 'wp-google-maps')
+
+			'no_gps_coordinates'		=> __('No GPS coordinates found', 'wp-google-maps'),
+			
+			'fetching_directions'						=> __("Fetching directions...","wp-google-maps"),
+			'unknown_directions_service_status'			=> __("Unknown directions service status", "wp-google-maps"),
+			'please_fill_out_both_from_and_to_fields' 	=> __("Please fill out both the \"from\" and \"to\" fields","wp-google-maps"),
+			
+			'no_picture_found'			=> __('No picture found', 'wp-google-maps'),
+			'overwrite_theme_data'		=> __('Are you sure you want to overwrite the existing theme data?', 'wp-google-maps'),
+			
+			'upload_complete'			=> __('Upload Complete', 'wp-google-maps'),
+			'uploading_file'			=> __('Uploading file', 'wp-google-maps'),
+			'bulk_jpeg_media_title'		=> __('WP Google Maps - Bulk JPEG Upload'),
+			
+			'from_your_location'		=> __('from your location', 'wp-google-maps'),
+			'from_searched_location'	=> __('from searched location', 'wp-google-maps'),
+			
+			'yes'						=> __('Yes', 'wp-google-maps'),
+			'no'						=> __('No', 'wp-google-maps'),
+			
+			'requires_gold_v5'			=> __('Requires WP Google Maps - Gold add-on 5.0.0 or above', 'wp-google-maps'),
+			
+			'confirm_remove_duplicates'	=> __('This operation is not reversable. We recommend you take a backup before proceeding. Would you like to continue?', 'wp-google-maps')
 		));
 	}
 	

@@ -164,6 +164,17 @@ jQuery(function($) {
 						lng: parseFloat(response[i].lon)
 					};
 					
+					response[i].bounds = new WPGMZA.LatLngBounds(
+						new WPGMZA.LatLng({
+							lat: response[i].boundingbox[1],
+							lng: response[i].boundingbox[2]
+						}),
+						new WPGMZA.LatLng({
+							lat: response[i].boundingbox[0],
+							lng: response[i].boundingbox[3]
+						})
+					);
+					
 					// Backward compatibility with old UGM
 					response[i].lng = response[i].lon;
 				}

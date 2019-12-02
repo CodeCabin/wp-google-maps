@@ -20,7 +20,7 @@ class AdminMarkerDataTable extends MarkerDataTable
 		
 		$this->element->setAttribute('data-wpgmza-admin-marker-datatable', null);
 		
-		$this->element->import('<div>
+		$this->element->import('<div class="wpgmza-marker-listing__actions">
 			&#x21b3;
 			<button class="wpgmza button select_all_markers" type="button">' . __('Select All', 'wp-google-maps') . '</button>
 			<button class="wpgmza button bulk_delete" type="button">' . __('Bulk Delete', 'wp-google-maps') . '</button>
@@ -39,6 +39,7 @@ class AdminMarkerDataTable extends MarkerDataTable
 			'description'	=> __('Description', 	'wp-google-maps'),
 			'pic'			=> __('Image', 			'wp-google-maps'),
 			'link'			=> __('Link', 			'wp-google-maps'),
+			'sticky'		=> __('Sticky',			'wp-google-maps'),
 			'action'		=> __('Action', 		'wp-google-maps')
 		);
 	}
@@ -47,27 +48,28 @@ class AdminMarkerDataTable extends MarkerDataTable
 	{
 		$id_placeholder = AdminMarkerDataTable::ID_PLACEHOLDER;
 		
-		return 'REPLACE(\'
-		
-			<a title="Edit this marker" class="wpgmza_edit_btn button" id="' . $id_placeholder . '" data-edit-marker-id="' . $id_placeholder . '">
-				<i class="fa fa-edit"> </i>
-			</a>
-			<a href="?page=wp-google-maps-menu&amp;action=edit_marker&amp;id=' . $id_placeholder . '" title="' 
-				. esc_attr( __('Edit this marker location', 'wp-google-maps') )  . 
-				'" class="wpgmza_edit_btn button" id="' . $id_placeholder . '">
-				<i class="fa fa-map-marker"> </i>
-			</a>
-			<a href="javascript: ;" title="'
-				. esc_attr( __('Delete this marker', 'wp-google-maps') ) . 
-				'" class="wpgmza_del_btn button" id="' . $id_placeholder . '">
-				<i class="fa fa-times"> </i>
-			</a>
-			
-			\',
-			"' . $id_placeholder . '",
-			id
-		) AS `action`
-		';
+		return apply_filters('wpgmza_admin_marker_datatable_action_buttons_sql', 'REPLACE(\'
+				<div class="wpgmza-action-buttons wpgmza-flex">
+					<a title="Edit this marker" class="wpgmza_edit_btn button" data-edit-marker-id="' . $id_placeholder . '">
+						<i class="fa fa-edit"> </i>
+					</a>
+					<a href="?page=wp-google-maps-menu&amp;action=edit_marker&amp;id=' . $id_placeholder . '" title="' 
+						. esc_attr( __('Edit this marker location', 'wp-google-maps') )  . 
+						'" class="wpgmza_edit_btn button" id="' . $id_placeholder . '">
+						<i class="fa fa-map-marker"> </i>
+					</a>
+					<a href="javascript: ;" title="'
+						. esc_attr( __('Delete this marker', 'wp-google-maps') ) . 
+						'" class="wpgmza_del_btn button" data-delete-marker-id="' . $id_placeholder . '">
+						<i class="fa fa-times"> </i>
+					</a>
+				</div>
+				
+				\',
+				"' . $id_placeholder . '",
+				id
+			) AS `action`
+		');
 	}
 	
 	protected function filterColumns(&$columns, $input_params)
@@ -92,6 +94,10 @@ class AdminMarkerDataTable extends MarkerDataTable
 					
 				case 'icon':
 					$columns[$key] = '\'<img src="' . Marker::DEFAULT_ICON . '"/>\' AS icon';
+					break;
+				
+				case 'sticky':
+					$columns[$key] = '(CASE WHEN sticky = 1 THEN "&#x2714;" ELSE "" END) AS sticky';
 					break;
 			}
 		}

@@ -1,0 +1,81 @@
+#wpgmza_map,
+ .wpgmza_map
+{
+	margin: 0 !important;
+}
+
+.wpgmza-store-locator,
+	.wpgmza-directions-box
+{
+	margin: 0;
+	font-size: 14pt;
+	display: block;
+}
+
+.wpgmza-store-locator,
+ .wpgmza-store-locator *,
+ .wpgmza-directions-box input,
+ .wpgmza-directions-box select
+{
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.wpgmza-store-locator *
+{
+	display: inline !important;
+}
+
+.wpgmza-store-locator > * *
+{
+	height: 42px !important;
+}
+
+.wpgmza-store-locator > *
+{
+	display: inline-block !important;
+	vertical-align: baseline !important;
+	height: 42px !important;
+}
+
+.wpgmza-store-locator input[type="button"]
+{
+	vertical-align: baseline;
+	padding: 0 0.5em !important;
+}
+
+.wpgmza-not-found-msg
+{
+	display: none !important;
+}
+
+.wpgmza-directions-box h2
+{
+	display: none !important;
+}
+
+.wpgmza-directions-box *
+{
+	display: inline;
+}
+
+.wpgmza-store-locator .wpgmza-use-my-location,
+	.wpgmza-directions-box .wpgmza-use-my-location
+{
+	display: inline-block !important;
+	width: 2em;
+	height: 2em;
+	padding: 0;
+}
+
+.wpgmza-directions-box .wpgmza-directions-buttons > *
+{
+	height: 2em;
+	padding: 0 0.5em !important;
+}
+
+.wpgmza-store-locator .wpgmza_checkbox
+{
+	display: inline-block !important;
+	vertical-align: middle;
+}

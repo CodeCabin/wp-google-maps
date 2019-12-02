@@ -40,6 +40,20 @@ jQuery(function($) {
 		
 	});
 	
+	Object.defineProperty(WPGMZA.RestAPI.prototype, "isCompressedPathVariableAllowed", {
+		
+		get: function()
+		{
+			// NB: Pro 7 still has a "disable" setting. So use that if Pro 7 is installed.
+			if(!WPGMZA.pro_version || WPGMZA.Version.compare(WPGMZA.pro_version, "8.0.0") >= WPGMZA.Version.EQUAL_TO)
+				return !WPGMZA.settings.disable_compressed_path_variables;
+			
+			// Running Pro 7 or below
+			return WPGMZA.settings.enable_compressed_path_variables;
+		}
+		
+	});
+	
 	Object.defineProperty(WPGMZA.RestAPI.prototype, "maxURLLength", {
 		
 		get: function()
@@ -56,20 +70,25 @@ jQuery(function($) {
 		if(params.markerIDs)
 		{
 			var markerIDs	= params.markerIDs.split(",");
-			var encoder		= new WPGMZA.EliasFano();
-			var encoded		= encoder.encode(markerIDs);
-			var compressed	= pako.deflate(encoded);
-			var string		= Array.prototype.map.call(compressed, function(ch) {
-				return String.fromCharCode(ch);
-			}).join("");
 			
-			// NB: Append as another path component, this stops the code below performing base64 encoding twice and enlarging the request
-			suffix = "/" + btoa(string).replace(/\//g, "-");
-			
-			// NB: midcbp = Marker ID compressed buffer pointer, abbreviated to save space
-			params.midcbp = encoded.pointer;
-			
-			delete params.markerIDs;
+			if(markerIDs.length > 1)
+			{
+				// NB: Only use Elias Fano encoding if more than one marker is present. The server side decoder does not correctly decode a single digit.
+				var encoder		= new WPGMZA.EliasFano();
+				var encoded		= encoder.encode(markerIDs);
+				var compressed	= pako.deflate(encoded);
+				var string		= Array.prototype.map.call(compressed, function(ch) {
+					return String.fromCharCode(ch);
+				}).join("");
+				
+				// NB: Append as another path component, this stops the code below performing base64 encoding twice and enlarging the request
+				suffix = "/" + btoa(string).replace(/\//g, "-");
+				
+				// NB: midcbp = Marker ID compressed buffer pointer, abbreviated to save space
+				params.midcbp = encoded.pointer;
+				
+				delete params.markerIDs;
+			}
 		}
 		
 		var string		= JSON.stringify(params);
@@ -221,7 +240,9 @@ jQuery(function($) {
 				throw new Error(message);
 			}
 		
-		if(params.useCompressedPathVariable && this.isCompressedPathVariableSupported && WPGMZA.settings.enable_compressed_path_variables)
+		if(params.useCompressedPathVariable && 
+			this.isCompressedPathVariableSupported && 
+			this.isCompressedPathVariableAllowed)
 		{
 			var compressedParams = $.extend({}, params);
 			var data = params.data;
@@ -252,6 +273,10 @@ jQuery(function($) {
 				WPGMZA.RestAPI.compressedPathVariableURLLimitWarningDisplayed = true;
 			}
 		}
+		
+		// NB: Support plain permalinks
+		if(WPGMZA.RestAPI.URL.match(/\?/))
+			route = route.replace(/\?/, "&");
 		
 		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}

@@ -13,6 +13,12 @@ jQuery(function($) {
 		
 		WPGMZA.DataTable.call(this, element);
 		
+		// NB: Pro marker panel currently manages edit marker buttons
+		
+		$(element).on("click", "[data-delete-marker-id]", function(event) {
+			self.onDeleteMarker(event);
+		});
+		
 		$(element).find(".wpgmza.select_all_markers").on("click", function(event) {
 			self.onSelectAll(event);
 		});
@@ -39,6 +45,52 @@ jQuery(function($) {
 		return options;
 	}
 	
+	WPGMZA.AdminMarkerDataTable.prototype.onEditMarker = function(event)
+	{
+		WPGMZA.animatedScroll("#wpgmaps_tabs_markers");
+	}
+	
+	WPGMZA.AdminMarkerDataTable.prototype.onDeleteMarker = function(event)
+	{
+		var self	= this;
+		var id		= $(event.currentTarget).attr("data-delete-marker-id");
+		
+		var data	= {
+			action: 'delete_marker',
+			security: WPGMZA.legacyajaxnonce,
+			map_id: WPGMZA.mapEditPage.map.id,
+			marker_id: id
+		};
+		
+		$.post(ajaxurl, data, function(response) {
+			
+			WPGMZA.mapEditPage.map.removeMarkerByID(id);
+			self.reload();
+			
+		});
+	}
+	
+	// NB: Move this to UGM
+	WPGMZA.AdminMarkerDataTable.prototype.onApproveMarker = function(event)
+	{
+		var self	= this;
+		var cur_id	= $(this).attr("id");
+		
+		var data = {
+			action:		'approve_marker',
+			security:	WPGMZA.legacyajaxnonce,
+			map_id:		WPGMZA.mapEditPage.map.id,
+			marker_id:	cur_id
+		};
+		$.post(ajaxurl, data, function (response) {
+			
+			
+			wpgmza_InitMap();
+			wpgmza_reinitialisetbl();
+
+		});
+	}
+	
 	WPGMZA.AdminMarkerDataTable.prototype.onSelectAll = function(event)
 	{
 		$(this.element).find("input[name='mark']").prop("checked", true);
@@ -62,7 +114,7 @@ jQuery(function($) {
 				map.removeMarker(marker);
 		});
 		
-		WPGMZA.restAPI.call("/markers/?skip_cache=1", {
+		WPGMZA.restAPI.call("/markers/", {
 			method: "DELETE",
 			data: {
 				ids: ids
