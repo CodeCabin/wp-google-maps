@@ -1,0 +1,11 @@
+@import "compact.css";
+
+.wpgmza-store-locator label,
+	.wpgmza-directions-box label,
+	.wpgmza-directions-options,
+	.wpgmza-show-directions-options,
+	.wpgmza-hide-directions-options,
+	.wpgmza-add-waypoint
+{
+	display: none !important;
+}

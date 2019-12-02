@@ -38,7 +38,8 @@
 	text-align: center;
 }
 
-.map-block-gutenberg-button-container>a
+.map-block-gutenberg-button-container>a,
+	.map-block-gutenberg-button-container>button
 {
 	display: block;
 	width: 100%;

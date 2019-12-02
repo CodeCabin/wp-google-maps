@@ -79,6 +79,9 @@ jQuery(function($) {
 			
 			this.dispatchEvent("created");
 			WPGMZA.events.dispatchEvent({type: "mapcreated", map: this});
+			
+			// Legacy event
+			$(this.element).trigger("wpgooglemaps_loaded");
 		}
 	}
 	
@@ -94,6 +97,46 @@ jQuery(function($) {
 		WPGMZA.GoogleMap.prototype = Object.create(WPGMZA.Map.prototype);
 	}
 	WPGMZA.GoogleMap.prototype.constructor = WPGMZA.GoogleMap;
+	
+	WPGMZA.GoogleMap.parseThemeData = function(raw)
+	{
+		var json;
+		
+		try{
+			json = JSON.parse(raw);	// Try to parse strict JSON
+		}catch(e) {
+			
+			try{
+				
+				json = eval(raw);	// Try to parse JS object
+				
+			}catch(e) {
+				
+				var str = raw;
+				
+				str = str.replace(/\\'/g, '\'');
+				str = str.replace(/\\"/g, '"');
+				str = str.replace(/\\0/g, '\0');
+				str = str.replace(/\\\\/g, '\\');
+				
+				try{
+					
+					json = eval(str);
+					
+				}catch(e) {
+					
+					console.warn("Couldn't parse theme data");
+				
+				return [];
+					
+				}
+				
+			}
+			
+		}
+		
+		return json;
+	}
 	
 	/**
 	 * Creates the Google Maps map
@@ -243,6 +286,20 @@ jQuery(function($) {
 		circle.googleCircle.setMap(null);
 		
 		Parent.prototype.removeCircle.call(this, circle);
+	}
+	
+	WPGMZA.GoogleMap.prototype.addRectangle = function(rectangle)
+	{
+		rectangle.googleRectangle.setMap(this.googleMap);
+		
+		Parent.prototype.addRectangle.call(this, rectangle);
+	}
+	
+	WPGMZA.GoogleMap.prototype.removeRectangle = function(rectangle)
+	{
+		rectangle.googleRectangle.setMap(null);
+		
+		Parent.prototype.removeRectangle.call(this, rectangle);
 	}
 	
 	/**
@@ -439,7 +496,7 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleMap.prototype.showPointsOfInterest = function(show)
 	{
-		// TODO: This will bug the front end because there is textarea with theme data
+		// TODO: This will bug the front end because there is no textarea with theme data
 		var text = $("textarea[name='theme_data']").val();
 		
 		if(!text)

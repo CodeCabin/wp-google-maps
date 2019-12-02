@@ -102,6 +102,13 @@ jQuery(function($) {
 			return (WPGMZA.settings.scroll_animation_offset || 0) + $("#wpadminbar").height();
 		},
 		
+		getScrollAnimationDuration: function() {
+			if(WPGMZA.settings.scroll_animation_milliseconds)
+				return WPGMZA.settings.scroll_animation_milliseconds;
+			else
+				return 500;
+		},
+		
 		/**
 		 * Animated scroll, accounts for animation settings and fixed header height
 		 * @method animateScroll
@@ -115,12 +122,7 @@ jQuery(function($) {
 			var offset = WPGMZA.getScrollAnimationOffset();
 			
 			if(!milliseconds)
-			{
-				if(WPGMZA.settings.scroll_animation_milliseconds)
-					milliseconds = WPGMZA.settings.scroll_animation_milliseconds;
-				else
-					milliseconds = 500;
-			}
+				milliseconds = WPGMZA.getScrollAnimationDuration();
 			
 			$("html, body").animate({
 				scrollTop: $(element).offset().top - offset
@@ -165,7 +167,7 @@ jQuery(function($) {
 		 */
 		hexOpacityToRGBA: function(colour, opacity)
 		{
-			hex = parseInt(colour.replace(/^#/, ""), 16);
+			var hex = parseInt(colour.replace(/^#/, ""), 16);
 			return [
 				(hex & 0xFF0000) >> 16,
 				(hex & 0xFF00) >> 8,
@@ -224,6 +226,7 @@ jQuery(function($) {
 		/**
 		 * Utility function returns true is string is a latitude and longitude
 		 * @method isLatLngString
+		 * @deprecated Moved to WPGMZA.LatLng.isLatLngString
 		 * @static
 		 * @param str {string} The string to attempt to parse as coordinates
 		 * @return {array} the matched latitude and longitude or null if no match
@@ -397,10 +400,19 @@ jQuery(function($) {
 		 * @static
 		 * @return {object} The users position as a LatLng literal
 		 */
-		getCurrentPosition: function(callback, watch)
+		getCurrentPosition: function(callback, error, watch)
 		{
 			var trigger = "userlocationfound";
 			var nativeFunction = "getCurrentPosition";
+			
+			if(WPGMZA.userLocationDenied)
+			{
+				// NB: This code can also be reached on non https:// sites, the error code is the same
+				if(error)
+					error({code: 1, message: "Location unavailable"});
+				
+				return; // NB: The user has declined to share location. Only ask once per session.
+			}
 			
 			if(watch)
 			{
@@ -421,13 +433,19 @@ jQuery(function($) {
 				enableHighAccuracy: true
 			};
 			
+			if(!navigator.geolocation[nativeFunction])
+			{
+				console.warn(nativeFunction + " is not available");
+				return;
+			}
+			
 			navigator.geolocation[nativeFunction](function(position) {
 				if(callback)
 					callback(position);
 				
 				WPGMZA.events.trigger("userlocationfound");
 			},
-			function(error) {
+			function(err) {
 				
 				options.enableHighAccuracy = false;
 				
@@ -437,8 +455,14 @@ jQuery(function($) {
 					
 					WPGMZA.events.trigger("userlocationfound");
 				},
-				function(error) {
-					console.warn(error.code, error.message);
+				function(err) {
+					console.warn(err.code, err.message);
+					
+					if(err.code == 1)
+						WPGMZA.userLocationDenied = true;
+					
+					if(error)
+						error(err);
 				},
 				options);
 				
@@ -446,9 +470,9 @@ jQuery(function($) {
 			options);
 		},
 		
-		watchPosition: function(callback)
+		watchPosition: function(callback, error)
 		{
-			return WPGMZA.getCurrentPosition(callback, true);
+			return WPGMZA.getCurrentPosition(callback, error, true);
 		},
 		
 		/**
@@ -600,6 +624,38 @@ jQuery(function($) {
 			
 		},
 		
+		/**
+		 * This function prevents modern style components being used with new UI styles (8.0.0)
+		 * @method isModernComponentStyleAllowed
+		 * @static
+		 * @return {boolean} True if modern or legacy style is selected, or no UI style is selected
+		 */
+		isModernComponentStyleAllowed: function() {
+			
+			return (!WPGMZA.settings.user_interface_style || WPGMZA.settings.user_interface_style == "legacy" || WPGMZA.settings.user_interface_style == "modern");
+			
+		},
+		
+		isElementInView: function(element) {
+			
+			var pageTop = $(window).scrollTop();
+			var pageBottom = pageTop + $(window).height();
+			var elementTop = $(element).offset().top;
+			var elementBottom = elementTop + $(element).height();
+
+			if(elementTop < pageTop && elementBottom > pageBottom)
+				return true;
+			
+			if(elementTop >= pageTop && elementTop <= pageBottom)
+				return true;
+			
+			if(elementBottom >= pageTop && elementBottom <= pageBottom)
+				return true;
+			
+			return false;
+			
+		},
+		
 		getQueryParamValue: function(name) {
 			
 			var regex = new RegExp(name + "=([^&#]*)");
@@ -608,7 +664,28 @@ jQuery(function($) {
 			if(!(m = window.location.href.match(regex)))
 				return null;
 			
-			return m[1];
+			return m[1];	
+		},
+
+		notification: function(text, time) {
+			
+			switch(arguments.length)
+			{
+				case 0:
+					text = "";
+					time = 4000;
+					break;
+					
+				case 1:
+					time = 4000;
+					break;
+			}
+			
+			var html = '<div class="wpgmza-popup-notification">' + text + '</div>';
+			jQuery('body').append(html);
+			setTimeout(function(){
+				jQuery('body').find('.wpgmza-popup-notification').remove();
+			}, time);
 			
 		}
 		
@@ -624,6 +701,8 @@ jQuery(function($) {
 		var value = WPGMZA_localized_data[key];
 		WPGMZA[key] = value;
 	}
+	
+	WPGMZA.settings.useLegacyGlobals = true;
 	
 	jQuery(function($) {
 		
@@ -671,5 +750,34 @@ jQuery(function($) {
 		}
 		
 	});
+	
+	function onScroll(event)
+	{
+		
+		// Test if map is scrolled into view
+		$(".wpgmza_map").each(function(index, el) {
+			
+			var isInView = WPGMZA.isElementInView(el);
+			
+			if(!el.wpgmzaScrollIntoViewTriggerFlag)
+			{
+				if(isInView)
+				{
+					$(el).trigger("mapscrolledintoview.wpgmza");
+					el.wpgmzaScrollIntoViewTriggerFlag = true;
+				}
+			}
+			else if(!isInView)
+				el.wpgmzaScrollIntoViewTriggerFlag = false;
+			
+		});
+		
+	}
+	
+	$(window).on("scroll", onScroll);
+	$(window).on("load", onScroll);
+	
+	if(WPGMZA.refreshOnLoad)
+		window.location.reload();
 	
 });

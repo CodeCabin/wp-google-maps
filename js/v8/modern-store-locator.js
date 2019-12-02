@@ -22,7 +22,7 @@ jQuery(function($) {
 		WPGMZA.assertInstanceOf(this, "ModernStoreLocator");
 		
 		if(WPGMZA.isProVersion())
-			original = $(".wpgmza_sl_search_button[mid='" + map_id + "']").closest(".wpgmza_sl_main_div");
+			original = $(".wpgmza_sl_search_button[mid='" + map_id + "'], .wpgmza_sl_search_button_" + map_id).closest(".wpgmza_sl_main_div");
 		else
 			original = $(".wpgmza_sl_search_button").closest(".wpgmza_sl_main_div");
 		
@@ -76,7 +76,7 @@ jQuery(function($) {
 		// inner.append($(original).find(".wpgmza_filter_select_" + map_id));
 		
 		// Buttons
-		this.searchButton = $(original).find( ".wpgmza_sl_search_button" );
+		this.searchButton = $(original).find( ".wpgmza_sl_search_button, .wpgmza_sl_search_button_div" );
 		inner.append(this.searchButton);
 		
 		this.resetButton = $(original).find( ".wpgmza_sl_reset_button_div" );
@@ -189,6 +189,20 @@ jQuery(function($) {
 		$(this.element).find("input, select").on("blur", function() {
 			$(inner).removeClass("active");
 		});
+
+		//Grab the "Not Found" message
+		var show_not_found_message = $(this.element).find(".wpgmza-not-found-msg").children().text();
+		
+		//Run after search
+		$(self.map.markerFilter).on("filteringcomplete", function(event) {
+
+			//Show/hide not found message
+			if(!this.map.hasVisibleMarkers())
+			{
+				alert(show_not_found_message);
+			}
+
+		});	
 	}
 	
 	/**

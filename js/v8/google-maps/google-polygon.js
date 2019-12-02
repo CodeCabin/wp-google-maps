@@ -8,11 +8,11 @@ jQuery(function($) {
 	
 	var Parent;
 	
-	WPGMZA.GooglePolygon = function(row, googlePolygon)
+	WPGMZA.GooglePolygon = function(options, googlePolygon)
 	{
 		var self = this;
 		
-		Parent.call(this, row, googlePolygon);
+		Parent.call(this, options, googlePolygon);
 		
 		if(googlePolygon)
 		{
@@ -20,12 +20,28 @@ jQuery(function($) {
 		}
 		else
 		{
-			this.googlePolygon = new google.maps.Polygon(this.settings);
+			this.googlePolygon = new google.maps.Polygon();
 			
-			if(row && row.points)
+			if(options)
 			{
-				var paths = this.parseGeometry(row.points);
-				this.googlePolygon.setOptions({paths: paths});
+				var googleOptions = $.extend({}, options);
+				
+				if(options.polydata)
+					googleOptions.paths = this.parseGeometry(options.polydata);
+				
+				if(options.linecolor)
+					googleOptions.strokeColor = "#" + options.linecolor;
+				
+				if(options.lineopacity)
+					googleOptions.strokeOpacity = parseFloat(options.lineopacity);
+				
+				if(options.fillcolor)
+					googleOptions.fillColor = "#" + options.fillcolor;
+				
+				if(options.opacity)
+					googleOptions.fillOpacity = parseFloat(options.opacity);
+				
+				this.googlePolygon.setOptions(googleOptions);
 			}
 		}
 		

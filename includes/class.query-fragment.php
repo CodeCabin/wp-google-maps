@@ -54,7 +54,18 @@ class QueryFragment implements \ArrayAccess, \Countable
 		foreach($this as $key => $value)
 			$count++;
 		
-		return $count;
+		return $count - 1;
+	}
+	
+	public function clear()
+	{
+		foreach($this as $key => $value)
+		{
+			if($key == 'nextIndex')
+				continue;
+				
+			unset($this->{$key});
+		}
 	}
 }
 

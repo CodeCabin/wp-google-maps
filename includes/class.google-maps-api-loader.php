@@ -189,6 +189,8 @@ class GoogleMapsAPILoader
 		// Block other plugins from including the API
 		if(!empty($settings['wpgmza_prevent_other_plugins_and_theme_loading_api']))
 			add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
+		
+		add_filter('script_loader_tag', array($this, 'onScriptLoaderTag'), 10, 3);
 	}
 	
 	/**
@@ -375,6 +377,15 @@ class GoogleMapsAPILoader
 				return str_replace($src, $src . '?' . http_build_query($this->getGoogleMapsAPIParams()), $tag);
 		}
 
+		return $tag;
+	}
+	
+	public function onScriptLoaderTag($tag, $handle, $src)
+	{
+		// Add UserCentrics tag
+		if($handle == 'wpgmza_api_call')
+			return preg_replace('#></script>#', ' data-usercentrics="Google Maps"></script>', $tag);
+		
 		return $tag;
 	}
 	

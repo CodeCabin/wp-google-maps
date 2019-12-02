@@ -13,5 +13,9 @@ jQuery(function($) {
 			}
 		});
 	}
+	
+	// Safari polyfill for Enfold themes TypeError: 'undefined' is not a valid argument for 'in'
+	if(WPGMZA.isSafari() && !window.external)
+		window.external = {};
 
 });

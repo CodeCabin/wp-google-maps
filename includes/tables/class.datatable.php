@@ -33,7 +33,8 @@ class DataTable extends AjaxTable
 		if(!empty($orderBy))
 			return $orderBy;
 		
-		return "{$this->table_name}.id";
+		// return "{$this->table_name}.id";
+		return "id";
 	}
 	
 	protected function getOrderDirection($input_params)

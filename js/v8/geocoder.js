@@ -87,6 +87,10 @@ jQuery(function($) {
 				lat: parseFloat(parts[0]),
 				lng: parseFloat(parts[1])
 			});
+			
+			// NB: Quick fix, solves issue with right click marker. Solve this there by making behaviour consistent
+			latLng.latLng = latLng;
+			
 			callback([latLng], WPGMZA.Geocoder.SUCCESS);
 		}
 	}

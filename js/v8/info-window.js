@@ -20,10 +20,15 @@ jQuery(function($) {
 		
 		WPGMZA.assertInstanceOf(this, "InfoWindow");
 		
+		this.on("infowindowopen", function(event) {
+			self.onOpen(event);
+		});
+		
 		if(!mapObject)
 			return;
 		
 		this.mapObject = mapObject;
+		this.state = WPGMZA.InfoWindow.STATE_CLOSED;
 		
 		if(mapObject.map)
 		{
@@ -35,7 +40,7 @@ jQuery(function($) {
 		else
 			mapObject.addEventListener("added", function(event) { 
 				self.onMapObjectAdded(event);
-			});		
+			});
 	}
 	
 	WPGMZA.InfoWindow.prototype = Object.create(WPGMZA.EventDispatcher.prototype);
@@ -43,6 +48,9 @@ jQuery(function($) {
 	
 	WPGMZA.InfoWindow.OPEN_BY_CLICK = 1;
 	WPGMZA.InfoWindow.OPEN_BY_HOVER = 2;
+	
+	WPGMZA.InfoWindow.STATE_OPEN	= "open";
+	WPGMZA.InfoWindow.STATE_CLOSED	= "closed";
 	
 	/**
 	 * Fetches the constructor to be used by createInstance, based on the selected maps engine
@@ -116,6 +124,8 @@ jQuery(function($) {
 		if(this.mapObject.disableInfoWindow)
 			return false;
 		
+		this.state = WPGMZA.InfoWindow.STATE_OPEN;
+		
 		return true;
 	}
 	
@@ -126,6 +136,10 @@ jQuery(function($) {
 	 */
 	WPGMZA.InfoWindow.prototype.close = function()
 	{
+		if(this.state == WPGMZA.InfoWindow.STATE_CLOSED)
+			return;
+		
+		this.state = WPGMZA.InfoWindow.STATE_CLOSED;
 		this.trigger("infowindowclose");
 	}
 	
@@ -159,6 +173,36 @@ jQuery(function($) {
 	{
 		if(this.mapObject.settings.infoopen == 1)
 			this.open();
+	}
+	
+	WPGMZA.InfoWindow.prototype.onOpen = function()
+	{
+		var self = this;
+		
+		if(WPGMZA.settings.engine == "open-layers")
+		{
+			var imgs = $(this.element).find("img");
+			var numImages = imgs.length;
+			var numImagesLoaded = 0;
+			
+			function panIntoView()
+			{
+				var height	= $(self.element).height();
+				var offset	= -height * 0.45;
+				
+				self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
+			}
+			
+			imgs.each(function(index, el) {
+				el.onload = function() {
+					if(++numImagesLoaded == numImages)
+						panIntoView();
+				}
+			});
+			
+			if(numImages == 0)
+				panIntoView();
+		}
 	}
 	
 });

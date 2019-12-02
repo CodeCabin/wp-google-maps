@@ -51,6 +51,8 @@ jQuery(function($) {
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);
 		});
+		
+		this.handleLegacyGlobals(row);
 	}
 	
 	WPGMZA.Marker.prototype = Object.create(WPGMZA.MapObject.prototype);
@@ -153,6 +155,36 @@ jQuery(function($) {
 		
 		if(this.infoopen == "1")
 			this.openInfoWindow();
+	}
+	
+	WPGMZA.Marker.prototype.handleLegacyGlobals = function(row)
+	{
+		if(!(WPGMZA.settings.useLegacyGlobals && this.map_id && this.id))
+			return;
+		
+		var m;
+		if(WPGMZA.pro_version && (m = WPGMZA.pro_version.match(/\d+/)))
+		{
+			if(m[0] <= 7)
+				return; // Don't touch the legacy globals
+		}
+		
+		if(!window.marker_array)
+			window.marker_array = {};
+		
+		if(!marker_array[this.map_id])
+			marker_array[this.map_id] = [];
+		
+		marker_array[this.map_id][this.id] = this;
+		
+		if(!window.wpgmaps_localize_marker_data)
+			window.wpgmaps_localize_marker_data = {};
+		
+		if(!wpgmaps_localize_marker_data[this.map_id])
+			wpgmaps_localize_marker_data[this.map_id] = [];
+		
+		var cloned = $.extend({marker_id: this.id}, row);
+		wpgmaps_localize_marker_data[this.map_id][this.id] = cloned;
 	}
 	
 	WPGMZA.Marker.prototype.initInfoWindow = function()

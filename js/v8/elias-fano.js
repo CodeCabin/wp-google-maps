@@ -105,8 +105,15 @@ jQuery(function($) {
 			
 			var docIDDelta = (docID - lastDocID - 1);
 			
+			if(!$.isNumeric(docID))
+				throw new Error("Value is not numeric");
+			
+			// NB: Force docID to an integer in case it's a string
+			docID = parseInt(docID);
+			
 			if(prev !== null && docID <= prev)
 				throw new Error("Elias Fano encoding can only be used on a sorted, ascending list of unique integers.");
+			
 			prev = docID;
 			
 			buffer1 <<= lowBitsLength;

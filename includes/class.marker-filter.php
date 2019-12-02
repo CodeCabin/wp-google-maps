@@ -1,7 +1,5 @@
 <?php
 
-// See https://docs.google.com/document/d/16NdGw4C4cd5Q20OwQDGpMB_GiYnojz0Mrug-QRS5zoE/edit#
-
 namespace WPGMZA;
 
 if(!defined('ABSPATH'))
@@ -11,6 +9,9 @@ class MarkerFilter extends Factory
 {
 	protected $_center;
 	protected $_radius;
+	
+	protected $_offset;
+	protected $_limit;
 	
 	public function __construct($options=null)
 	{
@@ -47,6 +48,16 @@ class MarkerFilter extends Factory
 					
 					break;
 					
+				case 'limit':
+				case 'offset':
+				
+					if(!is_numeric($value))
+						throw new \Exception('Value must be numeric');
+					
+					$this->{"_$name"} = $value;
+				
+					break;
+					
 				default:
 				
 					$this->{"_$name"} = $value;
@@ -72,7 +83,7 @@ class MarkerFilter extends Factory
 		$this->map = new Map($id);
 	}
 	
-	protected function applyRadiusClause($query)
+	protected function applyRadiusClause($query, $context=Query::WHERE)
 	{
 		global $wpgmza;
 		
@@ -86,7 +97,7 @@ class MarkerFilter extends Factory
 		if($this->map && $this->map->storeLocatorDistanceUnits == Distance::UNITS_MI)
 			$radius *= Distance::KILOMETERS_PER_MILE;
 		
-		$query->where['radius'] = "
+		$query->{$context}['radius'] = "
 			(
 				6381 *
 			
@@ -123,6 +134,21 @@ class MarkerFilter extends Factory
 		$query->params[] = $radius;
 	}
 	
+	protected function applyLimit($query)
+	{
+		if(empty($this->_limit))
+			return;
+		
+		$limit = "";
+		
+		if(!empty($this->_offset) || $this->_offset === 0 || $this->_offset === "0")
+			$limit = $this->_offset . ",";
+		
+		$limit .= $this->_limit;
+		
+		$query->limit = $limit;
+	}
+		
 	public function getQuery()
 	{
 		global $WPGMZA_TABLE_NAME_MARKERS;
@@ -133,27 +159,47 @@ class MarkerFilter extends Factory
 		$query->table	= $WPGMZA_TABLE_NAME_MARKERS;
 		
 		$this->applyRadiusClause($query);
+		$this->applyLimit($query);
 		
 		return $query;
+	}
+	
+	public function getColumns($fields=null)
+	{
+		if(empty($fields))
+			return array('*');
+		
+		$result = array();
+		
+		foreach($fields as $field)
+			$result[] = $field;
+			
+		return $result;
 	}
 	
 	public function getFilteredMarkers($fields=null)
 	{
 		global $wpdb;
 		
-		$query = $this->getQuery();
-		
-		if(empty($fields))
-			$query->fields[] = '*';
-		else
-			foreach($fields as $field)
-				$query->fields[] = $field;
+		$query = $this->getQuery($fields);
+		$query->fields = $this->getColumns($fields);
 		
 		$sql = $query->build();
 		
 		$results = $wpdb->get_results($sql);
 		
-		return $results;
+		// NB: Optimize by only fetching ID here, for filtering. Only fetch the rest if fetch ID not set.
+		if(count($query->fields) == 1 && $query->fields[0] == 'id')
+			return $results;
+		
+		$markers = array();
+		
+		foreach($results as $data)
+		{
+			$markers[] = Marker::createInstance($data, Crud::BULK_READ);
+		}
+		
+		return $markers;
 	}
 	
 	public function getFilteredIDs()
@@ -165,8 +211,13 @@ class MarkerFilter extends Factory
 		$query->fields[] = 'id';
 		
 		$sql = $query->build();
+		$ids = $wpdb->get_col($sql);
 		
-		return $wpdb->get_col($sql);
+		$integrated = apply_filters('wpgmza_fetch_integrated_markers', $markers, $this);
+		foreach($integrated as $key => $value)
+			$ids[] = $value->id;
+		
+		return $ids;
 	}
 	
 	

@@ -8,11 +8,11 @@ jQuery(function($) {
 	
 	var Parent;
 	
-	WPGMZA.OLPolygon = function(row, olFeature)
+	WPGMZA.OLPolygon = function(options, olFeature)
 	{
 		var self = this;
 		
-		Parent.call(this, row, olFeature);
+		Parent.call(this, options, olFeature);
 		
 		this.olStyle = new ol.style.Style();
 		
@@ -24,9 +24,9 @@ jQuery(function($) {
 		{
 			var coordinates = [[]];
 			
-			if(row && row.points)
+			if(options && options.polydata)
 			{
-				var paths = this.parseGeometry(row.points);
+				var paths = this.parseGeometry(options.polydata);
 				
 				for(var i = 0; i < paths.length; i++)
 					coordinates[0].push(ol.proj.fromLonLat([
@@ -66,14 +66,14 @@ jQuery(function($) {
 	{
 		var params = {};
 				
-		if(this.settings.strokeOpacity)
+		if(this.linecolor && this.lineopacity)
 			params.stroke = new ol.style.Stroke({
-				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity)
+				color: WPGMZA.hexOpacityToRGBA("#" + this.linecolor, this.lineopacity)
 			});
 		
-		if(this.settings.fillOpacity)
+		if(this.opacity)
 			params.fill = new ol.style.Fill({
-				color: WPGMZA.hexOpacityToRGBA(this.settings.fillColor, this.settings.fillOpacity)
+				color: WPGMZA.hexOpacityToRGBA(this.fillcolor, this.opacity)
 			});
 			
 		return params;

@@ -15,6 +15,8 @@ jQuery(function($) {
 		this.setMapObject(mapObject);
 	}
 	
+	WPGMZA.GoogleInfoWindow.Z_INDEX		= 99;
+	
 	if(WPGMZA.isProVersion())
 		Parent = WPGMZA.ProInfoWindow;
 	else
@@ -42,12 +44,20 @@ jQuery(function($) {
 		
 		this.googleInfoWindow = new google.maps.InfoWindow();
 		
+		this.googleInfoWindow.setZIndex(WPGMZA.GoogleInfoWindow.Z_INDEX);
+		
 		google.maps.event.addListener(this.googleInfoWindow, "domready", function(event) {
 			self.trigger("domready");
 		});
 		
 		google.maps.event.addListener(this.googleInfoWindow, "closeclick", function(event) {
+			
+			if(self.state == WPGMZA.InfoWindow.STATE_CLOSED)
+				return;
+			
+			self.state = WPGMZA.InfoWindow.STATE_CLOSED;
 			self.mapObject.map.trigger("infowindowclose");
+			
 		});
 	}
 	

@@ -468,9 +468,35 @@ class ScriptLoader
 		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
 		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
 		
-		wp_enqueue_style('wpgmza-common', plugin_dir_url(__DIR__) . 'css/common.css');
-		wp_enqueue_style('remodal', plugin_dir_url(__DIR__) . 'lib/remodal.css');
-		wp_enqueue_style('remodal-default-theme', plugin_dir_url(__DIR__) . 'lib/remodal-default-theme.css');
+		$base = plugin_dir_url(__DIR__);
+		
+		wp_enqueue_style('wpgmza-common', $base . 'css/common.css');
+		
+		wp_enqueue_style('remodal', $base . 'lib/remodal.css');
+		wp_enqueue_style('remodal-default-theme', $base . 'lib/remodal-default-theme.css');
+		
+		$style = $wpgmza->settings->user_interface_style;
+		switch($style)
+		{
+			case 'bare-bones':
+				break;
+			
+			case 'legacy':
+			case 'default':
+			case 'compact':
+			case 'minimal':
+				wp_enqueue_style("wpgmza-ui-$style", $base . "css/styles/$style.css");
+				break;
+				
+			case 'modern':
+				wp_enqueue_style("wpgmza-ui-legacy", $base . "css/styles/legacy.css");
+				wp_enqueue_style("wpgmza-ui-modern", $base . "css/styles/modern.css");
+				break;
+			
+			default:
+				wp_enqueue_style("wpgmza-ui-default", $base . "css/styles/default.css");
+				break;
+		}
 	}
 	
 	/**
@@ -589,6 +615,8 @@ class ScriptLoader
 			
 			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
 		}
+		
+		do_action('wpgmza_enqueue_scripts');
 		
 		// Enqueue localized data
 		$this->enqueueLocalizedData();

@@ -28,12 +28,17 @@ class Factory
 		$count = count($args);
 		$filter = "wpgmza_create_$class";
 
-		if($class == 'WPGMZA\Factory')
+		if($class == 'WPGMZA\\Factory')
 			throw new \Exception('Factory createInstance would return abstract Factory');
 		
 		// TODO: If the created object is a descendant of CRUD 
 		if(empty($args))
-			$filter_args = array($filter, null);
+		{
+			if(is_subclass_of($class, '\\WPGMZA\\Crud'))
+				$filter_args = array($filter, -1);
+			else
+				$filter_args = array($filter, null);
+		}
 		else
 			$filter_args = array_merge(array($filter), $args);
 		

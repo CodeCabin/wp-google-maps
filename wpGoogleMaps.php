@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 7.11.53
+Version: 8.0.10
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,80 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.10 :- 2019-11-26 :- Medium priority
+ * Added animated panning effect for OpenLayers infowindows, including a dynamic offset to make infowindows fully visible on click
+ * Removed var_dump from wp-google-maps-polylines.php
+ * Restricted include/exclude Maps API on page inputs to comma separated integers
+ * Changed default map alignment to "None"
+ * Dropped legacy store locator marker and circle code, module now controls this fully
+ * Fixed array shorthand parse error in PHP < 5.4
+ * Fixed getCurrentPosition only calling the supplied error callback function on the first failure
+ * Fixed autocomplete not initialising when global settings have not been saved
+ * Fixed shapes not being added when global settings have never been saved
+ * Fixed Store Locator setting "show bouncing icon" not working
+ * Fixed trashing a map redirects user to map edit page for the trashed map
+ * Fixed store locator circles too small when using miles as distance units
+ * Fixed store locator not found message not showing
+ *
+ * 8.0.9 :- 2019-11-12 :- Medium priority
+ * Updated Dutch translations
+ * Changed Humanitarian tileserver URL to https://
+ * Added workaround for syntax error in class.marker.php on PHP versions 5.5 and below
+ * Fixed "No API key" error showing until the page is refreshed after entering API key in notice
+ * Fixed getCurrentPosition is not a function on setups which don't have this function on the navigator
+ * Fixed issue with OpenLayers circle fill color
+ *
+ * 8.0.8 :- 2019-11-04 :- Medium priority
+ * Fixed AJAX fallback routes not registered for GET only REST routes
+ * Fixed some REST API routes 404ing with plain permalinks when route URL + is replaced with space
+ * Fixed ?skip_cache=1 breaking plain permalink REST URLs by detecting when query variables are in use
+ *
+ * 8.0.7 :- 2019-10-25 :- Medium priority
+ * Tested up to WordPress 5.3
+ * Localized all remote images
+ * Separated all inline JavaScript and PHP
+ * Removed developer documentation
+ * Removed redundant files
+ * Removed legacy bundled jQuery
+ *
+ * 8.0.6 :- 2019-10-22 :- Low priority
+ * Legacy UI style InfoWindow text width fix now only applies to Google Maps engine
+ * Google API script loader now adds data-usercentrics attribute
+ * InfoWindow now tracks open / closed state in this.state
+ * InfoWindow no longer dispatches infowindowclose.wpgmza event if already closed
+ *
+ * 8.0.5 :- 2019-10-17 :- Medium priority
+ * Fixed additional "undefined" infowindow appearing when using XML cache
+ * Fixed XML cache not regenerated when POSTing to marker endpoint
+ *
+ * 8.0.4 :- 2019-10-15 :- Medium priority
+ * Now tested up to WordPress 5.2.4
+ * Added REST endpoints for counting and removing duplicate markers
+ * Safeguards added to switch back to DB pull if execution time limit or memory limit is reached during XML cache generation
+ * Theme parser will now attempt to strip slashes before abandoning parsing
+ *
+ * 8.0.3 :- 2019-10-13 :- Medium priority
+ * Added workaround for Enfold theme issue with Safari preventing map from loading
+ * Relaxed CRUD class to issue warning when ID is passed in with field data instead creating a new object
+ * Fixed edit marker button not working on map edit page
+ *
+ * 8.0.2 :- 2019-10-10 :- Medium priority
+ * Fixed file not found on settings page when using OpenLayers engine
+ * Fixed translation strings not being applied
+ * Fixed dragging a marker also pans map when using OpenLayers
+ *
+ * 8.0.1 :- 2019-10-08 :- Medium priority
+ * Fixed Warning: unserialize() expects parameter 1 to be string, array given
+ * Fixed restructured code preventing marker delete and approve buttons from working
+ * Fixed markers not being removed from map panel following deletion
+ *
+ * 8.0.0 :- 2019-10-07 :- Medium priority
+ * New theme panel and theme editor
+ * New User Interface Style setting and variety of UI styles added
+ * Several user experience improvements
+ * Significant performance improvements and optimizations
+ * Significantly enhanced REST API
+ *
  * 7.11.53 :- 2019-10-03 :- Low priority
  * Fixed "All" missing from datatables page size dropdown
  * Fixed bundled translations only loaded on backend since 7.11.45
@@ -1173,6 +1247,52 @@ function wpgmza_preload_is_in_developer_mode()
 		return false;
 	
 	return isset($globalSettings->developer_mode) && $globalSettings->developer_mode == true;
+}
+
+function wpgmza_fix_marker_class_for_php_below_5_6()
+{
+	try{
+		$file	= plugin_dir_path(__FILE__) . 'includes/class.marker.php';
+		$source	= file_get_contents($file);
+		$url	= parse_url(plugin_dir_url(__FILE__), PHP_URL_PATH);
+		
+		$source = str_replace(
+			"const DEFAULT_ICON = WPGMZA_PLUGIN_DIR_URL . 'images/spotlight-poi2.png';", 
+			"const DEFAULT_ICON = '{$url}images/spotlight-poi2.png';", 
+			$source);
+		
+		file_put_contents($file, $source);
+	}catch(\Exception $e) {
+		
+		add_action('admin_notices', function() use ($e) {
+			
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p>
+					<strong>
+					<?php
+					_e('WP Google Maps', 'wp-google-maps');
+					?></strong>:
+					<?php
+					_e('The plugin cannot load due to syntax which is not supported in PHP 5.6 and below. The plugin could not implement a workaround successfully. We strongly recommend you use PHP 5.6 or above. Technical details are as follows: ', 'wp-google-maps');
+					echo $e->getMessage();
+					?>
+				</p>
+			</div>
+			<?php
+			
+		});
+		
+		return false;
+	}
+	
+	return true;
+}
+
+if(version_compare(phpversion(), '5.6', '<'))
+{
+	if(!wpgmza_fix_marker_class_for_php_below_5_6())
+		return;
 }
 
 if(wpgmza_preload_is_in_developer_mode())
