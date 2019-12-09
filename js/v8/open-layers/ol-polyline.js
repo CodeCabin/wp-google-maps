@@ -23,9 +23,14 @@ jQuery(function($) {
 		{
 			var coordinates = [];
 			
-			if(options && options.polydata)
+			if(options && (options.polydata || options.points))
 			{
-				var path = this.parseGeometry(options.polydata);
+				var path;
+				
+				if(options.polydata)
+					path = this.parseGeometry(options.polydata);
+				else	
+					path = options.points;
 				
 				for(var i = 0; i < path.length; i++)
 				{
@@ -71,10 +76,10 @@ jQuery(function($) {
 	{
 		var params = {};
 		
-		if(this.opacity)
+		if(this.settings.strokeOpacity)
 			params.stroke = new ol.style.Stroke({
-				color: WPGMZA.hexOpacityToRGBA(this.linecolor, this.opacity),
-				width: parseInt(this.linethickness)
+				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity),
+				width: parseInt(this.settings.strokeWeight)
 			});
 			
 		return params;
