@@ -65,15 +65,18 @@ jQuery(function($) {
 			this.olMap.addLayer(this.markerLayer);
 			
 			this.olMap.on("click", function(event) {
-				self.olMap.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
-					var marker = feature.wpgmzaMarker;
-					
-					if(!marker)
-						return;
-					
-					marker.onClick(event);
-					marker.onSelect(event);
-				});
+				var features = self.olMap.getFeaturesAtPixel(event.pixel);
+				
+				if(!features || !features.length)
+					return;
+				
+				var marker = features[0].wpgmzaMarker;
+				
+				if(!marker)
+					return;
+				
+				marker.trigger("click");
+				marker.trigger("select");
 			});
 		}
 		

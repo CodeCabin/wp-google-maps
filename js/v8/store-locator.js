@@ -154,7 +154,7 @@ jQuery(function($) {
 			this._bounds = new WPGMZA.LatLngBounds( event.results[0].bounds );
 		}
 		
-		this.map.markerFilter.update();
+		this.map.markerFilter.update({}, this);
 	}
 	
 	WPGMZA.StoreLocator.prototype.onSearch = function(event)
@@ -169,7 +169,7 @@ jQuery(function($) {
 		this._center = null;
 		this._bounds = null;
 		
-		this.map.markerFilter.update();
+		this.map.markerFilter.update({}, this);
 	}
 	
 	WPGMZA.StoreLocator.prototype.getFilteringParameters = function()

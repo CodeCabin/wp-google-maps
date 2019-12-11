@@ -2725,6 +2725,16 @@ jQuery(function($) {
 		return this.north + "N " + this.south + "S " + this.west + "W " + this.east + "E";
 	}
 	
+	WPGMZA.LatLngBounds.prototype.toLiteral = function()
+	{
+		return {
+			north: this.north,
+			south: this.south,
+			west: this.west,
+			east: this.east
+		};
+	}
+	
 });
 
 // js/v8/map-edit-page.js
@@ -3496,6 +3506,18 @@ jQuery(function($) {
 			var center = this.getCenter();
 			center.lng = value;
 			this.setCenter(center);
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Map.prototype, "zoom", {
+		
+		get: function() {
+			return this.getZoom();
+		},
+		
+		set: function(value) {
+			this.setZoom(value);
 		}
 		
 	});
@@ -5198,15 +5220,6 @@ jQuery(function($) {
 		
 		var inner = $(this.element).find(".wpgmza-inner");
 		
-		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
-		if(titleSearch.length)
-		{
-			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
-			if(placeholder && placeholder.length)
-				titleSearch.attr("placeholder", placeholder);
-			inner.append(titleSearch);
-		}
-		
 		var addressInput;
 		if(WPGMZA.isProVersion())
 			addressInput = $(original).find(".addressInput");
@@ -5217,6 +5230,15 @@ jQuery(function($) {
 			addressInput.attr("placeholder", wpgmaps_localize[map_id].other_settings.store_locator_query_string);
 		
 		inner.append(addressInput);
+		
+		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
+		if(titleSearch.length)
+		{
+			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
+			if(placeholder && placeholder.length)
+				titleSearch.attr("placeholder", placeholder);
+			inner.append(titleSearch);
+		}
 		
 		var button;
 		if(button = $(original).find("button.wpgmza-use-my-location"))
@@ -5353,20 +5375,13 @@ jQuery(function($) {
 		$(this.element).find("input, select").on("blur", function() {
 			$(inner).removeClass("active");
 		});
-
-		//Grab the "Not Found" message
-		var show_not_found_message = $(this.element).find(".wpgmza-not-found-msg").children().text();
 		
-		//Run after search
 		$(self.map.markerFilter).on("filteringcomplete", function(event) {
 
-			//Show/hide not found message
 			if(!this.map.hasVisibleMarkers())
-			{
-				alert(show_not_found_message);
-			}
+				alert(WPGMZA.localized_strings.zero_results);
 
-		});	
+		});
 	}
 	
 	/**
@@ -5643,9 +5658,9 @@ jQuery(function($) {
 	 * @constructor WPGMZA.PopoutPanel
 	 * @memberof WPGMZA
 	 */
-	WPGMZA.PopoutPanel = function()
+	WPGMZA.PopoutPanel = function(element)
 	{
-		
+		this.element = element;
 	}
 	
 	/**
@@ -5753,7 +5768,7 @@ jQuery(function($) {
 				}).join("");
 				
 				// NB: Append as another path component, this stops the code below performing base64 encoding twice and enlarging the request
-				suffix = "/" + btoa(string).replace(/\//g, "-");
+				suffix = "/" + btoa(string).replace(/\//g, "-").replace(/=+$/, "");
 				
 				// NB: midcbp = Marker ID compressed buffer pointer, abbreviated to save space
 				params.midcbp = encoded.pointer;
@@ -5771,7 +5786,7 @@ jQuery(function($) {
 		}).join("");
 		
 		var base64		= btoa(raw);
-		return base64.replace(/\//g, "-") + suffix;
+		return base64.replace(/\//g, "-").replace(/=+$/, "") + suffix;
 	}
 	
 	function sendAJAXFallbackRequest(route, params)
@@ -6159,7 +6174,7 @@ jQuery(function($) {
 			this._bounds = new WPGMZA.LatLngBounds( event.results[0].bounds );
 		}
 		
-		this.map.markerFilter.update();
+		this.map.markerFilter.update({}, this);
 	}
 	
 	WPGMZA.StoreLocator.prototype.onSearch = function(event)
@@ -6174,7 +6189,7 @@ jQuery(function($) {
 		this._center = null;
 		this._bounds = null;
 		
-		this.map.markerFilter.update();
+		this.map.markerFilter.update({}, this);
 	}
 	
 	WPGMZA.StoreLocator.prototype.getFilteringParameters = function()
@@ -9468,15 +9483,18 @@ jQuery(function($) {
 			this.olMap.addLayer(this.markerLayer);
 			
 			this.olMap.on("click", function(event) {
-				self.olMap.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
-					var marker = feature.wpgmzaMarker;
-					
-					if(!marker)
-						return;
-					
-					marker.onClick(event);
-					marker.onSelect(event);
-				});
+				var features = self.olMap.getFeaturesAtPixel(event.pixel);
+				
+				if(!features || !features.length)
+					return;
+				
+				var marker = features[0].wpgmzaMarker;
+				
+				if(!marker)
+					return;
+				
+				marker.trigger("click");
+				marker.trigger("select");
 			});
 		}
 		

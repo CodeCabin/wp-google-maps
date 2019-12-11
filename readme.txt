@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.11 :- 2019-12-11 :- Medium priority =
+* Added WPGMZA.LatLngBounds.prototype.toLiteral
+* Rest API now removes trailing = on compressed path variable requests as certain security suites and servers would block this as Forbidden
+* Increased map_title to 256 characters, fixes imports not working on files with long filenames
+* Fixed user roles below admin cannot save map settings by correcting permissions check
+* Fixed modern store locator always showing alert
+* Fixed modern store locator "not found" alert blank
+* Fixed experimental vector source layer markers firing multiple click events when their icons overlap
+
 = 8.0.10 :- 2019-11-26 :- Medium priority =
 * Added animated panning effect for OpenLayers infowindows, including a dynamic offset to make infowindows fully visible on click
 * Removed var_dump from wp-google-maps-polylines.php
@@ -1364,6 +1373,12 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.10
+Version: 8.0.11
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,15 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.11 :- 2019-12-11 :- Medium priority
+ * Added WPGMZA.LatLngBounds.prototype.toLiteral
+ * Rest API now removes trailing = on compressed path variable requests as certain security suites and servers would block this as Forbidden
+ * Increased map_title to 256 characters, fixes imports not working on files with long filenames
+ * Fixed user roles below admin cannot save map settings by correcting permissions check
+ * Fixed modern store locator always showing alert
+ * Fixed modern store locator "not found" alert blank
+ * Fixed experimental vector source layer markers firing multiple click events when their icons overlap
+ *
  * 8.0.10 :- 2019-11-26 :- Medium priority
  * Added animated panning effect for OpenLayers infowindows, including a dynamic offset to make infowindows fully visible on click
  * Removed var_dump from wp-google-maps-polylines.php
