@@ -34,15 +34,6 @@ jQuery(function($) {
 		
 		var inner = $(this.element).find(".wpgmza-inner");
 		
-		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
-		if(titleSearch.length)
-		{
-			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
-			if(placeholder && placeholder.length)
-				titleSearch.attr("placeholder", placeholder);
-			inner.append(titleSearch);
-		}
-		
 		var addressInput;
 		if(WPGMZA.isProVersion())
 			addressInput = $(original).find(".addressInput");
@@ -53,6 +44,15 @@ jQuery(function($) {
 			addressInput.attr("placeholder", wpgmaps_localize[map_id].other_settings.store_locator_query_string);
 		
 		inner.append(addressInput);
+		
+		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
+		if(titleSearch.length)
+		{
+			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
+			if(placeholder && placeholder.length)
+				titleSearch.attr("placeholder", placeholder);
+			inner.append(titleSearch);
+		}
 		
 		var button;
 		if(button = $(original).find("button.wpgmza-use-my-location"))
@@ -189,20 +189,13 @@ jQuery(function($) {
 		$(this.element).find("input, select").on("blur", function() {
 			$(inner).removeClass("active");
 		});
-
-		//Grab the "Not Found" message
-		var show_not_found_message = $(this.element).find(".wpgmza-not-found-msg").children().text();
 		
-		//Run after search
 		$(self.map.markerFilter).on("filteringcomplete", function(event) {
 
-			//Show/hide not found message
 			if(!this.map.hasVisibleMarkers())
-			{
-				alert(show_not_found_message);
-			}
+				alert(WPGMZA.localized_strings.zero_results);
 
-		});	
+		});
 	}
 	
 	/**

@@ -82,7 +82,7 @@ jQuery(function($) {
 				}).join("");
 				
 				// NB: Append as another path component, this stops the code below performing base64 encoding twice and enlarging the request
-				suffix = "/" + btoa(string).replace(/\//g, "-");
+				suffix = "/" + btoa(string).replace(/\//g, "-").replace(/=+$/, "");
 				
 				// NB: midcbp = Marker ID compressed buffer pointer, abbreviated to save space
 				params.midcbp = encoded.pointer;
@@ -100,7 +100,7 @@ jQuery(function($) {
 		}).join("");
 		
 		var base64		= btoa(raw);
-		return base64.replace(/\//g, "-") + suffix;
+		return base64.replace(/\//g, "-").replace(/=+$/, "") + suffix;
 	}
 	
 	function sendAJAXFallbackRequest(route, params)

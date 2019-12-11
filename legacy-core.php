@@ -2129,16 +2129,13 @@ function wpgmza_settings_page_post()
  */
 function wpgmaps_head() {
 
-	if (!current_user_can('administrator')) {
-	   return false;
-	}
-
 	global $wpgmza;
     global $wpgmza_tblname_maps;
     global $wpgmza_version;
 
+	if (!$wpgmza->isUserAllowedToEdit())
+		return false;
 	
-
     if ((isset($_GET['page']) && $_GET['page'] == "wp-google-maps-menu") || (isset($_GET['page']) && $_GET['page'] == "wp-google-maps-menu-settings")) {
         wpgmaps_folder_check();
     }

@@ -157,4 +157,14 @@ jQuery(function($) {
 		return this.north + "N " + this.south + "S " + this.west + "W " + this.east + "E";
 	}
 	
+	WPGMZA.LatLngBounds.prototype.toLiteral = function()
+	{
+		return {
+			north: this.north,
+			south: this.south,
+			west: this.west,
+			east: this.east
+		};
+	}
+	
 });

@@ -51,7 +51,7 @@ class Database extends Factory
 		
 		$sql = "CREATE TABLE `$WPGMZA_TABLE_NAME_MAPS` (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			map_title varchar(55) NOT NULL,
+			map_title varchar(256) NOT NULL,
 			map_width varchar(6) NOT NULL,
 			map_height varchar(6) NOT NULL,
 			map_start_lat varchar(700) NOT NULL,
