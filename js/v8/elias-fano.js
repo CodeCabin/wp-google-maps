@@ -161,8 +161,8 @@ jQuery(function($) {
 		var resultPointer = 0;
 		var list = [];
 		
-		console.log("Decoding buffer from pointer " + compressedBuffer.pointer);
-		console.log(compressedBuffer);
+		//console.log("Decoding buffer from pointer " + compressedBuffer.pointer);
+		//console.log(compressedBuffer);
 		
 		var decodingTableHighBits = WPGMZA.EliasFano.decodingTableHighBits;
 		var decodingTableDocIDNumber = WPGMZA.EliasFano.decodingTableDocIDNumber;
@@ -175,23 +175,23 @@ jQuery(function($) {
 		
 		var listCount = compressedBuffer[lowBitsPointer++];
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 8;
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 16;
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 24;
 		
-		console.log("Read list count " + listCount);
+		//console.log("Read list count " + listCount);
 		
 		var lowBitsLength = compressedBuffer[lowBitsPointer++];
 		
-		console.log("lowBitsLength = " + lowBitsLength);
+		//console.log("lowBitsLength = " + lowBitsLength);
 		
 		var highBitsPointer,
 			lowBitsCount = 0,

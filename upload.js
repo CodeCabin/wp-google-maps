@@ -1,6 +1,5 @@
 jQuery(function($) {
 
-
 var clicked_on_imgbtn = false;
 var clicked_on_markerbtn = false;
 var clicked_on_custommarkerbtn = false;
