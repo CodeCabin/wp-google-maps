@@ -90,7 +90,6 @@ jQuery(function($) {
 		},
 		
 		"set": function(value) {
-			console.log(value);
 			this._opacity = value;
 			this.googleMarker.setOpacity(value);
 		}

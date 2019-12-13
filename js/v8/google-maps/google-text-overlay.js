@@ -9,8 +9,6 @@ jQuery(function($) {
 	{
 		this.element = $("<div class='wpgmza-google-text-overlay'><div class='wpgmza-inner'></div></div>");
 		
-		console.log(options);
-		
 		if(!options)
 			options = {};
 		
