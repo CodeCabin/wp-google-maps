@@ -708,6 +708,8 @@ jQuery(function($) {
 	
 	jQuery(function($) {
 		
+		$(window).trigger("ready.wpgmza");
+		
 		// Combined script warning
 		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
 			console.warn("Minified script is out of date, using combined script instead.");
@@ -1261,8 +1263,8 @@ jQuery(function($) {
 		var resultPointer = 0;
 		var list = [];
 		
-		console.log("Decoding buffer from pointer " + compressedBuffer.pointer);
-		console.log(compressedBuffer);
+		//console.log("Decoding buffer from pointer " + compressedBuffer.pointer);
+		//console.log(compressedBuffer);
 		
 		var decodingTableHighBits = WPGMZA.EliasFano.decodingTableHighBits;
 		var decodingTableDocIDNumber = WPGMZA.EliasFano.decodingTableDocIDNumber;
@@ -1275,23 +1277,23 @@ jQuery(function($) {
 		
 		var listCount = compressedBuffer[lowBitsPointer++];
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 8;
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 16;
 		
-		console.log("listCount is now " + listCount);
+		//console.log("listCount is now " + listCount);
 		
 		listCount |= compressedBuffer[lowBitsPointer++] << 24;
 		
-		console.log("Read list count " + listCount);
+		//console.log("Read list count " + listCount);
 		
 		var lowBitsLength = compressedBuffer[lowBitsPointer++];
 		
-		console.log("lowBitsLength = " + lowBitsLength);
+		//console.log("lowBitsLength = " + lowBitsLength);
 		
 		var highBitsPointer,
 			lowBitsCount = 0,
@@ -2364,7 +2366,7 @@ jQuery(function($) {
 		}
 	});
 	
-	WPGMZA.LatLng.prototype.fromString = function(string)
+	WPGMZA.LatLng.fromString = function(string)
 	{
 		if(!WPGMZA.LatLng.isLatLngString(string))
 			throw new Error("Not a valid latlng string");
@@ -6747,7 +6749,7 @@ jQuery(function($) {
 		try{
 			data = JSON.parse($("textarea[name='wpgmza_theme_data']").val());
 		}catch(e) {
-			console.log("TODO: Issue a warning on screen");
+			alert(WPGMZA.localized_strings.invalid_theme_data);
 			return;
 		}
 		
@@ -8245,7 +8247,6 @@ jQuery(function($) {
 		},
 		
 		"set": function(value) {
-			console.log(value);
 			this._opacity = value;
 			this.googleMarker.setOpacity(value);
 		}
@@ -8799,8 +8800,6 @@ jQuery(function($) {
 	{
 		this.element = $("<div class='wpgmza-google-text-overlay'><div class='wpgmza-inner'></div></div>");
 		
-		console.log(options);
-		
 		if(!options)
 			options = {};
 		
@@ -9220,6 +9219,22 @@ jQuery(function($) {
 		
 		if(!options)
 			throw new Error("Invalid options");
+		
+		if(WPGMZA.LatLng.REGEXP.test(options.address))
+		{
+			var latLng = WPGMZA.LatLng.fromString(options.address);
+			
+			callback([{
+				geometry: {
+					location: latLng
+				},
+				latLng: latLng,
+				lat: latLng.lat,
+				lng: latLng.lng
+			}], WPGMZA.Geocoder.SUCCESS);
+			
+			return;
+		}
 		
 		if(options.location)
 			options.latLng = new WPGMZA.LatLng(options.location);
@@ -10584,9 +10599,14 @@ jQuery(function($) {
 		{
 			var coordinates = [];
 			
-			if(options && options.polydata)
+			if(options && (options.polydata || options.points))
 			{
-				var path = this.parseGeometry(options.polydata);
+				var path;
+				
+				if(options.polydata)
+					path = this.parseGeometry(options.polydata);
+				else	
+					path = options.points;
 				
 				for(var i = 0; i < path.length; i++)
 				{
@@ -10632,10 +10652,10 @@ jQuery(function($) {
 	{
 		var params = {};
 		
-		if(this.opacity)
+		if(this.settings.strokeOpacity)
 			params.stroke = new ol.style.Stroke({
-				color: WPGMZA.hexOpacityToRGBA(this.linecolor, this.opacity),
-				width: parseInt(this.linethickness)
+				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity),
+				width: parseInt(this.settings.strokeWeight)
 			});
 			
 		return params;

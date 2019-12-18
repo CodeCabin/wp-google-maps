@@ -717,7 +717,7 @@ function wpgmaps_admin_javascript_basic()
 			echo "<div class='updated'><p>";
 			$settings_page = "<a href='".admin_url('/admin.php?page=wp-google-maps-menu-settings#tabs-4')."'>".__('settings', 'wp-google-maps')."</a>";
 			echo sprintf( __('Your Google Maps API key has been successfully saved. This API key can be changed in the %s page', 'wp-google-maps'), $settings_page );
-			echo "<script> window.location.reload(); </script>";
+			echo "<script> window.location.href=window.location.href; return false </script>";
 			echo "</p></div>";
 		}          
 	}

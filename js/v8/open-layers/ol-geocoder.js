@@ -139,6 +139,22 @@ jQuery(function($) {
 		if(!options)
 			throw new Error("Invalid options");
 		
+		if(WPGMZA.LatLng.REGEXP.test(options.address))
+		{
+			var latLng = WPGMZA.LatLng.fromString(options.address);
+			
+			callback([{
+				geometry: {
+					location: latLng
+				},
+				latLng: latLng,
+				lat: latLng.lat,
+				lng: latLng.lng
+			}], WPGMZA.Geocoder.SUCCESS);
+			
+			return;
+		}
+		
 		if(options.location)
 			options.latLng = new WPGMZA.LatLng(options.location);
 		

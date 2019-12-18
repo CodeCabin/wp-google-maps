@@ -532,3 +532,13 @@ form.wpgmza-form input.color,
 {
 	color: black !important;
 }
+
+input[name='wpgmza_developer_mode'] + .notice-warning
+{
+	display: none;
+}
+
+input[name='wpgmza_developer_mode']:checked + .notice-warning
+{
+	display: block;
+}

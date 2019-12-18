@@ -89,7 +89,7 @@ jQuery(function($) {
 		{
 			obj = arr[i];
 		
-			if(obj.listener == listener && obj.thisObject == thisObject && obj.useCapture == useCapture)
+			if((arguments.length == 1 || obj.listener == listener) && obj.thisObject == thisObject && obj.useCapture == useCapture)
 			{
 				arr.splice(i, 1);
 				return;

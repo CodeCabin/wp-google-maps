@@ -190,7 +190,7 @@ jQuery(function($) {
 			$(inner).removeClass("active");
 		});
 		
-		$(self.map.markerFilter).on("filteringcomplete", function(event) {
+		$(map.markerFilter).on("filteringcomplete", function(event) {
 
 			if(!this.map.hasVisibleMarkers())
 				alert(WPGMZA.localized_strings.zero_results);

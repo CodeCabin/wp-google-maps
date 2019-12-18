@@ -117,7 +117,7 @@ jQuery(function($) {
 		}
 	});
 	
-	WPGMZA.LatLng.prototype.fromString = function(string)
+	WPGMZA.LatLng.fromString = function(string)
 	{
 		if(!WPGMZA.LatLng.isLatLngString(string))
 			throw new Error("Not a valid latlng string");

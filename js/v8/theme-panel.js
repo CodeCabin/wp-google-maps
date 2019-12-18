@@ -76,7 +76,7 @@ jQuery(function($) {
 		try{
 			data = JSON.parse($("textarea[name='wpgmza_theme_data']").val());
 		}catch(e) {
-			console.log("TODO: Issue a warning on screen");
+			alert(WPGMZA.localized_strings.invalid_theme_data);
 			return;
 		}
 		
