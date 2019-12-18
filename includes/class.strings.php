@@ -70,7 +70,8 @@ class Strings
 			
 			'requires_gold_v5'			=> __('Requires WP Google Maps - Gold add-on 5.0.0 or above', 'wp-google-maps'),
 			
-			'confirm_remove_duplicates'	=> __('This operation is not reversable. We recommend you take a backup before proceeding. Would you like to continue?', 'wp-google-maps')
+			'confirm_remove_duplicates'	=> __('This operation is not reversable. We recommend you take a backup before proceeding. Would you like to continue?', 'wp-google-maps'),
+			'invalid_theme_Data'		=> __('Invalid theme data', 'wp-google-maps')
 		));
 	}
 	

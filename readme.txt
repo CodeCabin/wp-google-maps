@@ -220,6 +220,12 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.12 =
+* New event on window - ready.wpgmza. This fires when all modules are ready, but maps haven't started loading
+* WPGMZA.LatLng.fromString is now static
+* Removed console logging on theme panel when theme data is invalid
+* Fixed OpenLayers geocoder trying to geocode coordinates resulting in markers added by coordinates moving
+
 = 8.0.11 :- 2019-12-11 :- Medium priority =
 * Added WPGMZA.LatLngBounds.prototype.toLiteral
 * Rest API now removes trailing = on compressed path variable requests as certain security suites and servers would block this as Forbidden
@@ -1373,6 +1379,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
 
 
 

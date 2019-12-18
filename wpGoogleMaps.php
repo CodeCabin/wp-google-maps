@@ -11,6 +11,15 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.12
+ * New event on window - ready.wpgmza. This fires when all modules are ready, but maps haven't started loading
+ * WPGMZA.LatLng.fromString is now static
+ * Removed console logging on theme panel when theme data is invalid
+ * WPGMZA.EventDispatcher can now unbind all event listeners with off / removeEventListener
+ * Fixed OpenLayers geocoder trying to geocode coordinates resulting in markers added by coordinates moving
+ * Fixed redirection loop after entering Google Maps API key into prompt on map edit page
+ * Fixed "Cannot read property 'markerFilter' of undefined" in modern-store-locator.js
+ *
  * 8.0.11 :- 2019-12-11 :- Medium priority
  * Added WPGMZA.LatLngBounds.prototype.toLiteral
  * Rest API now removes trailing = on compressed path variable requests as certain security suites and servers would block this as Forbidden
