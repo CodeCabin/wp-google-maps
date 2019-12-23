@@ -12,6 +12,7 @@ Domain Path: /languages
 
 /*
  * 8.0.12
+ * Added duplicate custom field name warning
  * New event on window - ready.wpgmza. This fires when all modules are ready, but maps haven't started loading
  * WPGMZA.LatLng.fromString is now static
  * Removed console logging on theme panel when theme data is invalid
