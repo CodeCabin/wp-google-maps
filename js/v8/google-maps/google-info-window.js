@@ -56,7 +56,7 @@ jQuery(function($) {
 				return;
 			
 			self.state = WPGMZA.InfoWindow.STATE_CLOSED;
-			self.mapObject.map.trigger("infowindowclose");
+			self.trigger("infowindowclose");
 			
 		});
 	}

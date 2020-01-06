@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.11
+Version: 8.0.12
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,14 +11,24 @@ Domain Path: /languages
 */
 
 /*
- * 8.0.12
+ * 8.0.13
+ * Tested up to WordPress 5.3.2
+ * Relaxed "invalid route" check in RestAPI to allow external JSON to be used
+ * Database no longer specifies InnoDB as database engine, enabling support for MyISAM
+ * Database no longer specifies UTF-8 as character set for tables, the default for the database will be used
+ *
+ * 8.0.12 :- 2020-01-02 :- Medium priority
  * New event on window - ready.wpgmza. This fires when all modules are ready, but maps haven't started loading
  * WPGMZA.LatLng.fromString is now static
  * Removed console logging on theme panel when theme data is invalid
  * WPGMZA.EventDispatcher can now unbind all event listeners with off / removeEventListener
+ * Fixed incompatibility with GTranslate due to no check for google.maps in MYMAP.init
  * Fixed OpenLayers geocoder trying to geocode coordinates resulting in markers added by coordinates moving
  * Fixed redirection loop after entering Google Maps API key into prompt on map edit page
  * Fixed "Cannot read property 'markerFilter' of undefined" in modern-store-locator.js
+ * Fixed OpenLayers HTML marker in wrong position after refreshing and switching tabs during load
+ * Fixed infowindowclose.wpgmza being dispatched from the map, rather than the infowindow
+ * Fixed OpenLayers polyline not displayed
  *
  * 8.0.11 :- 2019-12-11 :- Medium priority
  * Added WPGMZA.LatLngBounds.prototype.toLiteral

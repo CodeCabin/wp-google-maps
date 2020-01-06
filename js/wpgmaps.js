@@ -211,7 +211,7 @@ MYMAP.init = function(selector, latLng, zoom) {
 
 	var maptype = null;
 	
-	if(window.google)
+	if(window.google && google.maps)
 	{
 		if (typeof wpgmaps_localize[wpgmaps_mapid].type !== "undefined") {
 			if (wpgmaps_localize[wpgmaps_mapid].type === "1") { maptype = google.maps.MapTypeId.ROADMAP; }

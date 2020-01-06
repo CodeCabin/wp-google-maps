@@ -190,6 +190,14 @@ jQuery(function($) {
 			$(inner).removeClass("active");
 		});
 		
+		$(this.element).on("mouseover", "li.wpgmza_cat_checkbox_item_holder", function(event) {
+			self.onMouseOverCategory(event);
+		});
+		
+		$(this.element).on("mouseleave", "li.wpgmza_cat_checkbox_item_holder", function(event) {
+			self.onMouseLeaveCategory(event);
+		});
+		
 		$(map.markerFilter).on("filteringcomplete", function(event) {
 
 			if(!this.map.hasVisibleMarkers())
@@ -217,6 +225,21 @@ jQuery(function($) {
 				return new WPGMZA.GoogleModernStoreLocator(map_id);
 				break;
 		}
+	}
+	
+	// TODO: Move these to a Pro module
+	WPGMZA.ModernStoreLocator.prototype.onMouseOverCategory = function(event)
+	{
+		var li = event.currentTarget;
+		
+		$(li).children("ul.wpgmza_cat_checkbox_item_holder").stop(true, false).fadeIn();
+	}
+	
+	WPGMZA.ModernStoreLocator.prototype.onMouseLeaveCategory = function(event)
+	{
+		var li = event.currentTarget;
+		
+		$(li).children("ul.wpgmza_cat_checkbox_item_holder").stop(true, false).fadeOut();
 	}
 	
 });

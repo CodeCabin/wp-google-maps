@@ -39,6 +39,7 @@ class Plugin extends Factory
 	private $_restAPI;
 	private $_gutenbergIntegration;
 	private $_pro7Compatiblity;
+	private $_dynamicTranslations;
 	private $_spatialFunctionPrefix = '';
 	
 	protected $scriptLoader;
@@ -64,6 +65,7 @@ class Plugin extends Factory
 			$this->_spatialFunctionPrefix = 'ST_';
 		
 		$this->_database = new Database();
+		$this->_dynamicTranslations = new DynamicTranslations();
 		
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
 		if(!$this->legacySettings)
@@ -164,6 +166,7 @@ class Plugin extends Factory
 			case 'restAPI':
 			case 'spatialFunctionPrefix':
 			case 'database':
+			case 'dynamicTranslations':
 				return $this->{'_' . $name};
 				break;
 		}

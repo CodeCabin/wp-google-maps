@@ -192,7 +192,7 @@ jQuery(function($) {
 		var fallbackRoute = route;
 		var fallbackParams = $.extend({}, params);
 		
-		if(typeof route != "string" || !route.match(/^\//))
+		if(typeof route != "string" || (!route.match(/^\//) && !route.match(/^http/)))
 			throw new Error("Invalid route");
 		
 		if(WPGMZA.RestAPI.URL.match(/\/$/))

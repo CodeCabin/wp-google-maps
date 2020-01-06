@@ -177,32 +177,7 @@ jQuery(function($) {
 	
 	WPGMZA.InfoWindow.prototype.onOpen = function()
 	{
-		var self = this;
 		
-		if(WPGMZA.settings.engine == "open-layers")
-		{
-			var imgs = $(this.element).find("img");
-			var numImages = imgs.length;
-			var numImagesLoaded = 0;
-			
-			function panIntoView()
-			{
-				var height	= $(self.element).height();
-				var offset	= -height * 0.45;
-				
-				self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
-			}
-			
-			imgs.each(function(index, el) {
-				el.onload = function() {
-					if(++numImagesLoaded == numImages)
-						panIntoView();
-				}
-			});
-			
-			if(numImages == 0)
-				panIntoView();
-		}
 	}
 	
 });

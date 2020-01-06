@@ -107,10 +107,19 @@ jQuery(function($) {
 		return WPGMZA.OLMarker.defaultVectorLayerStyle;
 	}
 	
-	WPGMZA.OLMarker.prototype.updateElementHeight = function(height)
+	WPGMZA.OLMarker.prototype.updateElementHeight = function(height, calledOnFocus)
 	{
+		var self = this;
+		
 		if(!height)
 			height = $(this.element).find("img").height();
+		
+		if(height == 0 && !calledOnFocus)
+		{
+			$(window).one("focus", function(event) {
+				self.updateElementHeight(false, true);
+			});
+		}
 		
 		$(this.element).css({height: height + "px"});
 	}
