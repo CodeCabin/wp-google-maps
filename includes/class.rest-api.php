@@ -566,11 +566,11 @@ class RestAPI extends Factory
 							break;
 						
 						default:
-							throw new \Exception('Unknown action');
+							// Don't throw if doing AJAX, that would break the AJAX fallback
+							if(!preg_match('/admin-ajax\.php/', $_SERVER['REQUEST_URI']))
+								throw new \Exception('Unknown action');
 							break;
 					}
-					
-					exit;
 				}
 				
 				$fields = null;

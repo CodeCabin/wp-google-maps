@@ -726,4 +726,14 @@ jQuery(function($) {
 		return markers_visible > 0; // Returns true if markers are visible, false if not
 	}
 	
+	WPGMZA.Map.prototype.closeAllInfoWindows = function()
+	{
+		this.markers.forEach(function(marker) {
+			
+			if(marker.infoWindow)
+				marker.infoWindow.close();
+				
+		});
+	}
+	
 });
