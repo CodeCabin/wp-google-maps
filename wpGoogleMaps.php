@@ -16,6 +16,7 @@ Domain Path: /languages
  * Relaxed "invalid route" check in RestAPI to allow external JSON to be used
  * Database no longer specifies InnoDB as database engine, enabling support for MyISAM
  * Database no longer specifies UTF-8 as character set for tables, the default for the database will be used
+ * Added new strings
  *
  * 8.0.12 :- 2020-01-02 :- Medium priority
  * New event on window - ready.wpgmza. This fires when all modules are ready, but maps haven't started loading
