@@ -1434,7 +1434,7 @@ jQuery(function($) {
 		{
 			obj = arr[i];
 		
-			if(obj.listener == listener && obj.thisObject == thisObject && obj.useCapture == useCapture)
+			if((arguments.length == 1 || obj.listener == listener) && obj.thisObject == thisObject && obj.useCapture == useCapture)
 			{
 				arr.splice(i, 1);
 				return;
@@ -2216,32 +2216,7 @@ jQuery(function($) {
 	
 	WPGMZA.InfoWindow.prototype.onOpen = function()
 	{
-		var self = this;
 		
-		if(WPGMZA.settings.engine == "open-layers")
-		{
-			var imgs = $(this.element).find("img");
-			var numImages = imgs.length;
-			var numImagesLoaded = 0;
-			
-			function panIntoView()
-			{
-				var height	= $(self.element).height();
-				var offset	= -height * 0.45;
-				
-				self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
-			}
-			
-			imgs.each(function(index, el) {
-				el.onload = function() {
-					if(++numImagesLoaded == numImages)
-						panIntoView();
-				}
-			});
-			
-			if(numImages == 0)
-				panIntoView();
-		}
 	}
 	
 });
@@ -4103,6 +4078,16 @@ jQuery(function($) {
 		return markers_visible > 0; // Returns true if markers are visible, false if not
 	}
 	
+	WPGMZA.Map.prototype.closeAllInfoWindows = function()
+	{
+		this.markers.forEach(function(marker) {
+			
+			if(marker.infoWindow)
+				marker.infoWindow.close();
+				
+		});
+	}
+	
 });
 
 // js/v8/maps-engine-dialog.js
@@ -5378,7 +5363,15 @@ jQuery(function($) {
 			$(inner).removeClass("active");
 		});
 		
-		$(self.map.markerFilter).on("filteringcomplete", function(event) {
+		$(this.element).on("mouseover", "li.wpgmza_cat_checkbox_item_holder", function(event) {
+			self.onMouseOverCategory(event);
+		});
+		
+		$(this.element).on("mouseleave", "li.wpgmza_cat_checkbox_item_holder", function(event) {
+			self.onMouseLeaveCategory(event);
+		});
+		
+		$(map.markerFilter).on("filteringcomplete", function(event) {
 
 			if(!this.map.hasVisibleMarkers())
 				alert(WPGMZA.localized_strings.zero_results);
@@ -5405,6 +5398,21 @@ jQuery(function($) {
 				return new WPGMZA.GoogleModernStoreLocator(map_id);
 				break;
 		}
+	}
+	
+	// TODO: Move these to a Pro module
+	WPGMZA.ModernStoreLocator.prototype.onMouseOverCategory = function(event)
+	{
+		var li = event.currentTarget;
+		
+		$(li).children("ul.wpgmza_cat_checkbox_item_holder").stop(true, false).fadeIn();
+	}
+	
+	WPGMZA.ModernStoreLocator.prototype.onMouseLeaveCategory = function(event)
+	{
+		var li = event.currentTarget;
+		
+		$(li).children("ul.wpgmza_cat_checkbox_item_holder").stop(true, false).fadeOut();
 	}
 	
 });
@@ -5880,7 +5888,7 @@ jQuery(function($) {
 		var fallbackRoute = route;
 		var fallbackParams = $.extend({}, params);
 		
-		if(typeof route != "string" || !route.match(/^\//))
+		if(typeof route != "string" || (!route.match(/^\//) && !route.match(/^http/)))
 			throw new Error("Invalid route");
 		
 		if(WPGMZA.RestAPI.URL.match(/\/$/))
@@ -7453,7 +7461,7 @@ jQuery(function($) {
 				return;
 			
 			self.state = WPGMZA.InfoWindow.STATE_CLOSED;
-			self.mapObject.map.trigger("infowindowclose");
+			self.trigger("infowindowclose");
 			
 		});
 	}
@@ -9428,6 +9436,45 @@ jQuery(function($) {
 		}
 	}
 	
+	WPGMZA.OLInfoWindow.prototype.onOpen = function()
+	{
+		var self = this;
+		var imgs = $(this.element).find("img");
+		var numImages = imgs.length;
+		var numImagesLoaded = 0;
+		
+		WPGMZA.InfoWindow.prototype.onOpen.apply(this, arguments);
+		
+		function inside(el, viewport)
+		{
+			var a = el.getBoundingClientRect();
+			var b = viewport.getBoundingClientRect();
+			
+			return a.left >= b.left && a.left <= b.right &&
+					a.right <= b.right && a.right >= b.left &&
+					a.top >= b.top && a.top <= b.bottom &&
+					a.bottom <= b.bottom && a.bottom >= b.top;
+		}
+		
+		function panIntoView()
+		{
+			var height	= $(self.element).height();
+			var offset	= -height * 0.45;
+			
+			self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
+		}
+		
+		imgs.each(function(index, el) {
+			el.onload = function() {
+				if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
+					panIntoView();
+			}
+		});
+		
+		if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
+			panIntoView();
+	}
+	
 });
 
 // js/v8/open-layers/ol-map.js
@@ -10065,10 +10112,19 @@ jQuery(function($) {
 		return WPGMZA.OLMarker.defaultVectorLayerStyle;
 	}
 	
-	WPGMZA.OLMarker.prototype.updateElementHeight = function(height)
+	WPGMZA.OLMarker.prototype.updateElementHeight = function(height, calledOnFocus)
 	{
+		var self = this;
+		
 		if(!height)
 			height = $(this.element).find("img").height();
+		
+		if(height == 0 && !calledOnFocus)
+		{
+			$(window).one("focus", function(event) {
+				self.updateElementHeight(false, true);
+			});
+		}
 		
 		$(this.element).css({height: height + "px"});
 	}

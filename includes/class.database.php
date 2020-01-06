@@ -86,7 +86,7 @@ class Database extends Factory
 			default_to VARCHAR(700) NOT NULL,
 			other_settings longtext NOT NULL,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}
@@ -117,7 +117,7 @@ class Database extends Factory
 			other_data LONGTEXT NOT NULL,
 			latlng POINT,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}
@@ -143,7 +143,7 @@ class Database extends Factory
 			ohopacity VARCHAR(3) NOT NULL,
 			polyname VARCHAR(100) NOT NULL,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}
@@ -161,7 +161,7 @@ class Database extends Factory
 			opacity VARCHAR(3) NOT NULL,
 			polyname VARCHAR(100) NOT NULL,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}
@@ -179,7 +179,7 @@ class Database extends Factory
 			color VARCHAR(16),
 			opacity FLOAT,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}
@@ -197,7 +197,7 @@ class Database extends Factory
 			color VARCHAR(16),
 			opacity FLOAT,
 			PRIMARY KEY  (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1";
 
 		dbDelta($sql);
 	}

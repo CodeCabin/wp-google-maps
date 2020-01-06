@@ -103,4 +103,43 @@ jQuery(function($) {
 		}
 	}
 	
+	WPGMZA.OLInfoWindow.prototype.onOpen = function()
+	{
+		var self = this;
+		var imgs = $(this.element).find("img");
+		var numImages = imgs.length;
+		var numImagesLoaded = 0;
+		
+		WPGMZA.InfoWindow.prototype.onOpen.apply(this, arguments);
+		
+		function inside(el, viewport)
+		{
+			var a = el.getBoundingClientRect();
+			var b = viewport.getBoundingClientRect();
+			
+			return a.left >= b.left && a.left <= b.right &&
+					a.right <= b.right && a.right >= b.left &&
+					a.top >= b.top && a.top <= b.bottom &&
+					a.bottom <= b.bottom && a.bottom >= b.top;
+		}
+		
+		function panIntoView()
+		{
+			var height	= $(self.element).height();
+			var offset	= -height * 0.45;
+			
+			self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
+		}
+		
+		imgs.each(function(index, el) {
+			el.onload = function() {
+				if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
+					panIntoView();
+			}
+		});
+		
+		if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
+			panIntoView();
+	}
+	
 });

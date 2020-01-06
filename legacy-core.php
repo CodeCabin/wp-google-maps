@@ -331,18 +331,24 @@ add_action( "activated_plugin", "wpgmza_redirect_on_activate" );
  */
 function wpgmza_redirect_on_activate( $plugin ) {
     
-    if(preg_match('/wpGoogleMaps\.php$/', $plugin)) {
-        if ( !get_option( "WPGM_V6_FIRST_TIME" ) ) {
-            update_option( "WPGM_V6_FIRST_TIME", true );
-            // clean the output header and redirect the user
-            @ob_flush();
-            @ob_end_flush();
-            @ob_end_clean();
-            
-            exit( wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) ) );
-        }
-    }
+    if(!preg_match('/wpGoogleMaps\.php$/', $plugin))
+		return;
 	
+	if(get_option( "WPGM_V6_FIRST_TIME"))
+		return;
+	
+	 $current_screen = get_current_screen();
+
+	if ( $current_screen && $current_screen->id == "appearance_page_install-required-plugins" )
+		return;
+	
+	update_option( "WPGM_V6_FIRST_TIME", true );
+	// clean the output header and redirect the user
+	@ob_flush();
+	@ob_end_flush();
+	@ob_end_clean();
+	
+	exit( wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) ) );
 }
 
 /**
