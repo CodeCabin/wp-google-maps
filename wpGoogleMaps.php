@@ -11,6 +11,10 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.15
+ * Added functionality to re-enable interactions in backend
+ * Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
+ * 
  * 8.0.13
  * Tested up to WordPress 5.3.2
  * Relaxed "invalid route" check in RestAPI to allow external JSON to be used

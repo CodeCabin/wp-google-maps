@@ -610,5 +610,18 @@ jQuery(function($) {
 			return;
 		google.maps.event.trigger(this.googleMap, "resize");
 	}
+
+	WPGMZA.GoogleMap.prototype.enableAllInteractions = function()
+	{	
+		var options = {};
+
+		options.scrollwheel  = true;
+
+		options.draggable	=  true;
+
+		options.disableDoubleClickZoom	= false;
+		
+		this.googleMap.setOptions(options);
+	}
 	
 });
