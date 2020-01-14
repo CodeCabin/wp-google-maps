@@ -220,7 +220,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
-= 8.0.13 =
+= 8.0.14 :- 2020-01-13 :- Medium priority =
+* Added Gesture Handling (Ctrl + Zoom and Two-finger pan) for OpenLayers
+* "No Google Maps API key entered" message will no longer obscure map for new users
+
+= 8.0.13 :- 2020-01-07 :- Low priority =
 * Tested up to WordPress 5.3.2
 * Relaxed "invalid route" check in RestAPI to allow external JSON to be used
 * Database no longer specifies InnoDB as database engine, enabling support for MyISAM
@@ -1392,6 +1396,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
 
 
 
