@@ -1910,7 +1910,13 @@ jQuery(function($) {
 		}
 		
 		// Check for no API key
-		if(WPGMZA.settings.engine == "google-maps" && (!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length))
+		if(
+			WPGMZA.settings.engine == "google-maps" 
+			&& 
+			(!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length)
+			&&
+			WPGMZA.getCurrentPage() != WPGMZA.PAGE_MAP_EDIT
+			)
 			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/get-a-google-maps-api-key/"]);
 	}
 	
@@ -9522,6 +9528,56 @@ jQuery(function($) {
 			
 		}, this);
 		
+		// Cooperative gesture handling
+		if(!(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes"))
+		{
+			this.gestureOverlay = $("<div class='wpgmza-gesture-overlay'></div>")
+			this.gestureOverlayTimeoutID = null;
+			
+			if(WPGMZA.isTouchDevice())
+			{
+				// On touch devices, require two fingers to drag and pan
+				this.olMap.getInteractions().forEach(function(interaction) {
+					
+					if(interaction instanceof ol.interaction.DragPan)
+						self.olMap.removeInteraction(interaction);
+					
+				});
+				
+				this.olMap.addInteraction(new ol.interaction.DragPan({
+					
+					condition: function(olBrowserEvent) {
+						
+						var allowed = olBrowserEvent.originalEvent.touches.length == 2;
+						
+						if(!allowed)
+							self.showGestureOverlay();
+						
+						return allowed;
+					}
+					
+				}));
+				
+				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);
+			}
+			else
+			{
+				// On desktops, require Ctrl + zoom to zoom, show an overlay if that condition is not met
+				this.olMap.on("wheel", function(event) {
+					
+					if(!ol.events.condition.platformModifierKeyOnly(event))
+					{
+						self.showGestureOverlay();
+						event.originalEvent.preventDefault();
+						return false;
+					}
+					
+				});
+				
+				this.gestureOverlay.text(WPGMZA.localized_strings.use_ctrl_scroll_to_zoom);
+			}
+		}
+		
 		// Controls
 		this.olMap.getControls().forEach(function(control) {
 			
@@ -9973,6 +10029,26 @@ jQuery(function($) {
 			
 			this.olMap.removeLayer(this.bicycleLayer);
 		}
+	}
+	
+	WPGMZA.OLMap.prototype.showGestureOverlay = function()
+	{
+		var self = this;
+		
+		clearTimeout(this.gestureOverlayTimeoutID);
+		
+		$(this.gestureOverlay).stop().animate({opacity: "100"});
+		$(this.element).append(this.gestureOverlay);
+		
+		$(this.gestureOverlay).css({
+			"line-height":	$(this.element).height() + "px",
+			"opacity":		"1.0"
+		});
+		$(this.gestureOverlay).show();
+		
+		this.gestureOverlayTimeoutID = setTimeout(function() {
+			self.gestureOverlay.fadeOut(2000);
+		}, 2000);
 	}
 	
 	WPGMZA.OLMap.prototype.onElementResized = function(event)

@@ -542,3 +542,17 @@ input[name='wpgmza_developer_mode']:checked + .notice-warning
 {
 	display: block;
 }
+
+.wpgmza-gesture-overlay
+{
+    color: white;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    text-align: center;
+    line-height: 400px;
+}

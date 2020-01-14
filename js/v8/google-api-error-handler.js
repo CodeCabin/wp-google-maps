@@ -47,7 +47,13 @@ jQuery(function($) {
 		}
 		
 		// Check for no API key
-		if(WPGMZA.settings.engine == "google-maps" && (!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length))
+		if(
+			WPGMZA.settings.engine == "google-maps" 
+			&& 
+			(!WPGMZA.settings.wpgmza_google_maps_api_key || !WPGMZA.settings.wpgmza_google_maps_api_key.length)
+			&&
+			WPGMZA.getCurrentPage() != WPGMZA.PAGE_MAP_EDIT
+			)
 			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/get-a-google-maps-api-key/"]);
 	}
 	
