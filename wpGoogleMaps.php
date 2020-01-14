@@ -11,6 +11,10 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.15
+ * Added functionality to re-enable interactions in backend
+ * Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
+ * 
  * 8.0.14 :- 2020-01-13 :- Medium priority
  * Added Gesture Handling (Ctrl + Zoom and Two-finger pan) for OpenLayers
  * "No Google Maps API key entered" message will no longer obscure map for new users

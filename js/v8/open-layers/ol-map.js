@@ -589,5 +589,19 @@ jQuery(function($) {
 		event.preventDefault();
 		return false;
 	}
+
+	WPGMZA.OLMap.prototype.enableAllInteractions = function()
+	{	
+
+		this.olMap.getInteractions().forEach(function(interaction) {
+			
+			if(interaction instanceof ol.interaction.DragPan || interaction instanceof ol.interaction.DoubleClickZoom || interaction instanceof ol.interaction.MouseWheelZoom)
+			{
+				interaction.setActive(true);
+			}
+			
+		}, this);
+
+	}
 	
 });

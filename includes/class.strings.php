@@ -71,8 +71,15 @@ class Strings
 			'requires_gold_v5'			=> __('Requires WP Google Maps - Gold add-on 5.0.0 or above', 'wp-google-maps'),
 			
 			'confirm_remove_duplicates'	=> __('This operation is not reversable. We recommend you take a backup before proceeding. Would you like to continue?', 'wp-google-maps'),
-			'invalid_theme_Data'		=> __('Invalid theme data', 'wp-google-maps'),
-			
+
+			'invalid_theme_data'		=> __('Invalid theme data', 'wp-google-maps'),
+
+			'duplicate_custom_field_name'	=> __('Duplicate custom field names, please ensure you only add unique custom field names.', 'wp-google-maps'),
+		
+			'disabled_interactions_notice' => __('Some interactions are disabled.', 'wp-google-maps'),
+			'interactions_enabled_notice' => __('Interactions Enabled', 'wp-google-maps'),
+			'disabled_interactions_button' => __('Re-Enable Interactions', 'wp-google-maps'),
+
 			'use_two_fingers'			=> __('Usee two fingers to move the map', 'wp-google-maps'),
 			'use_ctrl_scroll_to_zoom'	=> __('Use ctrl + scroll to zoom the map')
 		));
