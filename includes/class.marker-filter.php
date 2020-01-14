@@ -99,7 +99,7 @@ class MarkerFilter extends Factory
 		
 		$query->{$context}['radius'] = "
 			(
-				6381 *
+				6371 *
 			
 				2 *
 			
