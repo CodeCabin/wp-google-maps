@@ -203,7 +203,13 @@ jQuery(function($) {
         }
 		
         function wpgmza_InitMap() {
-            var myLatLng = new WPGMZA.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat ,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
+            var myLatLng;
+
+			try {
+				myLatLng = new WPGMZA.LatLng(wpgmaps_localize[wpgmaps_mapid].map_start_lat ,wpgmaps_localize[wpgmaps_mapid].map_start_lng);
+			}catch(e) {
+				myLatLng = new WPGMZA.LatLng();
+			}
 			
 			$("#wpgmza_map").attr("data-map-id", "1");
 			$("#wpgmza_map").attr("data-maps-engine", WPGMZA.settings.engine);

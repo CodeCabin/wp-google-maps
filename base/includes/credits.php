@@ -79,20 +79,7 @@ if(!defined('ABSPATH'))
 				<?php _e("Support &amp; Developer","wp-google-maps"); ?>
 			</span>
 		</li>
-
-		<li class="wp-person" id="wp-person-dylanauty">
-			<a href="https://github.com/JarekCodeCabin" class="web">
-				<img 
-					class="wpgmza-developer-avatar gravatar"
-					src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/25925938.png" 
-					alt="Jarek Kacprzak"/>
-				Jarek Kacprzak
-			</a>
-			<span class="title">
-				<?php _e("Support &amp; Developer","wp-google-maps"); ?>
-			</span>
-		</li>	
-
+		
 		<li class="wp-person" id="wp-person-tamduncan">
 			<a href="https://twitter.com/thebossybabe" class="web">
 				<img 
@@ -117,30 +104,6 @@ if(!defined('ABSPATH'))
 			</span>
 		</li>
 		
-		<li class="wp-person" id="wp-person-trevor">
-			<a href="https://github.com/orgs/CodeCabin/people/andtrev" class="web">
-				<img 
-					class="wpgmza-developer-avatar gravatar"
-					src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/13884866.jpg" 
-					alt="Trevor Anderson"/>
-				Trevor Anderson</a>
-			<span class="title">
-				<?php _e("Support &amp; Developer","wp-google-maps"); ?>
-			</span>
-		</li>		
-
-		<li class="wp-person" id="wp-person-veronique">
-			<a href="https://github.com/orgs/CodeCabin/people/VeroniqueSmit" class="web">
-				<img 
-					class="wpgmza-developer-avatar gravatar"
-					src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/22832458.png" 
-					alt="Veronique Smit"/>
-				Veronique Smit</a>
-			<span class="title">
-				<?php _e("Support","wp-google-maps"); ?>
-			</span>
-		</li>	
-
 		<li class="wp-person" id="wp-person-pat">
 			<a href="https://github.com/patdumond" class="web">
 				<img 
@@ -150,17 +113,6 @@ if(!defined('ABSPATH'))
 				Pat Dumond</a>
 			<span class="title">
 				<?php _e("Documentation","wp-google-maps"); ?>
-			</span>
-		</li>	
-		<li class="wp-person" id="wp-person-nathanmiller">
-			<a href="https://profiles.wordpress.org/jarryd-long/" class="web">
-				<img 
-					class="wpgmza-developer-avatar gravatar"
-					src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/T0CCUAUDD-U0CDJ724Q-g4e0ca967af9-1024.png" 
-					alt="Nathan Miller"/>
-				Nathan Miller</a>
-			<span class="title">
-				<?php _e("Support","wp-google-maps"); ?>
 			</span>
 		</li>
 

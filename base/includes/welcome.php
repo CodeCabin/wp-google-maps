@@ -9,6 +9,8 @@ if(!defined('ABSPATH'))
 <div id="wpgmza-welcome-page" class="wrap about-wrap">
 <p>&nbsp;</p>
 
+<img style="width: 512px;" src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/new-banner.png'; ?>" alt="WP Google Maps"/>
+
 <h1><?php 
 
 global $wpgmza;
@@ -17,8 +19,6 @@ printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->get
 ?></h1>
 
 <div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
-
-<div class="wpgmza-badge" style=''></div>
 
 <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("Skip intro and create a map","wp-google-maps"); ?></a>
 <p>&nbsp;</p>
@@ -35,14 +35,14 @@ printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->get
             <div class="wpgmza-card">
                 <h4><?php _e("Unlimited Markers","wp-google-maps"); ?></h4>
                 <p><?php _e("Create as many markers as you like","wp-google-maps"); ?></p>
-                <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature1.jpg' style="border:1px solid #ccc;" />
+                <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/unlimited-markers.png'; ?>' style="border:1px solid #ccc;" />
             </div>             
         </div>
         <div class="col wpgmza-flex-grid__item">
             <div class="wpgmza-card">
                 <h4><?php _e("Store Locator","wp-google-maps"); ?></h4>
                 <p><?php _e("Let users search for products, branches and stores near them","wp-google-maps"); ?></p>
-                 <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature2.jpg?1=2' style="border:1px solid #ccc;" />
+                 <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/store-locator.png'; ?>' style="border:1px solid #ccc;" />
             </div>
         </div>
     </div>
@@ -51,14 +51,14 @@ printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->get
             <div class="wpgmza-card">
                 <h4><?php _e("Themes","wp-google-maps"); ?></h4>
                 <p><?php _e("Select from various <a href='http://wpgmaps.com/map-themes/' target='_BLANK'>map themes</a>, or make your own.","wp-google-maps"); ?></p>
-                <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature3.jpg' style="border:1px solid #ccc;" />
+                <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/themes.png' ?>;' style="border:1px solid #ccc;" />
             </div>
         </div>
         <div class="col wpgmza-flex-grid__item">
             <div class="wpgmza-card">
                 <h4><?php _e("Polylines","wp-google-maps"); ?>, <?php _e("Polygons","wp-google-maps"); ?>, <?php _e("Circles","wp-google-maps"); ?>, <?php _e("and Squares","wp-google-maps"); ?></h4>
                 <p><?php _e("Add custom shapes such as polygons, polylines, circles and squares!","wp-google-maps"); ?></p>
-                <img src='<?php echo WPGMAPS_DIR; ?>base/assets/feature4.jpg' style="border:1px solid #ccc;" />
+                <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/polygons-and-polylines.png' ?>;' style="border:1px solid #ccc;" />
             </div>
         </div>
     </div>
