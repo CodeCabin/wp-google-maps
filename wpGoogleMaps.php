@@ -12,6 +12,7 @@ Domain Path: /languages
 
 /*
  * 8.0.15
+ * Added functionality to customize language strings
  * Added functionality to re-enable interactions in backend
  * Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
  * 

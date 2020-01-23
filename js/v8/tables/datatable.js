@@ -7,6 +7,7 @@ jQuery(function($) {
 	
 	WPGMZA.DataTable = function(element)
 	{
+		var self = this;
 		if(!$.fn.dataTable)
 		{
 			console.warn("The dataTables library is not loaded. Cannot create a dataTable. Did you enable 'Do not enqueue dataTables'?");
@@ -33,13 +34,27 @@ jQuery(function($) {
 		var settings = this.getDataTableSettings();
 		
 		this.phpClass			= $(element).attr("data-wpgmza-php-class");
-		this.dataTable			= $(this.dataTableElement).DataTable(settings);
 		this.wpgmzaDataTable	= this;
 		
 		this.useCompressedPathVariable = (WPGMZA.restAPI.isCompressedPathVariableSupported && WPGMZA.settings.enable_compressed_path_variables);
 		this.method = (this.useCompressedPathVariable ? "GET" : "POST");
 		
-		this.dataTable.ajax.reload();
+		if(this.getLanguageURL() == undefined || this.getLanguageURL() == "//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json") 
+		{
+			this.dataTable			= $(this.dataTableElement).DataTable(settings);
+			this.dataTable.ajax.reload();
+		}
+		else{
+		
+			$.ajax(this.getLanguageURL(), {
+
+				success: function(response, status, xhr){
+				  self.languageJSON = response;
+				  self.dataTable = $(self.dataTableElement).DataTable(settings);
+				  self.dataTable.ajax.reload();
+				}
+			  });
+		}
 	}
 	
 	WPGMZA.DataTable.prototype.getDataTableElement = function()
