@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.15 :- 2020-01-21 :- Medium priority =
+* Added functionality to re-enable interactions in backend
+* Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
+* Re-branded logo and banner
+* Renamed "Disable Two-Finger Pan" to "Greedy Gesture Handling"
+* Updated screenshots on welcome page
+* Updated Google Maps API instructional video link
+* Added new banner to map edit page
+
 = 8.0.14 :- 2020-01-13 :- Medium priority =
 * Added Gesture Handling (Ctrl + Zoom and Two-finger pan) for OpenLayers
 * "No Google Maps API key entered" message will no longer obscure map for new users
@@ -493,7 +502,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 = 7.11.22 :- 2019-05-08 :- Low priority =
 * Added the ability to toggle auto night mode as well as a theme
-* Added a min height to bakend map so that it does not break when height is set to 100%
+* Added a min height to backend map so that it does not break when height is set to 100%
 * Added shift-click range selection to admin marker table
 * Added code to automatically regenerate readme.txt changelog
 * Fixed ModernStoreLocator creating OpenLayers store locator when engine setting is null and defaulting to Google
@@ -1396,6 +1405,14 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
 
 
 

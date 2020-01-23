@@ -338,7 +338,7 @@
 		<!-- NB: Usage tracking dropped as of 2018 GDPR changes -->
 		
 		<fieldset>
-			<legend><?php _e("Disable Two-Finger Pan","wp-google-maps"); ?></legend>
+			<legend><?php _e("Greedy Gesture Handling","wp-google-maps"); ?></legend>
 			<input name="wpgmza_force_greedy_gestures" type="checkbox"/>
 		</fieldset>
 	</div>

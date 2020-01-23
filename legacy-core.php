@@ -2655,7 +2655,7 @@ function wpgmaps_admin_menu() {
     
     if (isset($wpgmza_settings['wpgmza_settings_access_level'])) { $access_level = $wpgmza_settings['wpgmza_settings_access_level']; } else { $access_level = "manage_options"; }
 	
-    add_menu_page('WPGoogle Maps', __('Maps','wp-google-maps'), $access_level, 'wp-google-maps-menu', 'wpgmaps_menu_layout', wpgmaps_get_plugin_url()."images/map_app_small.png");
+    add_menu_page('WPGoogle Maps', __('Maps','wp-google-maps'), $access_level, 'wp-google-maps-menu', 'wpgmaps_menu_layout', wpgmaps_get_plugin_url()."images/menu-icon.png");
     
     if (function_exists('wpgmaps_menu_category_layout')) { add_submenu_page('wp-google-maps-menu', 'WP Google Maps - Categories', __('Categories','wp-google-maps'), $access_level , 'wp-google-maps-menu-categories', 'wpgmaps_menu_category_layout'); }
 	
@@ -3337,6 +3337,12 @@ function wpgmza_basic_menu() {
 	$map = \WPGMZA\Map::createInstance($_GET['map_id']);
 	$themePanel = new WPGMZA\ThemePanel($map);
 	
+	$birthday	= new DateTime("2013-01-20");
+	$today		= new DateTime();
+	
+	$interval	= $today->diff($birthday);
+	$yearsInDevelopment = $interval->format("%y");
+	
 	google_maps_api_key_warning();
     echo "
 			$open_layers_feature_unavailable
@@ -3344,7 +3350,7 @@ function wpgmza_basic_menu() {
 			$maps_engine_dialog_html
 			
            <div class='wrap'>
-                <h1>WP Google Maps</h1>
+                <img src='" . WPGMZA_PLUGIN_DIR_URL . "images/new-banner.png' style='height: 72px;' alt='WP Google Maps'/>
                 <div class='wide'>
 
                     <h2>".__("Create your Map","wp-google-maps")."</h2>
@@ -3789,12 +3795,12 @@ function wpgmza_basic_menu() {
                                      <input type='text' size='100' maxlength='700' class='regular-text' readonly disabled /> <em><small>".__("The KML/GeoRSS layer will over-ride most of your map settings","wp-google-maps")."</small></em></td>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <td>".__("Fusion table ID","wp-google-maps").":</td>
                                     <td class='wpgmza-open-layers-feature-unavailable'>
                                      <input type='text' size='20' maxlength='200' class='small-text' readonly disabled /> <em><small>".__("Read data directly from your Fusion Table.","wp-google-maps")."</small></em></td>
                                     </td>
-                                </tr>
+                                </tr>-->
                             </table>
                         </div><!-- end of tab4 -->
                         <div id=\"tabs-5\" style=\"font-family:sans-serif;\">
@@ -3913,15 +3919,21 @@ function wpgmza_basic_menu() {
                         <div id=\"tabs-6\" style=\"font-family:sans-serif;\">
                         <div id='wpgmza-pro-upgrade-tab'>
                             <h1 style=\"font-weight:200;\">12 Amazing Reasons to Upgrade to our Pro Version</h1>
-                            <p style=\"font-size:16px; line-height:28px;\">We've spent over two years upgrading our plugin to ensure that it is the most user-friendly and comprehensive map plugin in the WordPress directory. Enjoy the peace of mind knowing that you are getting a truly premium product for all your mapping requirements. Did we also mention that we have fantastic support?</p>
+                            <p style=\"font-size:16px; line-height:28px;\">" .
+								sprintf(
+									__("We've spent over %d years upgrading our plugin to ensure that it is the most user-friendly and comprehensive map plugin in the WordPress directory. Enjoy the peace of mind knowing that you are getting a truly premium product for all your mapping requirements. Did we also mention that we have fantastic support?", "wp-google-maps"),
+									$yearsInDevelopment
+								)
+							. "</p>
                             <div id=\"wpgm_premium\">
                             	<div class='wpgmza-flex'>
 	                                <div class=\"wpgm_premium_row\">
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Create custom markers with detailed info windows</h2>
-		                                        <p>Add titles, descriptions, HTML, images, animations and custom icons to your markers.</p>
+		                                        <h2>
+													" . __("Create custom markers with detailed info windows", "wp-google-maps") . "</h2>
+		                                        <p>" . __("Add titles, descriptions, HTML, images, animations and custom icons to your markers.", "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
@@ -3930,7 +3942,7 @@ function wpgmza_basic_menu() {
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
 		                                        <h2>Enable directions</h2>
-		                                        <p>Allow your visitors to get directions to your markers. Either use their location as the starting point or allow them to type in an address.</p>
+		                                        <p>" . __("Allow your visitors to get directions to your markers. Either use their location as the starting point or allow them to type in an address.", "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
@@ -3939,7 +3951,7 @@ function wpgmza_basic_menu() {
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
 		                                        <h2>Unlimited maps</h2>
-		                                        <p>Create as many maps as you like.</p>
+		                                        <p>" . __('Create as many maps as you like.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
@@ -3948,7 +3960,7 @@ function wpgmza_basic_menu() {
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
 		                                        <h2>List your markers</h2>
-		                                        <p>Choose between three methods of listing your markers.</p>
+		                                        <p>" . __('Choose between three methods of listing your markers.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>                                
@@ -3956,8 +3968,8 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Add categories to your markers</h2>
-		                                        <p>Create and assign categories to your markers which can then be filtered on your map.</p>
+		                                        <h2>" . __('Add categories to your markers', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Create and assign categories to your markers which can then be filtered on your map.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>                                
@@ -3965,8 +3977,8 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Advanced options</h2>
-		                                        <p>Enable advanced options such as showing your visitor's location, marker sorting, bicycle layers, traffic layers and more!</p>
+		                                        <h2>" . __('Advanced options', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Enable advanced options such as showing your visitor\'s location, marker sorting, bicycle layers, traffic layers and more!', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>  
@@ -3974,8 +3986,8 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Import / Export</h2>
-		                                        <p>Export your markers to a CSV file for quick and easy editing. Import large quantities of markers at once.</p>
+		                                        <h2>" . __('Import / Export', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Export your markers to a CSV file for quick and easy editing. Import large quantities of markers at once.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>                                
@@ -3983,8 +3995,8 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Add KML & Fusion Tables</h2>
-		                                        <p>Add your own KML layers or Fusion Table data to your map</p>
+		                                        <h2>" . __('Add KML & Fusion Tables', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Add your own KML layers or Fusion Table data to your map', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>                                   
@@ -3992,8 +4004,8 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Polygons and Polylines</h2>
-		                                        <p>Add custom polygons and polylines to your map by simply clicking on the map. Perfect for displaying routes and serviced areas.</p>
+		                                        <h2>" . __('Polygons and Polylines', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Add custom polygons and polylines to your map by simply clicking on the map. Perfect for displaying routes and serviced areas.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
@@ -4001,17 +4013,17 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Amazing Support</h2>
-		                                        <p>We pride ourselves on providing quick and amazing support. <a target=\"_BLANK\" href=\"http://wordpress.org/support/view/plugin-reviews/wp-google-maps?filter=5\">Read what some of our users think of our support</a>.</p>
+		                                        <h2>" . __('Amazing Support', "wp-google-maps") . "</h2>
+		                                        <p>" . __('We pride ourselves on providing quick and amazing support. <a target="_BLANK" href="http://wordpress.org/support/view/plugin-reviews/wp-google-maps?filter=5">Read what some of our users think of our support</a>.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
 	                                <div class=\"wpgm_premium_row\">
-	                                	<div class='wpgmza-card'>
+	                                	<div class=\"wpgmza-card\">
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Easy Upgrade</h2>
-		                                        <p>You'll receive a download link immediately. Simply upload and activate the Pro plugin to your WordPress admin area and you're done!</p>
+		                                        <h2>" . __('Easy Upgrade', "wp-google-maps") . "</h2>
+		                                        <p>" . __('You\'ll receive a download link immediately. Simply upload and activate the Pro plugin to your WordPress admin area and you\'re done!', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>                                  
@@ -4019,20 +4031,21 @@ function wpgmza_basic_menu() {
 	                                	<div class='wpgmza-card'>
 		                                    <div class=\"wpgm_icon\"></div>
 		                                    <div class=\"wpgm_details\">
-		                                        <h2>Free updates and support forever</h2>
-		                                        <p>Once you're a pro user, you'll receive free updates and support forever! You'll also receive amazing specials on any future plugins we release.</p>
+		                                        <h2>" . __('Free updates and support forever', "wp-google-maps") . "</h2>
+		                                        <p>" . __('Once you\'re a pro user, you\'ll receive free updates and support forever! You\'ll also receive amazing specials on any future plugins we release.', "wp-google-maps") . "</p>
 		                                    </div>
 		                                </div>
 	                                </div>
 	                            </div> 
 	                                
                                 <br /><p>Get all of this and more for only $39.99 once off</p>                                
-                                <br /><a href=\"".wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=upgradenow")."\" target=\"_BLANK\" title=\"Upgrade now for only $39.99 once off\" class=\"button-primary\" style=\"font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;\" id='wpgmza-upgrade-now__btn'>Upgrade Now</a>
+                                <br /><a href=\"".wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=upgradenow")."\" target=\"_BLANK\" title=\"" . __('Upgrade now for only $39.99 once off', "wp-google-maps") . "\" class=\"button-primary\" style=\"font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;\" id='wpgmza-upgrade-now__btn'>
+									" . __('Upgrade Now', "wp-google-maps") . "
+								</a>
                                 <br /><br />
                                 <a href=\"".wpgm_pro_link("https://www.wpgmaps.com/demo/")."\" target=\"_BLANK\">View the demos</a>.<br /><br />
-                                Have a sales question? Contact either Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"http://www.wpgmaps.com/contact-us/\" target=\"_BLANK\">contact form</a>. <br /><br />
-                                Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask a question on our support forum</a>.       
-                                
+                                " . __('Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"http://www.wpgmaps.com/contact-us/\" target=\"_BLANK\">contact form</a>.', "wp-google-maps") . " <br /><br />
+                                " . __('Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask a question on our support forum</a>.', "wp-google-maps") . "
                             </div>
 
                         </div><!-- end of tab5 -->   
@@ -4074,7 +4087,9 @@ function wpgmza_basic_menu() {
                                             <div>
                                                 <div valign='top'>".__("Address/GPS","wp-google-maps").": </div>
                                                 <div><input id='wpgmza_add_address' name='wpgmza_add_address' type='text' size='35' maxlength='200' value=''  /><small class='wpgmza-info__small'><em>".__("Or right click on the map","wp-google-maps")."</small></em></div>
-
+												
+												<input name='lat' type='hidden'/>
+												<input name='lng' type='hidden'/>
                                             </div>
 
                                             <div>
@@ -4446,8 +4461,6 @@ function wpgmaps_admin_styles() {
 	global $wpgmza_version;
 	
 	wp_enqueue_style('thickbox');
-
-	wpgmza_enqueue_fontawesome();
 
 }
 
@@ -5265,7 +5278,7 @@ function google_maps_api_key_warning(){
 	
     $g_api_key = get_option('wpgmza_google_maps_api_key');
     if( !$g_api_key || $g_api_key == '' ){
-        $video = "<a href='https://www.youtube.com/watch?v=OH98za14LNg' target='_BLANK'>".__('View the instruction video', 'wp-google-maps')."</a>";
+        $video = "<a href='https://www.youtube.com/watch?v=nADMsw2xjyI' target='_BLANK'>".__('View the instruction video', 'wp-google-maps')."</a>";
         $documentation = "<a href='https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' target='_BLANK'>".__('Read the documentation', 'wp-google-maps')."</a>";
         echo "<div class='error wpgmza-error-message'><h1>".__('Important Notification', 'wp-google-maps')."</h1>";
         $article = "<a href='https://googlegeodevelopers.blogspot.co.za/2016/06/building-for-scale-updates-to-google.html' target='_BLANK'>".__('You can read more about that here.', 'wp-google-maps')."</a>";

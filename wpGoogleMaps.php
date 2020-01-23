@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.14
+Version: 8.0.15
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,9 +11,18 @@ Domain Path: /languages
 */
 
 /*
- * 8.0.15
+ * 8.0.16
+ * Fixed greedy gesture handling not respected by OpenLayers
+ * Removed width limit on about text and legacy badge from Welcome Page
+ *
+ * 8.0.15 :- 2020-01-21 :- Medium priority
  * Added functionality to re-enable interactions in backend
  * Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
+ * Re-branded logo and banner
+ * Renamed "Disable Two-Finger Pan" to "Greedy Gesture Handling"
+ * Updated screenshots on welcome page
+ * Updated Google Maps API instructional video link
+ * Added new banner to map edit page
  * 
  * 8.0.14 :- 2020-01-13 :- Medium priority
  * Added Gesture Handling (Ctrl + Zoom and Two-finger pan) for OpenLayers
@@ -288,7 +297,7 @@ Domain Path: /languages
  *
  * 7.11.22 :- 2019-05-08 :- Low priority
  * Added the ability to toggle auto night mode as well as a theme
- * Added a min height to bakend map so that it does not break when height is set to 100%
+ * Added a min height to backend map so that it does not break when height is set to 100%
  * Added shift-click range selection to admin marker table
  * Added code to automatically regenerate readme.txt changelog
  * Fixed ModernStoreLocator creating OpenLayers store locator when engine setting is null and defaulting to Google

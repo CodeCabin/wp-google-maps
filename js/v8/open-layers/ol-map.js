@@ -43,7 +43,7 @@ jQuery(function($) {
 		}, this);
 		
 		// Cooperative gesture handling
-		if(!(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes"))
+		if(!(this.settings.wpgmza_force_greedy_gestures == "greedy" || this.settings.wpgmza_force_greedy_gestures == "yes"))
 		{
 			this.gestureOverlay = $("<div class='wpgmza-gesture-overlay'></div>")
 			this.gestureOverlayTimeoutID = null;

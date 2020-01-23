@@ -151,6 +151,13 @@
             "wpgmza-event-dispatcher"
         ]
     },
+    "wpgmza-marker-panel": {
+        "src": "js\/v8\/marker-panel.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-marker": {
         "src": "js\/v8\/marker.js",
         "pro": false,
