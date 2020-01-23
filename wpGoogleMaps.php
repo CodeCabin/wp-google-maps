@@ -12,6 +12,7 @@ Domain Path: /languages
 
 /*
  * 8.0.16
+ * Added functionality to customize DataTables language strings in non-english locales
  * Fixed greedy gesture handling not respected by OpenLayers
  * Removed width limit on about text and legacy badge from Welcome Page
  *
