@@ -58,6 +58,9 @@ class AdminMarkerDataTable extends MarkerDataTable
 						'" class="wpgmza_edit_btn button" id="' . $id_placeholder . '">
 						<i class="fa fa-map-marker"> </i>
 					</a>
+					<a title="Center on marker" class="wpgmza_center_btn button" data-center-marker-id="' . $id_placeholder . '">
+					<i class="fa fa-eye"> </i>
+					</a>
 					<a href="javascript: ;" title="'
 						. esc_attr( __('Delete this marker', 'wp-google-maps') ) . 
 						'" class="wpgmza_del_btn button" data-delete-marker-id="' . $id_placeholder . '">
