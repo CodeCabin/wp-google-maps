@@ -656,6 +656,12 @@ jQuery(function($) {
 			
 		},
 		
+		isFullScreen: function() {
+			
+			return isFullScreen;
+			
+		},
+		
 		getQueryParamValue: function(name) {
 			
 			var regex = new RegExp(name + "=([^&#]*)");
@@ -729,6 +735,16 @@ jQuery(function($) {
 			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
 			
 		});
+		
+	});
+	
+	var isFullScreen = false;
+	
+	$(document).on("fullscreenchange", function() {
+		
+		isFullScreen = document.fullscreenElement ? true : false;
+		
+		console.log(isFullScreen);
 		
 	});
 	

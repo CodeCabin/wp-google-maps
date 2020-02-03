@@ -108,18 +108,12 @@ class GoogleMapsAPILoader
 		
 		// Locale
 		$locale = get_locale();
-		$suffix = '.com';
 		
 		switch($locale)
 		{
 			case 'he_IL':
 				// Hebrew correction
 				$locale = 'iw';
-				break;
-			
-			case 'zh_CN':
-				// Chinese integration
-				$suffix = '.cn';
 				break;
 		}
 		
@@ -129,8 +123,7 @@ class GoogleMapsAPILoader
 		// Default params for google maps
 		$params = array(
 			'v' 		=> 'quarterly',
-			'language'	=> $locale,
-			'suffix'	=> $suffix
+			'language'	=> $locale
 		);
 		
 		// API Key
@@ -169,10 +162,7 @@ class GoogleMapsAPILoader
 		
 		$params = $this->getGoogleMapsAPIParams();
 		
-		$suffix = $params['suffix'];
-		unset($params['suffix']);
-
-		$url = '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params);
+		$url = '//maps.googleapis.com/maps/api/js?' . http_build_query($params);
 		
 		wp_register_script('wpgmza_api_call', $url);
 		
