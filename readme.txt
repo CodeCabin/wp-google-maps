@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.16 :- 2020-01-30 :- Medium priority =
+* Added functionality to customize DataTables language strings in non-english locales
+* Adjusted approval button permission callback to allow button access for the selected user access level
+* Added error message popup for when Geocoding library is not enabled on map edit page
+* Removed width limit on about text and legacy badge from Welcome Page
+* Fixed greedy gesture handling not respected by OpenLayers
+* Temporarily removed two finger panning for OpenLayers due to inconsistent behaviour across touch devices
+* Fixed notice on welcome page
+
 = 8.0.15 :- 2020-01-21 :- Medium priority =
 * Added functionality to re-enable interactions in backend
 * Added disabled_interactions_notice, interactions_enabled_notice, disabled_interactions_button to our strings file
@@ -1405,6 +1414,12 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
 
 
 

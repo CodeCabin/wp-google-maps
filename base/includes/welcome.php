@@ -66,7 +66,7 @@ printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->get
     <div class="feature-section normal clear" >
             <div class="changelog ">
             
-                    <?php if ($wpgmza_global_array['code'] != "100") { 
+                    <?php if (false) { 
 					
 					// NB: GDPR
 					?>

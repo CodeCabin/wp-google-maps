@@ -76,12 +76,14 @@ class Strings
 
 			'duplicate_custom_field_name'	=> __('Duplicate custom field names, please ensure you only add unique custom field names.', 'wp-google-maps'),
 		
-			'disabled_interactions_notice' => __('Some interactions are disabled.', 'wp-google-maps'),
-			'interactions_enabled_notice' => __('Interactions Enabled', 'wp-google-maps'),
-			'disabled_interactions_button' => __('Re-Enable Interactions', 'wp-google-maps'),
+			'disabled_interactions_notice'	=> __('Some interactions are disabled.', 'wp-google-maps'),
+			'interactions_enabled_notice'	=> __('Interactions Enabled', 'wp-google-maps'),
+			'disabled_interactions_button'	=> __('Re-Enable Interactions', 'wp-google-maps'),
 
-			'use_two_fingers'			=> __('Usee two fingers to move the map', 'wp-google-maps'),
-			'use_ctrl_scroll_to_zoom'	=> __('Use ctrl + scroll to zoom the map')
+			'use_two_fingers'			=> __('Use two fingers to move the map', 'wp-google-maps'),
+			'use_ctrl_scroll_to_zoom'	=> __('Use ctrl + scroll to zoom the map', 'wp-google-maps'),
+			'geocode_was_not_successful'	=> __('Geocode was not successful for the following reason: ', 'wp-google-maps'),
+			'geocoding_library_notice'	=> __('Geocoding this address failed. Please check you have enabled the Geocoding API for your Google Maps API project.', 'wp-google-maps')
 		));
 	}
 	
