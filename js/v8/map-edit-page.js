@@ -36,6 +36,12 @@ jQuery(function($) {
 				$(successNotice).delay(4000).fadeOut('slow');
 			});
 		}
+
+		$(document).on("click", ".wpgmza_edit_btn", function() {
+			var cur_id = jQuery(this).attr("data-edit-marker-id");
+
+			WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker(cur_id);		
+		});
 	}
 	
 	WPGMZA.MapEditPage.createInstance = function()

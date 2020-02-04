@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.18
+ * Added center on marker button to the marker listing in the backend to center on marker location
+ *
  * 8.0.17 :- 2020-02-03 :- Medium priority
  * Google Maps API now loaded from maps.googleapis.com, including for Simplified Chinese locale
  * Database installer now uses WordPress' character set and collation, rather than the databases default
