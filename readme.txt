@@ -220,6 +220,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.17 :- 2020-02-03 :- Medium priority =
+* Google Maps API now loaded from maps.googleapis.com, including for Simplified Chinese locale
+* Database installer now uses WordPress' character set and collation, rather than the databases default
+* Fixed JavaScript error preventing OpenLayers InfoWindow from opening correctly
+
 = 8.0.16 :- 2020-01-30 :- Medium priority =
 * Added functionality to customize DataTables language strings in non-english locales
 * Adjusted approval button permission callback to allow button access for the selected user access level
@@ -1414,6 +1419,7 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
 
 
 
