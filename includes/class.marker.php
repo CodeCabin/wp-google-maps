@@ -161,6 +161,17 @@ class Marker extends Crud implements \JsonSerializable
 	{
 		return new LatLng($this->lat, $this->lng);
 	}
+	
+	public function setPosition($latlng)
+	{
+		if(!($latlng instanceof LatLng))
+			throw new \Exception("Argument is not an instance of LatLng");
+		
+		$this->lat = $latlng->lat;
+		$this->lng = $latlng->lng;
+		
+		$this->update_latlng();
+	}
 }
 
 // DEPRECATED: This will be handed over to the factory class

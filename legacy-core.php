@@ -2288,31 +2288,32 @@ function wpgmaps_head() {
     	if ( !isset( $_POST['wpgmaps_marker-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_marker-nonce'], 'wpgmaps_marker-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
-        global $wpdb;
-        global $wpgmza_tblname;
-        $mid = sanitize_text_field($_POST['wpgmaps_marker_id']);
-        $wpgmaps_marker_lat = sanitize_text_field($_POST['wpgmaps_marker_lat']);
-        $wpgmaps_marker_lng = sanitize_text_field($_POST['wpgmaps_marker_lng']);
 
-        $rows_affected = $wpdb->query( $wpdb->prepare(
-                "UPDATE $wpgmza_tblname SET
-                lat = %s,
-                lng = %s,
-				latlng = {$wpgmza->spatialFunctionPrefix}GeomFromText('POINT(%f %f)')
-                WHERE id = %d",
-
-                $wpgmaps_marker_lat,
-                $wpgmaps_marker_lng,
-				$wpgmaps_marker_lat,
-                $wpgmaps_marker_lng,
-                $mid)
-        );
-
-        echo "<div class='updated'>";
+		$marker 			= \WPGMZA\Marker::createInstance($_POST['wpgmaps_marker_id']);
+		$latlng				= new \WPGMZA\LatLng($_POST['wpgmaps_marker_lat'], $_POST['wpgmaps_marker_lng']);
+		
+		if(preg_match(\WPGMZA\LatLng::REGEXP, $marker->address))
+		{
+			$currentAddressPosition = new \WPGMZA\LatLng($marker->address);
+			$distance				= \WPGMZA\Distance::between($currentAddressPosition, $marker->getPosition());
+			$meters					= $distance / 1000;
+			
+			if($meters < 1)
+			{
+				// The marker has an address which looks like coordinates, and they're very close to the markers latitude and longitude
+				// Therefore, it would seem that the user has placed this with coordinates and is now looking to move those coordinates here
+				// Because of this, we'll update the address with the new coordinates
+				$marker->address	= (string)$latlng;
+			}
+		}
+		
+		$marker->lat		= $lat;
+		$marker->lng		= $lng;
+		
+		echo "<div class='updated'>";
         _e("Your marker location has been saved.","wp-google-maps");
         echo "</div>";
 		
-
     }
     else if (isset($_POST['wpgmza_save_poly'])){
     	if ( !isset( $_POST['wpgmaps_polygon-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_polygon-nonce'], 'wpgmaps_polygon-nonce' ) ) {

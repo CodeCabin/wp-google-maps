@@ -744,8 +744,6 @@ jQuery(function($) {
 		
 		isFullScreen = document.fullscreenElement ? true : false;
 		
-		console.log(isFullScreen);
-		
 	});
 	
 	$(window).on("load", function(event) {
