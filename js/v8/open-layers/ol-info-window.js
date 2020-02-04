@@ -29,6 +29,15 @@ jQuery(function($) {
 	WPGMZA.OLInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLInfoWindow.prototype.constructor = WPGMZA.OLInfoWindow;
 	
+	Object.defineProperty(WPGMZA.OLInfoWindow.prototype, "isPanIntoViewAllowed", {
+		
+		"get": function()
+		{
+			return true;
+		}
+		
+	});
+	
 	/**
 	 * Opens the info window
 	 * TODO: This should take a mapObject, not an event
@@ -112,34 +121,37 @@ jQuery(function($) {
 		
 		WPGMZA.InfoWindow.prototype.onOpen.apply(this, arguments);
 		
-		function inside(el, viewport)
+		if(this.isPanIntoViewAllowed)
 		{
-			var a = el.getBoundingClientRect();
-			var b = viewport.getBoundingClientRect();
-			
-			return a.left >= b.left && a.left <= b.right &&
-					a.right <= b.right && a.right >= b.left &&
-					a.top >= b.top && a.top <= b.bottom &&
-					a.bottom <= b.bottom && a.bottom >= b.top;
-		}
-		
-		function panIntoView()
-		{
-			var height	= $(self.element).height();
-			var offset	= -height * 0.45;
-			
-			self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
-		}
-		
-		imgs.each(function(index, el) {
-			el.onload = function() {
-				if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
-					panIntoView();
+			function inside(el, viewport)
+			{
+				var a = $(el)[0].getBoundingClientRect();
+				var b = $(viewport)[0].getBoundingClientRect();
+				
+				return a.left >= b.left && a.left <= b.right &&
+						a.right <= b.right && a.right >= b.left &&
+						a.top >= b.top && a.top <= b.bottom &&
+						a.bottom <= b.bottom && a.bottom >= b.top;
 			}
-		});
-		
-		if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
-			panIntoView();
+			
+			function panIntoView()
+			{
+				var height	= $(self.element).height();
+				var offset	= -height * 0.45;
+				
+				self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
+			}
+			
+			imgs.each(function(index, el) {
+				el.onload = function() {
+					if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
+						panIntoView();
+				}
+			});
+			
+			if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
+				panIntoView();
+		}
 	}
 	
 });

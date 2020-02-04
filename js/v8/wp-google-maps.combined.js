@@ -658,6 +658,12 @@ jQuery(function($) {
 			
 		},
 		
+		isFullScreen: function() {
+			
+			return isFullScreen;
+			
+		},
+		
 		getQueryParamValue: function(name) {
 			
 			var regex = new RegExp(name + "=([^&#]*)");
@@ -731,6 +737,14 @@ jQuery(function($) {
 			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
 			
 		});
+		
+	});
+	
+	var isFullScreen = false;
+	
+	$(document).on("fullscreenchange", function() {
+		
+		isFullScreen = document.fullscreenElement ? true : false;
 		
 	});
 	
@@ -2738,10 +2752,10 @@ jQuery(function($) {
 		
 		this.map = WPGMZA.maps[0];
 
-		//Check if user enabled any interactions
+		// Check if user enabled any interactions
 		if(WPGMZA.settings.wpgmza_settings_map_scroll == 'yes' || WPGMZA.settings.wpgmza_settings_map_draggable == "yes" || WPGMZA.settings.wpgmza_settings_map_clickzoom == 'yes')
 		{
-			//Display notice and button if user enabled interactions
+			// Display notice and button if user enabled interactions
 			var diplay_enable_interactions_notice = $("<div class='notice notice-info wpgmza_disabled_interactions_notice' style= 'height: 45px; padding: 7px 5px 2px 5px;'><p style='float: left; padding-top: 10px;'>" + WPGMZA.localized_strings.disabled_interactions_notice + 
 			"</p><a class='button button-primary enable_interactions_notice_button' style='float: right;'>" + WPGMZA.localized_strings.disabled_interactions_button + "</a></div>");
 			
@@ -9425,6 +9439,15 @@ jQuery(function($) {
 	WPGMZA.OLInfoWindow.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLInfoWindow.prototype.constructor = WPGMZA.OLInfoWindow;
 	
+	Object.defineProperty(WPGMZA.OLInfoWindow.prototype, "isPanIntoViewAllowed", {
+		
+		"get": function()
+		{
+			return true;
+		}
+		
+	});
+	
 	/**
 	 * Opens the info window
 	 * TODO: This should take a mapObject, not an event
@@ -9508,34 +9531,37 @@ jQuery(function($) {
 		
 		WPGMZA.InfoWindow.prototype.onOpen.apply(this, arguments);
 		
-		function inside(el, viewport)
+		if(this.isPanIntoViewAllowed)
 		{
-			var a = el.getBoundingClientRect();
-			var b = viewport.getBoundingClientRect();
-			
-			return a.left >= b.left && a.left <= b.right &&
-					a.right <= b.right && a.right >= b.left &&
-					a.top >= b.top && a.top <= b.bottom &&
-					a.bottom <= b.bottom && a.bottom >= b.top;
-		}
-		
-		function panIntoView()
-		{
-			var height	= $(self.element).height();
-			var offset	= -height * 0.45;
-			
-			self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
-		}
-		
-		imgs.each(function(index, el) {
-			el.onload = function() {
-				if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
-					panIntoView();
+			function inside(el, viewport)
+			{
+				var a = $(el)[0].getBoundingClientRect();
+				var b = $(viewport)[0].getBoundingClientRect();
+				
+				return a.left >= b.left && a.left <= b.right &&
+						a.right <= b.right && a.right >= b.left &&
+						a.top >= b.top && a.top <= b.bottom &&
+						a.bottom <= b.bottom && a.bottom >= b.top;
 			}
-		});
-		
-		if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
-			panIntoView();
+			
+			function panIntoView()
+			{
+				var height	= $(self.element).height();
+				var offset	= -height * 0.45;
+				
+				self.mapObject.map.animateNudge(0, offset, self.mapObject.getPosition());
+			}
+			
+			imgs.each(function(index, el) {
+				el.onload = function() {
+					if(++numImagesLoaded == numImages && !inside(self.element, self.mapObject.map.element))
+						panIntoView();
+				}
+			});
+			
+			if(numImages == 0 && !inside(self.element, self.mapObject.map.element))
+				panIntoView();
+		}
 	}
 	
 });
@@ -9594,7 +9620,8 @@ jQuery(function($) {
 			if(WPGMZA.isTouchDevice())
 			{
 				// On touch devices, require two fingers to drag and pan
-				this.olMap.getInteractions().forEach(function(interaction) {
+				// NB: Temporarily removed due to inconsistent behaviour
+				/*this.olMap.getInteractions().forEach(function(interaction) {
 					
 					if(interaction instanceof ol.interaction.DragPan)
 						self.olMap.removeInteraction(interaction);
@@ -9615,7 +9642,7 @@ jQuery(function($) {
 					
 				}));
 				
-				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);
+				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);*/
 			}
 			else
 			{
@@ -10944,6 +10971,7 @@ jQuery(function($) {
 	
 	WPGMZA.DataTable = function(element)
 	{
+		var self = this;
 		if(!$.fn.dataTable)
 		{
 			console.warn("The dataTables library is not loaded. Cannot create a dataTable. Did you enable 'Do not enqueue dataTables'?");
@@ -10970,13 +10998,27 @@ jQuery(function($) {
 		var settings = this.getDataTableSettings();
 		
 		this.phpClass			= $(element).attr("data-wpgmza-php-class");
-		this.dataTable			= $(this.dataTableElement).DataTable(settings);
 		this.wpgmzaDataTable	= this;
 		
 		this.useCompressedPathVariable = (WPGMZA.restAPI.isCompressedPathVariableSupported && WPGMZA.settings.enable_compressed_path_variables);
 		this.method = (this.useCompressedPathVariable ? "GET" : "POST");
 		
-		this.dataTable.ajax.reload();
+		if(this.getLanguageURL() == undefined || this.getLanguageURL() == "//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json") 
+		{
+			this.dataTable			= $(this.dataTableElement).DataTable(settings);
+			this.dataTable.ajax.reload();
+		}
+		else{
+		
+			$.ajax(this.getLanguageURL(), {
+
+				success: function(response, status, xhr){
+				  self.languageJSON = response;
+				  self.dataTable = $(self.dataTableElement).DataTable(settings);
+				  self.dataTable.ajax.reload();
+				}
+			  });
+		}
 	}
 	
 	WPGMZA.DataTable.prototype.getDataTableElement = function()

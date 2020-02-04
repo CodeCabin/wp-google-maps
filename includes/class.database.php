@@ -26,6 +26,20 @@ class Database extends Factory
 		}
 	}
 	
+	public static function getCharsetAndCollate()
+	{
+		global $wpdb;
+		$charset_collate = '';
+
+		if(!empty($wpdb->charset))
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+
+		if (!empty($wpdb->collate))
+			$charset_collate .= " COLLATE $wpdb->collate";
+		
+		return $charset_collate;
+	}
+	
 	public function install()
 	{
 		global $wpgmza;
@@ -86,7 +100,7 @@ class Database extends Factory
 			default_to VARCHAR(700) NOT NULL,
 			other_settings longtext NOT NULL,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}
@@ -117,7 +131,7 @@ class Database extends Factory
 			other_data LONGTEXT NOT NULL,
 			latlng POINT,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}
@@ -143,7 +157,7 @@ class Database extends Factory
 			ohopacity VARCHAR(3) NOT NULL,
 			polyname VARCHAR(100) NOT NULL,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}
@@ -161,7 +175,7 @@ class Database extends Factory
 			opacity VARCHAR(3) NOT NULL,
 			polyname VARCHAR(100) NOT NULL,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}
@@ -179,7 +193,7 @@ class Database extends Factory
 			color VARCHAR(16),
 			opacity FLOAT,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}
@@ -197,7 +211,7 @@ class Database extends Factory
 			color VARCHAR(16),
 			opacity FLOAT,
 			PRIMARY KEY  (id)
-			) AUTO_INCREMENT=1";
+			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
 	}

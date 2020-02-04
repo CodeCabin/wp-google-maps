@@ -51,7 +51,8 @@ jQuery(function($) {
 			if(WPGMZA.isTouchDevice())
 			{
 				// On touch devices, require two fingers to drag and pan
-				this.olMap.getInteractions().forEach(function(interaction) {
+				// NB: Temporarily removed due to inconsistent behaviour
+				/*this.olMap.getInteractions().forEach(function(interaction) {
 					
 					if(interaction instanceof ol.interaction.DragPan)
 						self.olMap.removeInteraction(interaction);
@@ -72,7 +73,7 @@ jQuery(function($) {
 					
 				}));
 				
-				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);
+				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);*/
 			}
 			else
 			{

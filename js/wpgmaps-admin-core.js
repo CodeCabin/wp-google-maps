@@ -541,7 +541,15 @@ jQuery(function($) {
 						if(status == WPGMZA.Geocoder.ZERO_RESULTS)
 							message = WPGMZA.localized_strings.zero_results;
 						
-                        alert("Geocode was not successful for the following reason: " + message);
+						if(status == WPGMZA.Geocoder.FAIL && 
+							$(".wpgmza-geocode-api-notice").length == 0 &&
+							WPGMZA.settings.engine != "open-layers")
+						{
+							var notice = $("<div class='wpgmza-geocode-api-notice notice notice-error'><p>" + WPGMZA.localized_strings.geocoding_library_notice + "</p></div>");
+							
+							$("#wpgmza_add_address").parent().append(notice);
+						}
+						
                         enableAddMarkerButton(true);
 
                     }

@@ -435,10 +435,14 @@ class Plugin extends Factory
 		return $mofile;
 	}
 	
+	public function getAccessCapability()
+	{
+		return (empty($this->settings->wpgmza_settings_access_level) ? 'manage_options' : $this->settings->wpgmza_settings_access_level);
+	}
+	
 	public function isUserAllowedToEdit()
 	{
-		$capability	= (empty($this->settings->wpgmza_settings_access_level) ? 'manage_options' : $this->settings->wpgmza_settings_access_level);
-		return current_user_can($capability);
+		return current_user_can($this->getAccessCapability());
 	}
 }
 
