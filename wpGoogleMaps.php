@@ -12,6 +12,7 @@ Domain Path: /languages
 
 /*
  * 8.0.19
+ * Fixed issue with modern store locator and large number of sub-categories
  * Made zoom limit controls live
  * 
  * 8.0.18
