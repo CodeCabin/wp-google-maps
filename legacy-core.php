@@ -2099,7 +2099,8 @@ function wpgmza_settings_page_post()
 	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza->settings['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
 	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza->settings['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
 	
-	
+    if (isset($_POST['wpgmza_settings_user_interface_style'])) 
+    $wpgmza->settings['wpgmza_settings_user_interface_style'] = esc_attr($_POST['wpgmza_settings_user_interface_style']);
 	
 	if (isset($_POST['wpgmza_marker_xml_location'])) { update_option("wpgmza_xml_location",sanitize_text_field($_POST['wpgmza_marker_xml_location'])); }
 	if (isset($_POST['wpgmza_marker_xml_url'])) { update_option("wpgmza_xml_url",sanitize_text_field($_POST['wpgmza_marker_xml_url'])); }
