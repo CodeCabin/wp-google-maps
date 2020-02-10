@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.19
+ * Made zoom limit controls live
+ * 
  * 8.0.18
  * Added center on marker button to the marker listing in the backend to center on marker location
  *

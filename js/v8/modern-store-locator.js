@@ -204,6 +204,7 @@ jQuery(function($) {
 				alert(WPGMZA.localized_strings.zero_results);
 
 		});
+
 	}
 	
 	/**
