@@ -22,7 +22,7 @@ class Strings
 			'use_my_location'			=> __('Use my location', 'wp-google-maps'),
 			
 			'google_api_not_loaded'		=> __('The map cannot be initialized because the Maps API has not been loaded. Please check your settings.', 'wp-google-maps'),
-			'no_google_maps_api_key'	=> __('You have not entered a Google Maps API Key. Please see our documentation on obtaining an API key.', 'wp-google-maps'),
+			'no_google_maps_api_key'	=> __('You have not entered a <b>Google Maps API Key</b>.<br /><br />Please go to the your admin area, then Maps, then Settings, then the Advanced tab to enter your Google Maps API key.<br /><br />Alternatively, choose the Open Layers engine to avoid getting an API key.', 'wp-google-maps'),
 			
 			'documentation'				=> __('Documentation', 'wp-google-maps'),
 			'api_dashboard'				=> __('API Dashboard', 'wp-google-maps'),

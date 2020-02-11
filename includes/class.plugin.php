@@ -16,6 +16,7 @@ class Plugin extends Factory
 {
 	const PAGE_MAP_LIST			= "map-list";
 	const PAGE_MAP_EDIT			= "map-edit";
+	const PAGE_MAP_CREATE_PAGE	= "create-map-page";
 	const PAGE_SETTINGS			= "map-settings";
 	const PAGE_SUPPORT			= "map-support";
 	
@@ -80,8 +81,9 @@ class Plugin extends Factory
 		
 		$this->_gutenbergIntegration = Integration\Gutenberg::createInstance();
 		
-		// TODO: This should be in default settings, this code is duplicaetd
-		if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
+		// TODO: This should be in default settings, this code is duplicated
+		// Deprecated: This was a fix for Pro 7.10 switching users to OpenLayers when updating. It's now effectively redundant.
+		/*if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
 		{
 			$self = $this;
 			
@@ -98,7 +100,7 @@ class Plugin extends Factory
 				return $output;
 				
 			});
-		}
+		}*/
 		
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
@@ -301,8 +303,14 @@ class Plugin extends Factory
 		switch($_GET['page'])
 		{
 			case 'wp-google-maps-menu':
-				if(isset($_GET['action']) && $_GET['action'] == 'edit')
-					return Plugin::PAGE_MAP_EDIT;
+				if(isset($_GET['action']))
+				{
+					if($_GET['action'] == 'edit')
+						return Plugin::PAGE_MAP_EDIT;
+					
+					if($_GET['action'] == 'create-map-page')
+						return Plugin::PAGE_MAP_CREATE_PAGE;
+				}
 				
 				return Plugin::PAGE_MAP_LIST;
 				break;

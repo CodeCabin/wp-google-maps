@@ -56,9 +56,7 @@
     background: #0073AA !important;
 }
 
-.ui-tabs-active a {
-    color:white !important;
-}
+
 
 .ui-state-default{
     background: #E8E8E8;
@@ -712,7 +710,6 @@ box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
 }
 
 .button-primary,
-.ui-tabs-active,
 .wpgmza_general_btn,
 .wpgmza_file_select_btn{
   background-color: #2B323C !important;
@@ -722,7 +719,6 @@ box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
 }
 
 .button-primary:hover,
-.ui-tabs-active:hover,
 .wpgmza_general_btn:hover,
 .wpgmza_file_select_btn:hover {
   background-color: #616f82 !important;
@@ -738,9 +734,9 @@ box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 -1px 3px rgba(0,0,0,0.04);
 
 
 body[class*="wp-google-maps"] .ui-tabs-nav {
-  overflow-x: scroll !important;
-  overflow-y: hidden !important;
-  white-space: nowrap !important;
+  /*overflow-x: scroll !important;*/
+  /*overflow-y: hidden !important;*/
+  /*white-space: nowrap !important;*/
   font-size: 0 !important;
 }
 
@@ -841,10 +837,13 @@ li[aria-controls="wpgmza-gdpr-compliance"] {
 }
 
 .wpgmza-nag {
-  border: 2px solid black;
-  line-height: 12px;
-  box-sizing: border-box;
-   border-radius: 4px !important;
+    border: 1px solid #eee;
+    line-height: 12px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.04);
+    font-size: 14px;
 }
 #wpgmaps_save_reminder {
   margin-top: 20px;
@@ -932,7 +931,7 @@ body[class*="wp-google-maps"] {
 }
 
 body[class*="wp-google-maps"] .ui-tabs {
-    background: #efeff5 !important;
+    background: transparent; !important;
 }
 
 .update-att {
@@ -1341,8 +1340,9 @@ body[class*="wp-google-maps"] .button-primary, body[class*="wp-google-maps"] .ui
   color: #fff !important;
 }
 body[class*="wp-google-maps"] input[type="text"] {
-  border: none !important;
-  border-bottom: 2px solid #e8e8e8 !important;
+  /*border: none !important;*/
+  /*border-bottom: 2px solid #e8e8e8 !important;*/
+  /* removed by Nick 05 Feb 2020 */
 }
 body[class*="wp-google-maps"] input[type="text"]:active,
 body[class*="wp-google-maps"] input[type="text"]:focus,
@@ -1555,7 +1555,7 @@ select[id*="height"]{
 #wpgm_notice_message_addfirst_marker .update-nag{
   padding: 6px 15px !important;
   border: 2px solid #FACE48;
-  color: #FACE48;
+  color: #333;
   box-shadow: none;
   border-radius: 5px;
   width: 100%;
@@ -1682,7 +1682,6 @@ table.dataTable.hover tbody tr.odd:hover, table.dataTable.display tbody tr.odd:h
 .notice-success, div.updated {
   padding: 10px;
   border: 2px solid #46b450;
-  color: #46b450;
   border-radius: 3px;
 }
 .wpgmza-card {
@@ -2142,9 +2141,11 @@ button.wpgmza-delete-gallery-item {
 }
 
 .notice.notice-warning {
-  border: 2px solid #ffb900;
+  border: 2px solid #ccc;
   border-radius: 3px;
-  padding: 8px 15px;
+  
+  float:right;
+  
 }
 
 .wpgmza-marker-icon-preview {
@@ -2226,7 +2227,6 @@ input[id*="height"]{
 
 .notice.notice-error {
   border: 2px solid #dc3232;
-  color: #dc3232;
   box-shadow: none;
   padding: 10px 15px !important;
 }
@@ -2239,8 +2239,9 @@ select,
 textarea,
 input[type="number"],
 input[type="date"],
-input:not([type="checkbox"]):not(.wpgmza_general_btn):not(.button) {
-  border-width: 2px !important;
+input:not([type="checkbox"]):not(.wpgmza_general_btn):not(.button):not(.button-primary) {
+  /*border-width: 2px !important; */
+  /* removed by nick 05 Feb 2020 */
 }
 
 .wpgmza-label-amber {
@@ -2435,7 +2436,8 @@ background-size: cover;
 }
 
 body[class*="wp-google-maps"] .wpgmza-listing {
-  border: none !important
+  /* border: none !important */
+  /* removed by Nick 05 Feb 2020 */
 }
 .wpgmza-listing a:active,
 .wpgmza-listing a:focus{
@@ -2507,7 +2509,6 @@ body[class*="wp-google-maps"] input.cmn-toggle-yes-no + label:hover:before{
   border-bottom: 1px solid #eee;
 }
 body .button-primary,
-body .ui-tabs-active,
 body .wpgmza_general_btn,
 body .wpgmza_file_select_btn {
   background-color: #2B323C !important;
@@ -2548,10 +2549,10 @@ input[type="checkbox"] {
   border: 1px solid #ccc !important;
   box-shadow: none; 
 }
-input[type="checkbox"]:checked {
+/*input[type="checkbox"]:checked {
   background: #333;
   border-color: #2B323C !important;
-}
+}*/
 input[type="checkbox"]:before {
   color: #2B323C !important;
 }
@@ -2640,15 +2641,13 @@ textarea[name="wpgmza_custom_js"] {
   border-radius: 3px;
 }
 .button-border__green {
-  border-color: #46b450;
-  color: #46b450;
-  opacity: .6;
-  background: #46b450;
-  color: #fff;
+    border-color: #909090;
+    opacity: 1.0;
+    border-width: 1px;
 }
-.button-border__green:hover {
+/*.button-border__green:hover {
   color: #fff;
-}
+}*/
 .wpgmza-form-group__multiple > div {
   flex: 1;
   display: flex;
@@ -2696,5 +2695,49 @@ textarea[name="wpgmza_custom_js"] {
 
 #wpfooter
 {
-	position: static !important;
+  position: static !important;
+}
+
+.ui-tabs-active {
+    background: #e4e4e4 !important;
+}
+
+body.toplevel_page_wp-google-maps-menu .button-primary,
+body.toplevel_page_wp-google-maps-menu .wp-core-ui a.button-primary, 
+body.toplevel_page_wp-google-maps-menu a.button-primary, input.button-primary, 
+body.toplevel_page_wp-google-maps-menu .wp-core-ui .button-primary{
+    background-color: #f3f5f6!important;
+    color: #0071a1 !important;
+    border-color: #0071a1 !important;
+    border: 1px solid !important;
+    line-height: 12px !important;
+    font-weight: 500;
+}
+
+body.toplevel_page_wp-google-maps-menu .wp-core-ui .button, 
+body.toplevel_page_wp-google-maps-menu .wp-core-ui .button-secondary, 
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    background-color: #f3f5f6!important;
+    color: #0071a1 !important;
+    border-color: #0071a1 !important;
+    border: 1px solid !important;
+}
+
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate a.paginate_button.current, 
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate a.paginate_button.current:hover{
+    background: #f3f5f6!important;
+    background-color: #f3f5f6!important;
+    background: #f3f5f6!important;
+    color: #0071a1 !important;
+    border-color: #0071a1 !important;
+    border: 1px solid !important;
+}
+
+body.toplevel_page_wp-google-maps-menu .wp-core-ui .button:hover,
+[data-wpgmza-admin-marker-datatable] .dataTables_wrapper .dataTables_paginate a.paginate_button:hover{
+    border-color: #01618a !important;
+    color: #01618a !important;
+    background: #e4e4e4 !important;
 }

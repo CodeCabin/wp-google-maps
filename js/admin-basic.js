@@ -123,8 +123,17 @@ jQuery(function($) {
 			
 			var warning = $($(".notice.wpgmza-open-layers-feature-unavailable")[0]).clone();
 			$(warning).show();
-			$(el).prepend(warning);
 			
+			
+            if ($(el).hasClass('make-left')) {
+                $(warning).css('float', 'none');
+            } 
+
+
+            $(el).prepend(warning);
+			
+			
+
 			$.merge(
 				$(el).find("input, select, textarea, button, .button-primary"),
 				$(el).siblings("input, select, textarea, button, .button-primary")

@@ -162,6 +162,31 @@ function wpgmza_legacy_settings_page_basic()
 	$ret .= "        <div id=\"tabs-1\">";
 	$ret .= "                <h3>".__("Map Settings")."</h3>";
 	$ret .= "                <table class='form-table'>";
+
+
+	$use_google_maps_selected			= (empty($wpgmza_settings['wpgmza_maps_engine']) || $wpgmza_settings['wpgmza_maps_engine'] == 'google-maps' ? 'selected="selected"' : "");
+	$use_open_street_map_selected 		= (isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers' ? 'selected="selected"' : "");
+	
+	$ret .= "
+	
+	<tr>
+		<td>
+			" . __("Maps Engine:", "wp-google-maps") . "
+		</td>
+		<td>
+			<select name='wpgmza_maps_engine'>
+				<option $use_open_street_map_selected value='open-layers'>OpenLayers</option>
+				<option $use_google_maps_selected value='google-maps'>Google Maps</option>
+			</select>
+		</td>
+	</tr>
+	
+	";
+	
+	
+
+
+
 	$ret .= "                <tr>";
 	$ret .= "                     <td width='200' valign='top' style='vertical-align:top;'>".__("General Map Settings","wp-google-maps").":</td>";
 	$ret .= "                     <td>";
@@ -235,6 +260,25 @@ function wpgmza_legacy_settings_page_basic()
 				</select>
 			</td>
 		</tr>";
+
+		if(isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers')
+	{
+		$tileServerSelect = new WPGMZA\DOMDocument();
+		$tileServerSelect->loadPHPFile(plugin_dir_path(WPGMZA_FILE) . 'html/tile-server-fieldset.html.php');
+		// TODO: In Pro, check this property exists
+		
+		if(isset($wpgmza_settings['tile_server_url']))
+		{
+			$option = $tileServerSelect->querySelector('option[value="' . $wpgmza_settings['tile_server_url'] . '"]');
+			if($option)
+				$option->setAttribute('selected', 'selected');
+		}
+		
+		$ret .= $tileServerSelect->html;
+	}
+	
+	$api_loader = new WPGMZA\GoogleMapsAPILoader();
+	$ret .= $api_loader->getSettingsHTML();
 	
 	$ret .= "               <tr>";
 	$ret .= "                        <td width='200' valign='top'>".__("Troubleshooting Options","wp-google-maps").":</td>";
@@ -290,43 +334,7 @@ function wpgmza_legacy_settings_page_basic()
 	
 	";
 	
-	$use_google_maps_selected			= (empty($wpgmza_settings['wpgmza_maps_engine']) || $wpgmza_settings['wpgmza_maps_engine'] == 'google-maps' ? 'selected="selected"' : "");
-	$use_open_street_map_selected 		= (isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers' ? 'selected="selected"' : "");
 	
-	$ret .= "
-	
-	<tr>
-		<td>
-			" . __("Maps Engine:", "wp-google-maps") . "
-		</td>
-		<td>
-			<select name='wpgmza_maps_engine'>
-				<option $use_open_street_map_selected value='open-layers'>OpenLayers</option>
-				<option $use_google_maps_selected value='google-maps'>Google Maps</option>
-			</select>
-		</td>
-	</tr>
-	
-	";
-	
-	if(isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers')
-	{
-		$tileServerSelect = new WPGMZA\DOMDocument();
-		$tileServerSelect->loadPHPFile(plugin_dir_path(WPGMZA_FILE) . 'html/tile-server-fieldset.html.php');
-		// TODO: In Pro, check this property exists
-		
-		if(isset($wpgmza_settings['tile_server_url']))
-		{
-			$option = $tileServerSelect->querySelector('option[value="' . $wpgmza_settings['tile_server_url'] . '"]');
-			if($option)
-				$option->setAttribute('selected', 'selected');
-		}
-		
-		$ret .= $tileServerSelect->html;
-	}
-	
-	$api_loader = new WPGMZA\GoogleMapsAPILoader();
-	$ret .= $api_loader->getSettingsHTML();
 	
 	global $wpgmza;
 	$developer_mode_checked = '';

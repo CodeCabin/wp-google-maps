@@ -27,7 +27,7 @@ if(!defined('ABSPATH'))
 		</ul>
 	
 	</div>
-	
+	<?php /*
 	<p>
 		<?php
 		_e('See our documentation for solutions to common Google API issues:', 'wp-google-maps');
@@ -70,13 +70,14 @@ if(!defined('ABSPATH'))
 		_e('Please see the <a href="https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/">WP Google Maps Documentation</a> for a step by step guide on setting up your Google Maps API key.', 'wp-google-maps');
 		?>
 	</p>
-	
+	*/ ?>
+	<?php /*
 	<p>
 		<?php
 		_e('Please open your Developer Tools (F12 for most browsers) and see your JavaScript console for the full error message.', 'wp-google-maps');
 		?>
 	</p>
-	
+	*/ ?>
 	<p class="wpgmza-front-end-only">
 		<i class="fa fa-eye" aria-hidden="true"></i>
 		<?php

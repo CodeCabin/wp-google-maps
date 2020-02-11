@@ -8,19 +8,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.2.1\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: ca_ES\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
-"maps\n"
-"X-Poedit-SearchPath-1: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
-"maps-pro\n"
-"X-Poedit-SearchPath-2: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
-"maps-gold\n"
-"X-Poedit-SearchPath-3: C:/wamp/www/wordpress38/wp-content/plugins/wp-google-"
-"maps-ugm\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../../wp-google-maps-pro\n"
+"X-Poedit-SearchPath-2: ../../wp-google-maps-gold\n"
+"X-Poedit-SearchPath-3: ../../wp-google-maps-ugm\n"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:243
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:3712
@@ -147,9 +143,9 @@ msgstr "Desa"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5375
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-ugm/wp-google-maps-ugm.php:551
 msgid ""
-"An Unexpected HTTP Error occurred during the API request.</p> <p>"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+"An Unexpected HTTP Error occurred during the API request.</p> <p>\"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
 msgstr ""
-"Ha aparegut un error desconegut durant la petició d’API.</p> <p>"\" onclick=\"document.location.reload(); return false;\">Torna-ho a provar"a>"
+"Ha aparegut un error desconegut durant la petició d’API.</p> <p>\"\" onclick=\"document.location.reload(); return false;\">Torna-ho a provar\"</a>"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-gold/wp-google-maps-gold.php:1694
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5380
@@ -310,7 +306,7 @@ msgstr "inclòs el complement professional"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1056
 msgid ""
-"Please <a href='update-core.php'>update your WP Google Maps GOLD version"a>. Your current Gold version is not compatible with the current Pro version."
+"Please <a href='update-core.php'>update your WP Google Maps GOLD version\"</a>. Your current Gold version is not compatible with the current Pro version."
 msgstr ""
 "Si us plau <a href='update-core.php'>actualitza la versió del teu WP Google "
 "Maps GOLD</a>. La versió actual de Gold no és compatible amb la versió "
@@ -729,9 +725,9 @@ msgstr "Puja una imatge"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1762
 msgid ""
-"Get great map markers "target='_BLANK' title='Great Google Map Markers'>here</a>"
+"Get great map markers \"target='_BLANK' title='Great Google Map Markers'>here</a>"
 msgstr ""
-"Aconsegueix grans marcadors "target='_BLANK' title='Great Google Map Markers'>aquí</a>"
+"Aconsegueix grans marcadors \"target='_BLANK' title='Great Google Map Markers'>aquí</a>"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1766
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4851
@@ -849,11 +845,11 @@ msgstr "ID de la taula de fusió"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:1899
 msgid ""
-"Read data directly from your Fusion Table. For more information, see "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"Read data directly from your Fusion Table. For more information, see \"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
 "api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
 "maps-api.html</a>"
 msgstr ""
-"Llegeix les dades de la Taula de Fusió. Per a més informació, comprova "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+"Llegeix les dades de la Taula de Fusió. Per a més informació, comprova \"href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
 "api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
 "maps-api.html</a>"
 
@@ -1444,7 +1440,7 @@ msgid ""
 "<strong>Pro</strong> versions of WP Google Maps installed and activated at "
 "the same time in order for the plugin to function correctly."
 msgstr ""
-"Assegureu-vos de tenir <strong>les dues</strong> versions <strong>Basic"strong> i <strong>Pro</strong> del WP Google Maps instal·lades i activades "
+"Assegureu-vos de tenir <strong>les dues</strong> versions <strong>Basic</strong> i <strong>Pro</strong> del WP Google Maps instal·lades i activades "
 "al mateix temps perquè el connector funcioni correctament."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5067
@@ -1523,7 +1519,7 @@ msgstr "Clau API de Google (obligatòria)"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5121
 msgid ""
-"You will need a Google Maps Geocode API key for this to work. See "href='https://developers.google.com/maps/documentation/geocoding/"
+"You will need a Google Maps Geocode API key for this to work. See \"href='https://developers.google.com/maps/documentation/geocoding/"
 "#Limits'>Geocoding Documentation</a>"
 msgstr ""
 "Necessitareu una clau de l’API de Geocode de Google Maps perquè funcioni. "
@@ -1955,11 +1951,11 @@ msgstr "Clau API de Google Maps (opcional)"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5604
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4305
 msgid ""
-"This API key can be obtained from the Google Developers Console</a>. Our "href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"This API key can be obtained from the Google Developers Console</a>. Our \"href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
 "target='_BLANK'>documentation</a> provides a full guide on how to obtain "
 "this. "
 msgstr ""
-"La clau API es pot obtenir a la Consola de Google Developers</a>. La nostra "href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"La clau API es pot obtenir a la Consola de Google Developers</a>. La nostra \"href='http://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
 "target='_BLANK'>documentació</a> us pot ensenyar com obtenir-la. "
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro.php:5610
@@ -2607,9 +2603,9 @@ msgstr "Marcador de Categoria"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:101
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:183
 msgid ""
-"Get great map markers "target='_BLANK' title='Great Google Map Markers'>here</a>"
+"Get great map markers \"target='_BLANK' title='Great Google Map Markers'>here</a>"
 msgstr ""
-"Aconsegueix grans marcadors "target='_BLANK' title='Great Google Map Markers'>aquí</a>"
+"Aconsegueix grans marcadors \"target='_BLANK' title='Great Google Map Markers'>aquí</a>"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:104
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps-pro/wp-google-maps-pro_categories.php:186
@@ -3164,9 +3160,9 @@ msgstr "Crea tants marcadors com vulguis"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:31
 msgid ""
-"Select from various "target='_BLANK'>map themes</a>, or make your own."
+"Select from various \"target='_BLANK'>map themes</a>, or make your own."
 msgstr ""
-"Selecciona un dels diferents "target='_BLANK'>mapes de temes</a>, o bé crea el teu propi tema."
+"Selecciona un dels diferents \"target='_BLANK'>mapes de temes</a>, o bé crea el teu propi tema."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/base/includes/welcome.php:97
 msgid "Support Desk"
@@ -3372,14 +3368,13 @@ msgstr "Ubicació de les dades del marcador"
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4421
 #, php-format
 msgid ""
-"<h3>We need your love!</h3><p>If you are enjoying our plugin, please "
-"consider "\">reviewing WP Google Maps</a>. It would mean the world to us! If you are "
-"experiencing issues with the plugin, please "\" class=\"button button-secondary\">contact us</a> and we will help you as "
+"<h3>We need your love!</h3><p>If you are enjoying our plugin, please <a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/'>reviewing WP Google Maps</a>. It would mean the world to us! If you are "
+"experiencing issues with the plugin, please <a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/' class=\"button button-secondary\">contact us</a> and we will help you as "
 "soon as humanly possible!</p>"
 msgstr ""
 "<h3>Necessitem la teva ajuda!</h3><p>Si t’agrada el nostre plugin, escriu "
-"una opinió "\">sobre WP Google Maps</a>. Val molt per a nosaltres! Si tens algun "
-"problema, si us plau, "button-secondary\">contacta’ns</a> i t’ajudarem tan aviat com sigui possible!"
+"una opinió <a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/'>sobre WP Google Maps</a>. Val molt per a nosaltres! Si tens algun "
+"problema, si us plau, <a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/' class=\"button-secondary\">contacta’ns</a> i t’ajudarem tan aviat com sigui possible!"
 "</p>"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4426
@@ -3409,14 +3404,14 @@ msgstr "Assistent d’instal·lació"
 msgid ""
 "We have detected a conflict between your current theme's version and our "
 "plugin. Should you be experiencing issues with your maps displaying, please "
-"update Avada to version 3.9.4 or go to "enabled.<br /><br />In order for the markers to show up on your map, you "
+"update Avada to version 3.9.4 or go to enabled.<br /><br />In order for the markers to show up on your map, you "
 "need to add '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' to the "
 "'<strong>rejected files</strong>' list in the CDN settings page</a> of W3 Total Cache"
 msgstr ""
 "Hem detectat que esteu usant el “W3 Total Cache” i que teniu el CDN "
 "habilitat.<br /><br />Si voleu que apareguin els marcadors al vostre mapa, "
 "heu d’afegir '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' a la "
-"'<strong>llista d’arxius rebutjats</strong>' que trobareu a la pàgina "href='admin.php?page=w3tc_cdn#advanced'>d’ajustaments del CDN</a> o al caché "
+"'<strong>llista d’arxius rebutjats</strong>' que trobareu a la pàgina <a href='admin.php?page=w3tc_cdn#advanced'>d’ajustaments del CDN</a> o al caché "
 "de W3 Total"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:4773
@@ -3449,11 +3444,11 @@ msgstr "Nivell de zoom màxim"
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5089
 msgid ""
-"Get the rest of these advanced features with the Pro version for only "href=\"http://www.wpgmaps.com/purchase-professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign­vanced\">$39.99 once off"a>. Support and updates included forever."
+"Get the rest of these advanced features with the Pro version for only <a href=\"http://www.wpgmaps.com/purchase-professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign­vanced\">$39.99 once off</a>. Support and updates included forever."
 msgstr ""
 "Aconsegueix la resta de funcions avançades amb la Versió Professional per "
-"només "utm_source=plugin&utm_medium=link&utm_campaign­vanced\">39,99$ (un únic "
+"només <a href=\"utm_source=plugin&utm_medium=link&utm_campaign­vanced\">39,99$ (un únic "
 "pagament)</a>. Inclou el suport i actualitzacions per sempre."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5127
@@ -3462,11 +3457,11 @@ msgstr "Llegiu les dades directament des de la vostra taula de fusió."
 
 #: C:\wamp\www\wordpress38\wp-content\plugins\wp-google-maps/wpGoogleMaps.php:5135
 msgid ""
-"Enable Marker Listing with the "professional-version/?"
+"Enable Marker Listing with the \"professional-version/?"
 "utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">Pro version "
 "for only $39.99 once off</a>. Support and updates included forever."
 msgstr ""
-"Permetre llistar els marcadors com el "purchase-professional-version/?"
+"Permetre llistar els marcadors com el purchase-professional-version/?"
 "utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">Versió "
 "Professional per només 39,99$ (un únic pagament)</a>. Inclou el suport i "
 "actualitzacions per sempre."

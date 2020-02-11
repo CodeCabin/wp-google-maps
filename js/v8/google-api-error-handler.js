@@ -54,7 +54,7 @@ jQuery(function($) {
 			&&
 			WPGMZA.getCurrentPage() != WPGMZA.PAGE_MAP_EDIT
 			)
-			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/get-a-google-maps-api-key/"]);
+			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/"]);
 	}
 	
 	/**

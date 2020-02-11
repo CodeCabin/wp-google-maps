@@ -220,6 +220,14 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.18 :- 2020-02-06 :- Medium priority =
+* Added center on marker button to the marker listing in the backend to center on marker location
+* UX improvements to the map listing page
+* UX improvements to the map editor page
+* Fixed a bug with the "move marker location" feature
+* Added sanitization calls to the move marker location feature
+* Removed ol-debug.js and ol.js.map (reduced plugin size)
+
 = 8.0.17 :- 2020-02-03 :- Medium priority =
 * Google Maps API now loaded from maps.googleapis.com, including for Simplified Chinese locale
 * Database installer now uses WordPress' character set and collation, rather than the databases default
@@ -1419,6 +1427,11 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
 
 
 
