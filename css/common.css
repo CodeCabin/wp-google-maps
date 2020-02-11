@@ -35,6 +35,7 @@
 	background: ghostwhite;
 	padding: 0.5em;
 	margin: 0.5em;
+	border-color:1px solid #ccc;
 }
 
 .wpgmza-google-api-error-list li:before
@@ -103,7 +104,7 @@
 	width: 100%;
 	height: 100%;
 	
-	background: rgba(255,255,255,0.8);
+	background: rgba(255,255,255,0.95);
 	padding: 1em;
 	
 	text-align: center;

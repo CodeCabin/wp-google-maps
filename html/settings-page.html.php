@@ -38,6 +38,16 @@
 				<?php esc_html_e('General Map Settings', 'wp-google-maps'); ?>
 			</legend>
 			
+			<fieldset>
+				<legend>
+					<?php esc_html_e('Maps Engine', 'wp-google-maps'); ?>
+				</legend>
+				<select name="wpgmza_maps_engine">
+					<option value="open-layers"><?php esc_html_e('OpenLayers', 'wp-google-maps'); ?></option>
+					<option value="google-maps"><?php esc_html_e('Google Maps', 'wp-google-maps'); ?></option>
+				</select>
+			</fieldset>
+
 			<div role="group">
 				<label>
 					<input name="wpgmza_settings_map_full_screen_control" class="wpgmza-fancy-toggle-switch" type="checkbox"/>
@@ -138,15 +148,7 @@
 			</select>
 		</fieldset>
 		
-		<fieldset>
-			<legend>
-				<?php esc_html_e('Maps Engine', 'wp-google-maps'); ?>
-			</legend>
-			<select name="wpgmza_maps_engine">
-				<option value="open-layers"><?php esc_html_e('OpenLayers', 'wp-google-maps'); ?></option>
-				<option value="google-maps"><?php esc_html_e('Google Maps', 'wp-google-maps'); ?></option>
-			</select>
-		</fieldset>
+		
 		
 		<fieldset data-required-maps-engine="open-layers">
 			<legend>

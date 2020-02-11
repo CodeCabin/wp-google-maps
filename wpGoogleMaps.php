@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.17
+Version: 8.0.18
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -15,9 +15,18 @@ Domain Path: /languages
  * Fixed issue with modern store locator and large number of sub-categories
  * Made zoom limit controls live
  * Changed UI style dropdown to radio buttons and added descriptions
- * 
- * 8.0.18
+ * All PO files rescanned to allow translation of new strings
+ * esc_html__ and esc_html_e added to PO keywords
+ * PO files now use relative paths
+ * Fixed escaping issues in PO files
+ *
+ * 8.0.18 :- 2020-02-06 :- Medium priority
  * Added center on marker button to the marker listing in the backend to center on marker location
+ * UX improvements to the map listing page
+ * UX improvements to the map editor page
+ * Fixed a bug with the "move marker location" feature
+ * Added sanitization calls to the move marker location feature
+ * Removed ol-debug.js and ol.js.map (reduced plugin size)
  *
  * 8.0.17 :- 2020-02-03 :- Medium priority
  * Google Maps API now loaded from maps.googleapis.com, including for Simplified Chinese locale

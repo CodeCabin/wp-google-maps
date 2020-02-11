@@ -101,7 +101,7 @@ class GDPRCompliance
 	{
 		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
 		
-		$html = $wpgmza_other_settings['wpgmza_gdpr_default_notice'];
+		$html = apply_filters('wpgmza_gdpr_notice', $wpgmza_other_settings['wpgmza_gdpr_default_notice']);
 		
 		if(!empty($wpgmza_other_settings['wpgmza_gdpr_override_notice']) && !empty($wpgmza_other_settings['wpgmza_gdpr_notice_override_text']))
 			$html = $wpgmza_other_settings['wpgmza_gdpr_notice_override_text'];

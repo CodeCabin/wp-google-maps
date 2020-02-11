@@ -1931,7 +1931,7 @@ jQuery(function($) {
 			&&
 			WPGMZA.getCurrentPage() != WPGMZA.PAGE_MAP_EDIT
 			)
-			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/get-a-google-maps-api-key/"]);
+			this.addErrorMessage(WPGMZA.localized_strings.no_google_maps_api_key, ["https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/"]);
 	}
 	
 	/**
@@ -2773,6 +2773,12 @@ jQuery(function($) {
 				$(successNotice).delay(4000).fadeOut('slow');
 			});
 		}
+
+		$(document).on("click", ".wpgmza_edit_btn", function() {
+			var cur_id = jQuery(this).attr("data-edit-marker-id");
+
+			WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker(cur_id);		
+		});
 	}
 	
 	WPGMZA.MapEditPage.createInstance = function()
@@ -11443,6 +11449,10 @@ jQuery(function($) {
 		$(element).find(".wpgmza.bulk_delete").on("click", function(event) {
 			self.onBulkDelete(event);
 		});
+
+		$(element).on("click", "[data-center-marker-id]", function(event) {
+			self.onCenterMarker(event);
+		});
 	}
 	
 	WPGMZA.AdminMarkerDataTable.prototype = Object.create(WPGMZA.DataTable.prototype);
@@ -11540,6 +11550,37 @@ jQuery(function($) {
 				self.reload();
 			}
 		});
+	}
+
+	WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker = function(event)
+	{
+		var id;
+
+		//Check if we have selected the center on marker button or called this function elsewhere 
+		if(event.currentTarget == undefined)
+		{
+			id = event;
+		}
+		else{
+			id = $(event.currentTarget).attr("data-center-marker-id");
+		}
+
+		var marker = WPGMZA.mapEditPage.map.getMarkerByID(id);
+		
+		if(marker){
+			var latLng = new WPGMZA.LatLng({
+				lat: marker.lat,
+				lng: marker.lng
+			});
+			
+			//Set a static zoom level
+			var zoom_value = 6;
+			WPGMZA.mapEditPage.map.setCenter(latLng);
+			WPGMZA.mapEditPage.map.setZoom(zoom_value);
+			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
+		}
+
+
 	}
 	
 	$(document).ready(function(event) {
