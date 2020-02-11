@@ -47,7 +47,27 @@ function wpgmza_legacy_settings_page_basic()
     else if ($wpgmza_settings_marker_pull == '1' || $wpgmza_settings_marker_pull == 1) { $wpgmza_settings_marker_pull_checked[1] = "checked='checked'";  $show_advanced_marker_tr = 'style="visibility:visible; display:table-row;"'; }
     else { $wpgmza_settings_marker_pull_checked[0] = "checked='checked'"; $show_advanced_marker_tr = 'style="visibility:hidden; display:none;"'; }   
     
-    
+	$wpgmza_settings_user_interface_style_checked[0] = '';
+	$wpgmza_settings_user_interface_style_checked[1] = '';
+	$wpgmza_settings_user_interface_style_checked[2] = '';
+	$wpgmza_settings_user_interface_style_checked[3] = '';
+	$wpgmza_settings_user_interface_style_checked[4] = '';
+	$wpgmza_settings_user_interface_style_checked[5] = '';
+	if (isset($wpgmza_settings['wpgmza_settings_user_interface_style'])) { $wpgmza_settings_user_interface_style = $wpgmza_settings['wpgmza_settings_user_interface_style']; } else {$wpgmza_settings_user_interface_style = false; }
+	if ($wpgmza_settings_user_interface_style == 'bare-bones') { $wpgmza_settings_user_interface_style_checked[0] = "checked='checked'";
+		$wpgmza->settings->user_interface_style = 'bare-bones'; }
+	else if ($wpgmza_settings_user_interface_style == 'default') { $wpgmza_settings_user_interface_style_checked[1] = "checked='checked'";
+			$wpgmza->settings->user_interface_style = 'default'; }
+	else if ($wpgmza_settings_user_interface_style == 'legacy') { $wpgmza_settings_user_interface_style_checked[2] = "checked='checked'"; 
+		$wpgmza->settings->user_interface_style = 'legacy';}
+
+	else if ($wpgmza_settings_user_interface_style == 'compact') { $wpgmza_settings_user_interface_style_checked[3] = "checked='checked'";
+		$wpgmza->settings->user_interface_style = 'compact'; }
+	else if ($wpgmza_settings_user_interface_style == 'modern') { $wpgmza_settings_user_interface_style_checked[4] = "checked='checked'";
+		$wpgmza->settings->user_interface_style = 'modern'; }
+	else if ($wpgmza_settings_user_interface_style == 'minimal') { $wpgmza_settings_user_interface_style_checked[5] = "checked='checked'";
+		$wpgmza->settings->user_interface_style = 'minimal'; }
+	else { $wpgmza_settings_user_interface_style_checked[2] = "checked='checked'"; }
     
     
 
@@ -248,38 +268,66 @@ function wpgmza_legacy_settings_page_basic()
 	$ret .= "                 </tr>";
 	
 	$ret .= "<tr>
-			<td>" . __("User Interface Style:", "wp-google-maps") . "</td>
-			<td>
-				<select name='user_interface_style'>
-					<option " . ($wpgmza->settings->user_interface_style == 'bare-bones' ? 'selected="selected"' : '') . " value='bare-bones'>" . __("Bare Bones", "wp-google-maps") . "</option>
-					<option " . ($wpgmza->settings->user_interface_style == 'legacy' ? 'selected="selected"' : '') . " value='legacy'>"			. __("Legacy", "wp-google-maps") . "</option>
-					<option " . ($wpgmza->settings->user_interface_style == 'default' ? 'selected="selected"' : '') . " value='default'>" 		. __("Default", "wp-google-maps") . "</option>
-					<option " . ($wpgmza->settings->user_interface_style == 'modern' ? 'selected="selected"' : '') . " value='modern'>" 		. __("Modern", "wp-google-maps") . "</option>
-					<option " . ($wpgmza->settings->user_interface_style == 'compact' ? 'selected="selected"' : '') . " value='compact'>" 		. __("Compact", "wp-google-maps") . "</option>
-					<option " . ($wpgmza->settings->user_interface_style == 'minimal' ? 'selected="selected"' : '') . " value='minimal'>" 		. __("Minimal", "wp-google-maps") . "</option>
-				</select>
-			</td>
-		</tr>";
 
-		if(isset($wpgmza_settings['wpgmza_maps_engine']) && $wpgmza_settings['wpgmza_maps_engine'] == 'open-layers')
-	{
-		$tileServerSelect = new WPGMZA\DOMDocument();
-		$tileServerSelect->loadPHPFile(plugin_dir_path(WPGMZA_FILE) . 'html/tile-server-fieldset.html.php');
-		// TODO: In Pro, check this property exists
-		
-		if(isset($wpgmza_settings['tile_server_url']))
-		{
-			$option = $tileServerSelect->querySelector('option[value="' . $wpgmza_settings['tile_server_url'] . '"]');
-			if($option)
-				$option->setAttribute('selected', 'selected');
-		}
-		
-		$ret .= $tileServerSelect->html;
-	}
-	
-	$api_loader = new WPGMZA\GoogleMapsAPILoader();
-	$ret .= $api_loader->getSettingsHTML();
-	
+				<td>" . __("User Interface Style:", "wp-google-maps") . "</td>
+
+					<td>
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_bare_bones'
+							value='bare-bones' " 
+							. $wpgmza_settings_user_interface_style_checked[0] . 
+							" />" . __("Bare Bones - Applies no styling to the components at all. This is recommended for designers and developers who want to style the components from scratch.", "wp-google-maps") . "
+							
+					<br />
+
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_default'
+							value='default' " 
+							. $wpgmza_settings_user_interface_style_checked[1] . 
+							" />" . __("Default - The default front end.", "wp-google-maps") . "
+							
+							<br />
+
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_legacy'
+							value='legacy' " 
+							. $wpgmza_settings_user_interface_style_checked[2] . 
+							" />" . __("Legacy - This setting is the same as Default, but provides options to change individual components to the modern style.", "wp-google-maps") . "
+							
+					<br />
+												
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_compact'
+							value='compact' " 
+							. $wpgmza_settings_user_interface_style_checked[3] . 
+							" />" . __("Compact - Puts all components and their labels inline.", "wp-google-maps") . "
+							
+					<br />
+											
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_modern'
+							value='modern' " 
+							. $wpgmza_settings_user_interface_style_checked[4] . 
+							" />" . __("Modern - Puts components inside the map, with pull-out panels.", "wp-google-maps") . "
+							
+					<br />
+											
+						<input type='radio'
+							name='wpgmza_settings_user_interface_style'
+							id='wpgmza_settings_user_interface_style_minimal'
+							value='minimal' " 
+							. $wpgmza_settings_user_interface_style_checked[5] . 
+							" />" . __("Minimal - The same as Compact, but with icons instead of text labels.", "wp-google-maps") . "
+							
+					<br />	
+				</td>
+			</tr>";
+
 	$ret .= "               <tr>";
 	$ret .= "                        <td width='200' valign='top'>".__("Troubleshooting Options","wp-google-maps").":</td>";
 	$ret .= "                     <td>";

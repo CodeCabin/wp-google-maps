@@ -12,6 +12,9 @@ Domain Path: /languages
 
 /*
  * 8.0.19
+ * Fixed issue with modern store locator and large number of sub-categories
+ * Made zoom limit controls live
+ * Changed UI style dropdown to radio buttons and added descriptions
  * All PO files rescanned to allow translation of new strings
  * esc_html__ and esc_html_e added to PO keywords
  * PO files now use relative paths
