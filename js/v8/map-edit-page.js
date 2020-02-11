@@ -42,6 +42,12 @@ jQuery(function($) {
 
 			WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker(cur_id);		
 		});
+
+		$('#wpgmza_max_zoom, #wpgmza_min_zoom').on("change", function() {
+			setTimeout(function(){
+				WPGMZA.MapEditPage.liveZoomControl();
+			}, 500);
+		});
 	}
 	
 	WPGMZA.MapEditPage.createInstance = function()
@@ -50,6 +56,34 @@ jQuery(function($) {
 			return new WPGMZA.ProMapEditPage();
 		
 		return new WPGMZA.MapEditPage();
+	}
+
+	WPGMZA.MapEditPage.liveZoomControl = function()
+	{
+
+		//Get Maximum Zoom Out Level
+		var el_max_zoom = $('#wpgmza_max_zoom');
+		var value_max_zoom = $(el_max_zoom).find(':selected').val();
+
+		var find_max_zoom = WPGMZA.mapEditPage.map.googleMap.maxZoom;
+
+		//Set the selected value to maxZoom
+		find_max_zoom = value_max_zoom;
+
+		//Get Maximum Zoom Out Level
+		var el_min_zoom = $('#wpgmza_min_zoom');
+		var value_min_zoom = $(el_min_zoom).find(':selected').val();
+
+		var find_min_zoom = WPGMZA.mapEditPage.map.googleMap.minZoom ;
+		
+		//Set the selected value to minZoom
+		find_min_zoom = value_min_zoom;
+		
+		WPGMZA.mapEditPage.map.setOptions({	
+			minZoom:find_max_zoom ,
+			maxZoom: find_min_zoom
+		});
+
 	}
 	
 	$(window).on("load", function(event) {

@@ -11,6 +11,11 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.19
+ * Fixed issue with modern store locator and large number of sub-categories
+ * Made zoom limit controls live
+ * Changed UI style dropdown to radio buttons and added descriptions
+ * 
  * 8.0.18
  * Added center on marker button to the marker listing in the backend to center on marker location
  *
