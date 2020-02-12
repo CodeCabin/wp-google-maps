@@ -229,31 +229,12 @@ jQuery(function($) {
         wpgmza_InitMap();
 
         jQuery("body").on("click", ".wpgmza_del_btn", function() {
-            var cur_id = jQuery(this).attr("id");
-			var marker = wpgmaps_markers_array[cur_id];
 			
-			if(!wpgmaps_markers_array[cur_id])
-				return;
+			var $ = jQuery;
+            var marker_id = $(this).attr("data-delete-marker-id");
 			
-			wpgmaps_markers_array[cur_id].setMap(null);
-            delete wpgmaps_markers_array[cur_id];
+			WPGMZA.mapEditPage.map.removeMarkerByID(marker_id);
 			
-            var data = {
-                action: 'delete_marker',
-                security: wpgmaps_nonce,
-                map_id: wpgmaps_mapid,
-                marker_id: cur_id
-            };
-			
-            jQuery.post(ajaxurl, data, function(response) {
-                returned_data = JSON.parse(response);
-                wpgmaps_localize_marker_data = returned_data.marker_data;
-                
-                //jQuery("#wpgmza_marker_holder").html(JSON.parse(response).table_html);
-                wpgmza_reinitialisetbl();
-            });
-
-
         });
         jQuery("body").on("click", ".wpgmza_poly_del_btn", function() {
             var cur_id = jQuery(this).attr("id");
