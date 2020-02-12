@@ -2825,16 +2825,9 @@ function wpgmaps_menu_layout() {
         else {
 
             if (function_exists('wpgmza_register_pro_version')) {
-
-                $prov = get_option("WPGMZA_PRO");
-                $wpgmza_pro_version = $prov['version'];
                 wpgmza_pro_menu();
-                
-
-
             } else {
                 wpgmza_basic_menu();
-
             }
 
         }

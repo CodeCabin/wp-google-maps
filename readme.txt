@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.19 :- 2020-02-12 :- Medium priority =
+* Fixed issue with modern store locator and large number of sub-categories
+* Made zoom limit controls live
+* Changed UI style dropdown to radio buttons and added descriptions
+* All PO files rescanned to allow translation of new strings
+* esc_html__ and esc_html_e added to PO keywords
+* PO files now use relative paths
+* Fixed escaping issues in PO files
+
 = 8.0.18 :- 2020-02-06 :- Medium priority =
 * Added center on marker button to the marker listing in the backend to center on marker location
 * UX improvements to the map listing page
@@ -1427,6 +1436,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
 
 
 
