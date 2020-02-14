@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.20 :- 2020-02-14 :- Medium priority
+ * Fixed - Welcome page redirect breaks bulk enabling plugins
+ * 
  * 8.0.19 :- 2020-02-12 :- Medium priority
  * Fixed issue with modern store locator and large number of sub-categories
  * Made zoom limit controls live
