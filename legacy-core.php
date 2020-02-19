@@ -323,7 +323,7 @@ function wpgmaps_activate() {
     add_option("wpgmaps_current_version", $wpgmza_version);
 }
 
-add_action( "activated_plugin", "wpgmza_redirect_on_activate" );
+add_filter( 'activated_plugin', 'wpgmza_redirect_on_activate');
 /**
  * Redirect the user to the welcome page on plugin activate
  * @param  string $plugin
@@ -348,7 +348,7 @@ function wpgmza_redirect_on_activate( $plugin ) {
 	@ob_end_flush();
 	@ob_end_clean();
 	
-	exit( wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) ) );
+	wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) );
 }
 
 /**
