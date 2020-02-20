@@ -373,27 +373,6 @@ jQuery(function($) {
 				}
 			});
 			
-            /*wpgmza_edit_address = jQuery("#wpgmza_hid_marker_address_"+cur_id).val();
-            var wpgmza_edit_title = jQuery("#wpgmza_hid_marker_title_"+cur_id).val();
-            var wpgmza_edit_anim = jQuery("#wpgmza_hid_marker_anim_"+cur_id).val();
-            var wpgmza_edit_infoopen = jQuery("#wpgmza_hid_marker_infoopen_"+cur_id).val();
-            
-            if( wpgmza_edit_anim == '' ){ wpgmza_edit_anim = '0'; }
-            if( wpgmza_edit_infoopen == '' ){ wpgmza_edit_infoopen = '0'; }
-            
-            wpgmza_edit_lat = jQuery("#wpgmza_hid_marker_lat_"+cur_id).val();
-            wpgmza_edit_lng = jQuery("#wpgmza_hid_marker_lng_"+cur_id).val();
-            
-            jQuery("#wpgmza_edit_id").val(cur_id);
-            jQuery("#wpgmza_add_address").val(wpgmza_edit_address);
-            jQuery("#wpgmza_add_title").val(wpgmza_edit_title);
-            jQuery("#wpgmza_animation").val(wpgmza_edit_anim);
-            jQuery("#wpgmza_infoopen").val(wpgmza_edit_infoopen);
-            jQuery("#wpgmza_addmarker_div").hide();
-            jQuery("#wpgmza_editmarker_div").show();*/
-			
-			
-			
         });
 
         jQuery("#wpgmza_addmarker").click(function(){
@@ -547,6 +526,12 @@ jQuery(function($) {
 
             var wpgm_edit_id;
             wpgm_edit_id = parseInt(jQuery("#wpgmza_edit_id").val());
+			
+			
+			var oldMarker = WPGMZA.mapEditPage.map.getMarkerByID(wpgm_edit_id);
+			if(oldMarker)
+				WPGMZA.mapEditPage.map.removeMarker(oldMarker);
+			
             var wpgm_address = "0";
             var wpgm_gps = "0";
             var wpgm_anim = "0";
@@ -982,6 +967,9 @@ MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_ty
 
 
 function add_marker(marker_data) {
+
+	if(marker_data.marker_id)
+		marker_data.id = marker_data.marker_id;
 
 	var marker = wpgmaps_markers_array[marker_data.marker_id] = WPGMZA.Marker.createInstance(marker_data);
 	WPGMZA.maps[0].addMarker(marker);
