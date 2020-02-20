@@ -91,6 +91,13 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 			if(!empty($arbitraryDataColumnName) && !empty($this->fields[$arbitraryDataColumnName]))
 				$this->parse_arbitrary_data($this->fields[$arbitraryDataColumnName]);
 		}
+		
+		$this->onCrudInitialized();
+	}
+	
+	protected function onCrudInitialized()
+	{
+		
 	}
 	
 	private static function cacheColumnsByTableName($table_name)

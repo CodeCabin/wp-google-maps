@@ -39,12 +39,6 @@ jQuery(function($) {
 			});
 		}
 
-		$(document).on("click", ".wpgmza_edit_btn", function() {
-			var cur_id = jQuery(this).attr("data-edit-marker-id");
-
-			WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker(cur_id);		
-		});
-
 		$('#wpgmza_max_zoom, #wpgmza_min_zoom').on("change input", function(event) {
 			self.onZoomLimitChanged(event);
 		});
@@ -58,7 +52,7 @@ jQuery(function($) {
 		return new WPGMZA.MapEditPage();
 	}
 
-	WPGMZA.MapEditPage.prototype.onZoomLimitChanged = function()
+	WPGMZA.MapEditPage.prototype.onZoomLimitChanged = function(event)
 	{
 		this.map.setOptions({
 			minZoom:	$("#wpgmza_max_zoom").val(),

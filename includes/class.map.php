@@ -18,6 +18,8 @@ class Map extends Crud
 	protected $_overrides;
 	protected $_element;
 	
+	protected $_storeLocator;
+	
 	/**
 	 * Constructor
 	 * @param int|array|object $id_or_fields The ID to read an existing map, or an object or array to create a new one.
@@ -25,6 +27,7 @@ class Map extends Crud
 	public function __construct($id_or_fields=-1, $overrides=null)
 	{
 		global $wpdb;
+		global $wpgmza;
 		
 		Crud::__construct("{$wpdb->prefix}wpgmza_maps", $id_or_fields);
 		
@@ -38,6 +41,15 @@ class Map extends Crud
 		
 		$this->_element = $document->querySelector("div");
 		$this->_element->setAttribute('data-settings', json_encode($this));
+		
+		if(!$wpgmza->isProVersion())
+			$this->onInit();
+	}
+	
+	protected function onInit()
+	{
+		if($this->store_locator_enabled == 1)
+			$this->_storeLocator = StoreLocator::createInstance($this);
 	}
 	
 	public function __get($name)
@@ -45,7 +57,8 @@ class Map extends Crud
 		switch($name)
 		{
 			case 'overrides':
-				return $this->_overrides;
+			case 'scoreLocator':
+				return $this->{"_$name"};
 				break;
 			
 			case "storeLocatorDistanceUnits":

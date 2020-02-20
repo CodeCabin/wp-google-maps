@@ -501,11 +501,6 @@ form.wpgmza-form .wpgmza-fancy-toggle-button + label
 	padding: 1em 1em;
 }
 
-input.wpgmza-address
-{
-	width: 320px;
-}
-
 .wpgmza-upgrade-tab, .wpgmza-upgrade-tab a,
 	.update-att,
 	.update-att a
@@ -556,4 +551,5 @@ input[name='wpgmza_developer_mode']:checked + .notice-warning
     z-index: 999;
     text-align: center;
     line-height: 400px;
+	pointer-events: none;
 }
