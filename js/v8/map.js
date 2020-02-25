@@ -107,6 +107,14 @@ jQuery(function($) {
 		return new constructor(element, options);
 	}
 	
+	/**
+	 * The maps current latitude
+	 * 
+	 * @property lat
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#lat
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "lat", {
 		
 		get: function() {
@@ -121,6 +129,14 @@ jQuery(function($) {
 		
 	});
 	
+	/**
+	 * The maps current longitude
+	 * 
+	 * @property lng
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#lng
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "lng", {
 		
 		get: function() {
@@ -135,6 +151,14 @@ jQuery(function($) {
 		
 	});
 	
+	/**
+	 * The maps current zoom level
+	 *  
+	 * @property zoom
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#zoom
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "zoom", {
 		
 		get: function() {

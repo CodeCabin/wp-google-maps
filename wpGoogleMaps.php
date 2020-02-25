@@ -15,6 +15,7 @@ Domain Path: /languages
  * Re-factored store locator into new class
  * Removed hard coded zoom level when editing marker
  * Improved OpenLayers gesture handling UX to prevent browser zooming when Ctrl is pressed over map viewport when the gesture notice is visible
+ * WPGMZA.Distance.between now accepts latlng literals
  * Fixed old marker not removed after editing location
  * Fixed OpenLayers longitude not wrapping properly causing markers to disappear when moving outside -180 to +180
  * Fixed UI style setting not changing

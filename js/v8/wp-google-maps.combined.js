@@ -1081,11 +1081,11 @@ jQuery(function($) {
 		 */
 		between: function(a, b)
 		{
-			if(!(a instanceof WPGMZA.LatLng))
-				throw new Error("First argument must be an instance of WPGMZA.LatLng");
+			if(!(a instanceof WPGMZA.LatLng) && !("lat" in a && "lng" in a))
+				throw new Error("First argument must be an instance of WPGMZA.LatLng or a literal");
 			
-			if(!(b instanceof WPGMZA.LatLng))
-				throw new Error("Second argument must be an instance of WPGMZA.LatLng");
+			if(!(b instanceof WPGMZA.LatLng) && !("lat" in b && "lng" in b))
+				throw new Error("Second argument must be an instance of WPGMZA.LatLng or a literal");
 			
 			if(a === b)
 				return 0.0;
@@ -1095,8 +1095,8 @@ jQuery(function($) {
 			var lat2 = b.lat;
 			var lon2 = b.lng;
 			
-			var dLat = deg2rad(lat2-lat1);
-			var dLon = deg2rad(lon2-lon1); 
+			var dLat = deg2rad(lat2 - lat1);
+			var dLon = deg2rad(lon2 - lon1); 
 			
 			var a = 
 				Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -2776,12 +2776,6 @@ jQuery(function($) {
 			});
 		}
 
-		$(document).on("click", ".wpgmza_edit_btn", function() {
-			var cur_id = jQuery(this).attr("data-edit-marker-id");
-
-			WPGMZA.AdminMarkerDataTable.prototype.onCenterMarker(cur_id);		
-		});
-
 		$('#wpgmza_max_zoom, #wpgmza_min_zoom').on("change input", function(event) {
 			self.onZoomLimitChanged(event);
 		});
@@ -2795,7 +2789,7 @@ jQuery(function($) {
 		return new WPGMZA.MapEditPage();
 	}
 
-	WPGMZA.MapEditPage.prototype.onZoomLimitChanged = function()
+	WPGMZA.MapEditPage.prototype.onZoomLimitChanged = function(event)
 	{
 		this.map.setOptions({
 			minZoom:	$("#wpgmza_max_zoom").val(),
@@ -9857,7 +9851,11 @@ jQuery(function($) {
 	
 	WPGMZA.OLMap.prototype.wrapLongitude = function()
 	{
-		var center = this.getCenter();
+		var transformed = ol.proj.transform(this.olMap.getView().getCenter(), "EPSG:3857", "EPSG:4326");
+		var center = {
+			lat: transformed[1],
+			lng: transformed[0]
+		};
 		
 		if(center.lng >= -180 && center.lng <= 180)
 			return;

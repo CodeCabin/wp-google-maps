@@ -220,6 +220,15 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.20 =
+* Re-factored store locator into new class
+* Removed hard coded zoom level when editing marker
+* Improved OpenLayers gesture handling UX to prevent browser zooming when Ctrl is pressed over map viewport when the gesture notice is visible
+* WPGMZA.Distance.between now accepts latlng literals
+* Fixed old marker not removed after editing location
+* Fixed OpenLayers longitude not wrapping properly causing markers to disappear when moving outside -180 to +180
+* Fixed UI style setting not changing
+
 = 8.0.19 :- 2020-02-12 :- Medium priority =
 * Fixed issue with modern store locator and large number of sub-categories
 * Made zoom limit controls live
@@ -1436,6 +1445,8 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
 
 
 
