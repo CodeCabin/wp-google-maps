@@ -120,11 +120,11 @@ jQuery(function($) {
 		 */
 		between: function(a, b)
 		{
-			if(!(a instanceof WPGMZA.LatLng))
-				throw new Error("First argument must be an instance of WPGMZA.LatLng");
+			if(!(a instanceof WPGMZA.LatLng) && !("lat" in a && "lng" in a))
+				throw new Error("First argument must be an instance of WPGMZA.LatLng or a literal");
 			
-			if(!(b instanceof WPGMZA.LatLng))
-				throw new Error("Second argument must be an instance of WPGMZA.LatLng");
+			if(!(b instanceof WPGMZA.LatLng) && !("lat" in b && "lng" in b))
+				throw new Error("Second argument must be an instance of WPGMZA.LatLng or a literal");
 			
 			if(a === b)
 				return 0.0;
@@ -134,8 +134,8 @@ jQuery(function($) {
 			var lat2 = b.lat;
 			var lon2 = b.lng;
 			
-			var dLat = deg2rad(lat2-lat1);
-			var dLon = deg2rad(lon2-lon1); 
+			var dLat = deg2rad(lat2 - lat1);
+			var dLon = deg2rad(lon2 - lon1); 
 			
 			var a = 
 				Math.sin(dLat/2) * Math.sin(dLat/2) +

@@ -1,5 +1,4 @@
-.wpgmza-store-locator > div > *,
-	.wpgmza-directions-box-inner > div > *
+.wpgmza-store-locator > div > *
 {
 	display: inline-block;
 	/* vertical-align: top; */
@@ -11,11 +10,11 @@
 	width: 180px;
 }
 
-.wpgmza-store-locator input[type="button"],
+.wpgmza-store-locator input[type="button"]/*,
 	.wpgmza-not-found-msg,
 	div.wpgmza-waypoint-via,
 	.wpgmza-add-waypoint,
-	input.wpgmza-get-directions
+	input.wpgmza-get-directions*/
 {
 	margin-left: 180px;
 }
@@ -23,5 +22,6 @@
 input.wpgmza-directions-from,
 	input.wpgmza-directions-to
 {
-	width: calc(80% - 180px);
+	display: inline-block;
+	width: calc(100% - 72px);
 }
