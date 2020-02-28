@@ -515,6 +515,31 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$this->trashed = true;
 	}
 	
+	public function duplicate()
+	{
+		global $wpdb;
+		
+		$columns = array();
+		
+		foreach($wpdb->get_col("SHOW COLUMNS FROM `{$this->table_name}`") as $name)
+		{
+			if($name == 'id')
+				continue;
+			
+			$columns []= $name;
+		}
+		
+		$imploded = implode(',', $columns);
+		
+		$query = "INSERT INTO {$this->table_name} ($imploded) SELECT $imploded FROM {$this->table_name}";
+		
+		$wpdb->query($query);
+		
+		$class = get_class($this);
+		
+		return $class::createInstance($wpdb->insert_id);
+	}
+	
 	/**
 	 * Set variables in bulk, this reduces the number of database calls
 	 * @param string|array|object Either a string naming the property to be set (with a second argument which is the value), or an array or object of key and value pairs to be set on this object

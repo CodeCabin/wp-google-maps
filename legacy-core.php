@@ -4825,19 +4825,11 @@ function wpgmza_stats($sec) {
 
 }
 
-function wpgmaps_filter(&$array) {
-    $clean = array();
-    foreach($array as $key => &$value ) {
-        if( is_array($value) ) {
-            wpgmaps_filter($value);
-        } else {
-            if (get_magic_quotes_gpc()) {
-                $data = stripslashes($value);
-            }
-            $data = esc_sql($value);
-        }
-    }
+function wpgmaps_filter(&$array)
+{
+	trigger_error("Deprecated since 8.0.20");
 }
+
 function wpgmaps_debugger($section) {
 
     global $debug;
