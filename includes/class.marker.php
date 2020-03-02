@@ -99,6 +99,9 @@ class Marker extends Crud implements \JsonSerializable
 		if($name == 'latlng')
 			return "POINT(" . floatval($this->lat) . " " . floatval($this->lng) . ")";
 		
+		if($name == 'lnglat')
+			return "POINT(" . floatval($this->lat) . " " . floatval($this->lng) . ")";
+		
 		return Crud::get_column_parameter($name);
 	}
 	
@@ -132,10 +135,16 @@ class Marker extends Crud implements \JsonSerializable
 			$this->lat,
 			$this->lng,
 			$this->get_column_parameter('latlng'),
+			$this->get_column_parameter('lnglat'),
 			$this->id
 		);
 		
-		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " SET lat=%s, lng=%s, latlng={$wpgmza->spatialFunctionPrefix}GeomFromText(%s) WHERE id=%d", $params);
+		$stmt = $wpdb->prepare("UPDATE " . $this->get_table_name() . " 
+			SET lat=%s, 
+			lng=%s, 
+			latlng={$wpgmza->spatialFunctionPrefix}GeomFromText(%s) 
+			lnglat={$wpgmza->spatialFunctionPrefix}GeomFromText(%s)
+			WHERE id=%d", $params);
 		
 		$wpdb->query($stmt);
 	}

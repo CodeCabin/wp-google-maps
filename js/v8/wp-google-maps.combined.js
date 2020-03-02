@@ -3515,6 +3515,14 @@ jQuery(function($) {
 		return new constructor(element, options);
 	}
 	
+	/**
+	 * The maps current latitude
+	 * 
+	 * @property lat
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#lat
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "lat", {
 		
 		get: function() {
@@ -3529,6 +3537,14 @@ jQuery(function($) {
 		
 	});
 	
+	/**
+	 * The maps current longitude
+	 * 
+	 * @property lng
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#lng
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "lng", {
 		
 		get: function() {
@@ -3543,6 +3559,14 @@ jQuery(function($) {
 		
 	});
 	
+	/**
+	 * The maps current zoom level
+	 *  
+	 * @property zoom
+	 * @memberof WPGMZA.Map
+	 * @name WPGMZA.Map#zoom
+	 * @type Number
+	 */
 	Object.defineProperty(WPGMZA.Map.prototype, "zoom", {
 		
 		get: function() {
@@ -4431,8 +4455,9 @@ jQuery(function($) {
 	/**
 	 * Called when the marker has been added to a map
 	 * @method
-	 * @method
 	 * @memberof WPGMZA.Marker
+	 * @listens module:WPGMZA.Marker~added
+	 * @fires module:WPGMZA.Marker~select When this marker is targeted by the marker shortcode attribute
 	 */
 	WPGMZA.Marker.prototype.onAdded = function(event)
 	{
@@ -4524,6 +4549,7 @@ jQuery(function($) {
 	 * Called when the marker has been clicked
 	 * @method
 	 * @memberof WPGMZA.Marker
+	 * @listens module:WPGMZA.Marker~click
 	 */
 	WPGMZA.Marker.prototype.onClick = function(event)
 	{
@@ -4534,6 +4560,7 @@ jQuery(function($) {
 	 * Called when the marker has been selected, either by the icon being clicked, or from a marker listing
 	 * @method
 	 * @memberof WPGMZA.Marker
+	 * @listens module:WPGMZA.Marker~select
 	 */
 	WPGMZA.Marker.prototype.onSelect = function(event)
 	{
@@ -4544,6 +4571,7 @@ jQuery(function($) {
 	 * Called when the user hovers the mouse over this marker
 	 * @method
 	 * @memberof WPGMZA.Marker
+	 * @listens module:WPGMZA.Marker~mouseover
 	 */
 	WPGMZA.Marker.prototype.onMouseOver = function(event)
 	{
