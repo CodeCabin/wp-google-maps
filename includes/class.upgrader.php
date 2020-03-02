@@ -19,5 +19,15 @@ class Upgrader
 			global $wpgmza;
 			$wpgmza->updateAllMarkerXMLFiles();
 		});
+		
+		$this->upgradeLngLat();
+	}
+	
+	protected function upgradeLngLat()
+	{
+		/*global $wpdb;
+		global $WPGMZA_TABLE_NAME_MARKERS;
+		
+		$wpdb->query("UPDATE `$WPGMZA_TABLE_NAME_MARKERS` SET lnglat = POINT(Y(latlng), X(latlng))");*/
 	}
 }

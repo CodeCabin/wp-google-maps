@@ -130,10 +130,15 @@ class Database extends Factory
 			sticky tinyint(1) DEFAULT '0',
 			other_data LONGTEXT NOT NULL,
 			latlng POINT,
+			lnglat POINT NOT NULL,
 			PRIMARY KEY  (id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
+		
+		// TODO: Create marker first
+		
+		// $wpdb->query("ALTER TABLE `$WPGMZA_TABLE_NAME_MARKERS` ADD SPATIAL INDEX(lnglat)");
 	}
 	
 	protected function installPolygonTable()

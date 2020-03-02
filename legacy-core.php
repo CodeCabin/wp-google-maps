@@ -1885,8 +1885,8 @@ function wpgmza_settings_page_post()
 	if (isset($_POST['wpgmza_custom_css'])) { $wpgmza->settings['wpgmza_custom_css'] = sanitize_text_field($_POST['wpgmza_custom_css']); }
 	if (isset($_POST['wpgmza_custom_js'])) { $wpgmza->settings['wpgmza_custom_js'] = $_POST['wpgmza_custom_js']; }
 	
-    if (isset($_POST['user_interface_style'])) 
-    $wpgmza->settings['user_interface_style'] = esc_attr($_POST['user_interface_style']);
+    if (isset($_POST['user_interface_style']))
+		$wpgmza->settings['user_interface_style'] = esc_attr($_POST['user_interface_style']);
 	
 	if (isset($_POST['wpgmza_marker_xml_location'])) { update_option("wpgmza_xml_location",sanitize_text_field($_POST['wpgmza_marker_xml_location'])); }
 	if (isset($_POST['wpgmza_marker_xml_url'])) { update_option("wpgmza_xml_url",sanitize_text_field($_POST['wpgmza_marker_xml_url'])); }
@@ -1900,8 +1900,6 @@ function wpgmza_settings_page_post()
 	if (isset($_POST['wpgmza_store_locator_radii'])) { $wpgmza->settings['wpgmza_store_locator_radii'] = sanitize_text_field($_POST['wpgmza_store_locator_radii']); }
 
 	if (isset($_POST['wpgmza_settings_enable_usage_tracking'])) { $wpgmza->settings['wpgmza_settings_enable_usage_tracking'] = sanitize_text_field($_POST['wpgmza_settings_enable_usage_tracking']); }
-	
-	$wpgmza->settings->user_interface_style = sanitize_text_field($_POST['user_interface_style']);
 	
 	$arr = apply_filters("wpgooglemaps_filter_save_settings", $wpgmza->settings);
 	
@@ -4825,19 +4823,11 @@ function wpgmza_stats($sec) {
 
 }
 
-function wpgmaps_filter(&$array) {
-    $clean = array();
-    foreach($array as $key => &$value ) {
-        if( is_array($value) ) {
-            wpgmaps_filter($value);
-        } else {
-            if (get_magic_quotes_gpc()) {
-                $data = stripslashes($value);
-            }
-            $data = esc_sql($value);
-        }
-    }
+function wpgmaps_filter(&$array)
+{
+	trigger_error("Deprecated since 8.0.20");
 }
+
 function wpgmaps_debugger($section) {
 
     global $debug;
