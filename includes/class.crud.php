@@ -531,9 +531,11 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$imploded = implode(',', $columns);
 		
-		$query = "INSERT INTO {$this->table_name} ($imploded) SELECT $imploded FROM {$this->table_name}";
+		$query = "INSERT INTO {$this->table_name} ($imploded) SELECT $imploded FROM {$this->table_name} WHERE id=%d";
 		
-		$wpdb->query($query);
+		$stmt = $wpdb->prepare($query, $this->id);
+		
+		$wpdb->query($stmt);
 		
 		$class = get_class($this);
 		
