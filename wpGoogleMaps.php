@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.21
+ * Added tooltip to OpenLayer markers
+ * 
  * 8.0.20
  * Re-factored store locator into new class
  * Removed hard coded zoom level when editing marker
