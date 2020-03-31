@@ -78,6 +78,13 @@ class StoreLocator extends Factory implements \IteratorAggregate
 			case "defaultAddress":
 			case "notFoundMessage":
 			case "defaultRadius":
+
+				$address_label = __('ZIP / Addressss:', 'wp-google-maps');
+
+				if(!empty($this->map->store_locator_query_string))
+				{
+					$address_label = $this->map->store_locator_query_string;
+				}
 			
 				$defaults = array(
 					"addressLabel"		=> __('ZIP / Address:', 'wp-google-maps'),
