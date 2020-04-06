@@ -119,8 +119,6 @@ function wpgmza_b_edit_circle($mid)
 	
 	wpgmaps_b_admin_add_circle_javascript();
 	
-	wpgmza_enqueue_fontawesome();
-	
     if ($_GET['action'] == "edit_circle" && isset($mid)) {
         $res = wpgmza_get_map_data($mid);
 		$circle_id = (int)$_GET['circle_id'];
@@ -270,7 +268,7 @@ function wpgmaps_b_admin_add_circle_javascript()
 	);
 	
 	wp_enqueue_style('wpgooglemaps-css', wpgmaps_get_plugin_url() . 'css/wpgmza_style.css');
-	wp_enqueue_script('wpgmza-legacy-circle-panel', plugin_dir_url(__FILE__) . 'js/legacy/legacy-circle-panel.js');
+	wp_enqueue_script('wpgmza-legacy-circle-panel', plugin_dir_url(WPGMZA_FILE) . 'js/legacy/legacy-circle-panel.js');
 	wp_localize_script('wpgmza-legacy-circle-panel', 'wpgmza_legacy', $localized_data);
 }
 

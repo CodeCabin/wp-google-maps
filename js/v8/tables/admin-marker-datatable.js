@@ -35,6 +35,11 @@ jQuery(function($) {
 	WPGMZA.AdminMarkerDataTable.prototype = Object.create(WPGMZA.DataTable.prototype);
 	WPGMZA.AdminMarkerDataTable.prototype.constructor = WPGMZA.AdminMarkerDataTable;
 	
+	WPGMZA.AdminMarkerDataTable.createInstance = function(element)
+	{
+		return new WPGMZA.AdminMarkerDataTable(element);
+	}
+	
 	WPGMZA.AdminMarkerDataTable.prototype.getDataTableSettings = function()
 	{
 		var self = this;
@@ -163,7 +168,7 @@ jQuery(function($) {
 	$(document).ready(function(event) {
 		
 		$("[data-wpgmza-admin-marker-datatable]").each(function(index, el) {
-			WPGMZA.adminMarkerDataTable = new WPGMZA.AdminMarkerDataTable(el);
+			WPGMZA.adminMarkerDataTable = WPGMZA.AdminMarkerDataTable.createInstance(el);
 		});
 		
 	});

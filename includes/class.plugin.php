@@ -260,6 +260,8 @@ class Plugin extends Factory
 				'googleMapsAPIErrorDialog' => $googleMapsAPIErrorDialogHTML
 			),
 			
+			'imageFolderURL'		=> plugin_dir_url(WPGMZA_FILE) . 'images/',
+			
 			'resturl'				=> preg_replace('#/$#', '', get_rest_url(null, 'wpgmza/v1')),
 			'restnonce'				=> wp_create_nonce('wp_rest'),
 			'restnoncetable'		=> $this->restAPI->getNonceTable(),

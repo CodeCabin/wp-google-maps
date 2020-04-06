@@ -83,7 +83,10 @@ class Strings
 			'use_two_fingers'			=> __('Use two fingers to move the map', 'wp-google-maps'),
 			'use_ctrl_scroll_to_zoom'	=> __('Use ctrl + scroll to zoom the map', 'wp-google-maps'),
 			'geocode_was_not_successful'	=> __('Geocode was not successful for the following reason: ', 'wp-google-maps'),
-			'geocoding_library_notice'	=> __('Geocoding this address failed. Please check you have enabled the Geocoding API for your Google Maps API project.', 'wp-google-maps')
+			'geocoding_library_notice'	=> __('Geocoding this address failed. Please check you have enabled the Geocoding API for your Google Maps API project.', 'wp-google-maps'),
+			
+			'map_delete_prompt_text'		=> __('Are you sure you want to delete this map?', 'wp-google-maps'),
+			'map_bulk_delete_prompt_text'	=> __('Are you sure you want to delete these maps?', 'wp-google-maps')
 		));
 	}
 	

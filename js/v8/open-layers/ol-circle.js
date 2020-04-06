@@ -47,14 +47,13 @@ jQuery(function($) {
 			return;
 		
 		// IMPORTANT: Please note that due to what appears to be a bug in OpenLayers, the following code MUST be exected specifically in this order, or the circle won't appear
-		var wgs84Sphere = new ol.Sphere(6378137);
 		var radius = parseFloat(this.radius) * 1000 / 2;
 		var x, y;
 		
 		x = this.center.lng;
 		y = this.center.lat;
 		
-		var circle4326 = ol.geom.Polygon.circular(wgs84Sphere, [x, y], radius, 64);
+		var circle4326 = ol.geom.Polygon.circular([x, y], radius, 64);
 		var circle3857 = circle4326.clone().transform('EPSG:4326', 'EPSG:3857');
 		
 		this.olFeature = new ol.Feature(circle3857);

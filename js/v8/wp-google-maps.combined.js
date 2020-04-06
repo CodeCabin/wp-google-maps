@@ -699,6 +699,13 @@ jQuery(function($) {
 		
 	};
 	
+	// NB: Warn the user if the built in Array prototype has been extended. This will save debugging headaches where for ... in loops do bizarre things.
+	for(var key in [])
+	{
+		console.warn("It appears that the built in JavaScript Array has been extended, this can create issues with for ... in loops, which may cause failure.");
+		break;
+	}
+	
 	if(window.WPGMZA)
 		window.WPGMZA = $.extend(window.WPGMZA, core);
 	else
@@ -3070,8 +3077,15 @@ jQuery(function($) {
 	{
 		var self = this;
 		
+		this._keypressHistory = [];
+		
 		this.updateEngineSpecificControls();
 		this.updateGDPRControls();
+		
+		$("#wpgmza-developer-mode").hide();
+		$(window).on("keypress", function(event) {
+			self.onKeyPress(event);
+		});
 		
 		$("select[name='wpgmza_maps_engine']").on("change", function(event) {
 			self.updateEngineSpecificControls();
@@ -3144,6 +3158,24 @@ jQuery(function($) {
 		OLGeocoder.clearCache(function(response){
 			jQuery('#wpgmza_flush_cache_btn').removeAttr('disabled');
 		});
+	}
+	
+	WPGMZA.MapSettingsPage.prototype.onKeyPress = function(event)
+	{
+		var string;
+		
+		this._keypressHistory.push(event.key);
+		
+		if(this._keypressHistory.length > 9)
+			this._keypressHistory = this._keypressHistory.slice(this._keypressHistory.length - 9);
+		
+		string = this._keypressHistory.join("");
+		
+		if(string == "codecabin" && !this._developerModeRevealed)
+		{
+			$("#wpgmza-developer-mode").show();
+			this._developerModeRevealed = true;
+		}
 	}
 	
 	jQuery(function($) {
@@ -8299,9 +8331,7 @@ jQuery(function($) {
 		var options = {};
 
 		options.scrollwheel  = true;
-
 		options.draggable	=  true;
-
 		options.disableDoubleClickZoom	= false;
 		
 		this.googleMap.setOptions(options);
@@ -9172,14 +9202,13 @@ jQuery(function($) {
 			return;
 		
 		// IMPORTANT: Please note that due to what appears to be a bug in OpenLayers, the following code MUST be exected specifically in this order, or the circle won't appear
-		var wgs84Sphere = new ol.Sphere(6378137);
 		var radius = parseFloat(this.radius) * 1000 / 2;
 		var x, y;
 		
 		x = this.center.lng;
 		y = this.center.lat;
 		
-		var circle4326 = ol.geom.Polygon.circular(wgs84Sphere, [x, y], radius, 64);
+		var circle4326 = ol.geom.Polygon.circular([x, y], radius, 64);
 		var circle3857 = circle4326.clone().transform('EPSG:4326', 'EPSG:3857');
 		
 		this.olFeature = new ol.Feature(circle3857);

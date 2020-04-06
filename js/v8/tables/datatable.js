@@ -111,6 +111,7 @@ jQuery(function($) {
 				self.lastResponse = response;
 				
 				callback(response);
+				self.onAJAXResponse(response);
 				
 			}
 		};

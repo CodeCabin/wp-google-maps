@@ -15,8 +15,15 @@ jQuery(function($) {
 	{
 		var self = this;
 		
+		this._keypressHistory = [];
+		
 		this.updateEngineSpecificControls();
 		this.updateGDPRControls();
+		
+		$("#wpgmza-developer-mode").hide();
+		$(window).on("keypress", function(event) {
+			self.onKeyPress(event);
+		});
 		
 		$("select[name='wpgmza_maps_engine']").on("change", function(event) {
 			self.updateEngineSpecificControls();
@@ -89,6 +96,24 @@ jQuery(function($) {
 		OLGeocoder.clearCache(function(response){
 			jQuery('#wpgmza_flush_cache_btn').removeAttr('disabled');
 		});
+	}
+	
+	WPGMZA.MapSettingsPage.prototype.onKeyPress = function(event)
+	{
+		var string;
+		
+		this._keypressHistory.push(event.key);
+		
+		if(this._keypressHistory.length > 9)
+			this._keypressHistory = this._keypressHistory.slice(this._keypressHistory.length - 9);
+		
+		string = this._keypressHistory.join("");
+		
+		if(string == "codecabin" && !this._developerModeRevealed)
+		{
+			$("#wpgmza-developer-mode").show();
+			this._developerModeRevealed = true;
+		}
 	}
 	
 	jQuery(function($) {

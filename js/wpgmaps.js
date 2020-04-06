@@ -405,54 +405,6 @@ var wpgmza_last_default_circle = null;
 function wpgmza_show_store_locator_radius(map_id, center, radius, distance_type)
 {
 	return; // Deprecated as of 8.0.0
-	
-	var style = wpgmaps_localize[map_id].other_settings.wpgmza_store_locator_radius_style;
-	
-	// Force legacy style on iOS, it appears CanvasLayer crashes some iOS devices
-	if(WPGMZA.isDeviceiOS())
-		style = "legacy";
-	
-	switch(style)
-	{
-		case "modern":
-			if(MYMAP.modernStoreLocatorCircle)
-				MYMAP.modernStoreLocatorCircle.destroy();
-				
-			MYMAP.modernStoreLocatorCircle = WPGMZA.ModernStoreLocatorCircle.createInstance(map_id);
-			
-			MYMAP.modernStoreLocatorCircle.setOptions({
-				visible: true,
-				center: center,
-				radius: radius * (distance_type == 1 ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1),
-				radiusString: radius
-			});
-			
-			break;
-		
-		default:
-			var options = {
-				strokeColor: '#FF0000',
-				strokeOpacity: 0.25,
-				strokeWeight: 2,
-				fillColor: '#FF0000',
-				fillOpacity: 0.15,
-				map: MYMAP.map,
-				center: center
-			};
-			
-			if (distance_type == "1")
-				options.radius = parseInt(radius / 0.000621371);
-			else
-				options.radius = parseInt(radius / 0.001);
-
-			if(typeof wpgmza_last_default_circle !== "undefined" && wpgmza_last_default_circle !== null){
-				wpgmza_last_default_circle.setMap(null);
-				wpgmza_last_default_circle = null;
-			}
-
-			wpgmza_last_default_circle = WPGMZA.Circle.createInstance(options);
-			break;
-	}
 }
 
 MYMAP.placeMarkers = function(filename,map_id,radius,searched_center,distance_type) {

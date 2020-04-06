@@ -616,9 +616,7 @@ jQuery(function($) {
 		var options = {};
 
 		options.scrollwheel  = true;
-
 		options.draggable	=  true;
-
 		options.disableDoubleClickZoom	= false;
 		
 		this.googleMap.setOptions(options);

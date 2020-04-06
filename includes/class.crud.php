@@ -35,6 +35,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	{
 		global $wpdb;
 		
+		$this->table_name = $table_name;
+		Crud::cacheColumnsByTableName($table_name);
+		
 		$this->fields = array();
 		$this->overrides = array();
 		
@@ -71,11 +74,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		else
 			throw new \Exception('Invalid ID');
 		
-		$this->table_name = $table_name;
-		
 		$this->id = $id;
-		
-		Crud::cacheColumnsByTableName($table_name);
 		
 		if($read_mode != Crud::BULK_READ)
 		{

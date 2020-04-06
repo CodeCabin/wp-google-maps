@@ -596,7 +596,7 @@ function wpgmza_legacy_settings_page_basic()
 	$ret .= "                   </tr>";
 	
 	$ret .= "             <tr>
-							 <td width='200' valign='top' style='vertical-align:top;'>".__("Disable Autopimize Compatibility Fix","wp-google-maps").":</td>
+							 <td width='200' valign='top' style='vertical-align:top;'>".__("Disable Autoptimize Compatibility Fix","wp-google-maps").":</td>
 						  <td>
 							 <input 
 								type='checkbox' 
@@ -627,10 +627,11 @@ function wpgmza_legacy_settings_page_basic()
 	$ret .= "                   </table>";
 	$ret .= "
 	
+	<div id='wpgmza-developer-mode'>
 	<h4>" . __('Developer Mode', 'wp-google-maps') . "</h4>
 	<input type='checkbox' name='wpgmza_developer_mode' $developer_mode_checked/>
 	" . __('Always rebuilds combined script files, does not load combined and minified scripts', 'wp-google-maps') . "
-	";
+	</div>";
 	
 	$ret .= "           </div>";
 	
