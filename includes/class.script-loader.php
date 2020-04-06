@@ -554,14 +554,14 @@ class ScriptLoader
 		// Enqueue Google API call if necessary
 		switch($wpgmza->settings->engine)
 		{
-			case 'google-maps':
-				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
-				$loader->loadGoogleMaps();
+			case "open-layers":
+				$loader = new OLLoader();
+				$loader->loadOpenLayers();
 				break;
 				
 			default:
-				$loader = new OLLoader();
-				$loader->loadOpenLayers();
+				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
+				$loader->loadGoogleMaps();
 				break;
 		}
 		

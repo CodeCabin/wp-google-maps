@@ -208,7 +208,7 @@ class MarkerFilter extends Factory
 			$markers[] = Marker::createInstance($data, Crud::BULK_READ);
 		}
 		
-		return $markers;
+		return apply_filters('wpgmza_fetch_integrated_markers', $markers, $this);
 	}
 	
 	public function getFilteredIDs()

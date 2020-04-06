@@ -129,13 +129,17 @@ class GoogleMapsAPILoader
 		// API Key
 		$key = get_option('wpgmza_google_maps_api_key');
 		
-		if($key)
+		if(!empty($key))
 			$params['key'] = $key;
 		else if(is_admin())
 			$params['key'] = get_option('wpgmza_temp_api');
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');
+		
+		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT)
+			$libraries[] = 'drawing';
+		
 		$params['libraries'] = implode(',', $libraries);
 		
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );

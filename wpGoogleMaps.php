@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.20
+Version: 8.0.21
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,14 +11,32 @@ Domain Path: /languages
 */
 
 /*
- * 8.0.21
+ * 8.0.22
  * Added tooltip to OpenLayer markers
- * 
- * 8.0.20
+ * Removed calls to wpgmza_enqueue_fontawesome (deprecated)
+ * Added constants WPGMZA_PLUGIN_DIR_PATH and WPGMZA_PLUGIN_DIR_URL
+ * Corrected typo in class.map.php (scoreLocator)
+ * Added imageFolderURL to WPGMZA
+ * Corrected paths in legacy circle and rectangle PHP files
+ * Corrected Autoptimize typo
+ * Debug OpenLayers no longer bundled or supported
+ * Fixed "google is undefined" for users who had disabled legacy Pro, switched to OpenLayers and re-enabled legacy Pro
+ *
+ * 8.0.21 :- 2020-03-19 :- Medium priority
+ * Developer Mode is now inaccessible
+ * Tested up to WordPress 5.4
+ * Removed experimental lnglat column
+ * Fixed 404 preventing circle and rectangle add/edit pages from working
+ * Fixed Cannot use 'in' operator to search for 'x' in undefined when pressing enter on OpenLayers modern style store locator
+ * Fixed ol.Sphere is not a constructor preventing OpenLayers store locator w/legacy radius from working correctly
+ * Fixed issues with map not displaying when no engine set (solves issues with Pro 6 map loading)
+ *
+ * 8.0.20 :- 2020-03-06 :- Medium priority
  * Re-factored store locator into new class
  * Removed hard coded zoom level when editing marker
  * Improved OpenLayers gesture handling UX to prevent browser zooming when Ctrl is pressed over map viewport when the gesture notice is visible
  * WPGMZA.Distance.between now accepts latlng literals
+ * Updated bundled OpenLayers library to 6.2.1
  * Fixed old marker not removed after editing location
  * Fixed OpenLayers longitude not wrapping properly causing markers to disappear when moving outside -180 to +180
  * Fixed UI style setting not changing

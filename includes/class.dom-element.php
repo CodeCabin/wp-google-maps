@@ -549,6 +549,9 @@ class DOMElement extends \DOMElement
 			if(!$name)
 				continue;
 			
+			if(preg_match('/nonce/i', $name))
+				continue; // NB: Do not serialize nonce values
+			
 			switch($input->getAttribute('type'))
 			{
 				case 'checkbox':

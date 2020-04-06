@@ -99,6 +99,8 @@ class GoogleMapsLoader
 		$key = get_option('wpgmza_google_maps_api_key');
 		if(!empty($key))
 			$params['key'] = $key;
+		else if(is_admin())
+			$params['key'] = get_option('wpgmza_temp_api');
 
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
 		

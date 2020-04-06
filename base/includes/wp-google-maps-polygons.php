@@ -6,12 +6,6 @@ Polygon functionality for WP Google Maps
 if(!defined('ABSPATH'))
 	exit;
 
-add_action('wp_enqueue_scripts', function() {
-	
-	wpgmza_enqueue_fontawesome();
-	
-});
-
 /**
  * Render polygon editor HTML
  * @param  integer $mid     Map ID

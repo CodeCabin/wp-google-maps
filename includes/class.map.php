@@ -57,7 +57,7 @@ class Map extends Crud
 		switch($name)
 		{
 			case 'overrides':
-			case 'scoreLocator':
+			case 'storeLocator':
 				return $this->{"_$name"};
 				break;
 			

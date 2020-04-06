@@ -73,6 +73,68 @@ class DOMDocument extends \DOMDocument
 		return $result;
 	}
 	
+	private function translateLineNumber($htmlLineNumber, $src)
+	{
+		
+	}
+	
+	public function onError($severity, $message, $file, $unused)
+	{
+		if(!preg_match('/DOMDocument::loadHTML.+line: (\d+)/', $message, $m))
+		{
+			trigger_error($message, E_USER_WARNING);
+			return;
+		}
+		
+		$htmlLineNumber	= $m[1];
+		$lines			= file($this->src_file);
+		
+		$totalPhpLines	= count($lines);
+		$lineCounter	= 1;
+		
+		$allowShortTags	= ini_get('short_open_tag') == "1";
+		$regexOpenTag	= ($allowShortTags ? '/<\?(php)?/' : '/<\?php/');
+		$regexCloseTag	= "/\?>/";
+		
+		$inPhp			= false;
+		
+		for($phpLineNumber = 1; $phpLineNumber <= $totalPhpLines; $phpLineNumber++)
+		{
+			if($lineCounter == $htmlLineNumber)
+			{
+				$message = preg_replace(
+					array('/loadHTML/', '/line: \d+/'), 
+					array('loadPHPFile', "line: $phpLineNumber"), 
+					$message
+				);
+				trigger_error($message, E_USER_WARNING);
+				
+				return;
+			}
+			
+			$line			= $lines[$phpLineNumber - 1];
+			
+			$numOpenTags	= preg_match_all($regexOpenTag, $line);
+			$numCloseTags	= preg_match_all($regexCloseTag, $line);
+			
+			if($numOpenTags > $numCloseTags)
+			{
+				$inPhp		= true;
+			}
+			else if($numCloseTags > 0)
+			{
+				$inPhp		= false;
+				$lineCounter--;	// NB: I don't understand why a close tag swallows the newline, but it does appear to
+			}
+			
+			if(!$inPhp)
+				$lineCounter++;
+		}
+		
+		trigger_error("Failed to translate line number", E_USER_WARNING);
+		trigger_error($message, E_USER_WARNING);
+	}
+	
 	/**
 	 * Loads the specified file and parses any PHP
 	 * @param string $src The file you want to load

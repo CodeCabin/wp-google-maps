@@ -1619,8 +1619,6 @@ function wpgmaps_tag_basic( $atts )
 	
 	$wpgmza->loadScripts();
 	
-	wpgmza_enqueue_fontawesome();
-	
 	wp_localize_script('wpgmaps_core', 'wpgmza_circle_data_array', wpgmza_get_circle_data(1));
 	wp_localize_script('wpgmaps_core', 'wpgmza_rectangle_data_array', wpgmza_get_rectangle_data(1));
 	
@@ -2091,6 +2089,9 @@ function wpgmaps_head() {
 				$marker->address	= (string)$latlng;
 			}
 		}
+		
+		$lat				= $_POST['wpgmaps_marker_lat'];
+		$lng				= $_POST['wpgmaps_marker_lng'];
 		
 		$marker->lat		= $lat;
 		$marker->lng		= $lng;
@@ -4254,9 +4255,6 @@ function wpgmaps_admin_scripts() {
                 
             }
         }
-
-        if ($_GET['page'] == "wp-google-maps-menu-support" && !function_exists('wpgmaps_admin_styles_pro'))
-            wpgmza_enqueue_fontawesome();
 
         if(strpos($_GET['page'], "wp-google-maps") !== false){
             wp_register_style('wpgmaps-admin-style-basic', plugins_url('css/wp-google-maps-admin.css', __FILE__));
