@@ -30,6 +30,7 @@ jQuery(function($) {
 			img.src = WPGMZA.defaultMarkerIcon;
 			
 			this.element = $("<div class='ol-marker'></div>")[0];
+			$(this.element).attr('title', this.title);
 			this.element.appendChild(img);
 			
 			this.element.wpgmzaMarker = this;
