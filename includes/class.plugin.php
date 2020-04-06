@@ -252,6 +252,7 @@ class Plugin extends Factory
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
+			'pluginDirURL'			=> plugin_dir_url(WPGMZA_FILE),
 			
 			'ajaxnonce'				=> wp_create_nonce('wpgmza_ajaxnonce'),
 			'legacyajaxnonce'		=> wp_create_nonce('wpgmza'),

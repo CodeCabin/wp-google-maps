@@ -77,11 +77,19 @@ jQuery(function($) {
 		
 		this.createGoogleInfoWindow();
 		this.setMapObject(mapObject);
+
+		if(this.googleObject instanceof google.maps.Polygon)
+		{
+
+		}
+		else{
+			this.googleInfoWindow.open(
+				this.mapObject.map.googleMap,
+				this.googleObject
+			);
+		}
 		
-		this.googleInfoWindow.open(
-			this.mapObject.map.googleMap,
-			this.googleObject
-		);
+
 		
 		var guid = WPGMZA.guid();
 		var html = "<div id='" + guid + "'>" + this.content + "</div>";
