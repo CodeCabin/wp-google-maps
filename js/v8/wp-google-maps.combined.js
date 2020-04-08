@@ -5512,7 +5512,16 @@ jQuery(function($) {
 		$(map.markerFilter).on("filteringcomplete", function(event) {
 
 			if(!this.map.hasVisibleMarkers())
-				alert(WPGMZA.localized_strings.zero_results);
+			{
+				if(this.map.settings.store_locator_not_found_message !=  WPGMZA.localized_strings.zero_results && this.map.settings.store_locator_not_found_message != "")
+				{
+					alert(this.map.settings.store_locator_not_found_message);
+
+				}
+				else{
+					alert(WPGMZA.localized_strings.zero_results);
+				}
+			}
 
 		});
 
@@ -7648,11 +7657,19 @@ jQuery(function($) {
 		
 		this.createGoogleInfoWindow();
 		this.setMapObject(mapObject);
+
+		if(this.googleObject instanceof google.maps.Polygon)
+		{
+
+		}
+		else{
+			this.googleInfoWindow.open(
+				this.mapObject.map.googleMap,
+				this.googleObject
+			);
+		}
 		
-		this.googleInfoWindow.open(
-			this.mapObject.map.googleMap,
-			this.googleObject
-		);
+
 		
 		var guid = WPGMZA.guid();
 		var html = "<div id='" + guid + "'>" + this.content + "</div>";
@@ -10312,6 +10329,7 @@ jQuery(function($) {
 			img.src = WPGMZA.defaultMarkerIcon;
 			
 			this.element = $("<div class='ol-marker'></div>")[0];
+			$(this.element).attr('title', this.title);
 			this.element.appendChild(img);
 			
 			this.element.wpgmzaMarker = this;
@@ -11178,6 +11196,7 @@ jQuery(function($) {
 				self.lastResponse = response;
 				
 				callback(response);
+				self.onAJAXResponse(response);
 				
 			}
 		};
@@ -11225,70 +11244,70 @@ jQuery(function($) {
 		switch(WPGMZA.locale.substr(0, 2))
 		{
 			case "af":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Afrikaans.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Afrikaans.json";
 				break;
 
 			case "sq":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Albanian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Albanian.json";
 				break;
 
 			case "am":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Amharic.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Amharic.json";
 				break;
 
 			case "ar":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Arabic.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Arabic.json";
 				break;
 
 			case "hy":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Armenian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Armenian.json";
 				break;
 
 			case "az":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Azerbaijan.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Azerbaijan.json";
 				break;
 
 			case "bn":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Bangla.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Bangla.json";
 				break;
 
 			case "eu":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Basque.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Basque.json";
 				break;
 
 			case "be":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Belarusian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Belarusian.json";
 				break;
 
 			case "bg":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Bulgarian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Bulgarian.json";
 				break;
 
 			case "ca":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Catalan.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Catalan.json";
 				break;
 
 			case "zh":
 				if(WPGMZA.locale == "zh_TW")
-					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Chinese-traditional.json";
+					languageURL = WPGMZA.pluginDirURL + "languages/datatables/Chinese-traditional.json";
 				else
 					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Chinese.json";
 				break;
 
 			case "hr":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Croatian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Croatian.json";
 				break;
 
 			case "cs":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Czech.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Czech.json";
 				break;
 
 			case "da":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Danish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Danish.json";
 				break;
 
 			case "nl":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Dutch.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Dutch.json";
 				break;
 
 			/*case "en":
@@ -11296,54 +11315,54 @@ jQuery(function($) {
 				break;*/
 
 			case "et":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Estonian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Estonian.json";
 				break;
 
 			case "fi":
 				if(WPGMZA.locale.match(/^fil/))
-					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Filipino.json";
+					languageURL = WPGMZA.pluginDirURL + "languages/datatables/Filipino.json";
 				else
-					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Finnish.json";
+					languageURL = WPGMZA.pluginDirURL + "languages/datatables/Finnish.json";
 				break;
 
 			case "fr":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/French.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/French.json";
 				break;
 
 			case "gl":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Galician.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Galician.json";
 				break;
 
 			case "ka":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Georgian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Georgian.json";
 				break;
 
 			case "de":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/German.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/German.json";
 				break;
 
 			case "el":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Greek.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Greek.json";
 				break;
 
 			case "gu":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Gujarati.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Gujarati.json";
 				break;
 
 			case "he":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Hebrew.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Hebrew.json";
 				break;
 
 			case "hi":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Hindi.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Hindi.json";
 				break;
 
 			case "hu":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Hungarian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Hungarian.json";
 				break;
 
 			case "is":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Icelandic.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Icelandic.json";
 				break;
 
 			/*case "id":
@@ -11351,154 +11370,154 @@ jQuery(function($) {
 				break;*/
 			
 			case "id":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Indonesian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Indonesian.json";
 				break;
 
 			case "ga":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Irish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Irish.json";
 				break;
 
 			case "it":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Italian.json";
 				break;
 
 			case "ja":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Japanese.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Japanese.json";
 				break;
 
 			case "kk":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Kazakh.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Kazakh.json";
 				break;
 
 			case "ko":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Korean.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Korean.json";
 				break;
 
 			case "ky":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Kyrgyz.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Kyrgyz.json";
 				break;
 
 			case "lv":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Latvian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Latvian.json";
 				break;
 
 			case "lt":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Lithuanian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Lithuanian.json";
 				break;
 
 			case "mk":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Macedonian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Macedonian.json";
 				break;
 
 			case "ml":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Malay.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Malay.json";
 				break;
 
 			case "mn":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Mongolian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Mongolian.json";
 				break;
 
 			case "ne":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Nepali.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Nepali.json";
 				break;
 
 			case "nb":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Norwegian-Bokmal.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Norwegian-Bokmal.json";
 				break;
 			
 			case "nn":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Norwegian-Nynorsk.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Norwegian-Nynorsk.json";
 				break;
 			
 			case "ps":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Pashto.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Pashto.json";
 				break;
 
 			case "fa":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Persian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Persian.json";
 				break;
 
 			case "pl":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Polish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Polish.json";
 				break;
 
 			case "pt":
 				if(WPGMZA.locale == "pt_BR")
-					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json";
+					languageURL = WPGMZA.pluginDirURL + "languages/datatables/Portuguese-Brasil.json";
 				else
 					languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese.json";
 				break;
 			
 			case "ro":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Romanian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Romanian.json";
 				break;
 
 			case "ru":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Russian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Russian.json";
 				break;
 
 			case "sr":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Serbian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Serbian.json";
 				break;
 
 			case "si":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Sinhala.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Sinhala.json";
 				break;
 
 			case "sk":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Slovak.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Slovak.json";
 				break;
 
 			case "sl":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Slovenian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Slovenian.json";
 				break;
 
 			case "es":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Spanish.json";
 				break;
 
 			case "sw":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Swahili.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Swahili.json";
 				break;
 
 			case "sv":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Swedish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Swedish.json";
 				break;
 
 			case "ta":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Tamil.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Tamil.json";
 				break;
 
 			case "te":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/telugu.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/telugu.json";
 				break;
 
 			case "th":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Thai.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Thai.json";
 				break;
 
 			case "tr":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Turkish.json";
 				break;
 
 			case "uk":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Ukrainian.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Ukrainian.json";
 				break;
 
 			case "ur":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Urdu.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Urdu.json";
 				break;
 
 			case "uz":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Uzbek.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Uzbek.json";
 				break;
 
 			case "vi":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Vietnamese.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Vietnamese.json";
 				break;
 
 			case "cy":
-				languageURL = "//cdn.datatables.net/plug-ins/1.10.12/i18n/Welsh.json";
+				languageURL = WPGMZA.pluginDirURL + "languages/datatables/Welsh.json";
 				break;
 		}
 		
@@ -11554,6 +11573,11 @@ jQuery(function($) {
 	
 	WPGMZA.AdminMarkerDataTable.prototype = Object.create(WPGMZA.DataTable.prototype);
 	WPGMZA.AdminMarkerDataTable.prototype.constructor = WPGMZA.AdminMarkerDataTable;
+	
+	WPGMZA.AdminMarkerDataTable.createInstance = function(element)
+	{
+		return new WPGMZA.AdminMarkerDataTable(element);
+	}
 	
 	WPGMZA.AdminMarkerDataTable.prototype.getDataTableSettings = function()
 	{
@@ -11683,7 +11707,7 @@ jQuery(function($) {
 	$(document).ready(function(event) {
 		
 		$("[data-wpgmza-admin-marker-datatable]").each(function(index, el) {
-			WPGMZA.adminMarkerDataTable = new WPGMZA.AdminMarkerDataTable(el);
+			WPGMZA.adminMarkerDataTable = WPGMZA.AdminMarkerDataTable.createInstance(el);
 		});
 		
 	});

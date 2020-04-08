@@ -220,6 +220,17 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
+= 8.0.22 :- 2020-04-07 =
+* Added tooltip to OpenLayer markers
+* Removed calls to wpgmza_enqueue_fontawesome (deprecated)
+* Added constants WPGMZA_PLUGIN_DIR_PATH and WPGMZA_PLUGIN_DIR_URL
+* Corrected typo in class.map.php (scoreLocator)
+* Added imageFolderURL to WPGMZA
+* Corrected paths in legacy circle and rectangle PHP files
+* Corrected Autoptimize typo
+* Debug OpenLayers no longer bundled or supported
+* Fixed "google is undefined" for users who had disabled legacy Pro, switched to OpenLayers and re-enabled legacy Pro
+
 = 8.0.21 :- 2020-03-19 :- Medium priority =
 * Developer Mode is now inaccessible
 * Tested up to WordPress 5.4
@@ -1455,6 +1466,9 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
 
 
 
