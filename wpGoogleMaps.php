@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.22
+Version: 8.0.23
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,12 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.23 :- 2020-05-06
+ * Added experimental integrity check class (currently unused)
+ * Added links to settings tabs in "No API key" message
+ * Tested up to WordPress 5.4.1
+ * Fixed IIS failing under certain conditions (+ now URL encoded for IIS servers in compressed path variables)
+ *
  * 8.0.22 :- 2020-04-07
  * Added tooltip to OpenLayer markers
  * Removed calls to wpgmza_enqueue_fontawesome (deprecated)
@@ -1396,6 +1402,47 @@ if(version_compare(phpversion(), '5.6', '<'))
 	if(!wpgmza_fix_marker_class_for_php_below_5_6())
 		return;
 }
+
+// Integrity checks
+function wpgmza_show_integrity_error()
+{
+	$notice = '
+	<div class="notice notice-error">
+		<p>
+			' .
+			__('<strong>WP Google Maps:</strong> File integrity checks failed, please re-install the plugin, or <a href="https://wpgmaps.com/contact-us">contact us</a> for support.', 'wp-google-maps')
+			. '
+		</p>
+	</div>
+	';
+	
+	echo $notice;
+}
+
+
+/*$file = plugin_dir_path(__FILE__) . 'includes/class.integrity-checker.php';
+
+if(!file_exists($file))
+{
+	trigger_error("Integrity checking class missing, the plugin cannot load", E_USER_WARNING);
+	return;
+}
+
+$integrityChecker = new IntegrityChecker();
+	
+if(wpgmza_pro_preload_is_in_developer_mode())
+	$integrityChecker->record(plugin_dir_path(__FILE__) . 'includes');
+
+if(!$integrityChecker->check(plugin_dir_path(__FILE__) . 'includes'))
+{
+	if(wpgmza_pro_preload_is_in_developer_mode())
+		trigger_error('Integrity check failed', E_USER_WARNING);
+	else
+	{
+		add_action('admin_notices', 'wpgmza_show_integrity_error');
+		return;
+	}
+}*/
 
 if(wpgmza_preload_is_in_developer_mode())
 {

@@ -60,8 +60,16 @@ jQuery(function($) {
 		
 		$(addressInput).on("keydown keypress", function(event) {
 			
-			if(event.keyCode == 13 && self.searchButton.is(":visible"))
+			if(event.keyCode == 13)
+			{
+				// NB: Hacky workaround
 				self.searchButton.trigger("click");
+				
+				// NB: Legacy support
+				searchLocations(map_id);
+				
+				map.storeLocator.onSearch(event);
+			}
 			
 		});
 		

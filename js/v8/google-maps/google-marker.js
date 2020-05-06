@@ -43,7 +43,7 @@ jQuery(function($) {
 			lng: parseFloat(this.lng)
 		}));
 			
-		this.googleMarker.setLabel(this.settings.label);
+		// this.googleMarker.setLabel(this.settings.label);
 		
 		if(this.anim)
 			this.googleMarker.setAnimation(this.anim);

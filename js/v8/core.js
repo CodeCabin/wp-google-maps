@@ -420,7 +420,9 @@ jQuery(function($) {
 				nativeFunction = "watchPosition";
 				
 				// Call again immediatly to get current position, watchPosition won't fire until the user moves
-				WPGMZA.getCurrentPosition(callback, false);
+				/*setTimeout(function() {
+					WPGMZA.getCurrentPosition(callback, false);
+				}, 0);*/
 			}
 			
 			if(!navigator.geolocation)
@@ -696,13 +698,6 @@ jQuery(function($) {
 		}
 		
 	};
-	
-	// NB: Warn the user if the built in Array prototype has been extended. This will save debugging headaches where for ... in loops do bizarre things.
-	for(var key in [])
-	{
-		console.warn("It appears that the built in JavaScript Array has been extended, this can create issues with for ... in loops, which may cause failure.");
-		break;
-	}
 	
 	if(window.WPGMZA)
 		window.WPGMZA = $.extend(window.WPGMZA, core);

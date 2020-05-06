@@ -422,7 +422,9 @@ jQuery(function($) {
 				nativeFunction = "watchPosition";
 				
 				// Call again immediatly to get current position, watchPosition won't fire until the user moves
-				WPGMZA.getCurrentPosition(callback, false);
+				/*setTimeout(function() {
+					WPGMZA.getCurrentPosition(callback, false);
+				}, 0);*/
 			}
 			
 			if(!navigator.geolocation)
@@ -698,13 +700,6 @@ jQuery(function($) {
 		}
 		
 	};
-	
-	// NB: Warn the user if the built in Array prototype has been extended. This will save debugging headaches where for ... in loops do bizarre things.
-	for(var key in [])
-	{
-		console.warn("It appears that the built in JavaScript Array has been extended, this can create issues with for ... in loops, which may cause failure.");
-		break;
-	}
 	
 	if(window.WPGMZA)
 		window.WPGMZA = $.extend(window.WPGMZA, core);
@@ -5371,8 +5366,16 @@ jQuery(function($) {
 		
 		$(addressInput).on("keydown keypress", function(event) {
 			
-			if(event.keyCode == 13 && self.searchButton.is(":visible"))
+			if(event.keyCode == 13)
+			{
+				// NB: Hacky workaround
 				self.searchButton.trigger("click");
+				
+				// NB: Legacy support
+				searchLocations(map_id);
+				
+				map.storeLocator.onSearch(event);
+			}
 			
 		});
 		
@@ -6117,7 +6120,12 @@ jQuery(function($) {
 		{
 			var compressedParams = $.extend({}, params);
 			var data = params.data;
-			var compressedRoute = route.replace(/\/$/, "") + "/base64" + this.compressParams(data);
+			var base64 = this.compressParams(data);
+			
+			if(WPGMZA.isServerIIS)
+				base64 = encodeURIComponent(base64);
+			
+			var compressedRoute = route.replace(/\/$/, "") + "/base64" + base64;
 			var fullCompressedRoute = WPGMZA.RestAPI.URL + compressedRoute;
 			
 			compressedParams.method = "GET";
@@ -6234,6 +6242,19 @@ jQuery(function($) {
 			self.map.markerFilter.on("filteringcomplete", function(event) {
 				self.onFilteringComplete(event);
 			});
+			
+		});
+		
+		// Catch enter
+		$(element).on("keypress", "input", function(event) {
+			
+			if(event.which != 13)
+				return;
+			
+			// NB: Legacy compatibilty. Do not merge this into 8.1.0
+			searchLocations(self.map.id);
+			
+			self.onSearch(event);
 			
 		});
 
@@ -8402,7 +8423,7 @@ jQuery(function($) {
 			lng: parseFloat(this.lng)
 		}));
 			
-		this.googleMarker.setLabel(this.settings.label);
+		// this.googleMarker.setLabel(this.settings.label);
 		
 		if(this.anim)
 			this.googleMarker.setAnimation(this.anim);
@@ -11133,11 +11154,13 @@ jQuery(function($) {
 		
 			$.ajax(this.getLanguageURL(), {
 
-				success: function(response, status, xhr){
-				  self.languageJSON = response;
-				  self.dataTable = $(self.dataTableElement).DataTable(settings);
-				  self.dataTable.ajax.reload();
+				success: function(response, status, xhr)
+				{
+					self.languageJSON = response;
+					self.dataTable = $(self.dataTableElement).DataTable(settings);
+					self.dataTable.ajax.reload();
 				}
+				
 			  });
 		}
 	}

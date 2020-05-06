@@ -31,6 +31,19 @@ jQuery(function($) {
 			});
 			
 		});
+		
+		// Catch enter
+		$(element).on("keypress", "input", function(event) {
+			
+			if(event.which != 13)
+				return;
+			
+			// NB: Legacy compatibilty. Do not merge this into 8.1.0
+			searchLocations(self.map.id);
+			
+			self.onSearch(event);
+			
+		});
 
 		// Legacy store locator buttons
 		$(document.body).on("click", ".wpgmza_sl_search_button_" + map.id + ", [data-map-id='" + map.id + "'] .wpgmza_sl_search_button", function(event) {
