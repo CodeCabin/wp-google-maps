@@ -246,7 +246,12 @@ jQuery(function($) {
 		{
 			var compressedParams = $.extend({}, params);
 			var data = params.data;
-			var compressedRoute = route.replace(/\/$/, "") + "/base64" + this.compressParams(data);
+			var base64 = this.compressParams(data);
+			
+			if(WPGMZA.isServerIIS)
+				base64 = encodeURIComponent(base64);
+			
+			var compressedRoute = route.replace(/\/$/, "") + "/base64" + base64;
 			var fullCompressedRoute = WPGMZA.RestAPI.URL + compressedRoute;
 			
 			compressedParams.method = "GET";

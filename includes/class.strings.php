@@ -22,7 +22,14 @@ class Strings
 			'use_my_location'			=> __('Use my location', 'wp-google-maps'),
 			
 			'google_api_not_loaded'		=> __('The map cannot be initialized because the Maps API has not been loaded. Please check your settings.', 'wp-google-maps'),
-			'no_google_maps_api_key'	=> __('You have not entered a <b>Google Maps API Key</b>.<br /><br />Please go to the your admin area, then Maps, then Settings, then the Advanced tab to enter your Google Maps API key.<br /><br />Alternatively, choose the Open Layers engine to avoid getting an API key.', 'wp-google-maps'),
+			'no_google_maps_api_key'	=> sprintf(
+			
+				__('You have not entered a <b>Google Maps API Key</b>.<br /><br />Please go to the your admin area, then Maps, then Settings, then the Advanced tab to <a href="%s">enter your Google Maps API key</a>.<br /><br />Alternatively, <a href="%s">choose the Open Layers engine</a> to avoid getting an API key.', 'wp-google-maps'),
+				
+				admin_url("admin.php?page=wp-google-maps-menu-settings#tabs-4"),
+				admin_url("admin.php?page=wp-google-maps-menu-settings")
+				
+			),
 			
 			'documentation'				=> __('Documentation', 'wp-google-maps'),
 			'api_dashboard'				=> __('API Dashboard', 'wp-google-maps'),
@@ -44,7 +51,7 @@ class Strings
 			'save_marker'				=> __('Save Marker', 'wp-google-maps'),
 			'please_wait'				=> __('Please Wait...', 'wp-google-maps'),
 			'zero_results'				=> __('No results found in this location. Please try again.', 'wp-google-maps'),
-			'address_not_found'			=> __('Couldn\'t find this address', 'wp-google-maps'),
+			'address_not_found'			=> __('This address could not be found. WP Google Maps uses a 3rd party service (eg Google) to convert addresses to geographic coordinates. Unfortunately, the service has no records for this address at present. Please try an alternative format, or manually position the marker using right click.', 'wp-google-maps'),
 			'geocode_fail'				=> __('Geocode failed due to technical reasons', 'wp-google-maps'),
 			
 			'you_must_check_gdpr_consent'	=> __('You must check the GDPR consent box to continue', 'wp-google-maps'),

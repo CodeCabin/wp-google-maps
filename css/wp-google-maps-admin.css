@@ -2556,11 +2556,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:before {
   color: #2B323C !important;
 }
-input[type="checkbox"]:before {
-  color: #2B323C !important;
 
-  color: #fff !important;
-}
 input[type="checkbox"]:active,
 input[type="checkbox"]:focus {
   outline: none;
