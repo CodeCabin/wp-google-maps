@@ -26,6 +26,12 @@ jQuery(function($) {
 			
 			console.warn("You appear to be running an outdated or modified version of the dataTables library. This may cause issues with table functionality. This is usually caused by 3rd party software loading an older version of DataTables. The loaded version is " + version + ", we recommend version 1.10.12 or above.");
 		}
+
+		$.fn.dataTable.Api.register( 'processing()', function ( show ) {
+		    return this.iterator( 'table', function ( ctx ) {
+		        ctx.oApi._fnProcessingDisplay( ctx, show );
+		    } );
+		} );
 		
 		this.element = element;
 		this.element.wpgmzaDataTable = this;
