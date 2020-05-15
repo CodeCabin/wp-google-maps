@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.24 :- 2020-05-15
+ * Fixed zero results message shows after custom field filtering
+ * 
  * 8.0.23 :- 2020-05-06
  * Added experimental integrity check class (currently unused)
  * Added links to settings tabs in "No API key" message
