@@ -52,7 +52,7 @@ jQuery(function($) {
 		 */
 		localized_strings: null,
 		
-		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
+		loadingHTML: '<div class="wpgmza-preloader"><div></div><div></div><div></div><div></div></div>',
 		
 		getCurrentPage: function() {
 			
@@ -571,7 +571,24 @@ jQuery(function($) {
 		 * @return {boolean} True if the places autocomplete is available
 		 */
 		isGoogleAutocompleteSupported: function() {
-			return typeof google === 'object' && typeof google.maps === 'object' && typeof google.maps.places === 'object' && typeof google.maps.places.Autocomplete === 'function';
+			
+			if(!window.google)
+				return false;
+			
+			if(!google.maps)
+				return false;
+			
+			if(!google.maps.places)
+				return false;
+			
+			if(!google.maps.places.Autocomplete)
+				return false;
+			
+			if(WPGMZA.CloudAPI && WPGMZA.CloudAPI.isBeingUsed)
+				return false;
+			
+			return true;
+			
 		},
 		
 		/**
@@ -729,7 +746,10 @@ jQuery(function($) {
 			console.warn("Multiple jQuery versions detected: ", elements);
 		
 		// Rest API
-		WPGMZA.restAPI = WPGMZA.RestAPI.createInstance();
+		WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+		
+		if(WPGMZA.CloudAPI)
+			WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
 		
 		// TODO: Move to map edit page JS
 		$(document).on("click", ".wpgmza_edit_btn", function() {

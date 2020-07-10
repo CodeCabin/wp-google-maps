@@ -511,6 +511,7 @@ jQuery(function($) {
 						}
 						
                         enableAddMarkerButton(true);
+						alert(message);
 
                     }
                 });

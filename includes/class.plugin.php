@@ -41,6 +41,7 @@ class Plugin extends Factory
 	private $_gutenbergIntegration;
 	private $_pro7Compatiblity;
 	private $_dynamicTranslations;
+	private $_legacyCloudAPIKeyHandler;
 	private $_spatialFunctionPrefix = '';
 	
 	protected $scriptLoader;
@@ -195,6 +196,7 @@ class Plugin extends Factory
 	public function onInit()
 	{
 		$this->_gdprCompliance = new GDPRCompliance();
+		$this->_legacyCloudAPIKeyHandler = new LegacyCloudAPIKeyHandler();
 	}
 	
 	/**
@@ -456,6 +458,65 @@ class Plugin extends Factory
 	public function isUserAllowedToEdit()
 	{
 		return current_user_can($this->getAccessCapability());
+	}
+	
+	public function getXMLCacheDirPath()
+	{
+		$file = get_option("wpgmza_xml_location");
+		$content_dir = WP_CONTENT_DIR;
+		$content_dir = trim($content_dir, '/');
+		if (defined('WP_PLUGIN_DIR')) {
+			$plugin_dir = str_replace(wpgmza_get_document_root(), '', WP_PLUGIN_DIR);
+			$plugin_dir = trim($plugin_dir, '/');
+		} else {
+			$plugin_dir = str_replace(wpgmza_get_document_root(), '', WP_CONTENT_DIR . '/plugins');
+			$plugin_dir = trim($plugin_dir, '/');
+		}
+		$upload_dir = wp_upload_dir();
+		$upload_dir = $upload_dir['basedir'];
+		$upload_dir = rtrim($upload_dir, '/');
+		
+		$file = str_replace('{wp_content_dir}', $content_dir, $file);
+		$file = str_replace('{plugins_dir}', $plugin_dir, $file);
+		$file = str_replace('{uploads_dir}', $upload_dir, $file);
+		$file = trim($file);
+		
+		if (empty($file))
+			$file = $upload_dir."/wp-google-maps/";
+		
+		if (substr($file, -1) != "/") { $file = $file."/"; }
+		
+		return $file;
+	}
+	
+	public function getXMLCacheDirURL()
+	{
+		$url = get_option("wpgmza_xml_url");
+		
+		$content_url = content_url();
+		$content_url = trim($content_url, '/');
+		 
+		$plugins_url = plugins_url();
+		$plugins_url = trim($plugins_url, '/');
+		 
+		$upload_url = wp_upload_dir();
+		$upload_url = $upload_url['baseurl'];
+		$upload_url = trim($upload_url, '/');
+
+		$url = str_replace('{wp_content_url}', $content_url, $url);
+		$url = str_replace('{plugins_url}', $plugins_url, $url);
+		$url = str_replace('{uploads_url}', $upload_url, $url);
+		
+		$url = str_replace('{wp_content_dir}', $content_url, $url);
+		$url = str_replace('{plugins_dir}', $plugins_url, $url);
+		$url = str_replace('{uploads_dir}', $upload_url, $url);
+
+		if (empty($url))
+			$url = $upload_url."/wp-google-maps/";
+		
+		if (substr($url, -1) != "/") { $url = $url."/"; }
+
+		return $url;
 	}
 }
 

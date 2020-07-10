@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module EventDispatcher
  * @requires WPGMZA
+ * @gulp-requires core.js
  */
 jQuery(function($) {
 	
