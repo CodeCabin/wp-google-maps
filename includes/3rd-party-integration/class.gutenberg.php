@@ -96,7 +96,16 @@ class Gutenberg extends \WPGMZA\Factory
 		$str = "[wpgmza";
 		
 		foreach($attributes as $name => $value)
-			$str .= " $name=\"" . addslashes($value) . "\"";
+		{
+			if(is_string($value))
+				$v = addslashes($value);
+			else if(is_array($value))
+				$v = implode(',', array_map('addslashes', $value));
+			else
+				$v = $value;
+			
+			$str .= " $name=\"" . addslashes($v) . "\"";
+		}
 		
 		$str .= "]";
 		

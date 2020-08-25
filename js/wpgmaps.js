@@ -65,7 +65,7 @@ function InitMap() {
 	
 	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
 	{
-		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+		$("#wpgmza_map, .wpgmza_map[data-map-id='" + wpgmaps_mapid + "']").each(function(index, el) {
 			$(el).append($(WPGMZA.api_consent_html));
 			$(el).css({height: "auto"});
 		});

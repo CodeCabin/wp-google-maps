@@ -647,6 +647,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	{
 		$this->assert_not_trashed();
 		
+		if($name == 'id')
+			return true;
+		
 		return isset($this->fields[$name]);
 	}
 	

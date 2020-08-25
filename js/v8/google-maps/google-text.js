@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module GoogleText
  * @requires WPGMZA.Text
+ * @gulp-requires ../text.js
  */
 jQuery(function($) {
 	

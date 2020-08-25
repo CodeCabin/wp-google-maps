@@ -20,14 +20,22 @@ class Upgrader
 			$wpgmza->updateAllMarkerXMLFiles();
 		});
 		
-		$this->upgradeLngLat();
+		$this->doFinnishDatatablesTranslationFix($fromVersion);
 	}
 	
-	protected function upgradeLngLat()
+	protected function doFinnishDatatablesTranslationFix($fromVersion)
 	{
-		/*global $wpdb;
-		global $WPGMZA_TABLE_NAME_MARKERS;
+		// There is an issue in <= 8.0.22 where a lowercase finnish.json file is bundled with the plugin,
+		// this causes 404's on case sensitive servers. Let's rename the file here if that is the case
 		
-		$wpdb->query("UPDATE `$WPGMZA_TABLE_NAME_MARKERS` SET lnglat = POINT(Y(latlng), X(latlng))");*/
+		if(!version_compare($fromVersion, '8.0.22', '<='))
+			return;
+		
+		$path = plugin_dir_path(__DIR__) . 'languages/datatables/';
+		$lower = "$path/test.json";
+		$upper = "$path/Finnish.json";
+		
+		if(file_exists($lower) && !file_exists($upper))
+			rename($lower, $upper);
 	}
 }

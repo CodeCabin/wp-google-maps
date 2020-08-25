@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module MapObject
  * @requires WPGMZA.EventDispatcher
+ * @gulp-requires event-dispatcher.js
  */
 jQuery(function($) {
 	
@@ -72,6 +73,10 @@ jQuery(function($) {
 	WPGMZA.MapObject.prototype.parseGeometry = function(string)
 	{
 		var stripped, pairs, coords, results = [];
+		
+		if(typeof string == "object")
+			return string;
+		
 		stripped = string.replace(/[^ ,\d\.\-+e]/g, "");
 		pairs = stripped.split(",");
 		

@@ -553,3 +553,42 @@ input[name='wpgmza_developer_mode']:checked + .notice-warning
     line-height: 400px;
 	pointer-events: none;
 }
+
+ul.wpgmza-cloud-autocomplete.ui-autocomplete
+{
+	background: white;
+	list-style: none;
+	overflow: hidden;
+}
+
+ul.wpgmza-cloud-autocomplete.ui-autocomplete > li
+{
+	cursor: pointer;
+	margin: 0;
+	padding-left: 1em;
+}
+
+ul.wpgmza-cloud-autocomplete.ui-autocomplete > li:hover
+{
+	background: #333;
+	color: #fff;
+}
+
+div.wpgmza-cloud-address-input-wrapper
+{
+	position: relative;
+}
+
+div.wpgmza-cloud-address-input-wrapper > .wpgmza-preloader
+{
+	transform: translate(0%, -50%) scale(0.5);
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    left: auto;
+}
+
+div.wpgmza-cloud-address-input-wrapper > .wpgmza-preloader div
+{
+	background: black;
+}

@@ -1,4 +1,11 @@
 {
+    "wpgmza-address-input": {
+        "src": "js\/v8\/address-input.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
     "wpgmza-circle": {
         "src": "js\/v8\/circle.js",
         "pro": false,
@@ -263,6 +270,20 @@
             "wpgmza"
         ]
     },
+    "wpgmza-xml-cache-converter": {
+        "src": "js\/v8\/xml-cache-converter.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-xml-parse-web-worker": {
+        "src": "js\/v8\/xml-parse-web-worker.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-integration": {
         "src": "js\/v8\/3rd-party-integration\/integration.js",
         "pro": false,
@@ -312,9 +333,7 @@
     "wpgmza-google-html-overlay": {
         "src": "js\/v8\/google-maps\/google-html-overlay.js",
         "pro": false,
-        "dependencies": [
-            "wpgmza"
-        ]
+        "dependencies": []
     },
     "wpgmza-google-info-window": {
         "src": "js\/v8\/google-maps\/google-info-window.js",

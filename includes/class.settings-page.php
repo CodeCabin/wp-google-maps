@@ -11,6 +11,7 @@ class SettingsPage extends DOMDocument
 		DOMDocument::__construct();
 		
 		$this->loadPHPFile(plugin_dir_path(__DIR__) . 'html/settings-page.html.php');
+		
 		$this->populate($wpgmza->settings);
 	}
 }

@@ -659,10 +659,8 @@ class RestAPI extends Factory
 				$map = Map::createInstance($marker->map_id);
 				$map->updateXMLFile();
 				
-				// Refetch the marker, causing certain properties (eg category icon) to update
-				// NB: This feels a bit hacky, we should make provisions for updating the icon in ProMarker when the value is changed there. Same when categories change. This could happen at runtime as opposed to creation
-				// return Marker::createInstance($marker->id);
 				return $marker;
+				
 				break;
 			
 			case 'DELETE':

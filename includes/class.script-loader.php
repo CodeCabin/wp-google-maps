@@ -124,7 +124,7 @@ class ScriptLoader
 			'spectrum'				=> $plugin_dir_url . 'lib/spectrum.js',
 			
 			// TODO: These are only needed if the server supports inflate
-			'fast-text-encoding'	=> $plugin_dir_url . 'lib/text.min.js',
+			'fast-text-encoding'	=> $plugin_dir_url . 'lib/text.js',
 			'pako'					=> $plugin_dir_url . 'lib/pako_deflate.min.js'
 		);
 		
@@ -569,6 +569,13 @@ class ScriptLoader
 		foreach($libraries as $handle => $src)
 		{
 			wp_enqueue_script($handle, $src, array('jquery'));
+		}
+		
+		// jQuery UI autosuggest?
+		if(class_exists('WPGMZA\\CloudAPI') && CloudAPI::isCloudKey($wpgmza->settings->wpgmza_google_maps_api_key))
+		{
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-autocomplete');
 		}
 		
 		// FontAwesome?

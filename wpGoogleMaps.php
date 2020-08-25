@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.23
+Version: 8.0.25
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,13 +11,25 @@ Domain Path: /languages
 */
 
 /*
- * 8.0.23 :- 2020-05-06
+ * 8.0.25 :- 2020-06-12 :- Medium priority
+ * Tested up to WordPress 5.4.2
+ * Fixed Google Autocomplete not working due to failed check in minified code
+ *
+ * 8.0.24 :- 2020-06-10 :- Medium priority
+ * Added fallback for datatables when language file cannot be loaded
+ * Plugin now loads unminified version of text.js due to IE issues with minified version
+ * Notice is issued for users using expired Cloud API keys
+ * Fixed __isset returning false for ID on Crud class
+ * Fixed notice in Gutenberg module when passing array shortcode attributes
+ *
+ * 8.0.23 :- 2020-05-07 :- Medium priority
  * Added experimental integrity check class (currently unused)
  * Added links to settings tabs in "No API key" message
  * Tested up to WordPress 5.4.1
  * Fixed IIS failing under certain conditions (+ now URL encoded for IIS servers in compressed path variables)
+ * Fixed lowercase finnish.json filename breaking DataTables on Finnish installations
  *
- * 8.0.22 :- 2020-04-07
+ * 8.0.22 :- 2020-04-07 :- Medium priority
  * Added tooltip to OpenLayer markers
  * Removed calls to wpgmza_enqueue_fontawesome (deprecated)
  * Added constants WPGMZA_PLUGIN_DIR_PATH and WPGMZA_PLUGIN_DIR_URL

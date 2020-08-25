@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
 Requires at least: 3.5
-Tested up to: 5.4.1
+Tested up to: 5.4.2
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
@@ -220,13 +220,25 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 == Changelog ==
 
-= 8.0.23 =
+= 8.0.25 :- 2020-06-12 :- Medium priority =
+* Tested up to WordPress 5.4.2
+* Fixed Google Autocomplete not working due to failed check in minified code
+
+= 8.0.24 :- 2020-06-10 :- Medium priority =
+* Added fallback for datatables when language file cannot be loaded
+* Plugin now loads unminified version of text.js due to IE issues with minified version
+* Notice is issued for users using expired Cloud API keys
+* Fixed __isset returning false for ID on Crud class
+* Fixed notice in Gutenberg module when passing array shortcode attributes
+
+= 8.0.23 :- 2020-05-07 :- Medium priority =
 * Added experimental integrity check class (currently unused)
 * Added links to settings tabs in "No API key" message
 * Tested up to WordPress 5.4.1
 * Fixed IIS failing under certain conditions (+ now URL encoded for IIS servers in compressed path variables)
+* Fixed lowercase finnish.json filename breaking DataTables on Finnish installations
 
-= 8.0.22 :- 2020-04-07 =
+= 8.0.22 :- 2020-04-07 :- Medium priority =
 * Added tooltip to OpenLayer markers
 * Removed calls to wpgmza_enqueue_fontawesome (deprecated)
 * Added constants WPGMZA_PLUGIN_DIR_PATH and WPGMZA_PLUGIN_DIR_URL
@@ -1472,98 +1484,6 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
