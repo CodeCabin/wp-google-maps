@@ -550,6 +550,17 @@ jQuery(function($) {
             
             if (document.getElementsByName("wpgmza_animation").length > 0) { wpgm_anim = jQuery("#wpgmza_animation").val(); }
             if (document.getElementsByName("wpgmza_infoopen").length > 0) { wpgm_infoopen = jQuery("#wpgmza_infoopen").val(); }
+			
+			// NB: Quick and dirty fix for error thrown when using right click to edit marker location
+			if(WPGMZA.LatLng.REGEXP.test(wpgm_address))
+			{
+				var latLng = new WPGMZA.LatLng(wpgm_address);
+				
+				wpgm_lat = latLng.lat;
+				wpgm_lng = latLng.lng;
+				
+				do_geocode = false;
+			}
 
             if (do_geocode === true) {
 
