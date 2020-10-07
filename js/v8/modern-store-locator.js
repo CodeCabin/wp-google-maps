@@ -206,21 +206,22 @@ jQuery(function($) {
 			self.onMouseLeaveCategory(event);
 		});
 		
-		$(map.markerFilter).on("filteringcomplete", function(event) {
+		// Moved to store-locator.js
+		// $(map.markerFilter).on("filteringcomplete", function(event) {
 
-			if(!this.map.hasVisibleMarkers())
-			{
-				if(this.map.settings.store_locator_not_found_message !=  WPGMZA.localized_strings.zero_results && this.map.settings.store_locator_not_found_message != "")
-				{
-					alert(this.map.settings.store_locator_not_found_message);
+		// 	if(!this.map.hasVisibleMarkers())
+		// 	{
+		// 		if(this.map.settings.store_locator_not_found_message !=  WPGMZA.localized_strings.zero_results && this.map.settings.store_locator_not_found_message != "")
+		// 		{
+		// 			alert(this.map.settings.store_locator_not_found_message);
 
-				}
-				else{
-					alert(WPGMZA.localized_strings.zero_results);
-				}
-			}
+		// 		}
+		// 		else{
+		// 			alert(WPGMZA.localized_strings.zero_results);
+		// 		}
+		// 	}
 
-		});
+		// });
 
 
 		$('body').on('click', '.wpgmza_store_locator_options_button', function(event) {
