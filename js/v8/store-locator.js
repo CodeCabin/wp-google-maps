@@ -198,49 +198,78 @@ jQuery(function($) {
 	
 	WPGMZA.StoreLocator.prototype.onFilteringComplete = function(event)
 	{
-		var params = event.filteringParams;
-		var marker = this.marker;
-		
-		if(marker)
-			marker.setVisible(false);
-		
-		// Center point marker
-		if(params.center && marker)
-		{
-			marker.setPosition(params.center);
-			marker.setVisible(true);
+		//Make sure the call is from the store locator
+		if(event.source instanceof WPGMZA.StoreLocator){
+			var params = event.filteringParams;
+			var marker = this.marker;
 			
-			if(marker.map != this.map)
-				this.map.addMarker(marker);
-		}
-		
-		var circle = this.circle;
-		
-		if(circle)
-		{
-			var factor = (this.distanceUnits == WPGMZA.Distance.MILES ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1.0);
+			if(marker)
+				marker.setVisible(false);
 			
-			circle.setVisible(false);
-			
-			if(params.center && params.radius)
+			// Center point marker
+			if(params.center && marker)
 			{
-				circle.setRadius(params.radius * factor);
-				circle.setCenter(params.center);
-				circle.setVisible(true);
+				marker.setPosition(params.center);
+				marker.setVisible(true);
 				
-				if(circle.map != this.map)
-					this.map.addCircle(circle);
+				if(marker.map != this.map)
+					this.map.addMarker(marker);
 			}
 			
-			if(circle instanceof WPGMZA.ModernStoreLocatorCircle)
-				circle.settings.radiusString = this.radius;
-		}
+			var circle = this.circle;
+			
+			if(circle)
+			{
+				var factor = (this.distanceUnits == WPGMZA.Distance.MILES ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1.0);
+				
+				circle.setVisible(false);
+				
+				if(params.center && params.radius)
+				{
+					circle.setRadius(params.radius * factor);
+					circle.setCenter(params.center);
+					circle.setVisible(true);
+					
+					if(circle.map != this.map)
+						this.map.addCircle(circle);
+				}
+				
+				if(circle instanceof WPGMZA.ModernStoreLocatorCircle)
+					circle.settings.radiusString = this.radius;
+			}
 
-		// Show / hide not found message
-		if(!this.map.hasVisibleMarkers())
-			$(this.element).find(".wpgmza-not-found-msg").show();
-		else
-			$(this.element).find(".wpgmza-not-found-msg").hide();
+			if(this.map.settings.store_locator_style === 'modern')
+			{
+				// Show / hide not alert message 
+				if(!this.map.hasVisibleMarkers() && params.center)
+				{
+					
+					if(this.map.settings.store_locator_not_found_message !=  WPGMZA.localized_strings.zero_results && this.map.settings.store_locator_not_found_message != "" )
+					{
+						alert(this.map.settings.store_locator_not_found_message);
+
+					}
+					else{
+						alert(WPGMZA.localized_strings.zero_results);
+					}
+				}
+
+			}
+			else{
+				// Show / hide not found message 
+				if(!this.map.hasVisibleMarkers() && params.center)
+					{
+						$(this.element).find(".wpgmza-not-found-msg").show();
+					}
+								
+				else
+					{
+							
+						$(this.element).find(".wpgmza-not-found-msg").hide();
+					}			
+
+			}
+		}
 	}
 	
 });

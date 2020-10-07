@@ -11,6 +11,10 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.27 :- 2020-0-10
+ * Fixed zero results message shows after custom field filtering
+ * Fixed zero results message displaying when you reset the store locator
+ * 
  * 8.0.23 :- 2020-05-06
  * Added experimental integrity check class (currently unused)
  * Added links to settings tabs in "No API key" message
