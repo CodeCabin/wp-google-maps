@@ -217,7 +217,7 @@ Please update your WP Google Maps version to 6.2.1 to ensure you are using the l
 == Changelog ==
 
 = 8.0.29 - 2020-12-10 - High priority =
-* Tested up to Wordpress 5.6
+* Tested up to WordPress 5.6
 * Added support for jQuery 3
 
 = 8.0.28 - 2020-11-26 - Low priority =
@@ -1498,6 +1498,9 @@ Please update your WP Google Maps version to 6.2.1 to ensure you are using the l
 
 
 For more, please view the WP Google Maps site
+
+
+
 
 
 
