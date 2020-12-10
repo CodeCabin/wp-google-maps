@@ -50,7 +50,15 @@ jQuery(function($) {
 
 				success: function(response, status, xhr)
 				{
-					self.languageJSON = response;
+					self.languageJSON = response; // TODO: This doesn't appear to go anywhere
+					
+					self.dataTable = $(self.dataTableElement).DataTable(settings);
+					self.dataTable.ajax.reload();
+				},
+				
+				error: function()
+				{
+					// TODO: Use complete instead
 					self.dataTable = $(self.dataTableElement).DataTable(settings);
 					self.dataTable.ajax.reload();
 				}
@@ -84,8 +92,7 @@ jQuery(function($) {
 		return $.extend(data, params);
 	}
 	
-	WPGMZA.DataTable.prototype.onDataTableAjaxRequest = function(data, callback, settings)
-	{
+	WPGMZA.DataTable.prototype.onDataTableAjaxRequest = function(data, callback, settings) {
 		var self = this;
 		var element = this.element;
 		var route = $(element).attr("data-wpgmza-rest-api-route");
@@ -118,6 +125,8 @@ jQuery(function($) {
 			}
 		};
 		
+
+
 		return WPGMZA.restAPI.call(route, options);
 	}
 	

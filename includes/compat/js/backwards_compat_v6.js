@@ -1,6 +1,6 @@
 // TODO: Move this file into /js and out of /includes which is for PHP
 jQuery(function($){
-	jQuery(window).on("load", function(){
+	jQuery(document).on("load", function(){
 		if(typeof wpgmza_backwards_compat_v6_marker_tab_headings !== "undefined"){
 			$("#wpgmaps_tabs_markers > ul").append(wpgmza_backwards_compat_v6_marker_tab_headings);
 			$("#wpgmaps_tabs_markers").append(wpgmza_backwards_compat_v6_marker_tab_content);

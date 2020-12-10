@@ -23,4 +23,19 @@ class MarkerDataTable extends DataTable
 			'description'	=> __('Description',	'wp-google-maps')
 		);
 	}
+	
+	protected function getWhereClause($input_params, &$query_params, $clause_for_total=false)
+	{
+		global $wpgmza;
+		
+		$clause = AjaxTable::getWhereClause($input_params, $query_params, $clause_for_total);
+		
+		if(!(is_admin() || (isset($_SERVER['HTTP_REFERER']) && preg_match('/page=wp-google-maps-menu/', $_SERVER['HTTP_REFERER']) && $wpgmza->isUserAllowedToEdit())))
+		{
+			$clause .= ' AND approved=%d';
+			$query_params[] = 1;
+		}
+		
+		return $clause;
+	}
 }

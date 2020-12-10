@@ -132,6 +132,7 @@ jQuery(function($) {
 	});  
 	
 	InitMap();
+	jQuery(document).ready(function(){ InitMap(); });
 	jQuery('body').on('tabsactivate', function(){setTimeout(function(){InitMap();}, 500); });
 	jQuery('body').on('tabsshow', function(){setTimeout(function(){InitMap();}, 500); });
 	jQuery('body').on('accordionactivate', function(){setTimeout(function(){InitMap();}, 500); });

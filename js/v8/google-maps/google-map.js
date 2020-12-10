@@ -187,7 +187,7 @@ jQuery(function($) {
 				lng: parseFloat(clone.center.lng)
 			};
 		
-		if(this.settings.hide_point_of_interest == "1")
+		if(this.settings.wpgmza_hide_point_of_interest == "1")
 		{
 			var noPoi = {
 				featureType: "poi",
@@ -223,8 +223,8 @@ jQuery(function($) {
 	 * Removes the specified marker from this map
 	 * @return void
 	 */
-	WPGMZA.GoogleMap.prototype.removeMarker = function(marker)
-	{
+	WPGMZA.GoogleMap.prototype.removeMarker = function(marker) {
+		
 		marker.googleMarker.setMap(null);
 		
 		Parent.prototype.removeMarker.call(this, marker);
@@ -615,8 +615,8 @@ jQuery(function($) {
 	{	
 		var options = {};
 
-		options.scrollwheel  = true;
-		options.draggable	=  true;
+		options.scrollwheel				= true;
+		options.draggable				= true;
 		options.disableDoubleClickZoom	= false;
 		
 		this.googleMap.setOptions(options);

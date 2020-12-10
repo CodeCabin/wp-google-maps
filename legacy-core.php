@@ -102,7 +102,7 @@ register_deactivation_hook( $wpgmzaMainPluginFile, 'wpgmaps_deactivate' );
 define('WPGMZA_VERSION', $wpgmza_version);
 define("WPGMAPS", $wpgmza_version);
 
-$wpgmza_p_version = "6.19";
+$wpgmza_p_version = "8.00";
 $wpgmza_t = "basic";
 
 $plugin_dir_path = plugin_dir_path(__FILE__);
@@ -186,7 +186,7 @@ function wpgmaps_activate() {
 	
 	update_option('WPGMZA_OTHER_SETTINGS', $other_settings);
 
-    update_option("wpgmza_temp_api",'AIzaSyDjyYKnTqGG2CAF9nmrfB6zgTBE6oPhMk4');
+    update_option("wpgmza_temp_api",'AIzaSyDo_fG7DXBOVvdhlrLa-PHREuFDpTklWhY');
 
 	// set defaults for the Marker XML Dir and Marker XML URL
     if (get_option("wpgmza_xml_location") == "") {
@@ -630,15 +630,10 @@ function wpgmaps_admin_javascript_basic()
 	global $wpdb;
 	global $wpgmza_version;
 	global $wpgmza_tblname_maps;
-	
+
+
     if (!is_admin() || !$wpgmza->isUserAllowedToEdit())
 		return;
-	
-	if(!empty($_POST['wpgmaps_marker-nonce']) && !wp_verify_nonce($_POST['wpgmaps_marker-nonce'], 'wpgmza'))
-	{
-		http_response_code(403);
-		exit;
-	}
 	
 	$ajax_nonce = wp_create_nonce("wpgmza");
 	
@@ -1467,17 +1462,7 @@ function wpgmaps_tag_basic( $atts )
     
     $user_api_key = get_option( 'wpgmza_google_maps_api_key' );
 	
-    if (!function_exists('wpgmaps_admin_styles_pro')) {
-		$wpgmaps_extra_css = ".wpgmza_map img { max-width:none; } .wpgmza_widget { overflow: auto; }";
-        wp_add_inline_style( 'wpgmaps-style', stripslashes( $wpgmaps_extra_css ) );
-
-        $wpgmza_main_settings = get_option("WPGMZA_OTHER_SETTINGS");
-        if (isset($wpgmza_main_settings['wpgmza_custom_css']) && $wpgmza_main_settings['wpgmza_custom_css'] != "") { 
-            wp_add_inline_style( 'wpgmaps-style', stripslashes( $wpgmza_main_settings['wpgmza_custom_css'] ) );
-        }
-
-    }
-     if (isset($atts['zoom'])) {
+    if (isset($atts['zoom'])) {
         $zoom_override = (int)$atts['zoom'];
         $wpgmza_override['zoom'] = $zoom_override;
     }    
@@ -1614,10 +1599,20 @@ function wpgmaps_tag_basic( $atts )
 		if($index = array_search('wpgmza-google-vertex-context-menu', $core_dependencies))
 			array_splice($core_dependencies, $index, 1);
 	}
-	
+
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
 	$wpgmza->loadScripts();
+
+	if (!function_exists('wpgmaps_admin_styles_pro')) {
+		$wpgmaps_extra_css = ".wpgmza_map img { max-width:none; } .wpgmza_widget { overflow: auto; }";
+        wp_add_inline_style( 'wpgmza-common', stripslashes( $wpgmaps_extra_css ) );
+
+        $wpgmza_main_settings = get_option("WPGMZA_OTHER_SETTINGS");
+        if (isset($wpgmza_main_settings['wpgmza_custom_css']) && $wpgmza_main_settings['wpgmza_custom_css'] != "") { 
+            wp_add_inline_style( 'wpgmza-common', stripslashes( $wpgmza_main_settings['wpgmza_custom_css'] ) );
+        }
+    }
 	
 	wp_localize_script('wpgmaps_core', 'wpgmza_circle_data_array', wpgmza_get_circle_data(1));
 	wp_localize_script('wpgmaps_core', 'wpgmza_rectangle_data_array', wpgmza_get_rectangle_data(1));
@@ -2748,7 +2743,7 @@ function wpgmza_map_page() {
         update_option("wpgmza_review_nag",time());
     }
 
-    wpgmza_review_nag();    
+    wpgmza_review_nag();
 
     //google_maps_api_key_warning();    
     
@@ -3897,7 +3892,9 @@ function wpgmza_basic_menu() {
                                             <input type=\"hidden\" name=\"wpgmza_edit_id\" id=\"wpgmza_edit_id\" value=\"\" />
                                             <div>
                                                 <div valign='top'>".__("Address/GPS","wp-google-maps").": </div>
-                                                <div><input id='wpgmza_add_address' name='wpgmza_add_address' type='text' size='35' maxlength='200' value=''  /><small class='wpgmza-info__small'><em>".__("Or right click on the map","wp-google-maps")."</small></em></div>
+                                                <div style='position:relative;'>
+												<div id='wpgmza_autoc_disabled' style='display:none;'></div>
+                                                <input id='wpgmza_add_address' autocomplete=\"off\" name='wpgmza_add_address' type='text' size='35' maxlength='200' value='' /><div id='wpgmza_autocomplete_search_results' class='' style='display: none;''></div><small class='wpgmza-info__small'><em>".__("Or right click on the map","wp-google-maps")."</small></em></div>
 												
 												<input name='lat' type='hidden'/>
 												<input name='lng' type='hidden'/>
@@ -4682,7 +4679,7 @@ function wpgmaps_permission_warning() {
 function wpgmaps_update_db_check() {
     global $wpgmza_version;
     if (get_option('wpgmza_db_version') != $wpgmza_version) {
-        update_option("wpgmza_temp_api",'AIzaSyDjyYKnTqGG2CAF9nmrfB6zgTBE6oPhMk4');
+        update_option("wpgmza_temp_api",'AIzaSyDo_fG7DXBOVvdhlrLa-PHREuFDpTklWhY');
 		
 		// NB: Moved to WPGMZA\Database
         //wpgmaps_handle_db();
@@ -4784,12 +4781,13 @@ function wpgmaps_upgrade_notice() {
 }
 function wpgmaps_trash_map($map_id) {
     global $wpdb;
+    global $wpgmza_tblname; 
     global $wpgmza_tblname_maps;
     if (isset($map_id)) {
-		$wpdb->query(
-			$wpdb->prepare('DELETE FROM wp_wpgmza WHERE map_id=%d', (int)$map_id)
-		);
-        $rows_affected = $wpdb->query( $wpdb->prepare( "UPDATE $wpgmza_tblname_maps SET active = %d WHERE id = %d", 1, $map_id) );
+		
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpgmza_tblname WHERE `map_id` = %d", (int)$map_id) );
+		
+        $rows_affected = $wpdb->query( $wpdb->prepare( "UPDATE $wpgmza_tblname_maps SET `active` = %d WHERE `id` = %d", 1, $map_id) );
         return true;
     } else {
         return false;

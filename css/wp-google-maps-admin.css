@@ -407,10 +407,6 @@ input.cmn-toggle-yes-no:checked + label:after {
   line-height: 15px !important;
 }
 
-.update-att{
-   border: 1px solid #ffba00;
-}
-
 .update-map-overlay {
     position: absolute;
     margin-top: -103px !important;
@@ -934,27 +930,32 @@ body[class*="wp-google-maps"] .ui-tabs {
     background: transparent; !important;
 }
 
-.update-att {
-  border: 2px solid #FACE48;
-  border-radius: 5px;
-  background: #FACE48;
-  color: #fff;
-  margin: 10px;
-  box-sizing: border-box;
-  font-size: 13px;
+.update-att, .wpgmza-upsell
+{
+	border: 2px solid #FACE48;
+	border-radius: 5px;
+	background: #FACE48;
+	color: #fff;
+	margin: 10px;
+	box-sizing: border-box;
+	font-size: 13px;
+	border: 1px solid #ffba00;
 }
 
-.update-att a {
-  color: #fff;
-  opacity: .9;
-  font-weight: bold;
+.update-att a, .wpgmza-upsell a
+{
+	color: #fff;
+	opacity: .9;
+	font-weight: bold;
 }
-.update-att .fa {
-  margin-right: 10px;
+.update-att .fa, .wpgmza-upsell .fa
+{
+	margin-right: 10px;
 }
 
-.wpgmza-marker-tab__title {
- margin-top: 0;
+.wpgmza-marker-tab__title
+{
+	margin-top: 0;
 }
 
 #wpgmaps_tabs_markers .update-att {
@@ -1261,7 +1262,6 @@ body[class*="wp-google-maps"] .ui-slider-handle:hover {
 
 body[class*="wp-google-maps"] input[type="text"],
 body[class*="wp-google-maps"] select {
-  padding: 6px 8px;
   box-shadow: none;
   border: 1px solid #ccc;
   border-radius: 2px;
@@ -1813,7 +1813,7 @@ input[type="date"],
 input:not([type="checkbox"]):not([type="radio"]){
 	border: 1px solid #ddd;
 	box-shadow: none;
-	padding: 4px 9px;
+	
 	border-radius: 2px;
 	transition: border-color .12s ease-in-out;
 	background: #fff;
@@ -2736,4 +2736,12 @@ body.toplevel_page_wp-google-maps-menu .wp-core-ui .button:hover,
     border-color: #01618a !important;
     color: #01618a !important;
     background: #e4e4e4 !important;
+}
+div#wpgmza_autoc_disabled {
+    position: absolute;
+    bottom: 3px;
+    font-size: 0.8em;
+    right: 0;
+    width: 100%;
+    text-align: right;
 }

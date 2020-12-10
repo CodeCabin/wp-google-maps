@@ -93,7 +93,8 @@ class Strings
 			'geocoding_library_notice'	=> __('Geocoding this address failed. Please check you have enabled the Geocoding API for your Google Maps API project.', 'wp-google-maps'),
 			
 			'map_delete_prompt_text'		=> __('Are you sure you want to delete this map?', 'wp-google-maps'),
-			'map_bulk_delete_prompt_text'	=> __('Are you sure you want to delete these maps?', 'wp-google-maps')
+			'map_bulk_delete_prompt_text'	=> __('Are you sure you want to delete these maps?', 'wp-google-maps'),
+			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.'),"https://wpgmaps.com/documentation/autocomplete-disabled/")
 		));
 	}
 	

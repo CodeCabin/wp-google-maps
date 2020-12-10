@@ -746,3 +746,50 @@ ul.wpgmza_marker_list_class {
     margin-bottom: 10px;
     font-size: 14px;
 }
+div#wpgmza_autocomplete_search_results {
+    width: auto;
+    overflow: auto;
+    position: relative;
+    max-height: 320px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    max-width: 100%;
+}
+.wpgmza_ac_result {
+    height: 44px;
+    border-bottom: 1px dashed #ccc;
+    margin-top: 8px;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+.wpgmza_ac_icon img {
+    width: 25px;
+    margin-right: 9px;
+}
+.wpgmza_ac_icon {
+    float: left;
+    width:10%;
+    text-align: center;
+    margin-top: 5px;
+}
+.wpgmza_ac_item {
+    display: block;
+    clear: right;
+    float: left;
+    width:90%;
+}
+span.wpgmza_item_name {
+    float: none;
+    clear: both;
+    display: block;
+}
+.wpgmza_item_address {
+    font-weight:normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display:block;
+}

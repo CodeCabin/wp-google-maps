@@ -1,18 +1,20 @@
 === WP Google Maps ===
-Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty, PerryRylance
+Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, directions, google map plugin, map widget
+Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers,
 Requires at least: 3.5
-Tested up to: 5.4.1
+Tested up to: 5.6
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2
 
-The easiest to use Google maps plugin! Create a custom Google map with high quality markers containing categories, descriptions, images and links.
+The easiest to use Google maps plugin! Create a custom Google map or Store Locator with high quality markers containing categories, descriptions, images and links.
 
 == Description ==
 
-The easiest to use Google maps plugin! Add a customized Google map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
+The easiest to use Google Maps and Open Layers Maps plugin!
+
+Add a customized Google map or Store Locator to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
 
 While the free version of WP Google Maps allows you to create a Google map with as many markers as you like, the Pro version allows you to do so much more! 
 
@@ -20,6 +22,7 @@ The [WP Google Maps Pro Version](https://www.wpgmaps.com/purchase-professional-v
 
 = Lite Version (Free) =
 * The most popular Google Maps plugin on WordPress
+* Choose between Google Maps or Open Layers Maps
 * Super easy to use, no coding required!
 * Create as many map markers as you need by simply typing in the address
 * Responsive maps
@@ -76,7 +79,6 @@ The [WP Google Maps Pro Version](https://www.wpgmaps.com/purchase-professional-v
 * Add retina-ready map marker icons
 * WordPress Network friendly
 * Get the [WP Google Maps Professional Edition](https://www.wpgmaps.com/purchase-professional-version/) for only $39.99
-
 
 = Translations =
 Get a free copy of the WP Google Maps Pro version in exchange for translating our plugin!
@@ -197,6 +199,9 @@ Try [Nifty Maps](http://www.niftymaps.co) - Comprehensive Map Builder for all we
 
 == Upgrade Notice ==
 
+= 8.0.26 =
+Please update to 8.0.26 or above to ensure you are using the latest security enhancements.
+
 = 7.11.19 =
 Please update to 7.11.18 or above to ensure you are using the latest security enhancements.
 
@@ -209,24 +214,45 @@ Please update your WP Google Maps version to 6.3.14 to ensure you are using the 
 = 6.2.1 =
 Please update your WP Google Maps version to 6.2.1 to ensure you are using the latest security enhancements.
 
-= 6.1.10 =
-Please update WP Google Maps to version 6.1.10 to enable our latest security enhancements.
-
-= 6.1.5 =
-We no longer support timthumb and we have opted to remove it from WP Google Maps. Please update to 6.1.5 to ensure the removal of the timthumb script.
-
-= 6.0.27 =
-Please upgrade your version of WP Google Maps to version 6.0.27 as it includes multiple security improvements.
-
 == Changelog ==
 
-= 8.0.23 =
+= 8.0.29 - 2020-12-10 - High priority =
+* Tested up to Wordpress 5.6
+* Added support for jQuery 3
+
+= 8.0.28 - 2020-11-26 - Low priority =
+* Tested the plugin with WP5.6 RC1 - All seems in order
+* Modified the Google Places Autocomplete functionality to reduce the amount of API calls originating from basic users
+
+= 8.0.27 - 2020-10-15 - Medium priority =
+* Changes have been made to limit the amount of API calls we process for users using our API key (for new users). For more information please see https://www.wpgmaps.com/documentation/autocomplete-disabled/
+
+= 8.0.26 - 2020-08-25 - High priority =
+* Tested up to WordPress 5.5
+* Patched a vulnerability, thank you WP.org for identifying it!
+* Fixed a bug that stopped markers from being deleted on some WP installations (thank you Gary Boulter!)
+* Fixed a bug where editing a marker would cause a JS error in some instances
+
+
+= 8.0.25 :- 2020-06-12 :- Medium priority =
+* Tested up to WordPress 5.4.2
+* Fixed Google Autocomplete not working due to failed check in minified code
+
+= 8.0.24 :- 2020-06-10 :- Medium priority =
+* Added fallback for datatables when language file cannot be loaded
+* Plugin now loads unminified version of text.js due to IE issues with minified version
+* Notice is issued for users using expired Cloud API keys
+* Fixed __isset returning false for ID on Crud class
+* Fixed notice in Gutenberg module when passing array shortcode attributes
+
+= 8.0.23 :- 2020-05-07 :- Medium priority =
 * Added experimental integrity check class (currently unused)
 * Added links to settings tabs in "No API key" message
 * Tested up to WordPress 5.4.1
 * Fixed IIS failing under certain conditions (+ now URL encoded for IIS servers in compressed path variables)
+* Fixed lowercase finnish.json filename breaking DataTables on Finnish installations
 
-= 8.0.22 :- 2020-04-07 =
+= 8.0.22 :- 2020-04-07 :- Medium priority =
 * Added tooltip to OpenLayer markers
 * Removed calls to wpgmza_enqueue_fontawesome (deprecated)
 * Added constants WPGMZA_PLUGIN_DIR_PATH and WPGMZA_PLUGIN_DIR_URL
@@ -1472,6 +1498,23 @@ Please upgrade your version of WP Google Maps to version 6.0.27 as it includes m
 
 
 For more, please view the WP Google Maps site
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
