@@ -72,6 +72,10 @@ jQuery(function($) {
 	WPGMZA.MapObject.prototype.parseGeometry = function(string)
 	{
 		var stripped, pairs, coords, results = [];
+		
+		if(typeof string == "object")
+			return string;
+		
 		stripped = string.replace(/[^ ,\d\.\-+e]/g, "");
 		pairs = stripped.split(",");
 		

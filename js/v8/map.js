@@ -295,7 +295,9 @@ jQuery(function($) {
 	{
 		if(!(marker instanceof WPGMZA.Marker))
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
-		
+	
+
+
 		marker.map = this;
 		marker.parent = this;
 		
@@ -318,19 +320,21 @@ jQuery(function($) {
 	{
 		if(!(marker instanceof WPGMZA.Marker))
 			throw new Error("Argument must be an instance of WPGMZA.Marker");
-		
-		if(marker.map !== this)
-			throw new Error("Wrong map error");
+
+		if(marker.map !== this) {
+			//throw new Error("Wrong map error");
+			console.error("Wrong map error");
+		}
 		
 		if(marker.infoWindow)
 			marker.infoWindow.close();
 		
 		marker.map = null;
 		marker.parent = null;
-		
 		this.markers.splice(this.markers.indexOf(marker), 1);
 		this.dispatchEvent({type: "markerremoved", marker: marker});
 		marker.dispatchEvent({type: "removed"});
+	
 	}
 	
 	/**
@@ -379,8 +383,8 @@ jQuery(function($) {
 	 * @fires markerremoved
 	 * @fires WPGMZA.Marker#removed
 	 */
-	WPGMZA.Map.prototype.removeMarkerByID = function(id)
-	{
+	WPGMZA.Map.prototype.removeMarkerByID = function(id) {
+		
 		var marker = this.getMarkerByID(id);
 		
 		if(!marker)

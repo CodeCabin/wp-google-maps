@@ -60,8 +60,7 @@ jQuery(function($) {
 		});
 	}
 	
-	$(window).on("load", function(event) {
-		
+	$(document.body).on("wpgmza_map_editor_init", function(event) {
 		WPGMZA.mapEditPage = WPGMZA.MapEditPage.createInstance();
 		
 	});

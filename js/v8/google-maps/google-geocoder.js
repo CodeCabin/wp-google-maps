@@ -15,11 +15,19 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleGeocoder = function()
 	{
-		
+		WPGMZA.Geocoder.call(this);
 	}
 	
 	WPGMZA.GoogleGeocoder.prototype = Object.create(WPGMZA.Geocoder.prototype);
 	WPGMZA.GoogleGeocoder.prototype.constructor = WPGMZA.GoogleGeocoder;
+	
+	WPGMZA.GoogleGeocoder.prototype.getGoogleGeocoder = function()
+	{
+		if(WPGMZA.CloudAPI && WPGMZA.CloudAPI.isBeingUsed)
+			return new WPGMZA.CloudGeocoder();
+		
+		return new google.maps.Geocoder();
+	}
 	
 	WPGMZA.GoogleGeocoder.prototype.getLatLngFromAddress = function(options, callback)
 	{
@@ -34,20 +42,27 @@ jQuery(function($) {
 				country: options.country
 			};
 		
-		var geocoder = new google.maps.Geocoder();
+		var geocoder = this.getGoogleGeocoder();
 		
 		geocoder.geocode(options, function(results, status) {
-			if(status == google.maps.GeocoderStatus.OK)
+			
+			if(status == google.maps.GeocoderStatus.OK || status == WPGMZA.CloudGeocoder.SUCCESS)
 			{
 				var location = results[0].geometry.location;
-				var latLng = {
+				var latLng, bounds = null;
+				
+				latLng = {
 					lat: location.lat(),
 					lng: location.lng()
 				};
-				var bounds = null;
 				
-				if(results[0].geometry.bounds)
-					bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBounds(results[0].geometry.bounds);
+				if(bounds = results[0].geometry.bounds)
+				{
+					if(bounds instanceof google.maps.LatLngBounds)
+						bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBounds(results[0].geometry.bounds);
+					else
+						bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBoundsLiteral(results[0].geometry.bounds);
+				}
 				
 				var results = [
 					{
@@ -60,8 +75,6 @@ jQuery(function($) {
 						bounds: bounds
 					}
 				];
-				
-				
 				
 				callback(results, WPGMZA.Geocoder.SUCCESS);
 			}
@@ -83,7 +96,7 @@ jQuery(function($) {
 			throw new Error("No latLng specified");
 		
 		var latLng = new WPGMZA.LatLng(options.latLng);
-		var geocoder = new google.maps.Geocoder();
+		var geocoder = this.getGoogleGeocoder();
 		
 		var options = $.extend(options, {
 			location: {

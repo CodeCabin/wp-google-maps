@@ -114,7 +114,7 @@ jQuery(function($) {
 		
 	});
 	
-	$(window).on("load", function(event) {
+	$(document).on("load", function(event) {
 		
 		if(WPGMZA.settings.engine != "open-layers")
 			return;

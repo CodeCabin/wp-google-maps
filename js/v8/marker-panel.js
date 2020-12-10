@@ -10,7 +10,7 @@ jQuery(function($) {
 		this.element = element;
 	}
 	
-	$(window).on("load", function(event) {
+	$(document.body).on("wpgmza_map_editor_init", function(event) {
 		
 		if(WPGMZA.getCurrentPage() == WPGMZA.PAGE_MAP_EDIT)
 			WPGMZA.mapEditPage.markerPanel = new WPGMZA.MarkerPanel($("#wpgmza-marker-edit-panel")[0]);

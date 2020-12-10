@@ -51,6 +51,21 @@ jQuery(function($) {
 		return result;
 	}
 	
+	WPGMZA.LatLngBounds.fromGoogleLatLngBoundsLiteral = function(obj)
+	{
+		var result = new WPGMZA.LatLngBounds();
+		
+		var southWest = obj.southwest;
+		var northEast = obj.northeast;
+		
+		result.north = northEast.lat;
+		result.south = southWest.lat;
+		result.west = southWest.lng;
+		result.east = northEast.lng;
+		
+		return result;
+	}
+	
 	/**
 	 * Returns true if this object is in it's initial state (eg no points specified to gather bounds from)
 	 * @method

@@ -249,7 +249,7 @@ jQuery(function($) {
 			var base64 = this.compressParams(data);
 			
 			if(WPGMZA.isServerIIS)
-				base64 = encodeURIComponent(base64);
+				base64 = base64.replace(/\+/g, "%20");
 			
 			var compressedRoute = route.replace(/\/$/, "") + "/base64" + base64;
 			var fullCompressedRoute = WPGMZA.RestAPI.URL + compressedRoute;

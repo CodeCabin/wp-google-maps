@@ -1,4 +1,11 @@
 {
+    "wpgmza-address-input": {
+        "src": "js\/v8\/address-input.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
     "wpgmza-circle": {
         "src": "js\/v8\/circle.js",
         "pro": false,
