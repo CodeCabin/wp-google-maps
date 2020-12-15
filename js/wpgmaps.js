@@ -65,15 +65,17 @@ function InitMap() {
 	
 	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
 	{
-		$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
-			$(el).append($(WPGMZA.api_consent_html));
-			$(el).css({height: "auto"});
-		});
-		
-		$("button.wpgmza-api-consent").on("click", function(event) {
-			Cookies.set("wpgmza-api-consent-given", true);
-			window.location.reload();
-		});
+		if(jQuery('.wpgmza-gdpr-compliance').length <= 0){
+			$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+				$(el).append($(WPGMZA.api_consent_html));
+				$(el).css({height: "auto"});
+			});
+			
+			$("button.wpgmza-api-consent").on("click", function(event) {
+				Cookies.set("wpgmza-api-consent-given", true);
+				window.location.reload();
+			});
+		}
 		
 		return;
 	}

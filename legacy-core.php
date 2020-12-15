@@ -1600,9 +1600,10 @@ function wpgmaps_tag_basic( $atts )
 			array_splice($core_dependencies, $index, 1);
 	}
 
+	$wpgmza->loadScripts();
+
     wp_enqueue_script('wpgmaps_core', plugins_url('/js/wpgmaps.js',__FILE__), $core_dependencies, $wpgmza_version.'b' , false);
 	
-	$wpgmza->loadScripts();
 
 	if (!function_exists('wpgmaps_admin_styles_pro')) {
 		$wpgmaps_extra_css = ".wpgmza_map img { max-width:none; } .wpgmza_widget { overflow: auto; }";

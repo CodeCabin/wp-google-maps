@@ -285,9 +285,7 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid)
 		
 		$localized_data['polyline_data'][$poly_id] = array(
 			'strokeColor'		=> $linecolor,
-			'fillOpacity'		=> $fillopacity,
 			'strokeOpacity'		=> $lineopacity,
-			'fillColor'			=> $fillcolor,
 			'path'				=> $path_data
 		);
 	}
