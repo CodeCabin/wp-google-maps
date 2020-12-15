@@ -5,7 +5,11 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
-require_once(plugin_dir_path(__FILE__) . 'class.dom-element.php');
+if(version_compare(phpversion(), '8.0', '<')){
+	require_once(plugin_dir_path(__FILE__) . 'class.dom-element.php');
+} else {
+	require_once(plugin_dir_path(__FILE__) . 'compat/php8/class.dom-element.php');
+}
 
 class DOMDocument extends \DOMDocument
 {
