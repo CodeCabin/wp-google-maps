@@ -8057,7 +8057,7 @@ jQuery(function($) {
 				lng: parseFloat(clone.center.lng)
 			};
 		
-		if(this.settings.wpgmza_hide_point_of_interest == "1")
+		if(parseInt(this.settings.hide_point_of_interest) == 1)
 		{
 			var noPoi = {
 				featureType: "poi",
