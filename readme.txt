@@ -216,6 +216,9 @@ Please update your WP Google Maps version to 6.2.1 to ensure you are using the l
 
 == Changelog ==
 
+= 8.0.31 - 2020-12-22 - Medium priority =
+* Added PHP 8 compatibility notice. PHP 8 is not currently supported, and the plugin will be disabled to prevent fatal errors in these cases. Support will be added soon
+
 = 8.0.30 - 2020-12-17 - Medium priority =
 * Adds DOMElement support for PHP 8
 * Fixed GDPR message showing multiple times on some installations
@@ -1504,6 +1507,7 @@ Please update your WP Google Maps version to 6.2.1 to ensure you are using the l
 
 
 For more, please view the WP Google Maps site
+
 
 
 
