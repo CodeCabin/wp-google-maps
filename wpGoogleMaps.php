@@ -3,7 +3,7 @@
 Plugin Name: WP Google Maps
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 8.0.30
+Version: 8.0.31
 Author: WP Google Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -11,6 +11,9 @@ Domain Path: /languages
 */
 
 /*
+ * 8.0.31 - 2020-12-22 - Medium priority
+ * Added PHP 8 compatibility notice. PHP 8 is not currently supported, and the plugin will be disabled to prevent fatal errors in these cases. Support will be added soon
+ *
  * 8.0.30 - 2020-12-17 - Medium priority
  * Adds DOMElement support for PHP 8
  * Fixed GDPR message showing multiple times on some installations
@@ -1480,11 +1483,38 @@ if(!$integrityChecker->check(plugin_dir_path(__FILE__) . 'includes'))
 	}
 }*/
 
-if(wpgmza_preload_is_in_developer_mode())
+if(!function_exists('wpgmza_show_php8_incompatibility_error'))
 {
-	require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
+	function wpgmza_show_php8_incompatibility_error()
+	{
+		?>
+		<div class="notice notice-error">
+			<h4>WP Google Maps - Error Found</h4>
+			<p>
+				<?php
+				_e('PHP 8 includes significant changes from PHP 7, which may cause unexpected issues with our core functionality. WP Google Maps is not officially supported with PHP 8, but support will be added in the near future.', 'wp-google-maps');
+				?>
+			</p>
+
+			<p>
+				<?php
+				_e('To continue using WP Google Maps, please downgrade to PHP 7, as it is fully supported by our plugin.', 'wp-google-maps');
+				?>
+			</p>
+		</div>
+		<?php
+	}
 }
-else
+
+if(version_compare(phpversion(), '8.0', '>=')){
+	add_action('admin_notices', 'wpgmza_show_php8_incompatibility_error');
+	return;
+}
+
+
+if(wpgmza_preload_is_in_developer_mode()){
+	require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
+}else{
 	try{
 		require_once(plugin_dir_path(__FILE__) . 'legacy-core.php');
 	}catch(Exception $e) {
@@ -1507,3 +1537,4 @@ else
 			
 		});
 	}
+}
