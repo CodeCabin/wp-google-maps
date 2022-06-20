@@ -1,0 +1,373 @@
+/**
+ * WP Go Maps - Atlas Novus 
+ * 
+ * Root Variables for use by all sub CSS files 
+*/
+:root{
+    /* Primary colors */
+    /*--wpgmza-color-brand    : #f07935;*/
+    --wpgmza-color-brand    : #cc9999;
+
+    --wpgmza-color-light    : #eeeeee;
+    --wpgmza-color-dark     : #59595b;
+    --wpgmza-color-error    : #ea4335;
+    --wpgmza-color-warning  : #FFA11E;
+    --wpgmza-color-success  : #39C217;
+    
+    /* Alternate colors */
+    --wpgmza-color-light-alt : #e6e6e6;
+
+    /* Alias colors */
+    --wpgmza-color-white    : #ffffff;
+    --wpgmza-color-charcoal : #333333;
+    --wpgmza-color-black    : #000000;
+    
+    --wpgmza-color-black-overlay : #0000002e;
+
+    --wpgmza-color-blue     : #0073aa;
+    --wpgmza-color-blue-alt : #00628f;
+
+    --wpgmza-color-cyan     : #31b0d6;
+
+    /* Grey tones */
+    --wpgmza-color-grey-50 : #f9f9f9;
+    --wpgmza-color-grey-75 : #f7f6f6;
+    --wpgmza-color-grey-100 : #f5f5f5;
+    --wpgmza-color-grey-150 : #efefef;
+    --wpgmza-color-grey-200 : #e8e8e8;
+    --wpgmza-color-grey-250 : #e4e4e4;
+    --wpgmza-color-grey-300 : #dcdcdc;
+    --wpgmza-color-grey-400 : #dddddd;
+    --wpgmza-color-grey-500 : #bfbfbf;
+    --wpgmza-color-grey-600 : #868686;
+    --wpgmza-color-grey-700 : #737373;
+    --wpgmza-color-grey-800 : #545454;
+    --wpgmza-color-grey-900 : #4d4d4e;
+
+
+    /* Transparent Grey tones */
+    --wpgmza-color-grey-A150 : #e2e2e28a;
+
+    /* Common Grey Aliased */
+    --wpgmza-color-grey-common : var(--wpgmza-color-grey-400);
+    
+    /* Grey tones mapped to Gray tones */
+    --wpgmza-color-gray-common : var(--wpgmza-color-grey-common);
+    
+    --wpgmza-color-gray-50 : var(--wpgmza-color-grey-50);
+    --wpgmza-color-gray-75 : var(--wpgmza-color-grey-75);
+    --wpgmza-color-gray-100 : var(--wpgmza-color-grey-100);
+    --wpgmza-color-gray-150 : var(--wpgmza-color-grey-150);
+    --wpgmza-color-gray-200 : var(--wpgmza-color-grey-200);
+    --wpgmza-color-gray-250 : var(--wpgmza-color-grey-250);
+    --wpgmza-color-gray-300 : var(--wpgmza-color-grey-300);
+    --wpgmza-color-gray-400 : var(--wpgmza-color-grey-400);
+    --wpgmza-color-gray-500 : var(--wpgmza-color-grey-500);
+    --wpgmza-color-gray-600 : var(--wpgmza-color-grey-600);
+    --wpgmza-color-gray-700 : var(--wpgmza-color-grey-700);
+    --wpgmza-color-gray-800 : var(--wpgmza-color-grey-800);
+    --wpgmza-color-gray-900 : var(--wpgmza-color-grey-900);
+
+    --wpgmza-color-gray-A150 : var(--wpgmza-color-grey-A150);
+
+    --wpgmza-shadow-common : 0 1px 1px 0 rgb(66 66 66 / 8%), 0 1px 3px 1px rgb(66 66 66 / 16%);
+    --wpgmza-shadow-high :  0 1px 1px 0 rgb(66 66 66 / 10%), 0 1px 5px 3px rgb(66 66 66 / 5%);
+
+}
+
+.wpgmza-hidden {
+	display: none !important;
+}
+
+.wpgmza-card {
+    background: var(--wpgmza-color-white);
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.wpgmza-shadow {
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-shadow-high {
+    box-shadow: var(--wpgmza-shadow-high);
+}
+
+#wpgmaps_options input:disabled + label,
+.wpgmza-feature-panel input:disabled + label,
+.wpgmza-pro-feature {
+	opacity: 0.6;
+}
+
+.wpgmza-button {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    background: var(--wpgmza-color-light);
+    border-color: var(--wpgmza-color-light);
+
+    transition: background 0.3s ease;
+}
+
+.wpgmza-button:hover{
+    cursor: pointer;
+    background: var(--wpgmza-color-light-alt);
+    border-color: var(--wpgmza-color-light-alt);
+}
+
+.wpgmza-button-white {
+    background: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-primary{
+	background: var(--wpgmza-color-dark);
+	border-color: var(--wpgmza-color-dark);
+	color: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-primary:hover{
+	background: var(--wpgmza-color-charcoal);
+	border-color: var(--wpgmza-color-charcoal);
+}
+
+.wpgmza-button-accent{
+    background: var(--wpgmza-color-blue);
+    border-color: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-accent:hover{
+    background: var(--wpgmza-color-blue-alt);
+    border-color: var(--wpgmza-color-blue-alt);
+}
+
+a.wpgmza-button {
+    color: var(--wpgmza-color-charcoal);
+}
+
+a.wpgmza-button-primary,
+a.wpgmza-button-accent {
+    color: var(--wpgmza-color-white);
+}
+
+
+/* Layout Helpers */
+.wpgmza-pos-absolute{
+	position: absolute;
+}
+
+.wpgmza-pos-relative{
+    position: relative;
+}
+
+.wpgmza-pad-0 {
+    padding: 0;
+}
+
+.wpgmza-pad-5{
+    padding: 5px;
+}
+
+.wpgmza-pad-10{
+    padding: 10px;
+}
+
+.wpgmza-pad-x-10{
+    padding: 0 10px;
+}
+
+.wpgmza-pad-y-10{
+    padding: 10px 0;
+}
+
+.wpgmza-pad-20{
+    padding: 20px;
+}
+
+.wpgmza-pad-x-20{
+    padding: 0 20px;
+}
+
+.wpgmza-pad-y-20{
+    padding: 20px 0;
+}
+
+.wpgmza-margin-0 {
+    margin: 0;
+}
+
+.wpgmza-margin-10 {
+    margin: 10px;
+}
+
+.wpgmza-margin-x-10 {
+    margin: 0 10px;
+}
+
+.wpgmza-margin-y-10 {
+    margin: 10px 0;
+}
+
+.wpgmza-margin-b-10 {
+    margin-bottom: 10px;
+}
+
+.wpgmza-margin-t-10 {
+    margin-top: 10px;
+}
+
+.wpgmza-margin-l-10 {
+    margin-left: 10px;
+}
+
+.wpgmza-margin-r-10 {
+    margin-right: 10px;
+}
+
+.wpgmza-margin-20 {
+    margin: 20px;
+}
+
+.wpgmza-margin-x-20 {
+    margin: 0 20px;
+}
+
+.wpgmza-margin-y-20 {
+    margin: 20px 0;
+}
+
+.wpgmza-margin-b-20 {
+    margin-bottom: 20px;
+}
+
+.wpgmza-margin-t-20 {
+    margin-top: 20px;
+}
+
+.wpgmza-margin-l-20 {
+    margin-left: 20px;
+}
+
+.wpgmza-margin-r-20 {
+    margin-right: 20px;
+}
+
+.wpgmza-stretch {
+	width: 100%;
+}
+
+.wpgmza-fit-content {
+    width: fit-content;
+}
+
+.wpgmza-text-align-center{
+	text-align: center;
+}
+
+.wpgmza-text-align-left{
+	text-align: left;
+}
+
+.wpgmza-text-align-right{
+	text-align: right;
+}
+
+.wpgmza-list-dots{
+    list-style: circle;
+    margin-left: 20px !important;
+}
+
+.wpgmza-rounded-image {
+    border-radius: 60px;
+    overflow: hidden;
+}
+
+.wpgmza-rounded-image img {
+    transform: scale(1.1);
+}
+
+.wpgmza-flex-row {
+    display:  flex;
+}
+
+.wpgmza-flex-col {
+    display:  flex;
+    flex-direction: column;
+}
+
+.wpgmza-inline-indent {
+    width: calc(20px * var(--wpgmza-depth));
+    height: 18px;
+    display: inline-block;
+    position: relative;
+}
+
+/* Unhappy with this styling, it's a work in progress, shelved for now */
+/*
+.wpgmza-inline-indent:before{
+    content: "";
+    display: block;
+    width: calc(100% - 10px);
+    height: 4px;
+    background: var(--wpgmza-color-grey-400);
+    border-radius: 10px;
+    position: absolute;  
+    left: 0px;
+    top: 9px;  
+}
+*/
+
+.wpgmza-google-text-overlay > .wpgmza-inner{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    
+    text-align: center;
+    font-weight: bold;
+    
+    text-shadow: 0px 0px 2px var(--wpgmza-color-white);
+    text-shadow: 0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white);
+}
+
+/* Override autocomplete styles */
+.pac-container {
+    border-radius: 2px;
+    border-top: none;
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.pac-container .pac-item{
+    border-top: none;
+}
+
+.pac-container .pac-item .pac-item-query{
+    color: var(--wpgmza-color-charcoal);
+}
+
+.wpgmza-gesture-overlay{
+    color: white;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    text-align: center;
+    line-height: 400px;
+	pointer-events: none;
+}

@@ -13,6 +13,7 @@ if(!defined('ABSPATH'))
 class GoogleMapsLoader
 {
 	private static $googleAPILoadCalled = false;
+	const TEMPORARY_API_KEY	= "QUl6YVN5RG9fZkc3RFhCT1Z2ZGhsckxhLVBIUkV1RkRwVGtsV2hZ";
 	
 	/**
 	 * This will be handled by the Factory class
@@ -69,6 +70,10 @@ class GoogleMapsLoader
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');
+		
+		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT)
+			$libraries[] = 'drawing';
+		
 		$params['libraries'] = implode(',', $libraries);
 		
 		// API Version
@@ -100,8 +105,9 @@ class GoogleMapsLoader
 		if(!empty($key))
 			$params['key'] = $key;
 		else if(is_admin())
-			$params['key'] = get_option('wpgmza_temp_api');
+			$params['key'] = base64_decode(GoogleMapsLoader::TEMPORARY_API_KEY);
 
+		/* Developer Hook (Filter) - Modify Googl Maps API params (URL) */
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
 		
 		return $params;

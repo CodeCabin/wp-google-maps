@@ -1,0 +1,45 @@
+/*
+ * Attempts to polyill FA5 icons into FA4 where possible
+*/
+
+.wpgmza-wrap .fas,
+.wrap.wpgmza-installer .fas{
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Specifically added for installer (which uses FA5 only) */
+.wpgmza-wrap .fas.fa-stopwatch:before,
+.wrap.wpgmza-installer .fas.fa-stopwatch:before {
+    content:  "\f0e4";
+}
+
+.wpgmza-wrap .fas.fa-paint-roller:before,
+.wrap.wpgmza-installer .fas.fa-paint-roller:before {
+    content:  "\f1fc";
+}
+
+.wpgmza-wrap .fas.fa-draw-polygon:before,
+.wrap.wpgmza-installer .fas.fa-draw-polygon:before {
+    content:  "\f248";
+}
+
+.wpgmza-wrap .fas.fa-layer-group:before,
+.wrap.wpgmza-installer .fas.fa-layer-group:before {
+    content:  "\f278";
+}
+
+.wpgmza-wrap .fas.fa-brush:before,
+.wrap.wpgmza-installer .fas.fa-brush:before {
+    content:  "\f1fc";
+}
+ 
+
+.wpgmza-wrap .fas.fa-ghost:before,
+.wrap.wpgmza-installer .fas.fa-ghost:before {
+    content:  "\f2a8";
+}
+ 

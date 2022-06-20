@@ -40,15 +40,15 @@ jQuery(function($) {
 		else
 			addressInput = $(original).find("#addressInput");
 		
-		if(wpgmaps_localize[map_id].other_settings.store_locator_query_string && wpgmaps_localize[map_id].other_settings.store_locator_query_string.length)
-			addressInput.attr("placeholder", wpgmaps_localize[map_id].other_settings.store_locator_query_string);
+		if(map.settings.store_locator_query_string && map.settings.store_locator_query_string.length)
+			addressInput.attr("placeholder", map.settings.store_locator_query_string);
 		
 		inner.append(addressInput);
 		
 		var titleSearch = $(original).find("[id='nameInput_" + map_id + "']");
 		if(titleSearch.length)
 		{
-			var placeholder = wpgmaps_localize[map_id].other_settings.store_locator_name_string;
+			var placeholder = map.settings.store_locator_name_string;
 			if(placeholder && placeholder.length)
 				titleSearch.attr("placeholder", placeholder);
 			inner.append(titleSearch);
@@ -60,16 +60,8 @@ jQuery(function($) {
 		
 		$(addressInput).on("keydown keypress", function(event) {
 			
-			if(event.keyCode == 13)
-			{
-				// NB: Hacky workaround
+			if(event.keyCode == 13 && self.searchButton.is(":visible"))
 				self.searchButton.trigger("click");
-				
-				// NB: Legacy support
-				searchLocations(map_id);
-				
-				map.storeLocator.onSearch(event);
-			}
 			
 		});
 		
@@ -206,23 +198,6 @@ jQuery(function($) {
 			self.onMouseLeaveCategory(event);
 		});
 		
-		$(map.markerFilter).on("filteringcomplete", function(event) {
-
-			if(!this.map.hasVisibleMarkers())
-			{
-				if(this.map.settings.store_locator_not_found_message !=  WPGMZA.localized_strings.zero_results && this.map.settings.store_locator_not_found_message != "")
-				{
-					alert(this.map.settings.store_locator_not_found_message);
-
-				}
-				else{
-					alert(WPGMZA.localized_strings.zero_results);
-				}
-			}
-
-		});
-
-
 		$('body').on('click', '.wpgmza_store_locator_options_button', function(event) {
 			setTimeout(function(){
 
@@ -258,8 +233,8 @@ jQuery(function($) {
 	 * @param {int} map_id The ID of the map this store locator belongs to
 	 * @return {WPGMZA.ModernStoreLocator} An instance of WPGMZA.ModernStoreLocator
 	 */
-	WPGMZA.ModernStoreLocator.createInstance = function(map_id)
-	{
+	WPGMZA.ModernStoreLocator.createInstance = function(map_id) {
+		
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":

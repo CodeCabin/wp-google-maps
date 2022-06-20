@@ -21,7 +21,7 @@ jQuery(function($) {
 		
 		this.canvas = document.createElement("canvas");
 		this.canvas.className = "wpgmza-ol-canvas-overlay";
-		mapElement.append(this.canvas);
+		olViewportElement.find('.ol-layers .ol-layer:first-child').prepend(this.canvas);
 		
 		this.renderFunction = function(event) {
 			

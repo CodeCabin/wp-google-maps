@@ -1,5 +1,7 @@
 <?php
 
+// See https://docs.google.com/document/d/16NdGw4C4cd5Q20OwQDGpMB_GiYnojz0Mrug-QRS5zoE/edit#
+
 namespace WPGMZA;
 
 if(!defined('ABSPATH'))
@@ -89,6 +91,9 @@ class MarkerFilter extends Factory
 		
 		if(!$this->center || !$this->radius)
 			return;
+		
+		if(empty($this->map))
+			$this->loadMap();
 		
 		$lat = $this->_center['lat'] / 180 * 3.1415926;
 		$lng = $this->_center['lng'] / 180 * 3.1415926;
@@ -194,7 +199,7 @@ class MarkerFilter extends Factory
 		$query->fields = $this->getColumns($fields);
 		
 		$sql = $query->build();
-		
+
 		$results = $wpdb->get_results($sql);
 		
 		// NB: Optimize by only fetching ID here, for filtering. Only fetch the rest if fetch ID not set.
@@ -208,6 +213,7 @@ class MarkerFilter extends Factory
 			$markers[] = Marker::createInstance($data, Crud::BULK_READ);
 		}
 		
+		/* Developer Hook (Filter) - Alter marker filter results, passes markers and marker filter instance, must return markers */
 		return apply_filters('wpgmza_fetch_integrated_markers', $markers, $this);
 	}
 	
@@ -222,6 +228,7 @@ class MarkerFilter extends Factory
 		$sql = $query->build();
 		$ids = $wpdb->get_col($sql);
 		
+		/* Developer Hook (Filter) - Add or alter integrated markers output, unused and not safe to use */
 		$integrated = apply_filters('wpgmza_fetch_integrated_markers', $markers, $this);
 		foreach($integrated as $key => $value)
 			$ids[] = $value->id;

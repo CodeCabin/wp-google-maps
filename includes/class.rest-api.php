@@ -35,6 +35,7 @@ class RestAPI extends Factory
 		
 		// WP REST Cache integration
 		add_filter('wp_rest_cache/allowed_endpoints', array($this, 'onWPRestCacheAllowedEndpoints'));
+		add_filter('wp_rest_cache/determine_object_type', array($this, 'onWPRestCacheDetermineObjectType'), 10, 4);
 		
 		// AJAX callbacks for when REST API is blocked
 		add_action('wp_ajax_wpgmza_report_rest_api_blocked', array($this, 'onReportRestAPIBlocked'));
@@ -60,6 +61,7 @@ class RestAPI extends Factory
 		if(function_exists('wp_doing_ajax'))
 			return wp_doing_ajax();
 		
+		/* Developer Hook (Filter) - Alter doing ajax status for rest requests */
 		return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
 	}
 	
@@ -134,7 +136,12 @@ class RestAPI extends Factory
 					||
 					version_compare($wpgmza->getProVersion(), '7.11.47', '>=')
 				);
-			
+
+			$skipNonceRoutes = array('features', 'markers', 'marker-listing', 'datatables');
+			if(in_array(str_replace('/', '', $route), $skipNonceRoutes)){
+				$doActionNonceCheck = false;
+			}
+				
 			if($doActionNonceCheck && !$this->checkActionNonce($route))
 				return new \WP_Error('wpgmza_action_not_allowed', 'You do not have permission to perform this action', array('status' => 403));
 			
@@ -169,19 +176,19 @@ class RestAPI extends Factory
 		$data = preg_replace('/ /', '+', $data);
 		$data = base64_decode($data);
 		
+		
 		if(!function_exists('zlib_decode'))
 			throw new \Exception('Server does not support inflate');
 		
 		if(!($string = zlib_decode($data)))
 			throw new \Exception('The server failed to inflate the request');
 		
+		
 		// TODO: Maybe $string should have stripslashes applied here
 		
 		if(!($request = json_decode($string, JSON_OBJECT_AS_ARRAY)))
 			throw new \Exception('The decompressed request could not be interpreted as JSON');
-		
-		if(count($parts) == 2)
-		{
+		if(count($parts) == 2) {
 			if(!isset($request['midcbp']))
 				throw new \Exception('No compressed buffer pointer supplied for marker IDs');
 			
@@ -197,11 +204,9 @@ class RestAPI extends Factory
 			
 			$eliasFano = new EliasFano();
 			$markerIDs = $eliasFano->decode($compressed, (int)$request['midcbp']);
-			
 			// TODO: Legacy markerIDs was a string, because this was historically more compact than POSTing an array. This can be altered, but the marker listing modules will have to be adjusted to cater for that
 			$request['markerIDs'] = implode(',', $markerIDs);
 		}
-		
 		return $request;
 	}
 	
@@ -250,6 +255,19 @@ class RestAPI extends Factory
 		}
 	}
 	
+	protected function getFeatureTables()
+	{
+		global $wpdb;
+		
+		return array(
+			'polygons'			=> "{$wpdb->prefix}wpgmza_polygon",
+			'polylines'			=> "{$wpdb->prefix}wpgmza_polylines",
+			'circles'			=> "{$wpdb->prefix}wpgmza_circles",
+			'rectangles'		=> "{$wpdb->prefix}wpgmza_rectangles",
+			'pointlabels'		=> "{$wpdb->prefix}wpgmza_point_labels"
+		);
+	}
+	
 	protected function registerRoutes()
 	{
 		global $wpgmza;
@@ -261,7 +279,7 @@ class RestAPI extends Factory
 		
 		$this->registerRoute('/markers/\d+/', array(
 			'methods'					=> array('GET'),
-			'callback'					=> array($this, 'markers')
+			'callback'					=> array($this, 'markers'),
 		));
 		
 		$this->registerRoute('/markers', array(
@@ -269,11 +287,23 @@ class RestAPI extends Factory
 			'callback'					=> array($this, 'markers'),
 			'useCompressedPathVariable'	=> true
 		));
+		
+		$this->registerRoute('/(features|polygons|polylines|circles|rectangles|pointlabels)(\/\d+)?/', array(
+			'methods'					=> array('GET'),
+			'callback'					=> array($this, 'features'),
+			'useCompressedPathVariable' => true,
+		));
+		
+		$this->registerRoute('/(polygons|polylines|circles|rectangles|pointlabels)(\/\d+)?/', array(
+			'methods'					=> array('DELETE', 'POST'),
+			'callback'					=> array($this, 'features'),
+			'permission_callback'		=> array($wpgmza, 'isUserAllowedToEdit')
+		));
 
 		$this->registerRoute('/markers(\/\d+)?/', array(
-			'methods'				=> array('DELETE', 'POST'),
-			'callback'				=> array($this, 'markers'),
-			'permission_callback'	=> array($wpgmza, 'isUserAllowedToEdit')
+			'methods'					=> array('DELETE', 'POST'),
+			'callback'					=> array($this, 'markers'),
+			'permission_callback'		=> array($wpgmza, 'isUserAllowedToEdit')
 		));
 		
 		$this->registerRoute('/datatables', array(
@@ -299,6 +329,7 @@ class RestAPI extends Factory
 			'useCompressedPathVariable'	=> true
 		));
 		
+	    /* Developer Hook (Action) - Register additional rest routes */     
 		do_action('wpgmza_register_rest_api_routes');
 	}
 	
@@ -313,9 +344,13 @@ class RestAPI extends Factory
 		global $wp_query;
 		
 		$active_plugins = get_option('active_plugins');
-		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins))
+		if(!empty($wp_query->query_vars) && array_search('permalink-manager/permalink-manager.php', $active_plugins)){
 			$wp_query->query_vars['do_not_redirect'] = 1;
+		}
 		
+	    /* Developer Hook (Action) - Run actions as part of the Rest API initialization */     
+		do_action("wpgmza_rest_api_init");
+
 		$this->registerRoutes();
 	}
 	
@@ -400,6 +435,12 @@ class RestAPI extends Factory
 			}
 		}
 		
+		// Temporary fallback for the /features/ endpoint as this will not function as expected when moving to ajax
+		// This helps with some nonce cache issues we see 
+		if(!empty($_REQUEST['route']) && $_REQUEST['route'] === '/features/'){
+			$_SERVER['REQUEST_URI'] = "wpgmza/v1/features/";
+		}
+
 		// Fire callback
 		$result = $args['callback'](null);
 		$this->sendAJAXResponse($result);
@@ -413,7 +454,8 @@ class RestAPI extends Factory
 			'markers',
 			'datatables',
 			'geocode-cache',
-			'marker-listing'
+			'marker-listing',
+			'features'
 		);
 		
 		foreach($cachable_endpoints as $endpoint)
@@ -423,6 +465,13 @@ class RestAPI extends Factory
 		}
 		
 		return $allowed_endpoints;
+	}
+
+	public function onWPRestCacheDetermineObjectType($type, $cache_key, $data, $uri){
+		if(strpos($uri, 'wpgmza') !== FALSE){
+			return "WP Go Maps Data";
+		}
+		return $type;
 	}
 	
 	public function maps($request)
@@ -477,6 +526,187 @@ class RestAPI extends Factory
 		return $result;
 	}
 	
+	public function features($request)
+	{
+		global $wpdb;
+		
+		$route		= $_SERVER['REQUEST_URI'];
+		
+		
+		// NB: Not sure if this is intentional, but it works
+		if(!preg_match('#wpgmza/v1/(\w+)(/\d+)?#', $_SERVER['REQUEST_URI'], $m)) {
+			if(!preg_match('/(\w+)s(\/(\d+))?(\/?\?.+)?$/', $route, $m)) {
+			
+				return new \WP_Error('wpgmza_invalid_route', 'Invalid route');
+			}
+		}
+
+		
+		$feature_type = $m[1];
+		$qualified = "WPGMZA\\" . rtrim( ucwords($feature_type), 's' );
+
+		$this->checkForDeleteSimulation();
+		
+
+		switch($_SERVER['REQUEST_METHOD'])
+		{
+			case 'GET':
+				$multiple_types = preg_match('/features(\/(\d+))?$/', $route);
+				$features = array();
+				
+				$feature_id = (!empty($m[3]) ? ltrim($m[3], '/') : (!empty($m[2]) ? ltrim($m[2], '/') : null));
+				
+				$plural_feature_type = preg_replace('/s$/', '', $feature_type) . 's';
+				
+				if($multiple_types) {
+					if($feature_id !== null)
+						return new \WP_Error('wpgmza_id_invalid_on_route', 'Cannot fetch generic features with ID. You must call a specific route to fetch by ID.');
+				}
+				else if($feature_id) {
+					// $qualified	= "WPGMZA\\" . ucwords($feature_type);
+					$instance	= new $qualified($feature_id);
+					return $instance;
+				}
+				
+				$params					= $this->getRequestParameters();
+				$filteringParameters	= $this->getFilteringParameters($params);
+				
+				$subclasses				= Feature::getSubclasses();
+				$types					= array_map(function($str) { return strtolower($str) . 's'; }, $subclasses);
+				$result					= array(
+					'request'			=> $this->cleanRequestOutput($params)
+				);
+
+				
+				if($filteringParameters)
+					$result['request']['filter'] = $filteringParameters;
+				
+				$tables					= $this->getFeatureTables();
+				
+
+				
+
+				$exclude				= array();
+				if(isset($params['exclude']))
+					$exclude = explode(',', $params['exclude']);
+				
+				
+				$include				= null;
+				if(isset($params['include']))
+					$include = explode(',', $params['include']);
+				
+
+				
+				if($plural_feature_type != 'features') {
+					foreach($types as $plural_type)
+					{
+						if($plural_type != $plural_feature_type)
+							$exclude[] = $plural_type;
+					}
+				}
+
+				
+				foreach($types as $name) {
+					
+					if(array_search($name, $exclude) !== false) {
+						
+						continue;
+					}
+					
+					if($include != null && array_search($name, $include) === false) {
+						
+						continue;
+					}
+					
+					$features = array();
+					
+					
+
+					if(method_exists($this, $name)) {
+						$features = $this->$name($request);
+					} else {
+						$qualified		= 'WPGMZA\\' . preg_replace('/s$/', '', ucwords($name));
+						$table			= $tables[$name];
+						$map_ids		= array();
+						
+						$columns		= implode(', ', Feature::getBulkReadColumns($table));
+						
+						if(!empty($filteringParameters['map_id'])){
+							$map_ids[] = $filteringParameters['map_id'];
+						}
+
+						if(!empty($filteringParameters['mashup_ids'])){
+							$map_ids = array_merge($map_ids, $filteringParameters['mashup_ids']);
+						}
+
+						if(!empty($filteringParameters['mashupIDs'])){
+							$map_ids = array_merge($map_ids, $filteringParameters['mashupIDs']);
+						}
+
+						$queryParams	= array();
+						$qstr			= "SELECT $columns FROM $table";
+						
+						if(!empty($map_ids)){
+							$queryParams 	= array_merge($queryParams, $map_ids);
+							$placeholders	= implode(',', array_fill(0, count($map_ids), '%d'));
+							
+							$qstr			.= " WHERE map_id IN (" . $placeholders . ")";
+							$stmt			= $wpdb->prepare($qstr, $queryParams);
+						} else {
+							$stmt			= $qstr;
+						}
+						
+						foreach($wpdb->get_results($stmt) as $row)
+						{
+							$instance		= new $qualified($row, Crud::BULK_READ);
+							
+							// NB: Not sure why we have to explicitly call jsonSerialize here, but if you don't, inheritence doesn't seem to work properly (eg Crud::jsonSerialize is used but Feature::jsonSerialize is ignored)
+							$features[]		= $instance->jsonSerialize();
+						}
+					}
+					
+					$result[$name] = $features;
+				}
+				
+				return $result;
+				break;
+			
+			case 'POST':
+				$data		= stripslashes_deep($_POST);
+				$id			= ( isset($m[3]) ? ltrim($m[3], '/') : ( isset($m[2]) ? ltrim($m[2], '/') : -1 ) );
+				if(isset($data['id'])) {
+					if($data['id'] != $id)
+						trigger_error('Mismatch between REST route ID and request body ID', E_USER_WARNING);
+					
+					unset($data['id']);
+				}
+				
+				$instance	= new $qualified($id);
+				$instance->set($data);
+				
+				return $instance;
+				
+				break;
+				
+			case 'DELETE':
+				
+				$id			= ( isset($m[3]) ? ltrim($m[3], '/') : ( isset($m[2]) ? ltrim($m[2], '/') : -1) );
+				
+
+
+				$instance	= new $qualified($id);
+				$instance->trash();
+				
+				return array('success' => true);
+				
+				break;
+			
+			default:
+				return new \WP_Error('wpgmza_invalid_request_method', 'Invalid request method');
+				break;
+		}
+	}
+	
 	protected function getFilteringParameters($params)
 	{
 		$filteringParameters = array();
@@ -498,6 +728,13 @@ class RestAPI extends Factory
 		
 		return (array)$filteringParameters;
 	}
+
+	protected function checkForDeleteSimulation(){
+		if(!empty($_POST) && !empty($_POST['simulateDelete'])){
+			$_SERVER['REQUEST_METHOD'] = "DELETE";
+			unset($_POST['simulateDelete']);
+		}
+	}
 	
 	/**
 	 * Callback for the /markers REST API route.
@@ -511,44 +748,38 @@ class RestAPI extends Factory
 		
 		$route 		= $_SERVER['REQUEST_URI'];
 		$params		= $this->getRequestParameters();
+
+		$this->checkForDeleteSimulation();
 		
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
-				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m))
-				{
+				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m)) {
+					
 					$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
 					return $marker;
 				}
-				
-				if(isset($_GET['action']))
-				{
-					switch($_GET['action'])
-					{
+
+				if(isset($_GET['action'])){
+					switch($_GET['action']){
 						case 'count-duplicates':
-						
 							$total		= $wpdb->get_var("SELECT COUNT(*) FROM $wpgmza_tblname");
 							$duplicates	= $wpdb->get_var("SELECT COUNT(*) FROM $wpgmza_tblname GROUP BY lat, lng, address, title, link, description");
-						
 							return array(
 								'count' => number_format($total - $duplicates)
 							);
-							
 							break;
-						
 						case 'remove-duplicates':
-							
-							$table		= "{$wpdb->prefix}wpgmza_temp";
 							$allowed	= $wpdb->get_col("SELECT MIN(id) FROM $wpgmza_tblname GROUP BY lat, lng, address, title, link, description");
-							
-							if(empty($allowed))
+							if(empty($allowed)){
 								return array(
 									'message' => sprintf(
 										__("Removed %s markers", "wp-google-maps"),
 										"0"
 									)
 								);
-							
+							}
+
 							$imploded	= implode(',', $allowed);
 							$qstr		= "DELETE FROM $wpgmza_tblname WHERE id NOT IN ($imploded)";
 							$result		= $wpdb->query($qstr);
@@ -564,21 +795,16 @@ class RestAPI extends Factory
 							);
 							
 							break;
-						
-						default:
-							// Don't throw if doing AJAX, that would break the AJAX fallback
-							if(!preg_match('/admin-ajax\.php/', $_SERVER['REQUEST_URI']))
-								throw new \Exception('Unknown action');
-							break;
 					}
 				}
 				
 				$fields = null;
-				
 				if(isset($params['fields']) && is_string($params['fields']))
 					$fields = explode(',', $params['fields']);
 				else if(!empty($params['fields']))
 					$fields = $params['fields'];
+				
+
 				
 				if(!empty($fields))
 					$fields = $this->sanitizeFieldNames($fields, $wpgmza_tblname);
@@ -590,6 +816,7 @@ class RestAPI extends Factory
 				foreach($filteringParameters as $key => $value)
 					$markerFilter->{$key} = $value;
 					
+
 				$results = $markerFilter->getFilteredMarkers($fields);
 				$arr = array();
 				
@@ -597,34 +824,35 @@ class RestAPI extends Factory
 				// NB: A better approach might be to implement serializable, however I didn't have much luck doing that
 				$classImplementsJsonSerializableCache = array();
 				
-				foreach($results as $marker)
-				{
-					if($marker instanceof Marker)
-					{
-						// Convert the marker to a plain array, so that it can be properly cached by REST API cache
-						$json = $marker->jsonSerialize();
-						
-						foreach($json as $key => $value)
+				if(!empty($results)){
+					foreach($results as $marker){
+						if($marker instanceof Marker)
 						{
-							if(!is_object($value))
-								continue;
+							// Convert the marker to a plain array, so that it can be properly cached by REST API cache
+							$json = $marker->jsonSerialize();
 							
-							if(!isset($classImplementsJsonSerializableCache[$key]))
+							foreach($json as $key => $value)
 							{
-								$reflection = new \ReflectionClass($value);
-								$classImplementsJsonSerializableCache[$key] = $reflection->implementsInterface('JsonSerializable');
+								if(!is_object($value))
+									continue;
+								
+								if(!isset($classImplementsJsonSerializableCache[$key]))
+								{
+									$reflection = new \ReflectionClass($value);
+									$classImplementsJsonSerializableCache[$key] = $reflection->implementsInterface('JsonSerializable');
+								}
+								
+								if(!$classImplementsJsonSerializableCache[$key])
+									continue;
+								
+								$json[$key] = $value->jsonSerialize();
 							}
 							
-							if(!$classImplementsJsonSerializableCache[$key])
-								continue;
-							
-							$json[$key] = $value->jsonSerialize();
+							$arr[] = $json;
 						}
-						
-						$arr[] = $json;
+						else
+							$arr[] = $marker;
 					}
-					else
-						$arr[] = $marker;
 				}
 					
 				// TODO: Select all custom field data too, in one query, and add that to the marker data in the following loop. Ideally we could add a bulk get function to the CRUD classes which takes IDs?
@@ -642,18 +870,20 @@ class RestAPI extends Factory
 				
 				$marker = Marker::createInstance($id);
 				
-				foreach($_POST as $key => $value)
-				{
+				foreach($_POST as $key => $value){
 					if($key == 'id')
 						continue;
 					
-					if($key == 'gallery')
-					{
+					if($key == 'gallery'){
 						$gallery = new MarkerGallery($_POST[$key]);
 						$marker->gallery = $gallery;
-					}
-					else
+					} else {
 						$marker->{$key} = stripslashes($value);
+					}
+				}
+
+				if(empty($_POST['gallery']) && !empty($marker->gallery)){
+					$marker->gallery = false;
 				}
 				
 				$map = Map::createInstance($marker->map_id);
@@ -670,14 +900,30 @@ class RestAPI extends Factory
 				$body = file_get_contents('php://input');
 				parse_str($body, $request);
 				
+				$id = null;
 				if(isset($request['id']))
-				{
-					$marker = Marker::createInstance($request['id']);
+					$id = $request['id'];
+				else if(preg_match('/markers\/(\d+)/', $route, $m))
+					$id = $m[1];
+					
+				if($id){
+					$marker = Marker::createInstance($id);
+					
+					$mapId = $marker->map_id;
+
 					$marker->trash();
-				}
-				
-				if(isset($request['ids']))
+
+					$map = Map::createInstance($mapId);
+					$map->updateXMLFile();
+				} else if(isset($request['ids'])) {
 					Marker::bulk_trash($request['ids']);
+				} else{
+					http_response_code(400);
+					return (object)array(
+						'message' => "No ID(s) specified",
+						'success' => false
+					);
+				}
 				
 				return (object)array(
 					'success' => true
@@ -700,47 +946,27 @@ class RestAPI extends Factory
 		// NB: Legacy support
 		if(isset($request['wpgmzaDataTableRequestData']))
 			$request = $request['wpgmzaDataTableRequestData'];
-		
+
+
 		if(RestAPI::isRequestURIUsingCompressedPathVariable())
 			$class = '\\' . $request['phpClass'];
 		else
 			$class = '\\' . stripslashes( $request['phpClass'] );
-		
-		try{
-			
+
+		try{	
 			$reflection = new \ReflectionClass($class);
-			
 		}catch(Exception $e) {
-			
 			return new \WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
-			
 		}
 		
-		if(
-				(
-					class_exists('\\WPGMZA\\MarkerListing') 
-					&&
-					$reflection->isSubclassOf('\\WPGMZA\\MarkerListing')
-				)
-				
-				||
-				
-				(
-					class_exists('\\WPGMZA\\MarkerListing\\AdvancedTable')
-					&&
-					(
-						$class == '\\WPGMZA\\MarkerListing\\AdvancedTable'
-						||
-						$reflection->isSubclassOf('\\WPGMZA\\MarkerListing\\AdvancedTable')
-					)
-				)
-			)
-		{
+		if((class_exists('\\WPGMZA\\MarkerListing') && $reflection->isSubclassOf('\\WPGMZA\\MarkerListing'))
+			|| (class_exists('\\WPGMZA\\MarkerListing\\AdvancedTable') && ($class == '\\WPGMZA\\MarkerListing\\AdvancedTable' || $reflection->isSubclassOf('\\WPGMZA\\MarkerListing\\AdvancedTable')))){
+
 			$map_id = $request['map_id'];
 			$instance = $class::createInstance($map_id);
-		}
-		else
+		} else {
 			$instance = $class::createInstance();
+		}
 		
 		if(!($instance instanceof DataTable))
 			return new \WP_Error('wpgmza_invalid_datatable_class', 'Specified PHP class must extend WPGMZA\\DataTable', array('status' => 403));
@@ -775,5 +1001,16 @@ class RestAPI extends Factory
 		$now = new \DateTime();
 		
 		update_option('wpgmza_last_rest_api_blocked', $now->format(\DateTime::ISO8601));
+	}
+
+	public function cleanRequestOutput($requestData){
+		if(!empty($requestData) && is_array($requestData)){
+			foreach($requestData as $key => $value){
+				if(is_string($value)){
+					$requestData[$key] = sanitize_text_field($value);
+				}
+			}
+		}
+		return $requestData;
 	}
 }

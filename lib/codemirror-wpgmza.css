@@ -1,0 +1,165 @@
+/*
+  Name:       wpgmza
+
+  Custom theme based off of material ocean 
+*/
+
+.cm-s-wpgmza.CodeMirror {
+  background-color: var(--wpgmza-color-charcoal);
+  color: #8F93A2;
+}
+
+.cm-s-wpgmza .CodeMirror-gutters {
+  background-color: var(--wpgmza-color-charcoal);
+  color: var(--wpgmza-color-grey-600);
+  border: none;
+}
+
+.cm-s-wpgmza .CodeMirror-guttermarker,
+.cm-s-wpgmza .CodeMirror-guttermarker-subtle,
+.cm-s-wpgmza .CodeMirror-linenumber {
+  color: var(--wpgmza-color-grey-600);
+}
+
+.cm-s-wpgmza .CodeMirror-cursor {
+  border-left: 1px solid var(--wpgmza-color-brand);
+}
+
+.cm-s-wpgmza div.CodeMirror-selected {
+  background: var(--wpgmza-color-grey-900);
+}
+
+.cm-s-wpgmza.CodeMirror-focused div.CodeMirror-selected {
+  background: var(--wpgmza-color-grey-900);
+}
+
+.cm-s-wpgmza .CodeMirror-line::selection,
+.cm-s-wpgmza .CodeMirror-line>span::selection,
+.cm-s-wpgmza .CodeMirror-line>span>span::selection {
+  background: var(--wpgmza-color-grey-900);
+}
+
+.cm-s-wpgmza .CodeMirror-line::-moz-selection,
+.cm-s-wpgmza .CodeMirror-line>span::-moz-selection,
+.cm-s-wpgmza .CodeMirror-line>span>span::-moz-selection {
+  background: var(--wpgmza-color-grey-900);
+}
+
+.cm-s-wpgmza .CodeMirror-activeline-background {
+  background: var(--wpgmza-color-charcoal);
+}
+
+.cm-s-wpgmza .cm-keyword {
+  color: var(--wpgmza-color-cyan);
+}
+
+.cm-s-wpgmza .cm-operator {
+  color: #89DDFF;
+}
+
+.cm-s-wpgmza .cm-variable-2 {
+  color: #EEFFFF;
+}
+
+.cm-s-wpgmza .cm-variable-3,
+.cm-s-wpgmza .cm-type {
+  color: #f07178;
+}
+
+.cm-s-wpgmza .cm-builtin {
+  color: #FFCB6B;
+}
+
+.cm-s-wpgmza .cm-atom {
+  color: #F78C6C;
+}
+
+.cm-s-wpgmza .cm-number {
+  color: #FF5370;
+}
+
+.cm-s-wpgmza .cm-def {
+  color: var(--wpgmza-color-grey-400);
+}
+
+.cm-s-wpgmza .cm-string {
+  color: #FFCB6B;
+}
+
+.cm-s-wpgmza .cm-string-2 {
+  color: #f07178;
+}
+
+.cm-s-wpgmza .cm-comment {
+  color: var(--wpgmza-color-grey-600);
+}
+
+.cm-s-wpgmza .cm-variable {
+  color: #f07178;
+}
+
+.cm-s-wpgmza .cm-tag {
+  color: #FF5370;
+}
+
+.cm-s-wpgmza .cm-meta {
+  color: #FFCB6B;
+}
+
+.cm-s-wpgmza .cm-attribute {
+  color: var(--wpgmza-color-cyan);
+}
+
+.cm-s-wpgmza .cm-property {
+  color: var(--wpgmza-color-cyan);
+}
+
+.cm-s-wpgmza .cm-qualifier {
+  color: #9fec30;
+}
+
+.cm-s-wpgmza .cm-variable-3,
+.cm-s-wpgmza .cm-type {
+  color: #9fec30;
+}
+
+
+.cm-s-wpgmza .cm-error {
+  color: var(--wpgmza-color-white);
+  background-color: var(--wpgmza-color-error);
+}
+
+.cm-s-wpgmza .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: var(--wpgmza-color-white) !important;
+}
+
+/* Legacy variable port (Only applies to legacy UI via a special selection
+ * In other words, these wont change ANYTHING in atlas Novus, but allows legacy to benefit from the code-mirror style
+ * These should be maintained alongside the common.css colors in atlas novus 
+*/
+.wpgmza-code-mirror-legacy-port {
+  --wpgmza-color-brand    : #cc9999;
+
+  --wpgmza-color-white    : #ffffff;
+  --wpgmza-color-charcoal : #333333;
+
+  --wpgmza-color-error    : #ea4335;
+
+  --wpgmza-color-cyan     : #31b0d6;
+
+  --wpgmza-color-grey-400 : #dddddd;
+  --wpgmza-color-grey-600 : #868686;
+  --wpgmza-color-grey-900 : #4d4d4e;
+}
+
+.wpgmza-code-mirror-legacy-port .CodeMirror{
+  width: 500px;
+  max-width: 50vw;
+  border-radius: 4px;
+
+  min-height: 300px;
+  background: var(--wpgmza-color-charcoal);
+  border: none;
+  color: var(--wpgmza-color-white);
+}

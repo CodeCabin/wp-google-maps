@@ -10,7 +10,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/default.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/default.png"
 				title="<?php _e('Default', 'wp-google-maps'); ?>"
 				/>
 			
@@ -32,7 +32,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/blue.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/blue.png"
 				title="<?php _e('Blue', 'wp-google-maps'); ?>"
 				/>
 			
@@ -54,7 +54,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/apple-maps.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/apple-maps.png"
 				title="<?php _e('Apple Maps', 'wp-google-maps'); ?>"
 				/>
 			
@@ -76,7 +76,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/grayscale.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/grayscale.png"
 				title="<?php _e('Grayscale', 'wp-google-maps'); ?>"
 				/>
 			
@@ -98,7 +98,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/pale.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/pale.png"
 				title="<?php _e('Pale', 'wp-google-maps'); ?>"
 				/>
 			
@@ -120,7 +120,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/red.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/red.png"
 				title="<?php _e('Red', 'wp-google-maps'); ?>"
 				/>
 			
@@ -142,7 +142,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/dark-grey.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/dark-grey.png"
 				title="<?php _e('Dark Grey', 'wp-google-maps'); ?>"
 				/>
 			
@@ -164,7 +164,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/monochrome.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/monochrome.png"
 				title="<?php _e('Monochrome', 'wp-google-maps'); ?>"
 				/>
 			
@@ -186,7 +186,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/old-fashioned.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/old-fashioned.png"
 				title="<?php _e('Old Fashioned', 'wp-google-maps'); ?>"
 				/>
 			
@@ -208,7 +208,7 @@
 		
 		<label>
 			<img
-				src="<?php echo WPGMAPS_DIR; ?>/images/night-mode.png"
+				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/night-mode.png"
 				title="<?php _e('Night Mode', 'wp-google-maps'); ?>"
 				/>
 			
@@ -230,6 +230,12 @@
 		
 	</div>
 	
+	<fieldset>
+		<p><?php
+			echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/');
+			?></p>
+	</fieldset>
+
 	<h3>
 		<?php
 		_e('Theme Editor', 'wp-google-maps');
@@ -249,8 +255,12 @@
 			?>
 			&raquo;
 		</button>
+
+		<a href="#" id="wpgmza-open-advanced-theme-data" title="<?php _e("Enter theme JSON data manually", "wp-google-maps"); ?>">
+			<?php _e('Enter theme JSON data manually', 'wp-google-maps'); ?>
+		</a>
 		
-		<div id="wpgmza-theme-editor" class="active">
+		<div id="wpgmza-theme-editor" class="">
 			<div id="wpgmza-theme-editor__edit">
 				<fieldset id="wpgmza-theme-editor__feature">
 					<label>
@@ -389,18 +399,22 @@
 		</div>
 	</fieldset>
 	
-	<h3>
-		<?php
-		_e('Advanced', 'wp-google-maps');
-		?>
-	</h3>
-	
-	<fieldset>
-		<label>
+	<div class="wpgmza_theme_data_container wpgmza_hidden">
+		<h3>
 			<?php
-			_e('Theme Data', 'wp-google-maps');
+			_e('Advanced', 'wp-google-maps');
 			?>
-		</label>
-		<textarea name="wpgmza_theme_data"></textarea>
-	</fieldset>
+		</h3>
+
+		<fieldset>
+			<legend>
+				<label>
+					<?php
+					_e('Theme Data', 'wp-google-maps');
+					?>
+				</label>
+			</legend>
+			<textarea name="wpgmza_theme_data"></textarea>
+		</fieldset>
+	</div>
 </div>

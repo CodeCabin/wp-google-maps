@@ -11,7 +11,10 @@ jQuery(function($) {
 		PAGE_MAP_LIST: 			"map-list",
 		PAGE_MAP_EDIT:			"map-edit",
 		PAGE_SETTINGS:			"map-settings",
+		PAGE_STYLING:			"map-styling",
 		PAGE_SUPPORT:			"map-support",
+
+		PAGE_INSTALLER: 			"installer",
 		
 		PAGE_CATEGORIES:		"categories",
 		PAGE_ADVANCED:			"advanced",
@@ -52,7 +55,11 @@ jQuery(function($) {
 		 */
 		localized_strings: null,
 		
-		loadingHTML: '<div class="wpgmza-preloader"><div></div><div></div><div></div><div></div></div>',
+		// NB: Legacy
+		loadingHTML: '<div class="wpgmza-preloader"><div class="wpgmza-loader">...</div></div>',
+		
+		// NB: Correct
+		preloaderHTML: "<div class='wpgmza-preloader'><div></div><div></div><div></div><div></div></div>",
 		
 		getCurrentPage: function() {
 			
@@ -61,6 +68,9 @@ jQuery(function($) {
 				case "wp-google-maps-menu":
 					if(window.location.href.match(/action=edit/) && window.location.href.match(/map_id=\d+/))
 						return WPGMZA.PAGE_MAP_EDIT;
+
+					if(window.location.href.match(/action=installer/))
+						return WPGMZA.PAGE_INSTALLER;
 				
 					return WPGMZA.PAGE_MAP_LIST;
 					break;
@@ -68,7 +78,11 @@ jQuery(function($) {
 				case 'wp-google-maps-menu-settings':
 					return WPGMZA.PAGE_SETTINGS;
 					break;
-					
+				
+				case 'wp-google-maps-menu-styling':
+					return WPGMZA.PAGE_STYLING;
+					break;
+
 				case 'wp-google-maps-menu-support':
 					return WPGMZA.PAGE_SUPPORT;
 					break;
@@ -99,7 +113,7 @@ jQuery(function($) {
 		 * @return {number} The scroll offset
 		 */
 		getScrollAnimationOffset: function() {
-			return (WPGMZA.settings.scroll_animation_offset || 0) + $("#wpadminbar").height();
+			return (WPGMZA.settings.scroll_animation_offset || 0) + ($("#wpadminbar").height() || 0);
 		},
 		
 		getScrollAnimationDuration: function() {
@@ -174,6 +188,12 @@ jQuery(function($) {
 				hex & 0xFF,
 				parseFloat(opacity)
 			];
+		},
+		
+		hexOpacityToString: function(colour, opacity)
+		{
+			var arr = WPGMZA.hexOpacityToRGBA(colour, opacity);
+			return "rgba(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ", " + arr[3] + ")";
 		},
 		
 		/**
@@ -357,37 +377,32 @@ jQuery(function($) {
 		 * @static
 		 * @return {void}
 		 */
-		openMediaDialog: function(callback) {
-			// Media upload
+		openMediaDialog: function(callback, config) {
 			var file_frame;
 			
-			// If the media frame already exists, reopen it.
 			if ( file_frame ) {
-				// Set the post ID to what we want
 				file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
-				// Open frame
 				file_frame.open();
 				return;
 			}
 			
-			// Create the media frame.
-			file_frame = wp.media.frames.file_frame = wp.media({
-				title: 'Select a image to upload',
-				button: {
-					text: 'Use this image',
-				},
-				multiple: false	// Set to true to allow multiple files to be selected
-			});
-			
-			// When an image is selected, run a callback.
+			if(config){
+				file_frame = wp.media.frames.file_frame = wp.media(config);
+			} else {
+				file_frame = wp.media.frames.file_frame = wp.media({
+					title: 'Select a image to upload',
+					button: {
+						text: 'Use this image',
+					},
+					multiple: false	
+				});
+			}
+
 			file_frame.on( 'select', function() {
-				// We set multiple to false so only get one image from the uploader
 				attachment = file_frame.state().get('selection').first().toJSON();
-				
-				callback(attachment.id, attachment.url);
+				callback(attachment.id, attachment.url, attachment);
 			});
-			
-			// Finally, open the modal
+
 			file_frame.open();
 		},
 		
@@ -501,6 +516,23 @@ jQuery(function($) {
 				}
 		},
 		
+		capitalizeWords: function(string)
+		{
+			return (string + "").replace(/^(.)|\s+(.)/g, function(m) {
+				return m.toUpperCase()
+			});
+		},
+		
+		pluralize: function(string)
+		{
+			return WPGMZA.singularize(string) + "s";
+		},
+		
+		singularize: function(string)
+		{
+			return string.replace(/s$/, "");
+		},
+		
 		/**
 		 * This function is for checking inheritence has been setup correctly. For objects that have engine and Pro specific classes, it will automatically add the engine and pro prefix to the supplied string and if such an object exists it will test against that name rather than the un-prefix argument supplied.
 		 *
@@ -526,14 +558,25 @@ jQuery(function($) {
 					break;
 			}
 			
-			if(WPGMZA[engine + pro + instanceName])
+			if(
+				WPGMZA[engine + pro + instanceName]
+				&&
+				engine + instanceName != "OLFeature" // NB: Some classes, such as OLFeature, are static utility classes and cannot be inherited from, do not check the inheritence chain for these
+				)
 				fullInstanceName = engine + pro + instanceName;
 			else if(WPGMZA[pro + instanceName])
 				fullInstanceName = pro + instanceName;
-			else if(WPGMZA[engine + instanceName])
-				fullInstanceName = engine + instanceName;
+			else if(
+				WPGMZA[engine + instanceName] 
+				&& 
+				WPGMZA[engine + instanceName].prototype
+				)
+				fullInstanceName = engine + instanceName; 
 			else
 				fullInstanceName = instanceName;
+			
+			if(fullInstanceName == "OLFeature")
+				return;	// Nothing inherits from OLFeature - it's purely a "static" utility class
 			
 			assert = instance instanceof WPGMZA[fullInstanceName];
 			
@@ -549,19 +592,13 @@ jQuery(function($) {
 		 */
 		getMapByID: function(id) {
 			
-			// Workaround for map ID member not set correctly
-			
-			if(WPGMZA.isProVersion() && !(MYMAP.map instanceof WPGMZA.Map))
-				return MYMAP[id].map;
-			
-			return MYMAP.map;
-			
-			/*for(var i = 0; i < WPGMZA.maps.length; i++) {
+			for(var i = 0; i < WPGMZA.maps.length; i++) {
 				if(WPGMZA.maps[i].id == id)
 					return WPGMZA.maps[i];
 			}
 			
-			return null;*/
+			return null;
+			
 		},
 		
 		/**
@@ -677,7 +714,7 @@ jQuery(function($) {
 		
 		isFullScreen: function() {
 			
-			return isFullScreen;
+			return wpgmzaisFullScreen;
 			
 		},
 		
@@ -689,7 +726,7 @@ jQuery(function($) {
 			if(!(m = window.location.href.match(regex)))
 				return null;
 			
-			return m[1];	
+			return decodeURIComponent(m[1]);
 		},
 
 		notification: function(text, time) {
@@ -712,14 +749,77 @@ jQuery(function($) {
 				jQuery('body').find('.wpgmza-popup-notification').remove();
 			}, time);
 			
+		},
+
+		initMaps: function(){
+			$(document.body).find(".wpgmza_map:not(.wpgmza-initialized)").each(function(index, el) {
+				if(el.wpgmzaMap) {
+					console.warn("Element missing class wpgmza-initialized but does have wpgmzaMap property. No new instance will be created");
+					return;
+				}
+				try{
+					el.wpgmzaMap = WPGMZA.Map.createInstance(el);
+				} catch (ex){
+					console.warn('Map initalization: ' + ex);
+				}
+			});
+			
+			WPGMZA.Map.nextInitTimeoutID = setTimeout(WPGMZA.initMaps, 3000);
+		},
+
+		initCapsules: function(){
+			WPGMZA.capsuleModules = WPGMZA.CapsuleModules.createInstance(); 
+		},
+
+		onScroll: function(){
+			$(".wpgmza_map").each(function(index, el) {
+				var isInView = WPGMZA.isElementInView(el);
+				if(!el.wpgmzaScrollIntoViewTriggerFlag){
+					if(isInView){
+						$(el).trigger("mapscrolledintoview.wpgmza");
+						el.wpgmzaScrollIntoViewTriggerFlag = true;
+					}
+				} else if(!isInView){
+					el.wpgmzaScrollIntoViewTriggerFlag = false;
+				}
+				
+			});
+		},
+
+		initInstallerRedirect : function(url){
+			$('.wpgmza-wrap').hide();
+			
+			window.location.href = url;
 		}
 		
 	};
+	
+	var wpgmzaisFullScreen = false;
+
+
+	// NB: Warn the user if the built in Array prototype has been extended. This will save debugging headaches where for ... in loops do bizarre things.
+	for(var key in [])
+	{
+		console.warn("It appears that the built in JavaScript Array has been extended, this can create issues with for ... in loops, which may cause failure.");
+		break;
+	}
 	
 	if(window.WPGMZA)
 		window.WPGMZA = $.extend(window.WPGMZA, core);
 	else
 		window.WPGMZA = core;
+
+	/* Usercentrics base level integration */
+	if(window.uc && window.uc.reloadOnOptIn){
+		window.uc.reloadOnOptIn(
+		    'S1pcEj_jZX'
+		); 	
+
+		window.uc.reloadOnOptOut(
+			'S1pcEj_jZX'
+		);
+	}
+
 	
 	for(var key in WPGMZA_localized_data)
 	{
@@ -727,49 +827,99 @@ jQuery(function($) {
 		WPGMZA[key] = value;
 	}
 	
+	// delete window.WPGMZA_localized_data;
+	
+	var wpgmzaisFullScreen = false;
+
+
+	// NB: Warn the user if the built in Array prototype has been extended. This will save debugging headaches where for ... in loops do bizarre things.
+	for(var key in [])
+	{
+		console.warn("It appears that the built in JavaScript Array has been extended, this can create issues with for ... in loops, which may cause failure.");
+		break;
+	}
+	
+	if(window.WPGMZA)
+		window.WPGMZA = $.extend(window.WPGMZA, core);
+	else
+		window.WPGMZA = core;
+
+	/* Usercentrics base level integration */
+	if(window.uc && window.uc.reloadOnOptIn){
+		window.uc.reloadOnOptIn(
+		    'S1pcEj_jZX'
+		); 	
+
+		window.uc.reloadOnOptOut(
+			'S1pcEj_jZX'
+		);
+	}
+
+	
+	for(var key in WPGMZA_localized_data){
+		var value = WPGMZA_localized_data[key];
+		WPGMZA[key] = value;
+	}
+	
+	// delete window.WPGMZA_localized_data;
+	
 	WPGMZA.settings.useLegacyGlobals = true;
 	
-	jQuery(function($) {
-		
+	$(document).on("fullscreenchange mozfullscreenchange webkitfullscreenchange", function() {
+		wpgmzaisFullScreen = document.fullscreenElement ? true : false;
+
+		/* Dispatch a global event */
+		$(document.body).trigger("fullscreenchange.wpgmza");
+	});
+
+	$('body').on('click',"#wpgmzaCloseChat", function(e) {
+		e.preventDefault();
+		$.ajax(WPGMZA.ajaxurl, {
+    		method: 'POST',
+    		data: {
+    			action: 'wpgmza_hide_chat',
+    			nonce: WPGMZA_localized_data.ajaxnonce
+    		}	    		
+    	});
+   		$('.wpgmza-chat-help').remove();
+	});
+	
+	
+	$(window).on("scroll", WPGMZA.onScroll);
+	
+	$(document.body).on("click", "button.wpgmza-api-consent", function(event) {
+		Cookies.set("wpgmza-api-consent-given", true);
+		window.location.reload();
+	});
+	
+	$(document.body).on("keydown", function(event) {
+		if(event.altKey)
+			WPGMZA.altKeyDown = true;
+	});
+	
+	$(document.body).on("keyup", function(event) {
+		if(!event.altKey)
+			WPGMZA.altKeyDown = false;
+	});
+
+	$(document.body).on('preinit.wpgmza', function(){
 		$(window).trigger("ready.wpgmza");
+		$(document.body).trigger('ready.body.wpgmza');
 		
 		// Combined script warning
-		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length)
+		if($("script[src*='wp-google-maps.combined.js'], script[src*='wp-google-maps-pro.combined.js']").length){
 			console.warn("Minified script is out of date, using combined script instead.");
+		}
 		
 		// Check for multiple jQuery versions
-		var elements = $("script").filter(function() {
+		var elements = $("script[src]").filter(function() {
 			return this.src.match(/(^|\/)jquery\.(min\.)?js(\?|$)/i);
 		});
 
-		if(elements.length > 1)
+		if(elements.length > 1){
 			console.warn("Multiple jQuery versions detected: ", elements);
-		
-		// Rest API
-		WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
-		
-		if(WPGMZA.CloudAPI)
-			WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
-		
-		// TODO: Move to map edit page JS
-		$(document).on("click", ".wpgmza_edit_btn", function() {
-			
-			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
-			
-		});
-		
-	});
-	
-	var isFullScreen = false;
-	
-	$(document).on("fullscreenchange", function() {
-		
-		isFullScreen = document.fullscreenElement ? true : false;
-		
-	});
-	
-	$(window).on("load", function(event) {
-		
+		}
+
 		// Array incorrectly extended warning
 		var test = [];
 		for(var key in test) {
@@ -778,44 +928,57 @@ jQuery(function($) {
 		}
 		
 		// Geolocation warnings
-		if(window.location.protocol != 'https:')
-		{
-			var warning = '<div class="notice notice-warning"><p>' + WPGMZA.localized_strings.unsecure_geolocation + "</p></div>";
+		if(window.location.protocol != 'https:'){
+			var warning = '<div class="' + (WPGMZA.InternalEngine.isLegacy() ? '' : 'wpgmza-shadow wpgmza-card wpgmza-pos-relative ') + 'notice notice-warning"><p>' + WPGMZA.localized_strings.unsecure_geolocation + "</p></div>";
 			
-			$(".wpgmza-geolocation-setting").each(function(index, el) {
-				$(el).after( $(warning) );
-			});
+			$(".wpgmza-geolocation-setting").first().after( $(warning) );
 		}
-		
-	});
-	
-	function onScroll(event)
-	{
-		
-		// Test if map is scrolled into view
-		$(".wpgmza_map").each(function(index, el) {
-			
-			var isInView = WPGMZA.isElementInView(el);
-			
-			if(!el.wpgmzaScrollIntoViewTriggerFlag)
-			{
-				if(isInView)
-				{
-					$(el).trigger("mapscrolledintoview.wpgmza");
-					el.wpgmzaScrollIntoViewTriggerFlag = true;
-				}
+
+		if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN") {
+			if(jQuery('.wpgmza-gdpr-compliance').length <= 0){
+				/*$("#wpgmza_map, .wpgmza_map").each(function(index, el) {
+					$(el).append($(WPGMZA.api_consent_html));
+					$(el).css({height: "auto"});
+				});*/
+
+				$('.wpgmza-inner-stack').hide();
+				
+				$("button.wpgmza-api-consent").on("click", function(event) {
+					Cookies.set("wpgmza-api-consent-given", true);
+					window.location.reload();
+				});
 			}
-			else if(!isInView)
-				el.wpgmzaScrollIntoViewTriggerFlag = false;
+			
+			return;
+		}
+	});
+
+	/**
+	 * We use to use the win-the-race approach with set timeouts
+	 * 
+	 * This caused immense issues with older versions of WP
+	 * 
+	 * Instead, we call an anon-func, which queues on the ready call, this controls the queue without the need for timeouts
+	 * 
+	 * While also maintaining the stack order, and the ability for consent plugins to stop ready calls early
+	*/
+	(function($){
+		$(function(){
+			WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+			if(WPGMZA.CloudAPI){
+				WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
+			}
+
+			$(document.body).trigger('preinit.wpgmza');
+			
+			WPGMZA.initMaps();
+			WPGMZA.onScroll();
+
+			WPGMZA.initCapsules();
+
+			$(document.body).trigger('postinit.wpgmza');
 			
 		});
-		
-	}
-	
-	$(window).on("scroll", onScroll);
-	$(window).on("load", onScroll);
-	
-	if(WPGMZA.refreshOnLoad)
-		window.location.reload();
+	})($);
 	
 });

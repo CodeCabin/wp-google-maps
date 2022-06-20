@@ -1,5 +1,5 @@
 jQuery(function($){
-	jQuery(document).on("load", function(){
+	jQuery(document).ready(function(){
 		if(typeof wpgmaps_localize !== "undefined"){
 			for(var i in wpgmaps_localize){
 				var mapid = wpgmaps_localize[i]['id'];

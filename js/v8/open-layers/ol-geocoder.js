@@ -69,8 +69,11 @@ jQuery(function($) {
 			format: "json"
 		};
 		
-		if(options.componentRestrictions && options.componentRestrictions.country)
+		if(options.componentRestrictions && options.componentRestrictions.country){
 			data.countrycodes = options.componentRestrictions.country;
+		} else if(options.country){
+			data.countrycodes = options.country;
+		}
 		
 		$.ajax("https://nominatim.openstreetmap.org/search/", {
 			data: data,
@@ -205,6 +208,11 @@ jQuery(function($) {
 			finish = function(response, status)
 			{
 				var address = response[0].display_name;
+
+				if(options.fullResult){
+					address = response[0];
+				}
+				
 				callback([address], status);
 			}
 		}

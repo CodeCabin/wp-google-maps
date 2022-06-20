@@ -8,7 +8,7 @@ if(!defined('ABSPATH'))
 require_once(plugin_dir_path(__DIR__) . 'lib/codecabin/class.settings.php');
 
 /**
- * This is a settings module for use with WP Google Maps.
+ * This is a settings module for use with WP Go Maps.
  * This module handles remapping legacy, snake case settings into standardised, camel case names, with consistent prefixing and naming
  */
 class Settings extends \codecabin\Settings

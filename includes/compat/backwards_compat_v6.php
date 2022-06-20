@@ -51,7 +51,7 @@ add_action("wpgmza_check_map_editor_backwards_compat", "wpgmza_check_map_editor_
 */
 function wpgmza_check_map_editor_backwards_compat_v6()
 {
-	$map_id = isset($_GET['map_id']) ? (int)$_GET['map_id'] : null;
+	$map_id = isset($_GET['map_id']) ? (int) intval($_GET['map_id']) : null;
 	
 	if(isset($_GET['action'])){
 		if ($_GET['action'] == "edit" && isset($_GET['map_id']) && wpgmza_check_pro_compat_required_v6()) {

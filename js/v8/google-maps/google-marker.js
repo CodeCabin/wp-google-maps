@@ -8,42 +8,40 @@ jQuery(function($) {
 	
 	var Parent;
 	
-	WPGMZA.GoogleMarker = function(row)
+	WPGMZA.GoogleMarker = function(options)
 	{
 		var self = this;
 		
-		Parent.call(this, row);
-		
-		this._opacity = 1.0;
+		Parent.call(this, options);
 		
 		var settings = {};
-		if(row)
+		if(options)
 		{
-			for(var name in row)
+			for(var name in options)
 			{
-				if(row[name] instanceof WPGMZA.LatLng)
+				if(options[name] instanceof WPGMZA.LatLng)
 				{
-					settings[name] = row[name].toGoogleLatLng();
+					settings[name] = options[name].toGoogleLatLng();
 				}
-				else if(row[name] instanceof WPGMZA.Map || name == "icon")
+				else if(options[name] instanceof WPGMZA.Map || name == "icon")
 				{
 					// NB: Ignore map here, it's not a google.maps.Map, Google would throw an exception
 					// NB: Ignore icon here, it conflicts with updateIcon in Pro
 				}
 				else
-					settings[name] = row[name];
+					settings[name] = options[name];
 			}
 		}
 		
 		this.googleMarker = new google.maps.Marker(settings);
 		this.googleMarker.wpgmzaMarker = this;
 		
+		this.googleFeature = this.googleMarker;
+		
 		this.googleMarker.setPosition(new google.maps.LatLng({
 			lat: parseFloat(this.lat),
 			lng: parseFloat(this.lng)
 		}));
-			
-		// this.googleMarker.setLabel(this.settings.label);
 		
 		if(this.anim)
 			this.googleMarker.setAnimation(this.anim);
@@ -58,6 +56,10 @@ jQuery(function($) {
 		google.maps.event.addListener(this.googleMarker, "mouseover", function() {
 			self.dispatchEvent("mouseover");
 		});
+
+		google.maps.event.addListener(this.googleMarker, "mouseout", function() {
+			self.dispatchEvent("mouseout");
+		});
 		
 		google.maps.event.addListener(this.googleMarker, "dragend", function() {
 			var googleMarkerPosition = self.googleMarker.getPosition();
@@ -71,8 +73,11 @@ jQuery(function($) {
 				type: "dragend",
 				latLng: self.getPosition()
 			});
+
+			self.trigger("change");
 		});
 		
+		this.setOptions(settings);
 		this.trigger("init");
 	}
 	

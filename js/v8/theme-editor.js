@@ -13,15 +13,18 @@ jQuery(function($) {
 		
 		this.element = $("#wpgmza-theme-editor");
 		
-		if(!this.element.length)
-		{
-			console.warn("No element to initialise theme editor on");
-			return;
-		}
-		
 		if(WPGMZA.settings.engine == "open-layers")
 		{
 			this.element.remove();
+
+			/* Auto init OL Theme Editor, we could do this with a createInstance call, but the code here will be minimal, so lets skip this for the moment */
+			this.olThemeEditor = new WPGMZA.OLThemeEditor();
+			return;
+		}
+		
+		if(!this.element.length)
+		{
+			console.warn("No element to initialise theme editor on");
 			return;
 		}
 		
@@ -133,7 +136,10 @@ jQuery(function($) {
 		$('#wpgmza_theme_editor_color').val('#000000');
 		$('#wpgmza_theme_editor_weight').val('');
 		
-		var textarea = $('textarea[name="wpgmza_theme_data"]')
+		var textarea = $('textarea[name="wpgmza_theme_data"]');
+
+		/* Refresh V9 Color Pickers */
+		this.refreshColorInputs();
 		
 		if (!textarea.val() || textarea.val().length < 1) {
 			this.json = [{}];
@@ -191,6 +197,8 @@ jQuery(function($) {
 	
 	WPGMZA.ThemeEditor.prototype.loadElementStylers = function()
 	{
+		const self = this;
+		
 		var feature = $('#wpgmza_theme_editor_feature').val();
 		var element = $('#wpgmza_theme_editor_element').val();
 		$('#wpgmza_theme_editor_do_hue').prop('checked', false);
@@ -203,6 +211,7 @@ jQuery(function($) {
 		$('#wpgmza_theme_editor_do_color').prop('checked', false);
 		$('#wpgmza_theme_editor_color').val('#000000');
 		$('#wpgmza_theme_editor_weight').val('');
+
 		$.each(this.json, function (i, v) {
 			if ((v.hasOwnProperty('featureType') && v.featureType == feature) ||
 				(feature == 'all' && !v.hasOwnProperty('featureType'))) {
@@ -241,6 +250,9 @@ jQuery(function($) {
 				}
 			}
 		});
+
+		/* Refresh V9 Color Pickers */
+		this.refreshColorInputs();
 
 	}
 	
@@ -362,6 +374,10 @@ jQuery(function($) {
 		$('.wpgmza_theme_selection').click(function(){
 			setTimeout(function(){$('textarea[name="wpgmza_theme_data"]').trigger('input');}, 1000);
 		});
+
+		$('#wpgmza-theme-editor__toggle').click(function() {
+			$('#wpgmza-theme-editor').removeClass('active');
+		})
 		
 		$('#wpgmza_theme_editor_feature').on("change", function() {
 			self.highlightElements();
@@ -378,6 +394,15 @@ jQuery(function($) {
 		
 		if(WPGMZA.settings.engine == "open-layers")
 			$("#wpgmza_theme_editor :input").prop("disabled", true);
+	}
+
+	WPGMZA.ThemeEditor.prototype.refreshColorInputs = function(){
+		/* Will only run if wpgmzaColorInput is initialized, uses value as set */
+		$('input#wpgmza_theme_editor_hue,input#wpgmza_theme_editor_color').each(function(){
+			if(this.wpgmzaColorInput){
+				this.wpgmzaColorInput.parseColor(this.value);
+			}
+		});
 	}
 	
 });

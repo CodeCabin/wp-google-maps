@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module OLCircle
  * @requires WPGMZA.Circle
+ * @pro-requires WPGMZA.ProCircle
  */
 jQuery(function($) {
 	
@@ -9,32 +10,79 @@ jQuery(function($) {
 	
 	WPGMZA.OLCircle = function(options, olFeature)
 	{
-		var self = this;
-		
-		this.center = {lat: 0, lng: 0};
-		this.radius = 0;
-		
-		this.fillcolor = "#ff0000";
-		this.opacity = 0.6;
+		var self = this, geom;
 		
 		Parent.call(this, options, olFeature);
 		
-		this.olStyle = new ol.style.Style(this.getStyleFromSettings());
-		
-		this.vectorLayer3857 = this.layer = new ol.layer.Vector({
-			source: new ol.source.Vector(),
-			style: this.olStyle
-		});
+		if(!options)
+			options = {};
 		
 		if(olFeature)
-			this.olFeature = olFeature;
+		{
+			var circle = olFeature.getGeometry();
+			var center = ol.proj.toLonLat(circle.getCenter());
+			
+			geom = circle;
+			
+			options.center = new WPGMZA.LatLng(
+				center[1],
+				center[0]
+			);
+			options.radius = circle.getRadius() / 1000;
+		}
 		else
-			this.recreate();
+		{
+			geom = new ol.geom.Circle(
+				ol.proj.fromLonLat([
+					parseFloat(options.center.lng),
+					parseFloat(options.center.lat)
+				]),
+				options.radius * 1000
+			);
+		}
+		
+		this.layer = new ol.layer.Vector({
+			source: new ol.source.Vector()
+		});
+		
+		this.olFeature = new ol.Feature({
+			geometry: geom
+		});
+
+		this.layer.getSource().addFeature(this.olFeature);
+		this.layer.getSource().getFeatures()[0].setProperties({
+			wpgmzaCircle: this,
+			wpgmzaFeature: this
+		});
+		
+		if(options)
+			this.setOptions(options);
 	}
+	
+	if(WPGMZA.isProVersion())
+		Parent = WPGMZA.ProCircle;
 	
 	WPGMZA.OLCircle.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLCircle.prototype.constructor = WPGMZA.OLCircle;
 	
+	WPGMZA.OLCircle.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.call(this, options);
+		
+		if("editable" in options)
+			WPGMZA.OLFeature.setInteractionsOnFeature(this, options.editable);
+	}
+	
+	WPGMZA.OLCircle.prototype.getCenter = function()
+	{
+		var lonLat = ol.proj.toLonLat(this.olFeature.getGeometry().getCenter());
+			
+		return new WPGMZA.LatLng({
+			lat: lonLat[1],
+			lng: lonLat[0]
+		});
+	}
+
 	WPGMZA.OLCircle.prototype.recreate = function()
 	{
 		if(this.olFeature)
@@ -47,7 +95,7 @@ jQuery(function($) {
 			return;
 		
 		// IMPORTANT: Please note that due to what appears to be a bug in OpenLayers, the following code MUST be exected specifically in this order, or the circle won't appear
-		var radius = parseFloat(this.radius) * 1000 / 2;
+		var radius = parseFloat(this.radius) * 1000;
 		var x, y;
 		
 		x = this.center.lng;
@@ -60,32 +108,7 @@ jQuery(function($) {
 		
 		this.layer.getSource().addFeature(this.olFeature);
 	}
-	
-	WPGMZA.OLCircle.prototype.getStyleFromSettings = function()
-	{
-		var params = {};
-				
-		/*if(this.settings.strokeOpacity)
-			params.stroke = new ol.style.Stroke({
-				color: WPGMZA.hexOpacityToRGBA(this.settings.strokeColor, this.settings.strokeOpacity)
-			});*/
-		
-		if(this.opacity)
-			params.fill = new ol.style.Fill({
-				color: WPGMZA.hexOpacityToRGBA(this.fillColor, this.opacity)
-			});
-			
-		return params;
-	}
-	
-	WPGMZA.OLCircle.prototype.updateStyleFromSettings = function()
-	{
-		// Re-create the style - working on it directly doesn't cause a re-render
-		var params = this.getStyleFromSettings();
-		this.olStyle = new ol.style.Style(params);
-		this.layer.setStyle(this.olStyle);
-	}
-	
+
 	WPGMZA.OLCircle.prototype.setVisible = function(visible)
 	{
 		this.layer.setVisible(visible ? true : false);
@@ -98,11 +121,23 @@ jQuery(function($) {
 		this.recreate();
 	}
 	
+	WPGMZA.OLCircle.prototype.getRadius = function()
+	{
+		var geom = this.layer.getSource().getFeatures()[0].getGeometry();
+		return geom.getRadius() / 1000; // Meters to kilometers
+	}
+	
 	WPGMZA.OLCircle.prototype.setRadius = function(radius)
 	{
 		WPGMZA.Circle.prototype.setRadius.apply(this, arguments);
+	}
+	
+	WPGMZA.OLCircle.prototype.setOptions = function(options)
+	{
+		Parent.prototype.setOptions.apply(this, arguments);
 		
-		this.recreate();
+		if("editable" in options)
+			WPGMZA.OLFeature.setInteractionsOnFeature(this, options.editable);
 	}
 	
 });

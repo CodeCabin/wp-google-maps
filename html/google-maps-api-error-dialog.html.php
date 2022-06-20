@@ -67,7 +67,7 @@ if(!defined('ABSPATH'))
 	
 	<p>
 		<?php
-		_e('Please see the <a href="https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/">WP Google Maps Documentation</a> for a step by step guide on setting up your Google Maps API key.', 'wp-google-maps');
+		_e('Please see the <a href="https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/">WP Go Maps Documentation</a> for a step by step guide on setting up your Google Maps API key.', 'wp-google-maps');
 		?>
 	</p>
 	*/ ?>

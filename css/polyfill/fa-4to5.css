@@ -1,0 +1,27 @@
+/*
+ * Attempts to polyill FA4 icons into FA5 where possible
+*/
+
+.wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-preloader div:last-child:before, 
+.wpgmza-wrap .wpgmza-preloader div:last-child:before,
+.wpgmza-wrap .wpgmza-datatable-container .dataTables_processing:after,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_processing:after {
+    font-family: Font Awesome\ 5 Free !important;
+    font-weight: 600 !important;
+    content: "\f3c5" !important;
+}
+
+.wpgmza-wrap .fa.fa-file-image-o:before{
+    content: "\f1c5" !important;
+    font-weight: 100 !important;
+}
+
+.wpgmza-wrap .fa.fa-sliders:before{
+    content: "\f1de" !important;
+    font-weight: 600 !important;
+}
+
+.wpgmza-wrap .fa.fa-trash-o:before{
+    content: "\f1f8" !important;
+    font-weight: 600 !important;
+}

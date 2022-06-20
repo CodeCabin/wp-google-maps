@@ -25,5 +25,51 @@ jQuery(function($) {
 				break;
 		}
 	}
+
+	WPGMZA.Text.prototype.setPosition = function(position){
+		if(this.overlay){
+			this.overlay.setPosition(position);
+		}
+	}
+
+	WPGMZA.Text.prototype.setText = function(text){
+		if(this.overlay){
+			this.overlay.setText(text);
+		}
+	}
+
+	WPGMZA.Text.prototype.setFontSize = function(size){
+		if(this.overlay){
+			this.overlay.setFontSize(size);
+		}
+	}
+
+	WPGMZA.Text.prototype.setFillColor = function(color){
+		if(this.overlay){
+			this.overlay.setFillColor(color);
+		}
+	}
+
+	WPGMZA.Text.prototype.setLineColor = function(color){
+		if(this.overlay){
+			this.overlay.setLineColor(color);
+		}
+	}
+
+	WPGMZA.Text.prototype.setOpacity = function(opacity){
+		if(this.overlay){
+			this.overlay.setOpacity(opacity);
+		}
+	}
+
+	WPGMZA.Text.prototype.remove = function(){
+		if(this.overlay){
+			this.overlay.remove();
+		}
+	}
+
+	WPGMZA.Text.prototype.refresh = function(){
+		
+	}
 	
 });

@@ -1,0 +1,143 @@
+
+/* Conflict fixes */ 
+/* Street view width fix */
+.wpgmza_map .gm-svpc img {
+    max-width: initial;
+}
+
+/* This fixes common CSS conflicts, :not added to cater for Google UI changes */
+.wpgmza_map img:not(button>img){
+    border: none !important;
+    background-color:transparent !important;
+    box-shadow: none !important;
+}
+
+/* Don't allow white border around Google logo */
+.wpgmza_map img[src$="//maps.gstatic.com/mapfiles/api-3/images/google4.png"],
+.wpgmza_map img[src='http://maps.gstatic.com/mapfiles/api-3/images/google_white5.png'] {
+	box-shadow: none !important;
+}
+
+/* Box shadows on images */
+.wpgmza_table img {
+    box-shadow: none !important;    
+}
+
+/* Rating Widgets - To be replaced, removed, and improved with Gold V6 */
+.wpgmza-rating-gradient-container{
+	display: inline-block;
+	vertical-align: middle;
+	
+	border: 1px solid lightgray;
+	width: 128px;
+	height: 1em;
+}
+
+.wpgmza-rating-gradient-container>.wpgmza-rating-gradient{
+	height: 100%;
+	
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,00ff00+100 */
+	background: #ff0000; /* Old browsers */
+	background: -moz-linear-gradient(left, #ff0000 0%, #00ff00 128px); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #ff0000 0%,#00ff00 128px); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #ff0000 0%,#00ff00 128px); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#00ff00',GradientType=1 ); /* IE6-9 */
+	
+	pointer-events: none;
+	
+	transition: width 0.5s;
+}
+
+.wpgmza-rating-stars-container{
+	position: relative;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+.wpgmza-rating-stars-container + .wpgmza-num-ratings{
+	position: relative;
+}
+
+.wpgmza-rating-stars-container>span{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding-top: 0.3em;
+}
+
+.wpgmza-rating-stars-container>span.wpgmza-background{
+	text-shadow: 0px 0px 2px black;
+}
+
+.wpgmza-rating-stars-container>span.wpgmza-foreground{
+	overflow: hidden;
+	color: yellow;
+	text-shadow: 0px -1px 3px orange inner;
+}
+
+.wpgmza-rating-thumbs-container, .wpgmza-rating-thumbs-container *{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.wpgmza-rating-thumbs-container{
+	background: ghostwhite;
+	/* background: linear-gradient(to right, #88AFD0 0%, #88AFD0 75%, transparent 75%, transparent 100%); */
+	
+	border: 1px solid lightgrey;
+	border-radius: 6px;
+}
+
+.wpgmza-rating-thumbs-container>span.wpgmza-downvote,
+.wpgmza-rating-thumbs-container>span.wpgmza-upvote{
+	padding: 0.5em 1em;
+}
+
+.wpgmza-rating-thumbs-container i{
+	position: relative;
+	font-size: 1.5em;
+	
+	top: 0.0em;
+	transition: top 0.6s;
+}
+
+.wpgmza-rating-thumbs-container .wpgmza-upvote>i{
+	top: -0.05em;
+}
+
+.wpgmza-rating-thumbs-container .wpgmza-down>i{
+	top: 0.05em;
+}
+
+.wpgmza-rating-thumbs-container .wpgmza-upvote:hover>i{
+	top: -0.25em;
+}
+
+.wpgmza-rating-thumbs-container .wpgmza-downvote:hover>i{
+	top: 0.25em;
+}
+
+.wpgmza-rating-thumbs-container>span.wpgmza-upvote{
+	border-left: 1px solid lightgrey;
+}
+
+.wpgmza-rating-thumbs-container>span:hover,
+.wpgmza-rating-thumbs-container>span.wpgmza-remembered-rating{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,c9c9c9+100&0.5+0,0.2+100 */
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.5) 0%, rgba(201,201,201,0.2) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0.5) 0%,rgba(201,201,201,0.2) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(201,201,201,0.2) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80ffffff', endColorstr='#33c9c9c9',GradientType=0 ); /* IE6-9 */
+}
+
+.wpgmza-rating-thumbs-container>span:active{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,c9c9c9+100&0.5+0,0.2+100 */
+	background: -moz-linear-gradient(bottom, rgba(255,255,255,0.5) 0%, rgba(201,201,201,0.2) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(bottom, rgba(255,255,255,0.5) 0%,rgba(201,201,201,0.2) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to top, rgba(255,255,255,0.5) 0%,rgba(201,201,201,0.2) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33c9c9c9', endColorstr='#80ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+.wpgmza-rating.wpgmza-loading{
+	filter: grayscale(100%);
+}

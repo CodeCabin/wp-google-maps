@@ -5,6 +5,20 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.auto-loader.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.gdpr-compliance.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/open-layers/class.nominatim-geocode-cache.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.maps-engine-dialog.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.installer-page.php');
+
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.settings-page.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/styling/class.styling-page.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/map-edit-page/class.map-edit-page.php');
+
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . "base/classes/widget_module.class.php" );
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . "includes/compat/backwards_compat_v6.php" );
+
 /**
  * This class represents the plugin itself. Broadly, this module handles practically all interaction with the platform (WP), loading assets as needed, and hooking into the platforms interface to provide menus etc.
  *
@@ -17,8 +31,12 @@ class Plugin extends Factory
 	const PAGE_MAP_LIST			= "map-list";
 	const PAGE_MAP_EDIT			= "map-edit";
 	const PAGE_MAP_CREATE_PAGE	= "create-map-page";
+	const PAGE_MAP_WIZARD		= "wizard";
 	const PAGE_SETTINGS			= "map-settings";
+	const PAGE_STYLING			= "map-styling";
 	const PAGE_SUPPORT			= "map-support";
+
+	const PAGE_INSTALLER 	  	= "installer";
 	
 	const PAGE_CATEGORIES		= "categories";
 	const PAGE_ADVANCED			= "advanced";
@@ -36,16 +54,17 @@ class Plugin extends Factory
 	
 	private $_database;
 	private $_settings;
+	private $_stylingSettings;
 	private $_gdprCompliance;
 	private $_restAPI;
 	private $_gutenbergIntegration;
 	private $_pro7Compatiblity;
 	private $_dynamicTranslations;
-	private $_legacyCloudAPIKeyHandler;
 	private $_spatialFunctionPrefix = '';
 	
-	protected $scriptLoader;
-	
+	protected $_internalEngine;
+	protected $_scriptLoader;
+
 	private $mysqlVersion = null;
 	private $cachedVersion = null;
 	private $legacySettings;
@@ -57,84 +76,91 @@ class Plugin extends Factory
 	{
 		global $wpdb;
 		
+		// Activation and de-activation hooks
+		$file = WPGMZA_PLUGIN_DIR_PATH . 'wpGoogleMaps.php';
+
+		$subject = file_get_contents($file);
+		if(preg_match('/Version:\s*(.+)/', $subject, $m))
+			$wpgmza_version = trim($m[1]);
+		
+		register_deactivation_hook($file, array($this, 'onDeactivated'));
+		
+		// Translation for Pro
 		add_filter('load_textdomain_mofile', array($this, 'onLoadTextDomainMOFile'), 10, 2);
 		load_plugin_textdomain('wp-google-maps', false, plugin_dir_path(__DIR__) . 'languages/');
 		
+		// Spatial function prefixes
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
 		
-		// TODO: Could / should cache this above
 		if(!empty($this->mysqlVersion) && preg_match('/^\d+/', $this->mysqlVersion, $majorVersion) && (int)$majorVersion[0] >= 8)
 			$this->_spatialFunctionPrefix = 'ST_';
 		
+		// Database
 		$this->_database = new Database();
+		
+		// Dynamic translation file
 		$this->_dynamicTranslations = new DynamicTranslations();
 		
+		// Legacy settings
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
 		if(!$this->legacySettings)
 			$this->legacySettings = array();
 		
-		// Legacy compatibility
-		global $wpgmza_pro_version;
-		
+		// Modules
 		$this->_settings = new GlobalSettings();
+		$this->_stylingSettings = new StylingSettings();
 		$this->_pro7Compatiblity = new Pro7Compatibility();
+		$this->_pro9Compatibility = new Pro9Compatibility();
+
 		$this->_restAPI = RestAPI::createInstance();
 		
 		$this->_gutenbergIntegration = Integration\Gutenberg::createInstance();
-		
-		// TODO: This should be in default settings, this code is duplicated
-		// Deprecated: This was a fix for Pro 7.10 switching users to OpenLayers when updating. It's now effectively redundant.
-		/*if(!empty($wpgmza_pro_version) && version_compare(trim($wpgmza_pro_version), '7.10.00', '<'))
-		{
-			$self = $this;
-			
-			$settings['wpgmza_maps_engine'] = $settings['engine'] = 'google-maps';
-			
-			add_filter('wpgooglemaps_filter_map_div_output', function($output) use ($self) {
-				
-				$loader = new GoogleMapsAPILoader();
-				$loader->registerGoogleMaps();
-				$loader->enqueueGoogleMaps();
-				
-				$self->loadScripts();
-				
-				return $output;
-				
-			});
-		}*/
-		
+	
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
+
+		$this->_internalEngine = new InternalEngine($this->settings->internal_engine);
+		$this->_shortcodes = Shortcodes::createInstance($this->_internalEngine);
 		
+		// Initialisation listener
 		add_action('init', array($this, 'onInit'), 9);
+		add_action('activated_plugin', array($this, 'onActivatedPlugin'));
 		
+		// Track if the enqueue action has been fired already so we can enqueue properly
 		foreach(Plugin::$enqueueScriptActions as $action)
 		{
 			add_action($action, function() use ($action) {
 				Plugin::$enqueueScriptsFired = true;
 			}, 1);
 		}
-			
+		
+		// Include nominatim for it's legacy AJAX hooks
+		// TODO: Use a RESTful approach here instead
 		if($this->settings->engine == 'open-layers')
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
-	
+
+		
 		if(is_admin())
 		{
-			if($this->settings->wpgmza_settings_marker_pull == '1' && !file_exists(wpgmza_return_marker_path()))
+			// Admin UI
+			$this->_adminUI = UI\Admin::createInstance();
+			
+			// XML admin notices for when XML cache generation nears execution time limit or memory limit
+			if($this->settings->wpgmza_settings_marker_pull == '1' && !file_exists($this->getXMLCacheDirPath()))
 			{
 				$this->settings->wpgmza_settings_marker_pull = '0';
 				
 				add_action('admin_notices', function() {
-					echo '<div class="error"><p>' . __('<strong>WP Google Maps:</strong> Cannot find the specified XML folder. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
+					echo '<div class="error"><p>' . __('<strong>WP Go Maps:</strong> Cannot find the specified XML folder. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
 				});
 			}
-			
+      
 			if($this->settings->displayXMLExecutionTimeWarning)
 			{
 				$this->settings->displayXMLExecutionTimeWarning = false;
 				
 				add_action('admin_notices', function() {
-					echo '<div class="error"><p>' . __('<strong>WP Google Maps:</strong> Execution time limit was reached whilst generating XML cache. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
+					echo '<div class="error"><p>' . __('<strong>WP Go Maps:</strong> Execution time limit was reached whilst generating XML cache. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
 				});
 			}
 			
@@ -143,7 +169,7 @@ class Plugin extends Factory
 				$this->settings->displayXMLMemoryLimitWarning = false;
 				
 				add_action('admin_notices', function() {
-					echo '<div class="error"><p>' . __('<strong>WP Google Maps:</strong> Allowed memory size was reached whilst generating XML cache. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
+					echo '<div class="error"><p>' . __('<strong>WP Go Maps:</strong> Allowed memory size was reached whilst generating XML cache. This has been switched back to the Database method in Maps -> Settings -> Advanced', 'wp-google-maps') . '</p></div>';
 				});
 			}
 		}
@@ -165,11 +191,16 @@ class Plugin extends Factory
 		switch($name)
 		{
 			case 'settings':
+			case 'stylingSettings':
 			case 'gdprCompliance':
 			case 'restAPI':
 			case 'spatialFunctionPrefix':
 			case 'database':
 			case 'dynamicTranslations':
+			case 'adminUI':
+			case 'scriptLoader':
+			case 'internalEngine':
+			case 'adminNotices':
 				return $this->{'_' . $name};
 				break;
 		}
@@ -182,6 +213,7 @@ class Plugin extends Factory
 		switch($name)
 		{
 			case 'settings':
+			case 'stylingSettings':
 			case 'gdprCompliance':
 			case 'restAPI':
 			case 'spatialFunctionPrefix':
@@ -193,10 +225,84 @@ class Plugin extends Factory
 		return false;
 	}
 	
-	public function onInit()
+	public function onActivated()
 	{
+        update_option("wpgmza_temp_api",'AIzaSyDo_fG7DXBOVvdhlrLa-PHREuFDpTklWhY');
+
+	    /* Developer Hook (Action) - Add to plugin activation logic */     
+		do_action("wpgmza_plugin_core_on_activate");
+		
+		if(get_option('wpgmza-first-run'))
+			return; // Not first run
+		
+		$this->onFirstRun();
+	}
+	
+	/**
+	 * Please note this fires after *any* plugin has been activated, as opposed to onActivated which is for our plugin
+	 */
+	public function onActivatedPlugin($plugin)
+	{
+		if(!preg_match('/wpGoogleMaps\.php$/', $plugin))
+			return;
+		
+		if(get_option('wpgmza_welcome_screen_done'))
+			return;
+		
+		$current_screen = get_current_screen();
+		
+		if ($current_screen && $current_screen->id == "appearance_page_install-required-plugins" )
+			return; // Multiple plugins are being activated, don't show welcome screen
+		
+		update_option('wpgmza_welcome_screen_done', true);
+		
+		wp_redirect(admin_url('admin.php?page=wp-google-maps-menu&action=welcome_page'));
+		
+		exit;
+	}
+	
+	public function onDeactivated()
+	{
+	    /* Developer Hook (Action) - Add to plugin deactivation logic */     
+		do_action("wpgmza_plugin_core_on_deactivate");
+	}
+	
+	public function onInit(){
 		$this->_gdprCompliance = new GDPRCompliance();
-		$this->_legacyCloudAPIKeyHandler = new LegacyCloudAPIKeyHandler();
+		$this->_adminNotices = new AdminNotices();
+
+		// Create the XML directory if it doesn't already exist
+		$other_settings = get_option('WPGMZA_OTHER_SETTINGS');
+		if (isset($other_settings['wpgmza_settings_marker_pull']) && $other_settings['wpgmza_settings_marker_pull'] == '1') {
+			$xml_marker_location = get_option("wpgmza_xml_location");
+			if (!file_exists($xml_marker_location)) {
+				if (@mkdir($xml_marker_location)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+
+	    /* Developer Hook (Action) - Add to plugin init logic */     
+		do_action("wpgmza_plugin_core_on_init");
+	}
+	
+	protected function onFirstRun()
+	{
+		$current_screen = get_current_screen();
+
+		$this->database->onFirstRun();
+		
+		update_option('wpgmza-first-run', date(\DateTime::ISO8601));
+
+	    /* Developer Hook (Action) - Add to first run plugin logic */     
+		do_action("wpgmza_plugin_core_on_first_run");
+
+		if($current_screen && $current_screen->id == "appearance_page_install-required-plugins")
+			return; // Bulk activating plugins, don't redirect just yet
+		
+		wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) );
 	}
 	
 	/**
@@ -207,7 +313,7 @@ class Plugin extends Factory
 	 * If none of those actions have fired yet, this function will bind to all three and enqueue the scripts at the correct time.
 	 * @return void
 	 */
-	public function loadScripts()
+	public function loadScripts($forceLoad=false)
 	{
 		$self = $this;
 		
@@ -219,38 +325,42 @@ class Plugin extends Factory
 		
 		if(Plugin::$enqueueScriptsFired)
 		{
-			$this->scriptLoader->enqueueScripts();
-			$this->scriptLoader->enqueueStyles();
+			$this->scriptLoader->enqueueScripts($forceLoad);
+			$this->scriptLoader->enqueueStyles($forceLoad);
 		}
 		else
 		{
-			foreach(Plugin::$enqueueScriptActions as $action)
-			{
-				add_action($action, function() use ($self) {
-					$self->scriptLoader->enqueueScripts();
-					$self->scriptLoader->enqueueStyles();
+			foreach(Plugin::$enqueueScriptActions as $action) {
+				add_action($action, function() use ($self, $forceLoad) {
+					$self->scriptLoader->enqueueScripts($forceLoad);
+					$self->scriptLoader->enqueueStyles($forceLoad);
 				});
 			}
 		}
 		
+	    /* Developer Hook (Action) - Load additional plugin scripts */     
 		do_action('wpgmza_plugin_load_scripts');
 	}
 	
 	public function getLocalizedData()
 	{
-		global $post;
+		global $post, $wpgmza;
 		
 		$document = new DOMDocument();
-		$document->loadPHPFile(plugin_dir_path(__DIR__) . 'html/google-maps-api-error-dialog.html.php');
+		
+		$document->loadPHPFile($wpgmza->internalEngine->getTemplate('google-maps-api-error-dialog.html.php'));
+
 		$googleMapsAPIErrorDialogHTML = $document->saveInnerBody();
 		
 		$strings = new Strings();
 		
 		$settings = clone $this->settings;
+		$stylingSettings = clone $this->stylingSettings;
 		
 		$resturl = preg_replace('#/$#', '', get_rest_url(null, 'wpgmza/v1'));
 		$resturl = preg_replace('#^http(s?):#', '', $resturl);
 		
+		/* Developer Hook (Filter) - Add or alter localization variables */
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
 			'siteHash'				=> md5(site_url()),
@@ -271,6 +381,7 @@ class Plugin extends Factory
 			'restnoncetable'		=> $this->restAPI->getNonceTable(),
 
 			'settings' 				=> $settings,
+			'stylingSettings'		=> $stylingSettings,
 			'currentPage'			=> $this->getCurrentPage(),
 			
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
@@ -287,7 +398,9 @@ class Plugin extends Factory
 			'is_admin'				=> (is_admin() ? 1 : 0),
 			'locale'				=> get_locale(),
 			
-			'isServerIIS'			=> (isset($_SERVER["SERVER_SOFTWARE"]) && preg_match('/microsoft-iis/i', $_SERVER["SERVER_SOFTWARE"]))
+			'isServerIIS'			=> (isset($_SERVER["SERVER_SOFTWARE"]) && preg_match('/microsoft-iis/i', $_SERVER["SERVER_SOFTWARE"])),
+			'labelpointIcon'		=> plugin_dir_url(WPGMZA_FILE) . 'images/label-point.png',
+			'buildCode' 			=> $wpgmza->internalEngine->getBuildVersion(),
 		));
 		
 		if($post)
@@ -311,13 +424,22 @@ class Plugin extends Factory
 		switch($_GET['page'])
 		{
 			case 'wp-google-maps-menu':
-				if(isset($_GET['action']))
-				{
-					if($_GET['action'] == 'edit')
+				if(isset($_GET['action'])){
+					if($_GET['action'] == 'edit'){
 						return Plugin::PAGE_MAP_EDIT;
-					
-					if($_GET['action'] == 'create-map-page')
+					}
+				
+					if($_GET['action'] == 'create-map-page'){
 						return Plugin::PAGE_MAP_CREATE_PAGE;
+					}
+
+					if($_GET['action'] == 'wizard'){
+						return Plugin::PAGE_MAP_WIZARD;
+					}
+
+					if($_GET['action'] == 'installer'){
+						return Plugin::PAGE_INSTALLER;
+					}
 				}
 				
 				return Plugin::PAGE_MAP_LIST;
@@ -325,6 +447,10 @@ class Plugin extends Factory
 				
 			case 'wp-google-maps-menu-settings':
 				return Plugin::PAGE_SETTINGS;
+				break;
+
+			case 'wp-google-maps-menu-styling':
+				return Plugin::PAGE_STYLING;
 				break;
 				
 			case 'wp-google-maps-menu-support':
@@ -358,6 +484,9 @@ class Plugin extends Factory
 			$map = Map::createInstance($id);
 			$map->updateXMLFile();
 		}
+
+	    /* Developer Hook (Action) - Update all XML files */     
+		do_action("wpgmza_plugin_core_update_all_xml_files");
 	}
 	
 	public function isModernComponentStyleAllowed()
@@ -380,7 +509,7 @@ class Plugin extends Factory
 	 */
 	public function isInDeveloperMode()
 	{
-		return !(empty($this->settings->developer_mode) && !isset($_COOKIE['wpgmza-developer-mode']));
+		return !(empty($this->settings->wpgmza_developer_mode) && !isset($_COOKIE['wpgmza-developer-mode']));
 	}
 	
 	public static function preloadIsInDeveloperMode()
@@ -396,6 +525,180 @@ class Plugin extends Factory
 		return isset($globalSettings->developer_mode) && $globalSettings->developer_mode == true;
 	}
 	
+
+	/**
+	 * Danger Zone Delete method 
+	 * 
+	 * This has been refactored a bit in V9.0.0, some notes on that:
+	 * - The original implementation had no notable issues
+	 * - It did however include a few repeating truncate calls, which could be optimized for better long term dataset management 
+	 * - We also added some filters/actions to allow developers to hook into this call if they need to 
+	 * - Not needed, but improvements will help streamline things into the future 
+	 * 
+	 * @param string $type The type of delete action being taken 
+	 * 
+	 * @return bool 
+	 */
+	public function deleteAllData($type) {
+		global $wpdb, $WPGMZA_TABLE_NAME_MARKERS, $WPGMZA_TABLE_NAME_MAPS,
+			$WPGMZA_TABLE_NAME_POLYGONS, $WPGMZA_TABLE_NAME_POLYLINES,
+			$WPGMZA_TABLE_NAME_CIRCLES, $WPGMZA_TABLE_NAME_RECTANGLES,
+			$WPGMZA_TABLE_NAME_HEATMAPS, $WPGMZA_TABLE_NAME_POINT_LABELS,
+			$WPGMZA_TABLE_NAME_IMAGE_OVERLAYS, $WPGMZA_TABLE_NAME_ADMIN_NOTICES,
+			$WPGMZA_TABLE_NAME_CATEGORIES, $WPGMZA_TABLE_NAME_MARKERS_HAS_CATEGORIES,
+			$WPGMZA_TABLE_NAME_CATEGORY_MAPS, $WPGMZA_TABLE_NAME_CUSTOM_FIELDS,
+			$WPGMZA_TABLE_NAME_MAPS_HAS_CUSTOM_FIELDS_FILTERS, $WPGMZA_TABLE_NAME_MARKERS_HAS_CUSTOM_FIELDS,
+			$WPGMZA_TABLE_NAME_BATCHED_IMPORTS;
+
+
+		$type = !empty($type) ? str_replace("wpgmza_", "", $type) : false;
+		
+		$truncateTables = array();
+		$dropOptions = false;
+		$simulateFirstRun = false;
+		
+
+		switch($type){
+			case 'destroy_all_data':
+				/* Primary Tables */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MAPS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS;
+				
+				/* Shapes */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYGONS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYLINES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CIRCLES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_RECTANGLES;
+
+				/* Datasets */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_HEATMAPS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POINT_LABELS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_IMAGE_OVERLAYS;
+
+				/* Categories */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CATEGORIES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CATEGORIES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CATEGORY_MAPS;
+
+				/* Fields */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CUSTOM_FIELDS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CUSTOM_FIELDS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MAPS_HAS_CUSTOM_FIELDS_FILTERS;
+
+				/* Back office */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_ADMIN_NOTICES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_BATCHED_IMPORTS;
+
+				$dropOptions = true;
+				$simulateFirstRun = true;
+				
+				break;
+			case 'reset_all_settings':
+				$dropOptions = true;
+				break;
+			case 'destroy_maps':
+				/* Primary Tables */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MAPS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS;
+				
+				/* Shapes */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYGONS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYLINES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CIRCLES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_RECTANGLES;
+
+				/* Datasets */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_HEATMAPS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POINT_LABELS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_IMAGE_OVERLAYS;
+
+				/* Categories */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CATEGORIES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CATEGORIES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CATEGORY_MAPS;
+
+				/* Fields */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CUSTOM_FIELDS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CUSTOM_FIELDS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MAPS_HAS_CUSTOM_FIELDS_FILTERS;
+
+				break;
+			case 'destroy_markers':
+				/* Markers */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS;
+
+				/* Marker categorties */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CATEGORIES;
+
+				/* Marker fields */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_MARKERS_HAS_CUSTOM_FIELDS;
+
+				break;
+			case 'destroy_shapes':
+				/* Shapes */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYGONS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POLYLINES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_CIRCLES;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_RECTANGLES;
+
+				/* Datasets */
+				$truncateTables[] = $WPGMZA_TABLE_NAME_HEATMAPS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_POINT_LABELS;
+				$truncateTables[] = $WPGMZA_TABLE_NAME_IMAGE_OVERLAYS;
+				break;
+			default:
+				/*
+				 * Pay respects to the original logic which use to live here 
+				 * ----
+				 * Is this the real life?
+				 * Is this just fantasy?
+				 * Caught in a landslide
+				 * No escape from reality
+				 * Open your eyes
+				 * Look up to the skies and seeeee................there is nothing here ¯\_(ツ)_/¯
+				*/
+				break;
+
+		}
+
+	    /* Developer Hook (Action) - Run actions before danger zone delete, passes type */     
+		do_action("wpgmza_settings_danger_zone_before_delete", $type);
+
+		if(!empty($truncateTables)){
+			$filteredTables = array();
+			foreach($truncateTables as $table){
+				if(!empty($table)){
+					$filteredTables[] = $table;
+				}
+			}
+
+			/* Developer Hook (Filter) - Allows for addition/removal of tables from the danger zone action, passes tables, and current action type */
+			$truncateTables = apply_filters("wpgmza_settings_danger_zone_truncate_tables", $filteredTables, $type);
+
+			if(!empty($truncateTables) && is_array($truncateTables)){
+				foreach($truncateTables as $table){
+					/* Truncate the table */
+					$wpdb->query("TRUNCATE TABLE `{$table}`");
+				}
+			}
+		}
+
+		if($dropOptions){
+			/* Drop the options we have setup */
+			$optionsTable = "{$wpdb->prefix}options";
+			$wpdb->query("DELETE FROM `{$optionsTable}` WHERE `option_name` LIKE 'wpgm%' LIMIT 30");		
+		}
+
+	    /* Developer Hook (Action) - Run actions after danger zone delete, passes type */     
+		do_action("wpgmza_settings_danger_zone_after_delete", $type);
+
+		if($simulateFirstRun){
+			$this->onFirstRun();
+		}
+
+		return true;
+	}
+
 	/**
 	 * Check whether we are running the Pro add-on.
 	 * @return bool True if the Pro add-on is installed and activated.
@@ -445,8 +748,9 @@ class Plugin extends Factory
 	 */
 	public function onLoadTextDomainMOFile($mofile, $domain)
 	{
-		if($domain == 'wp-google-maps')
-			$mofile = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . get_locale() . '.mo';
+		if($domain == 'wp-google-maps' && !class_exists("WPML_Translation_Management") && function_exists('get_user_locale')){
+			$mofile = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . \get_user_locale() . '.mo';
+		}
 		
 		return $mofile;
 	}
@@ -460,9 +764,241 @@ class Plugin extends Factory
 	{
 		return current_user_can($this->getAccessCapability());
 	}
+	
+	public function getXMLCacheDirPath()
+	{
+		$dir = $this->settings->wpgmza_marker_xml_location;
+		
+		if(!empty($dir))
+			return $dir;	// Prefer new setting over legacy setting
+		
+		// But still provide support for legacy migrating users who haven't saved their global settings just yet
+		
+		$file = get_option("wpgmza_xml_location");
+		
+		$content_dir = WP_CONTENT_DIR;
+		$content_dir = trim($content_dir, '/');
+		
+		if (defined('WP_PLUGIN_DIR')) {
+			$plugin_dir = str_replace(wpgmza_get_document_root(), '', WP_PLUGIN_DIR);
+			$plugin_dir = trim($plugin_dir, '/');
+		} else {
+			$plugin_dir = str_replace(wpgmza_get_document_root(), '', WP_CONTENT_DIR . '/plugins');
+			$plugin_dir = trim($plugin_dir, '/');
+		}
+		
+		$upload_dir = wp_upload_dir();
+		$upload_dir = $upload_dir['basedir'];
+		$upload_dir = rtrim($upload_dir, '/');
+		
+		$file = str_replace('{wp_content_dir}', $content_dir, $file);
+		$file = str_replace('{plugins_dir}', $plugin_dir, $file);
+		$file = str_replace('{uploads_dir}', $upload_dir, $file);
+		$file = trim($file);
+		
+		if (empty($file)) {
+			$file = $upload_dir."/wp-google-maps/";
+		}
+		
+		if (substr($file, -1) != "/") { $file = $file."/"; }
+		
+		return $file;
+	}
+	
+	public function getXMLCacheDirURL()
+	{
+		$url = get_option("wpgmza_xml_url");
+		
+		$content_url = content_url();
+		$content_url = trim($content_url, '/');
+		 
+		$plugins_url = plugins_url();
+		$plugins_url = trim($plugins_url, '/');
+		 
+		$upload_url = wp_upload_dir();
+		$upload_url = $upload_url['baseurl'];
+		$upload_url = trim($upload_url, '/');
+
+		$url = str_replace('{wp_content_url}', $content_url, $url);
+		$url = str_replace('{plugins_url}', $plugins_url, $url);
+		$url = str_replace('{uploads_url}', $upload_url, $url);
+		
+		/* just incase people use the "dir" instead of "url" */
+		$url = str_replace('{wp_content_dir}', $content_url, $url);
+		$url = str_replace('{plugins_dir}', $plugins_url, $url);
+		$url = str_replace('{uploads_dir}', $upload_url, $url);
+
+		if (empty($url)) {
+			$url = $upload_url."/wp-google-maps/";
+		}
+		
+		if (substr($url, -1) != "/") { $url = $url."/"; }
+
+		return $url;
+	}
+
+	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {
+	    $result = "";
+	    // get feeds and parse items
+	    $rss = new DOMDocument();
+	    $cache_file = $cache_prefix . md5($feed_url);
+	    // load from file or load content
+	    if ($cache_timeout > 0 &&
+	        is_file($cache_file) &&
+	        (filemtime($cache_file) + $cache_timeout > time())) {
+	            $rss->load($cache_file);
+	    } else {
+	        $rss->load($feed_url);
+	        if ($cache_timeout > 0) {
+	            $rss->save($cache_file);
+	        }
+	    }
+	    $feed = array();
+	    foreach ($rss->getElementsByTagName('item') as $node) {
+	        $item = array (
+	            'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+	            'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+	            'content' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+	            'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
+	            'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue,
+	        );
+	        $content = $node->getElementsByTagName('encoded'); // <content:encoded>
+	        if ($content->length > 0) {
+	            $item['content'] = $content->item(0)->nodeValue;
+	        }
+	        array_push($feed, $item);
+	    }
+	    // real good count
+	    if ($max_item_cnt > count($feed)) {
+	        $max_item_cnt = count($feed);
+	    }
+	    $result .= '<ul class="feed-lists">';
+	    for ($x=0;$x<$max_item_cnt;$x++) {
+	        $title = str_replace(' & ', ' &amp; ', $feed[$x]['title']);
+	        $link = $feed[$x]['link'];
+	        $result .= '<li class="feed-item">';
+	        $result .= '<div class="feed-title"><strong><a href="'.$link.'" title="'.$title.'">'.$title.'</a></strong></div>';
+	        if ($show_date) {
+	            $date = date('l F d, Y', strtotime($feed[$x]['date']));
+	            $result .= '<small class="feed-date"><em>Posted on '.$date.'</em></small>';
+	        }
+	        if ($show_description) {
+	            $description = $feed[$x]['desc'];
+	            $content = $feed[$x]['content'];
+	            // find the img
+	            $has_image = preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $content, $image);
+	            // no html tags
+	            $description = strip_tags(preg_replace('/(<(script|style)\b[^>]*>).*?(<\/\2>)/s', "$1$3", $description), '');
+	            // whether cut by number of words
+	            if ($max_words > 0) {
+	                $arr = explode(' ', $description);
+	                if ($max_words < count($arr)) {
+	                    $description = '';
+	                    $w_cnt = 0;
+	                    foreach($arr as $w) {
+	                        $description .= $w . ' ';
+	                        $w_cnt = $w_cnt + 1;
+	                        if ($w_cnt == $max_words) {
+	                            break;
+	                        }
+	                    }
+	                    $description .= " ...";
+	                }
+	            }
+	            // add img if it exists
+	            if ($has_image == 1) {
+	                $description = '<img class="feed-item-image" src="' . $image['src'] . '" />' . $description;
+	            }
+	            $result .= '<div class="feed-description">' . $description;
+	            $result .= ' <a href="'.$link.'" title="'.$title.'">Continue Reading &raquo;</a>'.'</div>';
+	        }
+	        $result .= '</li>';
+	    }
+	    $result .= '</ul>';
+	    return $result;
+	}
+
+	public static function output_rss_feed($feeds, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0) {
+	    
+	    $ssl = false;
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+		    $ssl = true;
+		}
+		
+        $entries = array();
+		
+        foreach($feeds as $feed)
+		{
+			if (!$ssl) {
+        		$feed = str_replace('https://', 'http://', $feed);
+        	}
+			
+            if ($xml = @simplexml_load_file($feed)) {
+            	$entries = array_merge($entries, $xml->xpath("//item"));
+            } else {
+            	$entries = array();
+            }
+        }
+        
+        usort($entries, function ($feed1, $feed2) {
+            return strtotime($feed2->pubDate) - strtotime($feed1->pubDate);
+        });
+		
+        $entries	= array_slice($entries, 0, $max_item_cnt);
+        
+		$document	= new DOMDocument();
+		$document->loadHTML("<ul></ul>");
+		
+		$ul			= $document->querySelector("ul");
+        
+        foreach($entries as $entry)
+		{
+			$li		= $document->createElement("li");
+			
+			$a		= $document->createElement("a");
+			
+			$a->setAttribute('href', $entry->link);
+			$a->appendText(html_entity_decode($entry->title));
+			
+			$span	= $document->createElement("span");
+			$span->addClass("wpgmTimeAgo");
+			$span->appendText(Plugin::timeAgo($entry->pubDate));
+			
+			$li->appendChild($a);
+			$li->appendText(" ");
+			$li->appendChild($span);
+			
+			$ul->appendChild($li);
+        }
+        
+        echo $ul->html;
+	}
+
+	public static function timeAgo($date) {
+	   $timestamp = strtotime($date);	
+	   
+	   $strTime = array("s", "min", "hr", "d", "mo", "yrs");
+	   $length = array("60","60","24","30","12","10");
+
+	   $currentTime = time();
+	   if($currentTime >= $timestamp) {
+			$diff     = time()- $timestamp;
+			for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
+			$diff = $diff / $length[$i];
+			}
+
+			$diff = round($diff);
+			return $diff . "" . $strTime[$i] . " ago";
+	   }
+	}
 }
 
-add_action('plugins_loaded', function() {
+function wpgmza_create_plugin()
+{
+	global $wpgmza;
+	
+	if($wpgmza)
+		return;
 	
 	function create()
 	{
@@ -489,7 +1025,7 @@ add_action('plugins_loaded', function() {
 				<div class="notice notice-error is-dismissible">
 					<p>
 						<?php
-						_e('WP Google Maps', 'wp-google-maps');
+						_e('WP Go Maps', 'wp-google-maps');
 						?>:
 						<?php
 						_e('The plugin cannot initialise due to a fatal error. This is usually due to missing files or incompatible software. Please re-install the plugin and any relevant add-ons. We recommend that you use at least PHP 5.6. Technical details are as follows: ', 'wp-google-maps');
@@ -501,5 +1037,20 @@ add_action('plugins_loaded', function() {
 				
 			});
 		}
+}
+
+register_activation_hook(WPGMZA_FILE, function() {
+	
+	global $wpgmza;
+	
+	wpgmza_create_plugin();
+	
+	$wpgmza->onActivated();
+	
+});
+
+add_action('plugins_loaded', function() {
+	
+	wpgmza_create_plugin();
 	
 });

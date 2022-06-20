@@ -27,6 +27,7 @@ function wpgmza_b_add_rectangle($mid)
 	wpgmaps_b_admin_add_rectangle_javascript();
 	
     if ($_GET['action'] == "add_rectangle" && isset($mid)) {
+    	$mid = intval($mid);
         $res = wpgmza_get_map_data($mid);
         echo "
             
@@ -34,7 +35,7 @@ function wpgmza_b_add_rectangle($mid)
             
           
            <div class='wrap'>
-                <h1>WP Google Maps</h1>
+                <h1>WP Go Maps</h1>
                 <div class='wide'>
 
                     <h2>".__("Add rectangle","wp-google-maps")."</h2>
@@ -105,8 +106,9 @@ function wpgmza_b_edit_rectangle($mid)
 	wpgmaps_b_admin_add_rectangle_javascript();
 	
     if ($_GET['action'] == "edit_rectangle" && isset($mid)) {
+    	$mid = intval($mid);
         $res = wpgmza_get_map_data($mid);
-		$rectangle_id = (int)$_GET['rectangle_id'];
+		$rectangle_id = (int) intval($_GET['rectangle_id']);
 		
 		$results = $wpdb->get_results("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(cornerA) AS cornerA, {$wpgmza->spatialFunctionPrefix}AsText(cornerB) AS cornerB FROM $wpgmza_tblname_rectangles WHERE id = $rectangle_id");
 		
@@ -128,7 +130,7 @@ function wpgmza_b_edit_rectangle($mid)
 		
         echo "
            <div class='wrap'>
-                <h1>WP Google Maps</h1>
+                <h1>WP Go Maps</h1>
                 <div class='wide'>
 
                     <h2>".__("Edit rectangle","wp-google-maps")."</h2>
@@ -247,6 +249,8 @@ if(!function_exists('wpgmza_get_rectangles_table'))
 	{
 		global $wpdb;
 		global $wpgmza_tblname_rectangles;
+
+		$map_id = intval($map_id);
 		
 		$rectangles_table = "
 			<table>
@@ -263,7 +267,9 @@ if(!function_exists('wpgmza_get_rectangles_table'))
 		$stmt = $wpdb->prepare("SELECT * FROM $wpgmza_tblname_rectangles WHERE map_id = %d", array($map_id));
 		$rectangles = $wpdb->get_results($stmt);
 		foreach($rectangles as $rectangle)
-		{
+		{	
+			$rectangle->id = intval($rectangle->id);
+			
 			$rectangles_table .= "
 				<tr>
 					<td>{$rectangle->id}</td>

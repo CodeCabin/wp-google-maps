@@ -33,7 +33,8 @@ jQuery(function($) {
 		this.element.css({
 			position: "absolute",
 			left: position.x + "px",
-			top: position.y + "px"
+			top: position.y + "px",
+			minWidth : "200px"
 		});
 
 		var panes = this.getPanes();
@@ -48,7 +49,8 @@ jQuery(function($) {
 		this.element.css({
 			position: "absolute",
 			left: position.x + "px",
-			top: position.y + "px"
+			top: position.y + "px",
+			minWidth : "200px"
 		});
 	}
 	
@@ -73,6 +75,51 @@ jQuery(function($) {
 			this.element.hide();
 		else
 			this.element.show();
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setPosition = function(position){
+		this.position = position;
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setText = function(text){
+		this.element.find(".wpgmza-inner").text(text);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setFontSize = function(size){
+		size = parseInt(size);
+		this.element.find(".wpgmza-inner").css('font-size', size + 'px');
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setFillColor = function(color){
+		if(!color.match(/^#/))
+			color = "#" + color;
+
+		this.element.find(".wpgmza-inner").css('color', color);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setLineColor = function(color){
+		if(!color.match(/^#/))
+			color = "#" + color;
+
+		this.element.find(".wpgmza-inner").css('--wpgmza-color-white', color);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setOpacity = function(opacity){
+		opacity = parseFloat(opacity);
+
+		if(opacity > 1){
+			opacity = 1;
+		} else if (opacity < 0){
+			opacity = 0;
+		}
+
+		this.element.find(".wpgmza-inner").css('opacity', opacity);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.remove = function(){
+		if(this.element){
+			this.element.remove();
+		}
 	}
 	
 });

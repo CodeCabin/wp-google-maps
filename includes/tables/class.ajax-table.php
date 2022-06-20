@@ -249,8 +249,13 @@ class AjaxTable extends Table
 	protected function buildQueryString($columns, $where, $having, $input_params, &$query_params)
 	{
 		$imploded = implode(',', $columns);
-		
-		$qstr = "SELECT SQL_CALC_FOUND_ROWS $imploded FROM {$this->table_name} " . $this->getSQLBeforeWhere($input_params, $query_params) . " WHERE $where " . $this->getSQLAfterWhere($input_params, $query_params, $where);
+		/**
+		 * Modified: 2021-10-11
+		 * Change: Remove 'SQL_CALC_FOUND_ROWS' as it is being deprecated
+		 * Reason: Some sites experiencing issues with this modifier and subsequent "FOUND_ROWS()" calls as it is being deprecated
+		 * Author: Dylan Auty
+		*/
+		$qstr = "SELECT $imploded FROM {$this->table_name} " . $this->getSQLBeforeWhere($input_params, $query_params) . " WHERE $where " . $this->getSQLAfterWhere($input_params, $query_params, $where);
 		
 		if(!empty($having))
 			$qstr .= " HAVING $having";
@@ -262,6 +267,11 @@ class AjaxTable extends Table
 	{
 		$count_where = $this->getWhereClause($input_params, $count_query_params, true);
 		
+		return "SELECT COUNT(id) FROM {$this->table_name} WHERE $count_where";
+	}
+
+	protected function buildFilteredCountQueryString($input_params, &$count_query_params){
+		$count_where = $this->getWhereClause($input_params, $count_query_params, false);
 		return "SELECT COUNT(id) FROM {$this->table_name} WHERE $count_where";
 	}
 	
@@ -323,30 +333,43 @@ class AjaxTable extends Table
 		$count_query_params = array();
 		$count_qstr = $this->buildCountQueryString($input_params, $count_query_params);
 		
-		if(!empty($query_params))
+		if(!empty($query_params)){
 			$stmt = $wpdb->prepare($count_qstr, $count_query_params);
-		else
+		} else {
 			$stmt = $count_qstr;
+		}
 		
 		$total_count = (int)$wpdb->get_var($stmt);
 		
 		// Body
-		if(!empty($query_params))
+		if(!empty($query_params)){
 			$stmt = $wpdb->prepare($qstr, $query_params);
-		else
+		} else{
 			$stmt = $qstr;
-		
+		}
+
 		$rows = $wpdb->get_results($stmt);
 		
 		$this->filterResults($rows);
 		
 		// Found rows
-		$found_rows = $wpdb->get_var('SELECT FOUND_ROWS()');
+		// DEPRECATED AS PER NOTES RE: MySQL 8.0.17 -> This now requires a separate count query as seen
+		// $found_rows = $wpdb->get_var('SELECT FOUND_ROWS()'); 
+		$filtered_query_params = array();
+		$filtered_count_qstr = $this->buildFilteredCountQueryString($input_params, $filtered_query_params);
+		if(!empty($filtered_query_params)){
+			$stmt = $wpdb->prepare($filtered_count_qstr, $filtered_query_params);
+		} else {
+			$stmt = $filtered_count_qstr;
+		}
+
+		$found_rows = (int)$wpdb->get_var($stmt);
 		
 		// Meta
 		$meta = array();
-		foreach($rows as $key => $value)
-			$meta[$key] = $value;
+		foreach($rows as $key => $value){
+			$meta[$key] = (array) $value;
+		}
 		
 		$result = (object)array(
 			'recordsTotal'		=> $total_count,

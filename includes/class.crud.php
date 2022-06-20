@@ -76,15 +76,16 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$this->id = $id;
 		
-		if($read_mode != Crud::BULK_READ)
-		{
-			if($this->id == -1)
+		if($read_mode != Crud::BULK_READ){
+			if($this->id == -1){
 				$this->create();
-			else
-				$this->read(Marker::SINGLE_READ);
-		}
-		else
-		{
+			} else {
+				if(!empty($this->id)){
+					// Only attempt a read if not empty as this can lead to erroneous error being thrown
+					$this->read(Marker::SINGLE_READ);
+				}
+			}
+		} else {
 			$arbitraryDataColumnName = $this->get_arbitrary_data_column_name();
 			
 			if(!empty($arbitraryDataColumnName) && !empty($this->fields[$arbitraryDataColumnName]))
@@ -120,7 +121,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		Crud::$cached_columns_by_table_name[$table_name] = $columns;
 	}
 	
-	protected static function getColumnsByTableName($table_name)
+	public static function getColumnsByTableName($table_name)
 	{
 		Crud::cacheColumnsByTableName($table_name);
 		
@@ -157,6 +158,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$stmt = $wpdb->prepare("DELETE FROM `{$table_name}` WHERE id IN ($placeholders)", $ids);
 		$wpdb->query($stmt);
 	}
+
 	
 	/**
 	 * Gets the table name for this object type
@@ -388,7 +390,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	
 	protected function getReadColumns()
 	{
-		return "*";
+		return array("*");
 	}
 	
 	/**
@@ -402,7 +404,10 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$this->assert_not_trashed();
 		
-		$stmt = $wpdb->prepare("SELECT * FROM " . $this->get_table_name() . " WHERE id = %d", array($this->id));
+		$columns = implode(', ', $this->getReadColumns());
+		
+		$stmt = $wpdb->prepare("SELECT $columns FROM " . $this->get_table_name() . " WHERE id = %d", array($this->id));
+		
 		$results = $wpdb->get_results($stmt);
 		
 		if(empty($results))
@@ -551,24 +556,27 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	{
 		$this->assert_not_trashed();
 		
-		if(is_string($arg))
-		{
+		if(is_string($arg)){
+			if(is_string($val)){
+				$val = wp_kses_post($val);
+			}
 			$this->__set($arg, $val);
-		}
-		else if(is_array($arg) || is_object($arg))
-		{
-			foreach($arg as $key => $value)
-			{
-				if($this->is_read_only($key))
+		} else if(is_array($arg) || is_object($arg)){
+			foreach($arg as $key => $value){
+				if($this->is_read_only($key)){
 					throw new \Exception('Property is read only');
+				}
 				
+				if(is_string($value)){
+					$value = wp_kses_post($value);
+				}
 				$this->fields[$key] = $value;
 			}
 			
 			$this->update();
-		}
-		else
+		} else{
 			throw new \Exception('Invalid argument');
+		}
 		
 		return $this;
 	}
@@ -669,6 +677,10 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		if($this->is_read_only($name))
 			throw new \Exception('Property is read only');
+		
+		if(is_string($value)){
+			$value = htmlspecialchars_decode(wp_kses_post($value));
+		}
 		
 		$this->fields[$name] = $value;
 		

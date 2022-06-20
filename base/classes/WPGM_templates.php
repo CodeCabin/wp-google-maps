@@ -7,7 +7,7 @@ class WPGMAPS_templates {
 
 
     /**
-     * Includes WP Google Maps V6 Welome Page
+     * Includes WP Go Maps V6 Welome Page
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class WPGMAPS_templates {
     }
 
     /**
-     * Outputs WP Google Maps V5 Welcome Page
+     * Outputs WP Go Maps V5 Welcome Page
      *
      * @return void
      */
@@ -36,8 +36,8 @@ class WPGMAPS_templates {
 
             <div class="wrap about-wrap">
 
-                <!-- <img src='<?php echo WPGMAPS_DIR; ?>base/assets/WP-google-maps-logo.png' style="float:right; width:250px;" /> -->
-                <h1><?php _e("Welcome to","wp-google-maps"); ?> <strong>WP Google Maps</strong> <small>v6</small></h1>
+                <!-- <img src='<?php echo WPGMZA_PLUGIN_DIR_URL; ?>base/assets/WP-google-maps-logo.png' style="float:right; width:250px;" /> -->
+                <h1><?php _e("Welcome to","wp-google-maps"); ?> <strong>WP Go Maps</strong> <small>v6</small></h1>
 
                 <div class="about-text"><?php _e("Amazing maps. Simple interface. Powerful functionality. World Class Support.","wp-google-maps"); ?></div>
 
@@ -47,17 +47,17 @@ class WPGMAPS_templates {
                     <div class="col">
                     <h4><?php _e("Store Locator","wp-google-maps"); ?></h4>
                     <p><?php _e("Let users search for products, branches and stores near them","wp-google-maps"); ?></p>
-                     <img src='<?php echo WPGMAPS_DIR; ?>base/assets/storelocator.jpg' style="border:1px solid #ccc;" />              
+                     <img src='<?php echo WPGMZA_PLUGIN_DIR_URL; ?>base/assets/storelocator.jpg' style="border:1px solid #ccc;" />              
                     </div>
                     <div class="col">
                     <h4><?php _e("Polygons","wp-google-maps"); ?></h4>
                     <p><?php _e("Create service areas or coverage maps with polygons","wp-google-maps"); ?></p>
-                     <img src='<?php echo WPGMAPS_DIR; ?>base/assets/polygons.png' style="border:1px solid #ccc;" />              
+                     <img src='<?php echo WPGMZA_PLUGIN_DIR_URL; ?>base/assets/polygons.png' style="border:1px solid #ccc;" />              
                     </div>
                     <div class="col">
                     <h4><?php _e("Polylines","wp-google-maps"); ?></h4>
                     <p><?php _e("Create custom routes or outlines using polylines","wp-google-maps"); ?></p>
-                     <img src='<?php echo WPGMAPS_DIR; ?>base/assets/polylines.png' style="border:1px solid #ccc;" style='margin-bottom:20px;' />              
+                     <img src='<?php echo WPGMZA_PLUGIN_DIR_URL; ?>base/assets/polylines.png' style="border:1px solid #ccc;" style='margin-bottom:20px;' />              
                     </div>
                 </div>
                 
@@ -114,7 +114,7 @@ class WPGMAPS_templates {
 
                         <div class="feature-section three-col">
                             <div class='col'>
-                                <h4><?php _e("New to WP Google Maps?","wp-google-maps"); ?></h4>
+                                <h4><?php _e("New to WP Go Maps?","wp-google-maps"); ?></h4>
                                 <p><?php _e("You may want to","wp-google-maps"); ?> <a href='http://wpgmaps.com/documentation/' target='_blank' title='Documentation'><?php _e("review our documentation","wp-google-maps"); ?></a> <?php _e("before you get started. If you're a tech-savvy individual, you may skip this step.","wp-google-maps"); ?></p>
                             </div>
                             <div class='col'>

@@ -29,8 +29,13 @@ class Map extends Crud
 		global $wpdb;
 		global $wpgmza;
 		
-		Crud::__construct("{$wpdb->prefix}wpgmza_maps", $id_or_fields);
-		
+		try {
+			Crud::__construct("{$wpdb->prefix}wpgmza_maps", $id_or_fields);
+		} catch (\Exception $e){
+			// Map ID not found
+			return;
+		}
+
 		if(!$overrides)
 			$this->_overrides = array();
 		else
@@ -40,16 +45,43 @@ class Map extends Crud
 		$document->loadHTML('<div class="wpgmza_map"></div>');
 		
 		$this->_element = $document->querySelector("div");
-		$this->_element->setAttribute('data-settings', json_encode($this));
+		$this->_element->setAttribute('data-settings', json_encode($this->getDataSettingsObject()));
+		
+		if(empty($wpgmza))
+		{
+			// NB: This is for when the plugin is first being activated - the global plugin object is not yet available as we're still in the plugins constructor further up the stack trace. There is probably a more elegant solution to this, perhaps set an "isDoingFirstRun" flag as a static member of the plugin class?
+			return;
+		}
 		
 		if(!$wpgmza->isProVersion())
 			$this->onInit();
+		
+		$wpgmza->loadScripts(true);
+	}
+
+	public function getDataSettingsObject(){
+		$localized = $this;
+		$ignore = array('shortcode');
+
+		foreach ($ignore as $key) {
+			if(!empty($localized->{$key})){
+				unset($localized->{$key});
+			}
+		}
+		
+		return $localized;
 	}
 	
 	protected function onInit()
 	{
 		if($this->store_locator_enabled == 1)
 			$this->_storeLocator = StoreLocator::createInstance($this);
+
+
+		/** Legacy rollback for layers */
+		$this->bicycle = (!empty($this->bicycle) && intval($this->bicycle) == 2) ? 0 : $this->bicycle;
+		$this->traffic = (!empty($this->traffic) && intval($this->traffic) == 2) ? 0 : $this->traffic;
+		$this->transport_layer = (!empty($this->transport_layer) && intval($this->transport_layer) == 2) ? 0 : $this->transport_layer;
 	}
 	
 	public function __get($name)
@@ -60,7 +92,9 @@ class Map extends Crud
 			case 'storeLocator':
 				return $this->{"_$name"};
 				break;
-			
+			case 'shortcodeAttributes':
+				return $this->_overrides;
+				break;
 			case "storeLocatorDistanceUnits":
 				if(!empty($this->store_locator_distance) && $this->store_locator_distance == 1)
 					return Distance::UNITS_MI;
@@ -84,6 +118,7 @@ class Map extends Crud
 	 */
 	public static function create_instance($id_or_fields=-1)
 	{
+		/* Developer Hook (Filter) - Alter map create instnace, deprecated */
 		return apply_filters('wpgmza_create_map_instance', $id_or_fields);
 	}
 	
@@ -94,6 +129,40 @@ class Map extends Crud
 	protected function get_arbitrary_data_column_name()
 	{
 		return "other_settings";
+	}
+	
+	protected function create()
+	{
+		Crud::create();
+
+
+		// Set defaults 
+		$this->set(array(
+			'map_start_zoom'	=> 4,
+			'map_width'			=> 100,
+			'map_width_type'	=> '%',
+			'map_height'		=> 400,
+			'map_height_type'	=> 'px',
+			'map_type'			=> 1, // Roadmap,
+			'sl_stroke_color'	=> "#FF0000",
+			'sl_fill_color' 	=> "#FF0000",
+			'sl_stroke_opacity' => 1,
+			'sl_fill_opacity'	=> 0.5
+		));
+		
+		// Only default if these were not set initially 
+		if(empty($this->map_title)){
+			$this->set('map_title', __('New Map', 'wp-google-maps'));	
+		}
+
+		if(empty($this->map_start_lat) || empty($this->map_start_lng)){
+			$this->set(array(
+				'map_start_lat'		=> 36.778261,
+				'map_start_lng'		=> -119.4179323999,
+			));	
+		}
+
+
 	}
 	
 	protected function getMarkersQuery()
@@ -209,10 +278,14 @@ class Map extends Crud
 			$root->appendChild($markerElement);
 		}
 		
+		/* Developer Hook (Filter) - XML cache generated, passes DOMDOcument for mutation, must return DOMDocument */
 		$document = apply_filters('wpgmza_xml_cache_generated', $document);
 		
-		$dest = $this->getMarkerXMLFilename();
-		if(file_put_contents($dest, $document->saveXML()) === false)
+		$dest	= $this->getMarkerXMLFilename();
+		$text	= $document->saveXML();
+		$result	= file_put_contents($dest, $text);
+		
+		if($result === false)
 		{
 			if(Map::$xmlFolderWarningDisplayed)
 				return;
@@ -223,7 +296,7 @@ class Map extends Crud
 				?>
 				<div class='notice notice-error'>
 					<p>
-						<strong><?php _e('WP Google Maps:', 'wp-google-maps'); ?></strong>
+						<strong><?php _e('WP Go Maps:', 'wp-google-maps'); ?></strong>
 						<?php
 						echo sprintf(
 							_e('The plugin couldn\'t find the directory %s, which is the directory your settings specify to use for XML caching. Please make sure the directory exists, and that you assign file permissions of 755 to this directory.', 'wp-google-maps'),
@@ -238,6 +311,7 @@ class Map extends Crud
 			return;
 		}
 		
+	    /* Developer Hook (Action) - Log change to the XML storage,passes destination of file */     
 		do_action('wpgmza_xml_cache_saved', $dest);
 	}
 	

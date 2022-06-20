@@ -1,18 +1,20 @@
 /**
  * @namespace WPGMZA
  * @module Circle
- * @requires WPGMZA.MapObject
+ * @requires WPGMZA.Shape
+ * @pro-requires WPGMZA.ProShape
  */
 jQuery(function($) {
 	
-	var Parent = WPGMZA.MapObject;
+	var Parent = WPGMZA.Shape;
+	
 	
 	/**
 	 * Base class for circles. <strong>Please <em>do not</em> call this constructor directly. Always use createInstance rather than instantiating this class directly.</strong> Using createInstance allows this class to be externally extensible.
 	 * @class WPGMZA.Circle
 	 * @constructor WPGMZA.Circle
 	 * @memberof WPGMZA
-	 * @augments WPGMZA.MapObject
+	 * @augments WPGMZA.Feature
 	 * @see WPGMZA.Circle.createInstance
 	 */
 	WPGMZA.Circle = function(options, engineCircle)
@@ -27,8 +29,79 @@ jQuery(function($) {
 		Parent.apply(this, arguments);
 	}
 	
-	WPGMZA.Circle.prototype = Object.create(Parent.prototype);
-	WPGMZA.Circle.prototype.constructor = WPGMZA.Circle;
+
+	if(WPGMZA.isProVersion())
+		Parent = WPGMZA.ProShape;
+
+	WPGMZA.extend(WPGMZA.Circle, Parent);
+	
+	Object.defineProperty(WPGMZA.Circle.prototype, "fillColor", {
+		
+		enumerable: true,
+		
+		"get": function()
+		{
+			if(!this.color || !this.color.length)
+				return "#ff0000";
+			
+			return this.color;
+		},
+		"set" : function(a){
+			this.color = a;
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Circle.prototype, "fillOpacity", {
+	
+		enumerable: true,
+		
+		"get": function()
+		{
+			if(!this.opacity && this.opacity != 0)
+				return 0.5;
+			
+			return parseFloat(this.opacity);
+		},
+		"set": function(a){
+			this.opacity = a;
+		}
+	
+	});
+	
+	Object.defineProperty(WPGMZA.Circle.prototype, "strokeColor", {
+		
+		enumerable: true,
+		
+		"get": function()
+		{
+			if(!this.lineColor){
+				return "#000000";
+			}
+			return this.lineColor;
+		},
+		"set": function(a){
+			this.lineColor = a;
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Circle.prototype, "strokeOpacity", {
+		
+		enumerable: true,
+		
+		"get": function()
+		{
+			if(!this.lineOpacity && this.lineOpacity != 0)
+				return 0;
+			
+			return parseFloat(this.lineOpacity);
+		},
+		"set": function(a){
+			this.lineOpacity = a;
+		}
+		
+	});
 	
 	/**
 	 * Creates an instance of a circle, <strong>please <em>always</em> use this function rather than calling the constructor directly</strong>.
@@ -36,22 +109,30 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Circle
 	 * @param {object} options Options for the object (optional)
 	 */
-	WPGMZA.Circle.createInstance = function(options)
+	WPGMZA.Circle.createInstance = function(options, engineCircle)
 	{
 		var constructor;
 		
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+				if(WPGMZA.isProVersion()){
+					constructor = WPGMZA.OLProCircle;
+					break;
+				}
 				constructor = WPGMZA.OLCircle;
 				break;
 			
 			default:
+				if(WPGMZA.isProVersion()){
+					constructor = WPGMZA.GoogleProCircle;
+					break;
+				}
 				constructor = WPGMZA.GoogleCircle;
 				break;
 		}
 		
-		return new constructor(options);
+		return new constructor(options, engineCircle);
 	}
 	
 	/**

@@ -25,8 +25,28 @@ jQuery(function($) {
 			layers: [
 				this.getTileLayer()
 			],
-			view: new ol.View(viewOptions)
+			view: this.getTileView(viewOptions)
 		});
+
+		if(this.customTileMode){
+			/* The system is in custom tile view mode */
+			if(!(ol.extent.containsCoordinate(this.customTileModeExtent, this.olMap.getView().getCenter()))){
+				const view = this.olMap.getView();
+
+				view.setCenter(ol.extent.getCenter(this.customTileModeExtent));
+				this.wrapLongitude();
+				this.onBoundsChanged();
+			}
+		}
+		
+		// NB: Handles legacy checkboxes as well as new, standard controls
+		function isSettingDisabled(value)
+		{
+			if(value === "yes")
+				return true;
+			
+			return (value ? true : false);
+		}
 		
 		// TODO: Re-implement using correct setting names
 		// Interactions
@@ -34,16 +54,22 @@ jQuery(function($) {
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
 			if(interaction instanceof ol.interaction.DragPan)
-				interaction.setActive( (self.settings.wpgmza_settings_map_draggable == "yes" ? false : true) );
+				interaction.setActive(
+					!isSettingDisabled(self.settings.wpgmza_settings_map_draggable)
+				);
 			else if(interaction instanceof ol.interaction.DoubleClickZoom)
-				interaction.setActive( (self.settings.wpgmza_settings_map_clickzoom ? false : true) );
+				interaction.setActive(
+					!isSettingDisabled(self.settings.wpgmza_settings_map_clickzoom)
+				);
 			else if(interaction instanceof ol.interaction.MouseWheelZoom)
-				interaction.setActive( (self.settings.wpgmza_settings_map_scroll == "yes" ? false : true) );
+				interaction.setActive(
+					!isSettingDisabled(self.settings.wpgmza_settings_map_scroll)
+				);
 			
 		}, this);
 		
 		// Cooperative gesture handling
-		if(!(this.settings.wpgmza_force_greedy_gestures == "greedy" || this.settings.wpgmza_force_greedy_gestures == "yes"))
+		if(!(this.settings.wpgmza_force_greedy_gestures == "greedy" || this.settings.wpgmza_force_greedy_gestures == "yes" || this.settings.wpgmza_force_greedy_gestures == true))
 		{
 			this.gestureOverlay = $("<div class='wpgmza-gesture-overlay'></div>")
 			this.gestureOverlayTimeoutID = null;
@@ -52,7 +78,9 @@ jQuery(function($) {
 			{
 				// On touch devices, require two fingers to drag and pan
 				// NB: Temporarily removed due to inconsistent behaviour
-				/*this.olMap.getInteractions().forEach(function(interaction) {
+
+				// Reintroduced: 9.0.0 -> We have made some changes to improve consistency 
+				this.olMap.getInteractions().forEach(function(interaction) {
 					
 					if(interaction instanceof ol.interaction.DragPan)
 						self.olMap.removeInteraction(interaction);
@@ -62,8 +90,18 @@ jQuery(function($) {
 				this.olMap.addInteraction(new ol.interaction.DragPan({
 					
 					condition: function(olBrowserEvent) {
-						
-						var allowed = olBrowserEvent.originalEvent.touches.length == 2;
+						let allowed = false;
+						let originalEvent = olBrowserEvent.originalEvent; 
+						if(originalEvent instanceof PointerEvent){
+							/* Handle this as a pointer */
+							if(this.targetPointers && this.targetPointers.length){
+								allowed = this.targetPointers.length == 2;
+							}
+						} else if (originalEvent instanceof TouchEvent){
+							if(originalEvent.touches && originalEvent.touches.length){
+								allowed = originalEvent.touches.length == 2;
+							}
+						}
 						
 						if(!allowed)
 							self.showGestureOverlay();
@@ -73,7 +111,7 @@ jQuery(function($) {
 					
 				}));
 				
-				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);*/
+				this.gestureOverlay.text(WPGMZA.localized_strings.use_two_fingers);
 			}
 			else
 			{
@@ -97,12 +135,12 @@ jQuery(function($) {
 		this.olMap.getControls().forEach(function(control) {
 			
 			// NB: The true and false values are flipped because these settings represent the "disabled" state when true
-			if(control instanceof ol.control.Zoom && WPGMZA.settings.wpgmza_settings_map_zoom == "yes")
+			if(control instanceof ol.control.Zoom && WPGMZA.settings.wpgmza_settings_map_zoom == true)
 				self.olMap.removeControl(control);
 			
 		}, this);
 		
-		if(WPGMZA.settings.wpgmza_settings_map_full_screen_control != "yes")
+		if(!isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_full_screen_control))
 			this.olMap.addControl(new ol.control.FullScreen());
 		
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
@@ -122,9 +160,10 @@ jQuery(function($) {
 					return;
 				
 				var marker = features[0].wpgmzaMarker;
-				
-				if(!marker)
+					
+				if(!marker){
 					return;
+				}
 				
 				marker.trigger("click");
 				marker.trigger("select");
@@ -161,20 +200,64 @@ jQuery(function($) {
 		});
 		self.onBoundsChanged();
 		
-		// Store locator center
-		var marker;
-		if(this.storeLocator && (marker = this.storeLocator.centerPointMarker))
-		{
-			this.olMap.addOverlay(marker.overlay);
-			marker.setVisible(false);
-		}
+		// Hover interaction
+		this._mouseoverNativeFeatures = [];
+		
+		this.olMap.on("pointermove", function(event) {
+			
+			if(event.dragging)
+				return;
+			
+			try{
+				var featuresUnderPixel = event.target.getFeaturesAtPixel(event.pixel);
+			}catch(e) {
+				// NB: Hacktacular.. An error is thrown when you mouse over a heatmap. See https://github.com/openlayers/openlayers/issues/10100. This was allegedly solved and merged in but seems to still be present in OpenLayers 6.4.3.
+				return;
+			}
+			
+			if(!featuresUnderPixel)
+				featuresUnderPixel = [];
+			
+			var nativeFeaturesUnderPixel = [], i, props;
+			
+			for(i = 0; i < featuresUnderPixel.length; i++)
+			{
+				props = featuresUnderPixel[i].getProperties();
+				
+				if(!props.wpgmzaFeature)
+					continue;
+				
+				nativeFeature = props.wpgmzaFeature;
+				nativeFeaturesUnderPixel.push(nativeFeature);
+				
+				if(self._mouseoverNativeFeatures.indexOf(nativeFeature) == -1)
+				{
+					// Now hovering over this feature, when we weren't previously
+					nativeFeature.trigger("mouseover");
+					self._mouseoverNativeFeatures.push(nativeFeature);
+				}
+			}
+				
+			for(i = self._mouseoverNativeFeatures.length - 1; i >= 0; i--)
+			{
+				nativeFeature = self._mouseoverNativeFeatures[i];
+				
+				if(nativeFeaturesUnderPixel.indexOf(nativeFeature) == -1)
+				{
+					// No longer hovering over this feature, where we had been previously
+					nativeFeature.trigger("mouseout");
+					self._mouseoverNativeFeatures.splice(i, 1);
+				}
+			}
+			
+		});
 		
 		// Right click listener
 		$(this.element).on("click contextmenu", function(event) {
 			
 			var isRight;
 			event = event || window.event;
-			
+
 			var latLng = self.pixelsToLatLng(event.offsetX, event.offsetY);
 			
 			if("which" in event)
@@ -182,15 +265,50 @@ jQuery(function($) {
 			else if("button" in event)
 				isRight = event.button == 2;
 			
-			if(event.which == 1 || event.button == 1)
-			{
+			if(event.which == 1 || event.button == 1){
 				if(self.isBeingDragged)
 					return;
 				
 				// Left click
 				if($(event.target).closest(".ol-marker").length)
 					return; // A marker was clicked, not the map. Do nothing
+
+				/*
+				 * User is clicking on the map, but looks like it was not a marker...
+				 * 
+				 * Finding a light at the end of the tunnel 
+				*/
+				try{
+					var featuresUnderPixel = self.olMap.getFeaturesAtPixel([event.offsetX, event.offsetY]);
+				}catch(e) {
+					return;
+				}
 				
+				if(!featuresUnderPixel)
+					featuresUnderPixel = [];
+				
+				var nativeFeaturesUnderPixel = [], i, props;
+				for(i = 0; i < featuresUnderPixel.length; i++){
+					props = featuresUnderPixel[i].getProperties();
+					
+					if(!props.wpgmzaFeature)
+						continue;
+					
+					nativeFeature = props.wpgmzaFeature;
+					nativeFeaturesUnderPixel.push(nativeFeature);
+					
+					nativeFeature.trigger("click");
+				}
+
+				if(featuresUnderPixel.length > 0){
+					/*
+					 * This is for a pixel interpolated feature, like polygons
+					 *
+					 * Let's return early, to avoid double event firing
+					*/
+					return;
+				}
+
 				self.trigger({
 					type: "click",
 					latLng: latLng
@@ -199,8 +317,9 @@ jQuery(function($) {
 				return;
 			}
 			
-			if(!isRight)
+			if(!isRight){
 				return;
+			}
 			
 			return self.onRightClick(event);
 		});
@@ -230,12 +349,77 @@ jQuery(function($) {
 	{
 		var options = {};
 		
-		if(WPGMZA.settings.tile_server_url)
+		if(WPGMZA.settings.tile_server_url){
 			options.url = WPGMZA.settings.tile_server_url;
+
+			if(WPGMZA.settings.tile_server_url === 'custom_override'){
+				if(WPGMZA.settings.tile_server_url_override && WPGMZA.settings.tile_server_url_override.trim() !== ""){
+					options.url = WPGMZA.settings.tile_server_url_override.trim();
+				} else {
+					//Override attempt, let's default?
+					options.url = "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+				}
+			}
+
+			if(WPGMZA.settings.open_layers_api_key && WPGMZA.settings.open_layers_api_key !== ""){
+				options.url += "?apikey=" + WPGMZA.settings.open_layers_api_key.trim();
+			}
+		}
+
+		if(this.settings && this.settings.custom_tile_enabled){
+			if(this.settings.custom_tile_image_width && this.settings.custom_tile_image_height){
+				const width = parseInt(this.settings.custom_tile_image_width);
+				const height = parseInt(this.settings.custom_tile_image_height);
+				
+				if(this.settings.custom_tile_image){
+					const extent = [0, 0, width, height];
+		
+					const projection = new ol.proj.Projection({
+						code: 'custom-tile-map',
+						units: 'pixels',
+						extent: extent
+					});
+
+					return new ol.layer.Image({
+						source: new ol.source.ImageStatic({
+							attributions: this.settings.custom_tile_image_attribution ? this.settings.custom_tile_image_attribution : '©',
+							url: this.settings.custom_tile_image,
+							projection: projection,
+							imageExtent: extent
+						})
+					});
+				}
+			}
+		}
 		
 		return new ol.layer.Tile({
 			source: new ol.source.OSM(options)
 		});
+	}
+
+	WPGMZA.OLMap.prototype.getTileView = function(viewOptions){
+		if(this.settings && this.settings.custom_tile_enabled){
+			if(this.settings.custom_tile_image_width && this.settings.custom_tile_image_height){
+				const width = parseInt(this.settings.custom_tile_image_width);
+				const height = parseInt(this.settings.custom_tile_image_height);
+				
+				if(this.settings.custom_tile_image){
+					const extent = [0, 0, width, height];
+		
+					const projection = new ol.proj.Projection({
+						code: 'custom-tile-map',
+						units: 'pixels',
+						extent: extent
+					});
+
+					viewOptions.projection = projection;
+
+					this.customTileModeExtent = extent;
+					this.customTileMode = true;
+				}
+			}
+		}
+		return new ol.View(viewOptions)
 	}
 	
 	WPGMZA.OLMap.prototype.wrapLongitude = function()

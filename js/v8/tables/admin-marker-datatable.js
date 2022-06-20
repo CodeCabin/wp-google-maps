@@ -159,18 +159,22 @@ jQuery(function($) {
 			var zoom_value = 6;
 			WPGMZA.mapEditPage.map.setCenter(latLng);
 			WPGMZA.mapEditPage.map.setZoom(zoom_value);
-			WPGMZA.animateScroll("#wpgmaps_tabs_markers");
+
+			if(WPGMZA.InternalEngine.isLegacy()){
+				/* Only applies to legacy */
+				WPGMZA.animateScroll("#wpgmaps_tabs_markers");
+			}
 		}
 
 
 	}
 	
-	$(document).ready(function(event) {
+	/*$(document).ready(function(event) {
 		
 		$("[data-wpgmza-admin-marker-datatable]").each(function(index, el) {
 			WPGMZA.adminMarkerDataTable = WPGMZA.AdminMarkerDataTable.createInstance(el);
 		});
 		
-	});
+	});*/
 	
 });

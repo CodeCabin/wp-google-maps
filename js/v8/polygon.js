@@ -1,7 +1,7 @@
 /**
  * @namespace WPGMZA
  * @module Polygon
- * @requires WPGMZA.MapObject
+ * @requires WPGMZA.Feature
  */
 jQuery(function($) {
 	
@@ -12,7 +12,7 @@ jQuery(function($) {
 	 * @memberof WPGMZA
 	 * @param {object} [row] Options to apply to this polygon.
 	 * @param {object} [enginePolygon] An engine polygon, passed from the drawing manager. Used when a polygon has been created by a drawing manager.
-	 * @augments WPGMZA.MapObject
+	 * @augments WPGMZA.Feature
 	 */
 	WPGMZA.Polygon = function(row, enginePolygon)
 	{
@@ -21,15 +21,93 @@ jQuery(function($) {
 		WPGMZA.assertInstanceOf(this, "Polygon");
 		
 		this.paths = null;
-		this.title = null;
-		this.name = null;
-		this.link = null;
 		
-		WPGMZA.MapObject.apply(this, arguments);
+		WPGMZA.Feature.apply(this, arguments);
+
+		this.addEventListener("added", function(event) {
+            self.onAdded();
+        });
 	}
 	
-	WPGMZA.Polygon.prototype = Object.create(WPGMZA.MapObject.prototype);
+	WPGMZA.Polygon.prototype = Object.create(WPGMZA.Feature.prototype);
 	WPGMZA.Polygon.prototype.constructor = WPGMZA.Polygon;
+	
+	Object.defineProperty(WPGMZA.Polygon.prototype, "fillColor", {
+		
+		enumerable: true,
+		"get": function()
+		{
+			if(!this.fillcolor || !this.fillcolor.length)
+				return "#ff0000";
+			
+			return "#" + this.fillcolor.replace(/^#/, "");
+		},
+		"set": function(a){
+			this.fillcolor = a;
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Polygon.prototype, "fillOpacity", {
+		
+		enumerable: true,
+		"get": function()
+		{
+			if(!this.opacity || !this.opacity.length)
+				return 0.6;
+			
+			return this.opacity;
+		},
+		"set": function(a){
+			this.opacity = a;
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Polygon.prototype, "strokeColor", {
+		
+		enumerable: true,
+		"get": function()
+		{
+			if(!this.linecolor || !this.linecolor.length)
+				return "#ff0000";
+			
+			return "#" + this.linecolor.replace(/^#/, "");
+		},
+		"set": function(a){
+			this.linecolor = a;
+		}
+		
+	});
+	
+	Object.defineProperty(WPGMZA.Polygon.prototype, "strokeOpacity", {
+		
+		enumerable: true,
+		
+		"get": function()
+		{
+			if(!this.lineopacity || !this.lineopacity.length)
+				return 0.6;
+			
+			return this.lineopacity;
+		},
+		"set": function(a){
+			this.lineopacity = a;
+		}
+		
+	});
+
+	Object.defineProperty(WPGMZA.Polygon.prototype, "strokeWeight", {
+		enumerable: true,
+		"get": function()
+		{
+			if(!this.linethickness || !this.linethickness.length)
+				return 3;
+			
+			return parseInt(this.linethickness);
+		}
+		
+	});
 	
 	/**
 	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
@@ -68,24 +146,9 @@ jQuery(function($) {
 		var constructor = WPGMZA.Polygon.getConstructor();
 		return new constructor(row, engineObject);
 	}
-	
-	/**
-	 * Returns a JSON representation of this polygon, for serialization
-	 * @method
-	 * @memberof WPGMZA.Polygon
-	 * @returns {object} A JSON object representing this polygon
-	 */
-	WPGMZA.Polygon.prototype.toJSON = function()
-	{
-		var result = WPGMZA.MapObject.prototype.toJSON.call(this);
-		
-		$.extend(result, {
-			name:		this.name,
-			title:		this.title,
-			link:		this.link,
-		});
-	
-		return result;
-	}
+
+	WPGMZA.Polygon.prototype.onAdded = function(){
+        
+    }
 	
 });

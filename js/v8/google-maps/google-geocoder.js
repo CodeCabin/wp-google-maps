@@ -15,24 +15,46 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleGeocoder = function()
 	{
-		WPGMZA.Geocoder.call(this);
+		
 	}
 	
 	WPGMZA.GoogleGeocoder.prototype = Object.create(WPGMZA.Geocoder.prototype);
 	WPGMZA.GoogleGeocoder.prototype.constructor = WPGMZA.GoogleGeocoder;
 	
-	WPGMZA.GoogleGeocoder.prototype.getGoogleGeocoder = function()
-	{
-		if(WPGMZA.CloudAPI && WPGMZA.CloudAPI.isBeingUsed)
-			return new WPGMZA.CloudGeocoder();
-		
-		return new google.maps.Geocoder();
-	}
-	
-	WPGMZA.GoogleGeocoder.prototype.getLatLngFromAddress = function(options, callback)
-	{
-		if(!options || !options.address)
-			throw new Error("No address specified");
+	WPGMZA.GoogleGeocoder.prototype.getLatLngFromAddress = function(options, callback) {
+
+		if(!options || !options.address) {
+			
+			nativeStatus = WPGMZA.Geocoder.NO_ADDRESS;
+			callback(null, nativeStatus);
+			return;
+			/*throw new Error("No address specified");*/
+
+		}
+
+		if (options.lat && options.lng) {
+			var latLng = {
+				lat: options.lat,
+				lng: options.lng
+			};
+			var bounds = null;
+			
+			var results = [
+				{
+					geometry: {
+						location: latLng
+					},
+					latLng: latLng,
+					lat: latLng.lat,
+					lng: latLng.lng,
+					bounds: bounds
+				}
+			];
+			
+			callback(results, WPGMZA.Geocoder.SUCCESS);
+		} else {
+
+		}
 		
 		if(WPGMZA.isLatLngString(options.address))
 			return WPGMZA.Geocoder.prototype.getLatLngFromAddress.call(this, options, callback);
@@ -42,27 +64,20 @@ jQuery(function($) {
 				country: options.country
 			};
 		
-		var geocoder = this.getGoogleGeocoder();
+		var geocoder = new google.maps.Geocoder();
 		
 		geocoder.geocode(options, function(results, status) {
-			
-			if(status == google.maps.GeocoderStatus.OK || status == WPGMZA.CloudGeocoder.SUCCESS)
+			if(status == google.maps.GeocoderStatus.OK)
 			{
 				var location = results[0].geometry.location;
-				var latLng, bounds = null;
-				
-				latLng = {
+				var latLng = {
 					lat: location.lat(),
 					lng: location.lng()
 				};
+				var bounds = null;
 				
-				if(bounds = results[0].geometry.bounds)
-				{
-					if(bounds instanceof google.maps.LatLngBounds)
-						bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBounds(results[0].geometry.bounds);
-					else
-						bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBoundsLiteral(results[0].geometry.bounds);
-				}
+				if(results[0].geometry.bounds)
+					bounds = WPGMZA.LatLngBounds.fromGoogleLatLngBounds(results[0].geometry.bounds);
 				
 				var results = [
 					{
@@ -75,6 +90,8 @@ jQuery(function($) {
 						bounds: bounds
 					}
 				];
+				
+				
 				
 				callback(results, WPGMZA.Geocoder.SUCCESS);
 			}
@@ -96,7 +113,7 @@ jQuery(function($) {
 			throw new Error("No latLng specified");
 		
 		var latLng = new WPGMZA.LatLng(options.latLng);
-		var geocoder = this.getGoogleGeocoder();
+		var geocoder = new google.maps.Geocoder();
 		
 		var options = $.extend(options, {
 			location: {
@@ -104,6 +121,13 @@ jQuery(function($) {
 				lng: latLng.lng
 			}
 		});
+
+		let fullResult = false;
+		if(options.fullResult){
+			fullResult = true;
+			delete options.fullResult;
+		}
+		
 		delete options.latLng;
 		
 		geocoder.geocode(options, function(results, status) {
@@ -114,7 +138,11 @@ jQuery(function($) {
 			if(!results || !results.length)
 				callback([], WPGMZA.Geocoder.NO_RESULTS);
 			
-			callback([results[0].formatted_address], WPGMZA.Geocoder.SUCCESS);
+			if(fullResult){
+				callback([results[0]], WPGMZA.Geocoder.SUCCESS);
+			} else {
+				callback([results[0].formatted_address], WPGMZA.Geocoder.SUCCESS);
+			}
 			
 		});
 	}

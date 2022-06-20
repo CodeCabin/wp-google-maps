@@ -11,10 +11,12 @@
 	position: relative;
 }
 
+/*
 .wpgmza-ol-modern-infowindow-container .wpgmza_modern_infowindow
 {
 	min-width: 160px;
 }
+*/
 
 @keyframes wpgmza-bounce {
   from {
@@ -58,9 +60,10 @@
 
 .ol-marker>img
 {
-	/*position: absolute;
+	/* NB: Re-added, removing this breaks marker animations */
+	position: absolute;
 	bottom: 0px;
-	transform: translateX(-50%);*/
+	transform: translateX(-50%);
 	max-width: none;
 	z-index: 2;
 }
@@ -99,14 +102,20 @@
     left: 0px;
     transform: translateX(-50%);
     background: white;
-    /* box-shadow: 2px 2px 5px rgba(0,0,0,0.5); */
-    /* border: 1px solid lightgray; */
     padding: 10px;
     font-size: 14px;
+	width: 348px;
+	max-width: 648px;
+	overflow-y: auto;
+
+    /* box-shadow: 2px 2px 5px rgba(0,0,0,0.5); */
+    /* border: 1px solid lightgray; */
 }
 
-.ol-info-window-plain:after
-{
+/* Hide for now, the way the container is wrapped, this causes scroll issues */
+/* Scroll is more important than the arrow mark I believe. Longterm, wrap content for scrolls */
+/*.ol-info-window-plain:after{
+	
 	content: '';
 	position: absolute;
 	bottom: 0;
@@ -118,7 +127,7 @@
 	border-bottom: 0;
 	margin-left: -8px;
 	margin-bottom: -8px;
-}
+}*/
 
 .ol-info-window-close
 {
@@ -152,18 +161,58 @@
 {
 	position: absolute;
 	top: 0px;
-	left: 0px;
-	width: 100%;
+	left: 50%;
+	/*width: 100%;*/
 	max-width: 100% !important;
 	z-index: 99;
 }
 
-.wpgmza-modern-store-locator
-{
+.wpgmza-modern-store-locator {
 	pointer-events: none;
+	z-index: 0;
+	position: absolute;
+	top: 0px;
+	max-width: 100% !important;
+	left: 50%;
+}
+.wpgmza-modern-store-locator .wpgmza-inner {
+	position:relative;
+	left:-50%;
 }
 
 .wpgmza-modern-store-locator>.wpgmza-inner
 {
 	pointer-events: all;
+}
+
+.ol-info-window-polygon {
+    bottom: 0 !important;
+}
+
+.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible {
+    font-size: 12px;
+}
+
+.wpgmza_map .ol-viewport .ol-control:not(.ol-attribution){
+    background: transparent;
+}
+
+.wpgmza_map .ol-viewport .ol-control button {
+    background: var(--wpgmza-color-white);
+    color: var(--wpgmza-color-charcoal);
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza_map .ol-viewport .ol-control button:focus, 
+.wpgmza_map .ol-viewport .ol-control button:hover{
+    background: var(--wpgmza-color-grey-50);
+}
+
+.rtl .wpgmza_map * {
+    direction: ltr;
+}
+
+.rtl .wpgmza_map .wpgmza-infowindow,
+.rtl .wpgmza_map .wpgmza-infowindow  *{
+    direction: rtl;
 }

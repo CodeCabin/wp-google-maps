@@ -14,8 +14,10 @@ jQuery(function($) {
 	WPGMZA.RestAPI = function()
 	{
 		WPGMZA.RestAPI.URL = WPGMZA.resturl;
-		
+	
 		this.useAJAXFallback = false;
+
+		$(document.body).trigger("init.restapi.wpgmza");
 	}
 	
 	WPGMZA.RestAPI.CONTEXT_REST		= "REST";
@@ -153,19 +155,20 @@ jQuery(function($) {
 	WPGMZA.RestAPI.prototype.addNonce = function(route, params, context)
 	{
 		var self = this;
-		
+
 		var setRESTNonce = function(xhr) {
-			if(context == WPGMZA.RestAPI.CONTEXT_REST)
+			if(context == WPGMZA.RestAPI.CONTEXT_REST && self.shouldAddNonce(route)){
 				xhr.setRequestHeader('X-WP-Nonce', WPGMZA.restnonce);
+			} 
 			
-			if(params && params.method && !params.method.match(/^GET$/i))
+			if(params && params.method && !params.method.match(/^GET$/i)){
 				xhr.setRequestHeader('X-WPGMZA-Action-Nonce', self.getNonce(route));
+			}
 		};
 		
-		if(!params.beforeSend)
+		if(!params.beforeSend){
 			params.beforeSend = setRESTNonce;
-		else
-		{
+		} else {
 			var base = params.beforeSend;
 			
 			params.beforeSend = function(xhr) {
@@ -173,6 +176,24 @@ jQuery(function($) {
 				setRESTNonce(xhr);
 			}
 		}
+	}
+
+	WPGMZA.RestAPI.prototype.shouldAddNonce = function(route){
+		route = route.replace(/\//g, '');
+
+		var isAdmin = false;
+		if(WPGMZA.is_admin){
+			if(parseInt(WPGMZA.is_admin) === 1){
+				isAdmin = true;
+			}
+		}
+
+		var skipNonceRoutes = ['markers', 'features', 'marker-listing', 'datatables'];
+		if(route && skipNonceRoutes.includes(route) && !isAdmin){
+			return false;
+		}
+
+		return true;
 	}
 	
 	/**
@@ -212,6 +233,7 @@ jQuery(function($) {
 				{
 					case 401:
 					case 403:
+					case 405:
 						// Report back to the server. This is usually due to a security plugin blocking REST requests for non-authenticated users
 						$.post(WPGMZA.ajaxurl, {
 							action: "wpgmza_report_rest_api_blocked"
@@ -219,6 +241,20 @@ jQuery(function($) {
 						
 						console.warn("The REST API was blocked. This is usually due to security plugins blocking REST requests for non-authenticated users.");
 						
+						if(params.method === "DELETE"){
+							console.warn("The REST API rejected a DELETE request, attempting again with POST fallback");
+							params.method = "POST";
+
+							if(!params.data){
+								params.data = {};
+							}
+
+							params.data.simulateDelete = 'yes';
+
+							return WPGMZA.restAPI.call(route, params);
+
+						}
+
 						this.useAJAXFallback = true;
 						
 						return sendAJAXFallbackRequest(fallbackRoute, fallbackParams);
@@ -278,7 +314,27 @@ jQuery(function($) {
 				WPGMZA.RestAPI.compressedPathVariableURLLimitWarningDisplayed = true;
 			}
 		}
-		
+
+		var onSuccess = null;
+		if(params.success){
+			onSuccess = params.success;
+		}
+
+		params.success = function(result, status, xhr){
+			if(typeof result !== 'object'){
+				var rawResult = result;
+				try{
+					result = JSON.parse(result);
+				} catch (parseExc){
+					result = rawResult;
+				}
+			}
+
+			if(onSuccess && typeof onSuccess === 'function'){
+				onSuccess(result, status, xhr);
+			}
+		};
+
 		// NB: Support plain permalinks
 		if(WPGMZA.RestAPI.URL.match(/\?/))
 			route = route.replace(/\?/, "&");

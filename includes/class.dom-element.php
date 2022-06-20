@@ -277,11 +277,12 @@ class DOMElement extends \DOMElement
 				
 				$temp = new DOMDocument('1.0', 'UTF-8');
 				$str = "<div id='domdocument-import-payload___'>" . $html . "</div>";
-				
-				if($wpgmza->isInDeveloperMode())
+
+				if($wpgmza->isInDeveloperMode()){
 					$temp->loadHTML($str);
-				else
+				} else {
 					@$temp->loadHTML($str);
+				}
 				
 				$body = $temp->querySelector('#domdocument-import-payload___');
 				for($child = $body->firstChild; $child != null; $child = $child->nextSibling)
@@ -624,6 +625,14 @@ class DOMElement extends \DOMElement
 	 */
 	public function setValue($value)
 	{
+		/*if($this->getAttribute("name") == "wpgmza_gdpr_require_consent_before_load")
+		{
+			
+			echo "<pre>";
+			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			exit;
+		}*/
+		
 		switch(strtolower($this->nodeName))
 		{
 			case 'textarea':
@@ -721,6 +730,7 @@ class DOMElement extends \DOMElement
 	 */
 	public function clear()
 	{
+
 		while($this->childNodes->length)
 			$this->removeChild($this->firstChild);
 		return $this;

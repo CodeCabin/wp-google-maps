@@ -44,6 +44,7 @@ class NominatimGeocodeCache
 		// Check the cache first, as per the nominatim usage policy
 		$stmt = $wpdb->prepare("SELECT response FROM {$this->table} WHERE query=%s LIMIT 1", array($query));
 		
+		/* Developer Hook (Filter) - Modify DB connction for nominatim query */
 		$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_get', $stmt, $query );
 
 		$string = $wpdb->get_var($stmt);
@@ -72,6 +73,7 @@ class NominatimGeocodeCache
 			$response
 		));
 
+		/* Developer Hook (Filter) - Modify nominatim cache store */
 		$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_set', $stmt, $query, $response );
 
 		$wpdb->query($stmt);
@@ -95,7 +97,7 @@ class NominatimGeocodeCache
 function query_nominatim_cache()
 {
 	$cache = new NominatimGeocodeCache();
-	$record = $cache->get($_GET['query']);
+	$record = $cache->get(sanitize_text_field($_GET['query']));
 	
 	if(!$record)
 		$record = array();
@@ -111,7 +113,7 @@ function query_nominatim_cache()
 function store_nominatim_cache()
 {
 	$cache = new NominatimGeocodeCache();
-	$cache->set($_POST['query'], $_POST['response']);
+	$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
 	
 	wp_send_json(array(
 		'success' => 1

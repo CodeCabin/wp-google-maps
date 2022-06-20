@@ -15,7 +15,7 @@ if(!defined('ABSPATH'))
  */
 function trace($str)
 {
-	echo $str . "\r\n";
+	echo esc_html($str) . "\r\n";
 }
 
 /**

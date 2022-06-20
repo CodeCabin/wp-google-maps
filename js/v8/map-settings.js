@@ -34,14 +34,14 @@ jQuery(function($) {
 		}
 		
 		WPGMZA.assertInstanceOf(this, "MapSettings");
+
+
 		
-		function addSettings(input)
-		{
+		function addSettings(input) {
 			if(!input)
 				return;
 			
-			for(var key in input)
-			{
+			for(var key in input) {
 				if(key == "other_settings")
 					continue; // Ignore other_settings
 				
@@ -60,6 +60,7 @@ jQuery(function($) {
 		
 		if(json && json.other_settings)
 			addSettings(json.other_settings);
+
 	}
 	
 	/**
@@ -114,11 +115,17 @@ jQuery(function($) {
 		}
 		
 		// Start zoom
-		if(this.zoom)
+		if(this.zoom){
 			options.zoom = parseInt(this.zoom);
+		}
 		
-		if(this.start_zoom)
+		if(this.start_zoom){
 			options.zoom = parseInt(this.start_zoom);
+		}
+
+		if(this.map_start_zoom){
+			options.zoom = parseInt(this.map_start_zoom);
+		}
 		
 		// Zoom limits
 		// TODO: This matches the Google code, so some of these could be potentially put on a parent class
@@ -164,8 +171,13 @@ jQuery(function($) {
 		
 		var zoom = (this.start_zoom ? parseInt(this.start_zoom) : 4);
 		
-		if(!this.start_zoom && this.zoom)
+		if(!this.start_zoom && this.zoom){
 			zoom = parseInt( this.zoom );
+		}
+
+		if(this.map_start_zoom){
+			zoom = parseInt(this.map_start_zoom);
+		}
 		
 		var options = {
 			zoom:			zoom,
@@ -193,22 +205,44 @@ jQuery(function($) {
 			options.maxZoom = Math.max(this.map_min_zoom, this.map_max_zoom);
 		}
 		
+		// NB: Handles legacy checkboxes as well as new, standard controls
+		function isSettingDisabled(value)
+		{
+			if(value === "yes")
+				return true;
+			
+			return (value ? true : false);
+		}
+		
 		// These settings are all inverted because the checkbox being set means "disabled"
-		options.zoomControl				= !(this.wpgmza_settings_map_zoom == 'yes');
-        options.panControl				= !(this.wpgmza_settings_map_pan == 'yes');
-        options.mapTypeControl			= !(this.wpgmza_settings_map_type == 'yes');
-        options.streetViewControl		= !(this.wpgmza_settings_map_streetview == 'yes');
-        options.fullscreenControl		= !(this.wpgmza_settings_map_full_screen_control == 'yes');
+		options.zoomControl				= !isSettingDisabled(this.wpgmza_settings_map_zoom);
+        options.panControl				= !isSettingDisabled(this.wpgmza_settings_map_pan);
+        options.mapTypeControl			= !isSettingDisabled(this.wpgmza_settings_map_type);
+        options.streetViewControl		= !isSettingDisabled(this.wpgmza_settings_map_streetview);
+        options.fullscreenControl		= !isSettingDisabled(this.wpgmza_settings_map_full_screen_control);
         
-        options.draggable				= !(this.wpgmza_settings_map_draggable == 'yes');
-        options.disableDoubleClickZoom	= (this.wpgmza_settings_map_clickzoom == 'yes');
+        options.draggable				= !isSettingDisabled(this.wpgmza_settings_map_draggable);
+        options.disableDoubleClickZoom	= isSettingDisabled(this.wpgmza_settings_map_clickzoom);
+
+        if(isSettingDisabled(this.wpgmza_settings_map_tilt_controls)){
+        	options.rotateControl = false;
+        	options.tilt = 0;
+        }
 		
 		// NB: This setting is handled differently as setting scrollwheel to true breaks gestureHandling
 		if(this.wpgmza_settings_map_scroll)
 			options.scrollwheel			= false;
 		
-		if(this.wpgmza_force_greedy_gestures == "greedy" || this.wpgmza_force_greedy_gestures == "yes")
+		if(this.wpgmza_force_greedy_gestures == "greedy" 
+			|| this.wpgmza_force_greedy_gestures == "yes"
+			|| this.wpgmza_force_greedy_gestures == true)
+		{
 			options.gestureHandling = "greedy";
+			
+			// Setting this at all will break gesture handling. Make sure we delete it when using greedy gesture handling
+			if(!this.wpgmza_settings_map_scroll && "scrollwheel" in options)
+				delete options.scrollwheel;
+		}
 		else
 			options.gestureHandling = "cooperative";
 		

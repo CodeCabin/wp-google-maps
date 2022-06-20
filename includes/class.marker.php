@@ -11,7 +11,7 @@ require_once(plugin_dir_path(__FILE__) . '/class.crud.php');
 /**
  * This class represents a marker
  */
-class Marker extends Crud implements \JsonSerializable
+class Marker extends Feature implements \JsonSerializable
 {
 	const DEFAULT_ICON = WPGMZA_PLUGIN_DIR_URL . 'images/spotlight-poi2.png';
 	
@@ -29,8 +29,10 @@ class Marker extends Crud implements \JsonSerializable
 		Crud::__construct("{$wpdb->prefix}wpgmza", $id_or_fields, $read_mode);
 		
 		// TODO: Why is this happening here and not in the ProMarker module? Keep the filter, but move this
-		if(class_exists('WPGMZA\\CustomMarkerFields'))
+		if(class_exists('WPGMZA\\CustomMarkerFields')){
+			/* Developer Hook (Filter) - Add or alter custom fields attached to the marker, passes marker ID */
 			$this->custom_fields = apply_filters('wpgmza_get_marker_custom_fields', $this->id);
+		}
 	}
 	
 	public static function getColumns()
@@ -52,6 +54,7 @@ class Marker extends Crud implements \JsonSerializable
 	 */
 	public static function create_instance($id_or_fields=-1)
 	{
+		/* Developer Hook (Filter) - Alter marker create instance logic, deprecated, not safe to use. Prefers Factory */
 		return apply_filters('wpgmza_create_marker_instance', $id_or_fields);
 	}
 	

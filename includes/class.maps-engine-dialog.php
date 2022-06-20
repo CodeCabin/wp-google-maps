@@ -14,25 +14,22 @@ class MapsEngineDialog
 	 * Processes AJAX POST when the user makes a selection
 	 * @return void
 	 */
-	public static function post()
-	{
+	public static function post(){
 		global $wpgmza;
 		
-		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_maps_engine_dialog_set_engine'))
-		{
+		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_maps_engine_dialog_set_engine')){
 			http_response_code(403);
 			exit;
 		}
 		
-		if(!$wpgmza->isUserAllowedToEdit())
-		{
+		if(!$wpgmza->isUserAllowedToEdit()){
 			http_response_code(401);
 			exit;
 		}
 		
 		$settings = get_option('WPGMZA_OTHER_SETTINGS');
 		
-		$settings['wpgmza_maps_engine'] = $_POST['engine'];
+		$settings['wpgmza_maps_engine'] = sanitize_text_field($_POST['engine']);
 		$settings['wpgmza_maps_engine_dialog_done'] = true;
 		
 		update_option('WPGMZA_OTHER_SETTINGS', $settings);
@@ -45,12 +42,26 @@ class MapsEngineDialog
 	 * Echos the dialog HTML
 	 * @return void
 	 */
-	public function html()
-	{
+	public function html(){
+		$installerParams = array();
+
+		if(!empty($_GET['map_id'])){
+			$installerParams[] = "map_id=" . intval($_GET['map_id']);
+		}
+
+		if(!empty($installerParams)){
+			$installerParams = '&' . implode('&', $installerParams);
+		} else {
+			$installerParams = '';
+		}
+
+		ob_start();
+
 		?>
 		<div 
 			id="wpgmza-maps-engine-dialog" style="display: none;" 
 			data-ajax-nonce="<?php echo wp_create_nonce('wpgmza_maps_engine_dialog_set_engine'); ?>"
+			data-installer-link="<?php echo admin_url('admin.php?page=wp-google-maps-menu&action=installer' . $installerParams); ?>"
 			>
 			<h1>
 				<?php
@@ -78,12 +89,6 @@ class MapsEngineDialog
 							<ul>
 								<li>
 									<?php _e('No API keys required', 'wp-google-maps'); ?>
-								</li>
-							</ul>
-							
-							<ul>
-								<li>
-									<?php _e('Limited functionality', 'wp-google-maps'); ?>
 								</li>
 							</ul>
 						</div>
@@ -154,7 +159,7 @@ class MapsEngineDialog
 			</div>
 			
 			<p class="wpgmza-centered">
-				<button class="button button-primary" id="wpgmza-confirm-engine" disabled>
+				<button class="button button-primary" id="wpgmza-confirm-engine" disabled style="display: none">
 					<?php
 					_e('Select Engine', 'wp-google-maps');
 					?>
@@ -163,7 +168,7 @@ class MapsEngineDialog
 			
 			<!--<footer>
 				<img src="<?php echo plugin_dir_url(__DIR__); ?>images/WP-google-maps-logo-1-B-transparent.png" 
-					alt="<?php _e('WP Google Maps', 'wp-google-maps'); ?>"
+					alt="<?php _e('WP Go Maps', 'wp-google-maps'); ?>"
 					/>
 				<img src="<?php echo plugin_dir_url(__DIR__); ?>images/codecabin.png"
 					alt="by CODECABIN_"
@@ -171,6 +176,11 @@ class MapsEngineDialog
 			</footer>-->
 		</div>
 		<?php
+
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
 	}
 }
 

@@ -9,33 +9,74 @@ class Upgrader
 		// NB: We don't use the global plugin object here because it's not initialised yet
 		$settings = new GlobalSettings();
 		
-		if(preg_match('/^7\./', $fromVersion))
-		{
+		if(preg_match('/^7\./', $fromVersion)) {
 			// Legacy style for upgrading users
 			$settings->user_interface_style = "legacy";
+		}
+
+		if(preg_match('/^8\./', $fromVersion)) {
+			// Legacy build for users upgrading (They will be prompted to switch if they want to)
+			$settings->internal_engine = "legacy";
 		}
 		
 		add_action('init', function() {
 			global $wpgmza;
+
+    		/* Developer Hook (Action) - Run additional actions as part of an upgrade */ 
+			do_action("wpgmza_base_upgrade_hook");
+
 			$wpgmza->updateAllMarkerXMLFiles();
 		});
 		
-		$this->doFinnishDatatablesTranslationFix($fromVersion);
+		if(version_compare($fromVersion, '7.00', '<')){
+			add_action('init', array($this, 'migrateV7SpatialData'), 1, 11);
+		}
+
+		if(version_compare($fromVersion, '8.1.0', '<')){
+			add_action('init', array($this, 'migrateCircleData'), 1, 11);
+		}
+
+		if(version_compare($fromVersion, '8.1.12', '<')){
+			add_action('init', array($this, 'removeMarkerLngLatColumn'), 1, 11);
+		}
+
+	}
+
+	public function removeMarkerLngLatColumn(){
+		global $wpgmza;
+		global $wpdb;
+		global $wpgmza_tblname;
+
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$wpgmza_tblname." LIKE 'lnglat'")){
+			$wpdb->query('ALTER TABLE '.$wpgmza_tblname.' DROP COLUMN lnglat');
+		}  
 	}
 	
-	protected function doFinnishDatatablesTranslationFix($fromVersion)
+	public function migrateV7SpatialData()
 	{
-		// There is an issue in <= 8.0.22 where a lowercase finnish.json file is bundled with the plugin,
-		// this causes 404's on case sensitive servers. Let's rename the file here if that is the case
+		global $wpgmza;
+		global $wpdb;
+		global $wpgmza_tblname;
 		
-		if(!version_compare($fromVersion, '8.0.22', '<='))
-			return;
+		if(!$wpdb->get_var("SHOW COLUMNS FROM ".$wpgmza_tblname." LIKE 'latlng'"))
+			$wpdb->query('ALTER TABLE '.$wpgmza_tblname.' ADD latlng POINT');
 		
-		$path = plugin_dir_path(__DIR__) . 'languages/datatables/';
-		$lower = "$path/test.json";
-		$upper = "$path/Finnish.json";
+		if($wpdb->get_var("SELECT COUNT(id) FROM $wpgmza_tblname WHERE latlng IS NULL LIMIT 1") == 0)
+			return; // Nothing to migrate
 		
-		if(file_exists($lower) && !file_exists($upper))
-			rename($lower, $upper);
+		$wpdb->query("UPDATE ".$wpgmza_tblname." SET latlng={$wpgmza->spatialFunctionPrefix}PointFromText(CONCAT('POINT(', CAST(lat AS DECIMAL(18,10)), ' ', CAST(lng AS DECIMAL(18,10)), ')'))");
+	}
+
+	public function migrateCircleData()
+	{
+		global $wpgmza;
+		global $wpdb;
+		global $WPGMZA_TABLE_NAME_CIRCLES;
+
+		if($wpdb->get_var("SHOW TABLES LIKE '{$WPGMZA_TABLE_NAME_CIRCLES}'") !== $WPGMZA_TABLE_NAME_CIRCLES){
+			return; // Nothing to migrate			
+		}
+		
+		$wpdb->query("UPDATE {$WPGMZA_TABLE_NAME_CIRCLES} SET radius = radius / 1000");
 	}
 }

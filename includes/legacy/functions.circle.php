@@ -27,6 +27,7 @@ function wpgmza_b_add_circle($mid)
 	wpgmaps_b_admin_add_circle_javascript();
 	
     if ($_GET['action'] == "add_circle" && isset($mid)) {
+        $mid = intval($mid);
         $res = wpgmza_get_map_data($mid);
         echo "
             
@@ -34,7 +35,7 @@ function wpgmza_b_add_circle($mid)
             
           
            <div class='wrap'>
-                <h1>WP Google Maps</h1>
+                <h1>WP Go Maps</h1>
                 <div class='wide'>
 
                     <h2>".__("Add circle","wp-google-maps")."</h2>
@@ -120,8 +121,9 @@ function wpgmza_b_edit_circle($mid)
 	wpgmaps_b_admin_add_circle_javascript();
 	
     if ($_GET['action'] == "edit_circle" && isset($mid)) {
+		$mid = intval($mid);
         $res = wpgmza_get_map_data($mid);
-		$circle_id = (int)$_GET['circle_id'];
+		$circle_id = (int) intval($_GET['circle_id']);
 		
 		$results = $wpdb->get_results("SELECT *, {$wpgmza->spatialFunctionPrefix}AsText(center) AS center FROM $wpgmza_tblname_circles WHERE id = $circle_id");
 		
@@ -138,7 +140,7 @@ function wpgmza_b_edit_circle($mid)
 		
         echo "
            <div class='wrap'>
-                <h1>WP Google Maps</h1>
+                <h1>WP Go Maps</h1>
                 <div class='wide'>
 
                     <h2>".__("Edit circle","wp-google-maps")."</h2>
@@ -278,6 +280,8 @@ if(!function_exists('wpgmza_get_circles_table'))
 	{
 		global $wpdb;
 		global $wpgmza_tblname_circles;
+
+		$map_id = intval($map_id);
 		
 		$circles_table = "
 			<table>
@@ -295,12 +299,14 @@ if(!function_exists('wpgmza_get_circles_table'))
 		$circles = $wpdb->get_results($stmt);
 		foreach($circles as $circle)
 		{
+			$circle->id = intval($circle->id);
+			
 			$circles_table .= "
 				<tr>
 					<td>{$circle->id}</td>
 					<td>{$circle->name}</td>
 					<td width='170' align='left'>
-						<a href='" . get_option('siteurl') . "/wp-admin/admin.php?page=wp-google-maps-menu&amp;action=edit_circle&amp;map_id={$map_id}&amp;circle_id={$circle->id}'
+						<a href='" . esc_url(get_option('siteurl')) . "/wp-admin/admin.php?page=wp-google-maps-menu&amp;action=edit_circle&amp;map_id={$map_id}&amp;circle_id={$circle->id}'
 							title='" . __('Edit', 'wp-google-maps') . "' 
 							class='wpgmza_edit_circle_btn button'
 							id='{$circle->id}'>

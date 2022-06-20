@@ -35,7 +35,7 @@ class ScriptLoader
 	 * @param bool $proMode Whether or not to enqueue (and optionally build) the Pro scripts.
 	 * @todo This class should inherit Factory rather than using a variable to represent pro.
 	 */
-	public function __construct($proMode)
+	public function __construct($proMode=false)
 	{
 		$this->proMode = $proMode;
 		
@@ -119,10 +119,11 @@ class ScriptLoader
 		
 		$libraryDependencies = array(
 			'datatables'			=> $plugin_dir_url . "js/jquery.dataTables{$minified}.js",
+			'datatables-responsive'	=> $plugin_dir_url . "js/dataTables.responsive.js",
 			'javascript-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
 			'remodal'				=> $plugin_dir_url . "lib/remodal{$minified}.js",
-			'spectrum'				=> $plugin_dir_url . 'lib/spectrum.js',
-			
+			// PEP JS for iOS 12 pointer events
+			'pepjs'					=> $plugin_dir_url . 'lib/pep.js',
 			// TODO: These are only needed if the server supports inflate
 			'fast-text-encoding'	=> $plugin_dir_url . 'lib/text.js',
 			'pako'					=> $plugin_dir_url . 'lib/pako_deflate.min.js'
@@ -149,6 +150,7 @@ class ScriptLoader
 			wp_enqueue_script('jquery-ui-draggable');
 		}
 		
+		/* Developer Hook (Filter) - Add or alter library dependencies */
 		return apply_filters('wpgmza-get-library-dependencies', $libraryDependencies);
 	}
 	
@@ -189,7 +191,7 @@ class ScriptLoader
 		
 		foreach($directories as $dir => $path)
 		{
-			$pro_directory = (preg_match('/-pro/', $dir) ? true : false);
+			$pro_directory = (preg_match('/maps-pro/', $dir) ? true : false);
 			$files = $this->rglob("$dir/*.js");
 		
 			foreach($files as $file)
@@ -303,7 +305,7 @@ class ScriptLoader
 					?>
 					<div class="notice notice-error">
 						<p>
-							WP Google Maps: Build failed. Dumping unresolved dependencies
+							WP Go Maps: Build failed. Dumping unresolved dependencies
 						</p>
 						
 						<?php
@@ -318,7 +320,7 @@ class ScriptLoader
 						?>
 						
 						<p>
-							Are you debugging or developing WP Google Maps? If not, please disable developer mode in Maps &rarr; Settings &rarr; Advanced to remove this notice.
+							Are you debugging or developing WP Go Maps? If not, please disable developer mode in Maps &rarr; Settings &rarr; Advanced to remove this notice.
 						</p>
 					</div>
 					<?php
@@ -423,7 +425,7 @@ class ScriptLoader
 							<?php
 							_e("
 							<p>
-								<strong>WP Google Maps:</strong> Failed to build combined script file, the resulting file would be blank.
+								<strong>WP Go Maps:</strong> Failed to build combined script file, the resulting file would be blank.
 							</p>
 							<p>
 								<strong>Developers:</strong> Please check that the file is writable and that all script dependencies are resolved.
@@ -461,42 +463,71 @@ class ScriptLoader
 	 * Enqueues all required stylesheets
 	 * @return void
 	 */
-	public function enqueueStyles()
+	public function enqueueStyles($forceLoad=false)
 	{	
 		global $wpgmza;
-	
+		
+		if(!$forceLoad && !$wpgmza->getCurrentPage())
+			return; // NB: Not forcing a load, and not on a map page.
+		
 		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
 		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
+
+		$version_string = $wpgmza->getBasicVersion();
+		if(method_exists($wpgmza, 'getProVersion')){
+			$version_string .= '+pro-' . $wpgmza->getProVersion();
+		}
 		
 		$base = plugin_dir_url(__DIR__);
 		
-		wp_enqueue_style('wpgmza-common', $base . 'css/common.css');
+		// wp_enqueue_style('wpgmza-common', $base . 'css/common.css', array(), $version_string);
+		wp_enqueue_style('wpgmza-common', $wpgmza->internalEngine->getStylesheet('common.css'), array(), $version_string);
+
+		$this->enqueueCustomCSS();
 		
 		wp_enqueue_style('remodal', $base . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', $base . 'lib/remodal-default-theme.css');
+		wp_enqueue_style('datatables', $base . 'css/jquery.dataTables.min.css');
 		
-		$style = $wpgmza->settings->user_interface_style;
-		switch($style)
-		{
-			case 'bare-bones':
-				break;
-			
-			case 'legacy':
-			case 'default':
-			case 'compact':
-			case 'minimal':
-				wp_enqueue_style("wpgmza-ui-$style", $base . "css/styles/$style.css");
-				break;
+
+		if($wpgmza->internalEngine->isLegacy()){
+			$style = $wpgmza->settings->user_interface_style;
+	
+			switch($style){
+				case 'bare-bones':
+					break;
 				
-			case 'modern':
-				wp_enqueue_style("wpgmza-ui-legacy", $base . "css/styles/legacy.css");
-				wp_enqueue_style("wpgmza-ui-modern", $base . "css/styles/modern.css");
-				break;
-			
-			default:
-				wp_enqueue_style("wpgmza-ui-default", $base . "css/styles/default.css");
-				break;
+				case 'legacy':
+				case 'default':
+				case 'compact':
+				case 'minimal':
+					wp_enqueue_style("wpgmza-ui-$style", $base . "css/styles/$style.css", array(), $version_string);
+					break;
+					
+				case 'modern':
+					wp_enqueue_style("wpgmza-ui-legacy", $base . "css/styles/legacy.css", array(), $version_string);
+					wp_enqueue_style("wpgmza-ui-modern", $base . "css/styles/modern.css", array(), $version_string);
+					break;
+				
+				default:
+					wp_enqueue_style("wpgmza-ui-default", $base . "css/styles/default.css", array(), $version_string);
+					break;
+			}
+		} else {
+			wp_enqueue_style("wpgmza-components", $base . "css/atlas-novus/components.css", array(), $version_string);
+			wp_enqueue_style("wpgmza-compat", $base . "css/atlas-novus/compat.css", array(), $version_string);
 		}
+			
+		// Legacy stylesheets
+		if(is_admin() && !empty($wpgmza->getCurrentPage())){
+			// wp_enqueue_style('wpgmza_admin', $base . "css/wp-google-maps-admin.css", array(), $version_string);
+			wp_enqueue_style('wpgmza_admin', $wpgmza->internalEngine->getStylesheet('wp-google-maps-admin.css'), array(), $version_string);
+			wp_enqueue_style('editor-buttons');
+		}
+
+	    /* Developer Hook (Action) - Enqueue additional styles */     
+		do_action("wpgmza_script_loader_enqueue_styles");
+		
 	}
 	
 	/**
@@ -540,13 +571,121 @@ class ScriptLoader
 		return $scripts;
 	}
 	
+	protected function enqueueLegacyProScripts()
+	{
+		global $wpgmza;
+		
+		switch($wpgmza->getCurrentPage())
+		{
+			case Plugin::PAGE_MAP_EDIT:
+				MapEditPage::enqueueLegacyScripts();
+			
+			default:
+				
+				$dependencies = array_keys($this->getPluginScripts());
+				
+				wp_enqueue_script(
+					'wpgmza-legacy-pro-backward-compatibility', 
+					plugin_dir_url(WPGMZA_FILE) . 'js/legacy/legacy-pro-backward-compatibility.js',
+					$dependencies
+				);
+				
+				break;
+		}
+		
+		if(isset($_GET['action']))
+		{
+			$legacyDir = plugin_dir_path(WPGMZA_FILE) . 'includes/legacy/';
+			
+			switch($_GET['action'])
+			{
+				case "add_poly":
+					wpgmaps_b_admin_add_poly_javascript(intval($_GET['map_id']));
+					break;
+					
+				case "edit_poly":
+					wpgmaps_b_admin_edit_poly_javascript(intval($_GET['map_id']), intval($_GET['poly_id']));
+					break;
+					
+				case "add_polyline":
+					wpgmaps_b_admin_add_polyline_javascript(intval($_GET['map_id']));
+					break;
+				
+				case "edit_polyline":
+					wpgmaps_b_admin_edit_polyline_javascript(intval($_GET['map_id']), intval($_GET['poly_id']));
+					break;
+				
+				default:
+					break;
+			}
+		}
+	}
+	
 	/**
 	 * Enqueues all the libraries required by the plugin scripts, then enqueues the plugin scripts and localized data (JavaScript globals).
 	 * @return void
 	 */
-	public function enqueueScripts()
+	public function enqueueScripts($forceLoad=false)
 	{
 		global $wpgmza;
+		global $wpgmza_pro_version;
+		
+		// 7.11.69 backwards compat. loadScripts in 7.11.69 doesnt have a paramater and therefore this function forces forceLoad to false.
+		if(version_compare($wpgmza_pro_version, '7.11.69', '<=')) {
+			$forceLoad = true;
+		}		
+
+		if(!$forceLoad && !$wpgmza->getCurrentPage()) {
+			return; // NB: Not forcing a load, and not on a map page.
+		}
+
+		
+		
+		// Legacy Pro compatibility
+		if(!empty($wpgmza_pro_version) && 
+			version_compare($wpgmza_pro_version, '8.1.0', '<') &&
+			!empty($wpgmza->getCurrentPage()))
+		{
+			$this->enqueueLegacyProScripts();
+		}
+		
+		// Get library scripts
+		$libraries = $this->getLibraryScripts();
+		
+		// Enqueue Google API call if necessary
+		switch($wpgmza->settings->engine)
+		{
+			case "open-layers":
+				$loader = new OLLoader();
+				$loader->loadOpenLayers();
+				break;
+				
+			default:
+				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
+				$loader->loadGoogleMaps();
+				break;
+		}
+		
+		// Enqueue library scripts first
+		foreach($libraries as $handle => $src)
+		{
+			wp_enqueue_script($handle, $src, array('jquery'));
+		}
+		
+		// jQuery UI autosuggest?
+		if(class_exists('WPGMZA\\CloudAPI') && CloudAPI::isCloudKey($wpgmza->settings->wpgmza_google_maps_api_key))
+		{
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-autocomplete');
+		}
+
+		// Legacy Pro compatibility
+		if(!empty($wpgmza_pro_version) && 
+			version_compare($wpgmza_pro_version, '8.1.0', '<') &&
+			!empty($wpgmza->getCurrentPage()))
+		{
+			$this->enqueueLegacyProScripts();
+		}
 		
 		// Get library scripts
 		$libraries = $this->getLibraryScripts();
@@ -587,14 +726,26 @@ class ScriptLoader
 				break;
 				
 			case '5.*':
-				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.0.9/css/all.css');
+				wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.15.4/css/all.css');
+				wp_enqueue_style('fontawesome-polyfill', plugin_dir_url(__DIR__) . 'css/polyfill/fa-4to5.css');
 				
 				// If we're not in admin, break. If we are, continue and enqueue FA 4 which is used by the map edit page
 				if(!is_admin())
 					break;
 				
 			default:
+				/* Don't load in the post/page editor, for systems like Fusion/Avada */
+				if(is_admin()){
+					if(!empty($_GET['post']) && !empty($_GET['action'])){
+						if($_GET['action'] === 'edit'){
+							break;	
+						}
+					}
+				}
+
 				wp_enqueue_style('fontawesome', plugin_dir_url(__DIR__) . 'css/font-awesome.min.css');
+				wp_enqueue_style('fontawesome-polyfill', plugin_dir_url(__DIR__) . 'css/polyfill/fa-5to4.css');
+
 				break;
 		}
 		
@@ -616,33 +767,84 @@ class ScriptLoader
 			$version_string .= '+pro-' . $wpgmza->getProVersion();
 		
 		// Enqueue other scripts
-		foreach($this->scripts as $handle => $script)
-		{
+		foreach($this->scripts as $handle => $script){
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
-			
 			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
+			
 		}
 		
+	    /* Developer Hook (Action) - Enqueue additional scripts */     
 		do_action('wpgmza_enqueue_scripts');
+
+	    /* Developer Hook (Action) - Enqueue additional scripts */     
+		do_action('wpgmza_script_loader_enqueue_scripts');
 		
 		// Enqueue localized data
 		$this->enqueueLocalizedData();
+		
 		//$this->enqueueTourData();
-		//$this->enqueueCustomJavascript();
+		$this->enqueueCustomJS();
 	}
 	
 	/**
 	 * Enqueues the plugins localized data, as fetched from Plugin::getLocalizedData
 	 * @return void
 	 */
-	public function enqueueLocalizedData()
-	{
+	public function enqueueLocalizedData() {
 		global $wpgmza;
 		
-		$data = $wpgmza->getLocalizedData();
+		if(empty($this->localizedDataLoaded)){
+			$data = $wpgmza->getLocalizedData();
+			wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
+			$this->localizedDataLoaded = true;
 
-		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
+	    	/* Developer Hook (Action) - Localize additional script variable */     
+			do_action('wpgmza_script_loader_localize_data_complete');
+		}
+
 	}
+
+	public function enqueueCustomJS() {
+		if (!is_admin() && empty($this->customJSLoaded)) {
+			global $wpgmza;
+			$globalSettings = get_option('wpgmza_global_settings');
+			if(empty($globalSettings))
+				return true;
+			
+			if(!($globalSettings = json_decode($globalSettings)))
+				return false;
+
+			if (!empty($globalSettings->wpgmza_custom_js)) {
+				wp_add_inline_script( 'wpgmza', stripslashes( $globalSettings->wpgmza_custom_js ) );
+				$this->customJSLoaded = true;
+			}
+
+	    	/* Developer Hook (Action) - Enqueue additional scripts, after user scripts */     
+			do_action("wpgmza_script_loader_enqueue_custom_js");
+		}
+	}
+
+
+	public function enqueueCustomCSS() {
+		if (!is_admin() && empty($this->customCSSLoaded)) {
+			global $wpgmza;
+			$globalSettings = get_option('wpgmza_global_settings');
+			if(empty($globalSettings))
+				return true;
+			
+			if(!($globalSettings = json_decode($globalSettings)))
+				return false;
+
+			if (!empty($globalSettings->wpgmza_custom_css)) {
+				wp_add_inline_style( 'wpgmza-common', stripslashes( $globalSettings->wpgmza_custom_css ) );
+				$this->customCSSLoaded = true;
+			}
+
+	    	/* Developer Hook (Action) - Enqueue additional styles, after user styles */     
+			do_action("wpgmza_script_loader_enqueue_custom_css");
+		}
+	}
+
 
 	/**
 	 * Dequeues the datatables if the setting is enabled
@@ -652,14 +854,43 @@ class ScriptLoader
 	{
 		global $wpgmza;
 
-		if (!empty($wpgmza->settings->wpgmza_do_not_enqueue_datatables)) 
-		{
-			if (!empty($dep['datatables'])) 
-			{
+		if (!empty($wpgmza->settings->wpgmza_do_not_enqueue_datatables) && !is_admin()) {
+			if (!empty($dep['datatables'])){
 				unset($dep['datatables']);
 			}
 		}
 
 		return $dep;
+	}
+
+	/**
+	 *  Manually loads CodeMirror for use in the plugin
+	 * 
+	 * @return void
+	*/
+	public function enqueueCodeMirror(){
+		wp_enqueue_style('codemirror-theme', plugin_dir_url(__DIR__) . 'lib/codemirror-wpgmza.css');
+
+		/* We now use the default WP Core for code mirror dependencies */
+		wp_enqueue_style('wp-codemirror');
+		wp_enqueue_script('wp-codemirror');
+
+	    /* Developer Hook (Action) - Enqueue additional scripts, after code mirror */     
+		do_action("wpgmza_script_loader_enqueue_codemirror");
+	}
+
+	/**
+	 * Load writersblock 
+	 * 
+	 * @return void
+	*/
+	public function enqueueWritersblock(){
+		wp_enqueue_media();
+		
+		wp_enqueue_style('wpgmza-writersblock', plugin_dir_url(__DIR__) . 'lib/writersblock/css/writersblock.css');
+		wp_enqueue_script('wpgmza-writersblock', plugin_dir_url(__DIR__) . 'lib/writersblock/js/writersblock.js');
+
+	    /* Developer Hook (Action) - Enqueue additional scripts, after writersblock */     
+		do_action("wpgmza_script_loader_enqueue_writersblock");
 	}
 }

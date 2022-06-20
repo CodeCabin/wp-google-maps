@@ -1,0 +1,743 @@
+:root{
+    --wpgmza-component-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    --wpgmza-component-shadow-high: rgb(0 0 0 / 15%) 0px 1px 15px -1px;
+	--wpgmza-component-standalone-shadow: rgb(0 0 0 / 15%) 0px 1px 4px -1px;
+	
+    --wpgmza-component-color: var(--wpgmza-color-white);
+    --wpgmza-component-color-accent:  #1A73E8;
+
+    --wpgmza-component-text-color: var(--wpgmza-color-black);
+    --wpgmza-component-text-color-accent: var(--wpgmza-color-white);
+
+    --wpgmza-component-border-radius: 2px;
+    --wpgmza-component-border-radius-rounded: 10px;
+	--wpgmza-component-border-radius-pill: 40px;
+	
+    --wpgmza-component-margin: 10px;
+	
+    --wpgmza-component-native-control-height:  40px;
+    
+    --wpgmza-component-font-size: 15px;
+    
+    --wpgmza-component-inner-padding: 10px 15px;
+
+    --wpgmza-component-backdrop-filter: none;
+
+    --wpgmza-ol-tile-filter : none;
+}
+
+.wpgmza_map {
+    border:0;
+    max-width:100% !important;
+}
+
+.wpgmza_map[data-maps-engine="open-layers"]{
+    overflow: hidden;
+}
+
+.wpgmza_map img { 
+	max-width:none; 
+} 
+
+.wpgmza_widget { 
+	overflow: auto; 
+}
+
+/* Preloader */
+.wpgmza_map .wpgmza-preloader {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wpgmza_map .wpgmza-preloader div:first-child{
+    height: 100%;
+    width: 100%;
+    border: 3px solid var(--wpgmza-color-grey-500);
+    border-radius: 60px;
+    border-bottom-color: transparent;
+    box-sizing: border-box;
+    
+    -webkit-animation: wpgmzaInfiniteRotate 1s forwards;
+    animation: wpgmzaInfiniteRotate 1s forwards;
+    animation-iteration-count: infinite;
+}
+
+/* Inner stacks */
+.wpgmza_map .wpgmza-inner-stack{
+	display: none;
+    position: absolute;
+    color: var(--wpgmza-component-text-color);
+}
+
+.wpgmza_map.wpgmza-initialized .wpgmza-inner-stack{
+	display: flex;
+    pointer-events: none;
+    max-height: 100%;
+    
+    max-width: var(--wpgmza--viewport-overlays-max-width);
+}
+
+/* Define the stack anchors */
+.wpgmza_map .wpgmza-inner-stack.top{
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wpgmza_map .wpgmza-inner-stack.left{
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+
+    z-index: 1;
+
+    max-width: var(--wpgmza--viewport-panels-max-width);
+}
+
+.wpgmza_map .wpgmza-inner-stack.right{
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+
+    z-index: 1;
+
+    max-width: var(--wpgmza--viewport-panels-max-width);
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom{
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.center{
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wpgmza_map .wpgmza-inner-stack.top_left{
+    top: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+}
+
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.top_left {
+    top: 0;
+    left: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+}
+
+.wpgmza_map .wpgmza-inner-stack.top_right{
+    top: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+    right: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom_left{
+    bottom: calc(var(--wpgmza-component-margin) * 2.5);
+    max-height: calc(100% - (var(--wpgmza-component-margin) * 2.5) - var(--wpgmza-component-margin));
+
+}
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_left {
+    bottom: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom_right{
+    bottom: calc(var(--wpgmza-component-margin) * 1.4);
+    right: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+
+    max-height: calc(100% - (var(--wpgmza-component-margin) * 1.4) - var(--wpgmza-component-margin));
+}
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_right {
+    right: 0;
+}
+
+/* Base sub element style */
+.wpgmza_map .wpgmza-inner-stack > * {
+    background: var(--wpgmza-component-color);
+    box-shadow: var(--wpgmza-component-shadow);
+    border-radius: var(--wpgmza-component-border-radius);
+    margin: var(--wpgmza-component-margin);
+    overflow: hidden;
+    min-height: var(--wpgmza-component-native-control-height);
+    width: fit-content;
+    pointer-events: all;
+    font-size: var(--wpgmza-component-font-size);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .wpgmza-inner-stack input:not([type="checkbox"]),
+.wpgmza_map .wpgmza-inner-stack select{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+
+    height: 100%;
+    margin: 0;
+    border: none;
+
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    
+    box-sizing: border-box;
+    padding: 0;
+
+    background: var(--wpgmza-color-white);
+    width: 15px;
+    height: 15px;
+    border: 2px solid var(--wpgmza-color-grey-400);
+    border-radius: 50%;
+    overflow: hidden;
+
+    min-width: unset;
+    box-shadow: none;
+
+    transition: 0.1s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:checked{
+    background: var(--wpgmza-component-color-accent);
+    border-color: var(--wpgmza-component-color-accent);
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:focus{
+    outline: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:before{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:after{
+    content: "";
+    opacity: 0;
+    display: block;
+    left: 2px;
+    top: 0px;
+    position: absolute;
+    width: 5px;
+    height: 7px;
+    border: 2px solid var(--wpgmza-component-text-color-accent);
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(30deg);
+    transition: 0.2s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:checked:after{
+    opacity: 1;
+}
+
+.wpgmza_map .wpgmza-inner-stack select{
+    padding-right: 30px;
+    background: transparent;
+}
+
+.wpgmza_map .wpgmza-inner-stack label{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+    
+    margin: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack button,
+.wpgmza_map .wpgmza-inner-stack > * button,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-button,
+.wpgmza_map .wpgmza-inner-stack button.wpgmza-button,
+.wpgmza_map .wpgmza-inner-stack input[type='submit'],
+.wpgmza_map .wpgmza-inner-stack input[type='search'],
+.wpgmza_map .wpgmza-inner-stack input[type='button'],
+.wpgmza_map .wpgmza-inner-stack input[type='reset'],
+.wpgmza-standalone-component button,
+.wpgmza-standalone-component > * button,
+.wpgmza-standalone-component .wpgmza-button,
+.wpgmza-standalone-component button.wpgmza-button,
+.wpgmza-standalone-component input[type='submit'],
+.wpgmza-standalone-component input[type='search'],
+.wpgmza-standalone-component input[type='button'],
+.wpgmza-standalone-component input[type='reset']{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+    height: 100%;
+    margin: 0;
+    border: none;
+    background-color: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    cursor: pointer;
+}
+
+.wpgmza_map .wpgmza-inner-stack input::placeholder,
+.wpgmza-standalone-component input::placeholder{
+    color: var(--wpgmza-component-text-color);
+    opacity: 0.6;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type]:focus{
+    outline: none;
+}
+
+/* Base Store locator */
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator{
+    display: flex;
+    height: fit-content;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator label{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select{
+    padding-right: 5px;
+    background: transparent;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select{
+    padding-right: 30px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus{
+    outline: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-address-container{
+    display: flex;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg,
+.wpgmza-standalone-component .wpgmza-store-locator svg{
+    padding:  12px;
+    stroke: var(--wpgmza-color-grey-500);
+    transition:  stroke 0.25s ease;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg:not(.wpgmza-use-loc):hover,
+.wpgmza-standalone-component .wpgmza-store-locator svg:not(.wpgmza-use-loc):hover{
+    cursor: pointer;
+    stroke: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg.wpgmza-loading,
+.wpgmza-standalone-component .wpgmza-store-locator svg.wpgmza-loading{
+    display: none;
+    -webkit-animation: wpgmzaInfiniteRotate 1s forwards;
+    animation: wpgmzaInfiniteRotate 1s forwards;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg.wpgmza-loading > mask > path,
+.wpgmza-standalone-component .wpgmza-store-locator svg.wpgmza-loading > mask > path{
+    fill: var(--wpgmza-color-grey-500);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-reset,
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-reset{
+    display: none;
+    border-left: 1px solid var(--wpgmza-color-grey-100);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="busy"] .wpgmza-search{
+    display: none;
+} 
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="busy"] .wpgmza-loading{
+    display: block;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="complete"] .wpgmza-reset,
+.wpgmza-standalone-component .wpgmza-store-locator[data-state="complete"] .wpgmza-reset{
+    display: block;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-error{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-error.visible {
+    top: 55px;
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    text-align: left;
+    padding: 5px 15px;
+    width: calc(100% - calc(var(--wpgmza-component-margin) * 2));
+    box-shadow: var(--wpgmza-component-shadow);
+    background: var(--wpgmza-component-color);
+    border-radius: var(--wpgmza-component-border-radius);
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom .wpgmza-store-locator .wpgmza-error.visible,
+.wpgmza_map .wpgmza-inner-stack.bottom_left .wpgmza-store-locator .wpgmza-error.visible,
+.wpgmza_map .wpgmza-inner-stack.bottom_right .wpgmza-store-locator .wpgmza-error.visible {
+    top: unset;
+    bottom: 55px;
+}
+
+/* Standalone components (Not within the map container) */
+.wpgmza-standalone-component {
+    display: block;
+    width: 100%;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-left {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-right {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.wpgmza-standalone-component input:not([type="checkbox"]),
+.wpgmza-standalone-component select{
+    border: none;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin: 0;
+    margin-right: 5px;
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza-standalone-component select{
+    padding-right: 30px;
+}
+
+.wpgmza-standalone-component label{
+    font-size: 14px;
+    margin: 0;
+}
+
+.wpgmza-standalone-component input:not([type="checkbox"]):focus,
+.wpgmza-standalone-component select:focus{
+    border: none;
+    outline: none;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator {
+    display: inline-flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator > div{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator svg{
+    background: var(--wpgmza-component-color);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator svg:not(:first-of-type){
+    margin-left: 5px;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-error{
+    flex-basis: 100%;
+}
+
+/* Scroll bars */
+.wpgmza_map .wpgmza-inner-stack *::-webkit-scrollbar{
+  width: .4rem;
+}
+
+.wpgmza_map .wpgmza-inner-stack *::-webkit-scrollbar-thumb{
+  background-color: var(--wpgmza-color-grey-200);
+  border-radius: 5px;
+}
+
+/* Use location general */
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .line,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .circle_outer,
+.wpgmza-standalone-component svg.wpgmza-use-loc .line,
+.wpgmza-standalone-component svg.wpgmza-use-loc .circle_outer {
+    stroke: var(--wpgmza-color-grey-500);
+    transition: 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .circle_inner,
+.wpgmza-standalone-component svg.wpgmza-use-loc .circle_inner {
+    fill: var(--wpgmza-color-grey-500);
+    transition: 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .line,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_outer,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .line,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .circle_outer,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .line,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_outer,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .line,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .circle_outer {
+    stroke: var(--wpgmza-color-grey-900);
+}
+
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_inner,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .circle_inner,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_inner,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .circle_inner{
+    fill: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location.wpgmza-button,
+.wpgmza-standalone-component .wpgmza-use-my-location.wpgmza-button{
+    padding: 0;
+    height: var(--wpgmza-component-native-control-height); 
+    width: var(--wpgmza-component-native-control-height); 
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-multiply,
+.wpgmza-standalone-component svg.wpgmza-multiply{
+    stroke: var(--wpgmza-color-grey-500);
+}
+
+/* Error messages (Inner map) */
+.wpgmza_map .wpgmza-google-maps-api-error-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--wpgmza-color-black-overlay);
+    z-index: 5;
+    overflow-y: auto;
+
+    -webkit-animation: wpgmzaFadeIn 0.5s forwards;
+    animation: wpgmzaFadeIn 0.5s forwards;
+
+}
+
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner{
+    background: var(--wpgmza-color-white);
+    box-shadow: var(--wpgmza-shadow-high);
+    width: 500px;
+    max-width: 80%;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+
+    font-size: 13px;
+
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner h2{
+    margin: 0;
+    padding-bottom: 15px;
+    font-weight: 400;
+    font-size: 1.3em;
+    border-bottom: var(--wpgmza-color-grey-100) solid 1px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner p{
+    margin: 10px 0;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner ul{
+    margin: 10px 0;
+    list-style: none;
+    padding: 0;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner ul li{
+    padding: 0 12px;
+}
+
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .notice{
+    position: relative !important;
+    width: fit-content !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .notice:before{
+    content: "";
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    background: var(--wpgmza-color-grey-400);
+    border-radius: 12px;
+    margin-right: 8px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .wpgmza-documentation-buttons a{
+    font-size: 0.85em;
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .wpgmza-front-end-only{
+    font-size: 13px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: var(--wpgmza-color-black);    
+}
+
+/* Engine control overrides */
+/* Google Maps */
+.wpgmza_map .gm-style button.gm-control-active,
+.wpgmza_map .gm-style .gm-svpc,
+.wpgmza_map .gmnoprint button,
+.wpgmza_map .gmnoprint > div:not(.gm-style-mtc){
+    background: var(--wpgmza-component-color) !important;
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .gm-style button.gm-control-active,
+.wpgmza_map .gm-style .gm-svpc,
+.wpgmza_map .gmnoprint > div:not(.gm-style-mtc){
+    border-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint .gm-style-mtc:first-child button{
+    border-top-left-radius: var(--wpgmza-component-border-radius) !important;
+    border-bottom-left-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint .gm-style-mtc:last-child button{
+    border-top-right-radius: var(--wpgmza-component-border-radius) !important;
+    border-bottom-right-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint > div > button.gm-control-active,
+.wpgmza_map .gmnoprint.gm-bundled-control .gmnoprint{
+    backdrop-filter: none;
+    background: transparent !important;
+}
+
+.wpgmza_map .gmnoprint > div > button.gm-control-active + div{
+    background-color: var(--wpgmza-color-grey-100) !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint.gm-style-cc > div,
+.wpgmza_map .gm-style .gmnoprint .gm-style-cc,
+.wpgmza_map .gm-style .gmnoprint .gm-style-cc button{
+    background: transparent !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass button{
+    background: none !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass > img{
+    display: none;
+}
+
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass > .gm-compass-needle img{
+    width: 16px;
+}
+
+
+/* OL */
+.wpgmza_map .ol-viewport .ol-control button{
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:first-child{
+    filter : var(--wpgmza-ol-tile-filter);
+}
+
+
+/* Map Placements - Legacy receives this port to improve placement reliability */
+.wpgmza_map.wpgmza-auto-left {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.wpgmza_map.wpgmza-auto-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.wpgmza_map.wpgmza-auto-right {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.wpgmza-gdpr-compliance ~ .wpgmza-google-maps-api-error-overlay {
+    display: none;
+}
+
+
+/* Animations */
+@-webkit-keyframes wpgmzaInfiniteRotate {
+   0% { 
+        transform : rotate(0deg);
+   }
+   100% {
+       transform : rotate(360deg); 
+   }
+}
+
+@keyframes wpgmzaInfiniteRotate {
+   0% { 
+        transform : rotate(0deg);
+   }
+   100% {
+       transform : rotate(360deg); 
+   }
+}
+
+@-webkit-keyframes wpgmzaPopin {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% {  transform: scale(1); }
+}
+
+@keyframes wpgmzaPopin {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% {  transform: scale(1); }
+}
+
+@-webkit-keyframes wpgmzaFadeIn {
+    0% { opacity : 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes wpgmzaFadeIn {
+    0% { opacity : 0; }
+    100% { opacity: 1; }
+}
+
+

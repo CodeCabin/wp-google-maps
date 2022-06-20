@@ -1,5 +1,2 @@
 <?php
-/* deprecated functions that are slowly being phased out */
-
-
-
+// Deprecated since 8.1.0

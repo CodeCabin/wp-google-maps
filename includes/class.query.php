@@ -215,6 +215,10 @@ class Query
 			$where = $query->_where->toArray();
 			if(!empty($where))
 				$qstr .= " WHERE " . implode(' AND ', $where);
+
+			$group = $query->_groupBy->toArray();
+			if(!empty($group))
+				$qstr .= " GROUP BY " . implode(', ', $group);
 			
 			$having = $query->_having->toArray();
 			if(!empty($having))
@@ -234,6 +238,10 @@ class Query
 		{
 			$qstr = implode(' UNION ALL ', $queryStrings);
 		}
+
+		$orderBy = $query->_orderBy->toArray();
+		if(!empty($orderBy))
+			$qstr .= " ORDER BY " . implode(', ', $orderBy); 
 		
 		if(!empty($this->_limit))
 			$qstr .= " LIMIT {$this->_limit}";
