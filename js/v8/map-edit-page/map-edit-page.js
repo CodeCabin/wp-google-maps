@@ -110,18 +110,19 @@ jQuery(function($) {
 		var wpgmzaIdentifiedTypingSpeed = false;
 
 		$('body').on('keypress', '.wpgmza-address', function(e) {
-
 			if (this.id == 'wpgmza_add_address_map_editor') {
 				if (wpgmza_autoCompleteDisabled) { return; }
 
 
-
-				// if user is using their own API key then use the normal Google AutoComplete
+				// if user is using their own API key then use the normal Google AutoComplete 
+				// Since 2022-06-23 this is not true, instead they use ours with their key, this adds more features
 				var wpgmza_apikey = false;
 				if (WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
 					wpgmza_apikey = WPGMZA_localized_data.settings.googleMapsApiKey;
-					return;
-				} else {
+				}
+					/* Don't return because we want this to initialize */
+				/*	 return;
+				} else { */
 				
 					if(e.key === "Escape" || e.key === "Alt" || e.key === "Control" || e.key === "Option" || e.key === "Shift" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown") {
 				        $('#wpgmza_autocomplete_search_results').hide();
@@ -250,7 +251,10 @@ jQuery(function($) {
 
 
 						            
-						        }
+						        },
+								error: function(){
+									$('#wpgmza_autocomplete_search_results').hide();
+								}
 						    });
 			            },(wpgmzaIdentifiedTypingSpeed*2));
 		                
@@ -260,7 +264,7 @@ jQuery(function($) {
 					} else {
 						$('#wpgmza_autocomplete_search_results').hide();
 					}
-				}
+				//}
 			}
 		});
 

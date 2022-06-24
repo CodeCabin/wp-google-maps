@@ -54,7 +54,7 @@
 		<legend class="wpgmza-hide-in-adjust-mode"><?php esc_html_e('Address/GPS', 'wp-google-maps'); ?></legend>
 		
 		<div class="wpgmza-input-button__line wpgmza-hide-in-adjust-mode" style='display:block'>
-			<input id="wpgmza_add_address_map_editor" type="text" data-ajax-name="address" class="wpgmza-address"/>
+			<input id="wpgmza_add_address_map_editor" type="text" data-ajax-name="address" class="wpgmza-address" autocomplete="off"/>
 			<div id='wpgmza_autoc_disabled' style='display:none;'></div>
 
 			<button 

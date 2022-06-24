@@ -141,3 +141,7 @@
 .wpgmza-rating.wpgmza-loading{
 	filter: grayscale(100%);
 }
+
+.wpgmza-google-html-overlay{
+	position: absolute;
+}

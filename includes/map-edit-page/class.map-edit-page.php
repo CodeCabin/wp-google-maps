@@ -183,10 +183,11 @@ class MapEditPage extends Page
 		$this->disableProFeatures();
 		$this->hideSelectedProFeatures();
 		$this->removeProMarkerFeatures();
+
 		$this->handleEngineSpecificFeatures();
 		
 		$this->populateAdvancedMarkersPanel();
-
+		
 		/* Developer Hook (Action) - Alter output of the map edit page, passes DOMDocument for mutation */     
 		do_action("wpgmza_map_edit_page_created", $document);
 	}
@@ -345,24 +346,46 @@ class MapEditPage extends Page
 	}
 	
 	protected function populateAdvancedMarkersPanel() {
+		global $wpgmza;
+
 		$panel		= new MarkerPanel($this->map->id);
-		$container	= $this->document->querySelector("#advanced-markers");
+		if($wpgmza->internalEngine->isLegacy()){
+			/* Legacy */
+			$container	= $this->document->querySelector("#advanced-markers");
+			
+			$source		= $panel->querySelector(".wpgmza-feature-panel.wpgmza-marker-panel");
+			
+			$source->removeAttribute("data-wpgmza-feature-type");
+			$source->removeAttribute("class");
+			
+			$container->import($source);
+			
+			$container->querySelectorAll("input, select, textarea")
+				->setAttribute("disabled", "disabled")
+				->setAttribute("title", __('Enable this feature with WP Go Maps - Pro add-on', 'wp-google-maps'));
+		} else {
+			/* Atlas Novus */
+			$panel->querySelectorAll("input, select, textarea")
+				->setAttribute("disabled", "disabled")
+				->setAttribute("title", __('Enable this feature with WP Go Maps - Pro add-on', 'wp-google-maps'));
+			
+				
+			
 
+			$panel->querySelectorAll('button')->remove();
+			$panel->querySelectorAll('.wpgmza-css-state-block')->remove();
+			$panel->querySelectorAll('.wpgmza-marker-gallery-input-container')->remove();
 
+			$elements = $panel->querySelectorAll('.wpgmza-marker-panel .wpgmza-pro-feature');
+			$container = $this->document->querySelector(".wpgmza-marker-panel");
+			
+			foreach($elements as $element){
+				/* This shouldnt be necessary again, but for some reason it is */
+				$element->querySelectorAll('input,select')->setAttribute('disabled', 'disabled');
+				$container->import($element);
+			}
+		}
 
-		
-
-		
-		$source		= $panel->querySelector(".wpgmza-feature-panel.wpgmza-marker-panel");
-		
-		$source->removeAttribute("data-wpgmza-feature-type");
-		$source->removeAttribute("class");
-		
-		$container->import($source);
-		
-		$container->querySelectorAll("input, select, textarea")
-			->setAttribute("disabled", "disabled")
-			->setAttribute("title", __('Enable this feature with WP Go Maps - Pro add-on', 'wp-google-maps'));
 	}
 	
 	public function onSubmit()

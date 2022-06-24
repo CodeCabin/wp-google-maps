@@ -103,7 +103,7 @@
 		<div class='wpgmza_row_col wpgmza-support__col'>
 			<div class="wpgmza-card">
 				<h2><i class="fa fa-bullhorn "></i> <?php _e("System Info","wp-google-maps"); ?></h2>
-				<p><?php _e("Our support team may ask for the following information to provie you with better support", "wp-google-maps"); ?></p>
+				<p><?php _e("Our support team may ask for the following information to provide you with better support", "wp-google-maps"); ?></p>
 				<pre class="system-info"></pre>
 				<div>
 					<div class="wpgmza button wpgmza-copy-sysinfo"><?php _e("Copy Info", "wp-google-maps"); ?></div> 

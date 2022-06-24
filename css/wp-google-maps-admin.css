@@ -3028,6 +3028,9 @@ div#wpgmza_autocomplete_search_results {
     padding: 5px;
     max-width: 96%;
     min-width: 96%;
+
+    z-index: 9999;
+
 }
 .wpgmza_ac_result {
     height: fit-content;

@@ -68,6 +68,8 @@ jQuery(function($) {
 				self.actionBar.dynamicAction.click();
 			}
 		});
+
+		this.initUpsellBlocks();
 	}
 
 	WPGMZA.extend(WPGMZA.SidebarGroupings, WPGMZA.EventDispatcher);
@@ -183,6 +185,49 @@ jQuery(function($) {
 	WPGMZA.SidebarGroupings.prototype.resetScroll = function(){
 		if($(this.element).find('.grouping.open').length > 0){
 			$(this.element).find('.grouping.open .settings').scrollTop(0);
+		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.initUpsellBlocks = function(){
+		const upsellWrappers = $(this.element).find('.upsell-block.auto-rotate');
+		if(upsellWrappers && upsellWrappers.length > 0){
+			/* We have some upsell rotations to handle */
+			for(let currentWrapper of upsellWrappers){
+				currentWrapper = $(currentWrapper);
+				if(currentWrapper.find('.upsell-block-card').length > 1){
+					currentWrapper.addClass('rotate');
+					
+					currentWrapper.on('wpgmza-upsell-rotate-card', function(){
+						const cardLength = $(this).find('.upsell-block-card').length; 
+						$(this).find('.upsell-block-card').hide();
+						
+
+						let nextCard = parseInt(Math.random() * cardLength);
+						if(nextCard < 0){
+							nextCard = 0;
+						} else if(nextCard >= cardLength){
+							nextCard = cardLength - 1;
+						}
+
+						let nextCardElem = $(this).find('.upsell-block-card:nth-child(' + (nextCard + 1) + ')');
+						if(nextCardElem.length > 0 && !nextCardElem.hasClass('active')){
+							$(this).find('.upsell-block-card').removeClass('active');
+							nextCardElem.addClass('active');
+							nextCardElem.fadeIn(200);
+						} else {
+							/* Just reshow the card for another 10 seconds */
+							nextCardElem.show();
+						}
+
+						setTimeout(() => {
+							$(this).trigger('wpgmza-upsell-rotate-card');
+						}, 10000);
+					});
+					currentWrapper.trigger('wpgmza-upsell-rotate-card');
+				} else {
+					currentWrapper.addClass('static');
+				}
+			}
 		}
 	}
 });

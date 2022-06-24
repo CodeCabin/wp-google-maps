@@ -1795,7 +1795,13 @@ jQuery(function($) {
 		
 		if(WPGMZA.isGoogleAutocompleteSupported()) {
 			// only apply Google Places Autocomplete if they are usig their own API key. If not, they will use our Cloud API Complete Service
-			if (this.id != 'wpgmza_add_address_map_editor' && WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
+
+			/**
+			 * Updated 2022-06-23
+			 * 
+			 * This logic was incorrect and meant no place completions were happening in admin area, this was a maor value point for users
+			 */
+			if (this.element.id != 'wpgmza_add_address_map_editor' && WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
 				element.googleAutoComplete = new google.maps.places.Autocomplete(element, options);
 				
 				if(options.country)
@@ -5211,6 +5217,7 @@ jQuery(function($) {
         WPGMZA.EventDispatcher.apply(this);
 
 		this.element = $(document.body).find('.wpgmza-installer-steps');
+		this.skipButton = $(document.body).find('.wpgmza-installer-skip');
 
 		if(this.element.length <= 0){
 			return;
@@ -5221,6 +5228,8 @@ jQuery(function($) {
 		this.step = 0;
 		this.max = 0;
 		this.findMax();
+
+		
 
 		$(this.element).on('click', '.next-step-button', function(event){
 			self.next();
@@ -5259,6 +5268,11 @@ jQuery(function($) {
 						break;
 				}
 			}
+		});
+
+		this.skipButton.on('click', function(event){
+			event.preventDefault();
+			self.skip();
 		});
 
 		let defaultEngine = (WPGMZA && WPGMZA.settings && WPGMZA.settings.engine) ? WPGMZA.settings.engine : 'google-maps';
@@ -5691,6 +5705,31 @@ jQuery(function($) {
 		} else {
 			this.hideAutoKeyError();
 		}
+	}
+
+	WPGMZA.Installer.prototype.skip = function(){
+		const self = this;
+
+		$(this.element).find('.step').removeClass('active');
+		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+		$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
+
+		$(this.element).find('.step-loader .progress-finish').removeClass('wpgmza-hidden');
+
+		this.skipButton.addClass('wpgmza-hidden');
+
+		const options = {
+			action: "wpgmza_installer_page_skip",
+			nonce: this.element.attr("data-ajax-nonce")
+		};
+
+		$.ajax(WPGMZA.ajaxurl, {
+			method: "POST",
+			data: options,
+			success: function(response, status, xhr) {
+				window.location.href = self.redirectUrl;
+			}
+		});
 	}
 
 	$(document).ready(function(event) {
@@ -8976,6 +9015,11 @@ jQuery(function($) {
 		if(WPGMZA.settings.wpgmza_google_maps_api_key && WPGMZA.settings.wpgmza_google_maps_api_key.length)
 			return;
 
+		if(WPGMZA.ignoreInstallerRedirect){
+			/* We are still in paused installer mode */
+			return;
+		}
+
 		WPGMZA.mapsEngineDialog = new WPGMZA.MapsEngineDialog(element);
 		
 	});
@@ -12235,6 +12279,8 @@ jQuery(function($) {
 				self.actionBar.dynamicAction.click();
 			}
 		});
+
+		this.initUpsellBlocks();
 	}
 
 	WPGMZA.extend(WPGMZA.SidebarGroupings, WPGMZA.EventDispatcher);
@@ -12350,6 +12396,49 @@ jQuery(function($) {
 	WPGMZA.SidebarGroupings.prototype.resetScroll = function(){
 		if($(this.element).find('.grouping.open').length > 0){
 			$(this.element).find('.grouping.open .settings').scrollTop(0);
+		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.initUpsellBlocks = function(){
+		const upsellWrappers = $(this.element).find('.upsell-block.auto-rotate');
+		if(upsellWrappers && upsellWrappers.length > 0){
+			/* We have some upsell rotations to handle */
+			for(let currentWrapper of upsellWrappers){
+				currentWrapper = $(currentWrapper);
+				if(currentWrapper.find('.upsell-block-card').length > 1){
+					currentWrapper.addClass('rotate');
+					
+					currentWrapper.on('wpgmza-upsell-rotate-card', function(){
+						const cardLength = $(this).find('.upsell-block-card').length; 
+						$(this).find('.upsell-block-card').hide();
+						
+
+						let nextCard = parseInt(Math.random() * cardLength);
+						if(nextCard < 0){
+							nextCard = 0;
+						} else if(nextCard >= cardLength){
+							nextCard = cardLength - 1;
+						}
+
+						let nextCardElem = $(this).find('.upsell-block-card:nth-child(' + (nextCard + 1) + ')');
+						if(nextCardElem.length > 0 && !nextCardElem.hasClass('active')){
+							$(this).find('.upsell-block-card').removeClass('active');
+							nextCardElem.addClass('active');
+							nextCardElem.fadeIn(200);
+						} else {
+							/* Just reshow the card for another 10 seconds */
+							nextCardElem.show();
+						}
+
+						setTimeout(() => {
+							$(this).trigger('wpgmza-upsell-rotate-card');
+						}, 10000);
+					});
+					currentWrapper.trigger('wpgmza-upsell-rotate-card');
+				} else {
+					currentWrapper.addClass('static');
+				}
+			}
 		}
 	}
 });
@@ -17045,6 +17134,11 @@ jQuery(function($) {
 		if(!WPGMZA.InternalEngine.isLegacy()){
 			if(typeof WritersBlock !== 'undefined' && this.writersblock != false && this.writersblock.ready){
 				this.writersblock.setContent("");
+
+				if(this.writersblock.elements && this.writersblock.elements._codeEditor){
+					/* We have an HTML code block */
+					this.writersblock.elements._codeEditor.value = "";
+				}
 			} else {
 				$("#wpgmza-description-editor").val("");
 			}
@@ -17605,6 +17699,90 @@ jQuery(function($) {
     								);
     							}
 							}
+						},
+						'code-editor' : {
+							icon : 'fa fa-code',
+							title : 'Code Editor (HTML)',
+							action : (editor) => {
+								if(!editor._codeEditorActive){
+									/* No code editor active yet */
+									if(!editor.elements._codeEditor){
+										editor.elements._codeEditor = editor.createElement('textarea', ['writersblock-wpgmza-code-editor']);
+
+										editor.elements._codeEditor.setAttribute('placeholder', '<!-- Add HTML Here -->');
+										editor.elements.wrap.appendChild(editor.elements._codeEditor);
+
+										editor.elements._codeEditor.__editor = editor;
+
+										/* Use a trigger to update the source based on HTML edits made by the user */
+										$(editor.elements._codeEditor).on('wpgmza-writersblock-code-edited', function(){
+											const target = $(this).get(0);
+
+											if(target.__editor){
+												/* We do have the HTML editor, lets grab the latest input value here, clean it a bit and then send it back */
+												let editedHtml = target.__editor.elements._codeEditor.value;
+												editedHtml = editedHtml.replaceAll("\n", "");
+												
+												/* Use the DOM to correct any HTML entered by the user, this allows us to clean up on the fly */
+												const validator = document.createElement('div');
+
+												validator.innerHTML = editedHtml;
+												if(validator.innerHTML === editedHtml){
+													/* HTML is the same as validated by the DOM */
+													target.__editor.elements.editor.innerHTML = validator.innerHTML;
+													target.__editor.onEditorChange();
+												} 
+											}
+											
+
+
+										});
+
+										$(editor.elements._codeEditor).on('change input', function(){
+											$(this).trigger('wpgmza-writersblock-code-edited');
+										});
+									}
+
+
+									editor.elements.editor.classList.add('wpgmza-hidden');
+									editor.elements._codeEditor.classList.remove('wpgmza-hidden');
+									
+									let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
+									for(let tool of toolbarItems){
+										if(tool.getAttribute('data-value') !== 'codeeditor'){
+											tool.classList.add('wpgmza-writersblock-disabled');
+										} else {
+											tool.classList.add('wpgmza-writersblock-hold-state');
+										}
+									}
+
+									if(editor.elements.editor.innerHTML && editor.elements.editor.innerHTML.trim().length > 0){
+										let sourceHtml = editor.elements.editor.innerHTML;
+										sourceHtml = sourceHtml.replaceAll(/<\/(\w+)>/g, "</$1>\n");
+										editor.elements._codeEditor.value = sourceHtml;
+									}
+
+									editor._codeEditorActive = true;
+								} else {
+									/* Dispose of the code editor and resync the DOM */
+									if(editor.elements._codeEditor){
+										editor.elements.editor.classList.remove('wpgmza-hidden');
+										editor.elements._codeEditor.classList.add('wpgmza-hidden');
+
+										let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
+										for(let tool of toolbarItems){
+											if(tool.getAttribute('data-value') !== 'codeeditor'){
+												tool.classList.remove('wpgmza-writersblock-disabled');
+											} else {
+												tool.classList.remove('wpgmza-writersblock-hold-state');
+											}
+										}
+										
+										$(editor.elements._codeEditor).trigger('wpgmza-writersblock-code-edited');
+									}
+									editor._codeEditorActive = false;
+								}
+							}
 						}
 					}
 				}
@@ -17615,7 +17793,7 @@ jQuery(function($) {
 				'bold', 'italic', 'underline', 'strikeThrough',
 				'justifyLeft', 'justifyCenter', 'justifyRight',
 				'insertUnorderedList', 'insertOrderedList', 
-				'insertHorizontalRule', 'custom-media'
+				'insertHorizontalRule', 'custom-media', 'code-editor'
 			],
 			events : {
 				onUpdateSelection : (packet) => {
@@ -18043,18 +18221,19 @@ jQuery(function($) {
 		var wpgmzaIdentifiedTypingSpeed = false;
 
 		$('body').on('keypress', '.wpgmza-address', function(e) {
-
 			if (this.id == 'wpgmza_add_address_map_editor') {
 				if (wpgmza_autoCompleteDisabled) { return; }
 
 
-
-				// if user is using their own API key then use the normal Google AutoComplete
+				// if user is using their own API key then use the normal Google AutoComplete 
+				// Since 2022-06-23 this is not true, instead they use ours with their key, this adds more features
 				var wpgmza_apikey = false;
 				if (WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
 					wpgmza_apikey = WPGMZA_localized_data.settings.googleMapsApiKey;
-					return;
-				} else {
+				}
+					/* Don't return because we want this to initialize */
+				/*	 return;
+				} else { */
 				
 					if(e.key === "Escape" || e.key === "Alt" || e.key === "Control" || e.key === "Option" || e.key === "Shift" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown") {
 				        $('#wpgmza_autocomplete_search_results').hide();
@@ -18183,7 +18362,10 @@ jQuery(function($) {
 
 
 						            
-						        }
+						        },
+								error: function(){
+									$('#wpgmza_autocomplete_search_results').hide();
+								}
 						    });
 			            },(wpgmzaIdentifiedTypingSpeed*2));
 		                
@@ -18193,7 +18375,7 @@ jQuery(function($) {
 					} else {
 						$('#wpgmza_autocomplete_search_results').hide();
 					}
-				}
+				//}
 			}
 		});
 

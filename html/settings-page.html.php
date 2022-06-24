@@ -56,6 +56,8 @@
 				<option value="google-maps"><?php esc_html_e('Google Maps', 'wp-google-maps'); ?></option>
 				<option value="open-layers"><?php esc_html_e('OpenLayers', 'wp-google-maps'); ?></option>
 			</select>
+
+			<small style="margin-left: 5px"><a href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&action=installer'); ?>"><?php esc_html_e("Open Installer", "wp-google-maps"); ?></a></small>
 		</fieldset>
 
 		<fieldset>
@@ -717,6 +719,15 @@
 					<?php 
 					esc_html_e("Hide the address field","wp-google-maps"); 
 					?>
+				</li>
+
+				<!-- Hide Categories -->
+				<li>
+					<div class='switch'>
+						<input name='infowindow_hide_category' id='infowindow_hide_category' class='cmn-toggle cmn-toggle-round-flat' type='checkbox' value='yes'/> 
+						<label for='infowindow_hide_category'></label>
+					</div>
+					<?php esc_html_e("Hide the category field","wp-google-maps");  ?>
 				</li>
 			</ul>
 		</fieldset>

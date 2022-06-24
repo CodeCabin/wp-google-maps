@@ -19,6 +19,7 @@ jQuery(function($) {
         WPGMZA.EventDispatcher.apply(this);
 
 		this.element = $(document.body).find('.wpgmza-installer-steps');
+		this.skipButton = $(document.body).find('.wpgmza-installer-skip');
 
 		if(this.element.length <= 0){
 			return;
@@ -29,6 +30,8 @@ jQuery(function($) {
 		this.step = 0;
 		this.max = 0;
 		this.findMax();
+
+		
 
 		$(this.element).on('click', '.next-step-button', function(event){
 			self.next();
@@ -67,6 +70,11 @@ jQuery(function($) {
 						break;
 				}
 			}
+		});
+
+		this.skipButton.on('click', function(event){
+			event.preventDefault();
+			self.skip();
 		});
 
 		let defaultEngine = (WPGMZA && WPGMZA.settings && WPGMZA.settings.engine) ? WPGMZA.settings.engine : 'google-maps';
@@ -499,6 +507,31 @@ jQuery(function($) {
 		} else {
 			this.hideAutoKeyError();
 		}
+	}
+
+	WPGMZA.Installer.prototype.skip = function(){
+		const self = this;
+
+		$(this.element).find('.step').removeClass('active');
+		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+		$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
+
+		$(this.element).find('.step-loader .progress-finish').removeClass('wpgmza-hidden');
+
+		this.skipButton.addClass('wpgmza-hidden');
+
+		const options = {
+			action: "wpgmza_installer_page_skip",
+			nonce: this.element.attr("data-ajax-nonce")
+		};
+
+		$.ajax(WPGMZA.ajaxurl, {
+			method: "POST",
+			data: options,
+			success: function(response, status, xhr) {
+				window.location.href = self.redirectUrl;
+			}
+		});
 	}
 
 	$(document).ready(function(event) {

@@ -28,7 +28,13 @@ jQuery(function($) {
 		
 		if(WPGMZA.isGoogleAutocompleteSupported()) {
 			// only apply Google Places Autocomplete if they are usig their own API key. If not, they will use our Cloud API Complete Service
-			if (this.id != 'wpgmza_add_address_map_editor' && WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
+
+			/**
+			 * Updated 2022-06-23
+			 * 
+			 * This logic was incorrect and meant no place completions were happening in admin area, this was a maor value point for users
+			 */
+			if (this.element.id != 'wpgmza_add_address_map_editor' && WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
 				element.googleAutoComplete = new google.maps.places.Autocomplete(element, options);
 				
 				if(options.country)

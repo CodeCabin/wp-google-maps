@@ -8,6 +8,11 @@
 			<h1><?php _e("Welcome", "wp-google-maps"); ?>, <?php echo ucfirst($currentUser->display_name); ?></h2>
 			<h2><?php _e("What map engine would you like to use?", "wp-google-maps"); ?></h2>
 
+			<br>
+			<a href="#" class='wpgmza-installer-skip' title="<?php _e("We'll remind you in a day or two to finish up", "wp-google-maps"); ?>">
+				<?php _e("Not ready? Skip for now!", "wp-google-maps"); ?>
+			</a>
+
 			<hr>
 
 			<div class="wpgmza-row">
@@ -352,6 +357,13 @@
 		        </div>
 		    </div>
 		</div>
-		
+	</div>
+
+	<div class="wpgmza-row">
+		<div class="wpgmza-col">
+			<a href="#" class='wpgmza-installer-skip' title="<?php _e("We'll remind you in a day or two to finish up", "wp-google-maps"); ?>">
+				<?php _e("Skip installation, and finish up later?", "wp-google-maps"); ?>
+			</a>
+		</div>
 	</div>
 </div>

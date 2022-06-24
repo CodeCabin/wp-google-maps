@@ -36,7 +36,7 @@
 		<?php
 			echo sprintf(
 				__('Add image overlays with the <a href="%s" target="_BLANK">Pro version</a>.', "wp-google-maps"),
-				esc_attr("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=imvageoverlayseditor-atlas-novus"),
+				esc_attr("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=imvageoverlayseditor-atlas-novus")
 			);
 		?>
 	</div>

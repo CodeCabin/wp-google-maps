@@ -270,6 +270,11 @@ jQuery(function($) {
 		if(!WPGMZA.InternalEngine.isLegacy()){
 			if(typeof WritersBlock !== 'undefined' && this.writersblock != false && this.writersblock.ready){
 				this.writersblock.setContent("");
+
+				if(this.writersblock.elements && this.writersblock.elements._codeEditor){
+					/* We have an HTML code block */
+					this.writersblock.elements._codeEditor.value = "";
+				}
 			} else {
 				$("#wpgmza-description-editor").val("");
 			}
@@ -830,6 +835,90 @@ jQuery(function($) {
     								);
     							}
 							}
+						},
+						'code-editor' : {
+							icon : 'fa fa-code',
+							title : 'Code Editor (HTML)',
+							action : (editor) => {
+								if(!editor._codeEditorActive){
+									/* No code editor active yet */
+									if(!editor.elements._codeEditor){
+										editor.elements._codeEditor = editor.createElement('textarea', ['writersblock-wpgmza-code-editor']);
+
+										editor.elements._codeEditor.setAttribute('placeholder', '<!-- Add HTML Here -->');
+										editor.elements.wrap.appendChild(editor.elements._codeEditor);
+
+										editor.elements._codeEditor.__editor = editor;
+
+										/* Use a trigger to update the source based on HTML edits made by the user */
+										$(editor.elements._codeEditor).on('wpgmza-writersblock-code-edited', function(){
+											const target = $(this).get(0);
+
+											if(target.__editor){
+												/* We do have the HTML editor, lets grab the latest input value here, clean it a bit and then send it back */
+												let editedHtml = target.__editor.elements._codeEditor.value;
+												editedHtml = editedHtml.replaceAll("\n", "");
+												
+												/* Use the DOM to correct any HTML entered by the user, this allows us to clean up on the fly */
+												const validator = document.createElement('div');
+
+												validator.innerHTML = editedHtml;
+												if(validator.innerHTML === editedHtml){
+													/* HTML is the same as validated by the DOM */
+													target.__editor.elements.editor.innerHTML = validator.innerHTML;
+													target.__editor.onEditorChange();
+												} 
+											}
+											
+
+
+										});
+
+										$(editor.elements._codeEditor).on('change input', function(){
+											$(this).trigger('wpgmza-writersblock-code-edited');
+										});
+									}
+
+
+									editor.elements.editor.classList.add('wpgmza-hidden');
+									editor.elements._codeEditor.classList.remove('wpgmza-hidden');
+									
+									let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
+									for(let tool of toolbarItems){
+										if(tool.getAttribute('data-value') !== 'codeeditor'){
+											tool.classList.add('wpgmza-writersblock-disabled');
+										} else {
+											tool.classList.add('wpgmza-writersblock-hold-state');
+										}
+									}
+
+									if(editor.elements.editor.innerHTML && editor.elements.editor.innerHTML.trim().length > 0){
+										let sourceHtml = editor.elements.editor.innerHTML;
+										sourceHtml = sourceHtml.replaceAll(/<\/(\w+)>/g, "</$1>\n");
+										editor.elements._codeEditor.value = sourceHtml;
+									}
+
+									editor._codeEditorActive = true;
+								} else {
+									/* Dispose of the code editor and resync the DOM */
+									if(editor.elements._codeEditor){
+										editor.elements.editor.classList.remove('wpgmza-hidden');
+										editor.elements._codeEditor.classList.add('wpgmza-hidden');
+
+										let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
+										for(let tool of toolbarItems){
+											if(tool.getAttribute('data-value') !== 'codeeditor'){
+												tool.classList.remove('wpgmza-writersblock-disabled');
+											} else {
+												tool.classList.remove('wpgmza-writersblock-hold-state');
+											}
+										}
+										
+										$(editor.elements._codeEditor).trigger('wpgmza-writersblock-code-edited');
+									}
+									editor._codeEditorActive = false;
+								}
+							}
 						}
 					}
 				}
@@ -840,7 +929,7 @@ jQuery(function($) {
 				'bold', 'italic', 'underline', 'strikeThrough',
 				'justifyLeft', 'justifyCenter', 'justifyRight',
 				'insertUnorderedList', 'insertOrderedList', 
-				'insertHorizontalRule', 'custom-media'
+				'insertHorizontalRule', 'custom-media', 'code-editor'
 			],
 			events : {
 				onUpdateSelection : (packet) => {

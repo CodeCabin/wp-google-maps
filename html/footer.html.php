@@ -15,7 +15,7 @@
 	<br/>
 	<?php
 	esc_html_e("Or ask a question on our ", "wp-google-maps"); ?>
-	<a href='http://www.wpgmaps.com/forums/forum/support-forum/' 
+	<a href='http://www.wpgmaps.com/forums/forum/' 
 		title='<?php esc_attr_e('WP Go Maps Support Forum', 'wp-google-maps'); ?>'
 		target='_BLANK'>
 		<?php
