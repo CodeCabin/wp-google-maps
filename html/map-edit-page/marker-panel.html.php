@@ -67,7 +67,7 @@
 		</legend>
 		<div class="wpgmza-input-button__line wpgmza-hide-in-adjust-mode" style='display:block'>
 			<div id='wpgmza_autoc_disabled' style='display:none;'></div>
-			<input id="wpgmza_add_address_map_editor" type="text" data-ajax-name="address" class="wpgmza-address"/>
+			<input id="wpgmza_add_address_map_editor" type="text" data-ajax-name="address" class="wpgmza-address" autocomplete="off"/>
 
 			<button 
 				type="button"

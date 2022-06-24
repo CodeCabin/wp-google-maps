@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.0
 Requires PHP: 5.3
-Stable tag: 9.0.0
+Stable tag: 9.0.2
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -199,6 +199,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.1 =
+Please update to 9.0.1 or above for the latest stability improvements.
+
 = 9.0.0 =
 Please update to 9.0.0 or above to ensure you are using the latest architecture, and latest features.
 
@@ -230,6 +233,24 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.2 - 2022-06-24 =
+* Added ability to skip installer. Will be reminded 1 day after to complete installation
+* Added improvements to admin marker addition autocomplete system tools
+* Fixed issue where installations running PHP 7.2.X would be unstable in some cases 
+* Fixed issue with spelling on support pages
+* Fixed issue with writrsblock reset delegation (Atlas Novus)
+
+= 9.0.1 - 2022-06-22 =
+* Added "day one" core patches across all cores 
+* Added WritersBlock support logic (Atlas Novus)
+* Added ability to reopen installer (Legacy)
+* Fixed issue with html overlay placement within map container
+* Fixed issue with support forum links
+* Fixed activation order issues with some add-ons
+* Improved upsell locations to better convey value of upgrading (Atlas Novus)
+* Removed Pro 8 stability notices to avoid confusion
+* Removed Advanced Marker panel, moved fields to standard marker panel (Atlas Novus)
 
 = 9.0.0 - 2022-06-20 =
 * Added Atlas Novus Internal Engine
@@ -273,7 +294,7 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 * Fixed issue where dependencies would be managed incorrectly in edge cases (Thanks to shazahm1)
 * Optimized file sizes (Thanks to lowwebtech)
 * Removed redundant files
-*
+
 * Atlas Novus
 * - Added extensive use of CSS variables
 * - Added Styling page to allow component styling
@@ -351,7 +372,7 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 * Deprecated some legacy functionality
 * Updated stable tag to reflect version number correctly
 
-= 8.1.17 - 2021-10-13 =
+= 8.1.17 - 2021-10-18 =
 * Improved marker editor geocode usage to only geocode when an address has changed, or is being added for the first time. (Reduced API calls due to usage)
 * Fixed issue where editing a marker which has already been position adusted would trigger a geocode on the original address, moving the marker back to the original placement
 * Fixed issue where map preview would not load on some elementor pages (Preview view only)
@@ -361,12 +382,14 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 * Removed uses of 'SQL_CALC_FOUND_ROWS' AND 'FOUND_ROWS' in queries to ensure MySQL 8.0.17 and above compatibility
 
 = 8.1.16 - 2021-09-20 =
-* Fixed issue where map editor would not initialize on some older WordPress versions
+* Fixed issue where map editor would not initialize on some older WordPress versions 
 * Fixed issue where admin bar scroll offset would sometimes be undefined
 * Updated Real Cookie Banner integration, for improved stability
 
 = 8.1.15 - 2021-09-01 =
+* Fixed issue where special symbols would be overprocessed by the KSES sanitizer
 * Fixed issue where Avada Alert icons would not show due to our icon libraries loading in post/page editor
+* Fixed issue where modern store locator would not display correctly in OpenLayers 
 * Remove Klokantech 3D tileserver as this does not appear to be supported (OpenLayers)
 * Added MapTiler Streets, Outdoor, Pastel, Basic (OpenLayers)
 * Added indicator for most tilesets that require an API key (OpenLayers)
@@ -539,5 +562,7 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 * AJAX loading fully supported
 
 
+
 For more, please view the WP Go Maps site
+
 

@@ -39,25 +39,34 @@ class InstallerPage extends Page {
 			exit;
 		}
 
-		if(!empty($wpgmza) && !empty($wpgmza->settings)){
-			if(!empty($_POST['wpgmza_maps_engine'])){
-				$wpgmza->settings->set('wpgmza_maps_engine', sanitize_text_field($_POST['wpgmza_maps_engine'])); 
-				$wpgmza->settings->set('wpgmza_maps_engine_dialog_done', true);	
+		if($_POST['action'] === 'wpgmza_installer_page_skip'){
+			/* Chosen to skip installation for now */
+			$nextReminder = date('Y-m-d', strtotime('+1 day'));
+			update_option('wpgmza-installer-paused', $nextReminder);
+		} else {
+			/* Completed the installation flow */
+			if(!empty($wpgmza) && !empty($wpgmza->settings)){
+				if(!empty($_POST['wpgmza_maps_engine'])){
+					$wpgmza->settings->set('wpgmza_maps_engine', sanitize_text_field($_POST['wpgmza_maps_engine'])); 
+					$wpgmza->settings->set('wpgmza_maps_engine_dialog_done', true);	
+				}
+
+				if(!empty($_POST['api_key'])){
+					$wpgmza->settings->set('wpgmza_google_maps_api_key', sanitize_text_field($_POST['api_key']));
+					update_option('wpgmza_google_maps_api_key', $_POST['api_key']);
+				}
+
+				if(!empty($_POST['tile_server_url'])){
+					$wpgmza->settings->set('tile_server_url', sanitize_text_field($_POST['tile_server_url']));
+				}
+
+				delete_option('wpgmza-installer-paused');
+
 			}
 
-			if(!empty($_POST['api_key'])){
-				$wpgmza->settings->set('wpgmza_google_maps_api_key', sanitize_text_field($_POST['api_key']));
-				update_option('wpgmza_google_maps_api_key', $_POST['api_key']);
-			}
-
-			if(!empty($_POST['tile_server_url'])){
-				$wpgmza->settings->set('tile_server_url', sanitize_text_field($_POST['tile_server_url']));
-			}
-
+			/* Developer Hook (Action) - Handle storage from the installer page */     
+			do_action("wpgmza_installer_page_on_post");
 		}
-
-		/* Developer Hook (Action) - Handle storage from the installer page */     
-		do_action("wpgmza_installer_page_on_post");
 
 		wp_send_json(array('success' => 1));
 		exit;
@@ -69,3 +78,4 @@ add_action('wpgmza_installer_page_create_instance', function() {
 });
 
 add_action('wp_ajax_wpgmza_installer_page_save_options', array('WPGMZA\\InstallerPage', 'post'));
+add_action('wp_ajax_wpgmza_installer_page_skip', array('WPGMZA\\InstallerPage', 'post'));

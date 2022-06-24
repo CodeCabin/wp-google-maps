@@ -88,6 +88,11 @@ jQuery(function($) {
 		if(WPGMZA.settings.wpgmza_google_maps_api_key && WPGMZA.settings.wpgmza_google_maps_api_key.length)
 			return;
 
+		if(WPGMZA.ignoreInstallerRedirect){
+			/* We are still in paused installer mode */
+			return;
+		}
+
 		WPGMZA.mapsEngineDialog = new WPGMZA.MapsEngineDialog(element);
 		
 	});

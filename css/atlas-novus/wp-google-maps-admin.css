@@ -743,6 +743,18 @@
 
 /* upsell */
 
+.wpgmza-wrap .wpgmza-editor .wpgmza-upsell-pro-pill {
+    background: var(--wpgmza-color-brand);
+    color: var(--wpgmza-color-white);
+    
+    text-transform: uppercase;
+    font-size: 0.7em;
+    padding: 1px 5px;
+    border-radius: 30px;
+    line-height: 1em;
+    margin-left: 7px;   
+}
+
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell,
 .wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell {
     background: var(--wpgmza-color-grey-100);
@@ -817,6 +829,64 @@
 
 .wpgmza-show-in-adjust-mode + input{
     margin-bottom: 10px;
+}
+
+/* Upsell Cards */
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card {
+    display: flex;
+    max-width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--wpgmza-color-grey-100);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--wpgmza-color-grey-50);
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-image{
+    max-width: 40%;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content {
+    max-width: 60%;
+    padding-left: 15px;
+    font-weight: 200;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-header .upsell-block-card-header-title{
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-list ul{
+    margin: 0; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-list ul li{
+    padding-left: 10px;
+    position: relative;
+    margin-bottom: 2px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-list ul li:before{
+    content: "-";
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-actions {
+    margin-top: 10px;
 }
 
 /* Map Editor */
@@ -3178,6 +3248,28 @@
     width: 90%;
 }
 
+.wpgmza-wrap .writersblock-wrapper .wpgmza-writersblock-disabled {
+	opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.wpgmza-wrap .writersblock-wrapper .wpgmza-writersblock-hold-state {
+    color: var(--wpgmza-color-cyan) !important;
+}
+
+.wpgmza-wrap .writersblock-wrapper .writersblock-wpgmza-code-editor {
+    padding: 10px;
+    border: 1px solid var(--writersblock-grey-100);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: 100%;
+    min-height: 200px;
+
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 /* Image Single Inputs */
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-image-single-input-wrapper {
     cursor: pointer;
@@ -3864,6 +3956,8 @@
     min-width: 100%;
     max-width: 100%;
     max-height: 140px;
+
+    z-index: 9999;
 }
 
 .wpgmza-wrap #wpgmza_autocomplete_search_results .wpgmza_ac_result {

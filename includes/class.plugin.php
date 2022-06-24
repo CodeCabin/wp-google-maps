@@ -403,6 +403,14 @@ class Plugin extends Factory
 			'buildCode' 			=> $wpgmza->internalEngine->getBuildVersion(),
 		));
 		
+		$installationSkipDate = get_option('wpgmza-installer-paused');
+		if(!empty($installationSkipDate)){
+			if(strtotime(date('Y-m-d')) <= strtotime($installationSkipDate)){
+				/* The user skipped installation, we should not redirect them forcefully */
+				$result['ignoreInstallerRedirect'] = 'true';
+			} 
+		}
+		
 		if($post)
 			$result['postID'] = $post->ID;
 		

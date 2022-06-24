@@ -119,7 +119,7 @@ class WPGMAPS_templates {
                             </div>
                             <div class='col'>
                                 <h4><?php _e("Help me!","wp-google-maps"); ?></h4>
-                                <p><?php _e("Visit our","wp-google-maps"); ?> <a title='Support Forum' target='_blank' href='http://www.wpgmaps.com/forums/forum/support-forum/'><?php _e("Support Forum","wp-google-maps"); ?></a> <?php _e("for quick and friendly help. We'll answer your request within 24hours.","wp-google-maps"); ?></p>
+                                <p><?php _e("Visit our","wp-google-maps"); ?> <a title='Support Forum' target='_blank' href='http://www.wpgmaps.com/forums/forum/'><?php _e("Support Forum","wp-google-maps"); ?></a> <?php _e("for quick and friendly help. We'll answer your request within 24hours.","wp-google-maps"); ?></p>
                             </div>
                             <div class='col'>
                                 <h4><?php _e("Feedback","wp-google-maps"); ?></h4>

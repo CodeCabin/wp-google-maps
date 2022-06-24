@@ -3,8 +3,8 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.0
-Author: WP Google Maps
+Version: 9.0.2
+Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
 Domain Path: /languages
@@ -12,6 +12,24 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.2 - 2022-06-24
+ * Added ability to skip installer. Will be reminded 1 day after to complete installation
+ * Added improvements to admin marker addition autocomplete system tools
+ * Fixed issue where installations running PHP 7.2.X would be unstable in some cases 
+ * Fixed issue with spelling on support pages
+ * Fixed issue with writrsblock reset delegation (Atlas Novus)
+ * 
+ * 9.0.1 - 2022-06-22
+ * Added "day one" core patches across all cores 
+ * Added WritersBlock support logic (Atlas Novus)
+ * Added ability to reopen installer (Legacy)
+ * Fixed issue with html overlay placement within map container
+ * Fixed issue with support forum links
+ * Fixed activation order issues with some add-ons
+ * Improved upsell locations to better convey value of upgrading (Atlas Novus)
+ * Removed Pro 8 stability notices to avoid confusion
+ * Removed Advanced Marker panel, moved fields to standard marker panel (Atlas Novus)
+ * 
  * 9.0.0 - 2022-06-20
  * Added Atlas Novus Internal Engine
  * Added Internal Engine base architecture
@@ -428,7 +446,8 @@ if (isset($_GET['page']) && ($_GET['page'] == 'wp-google-maps-menu' || $_GET['pa
 
 		/* Check Pro Compat - V9.0.0 */
 		if(version_compare($wpgmza_pro_version, '9.0.0', '<')){
-			add_action('admin_notices', 'wpgmaps_basic_90_notice');
+			// Temporary disabling, it's causing confusion mostly
+			//add_action('admin_notices', 'wpgmaps_basic_90_notice');
 			function wpgmaps_basic_90_notice() {
 					/* Pro9Compat will take care of switching back to legacy */
 					?>

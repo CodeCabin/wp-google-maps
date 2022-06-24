@@ -110,7 +110,7 @@
 		</div>
 
 		<div class="hint">
-			<?php _e("Our support team may ask for the following information to provie you with better support", "wp-google-maps"); ?>
+			<?php _e("Our support team may ask for the following information to provide you with better support", "wp-google-maps"); ?>
 		</div>
 
 		<div class="tab-row">
