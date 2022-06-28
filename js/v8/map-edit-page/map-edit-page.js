@@ -110,161 +110,8 @@ jQuery(function($) {
 		var wpgmzaIdentifiedTypingSpeed = false;
 
 		$('body').on('keypress', '.wpgmza-address', function(e) {
-			if (this.id == 'wpgmza_add_address_map_editor') {
-				if (wpgmza_autoCompleteDisabled) { return; }
-
-
-				// if user is using their own API key then use the normal Google AutoComplete 
-				// Since 2022-06-23 this is not true, instead they use ours with their key, this adds more features
-				var wpgmza_apikey = false;
-				if (WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
-					wpgmza_apikey = WPGMZA_localized_data.settings.googleMapsApiKey;
-				}
-					/* Don't return because we want this to initialize */
-				/*	 return;
-				} else { */
-				
-					if(e.key === "Escape" || e.key === "Alt" || e.key === "Control" || e.key === "Option" || e.key === "Shift" || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown") {
-				        $('#wpgmza_autocomplete_search_results').hide();
-				        return;
-				    }
-
-				    if (!wpgmzaIdentifiedTypingSpeed) {
-						//determine duration between key strokes to determine when we should send the request to the autocomplete server
-						//doing this avoids sending API calls for slow typers.
-						var d = new Date();
-						
-
-						// set a timer to reset the delay counter
-						clearTimeout(wpgmzaTmp);
-						wpgmzaTmp = setTimeout(function(){ 
-								wpgmzaStartTyping = false;
-								wpgmzaAvgTimeBetweenStrokes = 300;
-								wpgmzaTotalTimeForKeyStrokes = 0;
-							},1500
-						); // I'm pretty sure no one types one key stroke per 1.5 seconds. This should be safe.
-						if (!wpgmzaStartTyping) {
-							// first character press, set start time.
-							
-							wpgmzaStartTyping = d.getTime();
-							wpgmzaKeyStrokeCount++;
-						} else {
-							if (wpgmzaKeyStrokeCount == 1) {
-								// do nothing because its the first key stroke
-							} else {
-
-
-								wpgmzaCurrentTimeBetweenStrokes = d.getTime() - wpgmzaStartTyping;
-								wpgmzaTotalTimeForKeyStrokes = wpgmzaTotalTimeForKeyStrokes + wpgmzaCurrentTimeBetweenStrokes;
-
-								wpgmzaAvgTimeBetweenStrokes = (wpgmzaTotalTimeForKeyStrokes / (wpgmzaKeyStrokeCount-1)); // we cannot count the first key as that was the starting point
-								wpgmzaStartTyping = d.getTime();
-
-								if (wpgmzaKeyStrokeCount >= 3) {
-									// we only need 3 keys to know how fast they type
-									wpgmzaIdentifiedTypingSpeed = (wpgmzaAvgTimeBetweenStrokes);
-									
-
-								}
-							}
-							wpgmzaKeyStrokeCount++;
-							
-
-
-						}
-						return;
-					}
-
-				    
-				    // clear the previous timer
-				    clearTimeout(wpgmzaAjaxTimeout);
-
-				    $('#wpgmza_autocomplete_search_results').html('<div class="wpgmza-pad-5">Searching...</div>');
-				    $('#wpgmza_autocomplete_search_results').show();
-
-					
-
-
-					var currentSearch = jQuery(this).val();
-					if (currentSearch !== '') {
-
-						if(ajaxRequest !== false){
-			                ajaxRequest.abort();
-			            }
-
-			            var domain = window.location.hostname;
-			            if(domain === 'localhost'){
-			            	try{
-			            		var paths = window.location.pathname.match(/\/(.*?)\//);
-			            		if(paths && paths.length >= 2 && paths[1]){
-			            			var path = paths[1];
-			            			domain += "-" + path
-			            		}
-			            	} catch (ex){
-			            		/* Leave it alone */
-			            	}
-			            }
-
-			            var wpgmza_api_url = '';
-			            if (!wpgmza_apikey) {
-			            	wpgmza_api_url = "https://wpgmaps.us-3.evennode.com/api/v1/autocomplete?s="+currentSearch+"&d="+domain+"&hash="+WPGMZA_localized_data.siteHash
-			            } else {
-			            	wpgmza_api_url = "https://wpgmaps.us-3.evennode.com/api/v1/autocomplete?s="+currentSearch+"&d="+domain+"&hash="+WPGMZA_localized_data.siteHash+"&k="+wpgmza_apikey
-			            }
-
-			            if(WPGMZA && WPGMZA.settings && WPGMZA.settings.engine){
-			            	wpgmza_api_url += "&engine=" + WPGMZA.settings.engine;
-			            }
-
-			            // set a timer of how fast the person types in seconds to only continue with this if it runs out
-			            wpgmzaAjaxTimeout = setTimeout(function() {
-			            	ajaxRequest = $.ajax({
-						        url: wpgmza_api_url,
-						        type: 'GET',
-						        dataType: 'json', // added data type
-						        success: function(results) {
-
-			                        try { 
-
-			                        	if (typeof results.error !== 'undefined') {
-			                        		if (results.error == 'error1') {
-			                        			$('#wpgmza_autoc_disabled').html(WPGMZA.localized_strings.cloud_api_key_error_1);
-			                        			$('#wpgmza_autoc_disabled').fadeIn('slow');
-			                        			$('#wpgmza_autocomplete_search_results').hide();
-			                        			wpgmza_autoCompleteDisabled = true;
-			                        		} else {
-			                        			console.error(results.error);
-			                        		}
-			                        		
-			                        	} else { 
-								            $('#wpgmza_autocomplete_search_results').html('');
-					                        var html = "";
-					                        for(var i in results){ html += "<div class='wpgmza_ac_result " + (html === "" ? "" : "border-top") + "' data-id='" + i + "' data-lat='"+results[i]['lat']+"' data-lng='"+results[i]['lng']+"'><div class='wpgmza_ac_container'><div class='wpgmza_ac_icon'><img src='"+results[i]['icon']+"' /></div><div class='wpgmza_ac_item'><span id='wpgmza_item_name_"+i+"' class='wpgmza_item_name'>" + results[i]['place_name'] + "</span><span id='wpgmza_item_address_"+i+"' class='wpgmza_item_address'>" + results[i]['formatted_address'] + "</span></div></div></div>"; }
-					                        if(html == ""){ html = "<div class='p-2 text-center'><small>No results found...</small></div>"; } 
-					                        $('#wpgmza_autocomplete_search_results').html(html);
-					                        $('#wpgmza_autocomplete_search_results').show();
-					                        
-					                    }
-				                    } catch (exception) {
-				                    	console.error("WP Go Maps Plugin: There was an error returning the list of places for your search");
-				                    }
-
-
-						            
-						        },
-								error: function(){
-									$('#wpgmza_autocomplete_search_results').hide();
-								}
-						    });
-			            },(wpgmzaIdentifiedTypingSpeed*2));
-		                
-
-						
-						
-					} else {
-						$('#wpgmza_autocomplete_search_results').hide();
-					}
-				//}
+			if(self.shouldAddressFieldUseEnhancedAutocomplete(this)){
+				self.onKeyUpEnhancedAutocomplete(e, this);
 			}
 		});
 
@@ -668,6 +515,257 @@ jQuery(function($) {
 			});
 
 		});
+	}
+
+	WPGMZA.MapEditPage.prototype.shouldAddressFieldUseEnhancedAutocomplete = function(element){
+		/* This should really be moved to its own module later (EnhancedAutocomplete) */
+		if(element && element.id && element.id === 'wpgmza_add_address_map_editor'){
+			return true;
+		} 
+		return false;
+	}
+
+	WPGMZA.MapEditPage.prototype.onKeyUpEnhancedAutocomplete = function(event, element){
+		/* This should really be moved to its own module later (EnhancedAutocomplete) */
+		if(element._wpgmzaAddressInput && element._wpgmzaAddressInput.googleAutocompleteLoaded){
+			/* At some point the system swapped over to the Google Autocomplete, we should not take further action here */
+			return;
+		}
+
+		if(!element._wpgmzaEnhancedAutocomplete){
+			/*
+			 * Set up some default state trackers 
+			 * 
+			 * Some notes, 300ms for avg keystroke equates to 40wpm, which is the average typing speed of a person
+			*/
+			element._wpgmzaEnhancedAutocomplete = {
+				identifiedTypingSpeed : false,
+				typingTimeout : false,
+				startTyping : false,
+				keyStrokeCount : 1,
+				avgTimeBetweenStrokes : 300,
+				totalTimeForKeyStrokes : 0,
+				ajaxRequest : false,
+				ajaxTimeout : false,
+				requestErrorCount : 0,
+				disabledFlag : false,
+				disabledCheckCount : 0
+			};
+		} 
+
+		let enhancedAutocomplete = element._wpgmzaEnhancedAutocomplete;
+
+		const ignoredKeys = [
+			"Escape", "Alt", "Control", "Option", "Shift", 
+			"ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
+		];
+
+		if(ignoredKeys.indexOf(event.key) !== -1){
+			/* This keystroke should be ignored */
+			$('#wpgmza_autocomplete_search_results').hide();
+			return;
+		}
+
+		if(enhancedAutocomplete.disabledFlag){
+			/* The server has disabled autocomplete requests manually */
+			enhancedAutocomplete.disabledCheckCount ++;
+			if(enhancedAutocomplete.disabledCheckCount >= 5){
+				/* User keeps trying to use te autocomplete, even though server has reported this as disabled */
+				/* Swap out to Google now, because this is silly */
+				this.swapEnhancedAutocomplete(element);
+			}
+			return;
+		}
+		
+		let googleApiKey = false;
+		if(WPGMZA.settings && (WPGMZA.settings.googleMapsApiKey || WPGMZA.settings.wpgmza_google_maps_api_key)){
+			googleApiKey = WPGMZA.settings.googleMapsApiKey ? WPGMZA.settings.googleMapsApiKey : WPGMZA.settings.wpgmza_google_maps_api_key;
+		}
+
+		if(!enhancedAutocomplete.identifiedTypingSpeed){
+			let d = new Date();
+			if(enhancedAutocomplete.typingTimeout){
+				clearTimeout(enhancedAutocomplete.typingTimeout);
+			}
+
+			enhancedAutocomplete.typingTimeout = setTimeout(() => {
+				enhancedAutocomplete.startTyping = false;
+				enhancedAutocomplete.avgTimeBetweenStrokes = 300;
+				enhancedAutocomplete.totalTimeForKeyStrokes = 0;
+			}, 1500);
+
+			if(!enhancedAutocomplete.startTyping){
+				enhancedAutocomplete.startTyping = d.getTime();
+				enhancedAutocomplete.keyStrokeCount ++;
+			} else {
+				if(enhancedAutocomplete.keyStrokeCount > 1){
+					enhancedAutocomplete.currentTimeBetweenStrokes = d.getTime() - enhancedAutocomplete.startTyping;
+					enhancedAutocomplete.totalTimeForKeyStrokes += enhancedAutocomplete.currentTimeBetweenStrokes;
+
+					enhancedAutocomplete.avgTimeBetweenStrokes = (enhancedAutocomplete.totalTimeForKeyStrokes / (enhancedAutocomplete.keyStrokeCount - 1));
+					enhancedAutocomplete.startTyping = d.getTime();
+
+					if(enhancedAutocomplete.keyStrokeCount >= 3){
+						/* We only need to measure speed based on the first 3 strokes */
+						enhancedAutocomplete.identifiedTypingSpeed = enhancedAutocomplete.avgTimeBetweenStrokes;
+					}
+				}
+
+				enhancedAutocomplete.keyStrokeCount ++;
+			}
+
+			/* Bail while we take our measurements, should be the first 3 characters */
+			return;
+		}
+
+		/* Continue processing this request, we have at this stage, determined the users typing speed and we are ready to roll */
+		if(enhancedAutocomplete.ajaxTimeout){
+			clearTimeout(enhancedAutocomplete.ajaxTimeout);
+		}
+
+		/* Show the searching stub */
+		$('#wpgmza_autocomplete_search_results').html('<div class="wpgmza-pad-5">Searching...</div>');
+		$('#wpgmza_autocomplete_search_results').show();
+
+		enhancedAutocomplete.currentSearch = $(element).val();
+		if(enhancedAutocomplete.currentSearch && enhancedAutocomplete.currentSearch.trim().length > 0){
+			/* Check if we are in the middle of a request, if so, let's abore that to do focus on the new one instead */
+			if(enhancedAutocomplete.ajaxRequest !== false){
+				enhancedAutocomplete.ajaxRequest.abort();
+			}
+
+			enhancedAutocomplete.requestParams = {
+				domain : window.location.hostname
+			};
+
+			if(enhancedAutocomplete.requestParams.domain === 'localhost'){
+				try {
+					/* 
+						* Local domains sometimes run into issues with the enhanced autocomplete. 
+						*
+						* To ensure new users get the most out of the free service, let's go ahead and prepare a local style request 
+					*/
+					let paths = window.location.pathname.match(/\/(.*?)\//);
+					if(paths && paths.length >= 2 && paths[1]){
+						let path = paths[1];
+						enhancedAutocomplete.requestParams.domain += "-" + path;
+					}
+				} catch (ex){
+					/* Leave it alone */
+				}
+
+				enhancedAutocomplete.requestParams.url = "https://wpgmaps.us-3.evennode.com/api/v1/autocomplete";
+
+				enhancedAutocomplete.requestParams.query = {
+					s : enhancedAutocomplete.currentSearch,
+					d : enhancedAutocomplete.requestParams.domain,
+					hash : WPGMZA.siteHash
+				};
+
+				if(googleApiKey){
+					/* Send through the google key for further enhancements */
+					enhancedAutocomplete.requestParams.query.k = googleApiKey;
+				}
+
+				if(WPGMZA.settings){
+					if(WPGMZA.settings.engine){
+						enhancedAutocomplete.requestParams.query.engine = WPGMZA.settings.engine;
+					}
+
+					if(WPGMZA.settings.internal_engine){
+						enhancedAutocomplete.requestParams.query.build = WPGMZA.settings.internal_engine;
+					}
+				}
+
+				/* Finalize the enhanced autocomplete URL query */
+				enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);					
+				enhancedAutocomplete.requestParams.url += "?" + enhancedAutocomplete.requestParams.query.toString();
+
+				/* Place request in a timetout, to delay the send time by the typing speed */
+				enhancedAutocomplete.ajaxTimeout = setTimeout(() => {
+					/* Prepare and send the request */
+					enhancedAutocomplete.ajaxRequest = $.ajax({
+						url : enhancedAutocomplete.requestParams.url,
+						type : 'GET',
+						dataType : 'json',
+						success : (results) => {
+							try {
+								if(results instanceof Object){
+									if(results.error){
+										/* We have an error, we need to work with this */
+										if (results.error == 'error1') {
+											$('#wpgmza_autoc_disabled').html(WPGMZA.localized_strings.cloud_api_key_error_1);
+											$('#wpgmza_autoc_disabled').fadeIn('slow');
+											$('#wpgmza_autocomplete_search_results').hide();
+
+											enhancedAutocomplete.disabledFlag = true;
+										} else {
+											/* General request error was reached, we need to report it and instantly swap back to Google */
+											console.error(results.error);
+											this.swapEnhancedAutocomplete(element);
+										}
+									} else {
+										/* Things are looking good, let's serve the data */
+										$('#wpgmza_autocomplete_search_results').html('');
+										let html = "";
+										
+										for(var i in results){ 
+											html += "<div class='wpgmza_ac_result " + (html === "" ? "" : "border-top") + "' data-id='" + i + "' data-lat='"+results[i]['lat']+"' data-lng='"+results[i]['lng']+"'><div class='wpgmza_ac_container'><div class='wpgmza_ac_icon'><img src='"+results[i]['icon']+"' /></div><div class='wpgmza_ac_item'><span id='wpgmza_item_name_"+i+"' class='wpgmza_item_name'>" + results[i]['place_name'] + "</span><span id='wpgmza_item_address_"+i+"' class='wpgmza_item_address'>" + results[i]['formatted_address'] + "</span></div></div></div>"; 
+										}
+										
+										if(!html || html.length <= 0){ 
+											html = "<div class='p-2 text-center'><small>No results found...</small></div>"; 
+										} 
+										
+										$('#wpgmza_autocomplete_search_results').html(html);
+										$('#wpgmza_autocomplete_search_results').show();
+
+										/* Finally reset all error counters */
+										enhancedAutocomplete.disabledCheckCount = 0;
+										enhancedAutocomplete.requestErrorCount = 0;
+									}
+								} else {
+									/* Results are malformed - Swap out now */
+									this.swapEnhancedAutocomplete(element);
+								}
+							} catch (ex){
+								/* Results are malformed - Swap out now */
+								console.error("WP Go Maps Plugin: There was an error returning the list of places for your search");
+								this.swapEnhancedAutocomplete(element);
+							}
+						},
+						error : () => {
+							/* Request failed */
+							$('#wpgmza_autocomplete_search_results').hide();
+							
+							/* There is a chance that this was purely a network issue, we should count it, and bail later if need be */
+							enhancedAutocomplete.requestErrorCount ++;
+							if(enhancedAutocomplete.requestErrorCount >= 3){
+								/* Swap out now */
+								this.swapEnhancedAutocomplete(element);
+							}
+						}
+					});
+				}, (enhancedAutocomplete.identifiedTypingSpeed * 2));
+
+			}
+		} else {
+			/* Search is empty, just hide the popup for now */
+			$('#wpgmza_autocomplete_search_results').hide();
+		}
+		
+	}
+
+	WPGMZA.MapEditPage.prototype.swapEnhancedAutocomplete = function(element){
+		/* Disable the enhanced autocomplete, and swap back to the native systems instead */
+		if(element._wpgmzaAddressInput){
+			if(!element._wpgmzaAddressInput.googleAutocompleteLoaded){
+				element._wpgmzaAddressInput.loadGoogleAutocomplete();
+			}
+		}
+		
+		$('#wpgmza_autocomplete_search_results').hide();
+		$('#wpgmza_autoc_disabled').hide();
 	}
 	
 	$(document).ready(function(event) {

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plugins - WP Google Maps - Development (trunk)\n"
 "POT-Creation-Date: 2022-02-22 08:01+0200\n"
-"PO-Revision-Date: 2022-02-22 08:18+0200\n"
+"PO-Revision-Date: 2022-06-28 09:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -1473,7 +1473,7 @@ msgstr ""
 #: wp-google-maps-pro/includes/import-export/page.import-export.php:618
 #: wp-google-maps-pro/includes/import-export/page.import-export.php:963
 msgid "Import"
-msgstr "Support"
+msgstr "Importieren"
 
 #: wp-google-maps-pro/html/import-export/import-export.html.php:58
 #: wp-google-maps-pro/html/import-export/import-source-panel.html.php:50
@@ -1642,7 +1642,7 @@ msgstr "Heatmaps"
 #: wp-google-maps-pro/html/import-export/import-source-panel.html.php:262
 #: wp-google-maps-pro/includes/import-export/page.import-export.php:620
 msgid "Export"
-msgstr "Support"
+msgstr "Export"
 
 #: wp-google-maps-pro/html/import-export/import-export.html.php:327
 msgid "Backups (Beta)"
