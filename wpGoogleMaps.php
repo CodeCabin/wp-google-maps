@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.2
+Version: 9.0.3
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,11 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.3 - 2022-06-28
+ * Added improvements to enhanced autocomplete module for admin marker creation 
+ * Fixed issue where enhanced autocomplete would handle referrer bound keys incorrectly 
+ * Updated de_DE translation file (Internal Adjustment)
+ * 
  * 9.0.2 - 2022-06-24
  * Added ability to skip installer. Will be reminded 1 day after to complete installation
  * Added improvements to admin marker addition autocomplete system tools

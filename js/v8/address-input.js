@@ -11,38 +11,46 @@ jQuery(function($) {
 			throw new Error("Element is not an instance of HTMLInputElement");
 		
 		this.element = element;
-
-
 		
 		var json;
+
 		var options = {
 			fields: ["name", "formatted_address"],
 			types:	["geocode", "establishment"]
 		};
 		
-		if(json = $(element).attr("data-autocomplete-options"))
+		if(json = $(element).attr("data-autocomplete-options")){
 			options = $.extend(options, JSON.parse(json));
-		
-		if(map && map.settings.wpgmza_store_locator_restrict)
-			options.country = map.settings.wpgmza_store_locator_restrict;
-		
-		if(WPGMZA.isGoogleAutocompleteSupported()) {
-			// only apply Google Places Autocomplete if they are usig their own API key. If not, they will use our Cloud API Complete Service
-
-			/**
-			 * Updated 2022-06-23
-			 * 
-			 * This logic was incorrect and meant no place completions were happening in admin area, this was a maor value point for users
-			 */
-			if (this.element.id != 'wpgmza_add_address_map_editor' && WPGMZA_localized_data.settings.googleMapsApiKey && WPGMZA_localized_data.settings.googleMapsApiKey !== '') {
-				element.googleAutoComplete = new google.maps.places.Autocomplete(element, options);
-				
-				if(options.country)
-					element.googleAutoComplete.setComponentRestrictions({country: options.country});
-			}
 		}
-		else if(WPGMZA.CloudAPI && WPGMZA.CloudAPI.isBeingUsed)
+		
+		if(map && map.settings.wpgmza_store_locator_restrict){
+			options.country = map.settings.wpgmza_store_locator_restrict;
+		}
+
+		/* Store the options to the instance */
+		this.options = options;
+
+		/* Local reference to the address input */
+		element._wpgmzaAddressInput = this;
+
+		this.googleAutocompleteLoaded = false;
+
+		if(WPGMZA.isGoogleAutocompleteSupported()) {
+			/*
+			 * This logic was entirely rebuilt as of 2022-06-28 to allow more complex handling of autocomplete modules
+			 * 
+			 * The admin marker address field will now default to our free cloud system first, but rollback to the google autocomplete if any issues are encountered during the usage
+			 * 
+			 * This is handled in the MapEditPage module, but we have plans to move this to it's own module at a later date. 
+			 * 
+			 * For now this is the simplest route to achieve the goal we set out to reach
+			 */
+			if (this.shouldAutoLoadGoogleAutocomplete()) {
+				this.loadGoogleAutocomplete();
+			}
+		} else if(WPGMZA.CloudAPI && WPGMZA.CloudAPI.isBeingUsed){
 			element.cloudAutoComplete = new WPGMZA.CloudAutocomplete(element, options);
+		}
 	}
 	
 	WPGMZA.extend(WPGMZA.AddressInput, WPGMZA.EventDispatcher);
@@ -50,15 +58,35 @@ jQuery(function($) {
 	WPGMZA.AddressInput.createInstance = function(element, map) {
 		return new WPGMZA.AddressInput(element, map);
 	}
-	
-	/*$(window).on("load", function(event) {
+
+	WPGMZA.AddressInput.prototype.loadGoogleAutocomplete = function(){
+		if(WPGMZA.settings){
+			if(WPGMZA.settings.googleMapsApiKey || WPGMZA.settings.wpgmza_google_maps_api_key){
+				/* Google Autocomplete can initialize normally, as the user has their own key */
+				if(WPGMZA.isGoogleAutocompleteSupported()) {
+					this.element.googleAutoComplete = new google.maps.places.Autocomplete(this.element, this.options);
+				
+					if(this.options.country){
+						/* Apply country restrictios to the autocomplet, based on the settings */
+						this.element.googleAutoComplete.setComponentRestrictions({country: this.options.country});
+					}
+				}
+
+				this.googleAutocompleteLoaded = true;
+			}
+		}
 		
-		$("input.wpgmza-address").each(function(index, el) {
-			
-			el.wpgmzaAddressInput = WPGMZA.AddressInput.createInstance(el);
-			
-		});
-		
-	});*/
-	
+	}
+
+	WPGMZA.AddressInput.prototype.shouldAutoLoadGoogleAutocomplete = function(){
+		/* 
+		 * Checks if this field should automatically initialize Google Autocomplete
+		 * 
+		 * This is true for all address inputs, with the exception of the marker address admin input 
+		*/
+		if(this.element && this.element.id && this.element.id === 'wpgmza_add_address_map_editor'){
+			return false;
+		}
+		return true;
+	}
 });
