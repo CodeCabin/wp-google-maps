@@ -26,7 +26,7 @@ The compiled code acts as a polyfill between major versions, but once the develo
 For this reason, if you are a developer working towards contributing to our core, please reach out to us here: https://www.wpgmaps.com/contact-us/ - So that we can get you set up with a developer copy of the latest major Pro versions. We simply ask that you contribute back to core in exchange for the license. 
 
 ## Where are your developer docs?
-At this stage (2022-06-28) we are in the process of creating more fully fledged V9 developer documentation. You can find the developer documentatio here, although these are still being created/updated: https://docs.wpgmaps.com/developers
+At this stage (2022-06-28) we are in the process of creating more fully fledged V9 developer documentation. You can find the developer documentation here, although these are still being created/updated: https://docs.wpgmaps.com/developers
 
 Keep an eye on that area in the future to learn more about Developer Hooks, JavaScript events, and guides on extending our core code! 
 
