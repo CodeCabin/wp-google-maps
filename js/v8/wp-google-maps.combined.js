@@ -18780,9 +18780,9 @@ jQuery(function($) {
 			if(enhancedAutocomplete.requestParams.domain === 'localhost'){
 				try {
 					/* 
-						* Local domains sometimes run into issues with the enhanced autocomplete. 
-						*
-						* To ensure new users get the most out of the free service, let's go ahead and prepare a local style request 
+					 * Local domains sometimes run into issues with the enhanced autocomplete. 
+					 *
+					 * To ensure new users get the most out of the free service, let's go ahead and prepare a local style request 
 					*/
 					let paths = window.location.pathname.match(/\/(.*?)\//);
 					if(paths && paths.length >= 2 && paths[1]){
@@ -18792,102 +18792,101 @@ jQuery(function($) {
 				} catch (ex){
 					/* Leave it alone */
 				}
+			}
 
-				enhancedAutocomplete.requestParams.url = "https://wpgmaps.us-3.evennode.com/api/v1/autocomplete";
+			enhancedAutocomplete.requestParams.url = "https://wpgmaps.us-3.evennode.com/api/v1/autocomplete";
 
-				enhancedAutocomplete.requestParams.query = {
-					s : enhancedAutocomplete.currentSearch,
-					d : enhancedAutocomplete.requestParams.domain,
-					hash : WPGMZA.siteHash
-				};
+			enhancedAutocomplete.requestParams.query = {
+				s : enhancedAutocomplete.currentSearch,
+				d : enhancedAutocomplete.requestParams.domain,
+				hash : WPGMZA.siteHash
+			};
 
-				if(googleApiKey){
-					/* Send through the google key for further enhancements */
-					enhancedAutocomplete.requestParams.query.k = googleApiKey;
+			if(googleApiKey){
+				/* Send through the google key for further enhancements */
+				enhancedAutocomplete.requestParams.query.k = googleApiKey;
+			}
+
+			if(WPGMZA.settings){
+				if(WPGMZA.settings.engine){
+					enhancedAutocomplete.requestParams.query.engine = WPGMZA.settings.engine;
 				}
 
-				if(WPGMZA.settings){
-					if(WPGMZA.settings.engine){
-						enhancedAutocomplete.requestParams.query.engine = WPGMZA.settings.engine;
-					}
-
-					if(WPGMZA.settings.internal_engine){
-						enhancedAutocomplete.requestParams.query.build = WPGMZA.settings.internal_engine;
-					}
+				if(WPGMZA.settings.internal_engine){
+					enhancedAutocomplete.requestParams.query.build = WPGMZA.settings.internal_engine;
 				}
+			}
 
-				/* Finalize the enhanced autocomplete URL query */
-				enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);					
-				enhancedAutocomplete.requestParams.url += "?" + enhancedAutocomplete.requestParams.query.toString();
+			/* Finalize the enhanced autocomplete URL query */
+			enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);					
+			enhancedAutocomplete.requestParams.url += "?" + enhancedAutocomplete.requestParams.query.toString();
 
-				/* Place request in a timetout, to delay the send time by the typing speed */
-				enhancedAutocomplete.ajaxTimeout = setTimeout(() => {
-					/* Prepare and send the request */
-					enhancedAutocomplete.ajaxRequest = $.ajax({
-						url : enhancedAutocomplete.requestParams.url,
-						type : 'GET',
-						dataType : 'json',
-						success : (results) => {
-							try {
-								if(results instanceof Object){
-									if(results.error){
-										/* We have an error, we need to work with this */
-										if (results.error == 'error1') {
-											$('#wpgmza_autoc_disabled').html(WPGMZA.localized_strings.cloud_api_key_error_1);
-											$('#wpgmza_autoc_disabled').fadeIn('slow');
-											$('#wpgmza_autocomplete_search_results').hide();
+			/* Place request in a timetout, to delay the send time by the typing speed */
+			enhancedAutocomplete.ajaxTimeout = setTimeout(() => {
+				/* Prepare and send the request */
+				enhancedAutocomplete.ajaxRequest = $.ajax({
+					url : enhancedAutocomplete.requestParams.url,
+					type : 'GET',
+					dataType : 'json',
+					success : (results) => {
+						try {
+							if(results instanceof Object){
+								if(results.error){
+									/* We have an error, we need to work with this */
+									if (results.error == 'error1') {
+										$('#wpgmza_autoc_disabled').html(WPGMZA.localized_strings.cloud_api_key_error_1);
+										$('#wpgmza_autoc_disabled').fadeIn('slow');
+										$('#wpgmza_autocomplete_search_results').hide();
 
-											enhancedAutocomplete.disabledFlag = true;
-										} else {
-											/* General request error was reached, we need to report it and instantly swap back to Google */
-											console.error(results.error);
-											this.swapEnhancedAutocomplete(element);
-										}
+										enhancedAutocomplete.disabledFlag = true;
 									} else {
-										/* Things are looking good, let's serve the data */
-										$('#wpgmza_autocomplete_search_results').html('');
-										let html = "";
-										
-										for(var i in results){ 
-											html += "<div class='wpgmza_ac_result " + (html === "" ? "" : "border-top") + "' data-id='" + i + "' data-lat='"+results[i]['lat']+"' data-lng='"+results[i]['lng']+"'><div class='wpgmza_ac_container'><div class='wpgmza_ac_icon'><img src='"+results[i]['icon']+"' /></div><div class='wpgmza_ac_item'><span id='wpgmza_item_name_"+i+"' class='wpgmza_item_name'>" + results[i]['place_name'] + "</span><span id='wpgmza_item_address_"+i+"' class='wpgmza_item_address'>" + results[i]['formatted_address'] + "</span></div></div></div>"; 
-										}
-										
-										if(!html || html.length <= 0){ 
-											html = "<div class='p-2 text-center'><small>No results found...</small></div>"; 
-										} 
-										
-										$('#wpgmza_autocomplete_search_results').html(html);
-										$('#wpgmza_autocomplete_search_results').show();
-
-										/* Finally reset all error counters */
-										enhancedAutocomplete.disabledCheckCount = 0;
-										enhancedAutocomplete.requestErrorCount = 0;
+										/* General request error was reached, we need to report it and instantly swap back to Google */
+										console.error(results.error);
+										this.swapEnhancedAutocomplete(element);
 									}
 								} else {
-									/* Results are malformed - Swap out now */
-									this.swapEnhancedAutocomplete(element);
-								}
-							} catch (ex){
-								/* Results are malformed - Swap out now */
-								console.error("WP Go Maps Plugin: There was an error returning the list of places for your search");
-								this.swapEnhancedAutocomplete(element);
-							}
-						},
-						error : () => {
-							/* Request failed */
-							$('#wpgmza_autocomplete_search_results').hide();
-							
-							/* There is a chance that this was purely a network issue, we should count it, and bail later if need be */
-							enhancedAutocomplete.requestErrorCount ++;
-							if(enhancedAutocomplete.requestErrorCount >= 3){
-								/* Swap out now */
-								this.swapEnhancedAutocomplete(element);
-							}
-						}
-					});
-				}, (enhancedAutocomplete.identifiedTypingSpeed * 2));
+									/* Things are looking good, let's serve the data */
+									$('#wpgmza_autocomplete_search_results').html('');
+									let html = "";
+									
+									for(var i in results){ 
+										html += "<div class='wpgmza_ac_result " + (html === "" ? "" : "border-top") + "' data-id='" + i + "' data-lat='"+results[i]['lat']+"' data-lng='"+results[i]['lng']+"'><div class='wpgmza_ac_container'><div class='wpgmza_ac_icon'><img src='"+results[i]['icon']+"' /></div><div class='wpgmza_ac_item'><span id='wpgmza_item_name_"+i+"' class='wpgmza_item_name'>" + results[i]['place_name'] + "</span><span id='wpgmza_item_address_"+i+"' class='wpgmza_item_address'>" + results[i]['formatted_address'] + "</span></div></div></div>"; 
+									}
+									
+									if(!html || html.length <= 0){ 
+										html = "<div class='p-2 text-center'><small>No results found...</small></div>"; 
+									} 
+									
+									$('#wpgmza_autocomplete_search_results').html(html);
+									$('#wpgmza_autocomplete_search_results').show();
 
-			}
+									/* Finally reset all error counters */
+									enhancedAutocomplete.disabledCheckCount = 0;
+									enhancedAutocomplete.requestErrorCount = 0;
+								}
+							} else {
+								/* Results are malformed - Swap out now */
+								this.swapEnhancedAutocomplete(element);
+							}
+						} catch (ex){
+							/* Results are malformed - Swap out now */
+							console.error("WP Go Maps Plugin: There was an error returning the list of places for your search");
+							this.swapEnhancedAutocomplete(element);
+						}
+					},
+					error : () => {
+						/* Request failed */
+						$('#wpgmza_autocomplete_search_results').hide();
+						
+						/* There is a chance that this was purely a network issue, we should count it, and bail later if need be */
+						enhancedAutocomplete.requestErrorCount ++;
+						if(enhancedAutocomplete.requestErrorCount >= 3){
+							/* Swap out now */
+							this.swapEnhancedAutocomplete(element);
+						}
+					}
+				});
+			}, (enhancedAutocomplete.identifiedTypingSpeed * 2));
 		} else {
 			/* Search is empty, just hide the popup for now */
 			$('#wpgmza_autocomplete_search_results').hide();
