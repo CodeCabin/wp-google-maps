@@ -27,10 +27,10 @@ jQuery(function($) {
 				
 				for(var i = 0; i < path.length; i++)
 				{
-					if(!($.isNumeric(path[i].lat)))
+					if(!(WPGMZA.isNumeric(path[i].lat)))
 						throw new Error("Invalid latitude");
 					
-					if(!($.isNumeric(path[i].lng)))
+					if(!(WPGMZA.isNumeric(path[i].lng)))
 						throw new Error("Invalid longitude");
 					
 					coordinates.push(ol.proj.fromLonLat([

@@ -717,6 +717,10 @@ jQuery(function($) {
 			return wpgmzaisFullScreen;
 			
 		},
+
+		isNumeric: function(num) {
+			return !isNaN(parseFloat(num)) && isFinite(num);
+		},
 		
 		getQueryParamValue: function(name) {
 			

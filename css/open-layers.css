@@ -11,6 +11,10 @@
 	position: relative;
 }
 
+.wpgmza_map.is-fullscreen{
+	min-height: 100%;
+}
+
 /*
 .wpgmza-ol-modern-infowindow-container .wpgmza_modern_infowindow
 {

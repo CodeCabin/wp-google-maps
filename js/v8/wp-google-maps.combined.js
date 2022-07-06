@@ -719,6 +719,10 @@ jQuery(function($) {
 			return wpgmzaisFullScreen;
 			
 		},
+
+		isNumeric: function(num) {
+			return !isNaN(parseFloat(num)) && isFinite(num);
+		},
 		
 		getQueryParamValue: function(name) {
 			
@@ -1406,7 +1410,7 @@ jQuery(function($) {
 			
 			var docIDDelta = (docID - lastDocID - 1);
 			
-			if(!$.isNumeric(docID))
+			if(!WPGMZA.isNumeric(docID))
 				throw new Error("Value is not numeric");
 			
 			// NB: Force docID to an integer in case it's a string
@@ -6134,7 +6138,7 @@ jQuery(function($) {
 			return this._lat;
 		},
 		set: function(val) {
-			if(!$.isNumeric(val))
+			if(!WPGMZA.isNumeric(val))
 				throw new Error("Latitude must be numeric");
 			this._lat = parseFloat( val );
 		}
@@ -6150,7 +6154,7 @@ jQuery(function($) {
 			return this._lng;
 		},
 		set: function(val) {
-			if(!$.isNumeric(val))
+			if(!WPGMZA.isNumeric(val))
 				throw new Error("Longitude must be numeric");
 			this._lng = parseFloat( val );
 		}
@@ -7116,7 +7120,7 @@ jQuery(function($) {
 		
 		function formatCoord(coord)
 		{
-			if($.isNumeric(coord))
+			if(WPGMZA.isNumeric(coord))
 				return coord;
 			return parseFloat( String(coord).replace(/[\(\)\s]/, "") );
 		}
@@ -8864,6 +8868,13 @@ jQuery(function($) {
 	 */
 	WPGMZA.Map.prototype.onFullScreenChange = function(fullscreen){
 		this.trigger("fullscreenchange.map");
+
+		/* Add or Remove the 'is-fullscreen' class */
+		if(fullscreen){
+			$(this.element).addClass('is-fullscreen');
+		} else {
+			$(this.element).removeClass('is-fullscreen');
+		}
 	}
 
 	/**
@@ -11646,9 +11657,9 @@ jQuery(function($) {
 	       }
 	    });
 
-	    $( "#wpgmza-global-setting" ).bind( "create", function(event, ui) {
-				alert('now');
-		       	
+	    $( "#wpgmza-global-setting" ).on( "create", function(event, ui) {
+			/* Not used */
+			// alert('now');
 		});
 		
 		$("#wpgmza-global-settings fieldset").each(function(index, el) {
@@ -15777,6 +15788,8 @@ jQuery(function($) {
 	 * @return void
 	 */
 	WPGMZA.GoogleMap.prototype.onFullScreenChange = function(fullscreen){
+		Parent.prototype.onFullScreenChange.call(this, fullscreen);
+		
 		if(fullscreen && !this._stackedComponentsMoved){
 			if(this.element.firstChild){
 				const innerContainer = this.element.firstChild;
@@ -16035,7 +16048,7 @@ jQuery(function($) {
 			
 		}, 1000);
 		
-		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+		$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
 			
 			self.canvasLayer.resize_();
 			self.canvasLayer.draw();
@@ -17205,7 +17218,7 @@ jQuery(function($) {
 		
 		this.reset();
 		
-		if($.isNumeric(arg))
+		if(WPGMZA.isNumeric(arg))
 			id = arg;
 		else
 		{
@@ -20329,9 +20342,19 @@ jQuery(function($) {
 
 		if(this.settings && this.settings.custom_tile_enabled){
 			if(this.settings.custom_tile_image_width && this.settings.custom_tile_image_height){
-				const width = parseInt(this.settings.custom_tile_image_width);
-				const height = parseInt(this.settings.custom_tile_image_height);
-				
+				let width = parseInt(this.settings.custom_tile_image_width);
+				let height = parseInt(this.settings.custom_tile_image_height);
+
+				try{
+					if(window.devicePixelRatio && window.devicePixelRatio != 1){
+						/* For retina displays, lets multiple the target dimensions, with the devicePixelRatio */
+						width *= window.devicePixelRatio;
+						height *= window.devicePixelRatio;
+					}
+				} catch (ex){
+					/* Do nothing */
+				}
+
 				if(this.settings.custom_tile_image){
 					const extent = [0, 0, width, height];
 		
@@ -21468,10 +21491,10 @@ jQuery(function($) {
 				
 				for(var i = 0; i < path.length; i++)
 				{
-					if(!($.isNumeric(path[i].lat)))
+					if(!(WPGMZA.isNumeric(path[i].lat)))
 						throw new Error("Invalid latitude");
 					
-					if(!($.isNumeric(path[i].lng)))
+					if(!(WPGMZA.isNumeric(path[i].lng)))
 						throw new Error("Invalid longitude");
 					
 					coordinates.push(ol.proj.fromLonLat([

@@ -105,7 +105,7 @@ jQuery(function($) {
 			
 			var docIDDelta = (docID - lastDocID - 1);
 			
-			if(!$.isNumeric(docID))
+			if(!WPGMZA.isNumeric(docID))
 				throw new Error("Value is not numeric");
 			
 			// NB: Force docID to an integer in case it's a string

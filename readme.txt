@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.0
 Requires PHP: 5.3
-Stable tag: 9.0.4
+Stable tag: 9.0.5
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -239,6 +239,13 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.5 - 2022-07-06 =
+* Added 'is-fullscreen' class to maps when they enter fullscreen mode, adding control over styling
+* Improved underlyig canvas handling on retina displays with OpenLayers
+* Fixed issue where fullscreen height on Safari, with OpenLayers would not be respected
+* Removed calls to $.isNumeric and replaced them with WPGMZA.isNumeric counterpart
+* Removed $.bind calls and replaced them with standard $.on event listeners
 
 = 9.0.4 - 2022-06-29 =
 * Fixed issue where enhanced autocomplete may not initialize on some websites 

@@ -368,9 +368,19 @@ jQuery(function($) {
 
 		if(this.settings && this.settings.custom_tile_enabled){
 			if(this.settings.custom_tile_image_width && this.settings.custom_tile_image_height){
-				const width = parseInt(this.settings.custom_tile_image_width);
-				const height = parseInt(this.settings.custom_tile_image_height);
-				
+				let width = parseInt(this.settings.custom_tile_image_width);
+				let height = parseInt(this.settings.custom_tile_image_height);
+
+				try{
+					if(window.devicePixelRatio && window.devicePixelRatio != 1){
+						/* For retina displays, lets multiple the target dimensions, with the devicePixelRatio */
+						width *= window.devicePixelRatio;
+						height *= window.devicePixelRatio;
+					}
+				} catch (ex){
+					/* Do nothing */
+				}
+
 				if(this.settings.custom_tile_image){
 					const extent = [0, 0, width, height];
 		
