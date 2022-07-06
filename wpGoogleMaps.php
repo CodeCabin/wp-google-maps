@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.4
+Version: 9.0.5
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,13 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.5 - 2022-07-06
+ * Added 'is-fullscreen' class to maps when they enter fullscreen mode, adding control over styling
+ * Improved underlyig canvas handling on retina displays with OpenLayers
+ * Fixed issue where fullscreen height on Safari, with OpenLayers would not be respected
+ * Removed calls to $.isNumeric and replaced them with WPGMZA.isNumeric counterpart
+ * Removed $.bind calls and replaced them with standard $.on event listeners
+ * 
  * 9.0.4 - 2022-06-29
  * Fixed issue where enhanced autocomplete may not initialize on some websites 
  * 

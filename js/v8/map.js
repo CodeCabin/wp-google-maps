@@ -1631,6 +1631,13 @@ jQuery(function($) {
 	 */
 	WPGMZA.Map.prototype.onFullScreenChange = function(fullscreen){
 		this.trigger("fullscreenchange.map");
+
+		/* Add or Remove the 'is-fullscreen' class */
+		if(fullscreen){
+			$(this.element).addClass('is-fullscreen');
+		} else {
+			$(this.element).removeClass('is-fullscreen');
+		}
 	}
 
 	/**

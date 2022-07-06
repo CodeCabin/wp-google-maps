@@ -135,9 +135,9 @@ jQuery(function($) {
 	       }
 	    });
 
-	    $( "#wpgmza-global-setting" ).bind( "create", function(event, ui) {
-				alert('now');
-		       	
+	    $( "#wpgmza-global-setting" ).on( "create", function(event, ui) {
+			/* Not used */
+			// alert('now');
 		});
 		
 		$("#wpgmza-global-settings fieldset").each(function(index, el) {

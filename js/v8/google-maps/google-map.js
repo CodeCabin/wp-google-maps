@@ -715,6 +715,8 @@ jQuery(function($) {
 	 * @return void
 	 */
 	WPGMZA.GoogleMap.prototype.onFullScreenChange = function(fullscreen){
+		Parent.prototype.onFullScreenChange.call(this, fullscreen);
+		
 		if(fullscreen && !this._stackedComponentsMoved){
 			if(this.element.firstChild){
 				const innerContainer = this.element.firstChild;

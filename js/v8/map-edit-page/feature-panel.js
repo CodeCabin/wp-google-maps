@@ -313,7 +313,7 @@ jQuery(function($) {
 		
 		this.reset();
 		
-		if($.isNumeric(arg))
+		if(WPGMZA.isNumeric(arg))
 			id = arg;
 		else
 		{

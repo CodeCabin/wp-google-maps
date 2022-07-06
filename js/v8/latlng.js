@@ -95,7 +95,7 @@ jQuery(function($) {
 			return this._lat;
 		},
 		set: function(val) {
-			if(!$.isNumeric(val))
+			if(!WPGMZA.isNumeric(val))
 				throw new Error("Latitude must be numeric");
 			this._lat = parseFloat( val );
 		}
@@ -111,7 +111,7 @@ jQuery(function($) {
 			return this._lng;
 		},
 		set: function(val) {
-			if(!$.isNumeric(val))
+			if(!WPGMZA.isNumeric(val))
 				throw new Error("Longitude must be numeric");
 			this._lng = parseFloat( val );
 		}

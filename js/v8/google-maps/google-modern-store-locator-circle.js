@@ -28,7 +28,7 @@ jQuery(function($) {
 			
 		}, 1000);
 		
-		$(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+		$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
 			
 			self.canvasLayer.resize_();
 			self.canvasLayer.draw();
