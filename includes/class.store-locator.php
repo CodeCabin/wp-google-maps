@@ -23,6 +23,8 @@ class StoreLocator extends Factory implements \IteratorAggregate
 		
 		$this->populateRadiusSelect();
 
+		$this->_document->querySelectorAll(".wpgmza-store-locator")->setAttribute('data-id', $this->map->id);
+
 		if($wpgmza->settings->useLegacyHTML && $wpgmza->internalEngine->isLegacy()){
 			$document = $this->_document;
 			

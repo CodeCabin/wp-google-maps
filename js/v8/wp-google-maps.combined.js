@@ -689,7 +689,10 @@ jQuery(function($) {
 		 * @return {boolean} True if modern or legacy style is selected, or no UI style is selected
 		 */
 		isModernComponentStyleAllowed: function() {
-			
+			if(!WPGMZA.InternalEngine.isLegacy()){
+				/* Atlas Novus doesn't allow this */
+				return false;	
+			}
 			return (!WPGMZA.settings.user_interface_style || WPGMZA.settings.user_interface_style == "legacy" || WPGMZA.settings.user_interface_style == "modern");
 			
 		},
@@ -7630,9 +7633,21 @@ jQuery(function($) {
 	
 	WPGMZA.Map.prototype.initStoreLocator = function()
 	{
-		var storeLocatorElement = $(".wpgmza_sl_main_div,.wpgmza-store-locator");
-		if(storeLocatorElement.length)
+		let selectors = [
+			".wpgmza-store-locator[data-id='" + this.id + "']",
+			".wpgmza-store-locator",
+			".wpgmza_sl_main_div"
+		];
+
+		let storeLocatorElement = false;
+		for(let i in selectors){
+			if($(selectors[i]).length > 0 && storeLocatorElement === false){
+				storeLocatorElement = $(selectors[i]);
+			}
+		}
+		if(storeLocatorElement.length){
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this, storeLocatorElement[0]);
+		}
 	}
 	
 	/**
@@ -12936,7 +12951,7 @@ jQuery(function($) {
 			$(this.radiusElement).val(queryRadius);
 		}
 
-		if(!this.isCapsule){
+		if(!this.isCapsule && queryRadius && queryCenter){
 			/* Only run if not part of a capsule */
 			this.map.on('init', () => {
 				this.onSearch();
@@ -20345,11 +20360,16 @@ jQuery(function($) {
 				let width = parseInt(this.settings.custom_tile_image_width);
 				let height = parseInt(this.settings.custom_tile_image_height);
 
+				let imageDimensions = null; //autodetect
 				try{
 					if(window.devicePixelRatio && window.devicePixelRatio != 1){
 						/* For retina displays, lets multiple the target dimensions, with the devicePixelRatio */
+						/* Updated 2022-07-07: Was unreliable, moved to setting manual dimensions */
+						/*
 						width *= window.devicePixelRatio;
 						height *= window.devicePixelRatio;
+						*/
+						imageDimensions = [width, height];
 					}
 				} catch (ex){
 					/* Do nothing */
@@ -20369,7 +20389,8 @@ jQuery(function($) {
 							attributions: this.settings.custom_tile_image_attribution ? this.settings.custom_tile_image_attribution : '©',
 							url: this.settings.custom_tile_image,
 							projection: projection,
-							imageExtent: extent
+							imageExtent: extent,
+							imageSize: imageDimensions
 						})
 					});
 				}
@@ -22377,8 +22398,10 @@ jQuery(function($) {
 	}
 	
 	WPGMZA.DataTable.prototype.reload = function()
-	{
-		this.dataTable.ajax.reload(null, false); // null callback, false for resetPaging
+	{	
+		if(this.dataTable){
+			this.dataTable.ajax.reload(null, false); // null callback, false for resetPaging
+		}
 	}
 	
 });

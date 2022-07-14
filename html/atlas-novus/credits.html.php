@@ -168,6 +168,7 @@
 			<li title="Stability Improvements | GitHub: @KZeni">Kurt Zenisek</li>
 
 			<!-- Issue Reporters -->
+			<li title="Issue Reporter | GitHub: @AmitT">Amit Tal</li>
 			<li title="Issue Reporter | GitHub: @Gismo1337">Sebastian Richter</li>
 			<li title="Issue Reporter | GitHub: @dmitriyKharlashin">Dmitriy Kharlashin</li>
 			<li title="Issue Reporter | GitHub: @MikeNGarrett">Mike Garrett</li>

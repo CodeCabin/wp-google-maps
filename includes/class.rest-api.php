@@ -954,8 +954,13 @@ class RestAPI extends Factory
 			$class = '\\' . stripslashes( $request['phpClass'] );
 
 		try{	
+			if(empty($class)){
+				/* The class name is empty, no reflection possible, return early */
+				return false;
+			}
+
 			$reflection = new \ReflectionClass($class);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return new \WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
 		}
 		

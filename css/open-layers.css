@@ -15,6 +15,10 @@
 	min-height: 100%;
 }
 
+.wpgmza_map[data-maps-engine="open-layers"] canvas {
+	max-width: unset;
+}
+
 /*
 .wpgmza-ol-modern-infowindow-container .wpgmza_modern_infowindow
 {

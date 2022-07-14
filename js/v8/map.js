@@ -393,9 +393,21 @@ jQuery(function($) {
 	
 	WPGMZA.Map.prototype.initStoreLocator = function()
 	{
-		var storeLocatorElement = $(".wpgmza_sl_main_div,.wpgmza-store-locator");
-		if(storeLocatorElement.length)
+		let selectors = [
+			".wpgmza-store-locator[data-id='" + this.id + "']",
+			".wpgmza-store-locator",
+			".wpgmza_sl_main_div"
+		];
+
+		let storeLocatorElement = false;
+		for(let i in selectors){
+			if($(selectors[i]).length > 0 && storeLocatorElement === false){
+				storeLocatorElement = $(selectors[i]);
+			}
+		}
+		if(storeLocatorElement.length){
 			this.storeLocator = WPGMZA.StoreLocator.createInstance(this, storeLocatorElement[0]);
+		}
 	}
 	
 	/**

@@ -173,6 +173,11 @@ class Plugin extends Factory
 				});
 			}
 		}
+
+		if(!empty($this->settings->enable_dynamic_sql_refac_filter)){
+			/* The dynamic SQL refactor option has been enabled */
+			add_filter('query', array($this, 'dynamicQueryRefactor'), 99, 1);
+		}
 	}
 	
 	public function __set($name, $value)
@@ -843,6 +848,33 @@ class Plugin extends Factory
 		if (substr($url, -1) != "/") { $url = $url."/"; }
 
 		return $url;
+	}
+
+	/**
+	 * Dynamically refactors SQL statements to not make use of single quote statements 
+	 * 
+	 * This is helpful on environments where single quote queries are not allowed, or not supported. 
+	 * 
+	 * Known hosts: WP Engine 
+	 * 
+	 * This will only run if the option is enabled 
+	 * 
+	 * @param string $sql The query that is about to be executed 
+	 * 
+	 * @return string
+	 */
+	public function dynamicQueryRefactor($sql){
+		if(strpos($sql, 'wpgmza') !== FALSE){
+			/* This is a WPGMZA query */
+			if(strpos($sql, "REPLACE(map_width_type, '\\\\', '')") !== FALSE){
+				/* Specifically for map params, which is a big cause of the issue */
+				$sql = str_replace("'\\\\'", "''", $sql);
+			}
+			
+			/* General replacement statement */
+			$sql = str_replace("\'", "''", $sql);
+		}
+		return $sql;
 	}
 
 	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {

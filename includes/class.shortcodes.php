@@ -299,7 +299,7 @@ class Shortcodes extends Factory {
 					/* Probably separated, send over the settings */
 					$container->setAttribute('data-map-settings', json_encode($map->getDataSettingsObject()));
 				}
-				
+								
 				if(!empty($attributes->classname)){
 					$container->addClass($attributes->classname);
 				}
