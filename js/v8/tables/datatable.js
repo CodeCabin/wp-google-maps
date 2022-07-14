@@ -462,8 +462,10 @@ jQuery(function($) {
 	}
 	
 	WPGMZA.DataTable.prototype.reload = function()
-	{
-		this.dataTable.ajax.reload(null, false); // null callback, false for resetPaging
+	{	
+		if(this.dataTable){
+			this.dataTable.ajax.reload(null, false); // null callback, false for resetPaging
+		}
 	}
 	
 });

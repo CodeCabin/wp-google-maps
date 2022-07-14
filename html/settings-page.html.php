@@ -549,6 +549,25 @@
 				?>
 			</small>
 		</fieldset>
+
+		<fieldset class="wpgmza-pro-feature wpgmza-pro-feature-hide">
+			<legend>
+				<?php
+				_e("Gallery Image Size", "wp-google-maps");
+				?>
+			</legend>
+			<select name="gallery_item_source_size">
+				<option value="full"><?php _e('Full', 'wp-google-maps'); ?></option>
+				<option value="large"><?php _e('Large', 'wp-google-maps'); ?></option>
+				<option value="medium"><?php _e('Medium', 'wp-google-maps'); ?></option>
+				<option value="small"><?php _e('Small', 'wp-google-maps'); ?></option>
+				<option value="thumbnail"><?php _e('Thumbnail', 'wp-google-maps'); ?></option>
+			</select>
+
+			<small>
+				<?php _e("Only applies to new images, existing markers would need to be resaved, lightboxes will use full size", "wp-google-maps"); ?>
+			</small>
+		</fieldset>
 	</div>
 	
 	<div id="info-windows">
@@ -1433,6 +1452,20 @@
 					<small>
 						<?php
 						esc_html_e("Use this setting if you are experiencing issues with Autoptimize's CSS aggregation. This may cause issues on setups with a large amount of marker data.", "wp-google-maps");
+						?>
+					</small>
+				
+			</label>
+		</fieldset>
+
+		<fieldset>
+			<legend><?php esc_html_e("Enable Dynamic SQL Refactors", "wp-google-maps"); ?></legend>
+			<label>
+				<input name="enable_dynamic_sql_refac_filter" type="checkbox"/>
+				
+					<small>
+						<?php
+						esc_html_e("Use this setting if your marker/map lists are not loading, or no results are being returned throughout the system. Commonly recommend in situations where single quote queries are not allowed. (WP Engine Users)", "wp-google-maps");
 						?>
 					</small>
 				

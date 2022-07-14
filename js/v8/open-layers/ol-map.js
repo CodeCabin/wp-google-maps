@@ -371,11 +371,16 @@ jQuery(function($) {
 				let width = parseInt(this.settings.custom_tile_image_width);
 				let height = parseInt(this.settings.custom_tile_image_height);
 
+				let imageDimensions = null; //autodetect
 				try{
 					if(window.devicePixelRatio && window.devicePixelRatio != 1){
 						/* For retina displays, lets multiple the target dimensions, with the devicePixelRatio */
+						/* Updated 2022-07-07: Was unreliable, moved to setting manual dimensions */
+						/*
 						width *= window.devicePixelRatio;
 						height *= window.devicePixelRatio;
+						*/
+						imageDimensions = [width, height];
 					}
 				} catch (ex){
 					/* Do nothing */
@@ -395,7 +400,8 @@ jQuery(function($) {
 							attributions: this.settings.custom_tile_image_attribution ? this.settings.custom_tile_image_attribution : '©',
 							url: this.settings.custom_tile_image,
 							projection: projection,
-							imageExtent: extent
+							imageExtent: extent,
+							imageSize: imageDimensions
 						})
 					});
 				}

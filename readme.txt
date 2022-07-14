@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.0
 Requires PHP: 5.3
-Stable tag: 9.0.5
+Stable tag: 9.0.6
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -240,9 +240,22 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 9.0.6 - 2022-07-14 =
+* Added option to dynamically refactor single quote SQL queries within our core. This solves issues in environments where single quote statements are not supported, such as WP Engine
+* Fixed issue where OpenLayers canvas would scale incorrectly on retina displays 
+* Fixed issue where OpenLayers canvas would inherit theme max width values, which could lead to misplacement of markers 
+* Fixed issue where separated Store Locator search would run even when no request is passed, causing a focus on address field
+* Fixed issue where Store locator was initializing on the first element broadly matched, this could lead to issues when using add-on
+* Fixed issue where DataTables reload would be called early and cause an error to be thrown
+* Fixed issue in 'isModernComponentStyleAllowed' method which did not account for Atlas Novus build
+* Fixed issue where Reflection exception would not be handled gracefully where no class name is present (Thanks to Amit Tal)
+* Updated Atlas Novus install ratio to reduce the amount of users who receive the new user interface temporarily (Ratio: 30%)
+* Updated DataTables bundles to 1.12.1 (Excl. Styles)
+* Updated DataTables Responsive bundles to 2.3.0
+
 = 9.0.5 - 2022-07-06 =
 * Added 'is-fullscreen' class to maps when they enter fullscreen mode, adding control over styling
-* Improved underlyig canvas handling on retina displays with OpenLayers
+* Improved underlying canvas handling on retina displays with OpenLayers
 * Fixed issue where fullscreen height on Safari, with OpenLayers would not be respected
 * Removed calls to $.isNumeric and replaced them with WPGMZA.isNumeric counterpart
 * Removed $.bind calls and replaced them with standard $.on event listeners

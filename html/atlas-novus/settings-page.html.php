@@ -491,6 +491,25 @@
 				</label>
 			</div>
 		</div>
+
+		<!-- Gallery Image Size -->
+		<div class="tab-row has-hint wpgmza-pro-feature wpgmza-pro-feature-hide">
+			<div class="title"><?php _e("Gallery Image Size", "wp-google-maps"); ?></div>
+			<select name="gallery_item_source_size">
+				<option value="full"><?php _e('Full', 'wp-google-maps'); ?></option>
+				<option value="large"><?php _e('Large', 'wp-google-maps'); ?></option>
+				<option value="medium"><?php _e('Medium', 'wp-google-maps'); ?></option>
+				<option value="small"><?php _e('Small', 'wp-google-maps'); ?></option>
+				<option value="thumbnail"><?php _e('Thumbnail', 'wp-google-maps'); ?></option>
+			</select>
+		</div>
+
+		<div class="tab-row">
+			<div class="title"></div>
+			<small>
+				<?php _e("Only applies to new images, existing markers would need to be resaved, lightboxes will use full size", "wp-google-maps"); ?>
+			</small>
+		</div>
 	</div>
 	
 	<!-- Info windows tab -->
@@ -1883,6 +1902,27 @@
 					<small>
 						<?php
 						esc_html_e("Use this setting if you are experiencing issues with Autoptimize's CSS aggregation. This may cause issues on setups with a large amount of marker data.", "wp-google-maps");
+						?>
+					</small>
+				</label>
+				
+			</div>
+		</div>
+
+		<!-- Dynamic SQL Refactor -->
+		<div class="tab-row has-hint">
+			<div class="title"><?php esc_html_e("Enable Dynamic SQL Refactors", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="enable_dynamic_sql_refac_filter"
+						id="enable_dynamic_sql_refac_filter"
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+				
+				<label for="enable_dynamic_sql_refac_filter"></label>
+				<label for="enable_dynamic_sql_refac_filter">
+					<small>
+						<?php
+						esc_html_e("Use this setting if your marker/map lists are not loading, or no results are being returned throughout the system. Commonly recommend in situations where single quote queries are not allowed. (WP Engine Users)", "wp-google-maps");
 						?>
 					</small>
 				</label>

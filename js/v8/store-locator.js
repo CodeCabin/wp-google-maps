@@ -451,7 +451,7 @@ jQuery(function($) {
 			$(this.radiusElement).val(queryRadius);
 		}
 
-		if(!this.isCapsule){
+		if(!this.isCapsule && queryRadius && queryCenter){
 			/* Only run if not part of a capsule */
 			this.map.on('init', () => {
 				this.onSearch();

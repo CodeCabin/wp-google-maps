@@ -9,7 +9,7 @@ class InternalEngine {
 	const LEGACY = "legacy";
 	const ATLAS_NOVUS  = "atlas-novus";
 
-	const RAND_PROB_FACTOR = 0.5;
+	const RAND_PROB_FACTOR = 0.3;
 
 	private $engine;
 	private $baseUrl;
