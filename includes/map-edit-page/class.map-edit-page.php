@@ -175,6 +175,12 @@ class MapEditPage extends Page
 
 			$bulkMarkerEditorDialog = BulkMarkerEditorDialog::createInstance();
 			@$document->querySelector(".wpgmza-wrap")->import($bulkMarkerEditorDialog->document);
+
+			$editorTour = new MapEditorTour();
+			if($editorTour->canTour()){
+				@$document->querySelector(".wpgmza-wrap")->import($editorTour);
+			}
+
 		}
 
 		$this->applyEditorHooks();

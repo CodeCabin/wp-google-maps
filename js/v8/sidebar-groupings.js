@@ -16,6 +16,11 @@ jQuery(function($) {
 
 		$(this.element).on("click", ".grouping .item", function(event){
 			self.openTab(event);
+
+			if($(this).hasClass('caret-right')){
+				/* Intelli-Panels - Only applies when moving forward (caret-right) */
+				self.intelliFeaturePanel();
+			}
 		});
 
 		$('.quick-actions .actions').on('click', '.icon', function(event){
@@ -93,7 +98,6 @@ jQuery(function($) {
 	WPGMZA.SidebarGroupings.prototype.openTabByFeatureType = function(feature){
 		if($(this.element).find('.grouping[data-feature="' + feature + '"]').length > 0){
 			var groupId = $(this.element).find('.grouping[data-feature="' + feature + '"]').data('group');
-
 			this.openTabByGroupId(groupId);
 		}
 	}
@@ -185,6 +189,28 @@ jQuery(function($) {
 	WPGMZA.SidebarGroupings.prototype.resetScroll = function(){
 		if($(this.element).find('.grouping.open').length > 0){
 			$(this.element).find('.grouping.open .settings').scrollTop(0);
+		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.intelliFeaturePanel = function(){
+		/* 
+		 * Check if the curretly open panel is subject to intelli panel logic 
+		 * 
+		 * This is when a feature list is loaded, but the list is empty, in these cases, we can skip right on to the creator/editor in most cases
+		 */
+		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.map && WPGMZA.mapEditPage.map.markersPlaced){
+			const element = $(this.element).find('.grouping.open');
+			const map =  WPGMZA.mapEditPage.map;
+			if(element.find('*[data-wpgmza-table]').length > 0){
+				const feature = element.find('*[data-wpgmza-table]').data('wpgmza-feature-type');
+				if(feature){
+					/* We have a map edit page, the markers at very least have been placed, and we found a matching data-type list (DataTable) */
+					const featurePlural = WPGMZA.pluralize(feature);
+					if(map[featurePlural] && map[featurePlural].length === 0){
+						element.find('.navigation .item:first-child').click();
+					}
+				}
+			}
 		}
 	}
 

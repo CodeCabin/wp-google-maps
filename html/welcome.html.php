@@ -20,7 +20,7 @@ printf(__("Welcome to WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasi
 
 <div class="about-text"><?php _e("Build amazing maps through a simple interface and powerful functionality along with world class support.","wp-google-maps"); ?></div>
 
-<a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;override=1"><?php echo __("Skip intro and create a map","wp-google-maps"); ?></a>
+<a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true&amp;override=1"><?php echo __("Skip intro and create a map","wp-google-maps"); ?></a>
 <p>&nbsp;</p>
 
 
@@ -158,7 +158,7 @@ printf(__("Welcome to WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasi
                             </div>
                         </div>
                         
-                <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
+                <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true&amp;override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
 
             </div>
         </div>

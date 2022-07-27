@@ -21,7 +21,7 @@ global $wpgmza_global_array;
     <h1><?php _e("Welcome to Atlas Novus", "wp-google-maps"); ?></h1>
     <h2><?php printf(__("WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasicVersion()); ?></h2>
 
-    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer'); ?>">
+    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
         <?php echo __("Skip Introduction, Get Started","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>
@@ -157,7 +157,7 @@ global $wpgmza_global_array;
     <hr>
     
     <h2><?php _e("Ready to get started?", "wp-google-maps"); ?></h2>                
-    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer'); ?>">
+    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
         <?php echo __("Let's get started","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>

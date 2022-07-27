@@ -756,6 +756,12 @@
 									</label>
 									
 									<div class="hint"><?php _e("Intelligently detects the zoom level based on the location entered", "wp-google-maps"); ?></div>
+
+									<div class="hint" data-search-area="auto">
+										<?php
+											_e("Marker listings will not be filtered based on visible markers. Enable the 'Only load markers within viewport (beta)' option for beta filtering support", "wp-google-maps");
+										?>
+									</div>
 								</li>
 							</ul>
 						</fieldset>
@@ -871,7 +877,7 @@
 							</select>
 						</fieldset>
 
-						<fieldset class="wpgmza-row wpgmza-pro-feature">
+						<fieldset class="wpgmza-row wpgmza-pro-feature" data-search-area="radial">
 							<!-- Line color -->
 							<div class="wpgmza-col">
 								<legend><?php _e("Line color", "wp-google-maps"); ?></legend>
@@ -893,7 +899,7 @@
 							</div>
 						</fieldset>
 						
-						<fieldset class="wpgmza_legacy_sl_style_option_area wpgmza-pro-feature wpgmza-row">
+						<fieldset class="wpgmza_legacy_sl_style_option_area wpgmza-pro-feature wpgmza-row" data-search-area="radial">
 							<!-- Fill color -->
 							<div class="wpgmza-col">
 								<legend><?php _e("Fill color", "wp-google-maps"); ?></legend>

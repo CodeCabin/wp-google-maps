@@ -4017,7 +4017,207 @@
     margin-top: 5px;
 }
 
+/* Admin Tours */
+/* The actual tour wrapper is fixed at 0 as it is just a container */
+.wpgmza-wrap .wpgmza-tour {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}
+
+.wpgmza-wrap .wpgmza-tour > *{
+    display: none;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-prompt.active {
+    display: flex;
+    flex-direction: row;
+
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+
+    background: var(--wpgmza-color-white);
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    align-items: center;
+
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-wrap .wpgmza-tour[data-map-engine="google-maps"] .wpgmza-tour-prompt.active {
+    bottom: 200px;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-prompt .wpgmza-tour-prompt-emoji {
+    font-size: 2.5rem;
+
+    -webkit-animation: wpgmzaTourPromptWiggle 5s forwards ease;
+    animation: wpgmzaTourPromptWiggle 5s forwards ease;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-prompt .wpgmza-tour-prompt-content {
+    margin-left: 10px;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-prompt .wpgmza-tour-prompt-content .wpgmza-tour-prompt-title {
+    margin-bottom: 10px;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-frame.active {
+    position: fixed;
+    display: block;
+    border: rgb(0 0 0 / 30%) 1px solid;
+    pointer-events: none;
+
+    box-shadow: 0 0 0 100vw rgb(0 0 0 / 30%);
+
+    
+    -webkit-animation: wpgmzaPopinTabs 0.3s forwards;
+    animation: wpgmzaPopinTabs 0.3s forwards;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-frame.active:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    border-radius: var(--wpgmza-tour-frame-border-radius);
+    top: 0;
+    left: 0;
+    border: 3px solid rgb(0 0 0 / 30%);
+    pointer-events: none;
+    
+    -webkit-animation: wpgmzaTourFramePulse 2s forwards linear;
+    animation: wpgmzaTourFramePulse 2s forwards linear;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-step.active {
+    position: fixed;
+    display:block;
+
+    background: var(--wpgmza-color-white);
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+
+    box-shadow: var(--wpgmza-shadow-common);
+
+    z-index: 9;
+
+    margin-left: 50px;
+
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-step.active:before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: calc(50% - 2px);
+    width: 30px;
+    height: 4px;
+    background: var(--wpgmza-color-white);
+
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-step.active:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: calc(50% - 8px);
+    left: -45px;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+
+    border: 4px solid var(--wpgmza-color-white);
+
+    border-radius: 16px;
+    transform: rotate(45deg);
+
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-tour .wpgmza-tour-step.active .wpgmza-tour-step-title {
+    font-weight: 600;
+}
+
+
+
 /* Animations */
+@-webkit-keyframes wpgmzaTourPromptWiggle {
+    0% { 
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(15deg)
+    }
+    20% {
+        transform: rotate(-15deg)
+    }
+    30% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes wpgmzaTourPromptWiggle {
+    0% { 
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(15deg)
+    }
+    20% {
+        transform: rotate(-15deg)
+    }
+    30% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes wpgmzaTourFramePulse {
+    0% { 
+        opacity: 0;
+    }
+    50% {
+        opacity: 1; 
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes wpgmzaTourFramePulse {
+    0% { 
+        opacity: 0;
+    }
+    50% {
+        opacity: 1; 
+    }
+    100% {
+        opacity: 0
+    }
+}
+
 @-webkit-keyframes wpgmzaSlideFromRight {
     0% { left : 100%; }
     100% { left: 0; }

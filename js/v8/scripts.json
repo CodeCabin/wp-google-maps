@@ -396,6 +396,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-tour": {
+        "src": "js\/v8\/tour.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-version": {
         "src": "js\/v8\/version.js",
         "pro": false,

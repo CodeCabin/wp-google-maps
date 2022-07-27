@@ -504,7 +504,7 @@
 			</select>
 		</div>
 
-		<div class="tab-row">
+		<div class="tab-row wpgmza-pro-feature wpgmza-pro-feature-hide">
 			<div class="title"></div>
 			<small>
 				<?php _e("Only applies to new images, existing markers would need to be resaved, lightboxes will use full size", "wp-google-maps"); ?>

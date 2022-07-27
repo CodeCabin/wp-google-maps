@@ -15,6 +15,7 @@ wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.installer-page.php'
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.settings-page.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/styling/class.styling-page.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/map-edit-page/class.map-edit-page.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/map-edit-page/class.map-editor-tour.php');
 
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . "base/classes/widget_module.class.php" );
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . "includes/compat/backwards_compat_v6.php" );
