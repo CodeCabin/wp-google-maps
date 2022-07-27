@@ -9,7 +9,7 @@
 			<h2><?php _e("What map engine would you like to use?", "wp-google-maps"); ?></h2>
 
 			<br>
-			<a href="#" class='wpgmza-installer-skip' title="<?php _e("We'll remind you in a day or two to finish up", "wp-google-maps"); ?>">
+			<a href="#" class='wpgmza-installer-skip wpgmza-button' title="<?php _e("We'll remind you in a day or two to finish up", "wp-google-maps"); ?>">
 				<?php _e("Not ready? Skip for now!", "wp-google-maps"); ?>
 			</a>
 

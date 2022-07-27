@@ -240,7 +240,7 @@
 	<hr>
 
 	<h2><?php _e("Ready to get started?", "wp-google-maps"); ?></h2>                
-    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer'); ?>">
+    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
         <?php echo __("Let's get started","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>

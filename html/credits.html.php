@@ -128,7 +128,7 @@
 		</a>
 	</p>
 
-	<a class="button-primary" style='padding:10px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;override=1">
+	<a class="button-primary" style='padding:10px; height:inherit;' href="admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true&amp;override=1">
 		<?php echo __("OK! Let's start","wp-google-maps"); ?>
 	</a>
 

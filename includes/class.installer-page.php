@@ -21,6 +21,19 @@ class InstallerPage extends Page {
 
 		$wrapper->setAttribute('data-redirect', $redirectUrl);
 
+		if(!empty($_GET['autoskip'])){
+			/* 
+			 * The system detected an auto-skip param, let's set this in the DOM, so that the installer is 
+			 * automatically skipped for X days when the page loads 
+			 * 
+			 * This is done in attempt to streamline first time use/onboarding to help users more quickly reach their end goal which is creating a map 
+			 * 
+			 * At some point the system will bring them back here without autoskip triggered and they will need to complete the onboarding flow, but this 
+			 * way it does not feel as intrusive or required 
+			*/
+			$wrapper->setAttribute('data-auto-skip', 'true');
+		}
+
 	    /* Developer Hook (Action) - Alter output of the installer page, passes DOMDocument for mutation */     
 		do_action("wpgmza_installer_page_created", $this->document);
 	}
