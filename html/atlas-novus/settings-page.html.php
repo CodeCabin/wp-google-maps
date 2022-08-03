@@ -1427,6 +1427,9 @@
 		<div class="tab-row has-hint" data-required-maps-engine="google-maps">
 			<div class="title"><?php _e('Google Maps API Key (required)', 'wp-google-maps'); ?></div>
 			<input name="wpgmza_google_maps_api_key" id='wpgmza_google_maps_api_key' style='width: 40%;' />
+
+			<small class="wpgmza-pad-5"><a href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&action=installer'); ?>"><?php esc_html_e("Open Installer", "wp-google-maps"); ?></a></small>
+
 		</div>
 
 		<!-- API key hint -->

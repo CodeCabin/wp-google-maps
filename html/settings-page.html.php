@@ -1185,6 +1185,8 @@
 			<legend><?php _e('Google Maps API Key (required)', 'wp-google-maps'); ?></legend>
 			<label>
 				<input name="wpgmza_google_maps_api_key" id='wpgmza_google_maps_api_key' style='width: 400px;'/>
+				<small style="margin-left: 5px"><a href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&action=installer'); ?>"><?php esc_html_e("Open Installer", "wp-google-maps"); ?></a></small>
+
 				<p>
 					<small>
 						<?php

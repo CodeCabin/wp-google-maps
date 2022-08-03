@@ -5,16 +5,16 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.0
 Requires PHP: 5.3
-Stable tag: 9.0.7
+Stable tag: 9.0.8
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
 
 == Description ==
 
-The easiest to use Google Maps and Open Layers Map Plugin (including a Map Widget)!
+The easiest to use Google Maps and Open Layers Map Plugin (including a Map Block)!
 
-Add a customized Google map, map widget or Store Locator to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
+Add a customized Google map, map block or Store Locator to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
 
 While the free version of WP Go Maps allows you to create a Google map with as many markers as you like, the Pro version allows you to do so much more! 
 
@@ -239,6 +239,11 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.8 - 2022-08-03 =
+* Added installer links to API key fields in settings area, to improve API key creation process for returning users
+* Updated all base PO files, source information updated for future improvements
+* Updated branding assets
 
 = 9.0.7 - 2022-07-27 =
 * Added button styling to primary installer skip button, to make this option more clear to new users 
