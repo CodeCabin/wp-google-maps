@@ -196,8 +196,12 @@ function wpgmza_plugin_action_links( $links ) {
 
     if(!$wpgmza->isProVersion()){
         // Only show this link if the user is not a Pro user
+        $proLink = "https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=plugin_link_upgrade";
+		if(!$wpgmza->internalEngine->isLegacy()){
+            $proLink .= "-atlas-novus";
+        }
         array_unshift( $links,
-            '<a class="" target="_BLANK" href="'.wpgm_pro_link("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=plugin_link_upgrade").'">' . __( 'Get Pro Version', 'wp-google-maps' ) . '</a>' );
+            '<a class="" target="_BLANK" href="'.wpgm_pro_link($proLink).'">' . __( 'Get Pro Version', 'wp-google-maps' ) . '</a>' );
     }
 
     return $links;
