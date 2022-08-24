@@ -164,7 +164,7 @@ class GDPRCompliance
 	public function getConsentPromptHTML()
 	{
 		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
-		$button_label = (empty($wpgmza_other_settings['wpgmza_gdpr_button_label']) ? __('I agree', 'wp-google-maps') : $wpgmza_other_settings['wpgmza_gdpr_button_label']);
+		$button_label = ((empty($wpgmza_other_settings['wpgmza_gdpr_button_label']) || $wpgmza_other_settings['wpgmza_gdpr_button_label'] === 'I agree') ? __('I agree', 'wp-google-maps') : $wpgmza_other_settings['wpgmza_gdpr_button_label']);
 
 		return '<div class="wpgmza-gdpr-compliance">' . $this->getNoticeHTML(false) . "<p class='wpgmza-centered'><button class='wpgmza-api-consent'>" . $button_label . "</button></div></p>";
 	}
