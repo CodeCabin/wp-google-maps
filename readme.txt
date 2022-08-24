@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.0
 Requires PHP: 5.3
-Stable tag: 9.0.9
+Stable tag: 9.0.10
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -239,6 +239,13 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.10 - 2022-08-24 =
+* Fixed issue where "I agree" GDPR button would not be translated once global settings are saved
+* Fixed issue with Nominatim query params, where some restrictions would not be respected
+* Fixed issue where combined file was preferred over minified file when the servers archive class would extract slower than expected. Introduces delta tolerance 
+* Updated Atlas Novus install ratio to increase the amount of users who receive the new user interface temporarily (Ratio: 70%)
+* Tested Borlabs Cookie integration, found to be fully functional after in depth discussion with their team
 
 = 9.0.9 - 2022-08-11 =
 * Added Atlas Novus tag to plugin website link
@@ -614,5 +621,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
 
 

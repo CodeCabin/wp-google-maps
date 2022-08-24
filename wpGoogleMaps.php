@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.9
+Version: 9.0.10
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,13 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.10 - 2022-08-24
+ * Fixed issue where "I agree" GDPR button would not be translated once global settings are saved
+ * Fixed issue with Nominatim query params, where some restrictions would not be respected
+ * Fixed issue where combined file was preferred over minified file when the servers archive class would extract slower than expected. Introduces delta tolerance 
+ * Updated Atlas Novus install ratio to increase the amount of users who receive the new user interface temporarily (Ratio: 70%)
+ * Tested Borlabs Cookie integration, found to be fully functional after in depth discussion with their team
+ * 
  * 9.0.9 - 2022-08-11
  * Added Atlas Novus tag to plugin website link
  * Removed internal build swap notice, for the time being
