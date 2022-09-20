@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.10
+Version: 9.0.11
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,12 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.11 - 2022-09-20 
+ * Added various supports for Pro add-on settings
+ * Fixed issue with country code module where it was using TLD instead of ISO 3166-1 alpha-2 
+ * Updated internal engine controller to make use of mt_rand() instead of rand(), to improve probability factoring
+ * Updated da_DK translation file (Internal Adjustment)
+ * 
  * 9.0.10 - 2022-08-24
  * Fixed issue where "I agree" GDPR button would not be translated once global settings are saved
  * Fixed issue with Nominatim query params, where some restrictions would not be respected

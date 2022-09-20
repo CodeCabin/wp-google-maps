@@ -957,7 +957,13 @@
 						<!-- Query String -->
 						<fieldset class="wpgmza-pro-feature">
 							<legend><?php _e("Query String", "wp-google-maps"); ?></legend>
-							<input type="text" name="store_locator_query_string" id="wpgmza_store_locator_query_string" class="wpgmza-pro-feature" placeholder="<?php esc_attr_e("Enter a location", "wp-google-maps"); ?>"/>
+							<input type="text" name="store_locator_query_string" id="wpgmza_store_locator_query_string" class="wpgmza-pro-feature" placeholder="<?php esc_attr_e("ZIP / Address:", "wp-google-maps"); ?>"/>
+						</fieldset>
+
+						<!-- Location Placeholder String -->
+						<fieldset class="wpgmza-pro-feature">
+							<legend><?php _e("Location Placeholder", "wp-google-maps"); ?></legend>
+							<input type="text" name="store_locator_location_placeholder" id="wpgmza_store_locator_location_placeholder" class="wpgmza-pro-feature" placeholder="<?php esc_attr_e("Enter a location", "wp-google-maps"); ?>"/>
 						</fieldset>
 						
 						<!-- Default Address -->
@@ -1914,6 +1920,23 @@
 
 							<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click">
 							<div id="zoom-on-marker-listing-click-slider"></div> 
+						</fieldset>
+
+						<!-- Disable zoom on marker listing click -->
+						<fieldset class="wpgmza-pro-feature wpgmza-row">
+							<div class="wpgmza-col">
+								<legend><?php _e("Disable Zoom On Listing Click", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox'
+										id='marker_listing_disable_zoom' 
+										name='marker_listing_disable_zoom' 
+										class='postform cmn-toggle cmn-toggle-round-flat wpgmza-pro-feature'/>
+									<label for="marker_listing_disable_zoom"></label>
+								</div>
+							</div>
 						</fieldset>
 					</div>
 				</div>

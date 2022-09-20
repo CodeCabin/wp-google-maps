@@ -70,6 +70,11 @@ class StoreLocator extends Factory implements \IteratorAggregate
 				->querySelectorAll("div.wpgmza-no-results")
 				->addClass("wpgmza-not-found-msg js-not-found-msg");
 		}
+
+		/* Location placeholder */
+		if(!empty($this->map->store_locator_location_placeholder)){
+			$this->_document->querySelectorAll("input[data-name='defaultAddress']")->setAttribute('placeholder', $this->map->store_locator_location_placeholder);
+		}
 	}
 	
 	public function __get($name)

@@ -677,6 +677,16 @@
 						
 						<input type="text" name="store_locator_query_string" id="wpgmza_store_locator_query_string" class="wpgmza-pro-feature"/>
 					</fieldset>
+
+					<fieldset class="wpgmza-pro-feature">
+						<legend>
+							<?php
+							_e("Location Placeholder", "wp-google-maps");
+							?>
+						</legend>
+						
+						<input type="text" name="store_locator_location_placeholder" id="wpgmza_store_locator_location_placeholder" class="wpgmza-pro-feature"/>
+					</fieldset>
 					
 					<fieldset class="wpgmza-pro-feature">
 						<legend>
@@ -1902,6 +1912,27 @@
 						<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click">
 
 						 <div id="zoom-on-marker-listing-click-slider"></div> 
+					</fieldset>
+
+					<fieldset class="wpgmza-pro-feature">
+						<legend>
+							<?php
+							_e("Disable Zoom On Listing Click", "wp-google-maps");
+							?>
+						</legend>
+
+						<div>
+							<div class='switch'>
+								<input type='checkbox' 
+									id='marker_listing_disable_zoom' 
+									name='marker_listing_disable_zoom' 
+									class='postform cmn-toggle cmn-toggle-round-flat wpgmza-pro-feature'>
+								<label for='marker_listing_disable_zoom' 
+									data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+									data-off='<?php _e("No", "wp-google-maps"); ?>'>
+								</label>
+							</div>
+						</div>
 					</fieldset>
 					
 
