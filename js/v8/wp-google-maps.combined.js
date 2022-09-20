@@ -20121,9 +20121,9 @@ jQuery(function($) {
 		};
 		
 		if(options.componentRestrictions && options.componentRestrictions.country){
-			data.country = options.componentRestrictions.country;
+			data.countrycodes = options.componentRestrictions.country;
 		} else if(options.country){
-			data.country = options.country;
+			data.countrycodes = options.country;
 		}
 		
 		$.ajax("https://nominatim.openstreetmap.org/search/", {

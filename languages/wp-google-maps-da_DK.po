@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Google Maps v6.0.26\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-02 13:18+0200\n"
-"PO-Revision-Date: 2022-08-02 13:18+0200\n"
+"PO-Revision-Date: 2022-09-12 15:11+0200\n"
 "Last-Translator: patrick <patrick_jepsen@hotmail.com>\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -1874,7 +1874,7 @@ msgstr "Tæt"
 #: wp-google-maps-pro/html/directions-box.html.php:2
 #: wp-google-maps-pro/wp-google-maps-pro.php:754
 msgid "Get Directions"
-msgstr "Routebeschrijving naar"
+msgstr "Få rutevejledning"
 
 #: wp-google-maps-pro/html/atlas-novus/directions-box.html.php:34
 #: wp-google-maps-pro/html/atlas-novus/directions-box.html.php:35
@@ -1970,7 +1970,7 @@ msgstr ""
 #: wp-google-maps-pro/legacy-core.php:1168
 #: wp-google-maps/includes/class.strings.php:68
 msgid "Fetching directions..."
-msgstr "Routebeschrijving opvragen..."
+msgstr "Vejvisninger"
 
 # @ wp-google-maps
 #: wp-google-maps-pro/html/atlas-novus/import-export/import-export.html.php:4
@@ -2646,10 +2646,8 @@ msgstr ""
 
 # @ wp-google-maps
 #: wp-google-maps-pro/html/directions-box-settings.html.php:2
-#, fuzzy
-#| msgid "Directions"
 msgid "Directions:"
-msgstr "Vejvisninger"
+msgstr "Vejvisninger."
 
 # @ wp-google-maps
 #: wp-google-maps-pro/html/directions-box-settings.html.php:60
@@ -5159,7 +5157,7 @@ msgstr "Mange tak. Dine markører venter på godkendelse."
 # @ wp-google-maps
 #: wp-google-maps-pro/legacy-core.php:1422
 msgid "Get directions"
-msgstr "Routebeschrijving naar"
+msgstr "Få rutevejledning."
 
 #: wp-google-maps-pro/legacy-core.php:1424
 #: wp-google-maps/includes/class.strings.php:50
@@ -8074,7 +8072,7 @@ msgstr ""
 #: wp-google-maps/html/atlas-novus/map-edit-page/map-edit-page.html.php:1949
 #: wp-google-maps/html/map-edit-page/map-edit-page.html.php:1933
 msgid "Remove search box"
-msgstr ""
+msgstr "Fjern søge boksen."
 
 #: wp-google-maps/html/atlas-novus/map-edit-page/map-edit-page.html.php:1964
 #: wp-google-maps/html/map-edit-page/map-edit-page.html.php:1999
@@ -13970,10 +13968,6 @@ msgstr ""
 
 #~ msgid "Copied to clipboard"
 #~ msgstr "Kopieret til clipboard"
-
-# @ wp-google-maps
-#~ msgid "Search"
-#~ msgstr "søg"
 
 #~ msgid "Edit Dataset"
 #~ msgstr "Rediger Datasæt"
