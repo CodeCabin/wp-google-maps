@@ -264,7 +264,7 @@ class InternalEngine {
 	 * @return string
 	 */
 	public static function getRandomEngine(){
-		$rFact = mt_rand(1, 100) / 100;
+		$rFact = mt_rand(0, 10) / 10;
 		if($rFact <= self::RAND_PROB_FACTOR){
 			return self::getExperimentalBuildName();
 		}

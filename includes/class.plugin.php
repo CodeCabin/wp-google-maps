@@ -514,7 +514,7 @@ class Plugin extends Factory
 	 */
 	public function isUsingMinifiedScripts()
 	{
-		return $this->isInDeveloperMode();
+		return !$this->isInDeveloperMode();
 	}
 	
 	/**
