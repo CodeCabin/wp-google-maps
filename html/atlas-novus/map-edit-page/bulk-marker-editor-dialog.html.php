@@ -60,6 +60,24 @@
 			<div class="wpgmza-row align-center wpgmza-pro-feature">
 				<div class="wpgmza-col wpgmza-text-align-right wpgmza-pad-10">
 					<label>
+						<?php _e("Display on front end", "wp-google-maps"); ?>
+					</label>
+				</div>
+				<div class="wpgmza-col wpgmza-text-align-left wpgmza-pad-10">
+					<select data-ajax-name="approved">
+						<option value="1">
+							<?php esc_html_e('Yes', 'wp-google-maps'); ?>
+						</option>
+						<option value="0">
+							<?php esc_html_e('No', 'wp-google-maps'); ?>
+						</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="wpgmza-row align-center wpgmza-pro-feature">
+				<div class="wpgmza-col wpgmza-text-align-right wpgmza-pad-10">
+					<label>
 						<?php _e("Layer", "wp-google-maps"); ?>
 					</label>
 				</div>

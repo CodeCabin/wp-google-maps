@@ -3,9 +3,9 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.3
-Stable tag: 9.0.12
+Stable tag: 9.0.13
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -199,6 +199,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.13 =
+Please update to 9.0.13 or above for the latest stability improvements.
+
 = 9.0.4 =
 Please update to 9.0.4 or above for the latest stability improvements.
 
@@ -239,6 +242,17 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.13 - 2022-11-01 =
+* Fixed issue where map would not initialize in some AMP environments, even when AMP is disabled, due to prototype overrides
+* Fixed issue where Google Maps API would not load correctly for zn_CN locale users
+* Fixed issue where Upgrader class did not assert validity of the fromVersion, which could lead to errors 
+* Fixed issue where Settings class would not properly correct corrupted settings objects
+* Update Atlas Novus install ratio to split based on the day in the month, this should be more consistent 
+* Updated all translation files to include missing string definitions 
+* Updated all translation definitions to not be "fuzzy"
+* Update it_IT translation file (Thanks to updownbikes)
+* Tested up to WordPress 6.1
 
 = 9.0.12 - 2022-10-13 =
 * Fixed issue where minified library files were being loaded when in developer mode only

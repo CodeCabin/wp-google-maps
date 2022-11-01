@@ -28,18 +28,29 @@ class Upgrader
 			$wpgmza->updateAllMarkerXMLFiles();
 		});
 		
-		if(version_compare($fromVersion, '7.00', '<')){
-			add_action('init', array($this, 'migrateV7SpatialData'), 1, 11);
+		if($this->assertVersionTag($fromVersion)){
+			/* Only run version compares if the versio number was asserted */ 
+			if(version_compare($fromVersion, '7.00', '<')){
+				add_action('init', array($this, 'migrateV7SpatialData'), 1, 11);
+			}
+
+			if(version_compare($fromVersion, '8.1.0', '<')){
+				add_action('init', array($this, 'migrateCircleData'), 1, 11);
+			}
+
+			if(version_compare($fromVersion, '8.1.12', '<')){
+				add_action('init', array($this, 'removeMarkerLngLatColumn'), 1, 11);
+			}
 		}
 
-		if(version_compare($fromVersion, '8.1.0', '<')){
-			add_action('init', array($this, 'migrateCircleData'), 1, 11);
-		}
+	}
 
-		if(version_compare($fromVersion, '8.1.12', '<')){
-			add_action('init', array($this, 'removeMarkerLngLatColumn'), 1, 11);
+	public function assertVersionTag($version){
+		if(!empty(floatval($version))){
+			/* Value was parsed */
+			return true;
 		}
-
+		return false;
 	}
 
 	public function removeMarkerLngLatColumn(){

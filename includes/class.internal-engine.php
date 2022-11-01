@@ -261,10 +261,18 @@ class InternalEngine {
 	 * 
 	 * This accounts for probability factors
 	 * 
+	 * As of 9.0.13 we use a different approach to randomizing engines, we now use days of the month instead of random ranges
+	 * 
 	 * @return string
 	 */
 	public static function getRandomEngine(){
-		$rFact = mt_rand(0, 10) / 10;
+		$today = intval(date('j'));
+		$days = intval(date('t'));
+
+		$rFact = $today / $days;
+
+		/* Old approach */
+		/* $rFact = mt_rand(0, 10) / 10; */
 		if($rFact <= self::RAND_PROB_FACTOR){
 			return self::getExperimentalBuildName();
 		}
