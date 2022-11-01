@@ -44,9 +44,9 @@ class GoogleMapsLoader
 		// Locale
 		$locale = get_locale();
 		$suffix = '.com';
-		
-		switch($locale)
-		{
+		$region = false;
+
+		switch($locale){
 			case 'he_IL':
 				// Hebrew correction
 				$locale = 'iw';
@@ -54,7 +54,8 @@ class GoogleMapsLoader
 			
 			case 'zh_CN':
 				// Chinese integration
-				$suffix = '.cn';
+				// $suffix = '.cn';
+				$region = 'CN';
 				break;
 		}
 		
@@ -67,12 +68,18 @@ class GoogleMapsLoader
 			'language'	=> $locale,
 			'suffix'	=> $suffix
 		);
+
+		if(!empty($region)){
+			/* Google now requires that we load region over the .com suffix, but with a region query */
+			$params['region'] = $region;
+		}
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');
 		
-		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT)
+		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT){
 			$libraries[] = 'drawing';
+		}
 		
 		$params['libraries'] = implode(',', $libraries);
 		

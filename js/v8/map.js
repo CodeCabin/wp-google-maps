@@ -22,7 +22,7 @@ jQuery(function($) {
 		
 		WPGMZA.EventDispatcher.call(this);
 		
-		if(!(element instanceof HTMLElement)){
+		if(!(element instanceof HTMLElement) && !(element instanceof HTMLDivElement)){
 			if(!window.elementor){
 				/**
 				 * Temporary Solution
