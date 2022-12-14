@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgmaps\n"
 "POT-Creation-Date: 2022-10-31 14:04+0200\n"
-"PO-Revision-Date: 2022-10-31 14:04+0200\n"
+"PO-Revision-Date: 2022-12-08 09:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__;esc_attr_e\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPath-1: ../../wp-google-maps-pro\n"
@@ -49,8 +49,8 @@ msgstr ""
 #: ../../wp-google-maps-gold/html/atlas-novus/live-tracking-settings-panel.html.php:40
 #: ../../wp-google-maps-gold/html/live-tracking-settings-panel.html.php:50
 msgid ""
-"Devices which have attempted to pair with your site will appear here. You "
-"must approve devices before they will appear on the map."
+"Devices which have attempted to pair with your site will appear here. You must "
+"approve devices before they will appear on the map."
 msgstr ""
 
 #: ../../wp-google-maps-gold/html/atlas-novus/live-tracking-settings-panel.html.php:48
@@ -146,8 +146,8 @@ msgstr ""
 #: ../../wp-google-maps-gold/html/marker-rating-settings.html.php:34
 #: ../../wp-google-maps-pro/html/marker-rating-settings.html.php:34
 msgid ""
-"We recommend that you do not modify the maximum and minimum settings after "
-"you begin accepting ratings."
+"We recommend that you do not modify the maximum and minimum settings after you "
+"begin accepting ratings."
 msgstr ""
 
 #: ../../wp-google-maps-gold/html/atlas-novus/marker-rating-settings.html.php:42
@@ -283,9 +283,9 @@ msgstr ""
 #: ../../wp-google-maps-gold/html/marker-rating-settings.html.php:228
 #: ../../wp-google-maps-pro/html/marker-rating-settings.html.php:214
 msgid ""
-"This method requires login and associates ratings with a users account. You "
-"can compliment this by using security methods (eg 3rd party plugins) to "
-"prevent fake accounts."
+"This method requires login and associates ratings with a users account. You can "
+"compliment this by using security methods (eg 3rd party plugins) to prevent "
+"fake accounts."
 msgstr ""
 
 #: ../../wp-google-maps-gold/html/atlas-novus/marker-separator-settings.html.php:4
@@ -299,8 +299,8 @@ msgid ""
 "This feature will group nearby or overlapping markers together using a "
 "placeholder marker. When the placeholder marker is clicked, the group will "
 "open, separating the markers on screen. This is intended for when you have "
-"several markers at the same address but would like the user to be able to "
-"view data from all the markers."
+"several markers at the same address but would like the user to be able to view "
+"data from all the markers."
 msgstr ""
 
 #: ../../wp-google-maps-gold/html/atlas-novus/marker-separator-settings.html.php:17
@@ -599,9 +599,9 @@ msgstr ""
 
 #: ../../wp-google-maps-gold/includes/class.add-on.php:110
 msgid ""
-"<strong>WP Go Maps Gold add-on:</strong> We did not detect a compatible "
-"version of WP Go Maps running on this installation. Please ensure you have "
-"installed the latest version of WP Go Maps in order to use the Gold add-on."
+"<strong>WP Go Maps Gold add-on:</strong> We did not detect a compatible version "
+"of WP Go Maps running on this installation. Please ensure you have installed "
+"the latest version of WP Go Maps in order to use the Gold add-on."
 msgstr ""
 
 #: ../../wp-google-maps-gold/includes/class.add-on.php:128
@@ -670,11 +670,11 @@ msgstr "Salvar o Mapa"
 #: ../../wp-google-maps-pro/legacy-core.php:1783
 #: ../../wp-google-maps-ugm/wp-google-maps-ugm.php:1234
 msgid ""
-"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
-"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Try again</a>"
 msgstr ""
-"Um Erro HTTP Inesperado ocorreu durante o pedido da API. </p><p> <a href=\"?"
-"\" onclick=\"document.location.reload(); return false;\">Tente novamente</a>"
+"Um Erro HTTP Inesperado ocorreu durante o pedido da API. </p><p> <a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Tente novamente</a>"
 
 #: ../../wp-google-maps-gold/legacy-core.php:1581
 #: ../../wp-google-maps-pro/legacy-core.php:1790
@@ -759,8 +759,8 @@ msgstr ""
 
 #: ../../wp-google-maps-gold/legacy-core.php:2035
 msgid ""
-"A new device needs your approval to enable real time location tracking - WP "
-"Go Maps"
+"A new device needs your approval to enable real time location tracking - WP Go "
+"Maps"
 msgstr ""
 
 #: ../../wp-google-maps-gold/legacy-core.php:2164
@@ -1036,18 +1036,18 @@ msgstr ""
 
 #: ../../wp-google-maps-gold/wp-google-maps-gold.php:420
 msgid ""
-"<strong>WP Go Maps Gold Add-on:</strong> This add-on requires WP Go Maps 7.0 "
-"or above. Please update WP Go Maps to use the Gold add-on. You can force a "
-"check for updates by going to Updates in your Dashboard menu, and clicking "
-"\"Check Again\"."
+"<strong>WP Go Maps Gold Add-on:</strong> This add-on requires WP Go Maps 7.0 or "
+"above. Please update WP Go Maps to use the Gold add-on. You can force a check "
+"for updates by going to Updates in your Dashboard menu, and clicking \"Check "
+"Again\"."
 msgstr ""
 
 #: ../../wp-google-maps-gold/wp-google-maps-gold.php:448 ../legacy-core.php:37
 #: ../wpGoogleMaps.php:478
 msgid ""
-"<strong>WP Go Maps:</strong> This plugin requires the WordPress REST API, "
-"which does not appear to be present on this installation. Please update "
-"WordPress to version 4.7 or above."
+"<strong>WP Go Maps:</strong> This plugin requires the WordPress REST API, which "
+"does not appear to be present on this installation. Please update WordPress to "
+"version 4.7 or above."
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/add-map-dialog.html.php:3
@@ -1123,8 +1123,7 @@ msgstr "Endereço"
 #: ../../wp-google-maps-pro/includes/custom-fields/page.custom-fields.php:303
 #: ../../wp-google-maps-pro/includes/page.categories.php:836
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:1506
-#: ../includes/tables/class.admin-marker-datatable.php:40
-#: ../legacy-core.php:1142
+#: ../includes/tables/class.admin-marker-datatable.php:40 ../legacy-core.php:1142
 msgid "Icon"
 msgstr "Ícone"
 
@@ -1764,8 +1763,7 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/directions-box.html.php:147
 #: ../../wp-google-maps-pro/legacy-core.php:1144
-#: ../../wp-google-maps-pro/legacy-core.php:1173
-#: ../includes/class.strings.php:68
+#: ../../wp-google-maps-pro/legacy-core.php:1173 ../includes/class.strings.php:68
 msgid "Fetching directions..."
 msgstr "Obtendo instruções de Como Chegar"
 
@@ -1913,9 +1911,9 @@ msgstr ""
 #: ../../wp-google-maps-pro/html/import-export/import-export.html.php:172
 #: ../../wp-google-maps-pro/html/import-export/import-source-panel.html.php:123
 msgid ""
-"Imports can be scheduled by url or uploaded file. To schedule an import, "
-"import as normal and select the Schedule button. Scheduled imports will be "
-"listed on this page and can be edited or deleted from here."
+"Imports can be scheduled by url or uploaded file. To schedule an import, import "
+"as normal and select the Schedule button. Scheduled imports will be listed on "
+"this page and can be edited or deleted from here."
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/import-export/import-export.html.php:193
@@ -2094,8 +2092,7 @@ msgstr ""
 #: ../../wp-google-maps-pro/includes/import-export/page.import-export.php:45
 #: ../../wp-google-maps-pro/js/v8/wp-google-maps-pro.combined.js:14133
 #: ../../wp-google-maps-pro/js/v8/wp-google-maps-pro.min.js:1
-#: ../html/atlas-novus/map-list-page.html.php:8
-#: ../includes/class.admin-ui.php:34
+#: ../html/atlas-novus/map-list-page.html.php:8 ../includes/class.admin-ui.php:34
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:1124
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:1129
 #: ../js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js:143
@@ -2223,8 +2220,8 @@ msgstr "Nome do Mapa"
 #: ../../wp-google-maps-pro/html/atlas-novus/import-export/import-export.html.php:656
 #: ../../wp-google-maps-pro/html/import-export/import-export.html.php:339
 msgid ""
-"This feature is in early beta and data backups cannot be guaranteed as they "
-"are dependent on file write access on your server"
+"This feature is in early beta and data backups cannot be guaranteed as they are "
+"dependent on file write access on your server"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/import-export/import-export.html.php:664
@@ -2247,8 +2244,8 @@ msgstr "Ativar Instruções de Como Chegar?"
 #: ../../wp-google-maps-pro/html/atlas-novus/marker-filtering-tab.html.php:15
 #: ../../wp-google-maps-pro/html/marker-filtering-tab.html.php:22
 msgid ""
-"You have no custom fields to filter on. Please add some in order to add "
-"custom field filters."
+"You have no custom fields to filter on. Please add some in order to add custom "
+"field filters."
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/marker-icon-picker.html.php:6
@@ -2351,8 +2348,8 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/wizard-page.html.php:71
 msgid ""
-"The map editor will automatically open, allowing you to customize your map "
-"even further!"
+"The map editor will automatically open, allowing you to customize your map even "
+"further!"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/atlas-novus/wizard-page.html.php:88
@@ -2470,36 +2467,31 @@ msgstr "Utilizar a API do Google Maps"
 
 #: ../../wp-google-maps-pro/html/google-maps-api-settings.html.php:33
 #: ../html/atlas-novus/settings-page.html.php:1470
-#: ../html/google-maps-api-settings.html.php:14
-#: ../html/settings-page.html.php:456
+#: ../html/google-maps-api-settings.html.php:14 ../html/settings-page.html.php:456
 msgid "Where required"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/google-maps-api-settings.html.php:38
 #: ../html/atlas-novus/settings-page.html.php:1475
-#: ../html/google-maps-api-settings.html.php:19
-#: ../html/settings-page.html.php:461
+#: ../html/google-maps-api-settings.html.php:19 ../html/settings-page.html.php:461
 msgid "Always"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/google-maps-api-settings.html.php:43
 #: ../html/atlas-novus/settings-page.html.php:1480
-#: ../html/google-maps-api-settings.html.php:24
-#: ../html/settings-page.html.php:466
+#: ../html/google-maps-api-settings.html.php:24 ../html/settings-page.html.php:466
 msgid "Only Front End"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/google-maps-api-settings.html.php:48
 #: ../html/atlas-novus/settings-page.html.php:1485
-#: ../html/google-maps-api-settings.html.php:29
-#: ../html/settings-page.html.php:471
+#: ../html/google-maps-api-settings.html.php:29 ../html/settings-page.html.php:471
 msgid "Only Back End"
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/google-maps-api-settings.html.php:53
 #: ../html/atlas-novus/settings-page.html.php:1490
-#: ../html/google-maps-api-settings.html.php:34
-#: ../html/settings-page.html.php:476
+#: ../html/google-maps-api-settings.html.php:34 ../html/settings-page.html.php:476
 msgid "Never"
 msgstr ""
 
@@ -2512,8 +2504,8 @@ msgstr "Utilizar a API do Google Maps"
 #: ../html/atlas-novus/settings-page.html.php:1542
 #: ../html/atlas-novus/settings-page.html.php:1548
 #: ../html/google-maps-api-settings.html.php:45
-#: ../html/google-maps-api-settings.html.php:53
-#: ../html/settings-page.html.php:484 ../html/settings-page.html.php:489
+#: ../html/google-maps-api-settings.html.php:53 ../html/settings-page.html.php:484
+#: ../html/settings-page.html.php:489
 msgid "Page IDs"
 msgstr ""
 
@@ -2682,8 +2674,8 @@ msgstr "Nome do Mapa"
 #: ../../wp-google-maps-pro/html/import-export/import-export.html.php:221
 #: ../../wp-google-maps-pro/html/import-export/import-source-panel.html.php:175
 msgid ""
-"Select which maps and map data you'd like to export. Click the Export button "
-"to download a JSON file of the exported maps and their data."
+"Select which maps and map data you'd like to export. Click the Export button to "
+"download a JSON file of the exported maps and their data."
 msgstr ""
 
 #: ../../wp-google-maps-pro/html/import-export/import-source-panel.html.php:153
@@ -2873,9 +2865,9 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/html/marker-rating-settings.html.php:190
 msgid ""
-"Uses anti-spam countermeasures and basic server side countermeasures. This "
-"can be circumvented with human interaction, but is significantly less "
-"vulnerable to bots."
+"Uses anti-spam countermeasures and basic server side countermeasures. This can "
+"be circumvented with human interaction, but is significantly less vulnerable to "
+"bots."
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/3rd-party-integration/class.acf.php:89
@@ -2990,8 +2982,8 @@ msgstr "Longitude do Marcador"
 
 #: ../../wp-google-maps-pro/includes/3rd-party-integration/class.woocommerce-products.php:490
 msgid ""
-"Note: You can right-click on the map to place the location manually, or drag "
-"an existig marker to a preferred location"
+"Note: You can right-click on the map to place the location manually, or drag an "
+"existig marker to a preferred location"
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/class.category-legends.php:39
@@ -3071,8 +3063,7 @@ msgstr ""
 #: ../html/map-edit-page/map-edit-page.html.php:4
 #: ../includes/3rd-party-integration/class.gutenberg-extended.php:79
 #: ../includes/class.auto-loader.php:222
-#: ../includes/class.maps-engine-dialog.php:171
-#: ../includes/class.plugin.php:1069
+#: ../includes/class.maps-engine-dialog.php:171 ../includes/class.plugin.php:1069
 #: ../js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js:43
 #: ../js/v8/3rd-party-integration/gutenberg/dist/gutenberg.js:139
 #: ../js/v8/wp-google-maps.combined.js:14657
@@ -3095,8 +3086,8 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/includes/class.pro-rest-api.php:286
 msgid ""
-"Table collations have been corrected and integrations (ACF/Woo) should "
-"function normally"
+"Table collations have been corrected and integrations (ACF/Woo) should function "
+"normally"
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/class.pro-rest-api.php:289
@@ -3351,8 +3342,7 @@ msgstr ""
 #: ../../wp-google-maps-pro/includes/import-export/class.import-csv.php:274
 #: ../../wp-google-maps-pro/includes/import-export/legacy/class.import-csv-legacy.php:652
 msgid ""
-"The schedule must target an existing map, or use map ID's specified in the "
-"file."
+"The schedule must target an existing map, or use map ID's specified in the file."
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/import-export/class.import-airtables.php:618
@@ -3630,9 +3620,9 @@ msgstr ""
 msgid ""
 "HTTP referrer restrictions on your API key forbid geocoding from this server. "
 "This can happen when your server is behind a proxy, or does not set the HTTP "
-"referrer header correctly. We recommend temporarily de-restricting your key, "
-"or generating a second key with an IP restriction to switch to temporarily. "
-"We detected this servers IP as %s."
+"referrer header correctly. We recommend temporarily de-restricting your key, or "
+"generating a second key with an IP restriction to switch to temporarily. We "
+"detected this servers IP as %s."
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/import-export/legacy/class.import-csv-legacy.php:148
@@ -3641,8 +3631,8 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/includes/import-export/legacy/class.import-csv-legacy.php:386
 msgid ""
-"We couldn't establish what kind of data you are trying to import (is the "
-"header row missing?)"
+"We couldn't establish what kind of data you are trying to import (is the header "
+"row missing?)"
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/import-export/legacy/class.import-csv-legacy.php:408
@@ -3817,8 +3807,7 @@ msgid "Backup created"
 msgstr ""
 
 #: ../../wp-google-maps-pro/includes/import-export/page.import-export.php:1369
-#: ../includes/class.admin-notices.php:311
-#: ../includes/class.admin-notices.php:330
+#: ../includes/class.admin-notices.php:311 ../includes/class.admin-notices.php:330
 msgid ""
 "Security check failed, import will continue, however, we cannot provide you "
 "with live updates"
@@ -4043,13 +4032,13 @@ msgstr "﻿Mais detalhes"
 #: ../includes/class.store-locator.php:161
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1 milha"
+msgstr "milha"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: ../includes/class.store-locator.php:154
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1km"
+msgstr "km"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501
 #: ../includes/class.strings.php:79
@@ -4071,8 +4060,8 @@ msgstr "Adicionar Nova Categoria"
 
 #: ../../wp-google-maps-pro/includes/page.categories.php:38
 #: ../html/atlas-novus/map-list-page.html.php:50
-#: ../html/atlas-novus/map-list-page.html.php:63
-#: ../html/map-list-page.html.php:52 ../html/map-list-page.html.php:65
+#: ../html/atlas-novus/map-list-page.html.php:63 ../html/map-list-page.html.php:52
+#: ../html/map-list-page.html.php:65
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:96
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:183
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:186
@@ -4085,14 +4074,14 @@ msgid "Create marker categories"
 msgstr "Criar categorias de marcador"
 
 #: ../../wp-google-maps-pro/includes/page.categories.php:38
-#: ../html/atlas-novus/map-list-page.html.php:56
-#: ../html/map-list-page.html.php:58 ../legacy-core.php:1082
+#: ../html/atlas-novus/map-list-page.html.php:56 ../html/map-list-page.html.php:58
+#: ../legacy-core.php:1082
 msgid "with the"
 msgstr "com o "
 
 #: ../../wp-google-maps-pro/includes/page.categories.php:38
-#: ../html/atlas-novus/map-list-page.html.php:67
-#: ../html/map-list-page.html.php:69 ../legacy-core.php:1082
+#: ../html/atlas-novus/map-list-page.html.php:67 ../html/map-list-page.html.php:69
+#: ../legacy-core.php:1082
 msgid "of WP Go Maps for only"
 msgstr "do WP Google Maps apenas para"
 
@@ -4355,8 +4344,8 @@ msgstr ""
 
 #: ../../wp-google-maps-pro/js/v8/3rd-party-integration/gutenberg/blocks/category-filter/block.js:71
 msgid ""
-"Must be placed on map page. Remember to disable the category filter in your "
-"map settings (Maps > Edit > Settings > Marker Listing > Filtering)"
+"Must be placed on map page. Remember to disable the category filter in your map "
+"settings (Maps > Edit > Settings > Marker Listing > Filtering)"
 msgstr ""
 
 #: ../../wp-google-maps-pro/js/v8/3rd-party-integration/gutenberg/blocks/category-filter/block.js:84
@@ -4506,9 +4495,9 @@ msgstr "Documentação do Localizador de Loja"
 #: ../js/v8/wp-google-maps.combined.js:14754 ../js/v8/wp-google-maps.min.js:1
 msgid ""
 "The easiest to use Google Maps plugin! Create custom Google Maps with high "
-"quality markers containing locations, descriptions, images and links. Add "
-"your customized map to your WordPress posts and/or pages quickly and easily "
-"with the supplied shortcode. No fuss."
+"quality markers containing locations, descriptions, images and links. Add your "
+"customized map to your WordPress posts and/or pages quickly and easily with the "
+"supplied shortcode. No fuss."
 msgstr ""
 
 #: ../../wp-google-maps-pro/js/v8/wp-google-maps-pro.combined.js:14133
@@ -4528,8 +4517,8 @@ msgstr ""
 #: ../../wp-google-maps-pro/legacy-core.php:35
 msgid ""
 "<strong>WP Go Maps Pro:</strong> User Generated Markers add-on 3.01 and below "
-"is not compatible with OpenLayers. Please either switch engine to Google "
-"under Maps &rarr; Settings, or update User Generated Markers to 3.02 or above"
+"is not compatible with OpenLayers. Please either switch engine to Google under "
+"Maps &rarr; Settings, or update User Generated Markers to 3.02 or above"
 msgstr ""
 
 #: ../../wp-google-maps-pro/legacy-core.php:58
@@ -4570,14 +4559,12 @@ msgstr "Obrigado. Seu marcador aguarda aprovação."
 msgid "Get directions"
 msgstr "Obter as instruções de como chegar"
 
-#: ../../wp-google-maps-pro/legacy-core.php:1429
-#: ../includes/class.strings.php:50
+#: ../../wp-google-maps-pro/legacy-core.php:1429 ../includes/class.strings.php:50
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:1697
 msgid "km away"
 msgstr "km de distância"
 
-#: ../../wp-google-maps-pro/legacy-core.php:1430
-#: ../includes/class.strings.php:51
+#: ../../wp-google-maps-pro/legacy-core.php:1430 ../includes/class.strings.php:51
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:1698
 msgid "miles away"
 msgstr "milhas de distância"
@@ -4608,9 +4595,8 @@ msgid ""
 "href='https://developers.google.com/maps/documentation/geocoding/"
 "#Limits'>Geocoding Documentation</a>"
 msgstr ""
-"Você precisa de uma chave de API Geocode para Google Maps para isso "
-"funcionar. Veja https://developers.google.com/maps/documentation/geocoding/"
-"#Limits"
+"Você precisa de uma chave de API Geocode para Google Maps para isso funcionar. "
+"Veja https://developers.google.com/maps/documentation/geocoding/#Limits"
 
 #: ../../wp-google-maps-pro/legacy-core.php:1611
 msgid "There is a 0.12second delay between each request"
@@ -4650,8 +4636,7 @@ msgstr ""
 msgid ""
 "<strong>WP Go Maps:</strong> The plugin and Pro add-on did not load in the "
 "correct order. Please ensure you use the correct folder names for the plugin "
-"and Pro add-on, which are /wp-google-maps and /wp-google-maps-pro "
-"respectively."
+"and Pro add-on, which are /wp-google-maps and /wp-google-maps-pro respectively."
 msgstr ""
 
 #: ../../wp-google-maps-pro/wp-google-maps-pro.php:549 ../wpGoogleMaps.php:446
@@ -4670,8 +4655,8 @@ msgstr ""
 #: ../../wp-google-maps-pro/wp-google-maps-pro.php:579
 msgid ""
 "<strong>WP Go Maps:</strong> Due to a known issue with PHP 5.4.45 and JSON "
-"serialization, the Pro add-on cannot function correctly. We strongly "
-"recommend you switch to more up to date version of PHP."
+"serialization, the Pro add-on cannot function correctly. We strongly recommend "
+"you switch to more up to date version of PHP."
 msgstr ""
 
 #: ../../wp-google-maps-pro/wp-google-maps-pro.php:753
@@ -4875,8 +4860,7 @@ msgstr ""
 
 #: ../../wp-google-maps-ugm/wp-google-maps-ugm.php:1050
 #, php-format
-msgid ""
-"To approve, edit or delete the marker, please click the following link: %s"
+msgid "To approve, edit or delete the marker, please click the following link: %s"
 msgstr ""
 
 #: ../../wp-google-maps-ugm/wp-google-maps-ugm.php:1081
@@ -4899,8 +4883,8 @@ msgid ""
 "Please <a href='./update-core.php'>update</a> your Pro Add-on to at least "
 "version 5.50 to allow for these settings"
 msgstr ""
-"Por favor <a href='update-core.php'>atualize sua versão do WP Google Maps "
-"GOLD</a>. Sua versão Gold atual não é compatível com a versão Pro atual."
+"Por favor <a href='update-core.php'>atualize sua versão do WP Google Maps GOLD</"
+"a>. Sua versão Gold atual não é compatível com a versão Pro atual."
 
 #: ../../wp-google-maps-ugm/wp-google-maps-ugm.php:1311
 msgid "Auto Approve"
@@ -4947,9 +4931,8 @@ msgstr ""
 #: ../../wp-google-maps-ugm/wp-google-maps-ugm.php:1433
 #: ../html/atlas-novus/settings-page.html.php:51
 #: ../html/atlas-novus/settings-page.html.php:1293
-#: ../html/gdpr-compliance-settings.html.php:11
-#: ../html/settings-page.html.php:44 ../html/settings-page.html.php:1513
-#: ../includes/class.gdpr-compliance.php:179
+#: ../html/gdpr-compliance-settings.html.php:11 ../html/settings-page.html.php:44
+#: ../html/settings-page.html.php:1513 ../includes/class.gdpr-compliance.php:179
 msgid "GDPR Compliance"
 msgstr ""
 
@@ -5074,18 +5057,17 @@ msgstr "Outros"
 msgid "Please explain"
 msgstr "Explique por favor"
 
-#: ../base/classes/WPGM_templates.php:117
-#: ../html/atlas-novus/welcome.html.php:124
+#: ../base/classes/WPGM_templates.php:117 ../html/atlas-novus/welcome.html.php:124
 msgid "New to WP Go Maps?"
 msgstr "Acabou de conhecer o WP Google Maps?"
 
-#: ../base/classes/WPGM_templates.php:118
-#: ../html/atlas-novus/welcome.html.php:126 ../html/welcome.html.php:144
+#: ../base/classes/WPGM_templates.php:118 ../html/atlas-novus/welcome.html.php:126
+#: ../html/welcome.html.php:144
 msgid "You may want to"
 msgstr "Você talvez queira"
 
-#: ../base/classes/WPGM_templates.php:118
-#: ../html/atlas-novus/welcome.html.php:128 ../html/welcome.html.php:144
+#: ../base/classes/WPGM_templates.php:118 ../html/atlas-novus/welcome.html.php:128
+#: ../html/welcome.html.php:144
 msgid "review our documentation"
 msgstr "Avaliar nossa documentação"
 
@@ -5097,13 +5079,13 @@ msgstr ""
 "﻿antes de começar. Se você é um indivíduo experiente em tecnologia, você pode "
 "pular esta etapa."
 
-#: ../base/classes/WPGM_templates.php:121
-#: ../html/atlas-novus/welcome.html.php:136 ../html/welcome.html.php:149
+#: ../base/classes/WPGM_templates.php:121 ../html/atlas-novus/welcome.html.php:136
+#: ../html/welcome.html.php:149
 msgid "Help me!"
 msgstr "Socorro!"
 
-#: ../base/classes/WPGM_templates.php:122
-#: ../html/atlas-novus/welcome.html.php:138 ../html/welcome.html.php:150
+#: ../base/classes/WPGM_templates.php:122 ../html/atlas-novus/welcome.html.php:138
+#: ../html/welcome.html.php:150
 msgid "Visit our"
 msgstr "Visite nosso"
 
@@ -5116,23 +5098,23 @@ msgid "for quick and friendly help. We'll answer your request within 24hours."
 msgstr ""
 "Para obter ajuda rápida e amigável. Responderemos seu pedido em até 24 horas."
 
-#: ../base/classes/WPGM_templates.php:125
-#: ../html/atlas-novus/welcome.html.php:149 ../html/welcome.html.php:155
+#: ../base/classes/WPGM_templates.php:125 ../html/atlas-novus/welcome.html.php:149
+#: ../html/welcome.html.php:155
 msgid "Feedback"
 msgstr "Feedback"
 
-#: ../base/classes/WPGM_templates.php:126
-#: ../html/atlas-novus/welcome.html.php:150 ../html/welcome.html.php:156
+#: ../base/classes/WPGM_templates.php:126 ../html/atlas-novus/welcome.html.php:150
+#: ../html/welcome.html.php:156
 msgid "We need you to help us make this plugin better."
 msgstr "Precisamos que você nos ajude a tornar esse plugin melhor."
 
-#: ../base/classes/WPGM_templates.php:126
-#: ../html/atlas-novus/welcome.html.php:153 ../html/welcome.html.php:156
+#: ../base/classes/WPGM_templates.php:126 ../html/atlas-novus/welcome.html.php:153
+#: ../html/welcome.html.php:156
 msgid "Send us your feedback"
 msgstr "Envie-nos seu feedback"
 
-#: ../base/classes/WPGM_templates.php:126
-#: ../html/atlas-novus/welcome.html.php:154 ../html/welcome.html.php:156
+#: ../base/classes/WPGM_templates.php:126 ../html/atlas-novus/welcome.html.php:154
+#: ../html/welcome.html.php:156
 msgid "and we'll act on it as soon as humanly possible."
 msgstr "e trabalharemos nisso assim que for humanamente possível."
 
@@ -5149,20 +5131,17 @@ msgstr ""
 msgid "Select your map:"
 msgstr "Exclua o seu mapa"
 
-#: ../html/atlas-novus/credits.html.php:10
-#: ../html/atlas-novus/welcome.html.php:13 ../html/credits.html.php:20
-#: ../html/welcome.html.php:29
+#: ../html/atlas-novus/credits.html.php:10 ../html/atlas-novus/welcome.html.php:13
+#: ../html/credits.html.php:20 ../html/welcome.html.php:29
 msgid "Credits"
 msgstr ""
 
-#: ../html/atlas-novus/credits.html.php:15
-#: ../html/atlas-novus/welcome.html.php:21
+#: ../html/atlas-novus/credits.html.php:15 ../html/atlas-novus/welcome.html.php:21
 #: ../includes/class.admin-notices.php:24
 msgid "Welcome to Atlas Novus"
 msgstr "Bem-vindo a"
 
-#: ../html/atlas-novus/credits.html.php:16
-#: ../html/atlas-novus/welcome.html.php:22
+#: ../html/atlas-novus/credits.html.php:16 ../html/atlas-novus/welcome.html.php:22
 #, fuzzy, php-format
 msgid "WP Go Maps version %s"
 msgstr "Acabou de conhecer o WP Google Maps?"
@@ -5173,8 +5152,8 @@ msgstr ""
 
 #: ../html/atlas-novus/credits.html.php:21
 msgid ""
-"Created by an international team of exceptional developers, with a passion "
-"for mapping"
+"Created by an international team of exceptional developers, with a passion for "
+"mapping"
 msgstr ""
 
 #: ../html/atlas-novus/credits.html.php:25 ../html/credits.html.php:29
@@ -5236,8 +5215,7 @@ msgstr "Camada de Trânsito"
 
 #: ../html/atlas-novus/credits.html.php:228
 msgid ""
-"Special thanks to our amazing community, for all your translation "
-"contributions"
+"Special thanks to our amazing community, for all your translation contributions"
 msgstr ""
 
 #: ../html/atlas-novus/credits.html.php:234 ../html/credits.html.php:125
@@ -5306,8 +5284,7 @@ msgstr ""
 msgid "This dialog is only visible to administrators"
 msgstr ""
 
-#: ../html/atlas-novus/installer-page.html.php:9
-#: ../html/installer-page.html.php:9
+#: ../html/atlas-novus/installer-page.html.php:9 ../html/installer-page.html.php:9
 msgid "What map engine would you like to use?"
 msgstr ""
 
@@ -5363,8 +5340,7 @@ msgid "Creating a Google Maps API key takes only a few minutes with WP Go Maps!"
 msgstr ""
 
 #: ../html/atlas-novus/installer-page.html.php:87
-#: ../html/installer-page.html.php:93
-#: ../includes/class.maps-engine-dialog.php:91
+#: ../html/installer-page.html.php:93 ../includes/class.maps-engine-dialog.php:91
 msgid "No API keys required"
 msgstr "Chave da API do Google (Obrigatório)"
 
@@ -5505,8 +5481,7 @@ msgid "Please fill in your details below and we'll get right on it!"
 msgstr ""
 
 #: ../html/atlas-novus/installer-page.html.php:204
-msgid ""
-"An account with this name already exists, we've changed it slightly below"
+msgid "An account with this name already exists, we've changed it slightly below"
 msgstr ""
 
 #: ../html/atlas-novus/installer-page.html.php:205
@@ -5551,8 +5526,8 @@ msgstr ""
 
 #: ../html/atlas-novus/installer-page.html.php:236
 msgid ""
-"To enforce US laws and embargoes, Google requires a valid address for each "
-"new key created"
+"To enforce US laws and embargoes, Google requires a valid address for each new "
+"key created"
 msgstr ""
 
 #: ../html/atlas-novus/installer-page.html.php:241
@@ -5574,8 +5549,8 @@ msgid ""
 "You can create an API key from the <a href='https://wpgmaps.com/google-maps-"
 "developer-console/' target='_BLANK'>Google Developers Console</a>."
 msgstr ""
-"Obtenha ótimos marcadores de mapa <a href='http://mapicons.nicolasmollet."
-"com/' target='_BLANK' title='Ótimos Marcadores para Google Maps'>aqui</a>"
+"Obtenha ótimos marcadores de mapa <a href='http://mapicons.nicolasmollet.com/' "
+"target='_BLANK' title='Ótimos Marcadores para Google Maps'>aqui</a>"
 
 #: ../html/atlas-novus/installer-page.html.php:270
 #: ../html/atlas-novus/settings-page.html.php:105
@@ -5841,8 +5816,8 @@ msgstr ""
 #: ../html/map-edit-page/heatmap-panel.html.php:103
 #, php-format
 msgid ""
-"Add dynamic heatmap data with the <a href=\"%s\" target=\"_BLANK\">Pro "
-"version</a>. <a href=\"%s\" target=\"_BLANK\">View a demo</a>"
+"Add dynamic heatmap data with the <a href=\"%s\" target=\"_BLANK\">Pro version</"
+"a>. <a href=\"%s\" target=\"_BLANK\">View a demo</a>"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/heatmap-panel.html.php:47
@@ -5852,8 +5827,7 @@ msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/heatmap-panel.html.php:59
 #: ../html/atlas-novus/theme-panel.html.php:30
-#: ../html/map-edit-page/heatmap-panel.html.php:57
-#: ../html/theme-panel.html.php:36
+#: ../html/map-edit-page/heatmap-panel.html.php:57 ../html/theme-panel.html.php:36
 msgid "Blue"
 msgstr ""
 
@@ -5894,14 +5868,13 @@ msgid "Creating overlays"
 msgstr "Crie seu Mapa"
 
 #: ../html/atlas-novus/map-edit-page/imageoverlay-panel.html.php:8
-msgid ""
-"<strong>Click</strong> on the map to set the first corner of your overlay."
+msgid "<strong>Click</strong> on the map to set the first corner of your overlay."
 msgstr "Clique no mapa para inserir um vértice."
 
 #: ../html/atlas-novus/map-edit-page/imageoverlay-panel.html.php:11
 msgid ""
-"<strong>Click</strong> again to set the other corner and to finish drawing "
-"your overlay."
+"<strong>Click</strong> again to set the other corner and to finish drawing your "
+"overlay."
 msgstr "Clique no mapa para inserir um vértice."
 
 #: ../html/atlas-novus/map-edit-page/imageoverlay-panel.html.php:14
@@ -6455,22 +6428,22 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:762
 #: ../html/map-edit-page/map-edit-page.html.php:423
 msgid ""
-"Marker listings will not be filtered based on visible markers. Enable the "
-"'Only load markers within viewport (beta)' option for beta filtering support"
+"Marker listings will not be filtered based on visible markers. Enable the 'Only "
+"load markers within viewport (beta)' option for beta filtering support"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:772
 msgid ""
 "Enable intelligent, automatic search area with our <a href=\"https://www."
 "wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;"
-"utm_medium=link&amp;utm_campaign=store-locator-radius-atlas-novus\">Pro add-"
-"on</a>"
+"utm_medium=link&amp;utm_campaign=store-locator-radius-atlas-novus\">Pro add-on</"
+"a>"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:778
 #: ../html/map-edit-page/map-edit-page.html.php:475
@@ -6500,9 +6473,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:838
 #: ../html/map-edit-page/map-edit-page.html.php:606
@@ -6569,9 +6542,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:959
 #: ../html/map-edit-page/map-edit-page.html.php:674
@@ -6645,9 +6618,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1089
 #: ../html/map-edit-page/map-edit-page.html.php:583
@@ -6662,9 +6635,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1113
 #: ../html/map-edit-page/map-edit-page.html.php:658
@@ -6685,9 +6658,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1167
 #: ../html/map-edit-page/map-edit-page.html.php:259
@@ -6806,14 +6779,14 @@ msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1381
 msgid ""
-"Note: OpenLayers themes are powered by CSS filters. For more granular "
-"control, consider an alternate tile server instead"
+"Note: OpenLayers themes are powered by CSS filters. For more granular control, "
+"consider an alternate tile server instead"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1404
 msgid ""
-"You can paste JSON style into the block above to theme data from our library "
-"or the Google Maps theme editor"
+"You can paste JSON style into the block above to theme data from our library or "
+"the Google Maps theme editor"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1409
@@ -6847,16 +6820,16 @@ msgstr "Animação"
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1495
 msgid ""
 "<a target=\"_BLANK\" href=\"https://www.wpgmaps.com/purchase-professional-"
-"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=iw-style-"
-"atlas-novus\">\n"
+"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=iw-style-atlas-"
+"novus\">\n"
 "\t\t\t\t\t\t\tChange styles</a> with the Pro version. Support and updates "
 "included forever"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1522
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1746
@@ -6919,9 +6892,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1679
 msgid "Disabled"
@@ -7019,9 +6992,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1961
 #: ../html/map-edit-page/map-edit-page.html.php:1948
@@ -7118,9 +7091,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2095
 msgid "Enable Category Legends"
@@ -7161,9 +7134,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2195
 #: ../html/map-edit-page/map-edit-page.html.php:960
@@ -7190,9 +7163,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2282
 msgid "Enable Shape Labels"
@@ -7212,9 +7185,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2334
 msgid "Fit map bounds to markers"
@@ -7227,16 +7200,16 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2384
 msgid ""
 "<a target=\"_BLANK\" href=\"https://www.wpgmaps.com/purchase-professional-"
-"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=behaviour-"
-"user-loc-atlas-novus\">\n"
+"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=behaviour-user-"
+"loc-atlas-novus\">\n"
 "\t\t\t\t\t\t\tEdit behaviour</a> with the Pro version. Support and updates "
 "included forever"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2392
 #: ../html/map-edit-page/map-edit-page.html.php:928
@@ -7271,21 +7244,21 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2498
 msgid ""
-"Enable street view features with our <a href=\"https://www.wpgmaps.com/"
-"purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
+"Enable street view features with our <a href=\"https://www.wpgmaps.com/purchase-"
+"professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
 "utm_campaign=streetview-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2505
 msgid "Map starts in Street View"
@@ -7349,15 +7322,15 @@ msgstr "Imagem padrão do Marcador"
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2643
 msgid ""
-"Enable custom marker icons with our <a href=\"https://www.wpgmaps.com/"
-"purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
+"Enable custom marker icons with our <a href=\"https://www.wpgmaps.com/purchase-"
+"professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
 "utm_campaign=advanced-markers-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2649
 msgid "Map Layers"
@@ -7427,14 +7400,14 @@ msgid ""
 "<a target=\"_BLANK\" href=\"https://www.wpgmaps.com/purchase-professional-"
 "version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=integrations-"
 "atlas-novus\">\n"
-"\t\t\t\t\t\t\tEnable integrations</a> with the Pro version. Support and "
-"updates included forever"
+"\t\t\t\t\t\t\tEnable integrations</a> with the Pro version. Support and updates "
+"included forever"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2798
 #: ../html/map-edit-page/map-edit-page.html.php:1367
@@ -7655,8 +7628,8 @@ msgstr "Adicionar informações detalhadas aos seus marcadores!"
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3086
 #: ../html/map-edit-page/map-edit-page.html.php:2197
 msgid ""
-"Create and assign categories to your markers which can then be filtered on "
-"your map."
+"Create and assign categories to your markers which can then be filtered on your "
+"map."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3091
@@ -7713,8 +7686,8 @@ msgstr "Fórum de suporto"
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3116
 #: ../html/map-edit-page/map-edit-page.html.php:2242
 msgid ""
-"We pride ourselves on providing quick and amazing support. <a target=\"_BLANK"
-"\" href=\"http://wordpress.org/support/view/plugin-reviews/wp-google-maps?"
+"We pride ourselves on providing quick and amazing support. <a target=\"_BLANK\" "
+"href=\"http://wordpress.org/support/view/plugin-reviews/wp-google-maps?"
 "filter=5\">Read what some of our users think of our support</a>."
 msgstr ""
 
@@ -7726,8 +7699,8 @@ msgstr "Upgrade para Pro"
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3122
 #: ../html/map-edit-page/map-edit-page.html.php:2251
 msgid ""
-"You'll receive a download link immediately. Simply upload and activate the "
-"Pro plugin to your WordPress admin area and you're done!"
+"You'll receive a download link immediately. Simply upload and activate the Pro "
+"plugin to your WordPress admin area and you're done!"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3127
@@ -7738,8 +7711,8 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3128
 #: ../html/map-edit-page/map-edit-page.html.php:2260
 msgid ""
-"Once you're a pro user, you'll receive free updates and support forever! "
-"You'll also receive amazing specials on any future plugins we release."
+"Once you're a pro user, you'll receive free updates and support forever! You'll "
+"also receive amazing specials on any future plugins we release."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3132
@@ -7753,16 +7726,16 @@ msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3142
 msgid ""
-"Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or "
-"use our <a href=\"https://www.wpgmaps.com/contact-us/\" target=\"_BLANK"
-"\">contact form</a>."
+"Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use "
+"our <a href=\"https://www.wpgmaps.com/contact-us/\" target=\"_BLANK\">contact "
+"form</a>."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3147
 #: ../html/map-edit-page/map-edit-page.html.php:2289
 msgid ""
-"Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask "
-"a question on our support forum</a>."
+"Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask a "
+"question on our support forum</a>."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3161
@@ -7872,8 +7845,8 @@ msgid "Documentation"
 msgstr "Documentação do Localizador de Loja"
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3484
-#: ../html/atlas-novus/support.html.php:12
-#: ../html/atlas-novus/support.html.php:84 ../html/support.html.php:63
+#: ../html/atlas-novus/support.html.php:12 ../html/atlas-novus/support.html.php:84
+#: ../html/support.html.php:63
 msgid "Troubleshooting"
 msgstr "Solução de problemas"
 
@@ -8079,8 +8052,8 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/marker-panel.html.php:42
 #: ../html/map-edit-page/marker-panel.html.php:49
 msgid ""
-"You can now drag the marker to adjust the position without updating the "
-"address field. Field editing is disabled in this mode"
+"You can now drag the marker to adjust the position without updating the address "
+"field. Field editing is disabled in this mode"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/marker-panel.html.php:54
@@ -8179,8 +8152,8 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/polygon-panel.html.php:14
 #: ../html/map-edit-page/polygon-panel.html.php:17
 msgid ""
-"<strong>Complete</strong> drawing your polygon by <strong>clicking</strong> "
-"the start point a second time."
+"<strong>Complete</strong> drawing your polygon by <strong>clicking</strong> the "
+"start point a second time."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/polygon-panel.html.php:21
@@ -8276,8 +8249,8 @@ msgstr "Clique no mapa para inserir um vértice."
 #: ../html/atlas-novus/map-edit-page/rectangle-panel.html.php:11
 #: ../html/map-edit-page/rectangle-panel.html.php:12
 msgid ""
-"<strong>Click</strong> again to set the other corner and to finish drawing "
-"your rectangle."
+"<strong>Click</strong> again to set the other corner and to finish drawing your "
+"rectangle."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/rectangle-panel.html.php:18
@@ -8313,20 +8286,20 @@ msgstr "Salvar o Mapa"
 msgid "Map Wizard"
 msgstr ""
 
-#: ../html/atlas-novus/map-list-page.html.php:32
-#: ../html/map-list-page.html.php:34 ../legacy-core.php:1031
+#: ../html/atlas-novus/map-list-page.html.php:32 ../html/map-list-page.html.php:34
+#: ../legacy-core.php:1031
 #, php-format
 msgid ""
 "<h3>We need your love!</h3><p>If you are enjoying our plugin, please consider "
 "<a href=\"%1$s\" target=\"_blank\" class=\"button-border button-border__green"
 "\">reviewing WP Go Maps</a>. It would mean the world to us! If you are "
-"experiencing issues with the plugin, please <a href=\"%2$s\" target=\"_blank"
-"\"  class=\"button-border button-border__green\">contact us</a> and we will "
-"help you as soon as humanly possible!</p>"
+"experiencing issues with the plugin, please <a href=\"%2$s\" target=\"_blank\"  "
+"class=\"button-border button-border__green\">contact us</a> and we will help "
+"you as soon as humanly possible!</p>"
 msgstr ""
 
-#: ../html/atlas-novus/map-list-page.html.php:39
-#: ../html/map-list-page.html.php:41 ../legacy-core.php:1036
+#: ../html/atlas-novus/map-list-page.html.php:39 ../html/map-list-page.html.php:41
+#: ../legacy-core.php:1036
 msgid "We will not nag you again, promise!"
 msgstr ""
 
@@ -8334,13 +8307,13 @@ msgstr ""
 msgid "No thanks!"
 msgstr ""
 
-#: ../html/atlas-novus/map-list-page.html.php:52
-#: ../html/map-list-page.html.php:54 ../legacy-core.php:1082
+#: ../html/atlas-novus/map-list-page.html.php:52 ../html/map-list-page.html.php:54
+#: ../legacy-core.php:1082
 msgid "Create unlimited maps"
 msgstr "Criar mapas ilimitados"
 
-#: ../html/atlas-novus/map-list-page.html.php:70
-#: ../html/map-list-page.html.php:72 ../legacy-core.php:1082
+#: ../html/atlas-novus/map-list-page.html.php:70 ../html/map-list-page.html.php:72
+#: ../legacy-core.php:1082
 msgid "once off!"
 msgstr ""
 
@@ -8358,8 +8331,8 @@ msgstr "Obrigado pelo seu feedback!"
 #: ../html/newsletter-opt-in.html.php:15
 #, php-format
 msgid ""
-"Your email address (%s) has been sent to our server and automatically added "
-"to our mailing list"
+"Your email address (%s) has been sent to our server and automatically added to "
+"our mailing list"
 msgstr ""
 
 #: ../html/atlas-novus/ol-theme-panel.html.php:9
@@ -8634,8 +8607,7 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:385
 #: ../html/settings-page.html.php:168
 msgid ""
-"<strong>Modern</strong> - Puts components inside the map, with pull-out "
-"panels."
+"<strong>Modern</strong> - Puts components inside the map, with pull-out panels."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:395
@@ -8653,16 +8625,16 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:415
 #: ../html/settings-page.html.php:198
 msgid ""
-"<strong>Minimal</strong> - The same as Compact, but with icons instead of "
-"text labels."
+"<strong>Minimal</strong> - The same as Compact, but with icons instead of text "
+"labels."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:425
 #: ../html/settings-page.html.php:208
 msgid ""
-"<strong>Bare Bones</strong> - Applies no styling to the components at all. "
-"This is recommended for designers and developers who want to style the "
-"components from scratch."
+"<strong>Bare Bones</strong> - Applies no styling to the components at all. This "
+"is recommended for designers and developers who want to style the components "
+"from scratch."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:434
@@ -8877,8 +8849,8 @@ msgstr "Lista de Marcadores"
 
 #: ../html/atlas-novus/settings-page.html.php:732
 msgid ""
-"to your maps with the Pro version for only $39.99 once off. Support and "
-"updates included forever."
+"to your maps with the Pro version for only $39.99 once off. Support and updates "
+"included forever."
 msgstr ""
 "Obter o restante dessas opções avançadas com a versão Pro por apenas <a href="
 "\"http://www.wpgmaps.com/purchase-professional-version/?"
@@ -9164,10 +9136,10 @@ msgstr ""
 #: ../html/gdpr-compliance-settings.html.php:19
 #: ../html/settings-page.html.php:1521
 msgid ""
-"Some caching and optimization plugins will continue to serve your map page "
-"with the GDPR agreement, disregarding this cookie. In this instance, clicking "
-"\"I Agree\" will reload the page and appear to have no effect. To solve this "
-"issue, we recommend you exclude your map page from caching and optimization."
+"Some caching and optimization plugins will continue to serve your map page with "
+"the GDPR agreement, disregarding this cookie. In this instance, clicking \"I "
+"Agree\" will reload the page and appear to have no effect. To solve this issue, "
+"we recommend you exclude your map page from caching and optimization."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1311
@@ -9227,8 +9199,7 @@ msgstr ""
 #: ../html/gdpr-compliance-settings.html.php:56
 #: ../html/settings-page.html.php:1572
 msgid ""
-"Users will be asked to accept the notice shown here, in the form of a check "
-"box."
+"Users will be asked to accept the notice shown here, in the form of a check box."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1383
@@ -9245,8 +9216,8 @@ msgstr ""
 #: ../html/gdpr-compliance-settings.html.php:100
 #: ../html/settings-page.html.php:1626
 msgid ""
-"By checking this box, you agree to take sole responsibility for GDPR "
-"Compliance with regards to this plugin."
+"By checking this box, you agree to take sole responsibility for GDPR Compliance "
+"with regards to this plugin."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1412
@@ -9264,8 +9235,8 @@ msgstr "Chave da API do Google (Obrigatório)"
 msgid ""
 "This API key can be obtained from \n"
 "\t\t\t\tthe <a href='https://wpgmaps.com/google-maps-developer-console/' "
-"target='_BLANK'>Google Developers Console</a>. Our <a href='https://www."
-"wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps."
+"com/documentation/creating-a-google-maps-api-key/' "
 "target='_BLANK'>documentation</a> provides a full guide on how to obtain this."
 msgstr ""
 
@@ -9277,8 +9248,8 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:1458
 #: ../html/settings-page.html.php:1212
 msgid ""
-"Generate an IP restricted key to paste into this field if you are "
-"experiencing 'Request Denied' when running imports"
+"Generate an IP restricted key to paste into this field if you are experiencing "
+"'Request Denied' when running imports"
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1465
@@ -9306,8 +9277,8 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:1520
 #: ../html/settings-page.html.php:1227
 msgid ""
-"This is an optional API key provided by your preferred OpenLayers tile "
-"service, and should only be added if required by the TileServer provider"
+"This is an optional API key provided by your preferred OpenLayers tile service, "
+"and should only be added if required by the TileServer provider"
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1526
@@ -9318,8 +9289,8 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:1535
 #: ../html/settings-page.html.php:1243
 msgid ""
-"This API key can be obtained from the <a href='https://openrouteservice.org/"
-"dev/#/login' target='_BLANK'>OpenRouteService Developers Console</a>."
+"This API key can be obtained from the <a href='https://openrouteservice.org/dev/"
+"#/login' target='_BLANK'>OpenRouteService Developers Console</a>."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1541
@@ -9369,8 +9340,8 @@ msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1618
 msgid ""
-"We no longer recommend using the XML option, outside of special use cases. "
-"For most users the database method will be more reliable and efficient"
+"We no longer recommend using the XML option, outside of special use cases. For "
+"most users the database method will be more reliable and efficient"
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1628
@@ -9402,8 +9373,7 @@ msgstr "Salvar a Categoria"
 
 #: ../html/atlas-novus/settings-page.html.php:1696
 msgid ""
-"Adds a map to your checkout area, allowing a user to mark their shipping "
-"address"
+"Adds a map to your checkout area, allowing a user to mark their shipping address"
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1705
@@ -9420,8 +9390,7 @@ msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1744
 msgid ""
-"Load markers in smaller batches, which can improve load times for large "
-"datasets"
+"Load markers in smaller batches, which can improve load times for large datasets"
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1754
@@ -9463,8 +9432,7 @@ msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1832
 #: ../html/settings-page.html.php:1399
-msgid ""
-"This will delete all maps, markers, shapes, categories, and custom fields."
+msgid "This will delete all maps, markers, shapes, categories, and custom fields."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1841
@@ -9489,9 +9457,9 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:1887
 #: ../html/settings-page.html.php:1442
 msgid ""
-"We recommend using this setting if you frequently experience HTTP 414 - "
-"Request URI too long. We do not recommend using this setting if your site "
-"uses REST caching or a CDN."
+"We recommend using this setting if you frequently experience HTTP 414 - Request "
+"URI too long. We do not recommend using this setting if your site uses REST "
+"caching or a CDN."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1896
@@ -9503,8 +9471,7 @@ msgstr ""
 #: ../html/settings-page.html.php:1456
 msgid ""
 "Use this setting if you are experiencing issues with Autoptimize's CSS "
-"aggregation. This may cause issues on setups with a large amount of marker "
-"data."
+"aggregation. This may cause issues on setups with a large amount of marker data."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1917
@@ -9540,9 +9507,8 @@ msgstr ""
 #: ../html/atlas-novus/settings-page.html.php:1969
 #: ../html/settings-page.html.php:1498
 msgid ""
-"Always rebuilds combined script files and script cache, does not load "
-"combined and minified scripts. Includes database query SQL with REST API "
-"responses."
+"Always rebuilds combined script files and script cache, does not load combined "
+"and minified scripts. Includes database query SQL with REST API responses."
 msgstr ""
 
 #: ../html/atlas-novus/settings-page.html.php:1984
@@ -9550,13 +9516,11 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Salvar Configurações"
 
-#: ../html/atlas-novus/store-locator.html.php:17
-#: ../html/store-locator.html.php:17
+#: ../html/atlas-novus/store-locator.html.php:17 ../html/store-locator.html.php:17
 msgid "Radius:"
 msgstr "Raio"
 
-#: ../html/atlas-novus/store-locator.html.php:22
-#: ../html/store-locator.html.php:24
+#: ../html/atlas-novus/store-locator.html.php:22 ../html/store-locator.html.php:24
 msgid "Search"
 msgstr "Buscar"
 
@@ -9590,8 +9554,8 @@ msgstr "Lista de Marcadores"
 
 #: ../html/atlas-novus/styling-page.html.php:109
 msgid ""
-"In order for filters to take affect you will need to make your Background "
-"Color transparent. Increase transparency for a more dramatic effect"
+"In order for filters to take affect you will need to make your Background Color "
+"transparent. Increase transparency for a more dramatic effect"
 msgstr ""
 
 #: ../html/atlas-novus/styling-page.html.php:130
@@ -9619,8 +9583,8 @@ msgstr ""
 #: ../html/atlas-novus/styling-page.html.php:182
 msgid ""
 "Components can be positioned at specific anchors within the map, or moved "
-"outside the map container if preferred. These positions are managed from "
-"within the map editor."
+"outside the map container if preferred. These positions are managed from within "
+"the map editor."
 msgstr ""
 
 #: ../html/atlas-novus/styling-page.html.php:188
@@ -9629,15 +9593,14 @@ msgstr ""
 
 #: ../html/atlas-novus/styling-page.html.php:192
 msgid ""
-"Styling changes made here will be shared by all maps, to allow for a "
-"uniformed styling. Advanced changes are still supported via Custom CSS, if "
-"required."
+"Styling changes made here will be shared by all maps, to allow for a uniformed "
+"styling. Advanced changes are still supported via Custom CSS, if required."
 msgstr ""
 
 #: ../html/atlas-novus/styling-page.html.php:198
 msgid ""
-"Components are automatically stacked together in groups based on the "
-"alignment you select within the map editor."
+"Components are automatically stacked together in groups based on the alignment "
+"you select within the map editor."
 msgstr ""
 
 #: ../html/atlas-novus/styling-page.html.php:204
@@ -9692,24 +9655,20 @@ msgstr "Fórum de suporto"
 
 #: ../html/atlas-novus/support.html.php:36 ../html/support.html.php:11
 msgid ""
-"Getting started? Read through some of these articles to help you along your "
-"way."
+"Getting started? Read through some of these articles to help you along your way."
 msgstr ""
 
-#: ../html/atlas-novus/support.html.php:44
-#: ../html/atlas-novus/support.html.php:46 ../html/support.html.php:22
-#: ../html/support.html.php:24
+#: ../html/atlas-novus/support.html.php:44 ../html/atlas-novus/support.html.php:46
+#: ../html/support.html.php:22 ../html/support.html.php:24
 msgid "Creating your first map"
 msgstr "Crie seu Mapa"
 
-#: ../html/atlas-novus/support.html.php:53
-#: ../html/atlas-novus/support.html.php:55 ../html/support.html.php:31
-#: ../html/support.html.php:33
+#: ../html/atlas-novus/support.html.php:53 ../html/atlas-novus/support.html.php:55
+#: ../html/support.html.php:31 ../html/support.html.php:33
 msgid "Using your map as a Widget"
 msgstr ""
 
-#: ../html/atlas-novus/support.html.php:62
-#: ../html/atlas-novus/support.html.php:64
+#: ../html/atlas-novus/support.html.php:62 ../html/atlas-novus/support.html.php:64
 msgid "Creating a Google Maps API Key"
 msgstr "Utilizar a API do Google Maps"
 
@@ -9724,8 +9683,8 @@ msgstr "Avaliar nossa documentação"
 #: ../html/atlas-novus/support.html.php:88 ../html/support.html.php:68
 msgid ""
 "WP Go Maps has a diverse and wide range of features which may, from time to "
-"time, run into conflicts with the thousands of themes and other plugins on "
-"the market."
+"time, run into conflicts with the thousands of themes and other plugins on the "
+"market."
 msgstr ""
 
 #: ../html/atlas-novus/support.html.php:94 ../html/support.html.php:78
@@ -9858,8 +9817,7 @@ msgstr "Criar categorias de marcador"
 msgid "No limits, ever!"
 msgstr ""
 
-#: ../html/atlas-novus/welcome.html.php:71
-#: ../html/atlas-novus/welcome.html.php:88
+#: ../html/atlas-novus/welcome.html.php:71 ../html/atlas-novus/welcome.html.php:88
 #: ../html/atlas-novus/welcome.html.php:117
 msgid "Learn More"
 msgstr ""
@@ -9956,10 +9914,10 @@ msgstr "Opções gerais"
 #: ../html/settings-page.html.php:1541
 msgid ""
 "The GDPR views IP Addresses as Personal Data, which requires consent before "
-"being processed. Loading the Google Maps API stores some user information, "
-"such as IP Addresses. WP Go Maps endeavours to uphold the spirit of data "
-"protection as per the GDPR. Enable this to option to prevent the Maps API "
-"from loading, until a user has consented to it."
+"being processed. Loading the Google Maps API stores some user information, such "
+"as IP Addresses. WP Go Maps endeavours to uphold the spirit of data protection "
+"as per the GDPR. Enable this to option to prevent the Maps API from loading, "
+"until a user has consented to it."
 msgstr ""
 
 #: ../html/gdpr-compliance-settings.html.php:47
@@ -9985,26 +9943,25 @@ msgid ""
 "jQuery DataTables and FontAwesome. When loading resources over a network, the "
 "3rd party server will receive your IP address and User Agent string amongst "
 "other details. Please refer to the Privacy Policy of the respective libraries "
-"for details on how they use data and the process to exercise your rights "
-"under the GDPR regulations.\n"
+"for details on how they use data and the process to exercise your rights under "
+"the GDPR regulations.\n"
 "\n"
-"WP Go Maps uses jQuery DataTables to display sortable, searchable tables, "
-"such as that seen in the Advanced Marker Listing and on the Map Edit Page. "
-"jQuery DataTables in certain circumstances uses a cookie to save and later "
-"recall the \"state\" of a given table - that is, the search term, sort column "
-"and order and current page. This data is help in local storage and retained "
-"until this is cleared manually. No libraries used by WP Go Maps transmit this "
-"information.\n"
+"WP Go Maps uses jQuery DataTables to display sortable, searchable tables, such "
+"as that seen in the Advanced Marker Listing and on the Map Edit Page. jQuery "
+"DataTables in certain circumstances uses a cookie to save and later recall the "
+"\"state\" of a given table - that is, the search term, sort column and order "
+"and current page. This data is help in local storage and retained until this is "
+"cleared manually. No libraries used by WP Go Maps transmit this information.\n"
 "\n"
-"Please <a href=\"https://developers.google.com/maps/terms\">see here</a> and "
-"<a href=\"https://maps.google.com/help/terms_maps.html\">here</a> for "
-"Google's terms. Please also see <a href=\"https://policies.google.com/privacy?"
-"hl=en-GB&amp;gl=uk\">Google's Privacy Policy</a>. We do not send the API "
-"provider any personally identifying information, or information that could "
-"uniquely identify your device.\n"
+"Please <a href=\"https://developers.google.com/maps/terms\">see here</a> and <a "
+"href=\"https://maps.google.com/help/terms_maps.html\">here</a> for Google's "
+"terms. Please also see <a href=\"https://policies.google.com/privacy?hl=en-"
+"GB&amp;gl=uk\">Google's Privacy Policy</a>. We do not send the API provider any "
+"personally identifying information, or information that could uniquely identify "
+"your device.\n"
 "\n"
-"Where this notice is displayed in place of a map, agreeing to this notice "
-"will store a cookie recording your agreement so you are not prompted again."
+"Where this notice is displayed in place of a map, agreeing to this notice will "
+"store a cookie recording your agreement so you are not prompted again."
 msgstr ""
 
 #: ../html/google-maps-api-settings.html.php:8
@@ -10053,16 +10010,15 @@ msgstr ""
 #: ../html/map-edit-page/map-edit-page.html.php:251
 msgid ""
 "<a target=\"_BLANK\" href=\"https://www.wpgmaps.com/purchase-professional-"
-"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions"
-"\">\n"
+"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions\">\n"
 "\t\t\t\t\t\tEnable directions</a> with the Pro version for only $39.99 once "
 "off. Support and updates included forever"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:361
 #, php-format
@@ -10079,9 +10035,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:535
 #: ../html/map-edit-page/map-edit-page.html.php:1671
@@ -10101,9 +10057,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:599
 msgid ""
@@ -10113,9 +10069,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:749
 msgid "Style options"
@@ -10133,9 +10089,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:840
 msgid "Advanced Settings:"
@@ -10143,15 +10099,15 @@ msgstr "Configurações Avançadas"
 
 #: ../html/map-edit-page/map-edit-page.html.php:854
 msgid ""
-"Enable custom marker icons with our <a href=\"https://www.wpgmaps.com/"
-"purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
+"Enable custom marker icons with our <a href=\"https://www.wpgmaps.com/purchase-"
+"professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
 "utm_campaign=advanced\">Pro add-on</a>"
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:945
 msgid ""
@@ -10161,9 +10117,9 @@ msgid ""
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:1044
 msgid ""
@@ -10224,14 +10180,14 @@ msgstr "Configurações Gerais"
 msgid ""
 "Enable Marker Listing with the <a href=\"https://www.wpgmaps.com/purchase-"
 "professional-version/?utm_source=plugin&amp;utm_medium=link&amp;"
-"utm_campaign=marker_listing\"target=\"_BLANK\">Pro version for only $39.99 "
-"once off</a>. Support and updates included forever."
+"utm_campaign=marker_listing\"target=\"_BLANK\">Pro version for only $39.99 once "
+"off</a>. Support and updates included forever."
 msgstr ""
 "Ativar a Lista de Marcadores com a <a href=\"http://www.wpgmaps.com/purchase-"
 "professional-version/?"
-"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro "
-"por apenas $39.99, pagando uma única vez</a>. Suporte e atualizações "
-"incluídos para sempre."
+"utm_source=plugin&utm_medium=link&utm_campaign=marker_listing\">versão Pro por "
+"apenas $39.99, pagando uma única vez</a>. Suporte e atualizações incluídos para "
+"sempre."
 
 #: ../html/map-edit-page/map-edit-page.html.php:1561
 msgid "No marker listing"
@@ -10363,15 +10319,14 @@ msgstr "Configurações do Carrossel"
 #: ../html/map-edit-page/map-edit-page.html.php:2284
 msgid ""
 "Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps.com"
-"\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-"
-"us/\" target=\"_BLANK\">contact form</a>."
+"\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-us/"
+"\" target=\"_BLANK\">contact form</a>."
 msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:2304
 msgid ""
-"Tip: Use your mouse to change the layout of your map. When you have "
-"positioned the map to your desired location, press \"Save Map\" to keep your "
-"settings."
+"Tip: Use your mouse to change the layout of your map. When you have positioned "
+"the map to your desired location, press \"Save Map\" to keep your settings."
 msgstr ""
 "Dica: Use o mouse para mudar o layout do seu mapa. Quando tiver posicionado o "
 "mapa na localização desejada, clique em \"Salvar o Mapa\" para manter suas "
@@ -10467,11 +10422,10 @@ msgstr "aqui"
 
 #: ../html/map-edit-page/map-edit-page.html.php:2607
 msgid ""
-"Add different marker icons, or your own icons to make your map really stand "
-"out!"
+"Add different marker icons, or your own icons to make your map really stand out!"
 msgstr ""
-"Adicionar ícones de marcadores diferentes, ou o seu próprio ícone para fazer "
-"o seu mapa realmente se destacar!"
+"Adicionar ícones de marcadores diferentes, ou o seu próprio ícone para fazer o "
+"seu mapa realmente se destacar!"
 
 #: ../html/map-edit-page/map-edit-page.html.php:2614
 #: ../html/map-edit-page/map-edit-page.html.php:2645
@@ -10480,16 +10434,16 @@ msgstr "Edição Pro"
 
 #: ../html/map-edit-page/map-edit-page.html.php:2660
 msgid ""
-"Thank you for using <a href='https://www.wpgmaps.com'>WP Go Maps</a>! Please "
-"<a href='https://wordpress.org/support/plugin/wp-google-maps/reviews/'>rate "
-"us on WordPress.org</a>"
+"Thank you for using <a href='https://www.wpgmaps.com'>WP Go Maps</a>! Please <a "
+"href='https://wordpress.org/support/plugin/wp-google-maps/reviews/'>rate us on "
+"WordPress.org</a>"
 msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:2665
 #, php-format
 msgid ""
-"WP Go Maps is a product of <img src='%s' alt='CODECABIN_' style='height: "
-"1em;' class='wpgmze_cc_footer_image'/>"
+"WP Go Maps is a product of <img src='%s' alt='CODECABIN_' style='height: 1em;' "
+"class='wpgmze_cc_footer_image'/>"
 msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:2671
@@ -10501,8 +10455,8 @@ msgstr ""
 #: ../html/map-edit-page/map-edit-page.html.php:2675
 msgid "WP Go Maps encourages you to make use of the amazing icons at "
 msgstr ""
-"WP Google Maps o incentiva a fazer uso dos impressionantes ícones da Coleção "
-"de Ícones de Mapa de autoria de Nicolas Mollet"
+"WP Google Maps o incentiva a fazer uso dos impressionantes ícones da Coleção de "
+"Ícones de Mapa de autoria de Nicolas Mollet"
 
 #: ../html/map-edit-page/map-edit-page.html.php:2680
 msgid "Translating the plugin with"
@@ -10575,13 +10529,13 @@ msgid ""
 "Over-ride current jQuery with version 1.11.3 (Tick this box if you are "
 "receiving jQuery related errors after updating to WordPress 4.5)"
 msgstr ""
-"Substituir o jQuery atual pela versão 1.8.3 (Marque esta caixa se você "
-"estiver recebendo erros relacionados à jQuery)"
+"Substituir o jQuery atual pela versão 1.8.3 (Marque esta caixa se você estiver "
+"recebendo erros relacionados à jQuery)"
 
 #: ../html/settings-page.html.php:273
 msgid ""
-"Do not load the Google Maps API (Only check this if your theme loads the "
-"Google Maps API by default)"
+"Do not load the Google Maps API (Only check this if your theme loads the Google "
+"Maps API by default)"
 msgstr ""
 
 #: ../html/settings-page.html.php:659 ../html/settings-page.html.php:665
@@ -10660,8 +10614,8 @@ msgstr "Iniciar a reprodução após x milisegundos (1000 = 1 segundo)"
 msgid ""
 "This API key can be obtained from \n"
 "\t\t\t\t\t\tthe <a href='https://wpgmaps.com/google-maps-developer-console/' "
-"target='_BLANK'>Google Developers Console</a>. Our <a href='http://www."
-"wpgmaps.com/documentation/creating-a-google-maps-api-key/' "
+"target='_BLANK'>Google Developers Console</a>. Our <a href='http://www.wpgmaps."
+"com/documentation/creating-a-google-maps-api-key/' "
 "target='_BLANK'>documentation</a> provides a full guide on how to obtain this."
 msgstr ""
 
@@ -10735,8 +10689,8 @@ msgstr ""
 
 #: ../html/welcome.html.php:21
 msgid ""
-"Build amazing maps through a simple interface and powerful functionality "
-"along with world class support."
+"Build amazing maps through a simple interface and powerful functionality along "
+"with world class support."
 msgstr ""
 "﻿Mapas incríveis. Interface simples. Poderosa funcionalidade. Suporte de "
 "primeira classe."
@@ -10811,8 +10765,8 @@ msgstr ""
 #: ../includes/class.admin-notices.php:42
 msgid ""
 "You're using our Legacy build, try our new Atlas Novus build for exciting new "
-"features, improved interface and better performance. You can switch at any "
-"time from the settings area."
+"features, improved interface and better performance. You can switch at any time "
+"from the settings area."
 msgstr ""
 
 #: ../includes/class.admin-ui.php:58
@@ -10821,9 +10775,9 @@ msgstr "Passeio de Bicicleta"
 
 #: ../includes/class.auto-loader.php:225
 msgid ""
-"The plugins autoloader failed to register one or more modules. This is "
-"usually due to missing files. Please re-install the plugin and any relevant "
-"add-ons. Technical details are as follows: "
+"The plugins autoloader failed to register one or more modules. This is usually "
+"due to missing files. Please re-install the plugin and any relevant add-ons. "
+"Technical details are as follows: "
 msgstr ""
 
 #: ../includes/class.country-select.php:30
@@ -10843,18 +10797,18 @@ msgid ""
 "</p>\n"
 "\n"
 "<p>\t\n"
-"\tI agree for my personal data, provided via map API calls, to be processed "
-"by the API provider, for the purposes of geocoding (converting addresses to "
+"\tI agree for my personal data, provided via map API calls, to be processed by "
+"the API provider, for the purposes of geocoding (converting addresses to "
 "coordinates), reverse geocoding and\tgenerating directions.\n"
 "</p>\n"
 "<p>\n"
-"\tSome visual components of WP Go Maps use 3rd party libraries which are "
-"loaded over the network. At present the libraries are Google Maps, Open "
-"Street Map, jQuery DataTables and FontAwesome. When loading resources over a "
-"network, the 3rd party server will receive your IP address and User Agent "
-"string amongst other details. Please refer to the Privacy Policy of the "
-"respective libraries for details on how they use data and the process to "
-"exercise your rights under the GDPR regulations.\n"
+"\tSome visual components of WP Go Maps use 3rd party libraries which are loaded "
+"over the network. At present the libraries are Google Maps, Open Street Map, "
+"jQuery DataTables and FontAwesome. When loading resources over a network, the "
+"3rd party server will receive your IP address and User Agent string amongst "
+"other details. Please refer to the Privacy Policy of the respective libraries "
+"for details on how they use data and the process to exercise your rights under "
+"the GDPR regulations.\n"
 "</p>\n"
 "<p>\n"
 "\tWP Go Maps uses jQuery DataTables to display sortable, searchable tables, "
@@ -10866,12 +10820,12 @@ msgid ""
 "information.\n"
 "</p>\n"
 "<p>\n"
-"\tPlease <a href=\"https://developers.google.com/maps/terms\">see here</a> "
-"and <a href=\"https://maps.google.com/help/terms_maps.html\">here</a> for "
-"Google's terms. Please also see <a href=\"https://policies.google.com/privacy?"
-"hl=en-GB&amp;gl=uk\">Google's Privacy Policy</a>. We do not send the API "
-"provider any personally identifying information, or information that could "
-"uniquely identify your device.\n"
+"\tPlease <a href=\"https://developers.google.com/maps/terms\">see here</a> and "
+"<a href=\"https://maps.google.com/help/terms_maps.html\">here</a> for Google's "
+"terms. Please also see <a href=\"https://policies.google.com/privacy?hl=en-"
+"GB&amp;gl=uk\">Google's Privacy Policy</a>. We do not send the API provider any "
+"personally identifying information, or information that could uniquely identify "
+"your device.\n"
 "</p>\n"
 "<p>\n"
 "\tWhere this notice is displayed in place of a map, agreeing to this notice "
@@ -10897,9 +10851,9 @@ msgstr "WP Google Maps"
 #: ../includes/class.map.php:302
 #, php-format
 msgid ""
-"The plugin couldn't find the directory %s, which is the directory your "
-"settings specify to use for XML caching. Please make sure the directory "
-"exists, and that you assign file permissions of 755 to this directory."
+"The plugin couldn't find the directory %s, which is the directory your settings "
+"specify to use for XML caching. Please make sure the directory exists, and that "
+"you assign file permissions of 755 to this directory."
 msgstr ""
 
 #: ../includes/class.maps-engine-dialog.php:68
@@ -10938,24 +10892,24 @@ msgstr ""
 
 #: ../includes/class.plugin.php:164
 msgid ""
-"<strong>WP Go Maps:</strong> Execution time limit was reached whilst "
-"generating XML cache. This has been switched back to the Database method in "
-"Maps -> Settings -> Advanced"
+"<strong>WP Go Maps:</strong> Execution time limit was reached whilst generating "
+"XML cache. This has been switched back to the Database method in Maps -> "
+"Settings -> Advanced"
 msgstr ""
 
 #: ../includes/class.plugin.php:173
 msgid ""
-"<strong>WP Go Maps:</strong> Allowed memory size was reached whilst "
-"generating XML cache. This has been switched back to the Database method in "
-"Maps -> Settings -> Advanced"
+"<strong>WP Go Maps:</strong> Allowed memory size was reached whilst generating "
+"XML cache. This has been switched back to the Database method in Maps -> "
+"Settings -> Advanced"
 msgstr ""
 
 #: ../includes/class.plugin.php:1072
 msgid ""
 "The plugin cannot initialise due to a fatal error. This is usually due to "
 "missing files or incompatible software. Please re-install the plugin and any "
-"relevant add-ons. We recommend that you use at least PHP 5.6. Technical "
-"details are as follows: "
+"relevant add-ons. We recommend that you use at least PHP 5.6. Technical details "
+"are as follows: "
 msgstr ""
 
 #: ../includes/class.rest-api.php:777 ../includes/class.rest-api.php:792
@@ -10998,17 +10952,17 @@ msgstr "Use minha localização"
 
 #: ../includes/class.strings.php:25
 msgid ""
-"The map cannot be initialized because the Maps API has not been loaded. "
-"Please check your settings."
+"The map cannot be initialized because the Maps API has not been loaded. Please "
+"check your settings."
 msgstr ""
 
 #: ../includes/class.strings.php:28
 #, php-format
 msgid ""
-"You have not entered a <b>Google Maps API Key</b>.<br /><br />Please go to "
-"the your admin area, then Maps, then Settings, then the Advanced tab to <a "
-"href=\"%s\">enter your Google Maps API key</a>.<br /><br />Alternatively, <a "
-"href=\"%s\">choose the Open Layers engine</a> to avoid getting an API key."
+"You have not entered a <b>Google Maps API Key</b>.<br /><br />Please go to the "
+"your admin area, then Maps, then Settings, then the Advanced tab to <a href=\"%s"
+"\">enter your Google Maps API key</a>.<br /><br />Alternatively, <a href=\"%s"
+"\">choose the Open Layers engine</a> to avoid getting an API key."
 msgstr ""
 
 #: ../includes/class.strings.php:36
@@ -11150,8 +11104,8 @@ msgstr "Geocode não foi be"
 
 #: ../includes/class.strings.php:100
 msgid ""
-"Geocoding this address failed. Please check you have enabled the Geocoding "
-"API for your Google Maps API project."
+"Geocoding this address failed. Please check you have enabled the Geocoding API "
+"for your Google Maps API project."
 msgstr ""
 
 #: ../includes/class.strings.php:102
@@ -11168,8 +11122,7 @@ msgstr "Tem certeza que você quer excluir o mapa?"
 
 #: ../includes/class.strings.php:108
 #, php-format
-msgid ""
-"Autocomplete disabled. <a href=\"%s\" target=\"_BLANK\">Find out more</a>."
+msgid "Autocomplete disabled. <a href=\"%s\" target=\"_BLANK\">Find out more</a>."
 msgstr ""
 
 #: ../includes/compat/backwards_compat_v6.php:65
@@ -11312,8 +11265,8 @@ msgstr "Sua polilinha foi salva."
 
 #: ../includes/compat/class.pro-below-8.1-compatibility.php:2481
 msgid ""
-"<strong>WP Go Maps:</strong> The Pro add-on is not compatible with this "
-"version of WP Go Maps. Please update your Pro addon to 5.24 or above"
+"<strong>WP Go Maps:</strong> The Pro add-on is not compatible with this version "
+"of WP Go Maps. Please update your Pro addon to 5.24 or above"
 msgstr ""
 
 #: ../includes/legacy/functions.circle.php:41
@@ -11322,8 +11275,7 @@ msgstr "Adicionar Marcador"
 
 #: ../includes/legacy/functions.circle.php:84
 #: ../includes/legacy/functions.circle.php:207
-msgid ""
-"Please note your circle may be too small to be visible at this zoom level"
+msgid "Please note your circle may be too small to be visible at this zoom level"
 msgstr ""
 
 #: ../includes/legacy/functions.circle.php:93
@@ -11431,8 +11383,8 @@ msgstr ""
 
 #: ../js/v8/3rd-party-integration/gutenberg/blocks/store-locator/block.js:111
 msgid ""
-"If used on map page, remember to disable the store locator in your map "
-"settings (Maps > Edit > Settings > Store Locator)"
+"If used on map page, remember to disable the store locator in your map settings "
+"(Maps > Edit > Settings > Store Locator)"
 msgstr ""
 
 #: ../js/v8/3rd-party-integration/gutenberg/blocks/store-locator/block.js:125
@@ -11486,8 +11438,8 @@ msgstr "Tem certeza que você quer excluir esse marcador?"
 msgid ""
 "We have detected a conflict between your current theme's version and our "
 "plugin. Should you be experiencing issues with your maps displaying, please "
-"update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and "
-"check the highlighted checkbox."
+"update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check "
+"the highlighted checkbox."
 msgstr ""
 
 #: ../legacy-core.php:1117
@@ -11524,11 +11476,11 @@ msgstr "Gravar a Localização do Marcador"
 
 #: ../legacy-core.php:1213
 msgid ""
-"Tip: Use your mouse to change the location of the marker. Simply click and "
-"drag it to your desired location."
+"Tip: Use your mouse to change the location of the marker. Simply click and drag "
+"it to your desired location."
 msgstr ""
-"Dica: Use o seu mouse para mudar a localização do marcador. Simplesmente "
-"clique e arraste para a localização desejada."
+"Dica: Use o seu mouse para mudar a localização do marcador. Simplesmente clique "
+"e arraste para a localização desejada."
 
 #: ../legacy-core.php:1219
 msgid "The map could not load."
@@ -11536,16 +11488,16 @@ msgstr "O mapa não pôde ser carregado."
 
 #: ../legacy-core.php:1219
 msgid ""
-"This is normally caused by a conflict with another plugin or a JavaScript "
-"error that is preventing our plugin's Javascript from executing. Please try "
-"disable all plugins one by one and see if this problem persists. If it "
-"persists, please contact nick@wpgmaps.com for support."
+"This is normally caused by a conflict with another plugin or a JavaScript error "
+"that is preventing our plugin's Javascript from executing. Please try disable "
+"all plugins one by one and see if this problem persists. If it persists, please "
+"contact nick@wpgmaps.com for support."
 msgstr ""
 "Isso normalmente é causado por um conflito com outro plugin ou um erro de "
 "JavaScript que está impedindo a execução do Javascript do nosso plugin. Por "
-"favor tente desativar todos os plugins um a um para ver se o problema "
-"persiste. Se persistir, por favor entre em contato com nick@wpgmaps.com para "
-"obter suporte."
+"favor tente desativar todos os plugins um a um para ver se o problema persiste. "
+"Se persistir, por favor entre em contato com nick@wpgmaps.com para obter "
+"suporte."
 
 #: ../legacy-core.php:1299
 msgid ""
@@ -11576,9 +11528,9 @@ msgid ""
 "WP Go Maps does not have write permission to the marker location directory. "
 "This is required to store marker data. Please CHMOD the folder "
 msgstr ""
-"WP Google Maps não tem permissão de escrita para o diretório de localização "
-"do marcador. Esse é um requisito para armazenar as informações do marcador. "
-"Por favor execute CHMOD 755 ou 777 na pasta "
+"WP Google Maps não tem permissão de escrita para o diretório de localização do "
+"marcador. Esse é um requisito para armazenar as informações do marcador. Por "
+"favor execute CHMOD 755 ou 777 na pasta "
 
 #: ../legacy-core.php:1587
 msgid ""
@@ -11669,8 +11621,8 @@ msgstr ""
 #: ../wpGoogleMaps.php:507 ../wpGoogleMaps.php:537
 #, php-format
 msgid ""
-"If you are struggling to update your Pro version from within WordPress, "
-"please get the latest ZIP file <a target=\"_BLANK\" href=\"%s\">here</a>."
+"If you are struggling to update your Pro version from within WordPress, please "
+"get the latest ZIP file <a target=\"_BLANK\" href=\"%s\">here</a>."
 msgstr ""
 
 #: ../wpGoogleMaps.php:527
@@ -11688,15 +11640,15 @@ msgstr ""
 
 #: ../wpGoogleMaps.php:541
 msgid ""
-"Please note, in this configuration our new Atlas Novus build cannot be "
-"enabled, which means some new features will not be available."
+"Please note, in this configuration our new Atlas Novus build cannot be enabled, "
+"which means some new features will not be available."
 msgstr ""
 
 #: ../wpGoogleMaps.php:595
 msgid ""
 "PHP 8 includes significant changes from PHP 7, which may cause unexpected "
-"issues with our core functionality. WP Go Maps is not officially supported "
-"with PHP 8, but support will be added in the near future."
+"issues with our core functionality. WP Go Maps is not officially supported with "
+"PHP 8, but support will be added in the near future."
 msgstr ""
 
 #: ../wpGoogleMaps.php:601
@@ -11707,9 +11659,9 @@ msgstr ""
 
 #: ../wpGoogleMaps.php:634
 msgid ""
-"The plugin failed to load due to a fatal error. This is usually due to "
-"missing files, or incompatible software. Please re-install the plugin. We "
-"recommend you use PHP 5.6 or above. Technical details are as follows: "
+"The plugin failed to load due to a fatal error. This is usually due to missing "
+"files, or incompatible software. Please re-install the plugin. We recommend you "
+"use PHP 5.6 or above. Technical details are as follows: "
 msgstr ""
 
 #, fuzzy
@@ -11778,8 +11730,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Please <a href='update-core.php'>update your WP Google Maps GOLD version</"
-#~ "a>. Your current Gold version is not compatible with the current Pro "
-#~ "version."
+#~ "a>. Your current Gold version is not compatible with the current Pro version."
 #~ msgstr ""
 #~ "Por favor <a href='update-core.php'>atualize sua versão do WP Google Maps "
 #~ "GOLD</a>. Sua versão Gold atual não é compatível com a versão Pro atual."
@@ -11803,14 +11754,14 @@ msgstr ""
 
 #~ msgid ""
 #~ "Read data directly from your Fusion Table. For more information, see <a "
-#~ "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
-#~ "maps-api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-"
-#~ "google-maps-api.html</a>"
+#~ "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+#~ "api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
+#~ "maps-api.html</a>"
 #~ msgstr ""
 #~ "Obtenha dados direto da sua Tabela Fusion. Para mais informações, veja <a "
-#~ "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
-#~ "maps-api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-"
-#~ "google-maps-api.html</a>"
+#~ "href='http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-maps-"
+#~ "api.html'>http://googlemapsmania.blogspot.com/2010/05/fusion-tables-google-"
+#~ "maps-api.html</a>"
 
 #, fuzzy
 #~ msgid "Your selection:"
@@ -11832,11 +11783,11 @@ msgstr ""
 #~ msgstr "Comprar o Add-on Marcadores Gerados pelos Visitantes"
 
 #~ msgid ""
-#~ "to enable this feature. <br /><br />If you have already purchased it "
-#~ "please ensure that you have uploaded activated the plugin."
+#~ "to enable this feature. <br /><br />If you have already purchased it please "
+#~ "ensure that you have uploaded activated the plugin."
 #~ msgstr ""
-#~ "para ativar esse recurso. <br /><br />Se você já efetuou a compra, por "
-#~ "favor certifique-se de que tenha ativado o plugin."
+#~ "para ativar esse recurso. <br /><br />Se você já efetuou a compra, por favor "
+#~ "certifique-se de que tenha ativado o plugin."
 
 #~ msgid "Column settings"
 #~ msgstr "Configurações da Coluna"
@@ -11848,8 +11799,8 @@ msgstr ""
 #~ " - The plugin does not have write access to this folder. Please CHMOD this "
 #~ "folder to 755 or 777, or change the location"
 #~ msgstr ""
-#~ " - O plugin não tem permissão de escrita para essa pasta. Por favor, "
-#~ "execute CHMOD 755 ou 777 para esta pasta, ou mude sua localização"
+#~ " - O plugin não tem permissão de escrita para essa pasta. Por favor, execute "
+#~ "CHMOD 755 ou 777 para esta pasta, ou mude sua localização"
 
 #~ msgid "Database (Great for small amounts of markers)"
 #~ msgstr "Banco de dados (Bom para pequenas quantidades de marcadores)"
@@ -11902,15 +11853,15 @@ msgstr ""
 #~ "Timthumb does not have 'write' permission for the cache directory. Please "
 #~ "enable 'write' permissions (755 or 777) for "
 #~ msgstr ""
-#~ "Timthumb não tem permissão de 'escrita' para o diretório de cache. Por "
-#~ "favor ative as permissões de 'escrita (755 ou 777) para "
+#~ "Timthumb não tem permissão de 'escrita' para o diretório de cache. Por favor "
+#~ "ative as permissões de 'escrita (755 ou 777) para "
 
 #~ msgid "in order for images to show up while using Timthumb. Please see "
 #~ msgstr "para que as imagens apareçam ao usar o Timthumb. Por favor veja "
 
 #~ msgid ""
-#~ "for help on how to do it. Alternatively, you can disable the use of "
-#~ "Timthumb in Maps->Settings"
+#~ "for help on how to do it. Alternatively, you can disable the use of Timthumb "
+#~ "in Maps->Settings"
 #~ msgstr ""
 #~ "para obter ajudar sobre como fazer isso. Como alternativa, você pode "
 #~ "desativar o uso do Timthumb em Mapas -> Confirgurações"
@@ -11919,8 +11870,8 @@ msgstr ""
 #~ "Add custom icons, titles, descriptions, pictures and links to your markers "
 #~ "with the"
 #~ msgstr ""
-#~ "Adicionar ícones, títulos, descrições, fotos e links personalizados aos "
-#~ "seus marcadores com a "
+#~ "Adicionar ícones, títulos, descrições, fotos e links personalizados aos seus "
+#~ "marcadores com a "
 
 #~ msgid "of this plugin for just"
 #~ msgstr "desse plugin por apenas"
@@ -11937,16 +11888,15 @@ msgstr ""
 #~ msgid ""
 #~ "We've noticed that you are using W3 Total Cache and that you have CDN "
 #~ "enabled.<br /><br />In order for the markers to show up on your map, you "
-#~ "need to add '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' to "
-#~ "the '<strong>rejected files</strong>' list in the <a href='admin.php?"
+#~ "need to add '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' to the "
+#~ "'<strong>rejected files</strong>' list in the <a href='admin.php?"
 #~ "page=w3tc_cdn#advanced'>CDN settings page</a> of W3 Total Cache"
 #~ msgstr ""
-#~ "Notamos que você está usando o W3 Total Cache e que você ativou a opção "
-#~ "CDN.<br /><br />Para que os marcadores apareçam no seu mapa, você precisa "
-#~ "adicionar  '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' à "
-#~ "lista de'<strong>arquivos rejeitados</strong>' na <a href='admin.php?"
-#~ "page=w3tc_cdn#advanced'>página de configurações de CDN </a> do W3 Total "
-#~ "Cache"
+#~ "Notamos que você está usando o W3 Total Cache e que você ativou a opção CDN."
+#~ "<br /><br />Para que os marcadores apareçam no seu mapa, você precisa "
+#~ "adicionar  '<strong><em>{uploads_dir}/wp-google-maps*</strong></em>' à lista "
+#~ "de'<strong>arquivos rejeitados</strong>' na <a href='admin.php?"
+#~ "page=w3tc_cdn#advanced'>página de configurações de CDN </a> do W3 Total Cache"
 
 #~ msgid "Query string"
 #~ msgstr "expressão de Consulta"
@@ -11986,8 +11936,7 @@ msgstr ""
 #~ msgid "Tabular"
 #~ msgstr "Em formato de tabela"
 
-#~ msgid ""
-#~ "Advanced, tabular marker listing functionality with real time filtering"
+#~ msgid "Advanced, tabular marker listing functionality with real time filtering"
 #~ msgstr ""
 #~ "Função avançada \"Lista de marcadores em formato de tabela\" com filtro em "
 #~ "tempo real"
@@ -12013,13 +11962,13 @@ msgstr ""
 
 #~ msgid ""
 #~ "This is normally caused by a conflict with another plugin or a JavaScript "
-#~ "error that is preventing our plugin's Javascript from executing. Please "
-#~ "try disable all plugins one by one and see if this problem persists."
+#~ "error that is preventing our plugin's Javascript from executing. Please try "
+#~ "disable all plugins one by one and see if this problem persists."
 #~ msgstr ""
 #~ "Isso normalmente é causado por um conflito com outro plugin ou por um erro "
-#~ "de javascript que impede o funcionamento do javascript do nosso plugin. "
-#~ "Por favor tente desativar todos os plugins um por um e veja se esse "
-#~ "problema persiste."
+#~ "de javascript que impede o funcionamento do javascript do nosso plugin. Por "
+#~ "favor tente desativar todos os plugins um por um e veja se esse problema "
+#~ "persiste."
 
 #, fuzzy
 #~| msgid "WP Google Maps Error log"
@@ -12070,14 +12019,13 @@ msgstr ""
 #~ msgstr "Anterior"
 
 #~ msgid ""
-#~ "Please ensure you have <strong>both</strong> the <strong>Basic</strong> "
-#~ "and <strong>Pro</strong> versions of WP Google Maps installed and "
-#~ "activated at the same time in order for the plugin to function correctly."
+#~ "Please ensure you have <strong>both</strong> the <strong>Basic</strong> and "
+#~ "<strong>Pro</strong> versions of WP Google Maps installed and activated at "
+#~ "the same time in order for the plugin to function correctly."
 #~ msgstr ""
 #~ "Por favor certifique-se de que você possua <strong>tanto</strong> a versão "
-#~ "<strong>Básica</strong> como a verão <strong>Pro</strong> do WP Google "
-#~ "Maps instaladas e ativadas ao mesmo tempo para o plugin funcionar "
-#~ "correctamente."
+#~ "<strong>Básica</strong> como a verão <strong>Pro</strong> do WP Google Maps "
+#~ "instaladas e ativadas ao mesmo tempo para o plugin funcionar correctamente."
 
 #, fuzzy
 #~ msgid "Download Marker Data"
@@ -12183,19 +12131,18 @@ msgstr ""
 #~ msgid ""
 #~ "There are too many markers to make use of the live edit function. The "
 #~ "maximum amount for this functionality is 5000 markers. Anything more than "
-#~ "that could crash your browser. In order to edit your markers, you would "
-#~ "need to download the table in CSV format, edit it and re-upload it."
+#~ "that could crash your browser. In order to edit your markers, you would need "
+#~ "to download the table in CSV format, edit it and re-upload it."
 #~ msgstr ""
 #~ "Há muitos marcadores para utilizar a função editar em tempo real. A "
-#~ "quantidade máxima para essa funcionalidade é 2000 marcadores. Qualquer "
-#~ "coisa além disso poderia travar o seu navegador. Para editar seus "
-#~ "marcadores, você precisaria baixar a tabela em formato CSV, editá-la e "
-#~ "subi-la novamente."
+#~ "quantidade máxima para essa funcionalidade é 2000 marcadores. Qualquer coisa "
+#~ "além disso poderia travar o seu navegador. Para editar seus marcadores, você "
+#~ "precisaria baixar a tabela em formato CSV, editá-la e subi-la novamente."
 
 #~ msgid ""
-#~ "Use the <a href='http://gmaps-samples-v3.googlecode.com/svn/trunk/"
-#~ "styledmaps/wizard/index.html' target='_BLANK'>Google Maps API Styled Map "
-#~ "Wizard</a> to get your style settings"
+#~ "Use the <a href='http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/"
+#~ "wizard/index.html' target='_BLANK'>Google Maps API Styled Map Wizard</a> to "
+#~ "get your style settings"
 #~ msgstr ""
 #~ "﻿Use a <a href='http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/"
 #~ "wizard/index.html' target='_BLANK'> Assistente para Mapa Estilizado da API "
@@ -12215,8 +12162,8 @@ msgstr ""
 
 #~ msgid "(Tick this if you are having problems viewing your thumbnail images)"
 #~ msgstr ""
-#~ "﻿(Assinale aqui se você está tendo problemas para visualizar suas imagens "
-#~ "em miniatura)"
+#~ "﻿(Assinale aqui se você está tendo problemas para visualizar suas imagens em "
+#~ "miniatura)"
 
 #~ msgid "Enable Weather Layer?"
 #~ msgstr "Ativar a Camada Clima?"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Google Maps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-31 14:07+0200\n"
-"PO-Revision-Date: 2022-10-31 14:08+0200\n"
+"PO-Revision-Date: 2022-12-08 09:39+0200\n"
 "Last-Translator: Jan Fajcak <ja@fajo.name>\n"
 "Language-Team: WordPress Slovensko <ja@fajo.name>\n"
 "Language: sk_SK\n"
@@ -4258,13 +4258,13 @@ msgstr "Více detailů"
 #: wp-google-maps/includes/class.store-locator.php:161
 #: wp-google-maps/includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1mi"
+msgstr "mi"
 
 #: wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: wp-google-maps/includes/class.store-locator.php:154
 #: wp-google-maps/includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1km"
+msgstr "km"
 
 # @ wp-google-maps
 #: wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501

@@ -959,6 +959,7 @@
 			</legend>
 			
 			<select id='wpgmza_default_items' name='wpgmza_default_items'>
+				<option value="1">1</option>
 				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="25">25</option>
@@ -1459,6 +1460,7 @@
 				
 			</label>
 		</fieldset>
+		
 
 		<fieldset>
 			<legend><?php esc_html_e("Enable Dynamic SQL Refactors", "wp-google-maps"); ?></legend>
@@ -1482,6 +1484,20 @@
 					<small>
 						<?php
 						esc_html_e('We recommend leaving automatic backups enabled. We will automatically backup your data before an import or update to our plugin.', 'wp-google-maps');
+						?>
+					</small>
+				
+			</label>
+		</fieldset>
+
+		<fieldset id="wpgmza-disable-google-fonts" data-required-maps-engine="google-maps">
+			<legend><?php esc_html_e("Prevent Google Fonts (beta)", "wp-google-maps"); ?></legend>
+			<label>
+				<input name="disable_google_fonts" type="checkbox"/>
+				
+					<small>
+						<?php
+						esc_html_e('Use this setting to prevent the Google Maps API from loading externally hosted fonts. This is a highly experimental option and may lead to unexpected layout changes. We recommend loading fonts from a local source when this is enabled.', 'wp-google-maps');
 						?>
 					</small>
 				

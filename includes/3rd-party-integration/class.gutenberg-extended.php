@@ -46,17 +46,22 @@ class GutenbergExtended extends \WPGMZA\Factory {
 
         $versionString = $this->getVersion();
 
+        $blockAssets = array(
+            "wp-blocks", 
+            "wp-i18n",
+            "wpgmza"
+        );
+
+        if(!wp_script_is('wp-edit-widgets') && !wp_script_is('wp-customize-widgets')){
+            $blockAssets[] = "wp-editor";
+        }
+
         foreach($this->blocks as $block){
             if(!empty($block->slug) && !empty($block->base)){
                 wp_enqueue_script(
                     "wpgmza-gutenberg-{$block->slug}", 
                     $block->base . "/js/v8/3rd-party-integration/gutenberg/blocks/{$block->slug}/block.js", 
-                    array(
-                        "wp-blocks", 
-                        "wp-i18n",
-                        "wp-editor",
-                        "wpgmza"
-                    ),
+                    $blockAssets,
                     $versionString
                 );
             }

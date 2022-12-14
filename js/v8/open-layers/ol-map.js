@@ -279,6 +279,15 @@ jQuery(function($) {
 				 * Finding a light at the end of the tunnel 
 				*/
 				try{
+					if(self.element){
+						const nestedCanvases = self.element.querySelectorAll('canvas');
+						if(nestedCanvases.length > 1){
+							const diff = (nestedCanvases[0].width  /  nestedCanvases[1].width);
+							event.offsetX *= diff;
+							event.offsetY *= diff;
+						}
+					}
+
 					var featuresUnderPixel = self.olMap.getFeaturesAtPixel([event.offsetX, event.offsetY]);
 				}catch(e) {
 					return;

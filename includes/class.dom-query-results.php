@@ -31,16 +31,19 @@ class DOMQueryResults implements \ArrayAccess, \Countable, \Iterator
 		return $this;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($this->container[$offset]);
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return isset($this->container[$offset]) ? $this->container[$offset] : null;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		if(!($value instanceof DOMElement))
@@ -52,41 +55,49 @@ class DOMQueryResults implements \ArrayAccess, \Countable, \Iterator
 			$this->container[$offset] = $value;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->container[$offset]);
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return count($this->container);
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function current()
 	{
 		return $this->container[$this->index];
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function next()
 	{
 		$this->index++;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->index;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function valid()
 	{
 		return isset($this->container[$this->key()]);
 	}
-	
+
+	#[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->index = 0;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function reverse()
 	{
 		$this->container = array_reverse($this->container);

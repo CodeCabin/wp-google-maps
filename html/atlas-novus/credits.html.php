@@ -166,6 +166,7 @@
 			<li title="Optimization | GitHub: @Lowwebtech">Lowwebtech</li>
 			<li title="Localization Improvements | GitHub: @garretthyder">Garrett Hyder</li>
 			<li title="Stability Improvements | GitHub: @KZeni">Kurt Zenisek</li>
+			<li title="Core Improvements | GitHub: @nicoletta-maia">Nicoletta Maia</li>
 
 			<!-- Issue Reporters -->
 			<li title="Issue Reporter | GitHub: @AmitT">Amit Tal</li>

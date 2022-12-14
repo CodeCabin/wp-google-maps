@@ -4044,13 +4044,13 @@ msgstr "Više detalja"
 #: ../includes/class.store-locator.php:161
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1mi"
+msgstr "mi"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: ../includes/class.store-locator.php:154
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1 km"
+msgstr "km"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501
 #: ../includes/class.strings.php:79

@@ -68,6 +68,7 @@ class Marker extends Feature implements \JsonSerializable
 	 * Returns a clone of this marker for JSON serialization. Unsets latlng binary spatial data which corrupts JSON, and sets custom field data.
 	 * @return array A JSON representation of this marker, without spatial data and with custom field ata.
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		$json = Crud::jsonSerialize();

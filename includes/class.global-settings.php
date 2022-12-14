@@ -238,6 +238,14 @@ class GlobalSettings extends Settings
 		
 		if(isset($data->ugmEmailAddress))
 			unset($data->ugmEmailAddress);
+
+		if(isset($data->vgm_google_recaptcha_project)){
+			unset($data->vgm_google_recaptcha_project);
+		}
+
+		if(isset($data->vgm_google_recaptcha_apikey)){
+			unset($data->vgm_google_recaptcha_apikey);
+		}
 		
 		return $data;
 	}
@@ -252,6 +260,14 @@ class GlobalSettings extends Settings
 		
 		if(isset($data['ugmEmailAddress']))
 			unset($data['ugmEmailAddress']);
+
+		if(isset($data['vgm_google_recaptcha_project'])){
+			unset($data['vgm_google_recaptcha_project']);
+		}
+
+		if(isset($data['vgm_google_recaptcha_apikey'])){
+			unset($data['vgm_google_recaptcha_apikey']);
+		}
 		
 		return $data;
 	}

@@ -143,18 +143,25 @@ jQuery(function($) {
 		var x = this._offset.x;
 		var y = this._offset.y;
 		
-		if(!icon)
-			icon = WPGMZA.settings.default_marker_icon;
-		
-		if(typeof icon == "string")
+		if(!icon){
+			if(WPGMZA.settings.default_marker_icon){
+				icon = WPGMZA.settings.default_marker_icon;
+			} else if (this.map.settings.default_marker_icon){
+				icon = this.map.settings.default_marker_icon;
+			} else if(this.map.settings.default_marker){
+				icon = this.map.settings.default_marker;
+			}
+		}
+
+		if(typeof icon == "string"){
 			params = {
 				url: icon
 			};
-		else
+		}else{
 			params = icon;
-		
-		img.onload = function()
-		{
+		}
+
+		img.onload = function(){
 			var defaultAnchor = {
 				x: img.width / 2,
 				y: img.height

@@ -1853,6 +1853,9 @@
 								<option value="first-and-last-buttons-plus-page-numbers">
 									<?php _e('First and Last buttons, plus page numbers', 'wp-google-maps'); ?>
 								</option>
+								<option value="hidden">
+									<?php _e('Hidden', 'wp-google-maps'); ?>
+								</option>
 							</select>
 						</fieldset>
 					</div>

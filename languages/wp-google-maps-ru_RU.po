@@ -4165,7 +4165,7 @@ msgstr ""
 #: ../includes/class.store-locator.php:154
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1км"
+msgstr "км"
 
 # @ wp-google-maps
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501

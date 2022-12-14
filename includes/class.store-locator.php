@@ -121,6 +121,7 @@ class StoreLocator extends Factory implements \IteratorAggregate
 		}
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		$reflection = new \ReflectionObject($this);

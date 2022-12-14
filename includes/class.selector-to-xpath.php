@@ -894,7 +894,7 @@ class XPathConverter
 	protected function convertAttribute($attr)
 	{
 		$name = $attr->name;
-		$value = addslashes($attr->value);
+		$value = @addslashes($attr->value);
 		
 		switch($attr->operator)
 		{

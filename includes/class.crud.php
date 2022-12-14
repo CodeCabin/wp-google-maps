@@ -603,6 +603,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	 * @throws \Exception The object has been trashed
 	 * @return \ArrayIterator
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		$this->assert_not_trashed();
@@ -615,6 +616,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	 * @throws \Exception
 	 * @return array
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		$this->assert_not_trashed();
