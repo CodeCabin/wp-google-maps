@@ -131,6 +131,8 @@ class Shortcodes extends Factory {
 		    	"display" => "block",
 		    	"width" => !empty($attributes->width) ? $attributes->width : "{$options->width}{$options->widthType}",
 		    	"height" => !empty($attributes->height) ? $attributes->height :"{$options->height}{$options->heightType}",
+				"overflow" => "hidden",
+				"position" => "relative"
 		    );
 		    
 		    $classes = array(

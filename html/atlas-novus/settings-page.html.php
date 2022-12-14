@@ -744,6 +744,7 @@
 			<div class="title"><?php esc_html_e("Show X items by default","wp-google-maps"); ?></div>
 			
 			<select id='wpgmza_default_items' name='wpgmza_default_items'>
+				<option value="1">1</option>
 				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="25">25</option>
@@ -1230,7 +1231,7 @@
 
 			<select name='categoryTreeSource'>
 				<option value="native">Native</option>
-				<option value="wordpress">WordPress</option>
+				<option value="wordpress">WordPress (beta)</option>
 			</select>
 		</div>
 		
@@ -1947,6 +1948,26 @@
 					<small>
 						<?php
 						esc_html_e('We recommend leaving automatic backups enabled. We will automatically backup your data before an import or update to our plugin.', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
+		<!-- Disable google font loading - Highly experimental -->
+		<div id="wpgmza-disable-google-fonts" class="tab-row has-hint" data-required-maps-engine="google-maps">
+			<div class="title"><?php esc_html_e("Prevent Google Fonts (beta)", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="disable_google_fonts"
+						id="disable_google_fonts"
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="disable_google_fonts"></label>
+				<label for="disable_google_fonts">
+					<small>
+						<?php
+						esc_html_e('Use this setting to prevent the Google Maps API from loading externally hosted fonts. This is a highly experimental option and may lead to unexpected layout changes. We recommend loading fonts from a local source when this is enabled.', 'wp-google-maps');
 						?>
 					</small>
 				</label>

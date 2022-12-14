@@ -9,16 +9,19 @@ class QueryFragment implements \ArrayAccess, \Countable
 {
 	private $nextIndex = 0;
 	
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return property_exists($this, $offset);
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return $this->{$offset};
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		if(!$offset)
@@ -27,6 +30,7 @@ class QueryFragment implements \ArrayAccess, \Countable
 		$this->{$offset} = $value;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->{$offset});
@@ -47,6 +51,7 @@ class QueryFragment implements \ArrayAccess, \Countable
 		return $arr;
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		$count = 0;

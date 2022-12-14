@@ -764,13 +764,13 @@ class RestAPI extends Factory
 					switch($_GET['action']){
 						case 'count-duplicates':
 							$total		= $wpdb->get_var("SELECT COUNT(*) FROM $wpgmza_tblname");
-							$duplicates	= $wpdb->get_var("SELECT COUNT(*) FROM $wpgmza_tblname GROUP BY lat, lng, address, title, link, description");
+							$duplicates	= $wpdb->get_var("SELECT COUNT(*) FROM $wpgmza_tblname GROUP BY map_id, lat, lng, address, title, link, description");
 							return array(
 								'count' => number_format($total - $duplicates)
 							);
 							break;
 						case 'remove-duplicates':
-							$allowed	= $wpdb->get_col("SELECT MIN(id) FROM $wpgmza_tblname GROUP BY lat, lng, address, title, link, description");
+							$allowed	= $wpdb->get_col("SELECT MIN(id) FROM $wpgmza_tblname GROUP BY map_id, lat, lng, address, title, link, description");
 							if(empty($allowed)){
 								return array(
 									'message' => sprintf(

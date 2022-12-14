@@ -68,11 +68,13 @@ class Settings implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 		$this->update();
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($this->data->{$offset}) || isset($this->overrides->{$offset});
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		if(isset($this->overrides->{$offset}))
@@ -81,12 +83,14 @@ class Settings implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 		return $this->data->{$offset};
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		$this->data->{$offset} = $value;
 		$this->update();
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->data->{$offset});
@@ -94,11 +98,13 @@ class Settings implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 		$this->update();
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		return (object)array_merge((array)$this->data, (array)$this->overrides);
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new \ArrayIterator(array_merge((array)$this->data, (array)$this->overrides));

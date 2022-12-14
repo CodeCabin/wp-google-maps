@@ -117,6 +117,7 @@ class LatLng implements \JsonSerializable
 		return "{$this->_lat}, {$this->_lng}";
 	}
 	
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		return array(

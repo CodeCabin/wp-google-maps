@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgooglemaps kay to german\n"
 "POT-Creation-Date: 2022-10-31 13:46+0200\n"
-"PO-Revision-Date: 2022-10-31 14:11+0200\n"
+"PO-Revision-Date: 2022-12-08 09:35+0200\n"
 "Last-Translator: Peter Moser <peter@fosm.de>\n"
 "Language-Team: Ellerkalle <Ellerkalle@wuffweb.de>\n"
 "Language: de_DE\n"
@@ -4064,13 +4064,13 @@ msgstr "Mehr Details"
 #: wp-google-maps/includes/class.store-locator.php:161
 #: wp-google-maps/includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1min"
+msgstr "min"
 
 #: wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: wp-google-maps/includes/class.store-locator.php:154
 #: wp-google-maps/includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1km"
+msgstr "km"
 
 #: wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501
 #: wp-google-maps/includes/class.strings.php:79

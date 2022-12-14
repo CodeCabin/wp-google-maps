@@ -37,8 +37,6 @@ class MapEditPage extends Page
 		// Shortcode
 		if($element = $document->querySelector('.wpgmza_copy_shortcode'))
 			$element->setAttribute('value', "[wpgmza id=\"$map_id\"]");
-
-		$this->addShortcodeIDs();
 		
 		// Version string
 		if($element = $document->querySelector('.versions-text')){
@@ -184,7 +182,8 @@ class MapEditPage extends Page
 		}
 
 		$this->applyEditorHooks();
-	
+		
+		$this->addShortcodeIDs();
 
 		$this->disableProFeatures();
 		$this->hideSelectedProFeatures();

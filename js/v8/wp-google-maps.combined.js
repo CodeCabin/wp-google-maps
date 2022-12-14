@@ -864,6 +864,44 @@ jQuery(function($) {
 		);
 	}
 
+	/* Check if experimental google font option is enabled, and run it here to allow it to run early */
+	try {
+		if(WPGMZA && WPGMZA.settings && WPGMZA.settings.disable_google_fonts){
+			/**
+			 * WP Google Maps makes use of the Google Maps API for map serving. 
+			 * 
+			 * All credit to "coma" from this thread: https://stackoverflow.com/questions/25523806/google-maps-v3-prevent-api-from-loading-roboto-font
+			 * - This was the initial inspiration for the solution implemented here 
+			 * 
+			 * Highly experiment option - This whole block should be moved to a dedicated module
+			*/
+			const _wpgmzaGoogleFontDisabler = {
+				head : document.getElementsByTagName('head')[0]
+			};
+
+			if(_wpgmzaGoogleFontDisabler.head){
+				/* Save the original function to recall it later */
+				_wpgmzaGoogleFontDisabler.insertBefore = _wpgmzaGoogleFontDisabler.head.insertBefore;
+
+				_wpgmzaGoogleFontDisabler.head.insertBefore = (nElem, rElem) => {
+					if(nElem.href && nElem.href.indexOf('//fonts.googleapis.com/css') !== -1){
+						const exclList = ['Roboto', 'Google'];
+						for(let excl of exclList){
+							if(nElem.href.indexOf('?family=' + excl) !== -1){
+								/* Matched - Block the font */
+								return;
+							}
+						}
+					}
+
+					_wpgmzaGoogleFontDisabler.insertBefore.call(_wpgmzaGoogleFontDisabler.head, nElem, rElem);
+				};
+			}
+		}
+	} catch (_wpgmzaDisableFontException){
+		/* Silence */
+	}
+
 	
 	for(var key in WPGMZA_localized_data){
 		var value = WPGMZA_localized_data[key];
@@ -14620,7 +14658,6 @@ jQuery(function($) {
  * @requires WPGMZA.Integration
  * @requires wp-i18n
  * @requires wp-blocks
- * @requires wp-editor
  * @requires wp-components
  */
 
@@ -16483,18 +16520,25 @@ jQuery(function($) {
 		var x = this._offset.x;
 		var y = this._offset.y;
 		
-		if(!icon)
-			icon = WPGMZA.settings.default_marker_icon;
-		
-		if(typeof icon == "string")
+		if(!icon){
+			if(WPGMZA.settings.default_marker_icon){
+				icon = WPGMZA.settings.default_marker_icon;
+			} else if (this.map.settings.default_marker_icon){
+				icon = this.map.settings.default_marker_icon;
+			} else if(this.map.settings.default_marker){
+				icon = this.map.settings.default_marker;
+			}
+		}
+
+		if(typeof icon == "string"){
 			params = {
 				url: icon
 			};
-		else
+		}else{
 			params = icon;
-		
-		img.onload = function()
-		{
+		}
+
+		img.onload = function(){
 			var defaultAnchor = {
 				x: img.width / 2,
 				y: img.height
@@ -20787,6 +20831,15 @@ jQuery(function($) {
 				 * Finding a light at the end of the tunnel 
 				*/
 				try{
+					if(self.element){
+						const nestedCanvases = self.element.querySelectorAll('canvas');
+						if(nestedCanvases.length > 1){
+							const diff = (nestedCanvases[0].width  /  nestedCanvases[1].width);
+							event.offsetX *= diff;
+							event.offsetY *= diff;
+						}
+					}
+
 					var featuresUnderPixel = self.olMap.getFeaturesAtPixel([event.offsetX, event.offsetY]);
 				}catch(e) {
 					return;
@@ -23012,6 +23065,15 @@ jQuery(function($) {
 		{
 			var meta = self.lastResponse.meta[index];
 			row.wpgmzaFeatureData = meta;
+
+			try {
+				if($(row).find('.wpgmza-toolbar .wpgmza_approve_btn').length){
+					$(row).addClass('wpgmza-row-needs-approval')
+					$(row).attr('title', 'Pending Approval')
+				}
+			} catch (ex){	
+				/* Nothing to do here */
+			}
 		}
 		
 		return options;

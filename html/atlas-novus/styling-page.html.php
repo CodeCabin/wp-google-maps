@@ -106,7 +106,7 @@
 								<div class="wpgmza-col">
 									<legend><?php _e("Backdrop Filter", "wp-google-maps"); ?></legend>
 									<div class="wpgmza-pos-relative wpgmza-notice wpgmza-card wpgmza-shadow">
-										<small><?php _e("In order for filters to take affect you will need to make your Background Color transparent. Increase transparency for a more dramatic effect", "wp-google-maps"); ?></small>
+										<small><?php _e("In order for filters to take effect you will need to make your Background Color transparent. Increase transparency for a more dramatic effect", "wp-google-maps"); ?></small>
 									</div>
 									<br>
 								</div>

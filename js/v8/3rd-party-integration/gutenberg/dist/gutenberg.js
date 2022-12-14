@@ -6,7 +6,6 @@
  * @requires WPGMZA.Integration
  * @requires wp-i18n
  * @requires wp-blocks
- * @requires wp-editor
  * @requires wp-components
  */
 

@@ -84,6 +84,15 @@ jQuery(function($) {
 		{
 			var meta = self.lastResponse.meta[index];
 			row.wpgmzaFeatureData = meta;
+
+			try {
+				if($(row).find('.wpgmza-toolbar .wpgmza_approve_btn').length){
+					$(row).addClass('wpgmza-row-needs-approval')
+					$(row).attr('title', 'Pending Approval')
+				}
+			} catch (ex){	
+				/* Nothing to do here */
+			}
 		}
 		
 		return options;

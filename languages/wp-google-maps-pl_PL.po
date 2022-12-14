@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgooglemaps\n"
 "POT-Creation-Date: 2022-08-02 13:24+0200\n"
-"PO-Revision-Date: 2022-10-31 14:04+0200\n"
+"PO-Revision-Date: 2022-12-13 13:03+0200\n"
 "Last-Translator: Michał Kotnowski <michal.kotnowski@ukotka.com>\n"
 "Language-Team: Michal Kotnowski <michal.kotnowski@ukotka.com>\n"
 "Language: pl_PL\n"
@@ -3972,13 +3972,13 @@ msgstr "Więcej szczegółów"
 #: ../includes/class.store-locator.php:156
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1 mila"
+msgstr "mila"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: ../includes/class.store-locator.php:149
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1 km"
+msgstr "km"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501
 #: ../includes/class.strings.php:79
@@ -8531,7 +8531,7 @@ msgstr "Ukryj kolumnę Kategoria"
 
 #: ../html/atlas-novus/settings-page.html.php:607
 msgid "Hide the gallery/image field"
-msgstr "Ukryj pole Adres"
+msgstr "Ukryj pole galerii/obraz"
 
 #: ../html/atlas-novus/settings-page.html.php:616
 msgid "Hide the description field"

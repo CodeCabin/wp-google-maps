@@ -2021,6 +2021,9 @@
 								_e('First and Last buttons, plus page numbers', 'wp-google-maps');
 								?>
 							</option>
+							<option value="hidden">
+								<?php _e('Hidden', 'wp-google-maps'); ?>
+							</option>
 						</select>
 					</fieldset>
 

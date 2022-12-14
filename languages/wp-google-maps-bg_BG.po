@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgmaps\n"
 "POT-Creation-Date: 2022-10-31 13:31+0200\n"
-"PO-Revision-Date: 2022-10-31 14:10+0200\n"
+"PO-Revision-Date: 2022-12-08 09:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: bg_BG\n"
@@ -4044,13 +4044,13 @@ msgstr "Повече подробности"
 #: ../includes/class.store-locator.php:161
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "mi"
-msgstr "1 миля"
+msgstr "миля"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:488
 #: ../includes/class.store-locator.php:154
 #: ../includes/map-edit-page/class.map-edit-page.php:76
 msgid "km"
-msgstr "1 км"
+msgstr "км"
 
 #: ../../wp-google-maps-pro/includes/marker-listings/class.marker-listing.php:501
 #: ../includes/class.strings.php:79
