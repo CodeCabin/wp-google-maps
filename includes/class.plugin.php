@@ -814,6 +814,8 @@ class Plugin extends Factory
 			$file = $upload_dir."/wp-google-maps/";
 		}
 		
+		$file = realpath($file);
+		
 		if (substr($file, -1) != "/") { $file = $file."/"; }
 		
 		return $file;

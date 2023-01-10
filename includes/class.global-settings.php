@@ -156,6 +156,9 @@ class GlobalSettings extends Settings
 		if (empty($file))
 			$file = $upload_dir."/wp-google-maps/";
 		
+
+		$file = realpath($file);
+		
 		if (substr($file, -1) != "/") { $file = $file."/"; }
 		
 		return $file;
