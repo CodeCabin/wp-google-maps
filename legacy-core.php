@@ -1563,7 +1563,7 @@ function wpgmaps_marker_permission_check() {
     if (function_exists("wpgmza_register_pro_version")) {
         global $wpgmza_pro_version;
         if (floatval($wpgmza_pro_version) < 5.41) {
-            $marker_location = realpath(get_option("wpgmza_xml_location"));
+            $marker_location = get_option("wpgmza_xml_location");
         } else {
             $marker_location = wpgmza_return_marker_path();
         }

@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.1
 Requires PHP: 5.3
-Stable tag: 9.0.15
+Stable tag: 9.0.16
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -199,6 +199,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.16 =
+Please update to 9.0.16 or above for the latest stability improvements.
+
 = 9.0.15 =
 Please update to 9.0.15 or above to ensure you are using the latest security enhancements.
 
@@ -249,8 +252,12 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 9.0.16 - 2023-01-11 =
+* Fixed issue where some users reported warning/error being thrown by realpath implementation. Now catches these errors and reverts to default 
+* Improved absolute path enforcement and directory traversal implementation from 9.0.15 (Thanks to Rezaduty)
+
 = 9.0.15 - 2023-01-10 =
-* Fixed issue where XML directory path allowed directory treversal, absolute paths now enforced, using realpath method (Thanks to Rezaduty)
+* Fixed issue where XML directory path allowed directory traversal, absolute paths now enforced, using realpath method (Thanks to Rezaduty)
 
 = 9.0.14 - 2022-12-14 =
 * Improved PHP8.1 compatibility by introducing "#[\ReturnTypeWillChange]" to classes which extend without return types

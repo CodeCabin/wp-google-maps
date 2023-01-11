@@ -2,6 +2,8 @@
 
 namespace WPGMZA;
 
+use Exception;
+
 if(!defined('ABSPATH'))
 	return;
 
@@ -810,13 +812,39 @@ class Plugin extends Factory
 		$file = str_replace('{uploads_dir}', $upload_dir, $file);
 		$file = trim($file);
 		
-		if (empty($file)) {
-			$file = $upload_dir."/wp-google-maps/";
+		/* Realpath permission checks */
+		try {
+			/* This will run a permissions check, some servers may reject based on this, so we suppress */
+			$file = @realpath($file);
+		} catch (\Exception $ex){
+			$file = false;
+		} catch (\Error $err){
+			$file = false;
 		}
 		
-		$file = realpath($file);
+		$file = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $file);
+		if(!empty($file)){
+			$validRoots = array($content_dir, $upload_dir, $plugin_dir);
+			$vRoot = false;
+			foreach($validRoots as $root){
+				$root = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $root);
+				$sample = substr($file, 0, strlen($root));
+
+				if($root === $sample){
+					$vRoot = true;
+				}
+			}
+			
+			if(empty($vRoot)){
+				$file = false;
+			}
+		}
 		
-		if (substr($file, -1) != "/") { $file = $file."/"; }
+		if (empty($file)) {
+			$file = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $upload_dir) . DIRECTORY_SEPARATOR . "wp-google-maps" . DIRECTORY_SEPARATOR;
+		}
+
+		if (substr($file, -1) != DIRECTORY_SEPARATOR) { $file = $file . DIRECTORY_SEPARATOR; }
 		
 		return $file;
 	}
