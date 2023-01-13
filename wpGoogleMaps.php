@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.16
+Version: 9.0.17
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,10 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.17 - 2023-01-11 
+ * Improved XML directory pathing system, and introduced a new validation system which limits access to only primary directory as specified in the settings area, while preventing traversal or root access 
+ * Removed realpath XML directory validation, now replaced by a new path validation system 
+ * 
  * 9.0.16 - 2023-01-11
  * Fixed issue where some users reported warning/error being thrown by realpath implementation. Now catches these errors and reverts to default 
  * Improved absolute path enforcement and directory traversal implementation from 9.0.15 (Thanks to Rezaduty)
