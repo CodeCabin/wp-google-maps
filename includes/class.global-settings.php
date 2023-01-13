@@ -153,17 +153,27 @@ class GlobalSettings extends Settings
 		$file = str_replace('{uploads_dir}', $upload_dir, $file);
 		$file = trim($file);
 		
-		/* Realpath permission checks */
-		try {
-			/* This will run a permissions check, some servers may reject based on this, so we suppress */
-			$file = @realpath($file);
-		} catch (\Exception $ex){
-			$file = false;
-		} catch (\Error $err){
+
+		/* Moving away from realpath implementation, it's unreliable in some environments and thats a deal breaker for us */
+		$file = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $file);
+		
+		$pathParts = explode(DIRECTORY_SEPARATOR, $file);
+		$invalidParts = array('.', '..', '~');
+		foreach($pathParts as $key => $part){
+			$part = trim($part);
+			if(empty($part) || in_array($part, $invalidParts)){
+				unset($pathParts[$key]);
+			}
+		}
+
+		/* Rejoin the path, but we will have dropped traversal method */
+		if(!empty($pathParts)){
+			$file = implode(DIRECTORY_SEPARATOR, $pathParts);
+		} else {
 			$file = false;
 		}
 		
-		$file = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $file);
+		/* Now confirm that path contains either: content, uploads, or plugin directory for storage */
 		if(!empty($file)){
 			$validRoots = array($content_dir, $upload_dir, $plugin_dir);
 			$vRoot = false;
