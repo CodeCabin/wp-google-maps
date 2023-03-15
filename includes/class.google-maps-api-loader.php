@@ -139,6 +139,9 @@ class GoogleMapsAPILoader
 			$params['key'] = $key;
 		else if(is_admin())
 			$params['key'] = get_option('wpgmza_temp_api');
+
+		// Callback, required as of 2023
+		$params['callback'] = "__wpgmzaMapEngineLoadedCallback";
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization');

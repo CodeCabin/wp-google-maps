@@ -161,7 +161,7 @@ class GlobalSettings extends Settings
 		$invalidParts = array('.', '..', '~');
 		foreach($pathParts as $key => $part){
 			$part = trim($part);
-			if(empty($part) || in_array($part, $invalidParts)){
+			if(in_array($part, $invalidParts)){
 				unset($pathParts[$key]);
 			}
 		}
@@ -285,6 +285,24 @@ class GlobalSettings extends Settings
 		if(isset($data->vgm_google_recaptcha_apikey)){
 			unset($data->vgm_google_recaptcha_apikey);
 		}
+
+		/*
+		 * Obscure Google API keys 
+		 * 
+		 * Google has started sending out emails about exposed keys, this is specifically due to our plugin localizing 
+		 * the API keys in settings object, for use in autocomplete requests 
+		 * 
+		 * This is a false positive, but it does cause confusion with users. We will obscure it, so that, hopefully 
+		 * Google no longer flags that in source code. Keys should still be restricted, this is purely a visual thing for source calls 
+		 * 
+		 * As of 9.0.18 (23-03-13) 
+		 */
+		$apikeyIndexes = array('googleMapsApiKey', 'wpgmza_google_maps_api_key', 'google_maps_api_key');
+		foreach($apikeyIndexes as $key){
+			if(!empty($data->{$key})){
+				$data->{$key} = base64_encode($data->{$key});
+			}
+		}
 		
 		return $data;
 	}
@@ -307,6 +325,9 @@ class GlobalSettings extends Settings
 		if(isset($data['vgm_google_recaptcha_apikey'])){
 			unset($data['vgm_google_recaptcha_apikey']);
 		}
+
+
+		
 		
 		return $data;
 	}

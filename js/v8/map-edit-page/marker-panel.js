@@ -118,6 +118,8 @@ jQuery(function($) {
 		$(this.element).find('.wpgmza-hide-in-adjust-mode').removeClass('wpgmza-hidden');				
 		$(this.element).find('.wpgmza-show-in-adjust-mode').addClass('wpgmza-hidden');
 
+		/* Re-add disabled attribute to pro feature fields */
+		$(this.element).find('.wpgmza-pro-feature [data-ajax-name]').attr('disabled', 'disabled');
 
 		if(feature){
 			if(feature.setOpacity){

@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.17
+Version: 9.0.18
 Author: WP Go Maps
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,16 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.18 - 2023-03-15
+ * Added filter to prevent welcome page activation hook (wpgmza-plugin-core-prevent-welcome-redirect)
+ * Improved delayed/async/defer (lazy) script loading substantially, by introducing 'delayedReloader' which will gracefully reinitialize plugin core as needed. Tested with LS Cache, Async JS, and Flying Scripts
+ * Improved XML path filters to better support UNIX file systems
+ * Fixed issue where Google Maps API key was localized in a settings object, causing Google to email account owner about a potential exposed key. We now obscure this, as it is safe to have localized, but caused falsed positive when page was crawled.
+ * Fixed issue where Google Maps API would report a callback being required. This is a new requirement from Google, which we now adhere to 
+ * Fixed issue where OpenLayers maps would not scroll the page when greedy gestures are disabled, now inline with Google Maps implementation
+ * Fixed issue where Pro disabled marker fields would be editable when in edit mode, although not stored, confusing to the end user
+ * Updated spotlight icon from Google
+ * 
  * 9.0.17 - 2023-01-11 
  * Improved XML directory pathing system, and introduced a new validation system which limits access to only primary directory as specified in the settings area, while preventing traversal or root access 
  * Removed realpath XML directory validation, now replaced by a new path validation system 
