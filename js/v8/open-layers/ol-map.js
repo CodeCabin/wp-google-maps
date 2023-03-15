@@ -121,7 +121,10 @@ jQuery(function($) {
 					if(!ol.events.condition.platformModifierKeyOnly(event))
 					{
 						self.showGestureOverlay();
-						event.originalEvent.preventDefault();
+
+						// Allow the page to scroll normally by commenting this out 
+						//event.originalEvent.preventDefault();
+						
 						return false;
 					}
 					

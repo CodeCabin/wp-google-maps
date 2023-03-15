@@ -799,8 +799,35 @@ jQuery(function($) {
 			$('.wpgmza-wrap').hide();
 			
 			window.location.href = url;
+		},
+
+		delayedReloader(){
+			/* This script attempts to load the core, but waits for all modules using a try catch block
+			 * 
+			 * As of 9.0.18 (2023-03-14) this is an experimental reloader, it should work well enough, as it is triggered only by missing modules 
+			 * and should not run in 'normal runs', but we've only confirmed this with a handful of delaying script systems
+			*/ 
+			setTimeout(() => {
+				try {
+					WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+					if(WPGMZA.CloudAPI){
+						WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
+					}
+
+					$(document.body).trigger('preinit.wpgmza');
+					
+					WPGMZA.initMaps();
+					WPGMZA.onScroll();
+
+					WPGMZA.initCapsules();
+
+					$(document.body).trigger('postinit.wpgmza');
+				} catch (ex) {
+					/* The initial loading failed, this likely happened because the API cores were not loaded yet */
+					WPGMZA.delayedReloader();
+				}	
+			}, 1000);
 		}
-		
 	};
 	
 	var wpgmzaisFullScreen = false;
@@ -830,10 +857,27 @@ jQuery(function($) {
 	}
 
 	
-	for(var key in WPGMZA_localized_data)
-	{
+	for(var key in WPGMZA_localized_data){
 		var value = WPGMZA_localized_data[key];
 		WPGMZA[key] = value;
+	}
+
+	/*
+	 * De-Obscure Google API keys 
+	 * 
+	 * Google has started sending out emails about exposed keys, this is specifically due to our plugin localizing 
+	 * the API keys in settings object, for use in autocomplete requests 
+	 * 
+	 * We will just reverse the original obscurity we added to sort this out
+	 * 
+	 * As of 9.0.18 (23-03-13) 
+	 */
+	var apiKeyIndexes = ['googleMapsApiKey', 'wpgmza_google_maps_api_key', 'google_maps_api_key'];
+	for(let apiKeyIndex of apiKeyIndexes){
+		if(WPGMZA.settings[apiKeyIndex]){
+			/* We have an obscured key, this is to prevent false emails from being sent to site owner about 'exposed' keys */
+			WPGMZA.settings[apiKeyIndex] = atob(WPGMZA.settings[apiKeyIndex]);
+		}
 	}
 	
 	// delete window.WPGMZA_localized_data;
@@ -1008,23 +1052,36 @@ jQuery(function($) {
 	 * Instead, we call an anon-func, which queues on the ready call, this controls the queue without the need for timeouts
 	 * 
 	 * While also maintaining the stack order, and the ability for consent plugins to stop ready calls early
+	 * 
+	 * --
+	 * 
+	 * In some cases, delayed script loading will fail in this loop, this happens because the core modules are not prepared/loaded yet
+	 * we really should overcome this limitation, to allow more versatile loading approaches
+	 * 
+	 * This is a little tricky due to the way that we call this function (anon) -> But we believe we have a better approach to this 
 	*/
 	(function($){
 		$(function(){
-			WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
-			if(WPGMZA.CloudAPI){
-				WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
-			}
+			try {
+				WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+				if(WPGMZA.CloudAPI){
+					WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
+				}
 
-			$(document.body).trigger('preinit.wpgmza');
-			
-			WPGMZA.initMaps();
-			WPGMZA.onScroll();
+				$(document.body).trigger('preinit.wpgmza');
+				
+				WPGMZA.initMaps();
+				WPGMZA.onScroll();
 
-			WPGMZA.initCapsules();
+				WPGMZA.initCapsules();
 
-			$(document.body).trigger('postinit.wpgmza');
-			
+				$(document.body).trigger('postinit.wpgmza');
+			} catch (ex) {
+				/* The initial loading failed, this likely happened because the API cores were not loaded yet */
+				if(WPGMZA && typeof WPGMZA.delayedReloader === 'function'){
+					WPGMZA.delayedReloader();
+				}
+			}	
 		});
 	})($);
 	
@@ -18572,6 +18629,8 @@ jQuery(function($) {
 		$(this.element).find('.wpgmza-hide-in-adjust-mode').removeClass('wpgmza-hidden');				
 		$(this.element).find('.wpgmza-show-in-adjust-mode').addClass('wpgmza-hidden');
 
+		/* Re-add disabled attribute to pro feature fields */
+		$(this.element).find('.wpgmza-pro-feature [data-ajax-name]').attr('disabled', 'disabled');
 
 		if(feature){
 			if(feature.setOpacity){
@@ -20673,7 +20732,10 @@ jQuery(function($) {
 					if(!ol.events.condition.platformModifierKeyOnly(event))
 					{
 						self.showGestureOverlay();
-						event.originalEvent.preventDefault();
+
+						// Allow the page to scroll normally by commenting this out 
+						//event.originalEvent.preventDefault();
+						
 						return false;
 					}
 					

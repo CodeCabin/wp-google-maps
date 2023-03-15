@@ -13,7 +13,7 @@ require_once(plugin_dir_path(__FILE__) . '/class.crud.php');
  */
 class Marker extends Feature implements \JsonSerializable
 {
-	const DEFAULT_ICON = WPGMZA_PLUGIN_DIR_URL . 'images/spotlight-poi2.png';
+	const DEFAULT_ICON = WPGMZA_PLUGIN_DIR_URL . 'images/spotlight-poi3.png';
 	
 	private static $columns;
 	protected $custom_fields;

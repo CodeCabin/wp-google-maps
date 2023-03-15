@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, google map, google maps plugin, wp go
 Requires at least: 3.5
 Tested up to: 6.1
 Requires PHP: 5.3
-Stable tag: 9.0.17
+Stable tag: 9.0.18
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -19,6 +19,8 @@ Add a customized Google map, map block or Store Locator to your WordPress posts 
 While the free version of WP Go Maps allows you to create a Google map with as many markers as you like, the Pro version allows you to do so much more! 
 
 Create Elementor Maps, map blocks and map widgets easily with our WP Go Maps Elementor map block integration, straight out the box!
+
+Do you use the classic editor? We still support map widgets for classic WordPress installations. No need to compromise, the map widget includes the same functionality as our map blocks! 
 
 The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-version/) version allows you create custom Google maps with high quality markers containing locations, descriptions, images, categories, links and directions. 
 
@@ -199,6 +201,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.18 =
+Please update to 9.0.18 or above for the latest stability improvements.
+
 = 9.0.17 =
 Please update to 9.0.17 or above for the latest stability improvements.
 
@@ -254,6 +259,16 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.18 - 2023-03-15 =
+* Added filter to prevent welcome page activation hook (wpgmza-plugin-core-prevent-welcome-redirect)
+* Improved delayed/async/defer (lazy) script loading substantially, by introducing 'delayedReloader' which will gracefully reinitialize plugin core as needed. Tested with LS Cache, Async JS, and Flying Scripts
+* Improved XML path filters to better support UNIX file systems
+* Fixed issue where Google Maps API key was localized in a settings object, causing Google to email account owner about a potential exposed key. We now obscure this, as it is safe to have localized, but caused falsed positive when page was crawled.
+* Fixed issue where Google Maps API would report a callback being required. This is a new requirement from Google, which we now adhere to 
+* Fixed issue where OpenLayers maps would not scroll the page when greedy gestures are disabled, now inline with Google Maps implementation
+* Fixed issue where Pro disabled marker fields would be editable when in edit mode, although not stored, confusing to the end user
+* Updated spotlight icon from Google
 
 = 9.0.17 - 2023-01-11  =
 * Improved XML directory pathing system, and introduced a new validation system which limits access to only primary directory as specified in the settings area, while preventing traversal or root access 
@@ -682,6 +697,5 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
 
 

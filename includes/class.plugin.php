@@ -307,6 +307,13 @@ class Plugin extends Factory
 
 		if($current_screen && $current_screen->id == "appearance_page_install-required-plugins")
 			return; // Bulk activating plugins, don't redirect just yet
+
+		/* Developer Hook (Filter) - Prevent/replace activation redirect */
+		$preventWelcomeRedir = apply_filters('wpgmza-plugin-core-prevent-welcome-redirect', false);
+		if(!empty($preventWelcomeRedir)){
+			/* Filter returned a value, we should not redirect */
+			return;
+		}
 		
 		wp_redirect( admin_url( 'admin.php?page=wp-google-maps-menu&action=welcome_page' ) );
 	}
@@ -417,12 +424,14 @@ class Plugin extends Factory
 			} 
 		}
 		
-		if($post)
+		if($post){
 			$result['postID'] = $post->ID;
+		}
 		
-		if(!empty($result->settings->wpgmza_settings_ugm_email_address))
-			unset($result->settings->wpgmza_settings_ugm_email_address);
-		
+		if(!empty($result['settings']->wpgmza_settings_ugm_email_address)){
+			unset($result['settings']->wpgmza_settings_ugm_email_address);
+		}
+
 		return $result;
 	}
 	
@@ -817,7 +826,7 @@ class Plugin extends Factory
 		$invalidParts = array('.', '..', '~');
 		foreach($pathParts as $key => $part){
 			$part = trim($part);
-			if(empty($part) || in_array($part, $invalidParts)){
+			if(in_array($part, $invalidParts)){
 				unset($pathParts[$key]);
 			}
 		}
