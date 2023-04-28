@@ -13,7 +13,7 @@
 				name="wpgmza_theme" 
 				value="0"
 				class="wpgmza_theme_radio wpgmza_hide_input"
-				data-theme-json='["visibility", "invert_lightness", "color", "weight", "hue", "saturation", "lightness", "gamma"]'
+				data-theme-json='[]'
 				/>
 			
 			<button type="button" class="wpgmza-button wpgmza-select-theme-preset">
