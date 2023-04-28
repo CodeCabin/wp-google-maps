@@ -162,6 +162,28 @@ jQuery(function($) {
 			}
 			
 		}
+
+		/* As of 2023-04-28 Google Maps themes must contain array with each item being a defined object. This means older theme definitions
+		 * will cause initialization issues as they may contain only keyname like ["visibility", "weight"] 
+		 * 
+		 * We will attempt to catch these and return the default theme instead of breaking the map 
+		*/
+		if(json instanceof Array){
+			try{
+				for(let data of json){
+					if(!(data instanceof Object)){
+						/* This key is not an object, it's safe to assume the theme has been corrupted */
+						return [];
+					}
+				}
+			} catch (ex){
+				/* Loop failed, for validation, return default */
+				return [];
+			}
+		} else {
+			/* Not array, something failed, default */
+			return [];
+		}
 		
 		return json;
 	}
