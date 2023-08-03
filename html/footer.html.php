@@ -5,7 +5,7 @@
 		?>
 	</strong>
 	<br/>
-	<a href='http://www.wpgmaps.com/documentation/troubleshooting/' 
+	<a href='https://docs.wpgmaps.com/troubleshooting' 
 		title='<?php esc_attr_e('WP Go Maps Troubleshooting Section', 'wp-google-maps'); ?>'
 		target='_BLANK'>
 		<?php

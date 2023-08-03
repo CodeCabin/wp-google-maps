@@ -28,13 +28,6 @@ class Gutenberg extends \WPGMZA\Factory
 		));
 		
 		if(function_exists('register_block_type')){
-			register_block_type('gutenberg-wpgmza/block', array(
-				'render_callback' => array(
-					$this,
-					'onRender'
-				)
-			));
-
 			$this->extendedBlocks = GutenbergExtended::createInstance();
 		}
 	}
@@ -50,6 +43,9 @@ class Gutenberg extends \WPGMZA\Factory
 			return;
 		
 		$wpgmza->loadScripts(true);
+
+		$data = $wpgmza->getLocalizedData();
+		wp_localize_script('wpgmza', 'WPGMZA_localized_data', $data);
 		
 		wp_enqueue_style(
 			'wpgmza-gutenberg-integration', 
@@ -65,6 +61,15 @@ class Gutenberg extends \WPGMZA\Factory
 	public function onInit()
 	{
 		global $wpgmza;
+
+		if(function_exists('register_block_type')){
+			register_block_type('gutenberg-wpgmza/block', array(
+				'render_callback' => array(
+					$this,
+					'onRender'
+				)
+			));
+		}
 		
 		if(!$wpgmza->isInDeveloperMode())
 			return;

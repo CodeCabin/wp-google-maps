@@ -361,7 +361,7 @@
 		<div class="tab-row wpgmza-hidden">
 			<div class="title">
 				<?php esc_html_e('User Interface Style', 'wp-google-maps'); ?>
-				(<em><a href='https://www.wpgmaps.com/documentation/user-interface-style-options/' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
+				(<em><a href='https://docs.wpgmaps.com/user-interface-style' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
 			</div>
 			
 			<ul>
@@ -1440,7 +1440,7 @@
 			<small class="hint">
 				<?php
 				_e("This API key can be obtained from 
-				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/documentation/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://docs.wpgmaps.com/creating-a-google-maps-api-key' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>

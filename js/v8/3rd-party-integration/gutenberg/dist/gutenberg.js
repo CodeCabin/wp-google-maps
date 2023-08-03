@@ -19,7 +19,7 @@ jQuery(function ($) {
 	var __ = wp.i18n.__;
 	var registerBlockType = wp.blocks.registerBlockType;
 	var _wp$editor = wp.editor,
-	    InspectorControls = _wp$editor.InspectorControls,
+	    InspectorControls = wp.blockEditor.InspectorControls,
 	    BlockControls = _wp$editor.BlockControls;
 	var _wp$components = wp.components,
 	    Dashicon = _wp$components.Dashicon,
@@ -135,7 +135,7 @@ jQuery(function ($) {
 		var _this = this;
 		return {
 
-			title:  WPGMZA.InternalEngine.isLegacy() ? __("WP Go Maps") : __("Map"),
+			title: __("Map"),
 			description: __('The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.'),
 			category:  !WPGMZA.InternalEngine.isLegacy() && this.verifyCategory("wpgmza-gutenberg") ? "wpgmza-gutenberg" : 'common',
 			icon: 'location-alt',
@@ -149,7 +149,7 @@ jQuery(function ($) {
 					React.createElement(Dashicon, { icon: "location-alt" }),
 					React.createElement(
 						"span",
-						{ "class": "wpgmza-gutenberg-block-title" },
+						{ "className": "wpgmza-gutenberg-block-title" },
 						__("Your map will appear here on your websites front end")
 					)
 				)];

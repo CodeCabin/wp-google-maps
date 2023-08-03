@@ -140,7 +140,7 @@ jQuery(function($) {
 	{
 		return {
 			
-			title: 			 WPGMZA.InternalEngine.isLegacy() ? __("WP Go Maps") : __("Map"),
+			title: 			__("Map"),
 			description: 	__( 'The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.' ),
 			category: 		 !WPGMZA.InternalEngine.isLegacy() && this.verifyCategory("wpgmza-gutenberg") ? "wpgmza-gutenberg" : 'common',
 			icon: 			'location-alt',

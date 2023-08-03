@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WP Go Maps (formerly WP Google Maps)
+Plugin Name: WP Go Maps (Google Maps, Map Block, and more!)
 Plugin URI: https://www.wpgmaps.com
-Description: The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.19
-Author: WP Go Maps
+Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
+Version: 9.0.20
+Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
 Domain Path: /languages
@@ -12,6 +12,18 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.20 - 2023-08-03
+ * Fixed issue where Gutenberg blocks would not initialize properly in WP 6.3 due to script localization changes
+ * Fixed issue where Gutenberg block definition were not up to specifications
+ * Fixed issue where Store Locator block would trigger a React issue with inspector keys 
+ * Fixed issue where Gutenberg element classname property was incorrectly defined 
+ * Fixed issue where Gutenberg inspector dependency was still referencing an old variable instance within WP Core
+ * Fixed issue where Google Vertex Context Menu module would sometimes throw an error when Google was not
+ * Updated default Gutenberg block name to "Map" for clarity (Legacy)
+ * Replaced older documentation links with new links
+ * Added more information to the readme file
+ * Tested with WP 6.3
+ * 
  * 9.0.19 - 2023-04-28
  * Fixed issue where default Google Maps theme may cause initialization issues, preventing the map from loading all markers
  * Fixed issue where default theme JSON was in a no longer supported format, selecting this theme would cause parsing issues 
