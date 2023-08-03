@@ -102,12 +102,12 @@ jQuery(function($){
 			React.createElement(wp.components.Dashicon, { icon: "store" }),
 			React.createElement(
 				"span",
-				{ "class": "wpgmza-gutenberg-block-title" },
+				{ "className": "wpgmza-gutenberg-block-title" },
 				wp.i18n.__("Your store locator will appear here on your websites front end")
 			),
 			React.createElement(
 				"div",
-				{ "class": "wpgmza-gutenberg-block-hint"},
+				{ "className": "wpgmza-gutenberg-block-hint"},
 				wp.i18n.__("If used on map page, remember to disable the store locator in your map settings (Maps > Edit > Settings > Store Locator)")
 			)
 		)

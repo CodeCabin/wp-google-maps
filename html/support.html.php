@@ -17,7 +17,7 @@
 				</p>
 				<ul>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/creating-your-first-map/' 
+						<a href='https://docs.wpgmaps.com/rYX4-creating-your-first-map' 
 							target='_BLANK' 
 							title='<?php _e("Creating your first map","wp-google-maps"); ?>'>
 							<?php
@@ -26,7 +26,17 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/using-your-map-in-a-widget/'
+						<a href='https://docs.wpgmaps.com/adding-gutenberg-blocks'
+							target='_BLANK' 
+							title='<?php _e("Adding a Map Block","wp-google-maps"); ?>'>
+							<?php
+							_e("Adding a Map Block","wp-google-maps");
+							?>
+						</a>
+					</li>
+					
+					<li>
+						<a href='https://docs.wpgmaps.com/Yp_I-using-your-map-in-a-widget'
 							target='_BLANK' 
 							title='<?php _e("Using your map as a Widget","wp-google-maps"); ?>'>
 							<?php
@@ -35,7 +45,7 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/changing-the-google-maps-language/' 
+						<a href='https://docs.wpgmaps.com/how-do-i-change-the-wp-go-maps-plugin-language' 
 							target='_BLANK' 
 							title='<?php _e("Changing the Google Maps language","wp-google-maps"); ?>'>
 							<?php 
@@ -44,7 +54,7 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/'
+						<a href='https://docs.wpgmaps.com/'
 							target='_BLANK' 
 							title='<?php _e("WP Go Maps Documentation","wp-google-maps"); ?>'>
 							<?php 
@@ -75,13 +85,13 @@
 				</p>
 				<ul>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/troubleshooting/my-map-is-not-showing-on-my-website/' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
+						<a href='https://docs.wpgmaps.com/my-map-is-not-showing-on-my-website' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/troubleshooting/my-markers-are-not-showing-on-my-map/' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
+						<a href='https://docs.wpgmaps.com/markers-are-not-showing-on-my-map-on-the-front-end' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/documentation/troubleshooting/im-getting-jquery-errors-showing-on-my-website/' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
+						<a href='https://docs.wpgmaps.com/im-getting-a-jquery-not-found-error' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
 					</li>
 				</ul>
 			</div>

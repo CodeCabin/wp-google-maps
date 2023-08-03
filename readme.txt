@@ -1,14 +1,14 @@
-=== WP Go Maps (formerly WP Google Maps) ===
+=== WP Go Maps (Google Maps, Map Block, and more!) ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
+Tags: google maps, maps, map block, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 9.0.19
+Stable tag: 9.0.20
 License: GPLv2
 
-The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
+The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
 
 == Description ==
 
@@ -67,6 +67,11 @@ The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-versi
 * Add categories to your map markers
 * Filter markers by category
 * Mashup multiple maps
+* Advanced map blocks
+* Store locator map block
+* Directions map block
+* Infowindow block
+* Map block (filter)
 * Add different marker icons, or your own icons to make your map really stand out!
 * List your map markers in the four ways; basic list, basic table, carousel, advanced table
 * Allow visitors to use their map location as the starting or ending point for the directions
@@ -138,18 +143,19 @@ WP Go Maps Pro
 * [Custom Map Styling](https://www.wpgmaps.com/demo/custom-map-styling/) (WP Go Maps Gold Add-on)
 
 = Documentation =
-* [Installing WP Go Maps](https://www.wpgmaps.com/documentation/installing-the-plugin/)
-* [Creating your first map](https://www.wpgmaps.com/documentation/creating-your-first-map/)
-* [Google Maps mashup (Pro)](https://www.wpgmaps.com/documentation/advanced-map-options/map-mashup/)
-* [Exporting and importing map markers (Pro)](https://www.wpgmaps.com/documentation/exporting-and-importing-your-markers/)
-* [Changing the Google Maps language](https://www.wpgmaps.com/documentation/changing-the-google-maps-language/)
-* [Create a google map and marker using custom fields (Pro)](https://www.wpgmaps.com/introducing-maps-by-custom-fields/)
-* [View all documentation](https://www.wpgmaps.com/documentation/)
+* [Installing WP Go Maps](https://docs.wpgmaps.com/installing-the-plugin#bT9Ya)
+* [Creating your first map](https://docs.wpgmaps.com/rYX4-creating-your-first-map)
+* [Adding a map block to your page or post](https://docs.wpgmaps.com/displaying-your-map-on-your-wordpress-site)
+* [Google Maps mashup (Pro)](https://docs.wpgmaps.com/shortcodes#MgpiF)
+* [Exporting and importing map markers (Pro)](https://docs.wpgmaps.com/exporting-data-and-settings)
+* [Changing the Google Maps language](https://docs.wpgmaps.com/how-do-i-change-the-wp-go-maps-plugin-language)
+* [Create a google map and marker using custom fields (Pro)](https://docs.wpgmaps.com/amMn-adding-custom-fields-to-your-marker)
+* [View all documentation](https://docs.wpgmaps.com/)
 
 = Troubleshooting =
-* [My Google Map is not showing on my website](https://www.wpgmaps.com/documentation/troubleshooting/my-map-is-not-showing-on-my-website/)
-* [My markers are not showing](https://www.wpgmaps.com/documentation/troubleshooting/my-markers-are-not-showing-on-my-map/)
-* [View all troubleshooting articles](https://www.wpgmaps.com/documentation/troubleshooting/)
+* [My Google Map is not showing on my website](https://docs.wpgmaps.com/my-map-is-not-showing-on-my-website)
+* [My markers are not showing](https://docs.wpgmaps.com/markers-are-not-showing-on-my-map-on-the-front-end)
+* [View all troubleshooting articles](https://docs.wpgmaps.com/troubleshooting)
 
 == Installation ==
 
@@ -177,6 +183,9 @@ Once installed and activated, a link should appear in your left navigation panel
 = How do I put a Google map on my page/post? =
 In order to show your custom Google map on your page or post, simply copy the shortcode supplied and paste it into your page or post. WP Go Maps will automatically configure the map to the settings you selected in the map edit page.
 
+= How do I add a map block to my page or post?
+It's super easy to add a map block to your page or post. Simply add a block in the normal page editor, then type in "Map" and you should see the map block option. For more information please review [this tutorial](https://docs.wpgmaps.com/displaying-your-map-on-your-wordpress-site)
+
 = How do I add a map widget to my widget area? =
 To add your map to your widgets area, simply go to Appearance->Widgets and drag the "WP Go Maps" Map Widget to your sidebar. You then edit the map widget to reflect the correct map.
 
@@ -200,6 +209,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 
 == Upgrade Notice ==
+
+= 9.0.20 =
+Please update to 9.0.19 or above for the latest stability improvements.
 
 = 9.0.19 =
 Please update to 9.0.19 or above for the latest stability improvements.
@@ -262,6 +274,18 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.20 - 2023-08-03 =
+* Fixed issue where Gutenberg blocks would not initialize properly in WP 6.3 due to script localization changes
+* Fixed issue where Gutenberg block definition were not up to specifications
+* Fixed issue where Store Locator block would trigger a React issue with inspector keys 
+* Fixed issue where Gutenberg element classname property was incorrectly defined 
+* Fixed issue where Gutenberg inspector dependency was still referencing an old variable instance within WP Core
+* Fixed issue where Google Vertex Context Menu module would sometimes throw an error when Google was not
+* Updated default Gutenberg block name to "Map" for clarity (Legacy)
+* Replaced older documentation links with new links
+* Added more information to the readme file
+* Tested with WP 6.3
 
 = 9.0.19 - 2023-04-28 =
 * Fixed issue where default Google Maps theme may cause initialization issues, preventing the map from loading all markers
@@ -704,7 +728,4 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
-
-
 
