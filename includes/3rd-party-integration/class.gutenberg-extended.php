@@ -49,7 +49,7 @@ class GutenbergExtended extends \WPGMZA\Factory {
         $blockAssets = array(
             "wp-blocks", 
             "wp-i18n",
-            "wpgmza",
+            "wpgmza"
         );
 
         if(!wp_script_is('wp-edit-widgets') && !wp_script_is('wp-customize-widgets')){
