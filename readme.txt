@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 9.0.20
+Stable tag: 9.0.21
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,8 +210,11 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.21 =
+Please update to 9.0.21 or above to ensure you are using the latest architecture, and latest features.
+
 = 9.0.20 =
-Please update to 9.0.19 or above for the latest stability improvements.
+Please update to 9.0.20 or above for the latest stability improvements.
 
 = 9.0.19 =
 Please update to 9.0.19 or above for the latest stability improvements.
@@ -274,6 +277,17 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.21 - 2023-08-08 =
+* Added 'wpgmza-get-core-script-dependencies' filter to allow for more granular dependency control
+* Added conditional loading of the API core when loading block editors, as this would sometimes prevent blocks from loading
+* Fixed issue where OpenLayers geocoding would fail due to an API specification change on Nominatim
+* Fixed various Gutenberg block definition issues, which would cause unexpected visual outputs in the block editor
+* Improved Map Block (Gutenberg) to use the block.json definition, and brought up to specification with V3 block engine
+* Improved Store Locator Block (Gutenberg) to use the block.json definition, and brought up to specification with V3 block engine
+* Improved loading order of block assets
+* Updated legacy Gutenberg blocks to use the new WP Go Maps block category
+* Removed Gutenberg modules from auto-builder, allowing them to be loaded separately
 
 = 9.0.20 - 2023-08-03 =
 * Fixed issue where Gutenberg blocks would not initialize properly in WP 6.3 due to script localization changes
@@ -728,4 +742,5 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
 

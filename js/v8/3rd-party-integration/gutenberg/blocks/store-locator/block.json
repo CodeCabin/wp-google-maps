@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "gutenberg-wpgmza/store-locator",
+    "title": "Store Locator",
+    "category": "wpgmza-gutenberg",
+    "icon": "store",
+    "description": "WP Go Maps Store Locator block, allowing to separate your store locator from your map",
+    "keywords": [ "Store Locator", "Store", "Store Finder", "Map", "Maps"],
+    "version": "2.0.0",
+    "textdomain": "wp-google-maps",
+    "editorScript": "wpgmza-gutenberg-store-locator"
+}

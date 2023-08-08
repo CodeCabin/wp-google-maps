@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (Google Maps, Map Block, and more!)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.20
+Version: 9.0.21
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,17 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.21 - 2023-08-08
+ * Added 'wpgmza-get-core-script-dependencies' filter to allow for more granular dependency control
+ * Added conditional loading of the API core when loading block editors, as this would sometimes prevent blocks from loading
+ * Fixed issue where OpenLayers geocoding would fail due to an API specification change on Nominatim
+ * Fixed various Gutenberg block definition issues, which would cause unexpected visual outputs in the block editor
+ * Improved Map Block (Gutenberg) to use the block.json definition, and brought up to specification with V3 block engine
+ * Improved Store Locator Block (Gutenberg) to use the block.json definition, and brought up to specification with V3 block engine
+ * Improved loading order of block assets
+ * Updated legacy Gutenberg blocks to use the new WP Go Maps block category
+ * Removed Gutenberg modules from auto-builder, allowing them to be loaded separately
+ * 
  * 9.0.20 - 2023-08-03
  * Fixed issue where Gutenberg blocks would not initialize properly in WP 6.3 due to script localization changes
  * Fixed issue where Gutenberg block definition were not up to specifications

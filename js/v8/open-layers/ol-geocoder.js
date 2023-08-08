@@ -75,7 +75,7 @@ jQuery(function($) {
 			data.countrycodes = options.country;
 		}
 		
-		$.ajax("https://nominatim.openstreetmap.org/search/", {
+		$.ajax("https://nominatim.openstreetmap.org/search", {
 			data: data,
 			success: function(response, xhr, status) {
 				callback(response);

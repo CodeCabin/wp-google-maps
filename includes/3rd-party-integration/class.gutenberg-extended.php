@@ -49,7 +49,7 @@ class GutenbergExtended extends \WPGMZA\Factory {
         $blockAssets = array(
             "wp-blocks", 
             "wp-i18n",
-            "wpgmza"
+            "wpgmza",
         );
 
         if(!wp_script_is('wp-edit-widgets') && !wp_script_is('wp-customize-widgets')){
@@ -58,7 +58,7 @@ class GutenbergExtended extends \WPGMZA\Factory {
 
         foreach($this->blocks as $block){
             if(!empty($block->slug) && !empty($block->base)){
-                wp_enqueue_script(
+                wp_register_script(
                     "wpgmza-gutenberg-{$block->slug}", 
                     $block->base . "/js/v8/3rd-party-integration/gutenberg/blocks/{$block->slug}/block.js", 
                     $blockAssets,
@@ -77,12 +77,13 @@ class GutenbergExtended extends \WPGMZA\Factory {
      * @return array
     */
     public function registerBlockCategory($categories, $context){
-        if(!empty($context->post) && $this->checkRequirements()){
+        //if(!empty($context->post) && $this->checkRequirements()){
+        if(!empty($context->post)){
             array_push($categories,
                 array(
                     "slug" => "wpgmza-gutenberg",
                     "title" => __("WP Go Maps", "wp-google-maps"),
-                    "icon" => "location-alt"
+                    "icon" => null
                 )
             );
         }
@@ -107,10 +108,11 @@ class GutenbergExtended extends \WPGMZA\Factory {
      * 
      * @return void
     */
-    public function prepareBlock($slug, $baseOverride = false){
+    public function prepareBlock($slug, $baseOverride = false, $basePathOverride = false){
         $this->blocks[] = (object) array(
             'slug' => $slug,
-            'base' => !empty($baseOverride) ? $baseOverride : rtrim(WPGMZA_PLUGIN_DIR_URL, '/')
+            'base' => !empty($baseOverride) ? $baseOverride : rtrim(WPGMZA_PLUGIN_DIR_URL, '/'),
+            'basePath' => !empty($basePathOverride) ? $basePathOverride : rtrim(WPGMZA_PLUGIN_DIR_PATH, '/'),
         );
     }
 
@@ -127,7 +129,17 @@ class GutenbergExtended extends \WPGMZA\Factory {
 
                 $renderMethod = "onRender{$translatedSlug}";
                 if(method_exists($this, $renderMethod)){
+                    /* Older Registration method */
+                    /*
                     register_block_type("gutenberg-wpgmza/{$block->slug}", 
+                        array(
+                            'render_callback' => array($this, $renderMethod)
+                        )
+                    );
+                    */
+
+                    register_block_type_from_metadata(
+                        $block->basePath . "/js/v8/3rd-party-integration/gutenberg/blocks/{$block->slug}", 
                         array(
                             'render_callback' => array($this, $renderMethod)
                         )

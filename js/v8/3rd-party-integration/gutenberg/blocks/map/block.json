@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "gutenberg-wpgmza/block",
+    "title": "Map",
+    "category": "wpgmza-gutenberg",
+    "icon": "location-alt",
+    "description": "The easiest to use Google Maps plugin! Create custom Google Maps with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.",
+    "keywords": [ "Map", "Maps", "Google", "Google Map", "Open Layers" ],
+    "version": "2.0.0",
+    "textdomain": "wp-google-maps",
+    "editorScript": "wpgmza-gutenberg-block"
+}
