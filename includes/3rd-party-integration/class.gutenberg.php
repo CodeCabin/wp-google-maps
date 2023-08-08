@@ -53,7 +53,7 @@ class Gutenberg extends \WPGMZA\Factory
         $blockAssets = array(
             "wp-blocks", 
             "wp-i18n",
-            "wpgmza",
+            "wpgmza"
         );
 
         if(!wp_script_is('wp-edit-widgets') && !wp_script_is('wp-customize-widgets')){
@@ -65,7 +65,7 @@ class Gutenberg extends \WPGMZA\Factory
 			"wpgmza-gutenberg-block", 
 			plugin_dir_url(WPGMZA_FILE) . "/js/v8/3rd-party-integration/gutenberg/blocks/map/block.js", 
 			$blockAssets,
-			$version,
+			$version
 		);
 	}
 	
