@@ -431,16 +431,6 @@
             "wpgmza"
         ]
     },
-    "wpgmza-gutenberg": {
-        "src": "js\/v8\/3rd-party-integration\/gutenberg\/dist\/gutenberg.js",
-        "pro": false,
-        "dependencies": [
-            "wpgmza-integration",
-            "wp-i18n",
-            "wp-blocks",
-            "wp-components"
-        ]
-    },
     "wpgmza-astra-theme-compatiblity": {
         "src": "js\/v8\/compatibility\/astra-theme-compatibility.js",
         "pro": false,

@@ -1,12 +1,13 @@
 "use strict";
 
 /**
- * @namespace WPGMZA.Integration
- * @module Gutenberg
- * @requires WPGMZA.Integration
- * @requires wp-i18n
- * @requires wp-blocks
- * @requires wp-components
+ * Spaces added to disable auto-build
+ * @ namespace WPGMZA.Integration
+ * @ module Gutenberg
+ * @ requires WPGMZA.Integration
+ * @ requires wp-i18n
+ * @ requires wp-blocks
+ * @ requires wp-components
  */
 
 /**
