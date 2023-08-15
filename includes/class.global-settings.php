@@ -286,6 +286,14 @@ class GlobalSettings extends Settings
 			unset($data->vgm_google_recaptcha_apikey);
 		}
 
+		if(isset($data->wpgmza_marker_xml_location)){
+			unset($data->wpgmza_marker_xml_location);
+		}
+
+		if(isset($data->markerXmlLocation)){
+			unset($data->markerXmlLocation);
+		}
+
 		/*
 		 * Obscure Google API keys 
 		 * 

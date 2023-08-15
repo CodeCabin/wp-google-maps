@@ -17,6 +17,8 @@ class InternalEngine {
 	private $styleDir;
 	private $templateDir;
 
+	private $baseDirOverride;
+
 	/**
 	 * Constructor
 	 */

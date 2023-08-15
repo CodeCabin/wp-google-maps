@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (Google Maps, Map Block, and more!)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.22
+Version: 9.0.23
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,17 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.23 - 2023-08-15
+ * Fixed issue where Block assets were being enqueued when not needed
+ * Fixed issue where XML storage path would be localized on the frontend
+ * Fixed issue where a call to getConsentPromptHTML would be made early, causing an error to be logged
+ * Fixed issue where marker icons would not show when using Elementor and OpenLayers. This was due to a change of style priority in Elementor
+ * Fixed issue with dynamic property creation. This has been done partially to reduce warnings, but it is part of a larger process
+ * Fixed issue where pricing was incorrect in the pl_PL translation file
+ * Fixed issue where some datatable columns may become misaligned at specific screen widths
+ * Fixed issue where 'All' datatable length selector was not present
+ * Fixed issue where sensitive settings data would be deleted instead of hidden when being localized
+ * 
  * 9.0.22 - 2023-08-08
  * Fixed issue where some environments would report a fatal error due to a trailing comma in a script registration
  * 

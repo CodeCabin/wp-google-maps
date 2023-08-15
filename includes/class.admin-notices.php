@@ -6,6 +6,9 @@ if(!defined('ABSPATH'))
 	return;
 
 class AdminNotices {
+	public $dynamicTitles;
+	public $dynamicMessages;
+
 	/**
 	 * Constructor 
 	*/

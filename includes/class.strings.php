@@ -105,6 +105,7 @@ class Strings
 			'general_delete_prompt_text'	=> __('Are you sure you want to delete this data?', 'wp-google-maps'),
 			
 			'new_map'						=> __('New Map', 'wp-google-maps'),
+			'all'							=> __('All', 'wp-google-maps'),
 			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.'),"https://wpgmaps.com/documentation/autocomplete-disabled/")
 		));
 	}

@@ -70,15 +70,16 @@ class SettingsPage extends Page {
 			}
 			
 			$this->document->populate($data);
-			
+
 			$data			= $this->form->serializeFormData();
 
 			/* Developer Hook (Filter) - Add data to be saved to global storage, reduxed */
 			$data = apply_filters("wpgmza_global_settings_save_redux", $data);
 			
-			foreach($data as $key => $value)
+			foreach($data as $key => $value){
 				$wpgmza->settings->{$key} = $value;
-			
+			}
+
 			// Update XML caches if we've just switched to XML mode
 			if($wpgmza->settings->wpgmza_settings_marker_pull == Plugin::MARKER_PULL_XML && $oldPullMethod != Plugin::MARKER_PULL_XML){
 				$wpgmza->updateAllMarkerXMLFiles();

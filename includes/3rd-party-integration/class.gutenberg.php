@@ -10,6 +10,8 @@ if(!defined('ABSPATH'))
  */
 class Gutenberg extends \WPGMZA\Factory
 {
+	public $extendedBlocks;
+	
 	/**
 	 * Constructor.
 	 */
@@ -31,6 +33,10 @@ class Gutenberg extends \WPGMZA\Factory
 	public function onEnqueueBlockAssets()
 	{
 		global $wpgmza;
+
+		if(!is_admin()){
+			return;
+		}
 
 		add_filter('wpgmza-get-core-script-dependencies', array($this, 'onFilterCoreDependencies'), 10, 1);
 

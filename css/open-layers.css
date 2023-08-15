@@ -66,7 +66,8 @@
 	position: relative;
 }
 
-.ol-marker>img
+.ol-marker>img,
+.wpgmza_map .ol-marker > img
 {
 	/* NB: Re-added, removing this breaks marker animations */
 	position: absolute;
