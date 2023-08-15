@@ -11,6 +11,8 @@ if(!defined('ABSPATH'))
  * Separated to allow for more modular block registration, without altering the existing module
  */
 class GutenbergExtended extends \WPGMZA\Factory {
+    public $blocks;
+    
     /**
      * Constructor
      */

@@ -7,6 +7,8 @@ if(!defined('ABSPATH'))
 
 class Database extends Factory
 {
+	public $version;
+	
 	public function __construct()
 	{
 		global $wpgmza;

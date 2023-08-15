@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 9.0.22
+Stable tag: 9.0.23
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.23 =
+Please update to 9.0.23 or above to ensure you are using the latest architecture, and latest features.
+
 = 9.0.22 =
 Please update to 9.0.22 or above for the latest stability improvements.
 
@@ -280,6 +283,17 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.23 - 2023-08-15 =
+* Fixed issue where Block assets were being enqueued when not needed
+* Fixed issue where XML storage path would be localized on the frontend
+* Fixed issue where a call to getConsentPromptHTML would be made early, causing an error to be logged
+* Fixed issue where marker icons would not show when using Elementor and OpenLayers. This was due to a change of style priority in Elementor
+* Fixed issue with dynamic property creation. This has been done partially to reduce warnings, but it is part of a larger process
+* Fixed issue where pricing was incorrect in the pl_PL translation file
+* Fixed issue where some datatable columns may become misaligned at specific screen widths
+* Fixed issue where 'All' datatable length selector was not present
+* Fixed issue where sensitive settings data would be deleted instead of hidden when being localized
 
 = 9.0.22 - 2023-08-08 =
 * Fixed issue where some environments would report a fatal error due to a trailing comma in a script registration
@@ -748,3 +762,4 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+

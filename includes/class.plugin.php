@@ -60,8 +60,12 @@ class Plugin extends Factory
 	private $_restAPI;
 	private $_gutenbergIntegration;
 	private $_pro7Compatiblity;
+	private $_pro9Compatibility;
 	private $_dynamicTranslations;
 	private $_spatialFunctionPrefix = '';
+	private $_shortcodes;
+	private $_adminUI;
+	private $_adminNotices;
 	
 	protected $_internalEngine;
 	protected $_scriptLoader;
@@ -401,7 +405,7 @@ class Plugin extends Factory
 			'serverCanInflate'		=> RestAPI::isCompressedPathVariableSupported(),
 			
 			'localized_strings'		=> $strings->getLocalizedStrings(),
-			'api_consent_html'		=> $this->gdprCompliance->getConsentPromptHTML(),
+			'api_consent_html'		=> !empty($this->gdprCompliance) ? $this->gdprCompliance->getConsentPromptHTML() : "",
 			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion(),
 			
@@ -427,10 +431,17 @@ class Plugin extends Factory
 		if($post){
 			$result['postID'] = $post->ID;
 		}
-		
+
+		/* This block directly accesses the core settings module, which may result in stored data being dropped */
+		/*
 		if(!empty($result['settings']->wpgmza_settings_ugm_email_address)){
 			unset($result['settings']->wpgmza_settings_ugm_email_address);
 		}
+
+		if(!empty($result['settings']->wpgmza_marker_xml_location)){
+			unset($result['settings']->wpgmza_marker_xml_location);
+		}
+		*/
 
 		return $result;
 	}

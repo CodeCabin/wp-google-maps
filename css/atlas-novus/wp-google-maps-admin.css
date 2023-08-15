@@ -4336,7 +4336,7 @@
 
     /* Hide some columns in Datatables */
     .wpgmza-wrap .wpgmza-editor .sidebar .feature-list #wpgmza-table-container-Marker .dataTable thead tr th:nth-child(5),
-    .wpgmza-editor .sidebar .feature-list #wpgmza-table-container-Marker .dataTable tbody tr td:nth-child(4){
+    .wpgmza-editor .sidebar .feature-list #wpgmza-table-container-Marker .dataTable tbody tr td:nth-child(5){
         display: none;
     }
 }
