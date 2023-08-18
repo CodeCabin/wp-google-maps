@@ -1,4 +1,4 @@
-=== WP Go Maps (Google Maps, Map Block, and more!) ===
+=== WP Go Maps (formerly WP Google Maps) ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map block, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
@@ -762,4 +762,3 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
