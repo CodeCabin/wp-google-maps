@@ -17,7 +17,7 @@
 				</p>
 				<ul>
 					<li>
-						<a href='https://docs.wpgmaps.com/rYX4-creating-your-first-map' 
+						<a href='https://docs.wpgmaps.com/creating-your-first-map' 
 							target='_BLANK' 
 							title='<?php _e("Creating your first map","wp-google-maps"); ?>'>
 							<?php
@@ -36,7 +36,7 @@
 					</li>
 					
 					<li>
-						<a href='https://docs.wpgmaps.com/Yp_I-using-your-map-in-a-widget'
+						<a href='https://docs.wpgmaps.com/using-your-map-in-a-widget'
 							target='_BLANK' 
 							title='<?php _e("Using your map as a Widget","wp-google-maps"); ?>'>
 							<?php

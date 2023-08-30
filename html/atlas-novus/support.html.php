@@ -48,7 +48,7 @@
 					</a>
 				</li>
 				<li>
-					<a href='https://docs.wpgmaps.com/displaying-your-map-on-your-wordpress-site'
+					<a href='https://docs.wpgmaps.com/HkC--displaying-your-map-on-your-wordpress-site'
 						target='_BLANK' 
 						title='<?php _e("Creating a Map Block","wp-google-maps"); ?>'>
 						<?php

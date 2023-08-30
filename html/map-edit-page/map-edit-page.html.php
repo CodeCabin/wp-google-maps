@@ -825,7 +825,7 @@
 							<?php
 							_e('View', 'wp-google-maps');
 							?>
-							<a href='https://docs.wpgmaps.com/UNk4-store-locator' target='_BLANK'>
+							<a href='https://docs.wpgmaps.com/CB2H-store-locator' target='_BLANK'>
 								<?php
 								_e('Store Locator Documentation', 'wp-google-maps');
 								?>
