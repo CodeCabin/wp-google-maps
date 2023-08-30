@@ -157,6 +157,30 @@ class InternalEngine {
 	}
 
 	/**
+	 * Get documentation link based on the engine
+	 * 
+	 * You must provide both an experimental link, and a stable link, and based on the current engine
+	 * this function returns the relevant link, effectively hot-swapping based on the engine
+	 * 
+	 * If no secondary link is provided, the first will be used instead
+	 * 
+	 * @param string $expLink The experimental documentation link (atlas novus)
+	 * @param string $stableLink The stable documentation link (legacy)
+	 * 
+	 * @return string
+	 */
+	public function getDocLink($expLink, $stableLink = false){
+		if(!empty($stableLink)){
+			if($this->engine === self::LEGACY){
+				/* Return the stable link instead */
+				return $stableLink;
+			}
+		}
+
+		return !empty($expLink) ? $expLink : "";
+	}
+
+	/**
 	 * Get base directory, allowing Pro to use basic method for pathing 
 	 * 
 	 * @return string
@@ -268,14 +292,28 @@ class InternalEngine {
 	 * @return string
 	 */
 	public static function getRandomEngine(){
+		/* Standard split ratio approach, not in use as of 9.0.24 */
+		/*
 		$today = intval(date('j'));
 		$days = intval(date('t'));
 
 		$rFact = $today / $days;
 
-		/* Old approach */
-		/* $rFact = mt_rand(0, 10) / 10; */
 		if($rFact <= self::RAND_PROB_FACTOR){
+			return self::getExperimentalBuildName();
+		}
+		return self::getStableBuildName();
+		*/
+
+		/* Week based split ratio - As of 9.0.24*/
+		$expRange = (object) array(
+			"start" => 7,
+			"end" => 14
+		);
+
+		$today = intval(date('j'));
+		if($today > $expRange->start && $today <= $expRange->end){
+			/* Installation falls within the experimental build range (2nd week of every month, at the moment) */
 			return self::getExperimentalBuildName();
 		}
 		return self::getStableBuildName();
