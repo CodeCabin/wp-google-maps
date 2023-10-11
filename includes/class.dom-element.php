@@ -704,6 +704,46 @@ class DOMElement extends \DOMElement
 			$this->removeChild($this->firstChild);
 		return $this;
 	}
+
+	/** 
+	 * Prepends the subject to this element.
+	 * @param $subject element or array of elements
+	 * @return $this element
+	 */
+	#[\ReturnTypeWillChange]
+	public function prepend(...$subject) : void
+	{
+		if(is_array($subject))
+		{
+			$originalFirst = $this->firstChild;
+
+			foreach($subject as $el)
+				$this->insertBefore($el, $originalFirst);
+		}
+		else
+			$this->insertBefore($subject, $this->firstChild);
+
+		// return $this;
+	}
+
+	/**
+	 * Appends the subject to this element.
+	 * @param $subject element or array of elements
+	 * 
+	 */
+	#[\ReturnTypeWillChange]
+	public function append(...$subject) : void
+	{
+		if(is_array($subject))
+		{
+			foreach($subject as $el)
+				$this->appendChild($el);
+		}
+		else
+			$this->appendChild($subject);
+
+		// return $this;
+	}
 	 
 	/**
 	 * Removes this element from it's parent
