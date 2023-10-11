@@ -76,21 +76,6 @@
 		</div>
 
 		<div class="member">
-			<a href="https://profiles.wordpress.org/stevendebeer/" class="web" target="_BLANK">
-				<div class="wpgmza-rounded-image">
-					<img 
-						class="wpgmza-developer-avatar gravatar"
-						src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/0d92d7c9c787-512.jpeg" 
-						alt="Support &amp; Developer"/>
-				</div>
-				Steven De Beer
-			</a>
-			<span class="title">
-				<?php esc_html_e("Support &amp; Developer","wp-google-maps"); ?>
-			</span>
-		</div>
-
-		<div class="member">
 			<a href="https://profiles.wordpress.org/matthewlau/" class="web" target="_BLANK">
 				<div class="wpgmza-rounded-image">
 					<img 
@@ -170,6 +155,7 @@
 			<li title="Core Improvements | GitHub: @nicoletta-maia">Nicoletta Maia</li>
 
 			<!-- Issue Reporters -->
+			<li title="Issue Reporter">Arūnas Liuiza</li>
 			<li title="Issue Reporter | GitHub: @AmitT">Amit Tal</li>
 			<li title="Issue Reporter | GitHub: @Gismo1337">Sebastian Richter</li>
 			<li title="Issue Reporter | GitHub: @dmitriyKharlashin">Dmitriy Kharlashin</li>
@@ -192,6 +178,7 @@
 
 			<!-- Previous Internal Developers -->
 			<li title="Version 8 Developer">Perry Rylance <code>V8</code></li>
+			<li title="Version 8 Developer">Steven De Beer <code>V8</code></li>
 			<li title="Version 7 Developer">Dylan Kotze <code>V7</code></li>
 			<li title="Version 7 Developer">Trevor Anderson <code>V7</code></li>
 			<li title="Version 6 Developer">Jarek Kacprzak <code>V6</code></li>

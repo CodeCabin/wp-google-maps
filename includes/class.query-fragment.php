@@ -5,6 +5,7 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
+#[\AllowDynamicProperties]
 class QueryFragment implements \ArrayAccess, \Countable
 {
 	private $nextIndex = 0;

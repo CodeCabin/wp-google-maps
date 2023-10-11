@@ -45,7 +45,7 @@
 		</div>
 		
 		<p class='wpgmza_upgrade_nag'>
-			<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage_1-atlas-novus" 	
+			<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage_1-atlas-novus<?php echo wpgmzaGetUpsellLinkParams() ?>" 	
 				target="_BLANK" 
 				title="<?php esc_html_e("Pro Version", "wp-google-maps"); ?>">
 				<?php
@@ -56,7 +56,7 @@
 			esc_html_e("with the", "wp-google-maps");
 			?>
 			
-			<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage_2-atlas-novus"
+			<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage_2-atlas-novus<?php echo wpgmzaGetUpsellLinkParams() ?>"
 				title="Pro Version"
 				target="_BLANK">
 				<?php

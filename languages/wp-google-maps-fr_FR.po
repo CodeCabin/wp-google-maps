@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgm_fr\n"
 "POT-Creation-Date: 2022-10-31 13:52+0200\n"
-"PO-Revision-Date: 2022-10-31 14:12+0200\n"
+"PO-Revision-Date: 2023-10-04 16:09+0200\n"
 "Last-Translator: antoine <antoine.levillain@gmail.com>\n"
 "Language-Team: French <>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
-"X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__;esc_attr_e\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPath-1: ../../wp-google-maps-pro\n"
@@ -6403,13 +6403,13 @@ msgstr "Terrain"
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:599
 #: ../html/map-edit-page/map-edit-page.html.php:203
-#, php-format
+#, no-php-format
 msgid "Set to 100% for a responsive map"
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:615
 #: ../html/map-edit-page/map-edit-page.html.php:227
-#, php-format
+#, no-php-format
 msgid ""
 "We recommend that you leave your height in PX. Depending on your theme, "
 "using % for the height may break your map."
@@ -6485,9 +6485,10 @@ msgid ""
 "on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:778
 #: ../html/map-edit-page/map-edit-page.html.php:475
@@ -6516,9 +6517,10 @@ msgid ""
 "utm_campaign=store-locator-position-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:838
 #: ../html/map-edit-page/map-edit-page.html.php:606
@@ -6584,9 +6586,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:959
 #: ../html/map-edit-page/map-edit-page.html.php:674
@@ -6660,9 +6663,10 @@ msgid ""
 "utm_campaign=store-locator-categories-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1089
 #: ../html/map-edit-page/map-edit-page.html.php:583
@@ -6676,9 +6680,10 @@ msgid ""
 "utm_campaign=store-locator-user-loc-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1113
 #: ../html/map-edit-page/map-edit-page.html.php:658
@@ -6698,9 +6703,10 @@ msgid ""
 "once off. Support and updates included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1167
 #: ../html/map-edit-page/map-edit-page.html.php:259
@@ -6867,9 +6873,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1522
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1746
@@ -6931,9 +6938,10 @@ msgid ""
 "only $39.99 once off</a>. Support and updates included forever."
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1679
 msgid "Disabled"
@@ -7030,9 +7038,10 @@ msgid ""
 "version for only $39.99 once off</a>. Support and updates included forever."
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:1961
 #: ../html/map-edit-page/map-edit-page.html.php:1948
@@ -7128,9 +7137,10 @@ msgid ""
 "utm_campaign=category-legends-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2095
 msgid "Enable Category Legends"
@@ -7170,9 +7180,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2195
 #: ../html/map-edit-page/map-edit-page.html.php:960
@@ -7198,9 +7209,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2282
 msgid "Enable Shape Labels"
@@ -7219,9 +7231,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2334
 msgid "Fit map bounds to markers"
@@ -7240,9 +7253,10 @@ msgid ""
 "included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2392
 #: ../html/map-edit-page/map-edit-page.html.php:928
@@ -7276,9 +7290,10 @@ msgid ""
 "utm_campaign=general-user-loc-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2498
 msgid ""
@@ -7287,9 +7302,10 @@ msgid ""
 "utm_campaign=streetview-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2505
 msgid "Map starts in Street View"
@@ -7358,9 +7374,10 @@ msgid ""
 "utm_campaign=advanced-markers-atlas-novus\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2649
 msgid "Map Layers"
@@ -7433,9 +7450,10 @@ msgid ""
 "updates included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:2798
 #: ../html/map-edit-page/map-edit-page.html.php:1367
@@ -7716,9 +7734,9 @@ msgstr "Forum d'aide"
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3116
 #: ../html/map-edit-page/map-edit-page.html.php:2242
 msgid ""
-"We pride ourselves on providing quick and amazing support. <a target=\"_BLANK"
-"\" href=\"http://wordpress.org/support/view/plugin-reviews/wp-google-maps?"
-"filter=5\">Read what some of our users think of our support</a>."
+"We pride ourselves on providing quick and amazing support. <a "
+"target=\"_BLANK\" href=\"http://wordpress.org/support/view/plugin-reviews/wp-"
+"google-maps?filter=5\">Read what some of our users think of our support</a>."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3121
@@ -7757,8 +7775,8 @@ msgstr ""
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3142
 msgid ""
 "Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or "
-"use our <a href=\"https://www.wpgmaps.com/contact-us/\" target=\"_BLANK"
-"\">contact form</a>."
+"use our <a href=\"https://www.wpgmaps.com/contact-us/\" "
+"target=\"_BLANK\">contact form</a>."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3147
@@ -7944,8 +7962,8 @@ msgstr ""
 #, php-format
 msgid ""
 "Please ensure you <a href=\"%s\">enter a Google Maps API key</a> to continue "
-"using Google Maps. Alternatively, swap over to Open Layers by clicking <a id="
-"\"wpgm-swap-to-open-layers\" href=\"%s\">here</a>."
+"using Google Maps. Alternatively, swap over to Open Layers by clicking <a "
+"id=\"wpgm-swap-to-open-layers\" href=\"%s\">here</a>."
 msgstr ""
 
 #: ../html/atlas-novus/map-edit-page/map-edit-page.html.php:3639
@@ -8325,9 +8343,9 @@ msgid ""
 "<h3>We need your love!</h3><p>If you are enjoying our plugin, please "
 "consider <a href=\"%1$s\" target=\"_blank\" class=\"button-border button-"
 "border__green\">reviewing WP Go Maps</a>. It would mean the world to us! If "
-"you are experiencing issues with the plugin, please <a href=\"%2$s\" target="
-"\"_blank\"  class=\"button-border button-border__green\">contact us</a> and "
-"we will help you as soon as humanly possible!</p>"
+"you are experiencing issues with the plugin, please <a href=\"%2$s\" "
+"target=\"_blank\"  class=\"button-border button-border__green\">contact us</"
+"a> and we will help you as soon as humanly possible!</p>"
 msgstr ""
 
 #: ../html/atlas-novus/map-list-page.html.php:39
@@ -10066,15 +10084,16 @@ msgstr ""
 #: ../html/map-edit-page/map-edit-page.html.php:251
 msgid ""
 "<a target=\"_BLANK\" href=\"https://www.wpgmaps.com/purchase-professional-"
-"version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions"
-"\">\n"
+"version/?utm_source=plugin&amp;utm_medium=link&amp;"
+"utm_campaign=directions\">\n"
 "\t\t\t\t\t\tEnable directions</a> with the Pro version for only $39.99 once "
 "off. Support and updates included forever"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:361
 #, php-format
@@ -10090,9 +10109,10 @@ msgid ""
 "utm_medium=link&amp;utm_campaign=store-locator\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:535
 #: ../html/map-edit-page/map-edit-page.html.php:1671
@@ -10111,9 +10131,10 @@ msgid ""
 "utm_campaign=store-locator\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:599
 msgid ""
@@ -10122,9 +10143,10 @@ msgid ""
 "utm_campaign=store-locator\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:749
 msgid "Style options"
@@ -10141,9 +10163,10 @@ msgid ""
 "utm_campaign=store-locator\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:840
 msgid "Advanced Settings:"
@@ -10156,9 +10179,10 @@ msgid ""
 "utm_campaign=advanced\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:945
 msgid ""
@@ -10167,9 +10191,10 @@ msgid ""
 "utm_campaign=advanced\">Pro add-on</a>"
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:1044
 msgid ""
@@ -10234,9 +10259,10 @@ msgid ""
 "once off</a>. Support and updates included forever."
 msgstr ""
 "Obtenir le Listing Marqueur <a href=\"http://www.wpgmaps.com/purchase-"
-"professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=advanced"
-"\">avec la version Pro pour seulement $39.99 à payer une seule fois</a>. "
-"Support et mises à jour à vie inclus."
+"professional-version/?"
+"utm_source=plugin&utm_medium=link&utm_campaign=advanced\">avec la version "
+"Pro pour seulement $39.99 à payer une seule fois</a>. Support et mises à "
+"jour à vie inclus."
 
 #: ../html/map-edit-page/map-edit-page.html.php:1561
 msgid "No marker listing"
@@ -10320,12 +10346,12 @@ msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:1839
 #: ../html/map-edit-page/map-edit-page.html.php:1858
-#, php-format
+#, no-php-format
 msgid "% or px"
 msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:1843
-#, php-format
+#, no-php-format
 msgid "Set as % or px, eg. 30% or 400px"
 msgstr ""
 
@@ -10367,9 +10393,9 @@ msgstr "Configuration Carousel"
 
 #: ../html/map-edit-page/map-edit-page.html.php:2284
 msgid ""
-"Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps.com"
-"\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-"
-"us/\" target=\"_BLANK\">contact form</a>."
+"Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps."
+"com\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/"
+"contact-us/\" target=\"_BLANK\">contact form</a>."
 msgstr ""
 
 #: ../html/map-edit-page/map-edit-page.html.php:2304
@@ -10843,9 +10869,9 @@ msgstr ""
 #: ../includes/class.gdpr-compliance.php:40
 msgid ""
 "<p>\n"
-"\tI agree for my personal data to be processed by <span name="
-"\"wpgmza_gdpr_company_name\"></span>, for the purpose(s) of <span name="
-"\"wpgmza_gdpr_retention_purpose\"></span>.\n"
+"\tI agree for my personal data to be processed by <span "
+"name=\"wpgmza_gdpr_company_name\"></span>, for the purpose(s) of <span "
+"name=\"wpgmza_gdpr_retention_purpose\"></span>.\n"
 "</p>\n"
 "\n"
 "<p>\t\n"
@@ -11096,7 +11122,7 @@ msgstr ""
 
 #: ../includes/class.strings.php:73
 msgid "Are you sure you want to overwrite the existing theme data?"
-msgstr "Etes-vous sûr de vouloir supprimer la carte"
+msgstr "Etes-vous sûr de vouloir modifier le thème de la carte"
 
 #: ../includes/class.strings.php:75
 msgid "Upload Complete"
@@ -11662,8 +11688,8 @@ msgstr ""
 #: ../wpGoogleMaps.php:499
 #, php-format
 msgid ""
-"You are currently using an outdated PRO version. You need to <a href=\"%s"
-"\">update your PRO version</a> to the latest version (8.*)."
+"You are currently using an outdated PRO version. You need to <a "
+"href=\"%s\">update your PRO version</a> to the latest version (8.*)."
 msgstr ""
 
 #: ../wpGoogleMaps.php:503
@@ -11683,8 +11709,8 @@ msgstr ""
 #: ../wpGoogleMaps.php:527
 #, php-format
 msgid ""
-"You are currently using an outdated PRO version. You need to <a href=\"%s"
-"\">update your PRO version</a> to the latest version (9.*)."
+"You are currently using an outdated PRO version. You need to <a "
+"href=\"%s\">update your PRO version</a> to the latest version (9.*)."
 msgstr ""
 
 #: ../wpGoogleMaps.php:532

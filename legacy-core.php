@@ -200,6 +200,9 @@ function wpgmza_plugin_action_links( $links ) {
 		if(!$wpgmza->internalEngine->isLegacy()){
             $proLink .= "-atlas-novus";
         }
+
+        $proLink .= wpgmzaGetUpsellLinkParams();
+
         array_unshift( $links,
             '<a class="" target="_BLANK" href="'.wpgm_pro_link($proLink).'">' . __( 'Get Pro Version', 'wp-google-maps' ) . '</a>' );
     }
@@ -1297,7 +1300,7 @@ function wpgmaps_check_permissions() {
 function wpgmaps_permission_warning() {
     echo "<div class='error below-h1'><big>";
     _e("The plugin directory does not have 'write' permissions. Please enable 'write' permissions (755) for ");
-    echo "\"".c."\" ";
+    echo "\"".""."\" ";
     _e("in order for this plugin to work! Please see ");
     echo "<a href='http://codex.wordpress.org/Changing_File_Permissions#Using_an_FTP_Client'>";
     _e("this page");

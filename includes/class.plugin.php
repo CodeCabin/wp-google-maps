@@ -183,6 +183,11 @@ class Plugin extends Factory
 			/* The dynamic SQL refactor option has been enabled */
 			add_filter('query', array($this, 'dynamicQueryRefactor'), 99, 1);
 		}
+
+		if(!empty($this->settings->enable_google_csp_headers) && !empty($this->settings->wpgmza_maps_engine) && $this->settings->wpgmza_maps_engine === 'google-maps'){
+			/* Load the Google CSP headers to the site */
+			add_action('send_headers', array($this, 'loadGoogleCSPHeaders'), 1); 
+		}
 	}
 	
 	public function __set($name, $value)
@@ -933,6 +938,40 @@ class Plugin extends Factory
 			$sql = str_replace("\'", "''", $sql);
 		}
 		return $sql;
+	}
+
+	/**
+	 * Load the Google CSP headers to allow those resources to load on sites with strict CSP policies by default
+	 * 
+	 * This should only run if enabled in settings and the user had the Google Maps engine enabled 
+	 * 
+	 * It does write directly to the headers, so it should be used with caution in that respect
+	 * 
+	 * @return void
+	 */
+	public function loadGoogleCSPHeaders(){
+		try{
+			/* Headers from: https://developers.google.com/maps/documentation/javascript/content-security-policy */
+			$csp = array("Content-Security-Policy:");
+			$csp[] = "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com http://*.googleapis.com https://*.gstatic.com http://*.gstatic.com *.google.com https://*.ggpht.com *.googleusercontent.com blob:;";
+    		$csp[] = "img-src 'self' https://*.googleapis.com https://*.gstatic.com *.google.com  *.googleusercontent.com data:;";
+			$csp[] = "frame-src *.google.com;";
+			$csp[] = "connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com http://*.googleapis.com http://*.gstatic.com data: blob:;";
+			$csp[] = "font-src https://fonts.gstatic.com http://fonts.gstatic.com;";
+			$csp[] = "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;";
+			$csp[] = "worker-src blob:;";
+
+			$csp = implode("", $csp);
+
+			// Decided against this for beta launch, it's a high risk call so we'll just add to existing policies
+			// header_remove('Content-Security-Policy'); 
+
+			header($csp);
+		} catch (\Exception $ex){
+
+		} catch (\Error $err){
+			
+		}
 	}
 
 	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {

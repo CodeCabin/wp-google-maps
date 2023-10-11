@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 9.0.24
+Stable tag: 9.0.25
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.25 =
+Please update to 9.0.25 or above for the latest stability improvements.
+
 = 9.0.23 =
 Please update to 9.0.23 or above to ensure you are using the latest architecture, and latest features.
 
@@ -283,6 +286,19 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.25 - 2023-10-11 =
+* Added option to only use ajax transports for background data (beta)
+* Added option to add Google CSP headers to your site (beta)
+* Added automatic marker creation panel trigger when right clicking on map from default view, or marker list (Atlas Novus)
+* Fixed issue where deprecation notices are shown in PHP 8.2, including dynamic property creation and function changes
+* Fixed issue where some marker fields would be over formatted by HTML entities 
+* Fixed issue where any classname could be passed to the Datatable rest endpoint, and might be instantiated. Security issue, thanks to Arūnas Liuiza (Kayak)
+* Improved core code base by refactoring some modules/sections
+* Improved and reworked affiliate link system, driven by a filter
+* Updated fr_FR translation files, minor improvement
+* Removed "Mapnik OSM No Labels" OpenLayers tile server as it is no longer available
+* Removed "Mapnik OSM B&W" OpenLayers tile server as it is no longer available
 
 = 9.0.24 - 2023-08-30 =
 * Added dynamic documentation links, which direct users to documentation based on internal build engine
@@ -767,3 +783,4 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+

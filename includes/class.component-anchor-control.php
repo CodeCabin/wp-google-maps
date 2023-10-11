@@ -2,6 +2,7 @@
 
 namespace WPGMZA\UI;
 
+#[\AllowDynamicProperties]
 class ComponentAnchorControl {
 	const TOP 		= 0;
 	const LEFT 		= 1;

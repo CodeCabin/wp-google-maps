@@ -11292,6 +11292,10 @@ jQuery(function($) {
 	
 		this.useAJAXFallback = false;
 
+		if(WPGMZA.settings && WPGMZA.settings.force_ajax_only_mode){
+			this.useAJAXFallback = true;
+		}
+
 		$(document.body).trigger("init.restapi.wpgmza");
 	}
 	
@@ -11387,11 +11391,23 @@ jQuery(function($) {
 		if(!params.data)
 			params.data = {};
 		
-		if("route" in params.data)
+		if("route" in params.data){
 			throw new Error("Cannot send route through this method");
+		}
 		
-		if("action" in params.data)
+		if("action" in params.data){
 			throw new Error("Cannot send action through this method");
+		}
+
+		if(params.method === "DELETE"){
+			params.method = "POST";
+	
+			if(!params.data){
+				params.data = {};
+			}
+	
+			params.data.simulateDelete = 'yes';
+		}
 		
 		params.data.route = route;
 		params.data.action = "wpgmza_rest_api_request";
@@ -12528,6 +12544,18 @@ jQuery(function($) {
 		if($(this.element).find('.grouping.open').length > 0){
 			$(this.element).find('.grouping.open').find('.heading.has-back .item').click();
 		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.getActiveGroup = function(){
+		if($(this.element).find('.grouping.open').length > 0){
+			return $(this.element).find('.grouping.open').data('group');
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isOpen = function(groupId){
+		let activeGroup = this.getActiveGroup();
+		return activeGroup === groupId ? true : false;
 	}
 
 	WPGMZA.SidebarGroupings.prototype.updateActionBar = function(element){
@@ -18997,7 +19025,14 @@ jQuery(function($) {
 	{
 		var self = this;
 		var marker;
-		
+
+		if(!WPGMZA.InternalEngine.isLegacy() && this.sidebarGroupings){
+			if(this.sidebarGroupings.isOpen('global') || this.sidebarGroupings.isOpen('map-markers')){
+				/* Either their on the root tab, or they are on the marker list, so let's open the marker creator for them */
+				this.sidebarGroupings.openTabByFeatureType('marker');
+			}
+		}
+
 		if(this.drawingManager && this.drawingManager.mode != WPGMZA.DrawingManager.MODE_MARKER)
 			return;	// Do nothing, not in marker mode
 		

@@ -158,20 +158,6 @@
 					?>
 				</option>
 				
-				<option value="https://{a-c}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
-					data-preview-image="https://a.www.toolserver.org/tiles/bw-mapnik/9/264/179.png">
-					<?php
-					_e('Mapnik OSM B&amp;W', 'wp-google-maps');
-					?>
-				</option>
-				
-				<option value="https://tiles.wmflabs.org/osm-no-labels/{z}/{x}/{y}.png"
-					data-preview-image="https://c.tiles.wmflabs.org/osm-no-labels/14/7452/6839.png">
-					<?php
-					_e('Mapnik OSM No Labels', 'wp-google-maps');
-					?>
-				</option>
-				
 				<option value="https://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
 					data-preview-image="https://a.tile.stamen.com/toner/10/529/366.png">
 					<?php
@@ -727,7 +713,7 @@
 		<!-- Upsell -->
 		<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 			<a target="_BLANK"
-				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings-atlas-novus"));  ?>">
+				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('Add Beautiful Marker Listings', 'wp-google-maps'); ?> 
 			</a> <?php _e('to your maps with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
@@ -1220,7 +1206,7 @@
 		<!-- Upsell -->
 		<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 			<a target="_BLANK"
-				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=categories_settings-atlas-novus"));  ?>">
+				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=categories_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('Categorize markers', 'wp-google-maps'); ?> 
 			</a> <?php _e('with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
@@ -1654,7 +1640,7 @@
 		<!-- Upsell -->
 		<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 			<a target="_BLANK"
-				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=woo_settings-atlas-novus"));  ?>">
+				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=woo_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('WooCommerce Integration', 'wp-google-maps'); ?> 
 			</a> <?php _e('with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
@@ -1968,6 +1954,46 @@
 					<small>
 						<?php
 						esc_html_e('Use this setting to prevent the Google Maps API from loading externally hosted fonts. This is a highly experimental option and may lead to unexpected layout changes. We recommend loading fonts from a local source when this is enabled.', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
+		<!-- Google CSP Headers --> 
+		<div id="wpgmza-google-csp-headers" class="tab-row" data-required-maps-engine="google-maps">
+			<div class="title"><?php esc_html_e("Enable Google CSP Headers (beta)", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="enable_google_csp_headers"
+						id="enable_google_csp_headers"
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="enable_google_csp_headers"></label>
+				<label for="enable_google_csp_headers">
+					<small>
+						<?php
+						esc_html_e('Automatically add Google CSP headers to your site, to allow Google Resources to load as expected. Only enable this if you are fully aware of the implications this can have, or when advised by our support team.', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
+		<!-- Ajax only mode --> 
+		<div id="wpgmza-force-ajax-mode" class="tab-row">
+			<div class="title"><?php esc_html_e("Ajax Only Transports (beta)", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="force_ajax_only_mode"
+						id="force_ajax_only_mode"
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="force_ajax_only_mode"></label>
+				<label for="force_ajax_only_mode">
+					<small>
+						<?php
+						esc_html_e('Bypass the REST API and only transport background data over Ajax requests. Only enable this if you are experiencing trouble with REST API requests.', 'wp-google-maps');
 						?>
 					</small>
 				</label>

@@ -15,6 +15,7 @@ if(!defined('ABSPATH'))
  * createInstance on the subclass. Calling new on the constructor directly will
  * not cause this filter to fire, and the extended class will not be used.
  */
+#[\AllowDynamicProperties]
 class Factory
 {
 	/**

@@ -325,20 +325,6 @@
 					?>
 				</option>
 				
-				<option value="https://{a-c}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
-					data-preview-image="https://a.www.toolserver.org/tiles/bw-mapnik/9/264/179.png">
-					<?php
-					_e('Mapnik OSM B&amp;W', 'wp-google-maps');
-					?>
-				</option>
-				
-				<option value="https://tiles.wmflabs.org/osm-no-labels/{z}/{x}/{y}.png"
-					data-preview-image="https://c.tiles.wmflabs.org/osm-no-labels/14/7452/6839.png">
-					<?php
-					_e('Mapnik OSM No Labels', 'wp-google-maps');
-					?>
-				</option>
-				
 				<option value="https://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
 					data-preview-image="https://a.tile.stamen.com/toner/10/529/366.png">
 					<?php
@@ -807,7 +793,7 @@
 			<a target="_blank"
 				href="<?php 
 				
-					echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings"));
+					echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings" . wpgmzaGetUpsellLinkParams()));
 				
 				?>">
 				
@@ -1498,6 +1484,34 @@
 					<small>
 						<?php
 						esc_html_e('Use this setting to prevent the Google Maps API from loading externally hosted fonts. This is a highly experimental option and may lead to unexpected layout changes. We recommend loading fonts from a local source when this is enabled.', 'wp-google-maps');
+						?>
+					</small>
+				
+			</label>
+		</fieldset>
+
+		<fieldset id="wpgmza-google-csp-headers" data-required-maps-engine="google-maps">
+			<legend><?php esc_html_e("Enable Google CSP Headers (beta)", "wp-google-maps"); ?></legend>
+			<label>
+				<input name="enable_google_csp_headers" type="checkbox"/>
+				
+					<small>
+						<?php
+						esc_html_e('Automatically add Google CSP headers to your site, to allow Google Resources to load as expected. Only enable this if you are fully aware of the implications this can have, or when advised by our support team.', 'wp-google-maps');
+						?>
+					</small>
+				
+			</label>
+		</fieldset>
+
+		<fieldset id="wpgmza-force-ajax-mode">
+			<legend><?php esc_html_e("Ajax Only Transports (beta)", "wp-google-maps"); ?></legend>
+			<label>
+				<input name="force_ajax_only_mode" type="checkbox"/>
+				
+					<small>
+						<?php
+						esc_html_e('Bypass the REST API and only transport background data over Ajax requests. Only enable this if you are experiencing trouble with REST API requests.', 'wp-google-maps');
 						?>
 					</small>
 				

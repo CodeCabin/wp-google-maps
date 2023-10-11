@@ -571,7 +571,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 					$value = wp_kses_post($value);
 				}
 
-				if($key === 'link'){
+				if($key === 'link' || $key === 'title'){
 					$value = html_entity_decode($value);
 				}
 

@@ -379,7 +379,7 @@ class RestAPI extends Factory
 	public function onAJAXRequest()
 	{
 		$this->onRestAPIInit();
-		
+
 		// Check route is specified
 		if(empty($_REQUEST['route']))
 		{
@@ -391,6 +391,27 @@ class RestAPI extends Factory
 				)
 			), 404);
 			return;
+		}
+
+		/* In some cases, the route will include sub-pathing, and for some reason the system cannot always deal with that
+		 * this will attempt to resolve that by directly altering the request data to map that correctly 
+		*/
+		if(!empty($_REQUEST['action']) && $_REQUEST['action'] === 'wpgmza_rest_api_request'){
+			$remapExclusions = array("/features/", "/marker-listing/");
+			if(!empty($_REQUEST['route']) && !in_array($_REQUEST['route'], $remapExclusions)){
+				/* Mutate the request URI */
+				$route = $_REQUEST['route'];
+
+				if(strpos($route, '/wpgmza/v1') === FALSE){
+					$route = "/wpgmza/v1{$route}";
+				}
+
+				$_SERVER['REQUEST_URI'] = $route;
+
+				if(!empty($_POST['action']) && $_POST['action'] === 'wpgmza_rest_api_request'){
+					unset($_POST['action']);
+				}
+			}
 		}
 		
 		// Try to match the route
@@ -961,6 +982,11 @@ class RestAPI extends Factory
 
 			$reflection = new \ReflectionClass($class);
 		}catch(\Exception $e) {
+			return new \WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
+		}
+
+		$reflectionNamespace = $reflection->getNamespaceName();
+		if(empty($reflectionNamespace) || strpos($reflectionNamespace, 'WPGMZA') === FALSE){
 			return new \WP_Error('wpgmza_invalid_datatable_class', 'Invalid class specified', array('status' => 403));
 		}
 		
