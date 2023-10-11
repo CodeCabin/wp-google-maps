@@ -132,9 +132,18 @@ class GDPRCompliance
 		$document = new DOMDocument();
 
 		try{
-			/* Deprecations in PHP require us to rework the way we do conversions */
-			$converted = htmlspecialchars_decode(mb_encode_numericentity(htmlentities($html, ENT_QUOTES, 'UTF-8'), [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
-			$html = $converted;
+			if(version_compare(phpversion(), '8.2', '>=')){
+				/* Deprecations in PHP require us to rework the way we do conversions */
+				$converted = htmlspecialchars_decode(mb_encode_numericentity(htmlentities($html, ENT_QUOTES, 'UTF-8'), [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
+				$html = $converted;
+			} else {
+				if(function_exists('mb_convert_encoding')){
+					$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+				} else{
+					trigger_error('Using fallback UTF to HTML entity conversion', E_USER_NOTICE);
+					$html = htmlspecialchars_decode(utf8_decode(htmlentities($html, ENT_COMPAT, 'utf-8', false)));
+				}
+			}
 		} catch (\Exception $ex){
 			if(function_exists('mb_convert_encoding')){
 				$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
