@@ -5,6 +5,7 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
+#[\AllowDynamicProperties]
 class Query
 {
 	const WHERE			= "where";

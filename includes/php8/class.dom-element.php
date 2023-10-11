@@ -60,7 +60,7 @@ class DOMElement extends \DOMElement
 		
 		try{
 			$expr 		= DOMElement::selectorToXPath($query);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			echo "<p class='notice notice-warning'>Failed to convert CSS selector to XPath (" . $e->getMessage() . ")</p>";
 		}
 		

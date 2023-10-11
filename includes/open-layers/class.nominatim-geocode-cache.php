@@ -8,6 +8,7 @@ if(!defined('ABSPATH'))
 /**
  * Used to facilitate communication and caching between the client and the Nominatim Geocoding service
  */
+#[\AllowDynamicProperties]
 class NominatimGeocodeCache
 {
 	/**

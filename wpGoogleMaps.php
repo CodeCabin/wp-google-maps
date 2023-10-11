@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.24
+Version: 9.0.25
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,19 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.25 - 2023-10-11
+ * Added option to only use ajax transports for background data (beta)
+ * Added option to add Google CSP headers to your site (beta)
+ * Added automatic marker creation panel trigger when right clicking on map from default view, or marker list (Atlas Novus)
+ * Fixed issue where deprecation notices are shown in PHP 8.2, including dynamic property creation and function changes
+ * Fixed issue where some marker fields would be over formatted by HTML entities 
+ * Fixed issue where any classname could be passed to the Datatable rest endpoint, and might be instantiated. Security issue, thanks to Arūnas Liuiza (Kayak)
+ * Improved core code base by refactoring some modules/sections
+ * Improved and reworked affiliate link system, driven by a filter
+ * Updated fr_FR translation files, minor improvement
+ * Removed "Mapnik OSM No Labels" OpenLayers tile server as it is no longer available
+ * Removed "Mapnik OSM B&W" OpenLayers tile server as it is no longer available
+ * 
  * 9.0.24 - 2023-08-30
  * Added dynamic documentation links, which direct users to documentation based on internal build engine
  * Updated all documentation links to point to the correct engine documentation
@@ -686,6 +699,45 @@ if(!function_exists('wpgmza_show_php8_incompatibility_error'))
 			</p>
 		</div>
 		<?php
+	}
+}
+
+if(!function_exists('wpgmzaGetUpsellLinkParams')){
+	/**
+	 * Get additional upsell link params, these are query params that are appended to the 
+	 * upsell links throughout the plugin
+	 * 
+	 * This was specifically added to allow us to track which referral users was responsible for the free installation
+	 * which allows us to attribute any sales from that affiliate correctly on our side
+	 * 
+	 * The method itself is being kept open ended, so that we can better control the links in the future
+	 * 
+	 * Note: This is a procedural function just for easy scope access, but I'm not 100% happy with this. We will fix this later, I imagine
+	 * 
+	 * @return string
+	 */
+	function wpgmzaGetUpsellLinkParams($prefix = "&amp;"){
+		$params = array();
+
+		$filters = array(
+			'wpgmza_referral' => '__ref',
+			'wpgmza_fpr_referral' => 'fpr',
+		);
+
+		$filters = apply_filters('wpgmza_upsell_link_param_filters', $filters);
+
+		if(!empty($filters)){
+			foreach($filters as $action => $paramName){
+				$paramValue = apply_filters($action, "");
+				if(!empty($paramValue)){
+					$params[$paramName] = $paramValue;
+				}
+			}
+		}
+
+		$params = apply_filters('wpgmza_upsell_link_params', $params);
+		$params = !empty($params) ? http_build_query($params) : "";
+		return !empty($params) ? "{$prefix}{$params}" : "";
 	}
 }
 

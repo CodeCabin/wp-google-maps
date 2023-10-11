@@ -130,7 +130,20 @@ class GDPRCompliance
 			return "";
 		
 		$document = new DOMDocument();
-		@$document->loadHTML( utf8_decode($html) );
+
+		try{
+			/* Deprecations in PHP require us to rework the way we do conversions */
+			$converted = htmlspecialchars_decode(mb_encode_numericentity(htmlentities($html, ENT_QUOTES, 'UTF-8'), [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
+			$html = $converted;
+		} catch (\Exception $ex){
+			if(function_exists('mb_convert_encoding')){
+				$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+			} else if (function_exists('utf8_decode')){
+				$html = utf8_decode($html);
+			}
+		}
+
+		@$document->loadHTML($html);
 		$document->populate($wpgmza_other_settings);
 		
 		return $document->saveInnerBody();

@@ -5,6 +5,7 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
+#[\AllowDynamicProperties]
 class SystemInfo {
 	const TYPE_INI = 0;
 	const TYPE_CONST = 1;

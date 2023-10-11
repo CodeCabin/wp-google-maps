@@ -153,7 +153,7 @@
 								_e("copy this into your post or page to display the map", "wp-google-maps");
 		
 								// NB: I recommend adding a unique ID or class to this link and using the DOM to set the href rather than mixing content with logic here. - Perry
-								echo ". ".__(sprintf("Or <a href='%s' target='BLANK'>click here to automatically create a Map Page now</a>.","admin.php?page=wp-google-maps-menu&amp;action=create-map-page&amp;map_id=".intval($_REQUEST['map_id'])),"wp-google-maps");
+								echo ". ".__(sprintf("Or <a href='%s' target='BLANK'>click here to automatically create a Map Page now</a>.", "admin.php?page=wp-google-maps-menu&amp;action=create-map-page&amp;map_id=".(!empty($_REQUEST['map_id']) ? intval($_REQUEST['map_id']) : '' )),"wp-google-maps");
 
 								?>
 							</i>

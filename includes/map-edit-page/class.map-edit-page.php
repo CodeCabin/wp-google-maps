@@ -181,6 +181,19 @@ class MapEditPage extends Page
 
 		}
 
+		/* This will be reworked into the page module, OR, into a dedicated method */
+		$upsellParams = wpgmzaGetUpsellLinkParams("&");
+		if(!empty($upsellParams)){
+			$upsellLinks = $document->querySelectorAll('a[href^="https://www.wpgmaps.com/purchase-pro"]');
+			foreach($upsellLinks as $link){
+				$href = $link->getAttribute('href');
+				if(strpos($href, $upsellParams) === FALSE){
+					$href .= $upsellParams;
+					$link->setAttribute('href', $href);
+				}
+			}
+		}
+
 		$this->applyEditorHooks();
 		
 		$this->addShortcodeIDs();

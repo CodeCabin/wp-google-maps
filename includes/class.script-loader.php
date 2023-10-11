@@ -16,6 +16,7 @@ require_once(plugin_dir_path(__FILE__) . 'open-layers/class.ol-loader.php');
  *
  * When not in developer mode, this class is simply used to enqueue the minified file, or, the combined file if that is more up to date. That can happen when changes have been made and the combined file has been re-built without the minified file being rebuilt.
  */
+#[\AllowDynamicProperties]
 class ScriptLoader
 {
 	private static $dependencyErrorDisplayed = false;
@@ -487,7 +488,10 @@ class ScriptLoader
 		
 		wp_enqueue_style('remodal', $base . 'lib/remodal.css');
 		wp_enqueue_style('remodal-default-theme', $base . 'lib/remodal-default-theme.css');
-		wp_enqueue_style('datatables', $base . 'css/jquery.dataTables.min.css');
+
+		if (empty($wpgmza->settings->wpgmza_do_not_enqueue_datatables) || is_admin()) {
+			wp_enqueue_style('datatables', $base . 'css/jquery.dataTables.min.css');
+		}
 		
 
 		if($wpgmza->internalEngine->isLegacy()){
@@ -632,7 +636,7 @@ class ScriptLoader
 		global $wpgmza_pro_version;
 		
 		// 7.11.69 backwards compat. loadScripts in 7.11.69 doesnt have a paramater and therefore this function forces forceLoad to false.
-		if(version_compare($wpgmza_pro_version, '7.11.69', '<=')) {
+		if(!empty($wpgmza_pro_version) && version_compare($wpgmza_pro_version, '7.11.69', '<=')) {
 			$forceLoad = true;
 		}		
 
@@ -861,8 +865,11 @@ class ScriptLoader
 		global $wpgmza;
 
 		if (!empty($wpgmza->settings->wpgmza_do_not_enqueue_datatables) && !is_admin()) {
-			if (!empty($dep['datatables'])){
-				unset($dep['datatables']);
+			$dequeue = array('datatables', 'datatables-responsive');
+			foreach($dequeue as $tag){
+				if (isset($dep[$tag])) {
+					unset($dep[$tag]);
+				}
 			}
 		}
 

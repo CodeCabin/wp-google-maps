@@ -161,6 +161,18 @@ jQuery(function($) {
 		}
 	}
 
+	WPGMZA.SidebarGroupings.prototype.getActiveGroup = function(){
+		if($(this.element).find('.grouping.open').length > 0){
+			return $(this.element).find('.grouping.open').data('group');
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isOpen = function(groupId){
+		let activeGroup = this.getActiveGroup();
+		return activeGroup === groupId ? true : false;
+	}
+
 	WPGMZA.SidebarGroupings.prototype.updateActionBar = function(element){
 		/* 
 		 * This should be a part of a new module specific to the action bar, but this is hard to justify right now...

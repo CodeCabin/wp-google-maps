@@ -70,19 +70,6 @@
 				<?php _e("Marketing","wp-google-maps"); ?>
 			</span>
 		</li>
-
-		<li class="wp-person" id="wp-person-perry">
-			<a href="https://profiles.wordpress.org/stevendebeer/" class="web" target="_BLANK">
-				<img 
-					class="wpgmza-developer-avatar gravatar"
-					src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/0d92d7c9c787-512.jpeg" 
-					alt="Support &amp; Developer"/>
-				Steven De Beer
-			</a>
-			<span class="title">
-				<?php _e("Support &amp; Developer","wp-google-maps"); ?>
-			</span>
-		</li>
 		
 		<li class="wp-person" id="wp-person-pat">
 			<a href="https://profiles.wordpress.org/matthewlau/" class="web" target="_BLANK">

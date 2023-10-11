@@ -5,8 +5,13 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
-require_once(plugin_dir_path(__FILE__) . 'class.selector-to-xpath.php');
+require_once(plugin_dir_path(__FILE__) . '../class.selector-to-xpath.php');
 
+/**
+ * Direct replacement for the defauly class.dom-element.php
+ * 
+ * Due to the fact it is located in the php8 sub directory, we will only load it for PHP 8 users
+*/
 class DOMElement extends \DOMElement
 {
 	protected static $xpathConverter;
@@ -55,7 +60,7 @@ class DOMElement extends \DOMElement
 		
 		try{
 			$expr 		= DOMElement::selectorToXPath($query);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			echo "<p class='notice notice-warning'>Failed to convert CSS selector to XPath (" . $e->getMessage() . ")</p>";
 		}
 		
@@ -69,42 +74,6 @@ class DOMElement extends \DOMElement
 			usort($results, array('WPGMZA\DOMElement', 'sortByDOMPosition'));
 		
 		return new DOMQueryResults($results);
-	}
-	
-	/** 
-	 * Prepends the subject to this element.
-	 * @param $subject element or array of elements
-	 * @return $this element
-	 */
-	public function prepend($subject)
-	{
-		if(is_array($subject))
-		{
-			$originalFirst = $this->firstChild;
-			
-			foreach($subject as $el)
-				$this->insertBefore($el, $originalFirst);
-		}
-		else
-			$this->insertBefore($subject, $this->firstChild);
-		
-		return $this;
-	}
-	
-	/**
-	 * Appends the subject to this element.
-	 */
-	public function append($subject)
-	{
-		if(is_array($subject))
-		{
-			foreach($subject as $el)
-				$this->appendChild($subject);
-		}
-		else
-			$this->appendChild($subject);
-		
-		return $this;
 	}
 	
 	/**
@@ -740,11 +709,9 @@ class DOMElement extends \DOMElement
 	 * Removes this element from it's parent
 	 * @return \Smart\Element This element
 	 */
-	public function remove()
+	public function remove() : void
 	{
 		if($this->parentNode)
 			$this->parentNode->removeChild($this);
-		return $this;
 	}
 }
-

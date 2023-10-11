@@ -373,7 +373,14 @@ jQuery(function($) {
 	{
 		var self = this;
 		var marker;
-		
+
+		if(!WPGMZA.InternalEngine.isLegacy() && this.sidebarGroupings){
+			if(this.sidebarGroupings.isOpen('global') || this.sidebarGroupings.isOpen('map-markers')){
+				/* Either their on the root tab, or they are on the marker list, so let's open the marker creator for them */
+				this.sidebarGroupings.openTabByFeatureType('marker');
+			}
+		}
+
 		if(this.drawingManager && this.drawingManager.mode != WPGMZA.DrawingManager.MODE_MARKER)
 			return;	// Do nothing, not in marker mode
 		
