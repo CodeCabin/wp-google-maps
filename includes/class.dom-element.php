@@ -5,7 +5,7 @@ namespace WPGMZA;
 if(!defined('ABSPATH'))
 	return;
 
-require_once(plugin_dir_path(__FILE__) . '../class.selector-to-xpath.php');
+require_once(plugin_dir_path(__FILE__) . 'class.selector-to-xpath.php');
 
 /**
  * Direct replacement for the defauly class.dom-element.php
