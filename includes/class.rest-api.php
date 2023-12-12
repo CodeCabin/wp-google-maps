@@ -550,6 +550,7 @@ class RestAPI extends Factory
 	public function features($request)
 	{
 		global $wpdb;
+		global $wpgmza;
 		
 		$route		= $_SERVER['REQUEST_URI'];
 		
@@ -693,6 +694,11 @@ class RestAPI extends Factory
 				break;
 			
 			case 'POST':
+				if(!$wpgmza->isUserAllowedToEdit()){
+					/* Permission re-assertion */
+					return new \WP_Error('wpgmza_permission_denied', 'You do not have permission to access this resource');
+				}
+
 				$data		= stripslashes_deep($_POST);
 				$id			= ( isset($m[3]) ? ltrim($m[3], '/') : ( isset($m[2]) ? ltrim($m[2], '/') : -1 ) );
 				if(isset($data['id'])) {
@@ -710,6 +716,10 @@ class RestAPI extends Factory
 				break;
 				
 			case 'DELETE':
+				if(!$wpgmza->isUserAllowedToEdit()){
+					/* Permission re-assertion */
+					return new \WP_Error('wpgmza_permission_denied', 'You do not have permission to access this resource');
+				}
 				
 				$id			= ( isset($m[3]) ? ltrim($m[3], '/') : ( isset($m[2]) ? ltrim($m[2], '/') : -1) );
 				
@@ -765,13 +775,14 @@ class RestAPI extends Factory
 	public function markers($request)
 	{
 		global $wpdb;
+		global $wpgmza;
 		global $wpgmza_tblname;
 		
 		$route 		= $_SERVER['REQUEST_URI'];
 		$params		= $this->getRequestParameters();
 
 		$this->checkForDeleteSimulation();
-		
+
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
@@ -883,6 +894,10 @@ class RestAPI extends Factory
 				break;
 			
 			case 'POST':
+				if(!$wpgmza->isUserAllowedToEdit()){
+					/* Permission re-assertion */
+					return new \WP_Error('wpgmza_permission_denied', 'You do not have permission to access this resource');
+				}
 			
 				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m))
 					$id = $m[1];
@@ -915,6 +930,10 @@ class RestAPI extends Factory
 				break;
 			
 			case 'DELETE':
+				if(!$wpgmza->isUserAllowedToEdit()){
+					/* Permission re-assertion */
+					return new \WP_Error('wpgmza_permission_denied', 'You do not have permission to access this resource');
+				}
 				
 				// Workaround for PHP not populating $_REQUEST
 				$request = array();

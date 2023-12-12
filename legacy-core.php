@@ -102,8 +102,8 @@ $wpgmza_tblname_category_maps = $wpdb->prefix. "wpgmza_category_maps";
 $wpgmzaMainPluginFile = plugin_dir_path(__FILE__) . 'wpGoogleMaps.php';
 
 $subject = file_get_contents($wpgmzaMainPluginFile);
-if(preg_match('/Version:\s*(.+)/', $subject, $m))
-	$wpgmza_version = trim($m[1]);
+if(preg_match('/Version:\s*(.+)/', $subject, $wpgmza_m))
+	$wpgmza_version = trim($wpgmza_m[1]);
 
 define('WPGMZA_VERSION', $wpgmza_version);
 define("WPGMAPS", $wpgmza_version);
