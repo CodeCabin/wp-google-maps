@@ -3,9 +3,9 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map block, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.3
-Stable tag: 9.0.27
+Stable tag: 9.0.28
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.28 =
+Please update to 9.0.28 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.27 =
 Please update to 9.0.27 or above for the latest stability improvements and PHP compatibility
 
@@ -293,11 +296,19 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 9.0.28 - 2023-12-12 =
+* Fixed issue where PHP 8.3 would throw a deprecated noticed when loading files with DomDocument (ReturnTypeWillChange)
+* Fixed issue where Unauthenticated Persistent XSS could be executed on the REST API by exploiting route/method vulnerabilities. Security issue, thanks to WPScan (Marc)
+* Fixed issue with decoding of already sanitized WP KSES values on CRUD module. As a result some HTML may no longer be valid in marker data, and will be cleaned on next storage.
+* Fixed issue where permission on POST/DELETE methods would not be reaffirmed once the regex route was matched on the REST API 
+* Fixed issue where $m reference in legacy-core would cause a conflict with WordPress Calendar Block
+* Tested with WP 6.4
+
 = 9.0.27 - 2023-10-11 =
 * Fixed issue where some older versions of PHP would experience issues decoding HTML with the latest update. This resulted in malformed UI for a subset of environments
 * Fixed issue where prepend/append methods are missing from the base DomElement class, which is required for older PHP version 
 
-= 9.0.26 - 2023-10-11 = 
+= 9.0.26 - 2023-10-11 =
 * Fixed issue where some installations would experience a fatal error due to changed to DomElement base class (Older PHP Builds affected) (Thanks KleinDev)
 
 = 9.0.25 - 2023-10-11 =
@@ -796,4 +807,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
+
 

@@ -89,6 +89,7 @@ class DOMDocument extends \DOMDocument
 	 * @param int $options See http://php.net/manual/en/domdocument.load.php
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
+	#[\ReturnTypeWillChange]
 	public function load($src, $options=null)
 	{
 		if(!is_string($src))
