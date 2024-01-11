@@ -3284,6 +3284,12 @@
     border-top-right-radius: 0;
 }
 
+.wpgmza-wrap .writersblock-wrapper.wpgmza-code-syntax-invalid:after {
+    content: "⚠ Invalid HTML detected!";
+    color: var(--wpgmza-color-error);
+    font-size: 0.9em;
+}
+
 /* Image Single Inputs */
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-image-single-input-wrapper {
     cursor: pointer;

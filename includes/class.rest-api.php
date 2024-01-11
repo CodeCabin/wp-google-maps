@@ -1031,7 +1031,10 @@ class RestAPI extends Factory
 		$params	= $this->getRequestParameters();
 		$cache	= new NominatimGeocodeCache();
 		
-		$record	= $cache->get(addslashes($params['query']));
+		$record = false;
+		if(!empty($params) && !empty($params['query'])){
+			$record	= $cache->get(addslashes($params['query']));
+		}
 		
 		if(!$record)
 			$record = array();

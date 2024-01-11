@@ -347,7 +347,7 @@ jQuery(function($) {
 			try{
 				const data = {
 					radius : this.radius,
-					center : this.center.lat + "," + this.center.lng
+					center : this.address ? this.address : (this.center.lat + "," + this.center.lng)
 				};
 
 				const params = new URLSearchParams(data);
@@ -443,7 +443,7 @@ jQuery(function($) {
 	WPGMZA.StoreLocator.prototype.onQueryParamSearch = function(){
 		const queryCenter = WPGMZA.getQueryParamValue("center");
 		if(queryCenter){
-			$(this.addressElement).val(queryCenter);
+			$(this.addressElement).val(queryCenter.replaceAll('+', ' '));
 		}
 
 		const queryRadius = WPGMZA.getQueryParamValue("radius");
