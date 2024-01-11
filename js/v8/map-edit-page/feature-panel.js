@@ -396,6 +396,11 @@ jQuery(function($) {
 				
 					if(typeof value == "object")
 						value = JSON.stringify(value);
+
+					if(name === 'title'){
+						/* Convert &amp; back to & for editing, but stores safely */
+						value = value.replace(/&amp;/g, '&');
+					}
 				
 					$(this.element).find("[data-ajax-name='" + name + "']:not(select)").val(value);
 
@@ -867,7 +872,11 @@ jQuery(function($) {
 													/* HTML is the same as validated by the DOM */
 													target.__editor.elements.editor.innerHTML = validator.innerHTML;
 													target.__editor.onEditorChange();
-												} 
+
+													editor.elements.wrap.classList.remove('wpgmza-code-syntax-invalid');
+												} else {
+													editor.elements.wrap.classList.add('wpgmza-code-syntax-invalid');
+												}
 											}
 											
 
@@ -905,6 +914,7 @@ jQuery(function($) {
 										editor.elements.editor.classList.remove('wpgmza-hidden');
 										editor.elements._codeEditor.classList.add('wpgmza-hidden');
 
+
 										let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
 										for(let tool of toolbarItems){
 											if(tool.getAttribute('data-value') !== 'codeeditor'){
@@ -916,6 +926,8 @@ jQuery(function($) {
 										
 										$(editor.elements._codeEditor).trigger('wpgmza-writersblock-code-edited');
 									}
+
+									editor.elements.wrap.classList.remove('wpgmza-code-syntax-invalid');
 									editor._codeEditorActive = false;
 								}
 							}

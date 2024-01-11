@@ -321,10 +321,13 @@ jQuery(function($) {
 					return;
 				}
 
-				self.trigger({
-					type: "click",
-					latLng: latLng
-				});
+				if(event.target instanceof HTMLCanvasElement){
+					/* Only trigger if this is the canvas element directly */
+					self.trigger({
+						type: "click",
+						latLng: latLng
+					});
+				}
 				
 				return;
 			}

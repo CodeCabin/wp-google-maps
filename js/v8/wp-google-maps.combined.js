@@ -13005,7 +13005,7 @@ jQuery(function($) {
 			try{
 				const data = {
 					radius : this.radius,
-					center : this.center.lat + "," + this.center.lng
+					center : this.address ? this.address : (this.center.lat + "," + this.center.lng)
 				};
 
 				const params = new URLSearchParams(data);
@@ -13101,7 +13101,7 @@ jQuery(function($) {
 	WPGMZA.StoreLocator.prototype.onQueryParamSearch = function(){
 		const queryCenter = WPGMZA.getQueryParamValue("center");
 		if(queryCenter){
-			$(this.addressElement).val(queryCenter);
+			$(this.addressElement).val(queryCenter.replaceAll('+', ' '));
 		}
 
 		const queryRadius = WPGMZA.getQueryParamValue("radius");
@@ -17799,6 +17799,11 @@ jQuery(function($) {
 				
 					if(typeof value == "object")
 						value = JSON.stringify(value);
+
+					if(name === 'title'){
+						/* Convert &amp; back to & for editing, but stores safely */
+						value = value.replace(/&amp;/g, '&');
+					}
 				
 					$(this.element).find("[data-ajax-name='" + name + "']:not(select)").val(value);
 
@@ -18270,7 +18275,11 @@ jQuery(function($) {
 													/* HTML is the same as validated by the DOM */
 													target.__editor.elements.editor.innerHTML = validator.innerHTML;
 													target.__editor.onEditorChange();
-												} 
+
+													editor.elements.wrap.classList.remove('wpgmza-code-syntax-invalid');
+												} else {
+													editor.elements.wrap.classList.add('wpgmza-code-syntax-invalid');
+												}
 											}
 											
 
@@ -18308,6 +18317,7 @@ jQuery(function($) {
 										editor.elements.editor.classList.remove('wpgmza-hidden');
 										editor.elements._codeEditor.classList.add('wpgmza-hidden');
 
+
 										let toolbarItems = editor.elements.toolbar.querySelectorAll('a.tool');
 										for(let tool of toolbarItems){
 											if(tool.getAttribute('data-value') !== 'codeeditor'){
@@ -18319,6 +18329,8 @@ jQuery(function($) {
 										
 										$(editor.elements._codeEditor).trigger('wpgmza-writersblock-code-edited');
 									}
+
+									editor.elements.wrap.classList.remove('wpgmza-code-syntax-invalid');
 									editor._codeEditorActive = false;
 								}
 							}
@@ -20802,10 +20814,13 @@ jQuery(function($) {
 					return;
 				}
 
-				self.trigger({
-					type: "click",
-					latLng: latLng
-				});
+				if(event.target instanceof HTMLCanvasElement){
+					/* Only trigger if this is the canvas element directly */
+					self.trigger({
+						type: "click",
+						latLng: latLng
+					});
+				}
 				
 				return;
 			}

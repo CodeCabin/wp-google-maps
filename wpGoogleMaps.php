@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.28
+Version: 9.0.29
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,19 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.29 - 2024-01-11
+ * Fixed issue with autoload tokenizer on some environments
+ * Fixed issue where OpenLayers library would point to a source map that does not exist
+ * Fixed issue where some non-nullable parameter were passed to internal PHP functions (Phase 1)
+ * Fixed issue where map click events in OpenLayers would not respect target, and misfire as a result
+ * Fixed issue where "&" symbols would show up encoded in the marker editor 
+ * Improved redirect store locator search to retain original search query after redirecting
+ * Updated ro_RO translation files, minor improvement
+ * Updated sv_SE translation files, thanks to Mats Wale
+ * Updated sk_SK translation files, thanks to Starlogic
+ * Added zh-CN franslation files, thanks to Daniel Tan
+ * 
+ * 
  * 9.0.28 - 2023-12-12
  * Fixed issue where PHP 8.3 would throw a deprecated noticed when loading files with DomDocument (ReturnTypeWillChange)
  * Fixed issue where Unauthenticated Persistent XSS could be executed on the REST API by exploiting route/method vulnerabilities. Security issue, thanks to WPScan (Marc)
