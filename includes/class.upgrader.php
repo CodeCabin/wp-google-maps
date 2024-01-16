@@ -41,6 +41,11 @@ class Upgrader
 			if(version_compare($fromVersion, '8.1.12', '<')){
 				add_action('init', array($this, 'removeMarkerLngLatColumn'), 1, 11);
 			}
+
+			if(version_compare($fromVersion, '9.0.30', '<')){
+				add_action('init', array($this, 'mitigateExploitVulnerability9030'), 11, 11);
+			}
+			
 		}
 
 	}
@@ -89,5 +94,36 @@ class Upgrader
 		}
 		
 		$wpdb->query("UPDATE {$WPGMZA_TABLE_NAME_CIRCLES} SET radius = radius / 1000");
+	}
+
+	/**
+	 * Mitigates a specific exploit vulnerability in version 9.0.30
+	 * 
+ 	 * Note: This function addresses the exploit issue introduced in version 9.0.28, but we are reversing the effects in 9.0.30
+	 *
+	 * @return void
+	 */
+	public function mitigateExploitVulnerability9030(){
+		global $wpgmza;
+		global $wpdb;
+		global $wpgmza_tblname;
+
+		$matched = $wpdb->get_var("SELECT COUNT(id) FROM {$wpgmza_tblname} WHERE `description` LIKE '%https://get.specialcraftbox.com/cdn/line.js%'");
+		if($matched > 0){
+			/* 
+			 * We need to reverse the effects of the "line.js" exploit that we located in a recent report
+			 * Once done, we will notify the admin of this, and let them know how many markers were affected
+			*/
+			$wpdb->query("UPDATE {$wpgmza_tblname} SET `description` = '' WHERE `description` LIKE '%https://get.specialcraftbox.com/cdn/line.js%'");
+
+			$wpgmza->adminNotices->create('exploitSolver9030', 
+				array(
+					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
+					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.")
+								. "<br><br>" . __("Markers cleaned:", "wp-google-maps") . " {$matched}",
+					'class' => 'notice-error'
+				)
+			);
+		}
 	}
 }

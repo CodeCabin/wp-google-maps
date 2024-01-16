@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.4
 Requires PHP: 5.3
-Stable tag: 9.0.29
+Stable tag: 9.0.30
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.30 =
+Please update to 9.0.30 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.28 =
 Please update to 9.0.28 or above or above to ensure you are using the latest security enhancements.
 
@@ -296,6 +299,11 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 9.0.30 - 2024-01-16 =
+* Fixed issue where some marker descriptions would contain a line.js asset due to an earlier exploit. Our code will automatically clear descriptions with these values present
+* Fixed issue where map edit link was vulnerable to an XSS could be executed via the map ID query paramater. Thanks Rafie Muhammad (Patchstack)
+* Fixed issue where 'mb_encode_numericentity' would be called even when the function is not available within the environment
+
 = 9.0.29 - 2024-01-11 =
 * Fixed issue with autoload tokenizer on some environments
 * Fixed issue where OpenLayers library would point to a source map that does not exist
@@ -307,7 +315,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 * Updated sv_SE translation files, thanks to Mats Wale
 * Updated sk_SK translation files, thanks to Starlogic
 * Added zh-CN franslation files, thanks to Daniel Tan
-
 
 = 9.0.28 - 2023-12-12 =
 * Fixed issue where PHP 8.3 would throw a deprecated noticed when loading files with DomDocument (ReturnTypeWillChange)

@@ -429,6 +429,10 @@ class AdminNotices {
 					} else {
 						$ajax->remove();
 					}
+
+					if(!empty($data->options->class) && !empty($wrapper)){
+						$wrapper->addClass($data->options->class);
+					}
 				} else {
 					$title->remove();
 					$link->remove();
