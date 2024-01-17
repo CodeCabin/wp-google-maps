@@ -108,13 +108,13 @@ class Upgrader
 		global $wpdb;
 		global $wpgmza_tblname;
 
-		$matched = $wpdb->get_var("SELECT COUNT(id) FROM {$wpgmza_tblname} WHERE `description` LIKE '%https://get.specialcraftbox.com/cdn/line.js%'");
+		$matched = $wpdb->get_var("SELECT COUNT(id) FROM {$wpgmza_tblname} WHERE `description` LIKE '%/cdn/line.js%'");
 		if($matched > 0){
 			/* 
 			 * We need to reverse the effects of the "line.js" exploit that we located in a recent report
 			 * Once done, we will notify the admin of this, and let them know how many markers were affected
 			*/
-			$wpdb->query("UPDATE {$wpgmza_tblname} SET `description` = '' WHERE `description` LIKE '%https://get.specialcraftbox.com/cdn/line.js%'");
+			$wpdb->query("UPDATE {$wpgmza_tblname} SET `description` = '' WHERE `description` LIKE '%/cdn/line.js%'");
 
 			$wpgmza->adminNotices->create('exploitSolver9030', 
 				array(
