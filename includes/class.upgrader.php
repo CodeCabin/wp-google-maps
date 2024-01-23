@@ -45,6 +45,10 @@ class Upgrader
 			if(version_compare($fromVersion, '9.0.30', '<')){
 				add_action('init', array($this, 'mitigateExploitVulnerability9030'), 11, 11);
 			}
+
+			if(version_compare($fromVersion, '9.0.32', '<')){
+				add_action('init', array($this, 'mitigateExploitVulnerability9032'), 11, 11);
+			}
 			
 		}
 
@@ -121,6 +125,47 @@ class Upgrader
 					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
 					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.")
 								. "<br><br>" . __("Markers cleaned:", "wp-google-maps") . " {$matched}",
+					'class' => 'notice-error'
+				)
+			);
+		}
+	}
+
+	/**
+	 * This is an expansion of the 9030 mitigator, which checks the other columns as well. Initially we only had a report for the description, and 
+	 * although we suspected this might affect some other fields, we did not have any reports confirming this. 
+	 * 
+	 * We had a report from Hostpoint (Pascal) which confirmed this. This solution is a slightly more matured version of the original function that cleans up more
+	 * comprehensively. This will likely be our last change to this mitigation. 
+	 * 
+	 * @return void
+	 */
+	public function mitigateExploitVulnerability9032(){
+		global $wpgmza;
+		global $wpdb;
+		global $wpgmza_tblname;
+
+		/* Columns that could have housed the line.js asset */
+		$columns = array('address', 'description', 'pic', 'link', 'icon', 'lat', 'lng', 'title', 'category', 'did', 'other_data');
+		$markersCleaned = 0;
+
+		foreach($columns as $column){
+			$matched = $wpdb->get_var("SELECT COUNT(id) FROM {$wpgmza_tblname} WHERE `{$column}` LIKE '%/cdn/line.js%'");
+			if($matched > 0){
+				/* Remove the asset link, even though it is not loaded, from the database, in the same way that 9030 does */
+				$wpdb->query("UPDATE {$wpgmza_tblname} SET `{$column}` = '' WHERE `{$column}` LIKE '%/cdn/line.js%'");
+
+				$markersCleaned += $matched;
+			}
+		}
+
+		/* If we cleaned any data, let's report that to the site owner */
+		if(!empty($markersCleaned)){
+			$wpgmza->adminNotices->create('exploitSolver9032', 
+				array(
+					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
+					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.")
+								. "<br><br>" . __("Cleaned fields:", "wp-google-maps") . " {$markersCleaned}",
 					'class' => 'notice-error'
 				)
 			);

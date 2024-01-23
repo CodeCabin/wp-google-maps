@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.31
+Version: 9.0.32
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,9 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.32 - 2024-01-23
+ * Improved the line.js mitigator to include address and title fields, due to a report showcasing these fields containing the some asset. This data is cleared, and runs automatically. Thanks to Hostpoint AG (Pascal)
+ * 
  * 9.0.31 - 2024-01-17
  * Fixed issue where 9030 mitigation function would falsely trigger WordFence malware scan, due to mitigation of a known bad URL 
  * 
