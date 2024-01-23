@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.4
 Requires PHP: 5.3
-Stable tag: 9.0.31
+Stable tag: 9.0.32
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.32 =
+Please update to 9.0.32 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.31 =
 Please update to 9.0.31 or above or above to ensure you are using the latest security enhancements.
 
@@ -301,6 +304,9 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.32 - 2024-01-23 =
+* Improved the line.js mitigator to include address and title fields, due to a report showcasing these fields containing the some asset. This data is cleared, and runs automatically. Thanks to Hostpoint AG (Pascal)
 
 = 9.0.31 - 2024-01-17 =
 * Fixed issue where 9030 mitigation function would falsely trigger WordFence malware scan, due to mitigation of a known bad URL 
@@ -833,6 +839,8 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
+
 
 
 
