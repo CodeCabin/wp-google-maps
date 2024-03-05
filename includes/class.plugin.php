@@ -10,6 +10,7 @@ wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.gdpr-compliance.php
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/open-layers/class.nominatim-geocode-cache.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.maps-engine-dialog.php');
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.page.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.installer-page.php');
 
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.settings-page.php');
@@ -73,6 +74,8 @@ class Plugin extends Factory
 	private $mysqlVersion = null;
 	private $cachedVersion = null;
 	private $legacySettings;
+
+	public $processingContext = false;
 	
 	/**
 	 * Constructor. Called when plugins_loaded fires.

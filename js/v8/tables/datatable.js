@@ -152,8 +152,13 @@ jQuery(function($) {
 			return WPGMZA.DataTable.prototype.onDataTableAjaxRequest.apply(self, arguments); 
 		}
 		
-		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items)
+		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items){
 			options.iDisplayLength = parseInt(WPGMZA.settings.wpgmza_default_items);
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.enable_datatables_enter_search){
+			options.search = { return : true };
+		}
 		
 		options.aLengthMenu = [[5, 10, 25, 50, 100, -1], ["5", "10", "25", "50", "100", WPGMZA.localized_strings.all]];
 		

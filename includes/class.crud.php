@@ -25,7 +25,7 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	private $modified;
 	
 	private $trashed = false;
-	
+
 	/**
 	 * Constructor
 	 * @param string $table_name The table name for this object type

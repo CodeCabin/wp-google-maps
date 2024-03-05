@@ -865,6 +865,28 @@
 			</ul>
 		</div>
 		
+		<!-- Advanced -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title"><?php _e("Advanced Options", "wp-google-maps"); ?></div>
+			
+			<ul>
+				<li>
+					<div class='switch switch-inline'>
+						<input name='enable_datatables_enter_search' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='enable_datatables_enter_search' 
+							value='yes'/>
+
+						<label for='enable_datatables_enter_search'></label>
+						<label for='enable_datatables_enter_search'>
+							<?php esc_html_e("Only trigger Datatable search on enter/return key (Reduce server load)","wp-google-maps"); ?>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+
 		<!-- Sub heading -->
 		<div class="tab-row">
 			<strong>
@@ -1480,6 +1502,19 @@
 			</select>
 		</div>
 
+		<!-- Google Maps API Async Param Support -->
+		<div class="tab-row" data-required-maps-engine="google-maps">
+			<div class="title"><?php _e('Enable async loading API parameter', 'wp-google-maps'); ?></div>
+			<div role="group">
+				<label>
+					<div>
+						<input name="enable_google_api_async_param" type="checkbox" class="wpgmza-fancy-toggle-switch" />
+						<?php _e("Aligns API loading with best-practice from Google. Considered beta for now, will become default later", "wp-google-maps"); ?>
+					</div>
+				</label>
+			</div>
+		</div>
+
 		<!-- Google Maps Prevent Load -->
 		<div class="tab-row" data-required-maps-engine="google-maps">
 			<div class="title"><?php _e('Prevent other plugins and theme loading API', 'wp-google-maps'); ?></div>
@@ -1742,6 +1777,27 @@
 				<input type="number" name="fetchMarkersBatchSize" min="0" max="10000" step="1" value="100">
 			</div>
 		</div>
+
+		<!-- Defer loader -->
+		<div class="tab-row">
+			<div class="title"><?php esc_html_e("Defer Loading", "wp-google-maps"); ?></div>
+
+			<div class="switch switch-inline">
+				<input name="enable_defer_loading"
+						id="enable_defer_loading" 
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="enable_defer_loading"></label>
+				<label for="enable_defer_loading">
+					<small>
+						<?php
+						esc_html_e('Defer all mapping script assets loaded on your site', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
 	</div>
 
 	<!-- Custom Scripts tab -->	
@@ -1783,6 +1839,22 @@
 
 					<small class="hint inline-hint">
 						<?php esc_html_e('Only use this if requested by our support team.', 'wp-google-maps'); ?>
+					</small>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Performance Tools -->
+		<div class="tab-row wpgmza-integration-tools wpgmza-pro-feature-hide">
+			<div class="title"><?php esc_html_e("Performance", "wp-google-maps"); ?></div>
+
+			<ul>
+				<li>
+					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="add_db_indexing">Add Indexes</button>
+					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="remove_db_indexing">Remove Indexes</button>
+
+					<small class="hint inline-hint">
+						<?php esc_html_e('Add/remove performance indexes from the database tables that may improve query times. Only do this if suggested by our support team', 'wp-google-maps'); ?>
 					</small>
 				</li>
 			</ul>

@@ -5,7 +5,7 @@ Tags: google maps, maps, map block, map, map markers, google map, google maps pl
 Requires at least: 3.5
 Tested up to: 6.4
 Requires PHP: 5.3
-Stable tag: 9.0.32
+Stable tag: 9.0.33
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.33 =
+Please update to 9.0.33 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.32 =
 Please update to 9.0.32 or above or above to ensure you are using the latest security enhancements.
 
@@ -304,6 +307,23 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.33 - 2024-03-05 =
+* Added a required include for the Page class which causes issues in some installations
+* Added additional danger zone tool supports
+* Added processing context supports for improved operational context tracking
+* Added additional settings API supports
+* Added ability to set Google Maps API param "loading=async" from the settings area. This will become default in the future (beta)
+* Added ability to defer load all JavaScript assets within the plugin (beta) (Atlas Novus)
+* Fixed issue where 'wpgmza_google_api_status' would be localized multiple times
+* Fixed issue where Marker instance would throw fatal error if missing marker was accessed via the REST API
+* Fixed issue where "&" symbols would show up endoded in marker editor, for other key fields
+* Fixed issue where "prevent other API's" option would always run in admin, affecting other mapping plugins
+* Fixed issue where Meta Box map location editor would not load when plugin was activated, see above
+* Fixed issue where Authenticated Stored Cross-Site Scripting (XSS) could be stored/served using the Custom CSS block. Thanks to Marco Wotschka & Akbar Kustirama (Wordfence)
+* Fixed issue where Authenticated Stored Cross-Site Scripting (XSS) could be stored/served using the map shortcode classname attribute. Thanks to Richard Telleng (Wordfence)
+* Improved autoloader to account for issues in some installations
+* Improved shortcode attribute security by escaping attributes further, based on recent security reports
 
 = 9.0.32 - 2024-01-23 =
 * Improved the line.js mitigator to include address and title fields, due to a report showcasing these fields containing the some asset. This data is cleared, and runs automatically. Thanks to Hostpoint AG (Pascal)
@@ -839,8 +859,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
-
 
 
 

@@ -217,6 +217,32 @@ jQuery(function($) {
 
 			}
 		});
+
+		$('.wpgmza-performance-tool-button').on('click', function(event){
+			event.preventDefault();
+			const type = $(this).data('tool-type');
+			if(type){
+				const data = {
+					type : type
+				};
+
+				const button = $(this);
+				button.attr('disabled', 'disabled');
+
+				WPGMZA.restAPI.call("/performance-tools/", {
+					method:	"POST",
+					data:	data,
+					success: function(data, status, xhr) {
+						button.removeAttr('disabled');
+						if(data){
+							if(data.message){
+								window.alert(data.message);
+							}
+						}
+					}
+				});
+			}
+		});
 	}
 	
 	WPGMZA.SettingsPage.createInstance = function()

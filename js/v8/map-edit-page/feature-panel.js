@@ -333,7 +333,7 @@ jQuery(function($) {
 			WPGMZA.animateScroll($(".wpgmza_map"));
 		}
 		
-		WPGMZA.restAPI.call("/" + this.featureType + "s/" + id + "?skip_cache=1", {
+		WPGMZA.restAPI.call("/" + this.featureType + "s/" + id + "?skip_cache=1&context=editor", {
 			
 			success: function(data, status, xhr) {
 				
@@ -397,7 +397,7 @@ jQuery(function($) {
 					if(typeof value == "object")
 						value = JSON.stringify(value);
 
-					if(name === 'title'){
+					if(typeof value == 'string'){
 						/* Convert &amp; back to & for editing, but stores safely */
 						value = value.replace(/&amp;/g, '&');
 					}

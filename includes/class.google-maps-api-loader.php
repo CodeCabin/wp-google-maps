@@ -62,7 +62,8 @@ class GoogleMapsAPILoader
 	const ENQUEUED						= 'ENQUEUED';
 	
 	private static $apiWillNotLoadWarningDisplayed = false;
-	
+	private static $apiConsentStatusLocalized = false;
+
 	/**
 	 * Constructor
 	 */
@@ -73,8 +74,14 @@ class GoogleMapsAPILoader
 		$include_allowed = $this->isIncludeAllowed($status);
 		$isAllowed = $this->isIncludeAllowed($status);
 		
-		wp_enqueue_script('wpgmza_data', plugin_dir_url(__DIR__) . 'wpgmza_data.js');
-		wp_localize_script('wpgmza_data', 'wpgmza_google_api_status', (array)$status);
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
+
+		wp_enqueue_script('wpgmza_data', plugin_dir_url(__DIR__) . 'wpgmza_data.js', false, false, $scriptArgs);
+
+		if(!GoogleMapsAPILoader::$apiConsentStatusLocalized){
+			wp_localize_script('wpgmza_data', 'wpgmza_google_api_status', (array)$status);
+			GoogleMapsAPILoader::$apiConsentStatusLocalized = true;
+		}
 		
 		if($wpgmza->settings->engine == "google-maps" && !$isAllowed && !GoogleMapsAPILoader::$apiWillNotLoadWarningDisplayed)
 		{
@@ -150,6 +157,10 @@ class GoogleMapsAPILoader
 			$libraries[] = 'drawing';
 		
 		$params['libraries'] = implode(',', $libraries);
+
+		if(!empty($wpgmza->settings->enable_google_api_async_param)){
+			$params['loading'] = 'async';
+		}
 		
 		/* Developer Hook (Filter) - Add or alter Google Maps API params (URL) */
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
@@ -177,8 +188,10 @@ class GoogleMapsAPILoader
 		$params = $this->getGoogleMapsAPIParams();
 		
 		$url = '//maps.googleapis.com/maps/api/js?' . http_build_query($params);
+
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
 		
-		wp_register_script('wpgmza_api_call', $url);
+		wp_register_script('wpgmza_api_call', $url, false, false, $scriptArgs);
 		
 		// Are we always enqueuing?
 		if(!empty($settings['wpgmza_load_engine_api_condition']) && $settings['wpgmza_load_engine_api_condition'] == 'always')

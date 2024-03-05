@@ -117,6 +117,10 @@ class GoogleMapsLoader
 		// Callback, required as of 2023
 		$params['callback'] = "__wpgmzaMapEngineLoadedCallback";
 
+		if(!empty($wpgmza->settings->enable_google_api_async_param)){
+			$params['loading'] = 'async';
+		}
+
 		/* Developer Hook (Filter) - Modify Googl Maps API params (URL) */
 		$params = apply_filters( 'wpgmza_google_maps_api_params', $params );
 		
@@ -144,12 +148,15 @@ class GoogleMapsLoader
 		unset($params['suffix']);
 		
 		$url = '//maps.google' . $suffix . '/maps/api/js?' . http_build_query($params);
+
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
 		
-		wp_enqueue_script('wpgmza_api_call', $url);
+		wp_enqueue_script('wpgmza_api_call', $url, false, false, $scriptArgs);
 		
 		GoogleMapsLoader::$googleAPILoadCalled = true;
-		
-		add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
+		if(!empty($wpgmza->settings) && !empty($wpgmza->settings->wpgmza_prevent_other_plugins_and_theme_loading_api)){
+			add_filter('script_loader_tag', array($this, 'preventOtherGoogleMapsTag'), 9999999, 3);
+		}
 	}
 	
 	/**
