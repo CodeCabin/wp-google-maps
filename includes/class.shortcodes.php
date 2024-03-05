@@ -140,7 +140,7 @@ class Shortcodes extends Factory {
 		    );
 
 		    if(!empty($attributes->classname)){
-		    	$classes[] = $attributes->classname;
+		    	$classes[] = esc_attr($attributes->classname);
 		    }
 
 		    switch($options->alignment){
@@ -160,8 +160,8 @@ class Shortcodes extends Factory {
 		    	"class" => implode(" ", $classes),
 		    	"style" => $this->prepareInlineAttributes($styles, ";", ":", ""),
 		    	"data-map-id" => $id,
-		    	"data-maps-engine" => $wpgmza->settings->engine,
-		    	"data-build-engine" => $wpgmza->internalEngine->getEngine(),
+		    	"data-maps-engine" => esc_attr($wpgmza->settings->engine),
+		    	"data-build-engine" => esc_attr($wpgmza->internalEngine->getEngine()),
 		    	"data-shortcode-attributes" => $this->prepareJsonAttribute("data-shortcode-attributes", $attributes),
 		    	"data-settings" => $this->prepareJsonAttribute('data-settings', $map->getDataSettingsObject()),
 		    );
@@ -228,8 +228,11 @@ class Shortcodes extends Factory {
 
 				if($wpgmza->settings->engine == 'google-maps'){
 					// TODO: Why is this not handled by the API loader?
-					wp_enqueue_script('wpgmza_canvas_layer_options', WPGMZA_PLUGIN_DIR_URL . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'));
-					wp_enqueue_script('wpgmza_canvas_layer', WPGMZA_PLUGIN_DIR_URL . 'lib/CanvasLayer.js', array('wpgmza_api_call'));
+
+					$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
+
+					wp_enqueue_script('wpgmza_canvas_layer_options', WPGMZA_PLUGIN_DIR_URL . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'), false, $scriptArgs);
+					wp_enqueue_script('wpgmza_canvas_layer', WPGMZA_PLUGIN_DIR_URL . 'lib/CanvasLayer.js', array('wpgmza_api_call'), false, $scriptArgs);
 				}
 			}
     
@@ -296,14 +299,14 @@ class Shortcodes extends Factory {
 			if(!empty($container)){
 				if(!empty($attributes->url)){
 					$container->setAttribute('data-map-id', $id);
-					$container->setAttribute('data-url', sanitize_url($attributes->url));
+					$container->setAttribute('data-url', esc_url($attributes->url));
 
 					/* Probably separated, send over the settings */
 					$container->setAttribute('data-map-settings', json_encode($map->getDataSettingsObject()));
 				}
 								
 				if(!empty($attributes->classname)){
-					$container->addClass($attributes->classname);
+					$container->addClass( esc_attr($attributes->classname) );
 				}
 
 				if(!empty($attributes->default_radius)){

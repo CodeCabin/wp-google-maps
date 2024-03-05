@@ -106,27 +106,9 @@ class AutoLoader
 				
 				$result = $namespace . '\\' . $class;
 			} catch (\Exception $ex){
-				// Regex fallback for users without token_get_all
-				if(preg_match('/^\s*namespace\s+(.+);/m', $buffer, $m)){
-					$namespace = '\\' . trim($m[1]);
-				}
-
-				if(preg_match('/^(abstract)?\s*class\s+(\w+)/m', $buffer, $m)){
-					$class = trim($m[2]);
-				}
-
-				$result = $namespace . '\\' . $class;
+				$triggerFallback = true;
 			} catch (\Error $err){
-				// Regex fallback for users without token_get_all
-				if(preg_match('/^\s*namespace\s+(.+);/m', $buffer, $m)){
-					$namespace = '\\' . trim($m[1]);
-				}
-
-				if(preg_match('/^(abstract)?\s*class\s+(\w+)/m', $buffer, $m)){
-					$class = trim($m[2]);
-				}
-
-				$result = $namespace . '\\' . $class;
+				$triggerFallback = true;
 			}
 
 			/* Final fallback check */

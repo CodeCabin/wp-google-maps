@@ -45,8 +45,11 @@ class ScriptLoader
 		else
 			$this->scriptsFileLocation = plugin_dir_path(__DIR__) . 'js/v8/scripts.json';
 
-		if (function_exists('add_filter')) 
+		if (function_exists('add_filter')) {
 			add_filter('wpgmza-get-library-dependencies', array($this, 'dequeueDataTablesScript'), 10, 1);
+
+			add_filter('wpgmza-get-scripts-arguments', array($this, 'getScriptArguments'), 10, 1);
+		}
 	}
 	
 	/**
@@ -587,12 +590,13 @@ class ScriptLoader
 			
 			default:
 				
+				$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
 				$dependencies = array_keys($this->getPluginScripts());
 				
 				wp_enqueue_script(
 					'wpgmza-legacy-pro-backward-compatibility', 
 					plugin_dir_url(WPGMZA_FILE) . 'js/legacy/legacy-pro-backward-compatibility.js',
-					$dependencies
+					$dependencies, false, $scriptArgs
 				);
 				
 				break;
@@ -670,11 +674,14 @@ class ScriptLoader
 				$loader->loadGoogleMaps();
 				break;
 		}
-		
+
+		// Get script arguments via a filter so that Pro, Gold and VGM can all benefit from this approach */
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
+
 		// Enqueue library scripts first
 		foreach($libraries as $handle => $src)
 		{
-			wp_enqueue_script($handle, $src, array('jquery'));
+			wp_enqueue_script($handle, $src, array('jquery'), false, $scriptArgs);
 		}
 		
 		// jQuery UI autosuggest?
@@ -712,7 +719,7 @@ class ScriptLoader
 		// Enqueue library scripts first
 		foreach($libraries as $handle => $src)
 		{
-			wp_enqueue_script($handle, $src, array('jquery'));
+			wp_enqueue_script($handle, $src, array('jquery'), false, $scriptArgs);
 		}
 		
 		// jQuery UI autosuggest?
@@ -779,7 +786,7 @@ class ScriptLoader
 		// Enqueue other scripts
 		foreach($this->scripts as $handle => $script){
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
-			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string);
+			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string, $scriptArgs);
 			
 		}
 		
@@ -846,7 +853,7 @@ class ScriptLoader
 				return false;
 
 			if (!empty($globalSettings->wpgmza_custom_css)) {
-				wp_add_inline_style( 'wpgmza-common', stripslashes( $globalSettings->wpgmza_custom_css ) );
+				wp_add_inline_style( 'wpgmza-common', wp_strip_all_tags( stripslashes( $globalSettings->wpgmza_custom_css ) ) );
 				$this->customCSSLoaded = true;
 			}
 
@@ -899,11 +906,31 @@ class ScriptLoader
 	*/
 	public function enqueueWritersblock(){
 		wp_enqueue_media();
+
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
 		
 		wp_enqueue_style('wpgmza-writersblock', plugin_dir_url(__DIR__) . 'lib/writersblock/css/writersblock.css');
-		wp_enqueue_script('wpgmza-writersblock', plugin_dir_url(__DIR__) . 'lib/writersblock/js/writersblock.js');
+		wp_enqueue_script('wpgmza-writersblock', plugin_dir_url(__DIR__) . 'lib/writersblock/js/writersblock.js', false, false, $scriptArgs);
 
 	    /* Developer Hook (Action) - Enqueue additional scripts, after writersblock */     
 		do_action("wpgmza_script_loader_enqueue_writersblock");
+	}
+
+	/**
+	 * Get script enqueue arguments, which we might need for special loading approaches, 
+	 * like defer loading
+	 * 
+	 * @return array
+	 */
+	public function getScriptArguments(){
+		global $wpgmza;
+
+		$scriptArguments = array();
+		if(!empty($wpgmza->settings->enable_defer_loading)){
+			$scriptArguments['strategy'] = 'defer';
+		}
+
+		/* Developer Hook (Filter) - Add or alter script arguments */
+		return apply_filters('wpgmza-modify-scripts-arguments', $scriptArguments);
 	}
 }

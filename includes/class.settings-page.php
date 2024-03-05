@@ -60,8 +60,12 @@ class SettingsPage extends Page {
 			// Improved KSES cleanup to support the custom scripts, while still cleaning text inputs like the GDPR overrides
 			foreach($data as $key => $value){
 				if(is_string($value)){
-					if($key === "wpgmza_custom_css" || $key === "wpgmza_custom_js"){
-						// Skip custom scripts, they should not be KSES cleaned
+					if($key === "wpgmza_custom_js"){
+						// Skip custom javascript, they should be used with user caution, we can't fully clean these
+						continue;
+					} else if($key === "wpgmza_custom_css"){
+						// Strip out tags using WP core functions
+						$data[$key] = wp_strip_all_tags($value);
 						continue;
 					}
 

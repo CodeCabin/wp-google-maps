@@ -708,7 +708,7 @@ function wpgmaps_tag_basic( $atts )
 
         $wpgmza_main_settings = get_option("WPGMZA_OTHER_SETTINGS");
         if (isset($wpgmza_main_settings['wpgmza_custom_css']) && $wpgmza_main_settings['wpgmza_custom_css'] != "") { 
-            wp_add_inline_style( 'wpgmaps-style', stripslashes( $wpgmza_main_settings['wpgmza_custom_css'] ) );
+            wp_add_inline_style( 'wpgmaps-style', wp_strip_all_tags( stripslashes( $wpgmza_main_settings['wpgmza_custom_css'] ) ) );
         }
 
     }
@@ -842,9 +842,11 @@ function wpgmaps_tag_basic( $atts )
 		
 		if($wpgmza->settings->engine == 'google-maps')
 		{
+            $scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
+
 			// TODO: Why is this not handled by the API loader?
-			wp_enqueue_script('wpgmza_canvas_layer_options', plugin_dir_url(__FILE__) . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'));
-			wp_enqueue_script('wpgmza_canvas_layer', plugin_dir_url(__FILE__) . 'lib/CanvasLayer.js', array('wpgmza_api_call'));
+			wp_enqueue_script('wpgmza_canvas_layer_options', plugin_dir_url(__FILE__) . 'lib/CanvasLayerOptions.js', array('wpgmza_api_call'), false, $scriptArgs);
+			wp_enqueue_script('wpgmza_canvas_layer', plugin_dir_url(__FILE__) . 'lib/CanvasLayer.js', array('wpgmza_api_call'), false, $scriptArgs);
 		}
 	}
     

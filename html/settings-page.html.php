@@ -474,6 +474,16 @@
 			<legend><?php _e('Always exclude engine API on pages', 'wp-google-maps'); ?></legend>
 			<input name="wpgmza_always_exclude_engine_api_on_pages" placeholder="<?php _e('Page IDs'); ?>"/>
 		</fieldset>
+
+		<fieldset>
+			<legend><?php _e('Enable async loading API parameter', 'wp-google-maps'); ?></legend>
+			<input name="enable_google_api_async_param" type="checkbox"/>
+			<small>
+				<?php
+				_e("Aligns API loading with best-practice from Google. Considered beta for now, will become default later", "wp-google-maps");
+				?>
+			</small>
+		</fieldset>
 		
 		<fieldset>
 			<legend><?php _e('Prevent other plugins and theme loading API', 'wp-google-maps'); ?></legend>
@@ -932,6 +942,31 @@
 					</div>
 					<?php 
 					esc_html_e("Do not Enqueue Datatables","wp-google-maps"); 
+					?>
+				</li>
+			</ul>
+		</fieldset>
+
+		<fieldset class="wpgmza-pro-feature">
+		
+			<legend>
+				<?php
+				_e("Advanced Options", "wp-google-maps");
+				?>
+			</legend>
+			
+			<ul>
+				<li>
+					<div class='switch'>
+						<input name='enable_datatables_enter_search' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='enable_datatables_enter_search' 
+							value='yes'/>
+						<label for='enable_datatables_enter_search'></label>
+					</div>
+					<?php 
+					esc_html_e("Only trigger Datatable search on enter/return key (Reduce server load)","wp-google-maps"); 
 					?>
 				</li>
 			</ul>
@@ -1412,6 +1447,16 @@
 						</small>
 					
 				</label>
+			</p>
+
+			<p>&nbsp;</p>
+			<p class="wpgmza-pro-feature-hide">
+				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="add_db_indexing">Add Indexes</button>
+				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="remove_db_indexing">Remove Indexes</button>
+				
+				<small class="wpgmza-button-hint-small">
+					<?php esc_html_e('Add/remove performance indexes from the database tables that may improve query times. Only do this if suggested by our support team', 'wp-google-maps'); ?>
+				</small>
 			</p>
 			
 		</fieldset>

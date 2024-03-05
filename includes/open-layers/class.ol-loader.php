@@ -38,8 +38,10 @@ class OLLoader
 		
 		wp_enqueue_style('wpgmza-ol-base-style', plugin_dir_url(dirname(__DIR__)) . 'lib/ol.css');
 		wp_enqueue_style('wpgmza-ol-style', plugin_dir_url(dirname(__DIR__)) . 'css/open-layers.css');
+
+		$scriptArgs = apply_filters('wpgmza-get-scripts-arguments', array());
 		
-		wp_enqueue_script('wpgmza_ol_api_call', plugin_dir_url(dirname(__DIR__)) . 'lib/ol.js');
+		wp_enqueue_script('wpgmza_ol_api_call', plugin_dir_url(dirname(__DIR__)) . 'lib/ol.js', false, false, $scriptArgs);
 	}
 }
 

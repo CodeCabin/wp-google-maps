@@ -217,6 +217,9 @@ class RestAPI extends Factory
 	 */
 	public function getRequestParameters()
 	{
+
+		global $wpgmza;
+
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
@@ -567,6 +570,7 @@ class RestAPI extends Factory
 		$feature_type = $m[1];
 		$qualified = "WPGMZA\\" . rtrim( ucwords($feature_type), 's' );
 
+		$this->checkRequestContext();
 		$this->checkForDeleteSimulation();
 		
 
@@ -766,6 +770,17 @@ class RestAPI extends Factory
 			unset($_POST['simulateDelete']);
 		}
 	}
+
+	protected function checkRequestContext(){
+		global $wpgmza;
+		if(!empty($_REQUEST['context'])){
+			switch($_REQUEST['context']){
+				case 'editor':
+					$wpgmza->processingContext = 'editor';
+					break;
+			}
+		}
+	}
 	
 	/**
 	 * Callback for the /markers REST API route.
@@ -781,15 +796,21 @@ class RestAPI extends Factory
 		$route 		= $_SERVER['REQUEST_URI'];
 		$params		= $this->getRequestParameters();
 
+		$this->checkRequestContext();
 		$this->checkForDeleteSimulation();
 
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
 				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m)) {
-					
-					$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
-					return $marker;
+					try{
+						$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
+						return $marker;
+					} catch (\Exception $ex){
+						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist');
+					} catch (\Error $err){
+						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist');
+					}
 				}
 
 				if(isset($_GET['action'])){

@@ -11874,6 +11874,32 @@ jQuery(function($) {
 
 			}
 		});
+
+		$('.wpgmza-performance-tool-button').on('click', function(event){
+			event.preventDefault();
+			const type = $(this).data('tool-type');
+			if(type){
+				const data = {
+					type : type
+				};
+
+				const button = $(this);
+				button.attr('disabled', 'disabled');
+
+				WPGMZA.restAPI.call("/performance-tools/", {
+					method:	"POST",
+					data:	data,
+					success: function(data, status, xhr) {
+						button.removeAttr('disabled');
+						if(data){
+							if(data.message){
+								window.alert(data.message);
+							}
+						}
+					}
+				});
+			}
+		});
 	}
 	
 	WPGMZA.SettingsPage.createInstance = function()
@@ -17736,7 +17762,7 @@ jQuery(function($) {
 			WPGMZA.animateScroll($(".wpgmza_map"));
 		}
 		
-		WPGMZA.restAPI.call("/" + this.featureType + "s/" + id + "?skip_cache=1", {
+		WPGMZA.restAPI.call("/" + this.featureType + "s/" + id + "?skip_cache=1&context=editor", {
 			
 			success: function(data, status, xhr) {
 				
@@ -17800,7 +17826,7 @@ jQuery(function($) {
 					if(typeof value == "object")
 						value = JSON.stringify(value);
 
-					if(name === 'title'){
+					if(typeof value == 'string'){
 						/* Convert &amp; back to & for editing, but stores safely */
 						value = value.replace(/&amp;/g, '&');
 					}
@@ -22607,8 +22633,13 @@ jQuery(function($) {
 			return WPGMZA.DataTable.prototype.onDataTableAjaxRequest.apply(self, arguments); 
 		}
 		
-		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items)
+		if(WPGMZA.AdvancedTableDataTable && this instanceof WPGMZA.AdvancedTableDataTable && WPGMZA.settings.wpgmza_default_items){
 			options.iDisplayLength = parseInt(WPGMZA.settings.wpgmza_default_items);
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.enable_datatables_enter_search){
+			options.search = { return : true };
+		}
 		
 		options.aLengthMenu = [[5, 10, 25, 50, 100, -1], ["5", "10", "25", "50", "100", WPGMZA.localized_strings.all]];
 		
