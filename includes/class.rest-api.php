@@ -807,9 +807,9 @@ class RestAPI extends Factory
 						$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
 						return $marker;
 					} catch (\Exception $ex){
-						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist');
+						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
 					} catch (\Error $err){
-						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist');
+						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
 					}
 				}
 
