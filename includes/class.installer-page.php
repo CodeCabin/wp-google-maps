@@ -19,7 +19,13 @@ class InstallerPage extends Page {
 			$redirectUrl = admin_url('admin.php?page=wp-google-maps-menu&action=edit&map_id=' . $editingMap);
 		}
 
+
 		$wrapper->setAttribute('data-redirect', $redirectUrl);
+
+		$tempApiKey = get_option('wpgmza_temp_api');
+		if(!empty($tempApiKey)){
+			$wrapper->setAttribute('data-has-temp-api-key', 'true');
+		}
 
 		if(!empty($_GET['autoskip'])){
 			/* 
@@ -38,7 +44,6 @@ class InstallerPage extends Page {
 		do_action("wpgmza_installer_page_created", $this->document);
 	}
 
-
 	public static function post(){
 		global $wpgmza;
 		
@@ -52,8 +57,19 @@ class InstallerPage extends Page {
 			exit;
 		}
 
-		if($_POST['action'] === 'wpgmza_installer_page_skip'){
+		$action = !empty($_POST['action']) ? $_POST['action'] : false;
+		if($action === 'wpgmza_installer_page_skip'){
 			/* Chosen to skip installation for now */
+			$nextReminder = date('Y-m-d', strtotime('+1 day'));
+			update_option('wpgmza-installer-paused', $nextReminder);
+		} else if($action === 'wpgmza_installer_page_temp_api_key'){
+			/* Chosen to use a temporary API key instead of finishing setup */
+			$temporaryKey = InstallerPage::generateTempApiKey();
+			if(!empty($temporaryKey)){
+				update_option('wpgmza_temp_api', $temporaryKey);
+			}
+
+			/* Also skips the installation and delays for a day, in the same way that the skip operation usually would */
 			$nextReminder = date('Y-m-d', strtotime('+1 day'));
 			update_option('wpgmza-installer-paused', $nextReminder);
 		} else {
@@ -84,6 +100,35 @@ class InstallerPage extends Page {
 		wp_send_json(array('success' => 1));
 		exit;
 	}
+
+	/**
+	 * This will generate a temporary API key for the user
+	 * 
+	 * It will only function within the admin area, and acts as a first-time usage bridge to allow users to try things out
+	 * before they go through the process of setting up an API key which they fully control
+	 * 
+	 * This will only generate a new key if there is no existing key stored within the database, which means it can realistically only be run once
+	 * 
+	 * @return string 
+	 */
+	public static function generateTempApiKey(){
+		$siteUrl = site_url();
+		$siteHash = md5($siteUrl);
+		$response = wp_remote_get("https://wpgmaps.us-3.evennode.com/api/v1/google/generate/temporary?d={$siteUrl}&h={$siteHash}");
+		if(is_array($response) && !is_wp_error($response)){
+			try {
+				$details = json_decode($response['body']);
+				if(!empty($details) && !empty($details->apikey)){
+					return $details->apikey;
+				}
+			} catch (\Exception $ex){
+
+			} catch (\Error $err){
+
+			}
+		}
+		return '';
+	}
 }
 
 add_action('wpgmza_installer_page_create_instance', function() {
@@ -92,3 +137,4 @@ add_action('wpgmza_installer_page_create_instance', function() {
 
 add_action('wp_ajax_wpgmza_installer_page_save_options', array('WPGMZA\\InstallerPage', 'post'));
 add_action('wp_ajax_wpgmza_installer_page_skip', array('WPGMZA\\InstallerPage', 'post'));
+add_action('wp_ajax_wpgmza_installer_page_temp_api_key', array('WPGMZA\\InstallerPage', 'post'));

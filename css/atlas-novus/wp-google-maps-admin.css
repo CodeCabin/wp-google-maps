@@ -1309,6 +1309,10 @@
     align-items: center;
 }
 
+.wpgmza-wrap .wpgmza-row.justify-center{
+    justify-content: center;
+}
+
 .wpgmza-form-wrap .wpgmza-row{
     margin-bottom: 20px;
     line-height: 30px;
@@ -1342,6 +1346,45 @@
     justify-content: center;
 }
 
+.wpgmza-wrap .gap-1 {
+    gap: 0.25rem
+}
+
+.wpgmza-wrap .gap-2 {
+    gap: 0.5rem
+}
+
+.wpgmza-wrap .gap-3 {
+    gap: 0.75rem
+}
+
+.wpgmza-wrap .gap-4 {
+    gap: 1rem
+}
+
+.wpgmza-wrap .gap-5 {
+    gap: 1.25rem
+}
+
+.wpgmza-wrap .gap-6 {
+    gap: 1.5rem
+}
+
+.wpgmza-wrap .gap-7 {
+    gap: 1.75rem
+}
+
+.wpgmza-wrap .gap-8 {
+    gap: 2rem
+}
+
+.wpgmza-wrap .w-full {
+    width: 100%;
+}
+
+.wpgmza-wrap .h-full {
+    height: 100%;
+}
 
 
 /* Standard Toggles - Credit: http://callmenick.com */

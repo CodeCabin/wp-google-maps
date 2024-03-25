@@ -441,7 +441,7 @@ class MapEditPage extends Page
 		$this->map->set($data);
 		
 		// Done! Redirect to the specified URL
-		wp_redirect(strip_tags($_POST['redirect_to']));
+		wp_redirect(wp_strip_all_tags($_POST['redirect_to']));
 	}
 
 	/** 

@@ -189,7 +189,10 @@ class GutenbergExtended extends \WPGMZA\Factory {
                 $value = addslashes($value);
             } else if(is_array($value)) {
                 $value = implode(',', array_map('addslashes', $value));
-            } 
+            } else if(is_object($value)){
+                $value = (array) $value;
+                $value = implode(',', array_map('addslashes', $value));
+            }
             
             $parts[] = "{$name}=\"" . addslashes($value) . "\"";
         }

@@ -27,6 +27,7 @@ jQuery(function($) {
 
 		this.redirectUrl = this.element.data('redirect');
 
+		this.declineAssistedSkip = false;
 		this.step = 0;
 		this.max = 0;
 		this.findMax();
@@ -59,6 +60,10 @@ jQuery(function($) {
 
 		$(this.element).on('click', '.google-maps-auto-key-form-wrapper .wpgmza-button', function(event){
 			self.getAutoKey();
+		});
+
+		$(this.element).on('click', '.assisted-setup-button', function(event){
+			self.assistedSetupIntent($(this));
 		});
 
 		$(this.element).on('click', '.launcher-trigger', function(event){
@@ -514,6 +519,13 @@ jQuery(function($) {
 	WPGMZA.Installer.prototype.skip = function(){
 		const self = this;
 
+		if(!this.element.data('has-temp-api-key') && !this.declineAssistedSkip){
+			/* Assisted skip, where we allow the user to get a temp key from us to try things out */
+			this.assistedSkip();
+			return;
+		} 
+
+		/* Normal skip behaviour */
 		$(this.element).find('.step').removeClass('active');
 		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
 		$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
@@ -534,11 +546,70 @@ jQuery(function($) {
 				window.location.href = self.redirectUrl;
 			}
 		});
+
+		
+	}
+
+	WPGMZA.Installer.prototype.assistedSetupIntent = function(button){
+		const self = this;
+		const intent = button.data('intent');
+
+		switch(intent){
+			case 'quick-setup':
+				$(this.element).find('.step-assisted-prompt').addClass('wpgmza-hidden');
+				$(this.element).find('.step-assisted-permission').removeClass('wpgmza-hidden');
+				break;
+			case 'full-setup':
+			case 'assisted-decline':
+				this.declineAssistedSkip = true;
+				this.loadStep(this.step);
+
+				this.skipButton.removeClass('wpgmza-hidden');
+				$(this.element).find('.step-assisted-skip').addClass('wpgmza-hidden');
+				$(this.element).find('.step-controller').removeClass('wpgmza-hidden');
+
+				break;
+			case 'generate-key':
+				$(this.element).find('.step-assisted-skip').addClass('wpgmza-hidden');
+				
+				$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+				$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
+
+				$(this.element).find('.step-loader .progress-finish').removeClass('wpgmza-hidden');
+
+				this.skipButton.addClass('wpgmza-hidden');
+
+				const options = {
+					action: "wpgmza_installer_page_temp_api_key",
+					nonce: this.element.attr("data-ajax-nonce")
+				};
+
+				$.ajax(WPGMZA.ajaxurl, {
+					method: "POST",
+					data: options,
+					success: function(response, status, xhr) {
+						window.location.href = self.redirectUrl;
+					}
+				});
+				break;
+		}
+	}
+
+	WPGMZA.Installer.prototype.assistedSkip = function(){
+		const self = this;
+
+		$(this.element).find('.step').removeClass('active');
+		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+		$(this.element).find('.step-loader').addClass('wpgmza-hidden');
+		
+		this.skipButton.addClass('wpgmza-hidden');
+
+		$(this.element).find('.step-assisted-skip').removeClass('wpgmza-hidden');
 	}
 
 	WPGMZA.Installer.prototype.checkAutoSkip = function(){
 		/* Check if the system was flagged for auto-skip mode */
-		if( this.element.data('auto-skip')){
+		if(this.element.data('auto-skip')){
 			this.skip();
 		}
 	}

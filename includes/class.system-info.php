@@ -54,7 +54,7 @@ class SystemInfo {
 				switch($prop){
 					case "MYSQL_VERSION":
 						global $wpdb;
-						$value = empty($wpdb->use_mysqli) ? mysql_get_server_info() : mysqli_get_server_info($wpdb->dbh);
+						$value = $wpdb->db_server_info();
 						break;
 					case "internal_engine":
 						$value = ucwords(str_replace("-", " ", $wpgmza->internalEngine->getEngine()));

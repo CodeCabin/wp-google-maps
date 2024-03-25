@@ -12,7 +12,7 @@ if(!defined('ABSPATH'))
 
 	<div class="about-text"><?php _e("Thank you for joining our newsletter!","wp-google-maps"); ?></div>
 
-	<p><?php printf(__("Your email address (%s) has been sent to our server and automatically added to our mailing list","wp-google-maps"), get_option('admin_email')); ?></p>
+	<p><?php printf(__("Your email address (%s) has been sent to our server and automatically added to our mailing list","wp-google-maps"), esc_html(get_option('admin_email'))); ?></p>
 
 	<a class="button-primary" href="javascript:window.close();">Close Window</a>
 	
@@ -25,7 +25,7 @@ if(!defined('ABSPATH'))
 
 <script>
 	EncTracking.identify({ 
-	  email: "<?php echo get_option('admin_email'); ?>", 
+	  email: "<?php echo esc_attr(get_option('admin_email')); ?>", 
 	  tags: "Free"
 	});
 </script>
