@@ -245,8 +245,6 @@ class Plugin extends Factory
 	
 	public function onActivated()
 	{
-        update_option("wpgmza_temp_api",'AIzaSyDo_fG7DXBOVvdhlrLa-PHREuFDpTklWhY');
-
 	    /* Developer Hook (Action) - Add to plugin activation logic */     
 		do_action("wpgmza_plugin_core_on_activate");
 		

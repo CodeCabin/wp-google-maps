@@ -36,7 +36,6 @@ class WPGMAPS_templates {
 
             <div class="wrap about-wrap">
 
-                <!-- <img src='<?php echo WPGMZA_PLUGIN_DIR_URL; ?>base/assets/WP-google-maps-logo.png' style="float:right; width:250px;" /> -->
                 <h1><?php _e("Welcome to","wp-google-maps"); ?> <strong>WP Go Maps</strong> <small>v6</small></h1>
 
                 <div class="about-text"><?php _e("Amazing maps. Simple interface. Powerful functionality. World Class Support.","wp-google-maps"); ?></div>
@@ -106,7 +105,7 @@ class WPGMAPS_templates {
                                 <div class="wpgm_notice_message">
                                     <ul>
                                         <li>
-                                            <?php echo $wpgmza_global_array['message']; ?>
+                                            <?php echo esc_html($wpgmza_global_array['message']); ?>
                                         </li>
                                     </ul>
                                 </div>

@@ -5,7 +5,7 @@
 <div class="wrap wpgmza-installer">
 	<div class="wpgmza-installer-steps" data-ajax-nonce="<?php echo wp_create_nonce('wpgmza_installer_page'); ?>">
 		<div class="step wpgmza-card" data-step="0">
-			<h1><?php _e("Welcome", "wp-google-maps"); ?>, <?php echo ucfirst($currentUser->display_name); ?></h2>
+			<h1><?php _e("Welcome", "wp-google-maps"); ?>, <?php echo esc_html(ucfirst($currentUser->display_name)); ?></h2>
 			<h2><?php _e("What map engine would you like to use?", "wp-google-maps"); ?></h2>
 
 			<br>
@@ -233,6 +233,61 @@
 
 			<h3 class="progress-busy wpgmza-hidden"><?php _e("Getting things ready...", "wp-google-maps"); ?></h3>
 			<h3 class="progress-finish wpgmza-hidden"><?php _e("Finishing up...", "wp-google-maps"); ?></h3>
+		</div>
+
+		<div class="step-assisted-skip wpgmza-pos-relative wpgmza-hidden wpgmza-card">
+			<div class="step-assisted-prompt">
+				<h1><?php _e("Welcome", "wp-google-maps"); ?>, <?php echo ucfirst($currentUser->display_name); ?></h1>
+				<h2><?php _e("Are you exploring WP Go Maps for the first time?", "wp-google-maps"); ?></h2>
+				<div>
+					<?php _e("If so, we can set things up temporarily so that you can explore and learn more about the tools, or you can continue with your own API keys and settings!", "wp-google-maps"); ?>
+				</div>
+
+				<br>
+
+				<div class="wpgmza-row align-center justify-center">
+					<div class="wpgmza-button button-primary assisted-setup-button" data-intent="quick-setup">
+						<span><?php _e("Yes! Quick start","wp-google-maps"); ?></span>
+					</div>
+					
+					<div class="wpgmza-button button-secondary  assisted-setup-button" data-intent="full-setup">
+						<span><?php _e("No thanks, full setup","wp-google-maps"); ?></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="step-assisted-permission wpgmza-hidden">
+				<h1><?php _e("Perfect, one more thing!", "wp-google-maps"); ?></h1>
+				<h2><?php _e("Do we have permission to contact our servers?", "wp-google-maps"); ?></h2>
+				<div>
+					<?php _e("We'll set up a temporary Google Maps API key for you to use in the map editor, by briefly communicating with our servers.", "wp-google-maps"); ?> 
+				</div>
+				<div>
+					<?php _e("This key can be used to explore our tools, but will need to be replaced with your own API key later.", "wp-google-maps"); ?>
+				</div>
+
+				<br>
+
+				<div>
+					<strong><?php _e("Note:", "wp-google-maps"); ?></strong> 
+					<?php _e("By opting in, your site URL will be shared with our servers in order to create an API key.", "wp-google-maps"); ?>
+				</div>
+
+				<br>
+
+				<div class="wpgmza-row align-center justify-center gap-4">
+					<div class="wpgmza-button button-primary assisted-setup-button" data-intent="generate-key">
+						<span><?php _e("Yes, I'm okay with that!","wp-google-maps"); ?></span>
+					</div>
+				</div>
+
+				<br>
+
+				<a href="#" class='assisted-setup-button' data-intent="assisted-decline">
+					<?php _e("Or complete the full setup instead!", "wp-google-maps"); ?>
+				</a>
+
+			</div>
 		</div>
 
 		<div class="wpgmza-flex step-controller">
