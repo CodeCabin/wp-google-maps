@@ -1,19 +1,24 @@
 
-
 {
-	"sProcessing":   "Henter...",
-	"sLengthMenu":   "Vis _MENU_ linjer",
-	"sZeroRecords":  "Ingen linjer matcher s&oslash;gningen",
-	"sInfo":         "Viser _START_ til _END_ af _TOTAL_ linjer",
-	"sInfoEmpty":    "Viser 0 til 0 af 0 linjer",
-	"sInfoFiltered": "(filtreret fra _MAX_ linjer)",
-	"sInfoPostFix":  "",
-	"sSearch":       "S&oslash;g:",
-	"sUrl":          "",
+	"sEmptyTable": "Tabelen indeholder ingen data",
+	"sInfo": "Viser _START_ till _END_ av totalt _TOTAL_ rækker",
+	"sInfoEmpty": "Viser 0 til 0 af total 0 rækker",
+	"sInfoFiltered": "(sorteret fra total _MAX_ rækker)",
+	"sInfoPostFix": "",
+	"sInfoThousands": " ",
+	"sLengthMenu": "Vis _MENU_ række",
+	"sLoadingRecords": "Henter...",
+	"sProcessing": "Behandler...",
+	"sSearch": "Søg:",
+	"sZeroRecords": "Fandt ingen matchende resultater",
 	"oPaginate": {
-	    "sFirst":    "F&oslash;rste",
-	    "sPrevious": "Forrige",
-	    "sNext":     "N&aelig;ste",
-	    "sLast":     "Sidste"
+	  "sFirst": "Første",
+	  "sLast": "Sidste",
+	  "sNext": "Næste",
+	  "sPrevious": "Foregående"
+	},
+	"oAria": {
+	  "sSortAscending": ": aktiver for at sortere kolonnen i stigende rækkefølge",
+	  "sSortDescending": ": aktiver for at sortere kolonnen i faldende rækkefølge"
 	}
-}
+  }
