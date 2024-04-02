@@ -202,6 +202,8 @@
 	<h2><?php _e("Translators","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li>Finn Sommer Jensen</li>
+			<li>Michael Møller</li>
 			<li>Daniel Tan</li>
 			<li>Mats Wale</li>
 			<li>Starlogic</li>

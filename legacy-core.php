@@ -1739,17 +1739,8 @@ function wpgmza_caching_notice_changes($markers = false, $return = false){
 }
 
 function wpgm_pro_link($link) {
-    if (defined('wpgm_aff')) {
-        $id = sanitize_text_field(wpgm_aff);
-        if ($id && $id !== "") {
-            return esc_attr("http://affiliatetracker.io/?aff=".$id."&affuri=".base64_encode($link));    
-        } else {
-            return esc_attr($link);
-        }
-        
-    } else {
-        return esc_attr($link);
-    }
+    /* Updated 2024-04-02: Deprecated affiliate system, which was no longer in use */
+    return esc_attr($link);
 }
 
 /**
