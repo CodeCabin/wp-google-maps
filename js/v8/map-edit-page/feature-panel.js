@@ -274,6 +274,10 @@ jQuery(function($) {
 				if(this.writersblock.elements && this.writersblock.elements._codeEditor){
 					/* We have an HTML code block */
 					this.writersblock.elements._codeEditor.value = "";
+
+					if(this.writersblock._codeEditorActive){
+						this.writersblock.onToolAction({command: 'delegate_action_callback', value: 'codeeditor'});
+					}
 				}
 			} else {
 				$("#wpgmza-description-editor").val("");

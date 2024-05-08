@@ -488,6 +488,8 @@ class Shortcodes extends Factory {
 					$value = $this->prepareInlineAttributes($value, $separator, $assigner, $capsule);
 				}
 
+				$value = esc_attr($value);
+
 				$output .= "{$key}{$assigner}{$capsule}{$value}{$capsule}{$separator}";
 			}
 

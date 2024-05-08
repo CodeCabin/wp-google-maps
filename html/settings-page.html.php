@@ -285,6 +285,20 @@
 				<option value='none'><?php esc_html_e("None", "wp-google-maps"); ?></option>
 			</select>
 		</fieldset>
+
+		<fieldset class="wpgmza-pro-feature wpgmza-pro-feature-hide">
+			<legend>
+				<?php esc_html_e('Marker Field Query Mode', 'wp-google-maps'); ?>
+			</legend>
+			<select name='marker_field_query_mode'>
+				<option value=''><?php esc_html_e("Partial", "wp-google-maps"); ?></option>
+				<option value='strict'><?php esc_html_e("Exact", "wp-google-maps"); ?></option>
+			</select>
+
+			<small>
+				<?php _e("By default, marker fields may return partial matches, in some cases you may prefer exact matches only", "wp-google-maps"); ?>
+			</small>
+		</fieldset>
 		
 		
 		
@@ -813,6 +827,54 @@
 			?>
 			
 		</div>
+
+		<h4>
+			<?php 
+			esc_html_e("General Settings","wp-google-maps"); 
+			?> 
+		</h4>
+
+		<fieldset class="wpgmza-pro-feature">
+			<legend>
+				<?php 
+				esc_html_e("Show X items by default","wp-google-maps"); 
+				?>
+			</legend>
+			
+			<select id='wpgmza_default_items' name='wpgmza_default_items'>
+				<option value="1">1</option>
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+				<option value="-1">ALL</option>
+			</select>
+		</fieldset>
+
+		<fieldset class="wpgmza-pro-feature">
+			<legend>
+				<?php
+				_e("Disable Auto-Scroll", "wp-google-maps");
+				?>
+			</legend>
+			
+			<ul>
+				<li>
+					<div class='switch'>
+						<input name='disable_scroll_on_marker_listing_click' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='disable_scroll_on_marker_listing_click' 
+							value='yes'/>
+						<label for='disable_scroll_on_marker_listing_click'></label>
+					</div>
+					<?php 
+					esc_html_e("Prevent the page from scrolling to the map element when a marker listing item is clicked","wp-google-maps"); 
+					?>
+				</li>
+			</ul>
+		</fieldset>
 		
 		<h4>
 			<?php 
@@ -970,24 +1032,6 @@
 					?>
 				</li>
 			</ul>
-		</fieldset>
-		
-		<fieldset class="wpgmza-pro-feature">
-			<legend>
-				<?php 
-				esc_html_e("Show X items by default","wp-google-maps"); 
-				?>
-			</legend>
-			
-			<select id='wpgmza_default_items' name='wpgmza_default_items'>
-				<option value="1">1</option>
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="25">25</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="-1">ALL</option>
-			</select>
 		</fieldset>
 		
 		<h4>

@@ -698,6 +698,42 @@
     display: none;
 }
 
+/* Info-window additional fields */
+.wpgmza-integration-fields-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field{
+    display: flex;
+    gap: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-label{
+    font-weight: 500;
+    max-width: 30%;
+    flex: 2;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value{
+    max-width: 100%;
+    flex: 3;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value p{
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value iframe,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value video,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value audio,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value img{
+    max-width: 100%;
+}
+
+
 
 /* Animations */
 @-webkit-keyframes wpgmzaInfiniteRotate {

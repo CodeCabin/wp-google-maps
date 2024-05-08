@@ -178,7 +178,6 @@ class MapEditPage extends Page
 			if($editorTour->canTour()){
 				@$document->querySelector(".wpgmza-wrap")->import($editorTour);
 			}
-
 		}
 
 		/* This will be reworked into the page module, OR, into a dedicated method */
@@ -266,8 +265,6 @@ class MapEditPage extends Page
 		}
 
 	}
-
-
 
 	public static function createMapPage() {
 		if (isset($_GET) && $_GET['action'] == 'create-map-page' && isset($_GET['map_id'])) {

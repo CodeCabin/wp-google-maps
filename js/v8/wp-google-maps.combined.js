@@ -21,6 +21,8 @@ jQuery(function($) {
 		PAGE_CATEGORIES:		"categories",
 		PAGE_ADVANCED:			"advanced",
 		PAGE_CUSTOM_FIELDS:		"custom-fields",
+
+		MOBILE_RESOLUTION_THRESHOLD : 1000,
 		
 		/**
 		 * Indexed array of map instances
@@ -5847,6 +5849,13 @@ jQuery(function($) {
 	WPGMZA.Installer.prototype.skip = function(){
 		const self = this;
 
+		if(this.element.data('auto-onboarding-procedure')){
+			/* The user was flagged for an auto-onboarding-procedure (aop) and has no temporary key */
+			/* This means a preset is to be applied to the installer so that the user gets to the editor as efficiently as possible */
+			this.autoOnboardingSkip();
+			return;
+		}
+
 		if(!this.element.data('has-temp-api-key') && !this.declineAssistedSkip){
 			/* Assisted skip, where we allow the user to get a temp key from us to try things out */
 			this.assistedSkip();
@@ -5933,6 +5942,36 @@ jQuery(function($) {
 		this.skipButton.addClass('wpgmza-hidden');
 
 		$(this.element).find('.step-assisted-skip').removeClass('wpgmza-hidden');
+	}
+
+	WPGMZA.Installer.prototype.autoOnboardingSkip = function(){
+		const self = this;
+
+		const procedure = this.element.data('auto-onboarding-procedure');
+
+		/* Hide all elements */
+		$(this.element).find('.step').removeClass('active');
+		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+		$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
+
+		this.skipButton.addClass('wpgmza-hidden');
+
+		$(this.element).find('.step-loader .progress-finish').removeClass('wpgmza-hidden');
+
+		const options = {
+			action: "wpgmza_installer_page_auto_onboarding_procedure",
+			procedure: procedure,
+			nonce: this.element.attr("data-ajax-nonce")
+		};
+
+		$.ajax(WPGMZA.ajaxurl, {
+			method: "POST",
+			data: options,
+			success: function(response, status, xhr) {
+				window.location.href = self.redirectUrl;
+			}
+		});
+
 	}
 
 	WPGMZA.Installer.prototype.checkAutoSkip = function(){
@@ -7485,6 +7524,8 @@ jQuery(function($) {
 		this.loadSettings(options);
 		this.loadStyling();
 
+		this.applyMobileOverrides();
+
 		this.shortcodeAttributes = {};
 		if($(this.element).attr("data-shortcode-attributes")){
 			try{
@@ -7779,6 +7820,27 @@ jQuery(function($) {
 				let tileFilter = this.settings.wpgmza_ol_tile_filter.trim();
 				if(tileFilter){
 					$(this.element).css('--wpgmza-ol-tile-filter', tileFilter);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Applies settings overrides for some key options when browser is in mobile view mode
+	 * 
+	 * This is a direct mutation to the active settings of the map, meaning it must happen early
+	 * 
+	 * @method
+	 * @memberof WPGMZA.Map
+	 */
+	WPGMZA.Map.prototype.applyMobileOverrides = function(){
+		if($(window).width() <= WPGMZA.MOBILE_RESOLUTION_THRESHOLD){
+			if(this.settings.zoom_level_mobile_override_enabled){
+				try {
+					const mobileZoomOverride = parseInt(this.settings.zoom_level_mobile_override);
+					this.settings.map_start_zoom = mobileZoomOverride;
+				} catch (e){
+	
 				}
 			}
 		}
@@ -12574,6 +12636,9 @@ jQuery(function($) {
 		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.map){
 			/* Trigger resize events as panels may extend/retract from screen space */
 			WPGMZA.mapEditPage.map.onElementResized();
+
+			/* Temporary placement: Hide any tips, because we can assume user interaction has taken place */
+			$('.wpgmza-quick-tip-container').hide();
 		}
 	}
 
@@ -14935,6 +15000,18 @@ jQuery(function($) {
 		google.maps.event.addListener(this.googleCircle, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
+
+		google.maps.event.addListener(this.googleCircle, "rightclick", function(event) {
+			if(typeof self.map !== 'undefined' && self.map instanceof WPGMZA.Map){
+				var wpgmzaEvent = new WPGMZA.Event("rightclick");
+				wpgmzaEvent.latLng = {
+					lat: event.latLng.lat(),
+					lng: event.latLng.lng()
+				};
+	
+				self.map.dispatchEvent(wpgmzaEvent);
+			}
+		});
 	}
 
 	if(WPGMZA.isProVersion())
@@ -16910,6 +16987,18 @@ jQuery(function($) {
 		google.maps.event.addListener(this.googlePolygon, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
+
+		google.maps.event.addListener(this.googlePolygon, "rightclick", function(event) {
+			if(typeof self.map !== 'undefined' && self.map instanceof WPGMZA.Map){
+				var wpgmzaEvent = new WPGMZA.Event("rightclick");
+				wpgmzaEvent.latLng = {
+					lat: event.latLng.lat(),
+					lng: event.latLng.lng()
+				};
+	
+				self.map.dispatchEvent(wpgmzaEvent);
+			}
+		});
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -17174,6 +17263,18 @@ jQuery(function($) {
 		
 		google.maps.event.addListener(this.googleRectangle, "click", function() {
 			self.dispatchEvent({type: "click"});
+		});
+
+		google.maps.event.addListener(this.googleRectangle, "rightclick", function(event) {
+			if(typeof self.map !== 'undefined' && self.map instanceof WPGMZA.Map){
+				var wpgmzaEvent = new WPGMZA.Event("rightclick");
+				wpgmzaEvent.latLng = {
+					lat: event.latLng.lat(),
+					lng: event.latLng.lng()
+				};
+	
+				self.map.dispatchEvent(wpgmzaEvent);
+			}
 		});
 	}
 	
@@ -17774,6 +17875,10 @@ jQuery(function($) {
 				if(this.writersblock.elements && this.writersblock.elements._codeEditor){
 					/* We have an HTML code block */
 					this.writersblock.elements._codeEditor.value = "";
+
+					if(this.writersblock._codeEditorActive){
+						this.writersblock.onToolAction({command: 'delegate_action_callback', value: 'codeeditor'});
+					}
 				}
 			} else {
 				$("#wpgmza-description-editor").val("");
@@ -18974,6 +19079,8 @@ jQuery(function($) {
 		        WPGMZA.notification("Shortcode Copied");
 			}
 		});
+
+		this.initZoomSliderPreviews();
 	}
 	
 	WPGMZA.extend(WPGMZA.MapEditPage, WPGMZA.EventDispatcher);
@@ -19041,6 +19148,28 @@ jQuery(function($) {
 			slide: function( event, ui ) {
 				$("input[name='map_start_zoom']").val(ui.value);
 				self.map.setZoom(ui.value);
+			}
+		});
+		
+
+		/* Mobile override zoom level slider */
+		$('#zoom_level_mobile_override_enabled').on('change', function(){
+	        if($(this).prop('checked')){
+	            $('#zoom_level_mobile_override_level').fadeIn();
+	        }else{
+	            $('#zoom_level_mobile_override_level').fadeOut();
+	        }
+	    });
+
+		$('#zoom_level_mobile_override_enabled').trigger('change');
+
+		$("#zoom-level-mobile-override-slider").slider({
+			range: "max",
+			min: 1,
+			max: 21,
+			value: $("input[name='zoom_level_mobile_override']").val(),
+			slide: function( event, ui ) {
+				$("input[name='zoom_level_mobile_override']").val(ui.value);
 			}
 		});
 	}
@@ -19533,6 +19662,85 @@ jQuery(function($) {
 		
 		$('#wpgmza_autocomplete_search_results').hide();
 		$('#wpgmza_autoc_disabled').hide();
+	}
+
+	WPGMZA.MapEditPage.prototype.initZoomSliderPreviews = function(){
+		this._zoomPreviewState = {
+			type : false,
+			revert : false,
+			input : false,
+			wrap : false,
+			last : false
+		};
+
+		$('input[data-zoom-slider-preview]').each((index, input) => {
+			input = $(input);
+			const wrap = input.parent();
+			wrap.on('mouseenter', () => {
+				this.bindZoomSliderPreview(wrap, input);
+			});
+
+			wrap.on('mouseleave', () => {
+				this.unbindZoomSliderPreview();
+			});
+		});
+	}
+
+	WPGMZA.MapEditPage.prototype.bindZoomSliderPreview = function(wrap, input){
+		if(this._zoomPreviewState.type){
+			/* Unbind existing references */
+			this.unbindZoomSliderPreview();
+		}
+
+		this._zoomPreviewState.type = input.attr('id');
+		this._zoomPreviewState.revert = this.map.getZoom();
+		this._zoomPreviewState.input = input;
+		this._zoomPreviewState.wrap = wrap;
+
+		const title = input.attr('data-zoom-slider-preview');
+
+		$("#wpgmza-map-container").append(`<div class='zoom-slider-preview-frame'><span>${title} <span></span></span></div>`);
+
+		this._zoomPreviewState.wrap.on('mousemove', () => {
+			this.onZoomSliderPreviewChange();
+		});
+	}
+
+	WPGMZA.MapEditPage.prototype.unbindZoomSliderPreview = function(){
+		if(this._zoomPreviewState){
+			if(this._zoomPreviewState.wrap){
+				this._zoomPreviewState.wrap.off('mousemove');
+			}
+
+			if(this._zoomPreviewState.revert){
+				$("input[name='map_start_zoom']").val(this._zoomPreviewState.revert);
+				this.map.setZoom(this._zoomPreviewState.revert);
+			}
+		}
+
+		$('.zoom-slider-preview-frame').remove();
+
+		/* Reset state tracker */
+		this._zoomPreviewState.type = false;
+		this._zoomPreviewState.revert = false;
+		this._zoomPreviewState.input = false;
+		this._zoomPreviewState.wrap = false;
+		this._zoomPreviewState.last = false;
+	}
+
+	WPGMZA.MapEditPage.prototype.onZoomSliderPreviewChange = function(event){
+		if(this._zoomPreviewState && this._zoomPreviewState.input){
+			if(this._zoomPreviewState.input.val()){
+				const current = parseInt(this._zoomPreviewState.input.val());
+				if(this._zoomPreviewState.last !== current){
+					this._zoomPreviewState.last = current;
+					this.map.setZoom(current);
+
+					let delta = current >= this._zoomPreviewState.revert ? (current - this._zoomPreviewState.revert) : -(this._zoomPreviewState.revert - current);
+					$('.zoom-slider-preview-frame span span').text('(' + (delta >= 0 ? `+${delta}` : delta) + ')');
+				}
+			}
+		}
 	}
 	
 	$(document).ready(function(event) {
@@ -20404,6 +20612,11 @@ jQuery(function($) {
 		$(this.element).on("click", ".ol-info-window-close", function(event) {
 			self.close();
 		});
+
+		this.on("infowindowcontentshift", function(event) {
+			self.autoResize();
+			self.panIntoView();
+		});
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -20544,23 +20757,34 @@ jQuery(function($) {
 						a.bottom <= b.bottom && a.bottom >= b.top;
 			}
 			
-			function panIntoView()
-			{
-				var height	= $(self.element).height();
-				var offset	= -(height + 180) * 0.45;
-				
-				self.feature.map.animateNudge(0, offset, self.feature.getPosition());
-			}
-			
 			imgs.each(function(index, el) {
 				el.onload = function() {
 					if(++numImagesLoaded == numImages && !inside(self.element, self.feature.map.element))
-						panIntoView();
+						self.panIntoView();
 				}
 			});
 			
 			if(numImages == 0 && !inside(self.element, self.feature.map.element))
-				panIntoView();
+				self.panIntoView();
+		}
+	}
+
+	WPGMZA.OLInfoWindow.prototype.panIntoView = function(){
+		let canAutoPan = true;
+
+		/* Handle one shot auto pan disabler */
+		if(typeof this.feature._osDisableAutoPan !== 'undefined'){
+			if(this.feature._osDisableAutoPan){
+				canAutoPan = false;
+				this.feature._osDisableAutoPan = false;
+			}
+		}
+
+		if(this.isPanIntoViewAllowed && canAutoPan){
+			var height	= $(this.element).height();
+			var offset	= -(height + 180) * 0.45;
+			
+			this.feature.map.animateNudge(0, offset, this.feature.getPosition());
 		}
 	}
 

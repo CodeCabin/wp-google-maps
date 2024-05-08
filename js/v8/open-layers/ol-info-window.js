@@ -19,6 +19,11 @@ jQuery(function($) {
 		$(this.element).on("click", ".ol-info-window-close", function(event) {
 			self.close();
 		});
+
+		this.on("infowindowcontentshift", function(event) {
+			self.autoResize();
+			self.panIntoView();
+		});
 	}
 	
 	if(WPGMZA.isProVersion())
@@ -159,23 +164,34 @@ jQuery(function($) {
 						a.bottom <= b.bottom && a.bottom >= b.top;
 			}
 			
-			function panIntoView()
-			{
-				var height	= $(self.element).height();
-				var offset	= -(height + 180) * 0.45;
-				
-				self.feature.map.animateNudge(0, offset, self.feature.getPosition());
-			}
-			
 			imgs.each(function(index, el) {
 				el.onload = function() {
 					if(++numImagesLoaded == numImages && !inside(self.element, self.feature.map.element))
-						panIntoView();
+						self.panIntoView();
 				}
 			});
 			
 			if(numImages == 0 && !inside(self.element, self.feature.map.element))
-				panIntoView();
+				self.panIntoView();
+		}
+	}
+
+	WPGMZA.OLInfoWindow.prototype.panIntoView = function(){
+		let canAutoPan = true;
+
+		/* Handle one shot auto pan disabler */
+		if(typeof this.feature._osDisableAutoPan !== 'undefined'){
+			if(this.feature._osDisableAutoPan){
+				canAutoPan = false;
+				this.feature._osDisableAutoPan = false;
+			}
+		}
+
+		if(this.isPanIntoViewAllowed && canAutoPan){
+			var height	= $(this.element).height();
+			var offset	= -(height + 180) * 0.45;
+			
+			this.feature.map.animateNudge(0, offset, this.feature.getPosition());
 		}
 	}
 

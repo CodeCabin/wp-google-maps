@@ -92,6 +92,9 @@ jQuery(function($) {
 		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.map){
 			/* Trigger resize events as panels may extend/retract from screen space */
 			WPGMZA.mapEditPage.map.onElementResized();
+
+			/* Temporary placement: Hide any tips, because we can assume user interaction has taken place */
+			$('.wpgmza-quick-tip-container').hide();
 		}
 	}
 

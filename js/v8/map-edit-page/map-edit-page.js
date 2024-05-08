@@ -213,6 +213,8 @@ jQuery(function($) {
 		        WPGMZA.notification("Shortcode Copied");
 			}
 		});
+
+		this.initZoomSliderPreviews();
 	}
 	
 	WPGMZA.extend(WPGMZA.MapEditPage, WPGMZA.EventDispatcher);
@@ -280,6 +282,28 @@ jQuery(function($) {
 			slide: function( event, ui ) {
 				$("input[name='map_start_zoom']").val(ui.value);
 				self.map.setZoom(ui.value);
+			}
+		});
+		
+
+		/* Mobile override zoom level slider */
+		$('#zoom_level_mobile_override_enabled').on('change', function(){
+	        if($(this).prop('checked')){
+	            $('#zoom_level_mobile_override_level').fadeIn();
+	        }else{
+	            $('#zoom_level_mobile_override_level').fadeOut();
+	        }
+	    });
+
+		$('#zoom_level_mobile_override_enabled').trigger('change');
+
+		$("#zoom-level-mobile-override-slider").slider({
+			range: "max",
+			min: 1,
+			max: 21,
+			value: $("input[name='zoom_level_mobile_override']").val(),
+			slide: function( event, ui ) {
+				$("input[name='zoom_level_mobile_override']").val(ui.value);
 			}
 		});
 	}
@@ -772,6 +796,85 @@ jQuery(function($) {
 		
 		$('#wpgmza_autocomplete_search_results').hide();
 		$('#wpgmza_autoc_disabled').hide();
+	}
+
+	WPGMZA.MapEditPage.prototype.initZoomSliderPreviews = function(){
+		this._zoomPreviewState = {
+			type : false,
+			revert : false,
+			input : false,
+			wrap : false,
+			last : false
+		};
+
+		$('input[data-zoom-slider-preview]').each((index, input) => {
+			input = $(input);
+			const wrap = input.parent();
+			wrap.on('mouseenter', () => {
+				this.bindZoomSliderPreview(wrap, input);
+			});
+
+			wrap.on('mouseleave', () => {
+				this.unbindZoomSliderPreview();
+			});
+		});
+	}
+
+	WPGMZA.MapEditPage.prototype.bindZoomSliderPreview = function(wrap, input){
+		if(this._zoomPreviewState.type){
+			/* Unbind existing references */
+			this.unbindZoomSliderPreview();
+		}
+
+		this._zoomPreviewState.type = input.attr('id');
+		this._zoomPreviewState.revert = this.map.getZoom();
+		this._zoomPreviewState.input = input;
+		this._zoomPreviewState.wrap = wrap;
+
+		const title = input.attr('data-zoom-slider-preview');
+
+		$("#wpgmza-map-container").append(`<div class='zoom-slider-preview-frame'><span>${title} <span></span></span></div>`);
+
+		this._zoomPreviewState.wrap.on('mousemove', () => {
+			this.onZoomSliderPreviewChange();
+		});
+	}
+
+	WPGMZA.MapEditPage.prototype.unbindZoomSliderPreview = function(){
+		if(this._zoomPreviewState){
+			if(this._zoomPreviewState.wrap){
+				this._zoomPreviewState.wrap.off('mousemove');
+			}
+
+			if(this._zoomPreviewState.revert){
+				$("input[name='map_start_zoom']").val(this._zoomPreviewState.revert);
+				this.map.setZoom(this._zoomPreviewState.revert);
+			}
+		}
+
+		$('.zoom-slider-preview-frame').remove();
+
+		/* Reset state tracker */
+		this._zoomPreviewState.type = false;
+		this._zoomPreviewState.revert = false;
+		this._zoomPreviewState.input = false;
+		this._zoomPreviewState.wrap = false;
+		this._zoomPreviewState.last = false;
+	}
+
+	WPGMZA.MapEditPage.prototype.onZoomSliderPreviewChange = function(event){
+		if(this._zoomPreviewState && this._zoomPreviewState.input){
+			if(this._zoomPreviewState.input.val()){
+				const current = parseInt(this._zoomPreviewState.input.val());
+				if(this._zoomPreviewState.last !== current){
+					this._zoomPreviewState.last = current;
+					this.map.setZoom(current);
+
+					let delta = current >= this._zoomPreviewState.revert ? (current - this._zoomPreviewState.revert) : -(this._zoomPreviewState.revert - current);
+					$('.zoom-slider-preview-frame span span').text('(' + (delta >= 0 ? `+${delta}` : delta) + ')');
+				}
+			}
+		}
 	}
 	
 	$(document).ready(function(event) {

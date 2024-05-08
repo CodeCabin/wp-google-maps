@@ -202,6 +202,7 @@
 	<h2><?php _e("Translators","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li>Gerard Ayter Codina</li>
 			<li>Finn Sommer Jensen</li>
 			<li>Michael Møller</li>
 			<li>Daniel Tan</li>

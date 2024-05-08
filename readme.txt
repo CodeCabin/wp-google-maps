@@ -1,11 +1,11 @@
 === WP Go Maps (formerly WP Google Maps) ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map block, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
+Tags: google maps, maps, map, map markers, block, map block, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
 Tested up to: 6.5
 Requires PHP: 5.3
-Stable tag: 9.0.36
+Stable tag: 9.0.37
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.37 =
+Please update to 9.0.37 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.36 =
 Please update to 9.0.36 or above or above to ensure you are using the latest security enhancements.
 
@@ -313,6 +316,18 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.37 - 2024-05-08 =
+* Added ability to set a different starting zoom level for mobile devices
+* Added zoom slider preview system to map editor
+* Added content shift trigger to OpenLayer info-windows, to repan and resize infowindow correctly
+* Added right click event bubbling to Google Shapes
+* Added marker creation quick tip UI element (Atlas Novus)
+* Added auto-onboarding procedure system. Mapping engine now defaults to OpenLayers for first time users
+* Fixed issue where WooCommerce map ID was not verified when loading settings area 
+* Fixed issue where writersblock reset events would not trigger as expected (Atlas Novus)
+* Fixed issue where shortcode attributes were not properly sanitized. Security issue (Atlas Novus). Thanks Thanh Nam Tran 
+* Updated es_ES translation files, thanks to Gerard Ayter Codina
 
 = 9.0.36 - 2024-04-02 =
 * Removed legacy affiliate linking system, which was causing false security reports in ImunifyAV and similar scanning tools

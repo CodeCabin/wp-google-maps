@@ -19,6 +19,8 @@ jQuery(function($) {
 		PAGE_CATEGORIES:		"categories",
 		PAGE_ADVANCED:			"advanced",
 		PAGE_CUSTOM_FIELDS:		"custom-fields",
+
+		MOBILE_RESOLUTION_THRESHOLD : 1000,
 		
 		/**
 		 * Indexed array of map instances

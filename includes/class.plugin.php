@@ -433,7 +433,7 @@ class Plugin extends Factory
 				$result['ignoreInstallerRedirect'] = 'true';
 			} 
 		}
-		
+	
 		if($post){
 			$result['postID'] = $post->ID;
 		}
