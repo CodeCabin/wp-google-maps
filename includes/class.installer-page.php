@@ -38,6 +38,17 @@ class InstallerPage extends Page {
 			 * way it does not feel as intrusive or required 
 			*/
 			$wrapper->setAttribute('data-auto-skip', 'true');
+
+			/* Additionally to auto-skipping the installer, we have a new system (as of 2024-05-07) that we are calling auto-onboarding-procedures 
+			 * 
+			 * For new users, we'll set an auto onboarding procedure to allow us to control their first time experience more effectively
+			 * 
+			 * This is based on a class constant, which will hold the current installer procedure, and we assume these can only run on `auto-skip` 
+			 * which means they came from the welcome/credits page, which is usually right after an installation
+			*/
+			if(empty(get_option('wpgmza-installer-initial-procedure'))){
+				$wrapper->setAttribute('data-auto-onboarding-procedure', 'engine_ol_2024_05');
+			}
 		}
 
 	    /* Developer Hook (Action) - Alter output of the installer page, passes DOMDocument for mutation */     
@@ -62,6 +73,10 @@ class InstallerPage extends Page {
 			/* Chosen to skip installation for now */
 			$nextReminder = date('Y-m-d', strtotime('+1 day'));
 			update_option('wpgmza-installer-paused', $nextReminder);
+
+			/* Delete retrigger events if stored */
+			delete_option('wpgmza-installer-retrigger-event');
+
 		} else if($action === 'wpgmza_installer_page_temp_api_key'){
 			/* Chosen to use a temporary API key instead of finishing setup */
 			$temporaryKey = InstallerPage::generateTempApiKey();
@@ -72,6 +87,41 @@ class InstallerPage extends Page {
 			/* Also skips the installation and delays for a day, in the same way that the skip operation usually would */
 			$nextReminder = date('Y-m-d', strtotime('+1 day'));
 			update_option('wpgmza-installer-paused', $nextReminder);
+
+			/* Delete retrigger events if stored */
+			delete_option('wpgmza-installer-retrigger-event');
+
+		} else if($action === 'wpgmza_installer_page_auto_onboarding_procedure'){
+			/* Apply an auto onboarding procedure */
+			$procedure = !empty($_POST['procedure']) ? $_POST['procedure'] : false;
+			switch($procedure){
+				case 'engine_ol_2024_05':
+					/* Procedure: OpenLayers default engine
+					 * Introduced: 2024-05-7
+					 * Goal: Help streamline first time usage by setting the engine to OpenLayers as default, and 
+					 * 		 getting the user into the map editor as efficiently as possible. OL needs no keys and as a result may help
+					 * 		 with the onboarding of the user
+					*/
+					
+					if(!empty($wpgmza) && !empty($wpgmza->settings)){
+						$wpgmza->settings->set('wpgmza_maps_engine', 'open-layers'); 
+						$wpgmza->settings->set('wpgmza_maps_engine_dialog_done', true);	
+					}
+					
+					/* Prevent the system from coming back here in 1 day by mistake */
+					delete_option('wpgmza-installer-paused');
+
+					/* Mark this so that if the user later changes engines, we can gracefully redirect them to setup again */
+					update_option('wpgmza-installer-retrigger-event', 'engine_ol_2024_05');
+					update_option('wpgmza-installer-initial-procedure', 'engine_ol_2024_05');
+
+					break;
+				default: 
+					/* Procedure is unknown, delay the installer for a day and come back to it then, because we aren't sure what was intended */
+					$nextReminder = date('Y-m-d', strtotime('+1 day'));
+					update_option('wpgmza-installer-paused', $nextReminder);
+					break;
+			}
 		} else {
 			/* Completed the installation flow */
 			if(!empty($wpgmza) && !empty($wpgmza->settings)){
@@ -90,6 +140,9 @@ class InstallerPage extends Page {
 				}
 
 				delete_option('wpgmza-installer-paused');
+
+				/* Delete retrigger events if stored */
+				delete_option('wpgmza-installer-retrigger-event');
 
 			}
 
@@ -129,6 +182,41 @@ class InstallerPage extends Page {
 		}
 		return '';
 	}
+
+	/**
+	 * Check if it's time for us to retrigger any of the installer events based on data changes 
+	 * 
+	 * This function may redirect the user if applicable
+	 * 
+	 * @param object $wpgmza
+	 * 
+	 * @return void
+	 */
+	public static function retriggerInstallerEvents($wpgmza){
+		if(!empty($wpgmza) && !empty($wpgmza->settings)){
+			$retriggerEvent = get_option('wpgmza-installer-retrigger-event');
+			if(!empty($retriggerEvent)){
+				/* We have a stored retrigger event, meaning that we might need to take some action, because a settings change has taken place */
+				switch($retriggerEvent){
+					case 'engine_ol_2024_05':
+						if($wpgmza->settings->wpgmza_maps_engine !== 'open-layers'){
+							/* User has moved away from the onboarding engine, time to retrigger the installer */
+							delete_option('wpgmza-installer-retrigger-event');
+
+							wp_safe_redirect(admin_url('admin.php?page=wp-google-maps-menu&action=installer&autoskip=true'));
+							exit();
+						}
+
+						break;
+					default:
+						/* Unknown retrigger event, stop monitoring */
+						delete_option('wpgmza-installer-retrigger-event');
+						break;
+				}
+			}
+
+		}
+	}
 }
 
 add_action('wpgmza_installer_page_create_instance', function() {
@@ -138,3 +226,6 @@ add_action('wpgmza_installer_page_create_instance', function() {
 add_action('wp_ajax_wpgmza_installer_page_save_options', array('WPGMZA\\InstallerPage', 'post'));
 add_action('wp_ajax_wpgmza_installer_page_skip', array('WPGMZA\\InstallerPage', 'post'));
 add_action('wp_ajax_wpgmza_installer_page_temp_api_key', array('WPGMZA\\InstallerPage', 'post'));
+add_action('wp_ajax_wpgmza_installer_page_auto_onboarding_procedure', array('WPGMZA\\InstallerPage', 'post'));
+
+add_action('wpgmza_global_settings_before_redirect', array('WPGMZA\\InstallerPage', 'retriggerInstallerEvents'));

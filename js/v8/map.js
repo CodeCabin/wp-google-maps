@@ -70,6 +70,8 @@ jQuery(function($) {
 		this.loadSettings(options);
 		this.loadStyling();
 
+		this.applyMobileOverrides();
+
 		this.shortcodeAttributes = {};
 		if($(this.element).attr("data-shortcode-attributes")){
 			try{
@@ -364,6 +366,27 @@ jQuery(function($) {
 				let tileFilter = this.settings.wpgmza_ol_tile_filter.trim();
 				if(tileFilter){
 					$(this.element).css('--wpgmza-ol-tile-filter', tileFilter);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Applies settings overrides for some key options when browser is in mobile view mode
+	 * 
+	 * This is a direct mutation to the active settings of the map, meaning it must happen early
+	 * 
+	 * @method
+	 * @memberof WPGMZA.Map
+	 */
+	WPGMZA.Map.prototype.applyMobileOverrides = function(){
+		if($(window).width() <= WPGMZA.MOBILE_RESOLUTION_THRESHOLD){
+			if(this.settings.zoom_level_mobile_override_enabled){
+				try {
+					const mobileZoomOverride = parseInt(this.settings.zoom_level_mobile_override);
+					this.settings.map_start_zoom = mobileZoomOverride;
+				} catch (e){
+	
 				}
 			}
 		}

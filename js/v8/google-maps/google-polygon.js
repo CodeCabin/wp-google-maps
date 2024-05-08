@@ -41,6 +41,18 @@ jQuery(function($) {
 		google.maps.event.addListener(this.googlePolygon, "click", function() {
 			self.dispatchEvent({type: "click"});
 		});
+
+		google.maps.event.addListener(this.googlePolygon, "rightclick", function(event) {
+			if(typeof self.map !== 'undefined' && self.map instanceof WPGMZA.Map){
+				var wpgmzaEvent = new WPGMZA.Event("rightclick");
+				wpgmzaEvent.latLng = {
+					lat: event.latLng.lat(),
+					lng: event.latLng.lng()
+				};
+	
+				self.map.dispatchEvent(wpgmzaEvent);
+			}
+		});
 	}
 	
 	if(WPGMZA.isProVersion())

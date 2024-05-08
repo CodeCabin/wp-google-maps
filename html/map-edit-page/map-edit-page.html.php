@@ -1013,7 +1013,7 @@
 							?>
 						</legend>
 
-						<input name="override_users_location_zoom_levels" style="display: none;" type="text" id="override_users_location_zoom_levels_slider">
+						<input name="override_users_location_zoom_levels" style="display: none;" type="text" id="override_users_location_zoom_levels_slider" data-zoom-slider-preview="<?php _e("Preview: User Location Zoom", "wp-google-maps"); ?>">
 						
 						 <div id="override-users-location-zoom-levels-slider"></div> 
 					</fieldset>
@@ -1203,7 +1203,7 @@
 							?>
 						</legend>
 
-						<input name="wpgmza_zoom_on_marker_click_slider" style="display: none;" type="text" id="wpgmza_zoom_on_marker_click_slider">
+						<input name="wpgmza_zoom_on_marker_click_slider" style="display: none;" type="text" id="wpgmza_zoom_on_marker_click_slider" data-zoom-slider-preview="<?php _e("Preview: Marker Click Zoom", "wp-google-maps"); ?>">
 						
 						 <div id="zoom-on-marker-click-slider"></div> 
 					</fieldset>
@@ -1398,6 +1398,34 @@
 							<label for="only_load_markers_within_viewport"></label>
 							<small><?php _e("This feature may not work as expected with bounds specific settings", "wp-google-maps"); ?></small>
 						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend><?php _e("Change Starting Zoom on Mobile", "wp-google-maps"); ?></legend>
+						
+						<div>
+							<div class='switch'>
+								<input type='checkbox' 
+									id='zoom_level_mobile_override_enabled' 
+									name='zoom_level_mobile_override_enabled' 
+									class='postform cmn-toggle cmn-toggle-round-flat'>
+								<label for='zoom_level_mobile_override_enabled' 
+									data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+									data-off='<?php _e("No", "wp-google-maps"); ?>'>
+								</label>
+							</div>
+						</div>
+					</fieldset>
+
+					<fieldset 
+						class="wpgmza-zoom-level-mobile-override-slider-level wpgmza-no-flex" 
+						id="zoom_level_mobile_override_level"
+						style="display: none;">
+						<legend><?php _e("Mobile Zoom Level", "wp-google-maps");?></legend>
+
+						<input name="zoom_level_mobile_override" style="display: none;" type="text" id="zoom_level_mobile_override" data-zoom-slider-preview="<?php _e("Preview: Mobile Zoom Level", "wp-google-maps"); ?>">
+						
+						 <div id="zoom-level-mobile-override-slider"></div> 
 					</fieldset>
 					
 					<fieldset class="wpgmza-pro-feature">
@@ -1909,7 +1937,7 @@
 							?>
 						</legend>
 
-						<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click">
+						<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click" data-zoom-slider-preview="<?php _e("Preview: Listing Click Zoom Level", "wp-google-maps"); ?>">
 
 						 <div id="zoom-on-marker-listing-click-slider"></div> 
 					</fieldset>

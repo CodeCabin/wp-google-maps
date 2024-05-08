@@ -1921,7 +1921,7 @@
 						<fieldset  class="wpgmza-zoom-on-marker-listing-click-zoom-level" id="zoom_level_on_marker_listing_click_level" style="display: none;">
 							<legend><?php _e("Zoom Level", "wp-google-maps"); ?></legend>
 
-							<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click">
+							<input name="zoom_level_on_marker_listing_click" style="display: none;" type="text" id="zoom_level_on_marker_listing_click" data-zoom-slider-preview="<?php _e("Preview: Listing Click Zoom Level", "wp-google-maps"); ?>">
 							<div id="zoom-on-marker-listing-click-slider"></div> 
 						</fieldset>
 
@@ -2257,7 +2257,7 @@
 						<fieldset class="wpgmza-zoom-on-marker-click-zoom-level" id="wpgmza_zoom_on_marker_click_zoom_level" style="display: none;">
 							<legend><?php _e("Zoom Level", "wp-google-maps"); ?></legend>
 							
-							<input name="wpgmza_zoom_on_marker_click_slider" style="display: none;" type="text" id="wpgmza_zoom_on_marker_click_slider">
+							<input name="wpgmza_zoom_on_marker_click_slider" style="display: none;" type="text" id="wpgmza_zoom_on_marker_click_slider" data-zoom-slider-preview="<?php _e("Preview: Marker Click Zoom", "wp-google-maps"); ?>">
 							<div id="zoom-on-marker-click-slider"></div> 
 						</fieldset>
 					</div>
@@ -2450,7 +2450,7 @@
 						<fieldset  class="wpgmza-override-users-location-zoom-levels" id="wpgmza_override_users_location_zoom_levels_slider" style="display: none;">
 							<legend><?php _e("Zoom Level", "wp-google-maps"); ?></legend>
 
-							<input name="override_users_location_zoom_levels" style="display: none;" type="text" id="override_users_location_zoom_levels_slider">
+							<input name="override_users_location_zoom_levels" style="display: none;" type="text" id="override_users_location_zoom_levels_slider" data-zoom-slider-preview="<?php _e("Preview: User Location Zoom", "wp-google-maps"); ?>">
 							<div id="override-users-location-zoom-levels-slider"></div> 
 						</fieldset>
 
@@ -2615,6 +2615,31 @@
 								value="0"
 								type="number"
 								placeholder="1 - 21" />
+						</fieldset>
+
+						<!-- Change zoom on mobile devices -->
+						<fieldset class="wpgmza-row">
+							<div class="wpgmza-col">
+								<legend><?php _e("Change Starting Zoom on Mobile", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox'
+										id='zoom_level_mobile_override_enabled' 
+										name='zoom_level_mobile_override_enabled' 
+										class='postform cmn-toggle cmn-toggle-round-flat'/>
+									<label for="zoom_level_mobile_override_enabled"></label>
+								</div>
+							</div>
+						</fieldset>
+
+						<!-- Zoom slider -->
+						<fieldset  class="wpgmza-zoom-level-mobile-override-slider-level" id="zoom_level_mobile_override_level" style="display: none;">
+							<legend><?php _e("Mobile Zoom Level", "wp-google-maps"); ?></legend>
+
+							<input name="zoom_level_mobile_override" style="display: none;" type="text" id="zoom_level_mobile_override" data-zoom-slider-preview="<?php _e("Preview: Mobile Zoom Level", "wp-google-maps"); ?>">
+							<div id="zoom-level-mobile-override-slider"></div> 
 						</fieldset>
 
 						<!-- Hide POI -->
@@ -2930,8 +2955,6 @@
 								<!-- Pro Features -->
 								<li class="wpgmza-pro-feature-hide"><strong>id</strong> <em><?php _e("The ID of the map you are loading (number)", "wp-google-maps"); ?></em></li>
 							</ul>
-
-							<div class="hint"><?php _e("Note: Shortcode must be placed on a page with a map present", "wp-google-maps"); ?></div>
 						</div>
 
 						<!-- Category Legends Shortcode -->
@@ -3006,8 +3029,6 @@
 								<li class="wpgmza-pro-feature-hide"><strong>style_id</strong> <em><?php _e("The style ID for the listing (number)", "wp-google-maps"); ?></em></li>
 								<li class="wpgmza-pro-feature-hide"><strong>style_slug</strong> <em><?php _e("The style name as a slug for the listing (string)", "wp-google-maps"); ?></em></li>
 							</ul>
-
-							<div class="hint"><?php _e("Note: Shortcode must be placed on a page with a map present", "wp-google-maps"); ?></div>
 						</div>
 
 						<!-- Directions Shortcode -->
@@ -3642,6 +3663,11 @@
                         <strong><?php _e("Remember to save your map!","wp-google-maps"); ?></strong>
                     </div>
                 </div>
+
+				<div class="wpgmza-nag wpgmza-update-nag wpgmza-card wpgmza-shadow wpgmza-notice info top-anchor wpgmza-quick-tip-container">
+					<strong><?php _e("Quick tip: ","wp-google-maps"); ?></strong>
+					<span><?php _e("You can right-click on the map to create a marker quickly!", "wp-google-maps"); ?></span>
+				</div>
 				
 			</div>
 		</div>

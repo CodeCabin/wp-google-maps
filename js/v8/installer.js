@@ -519,6 +519,13 @@ jQuery(function($) {
 	WPGMZA.Installer.prototype.skip = function(){
 		const self = this;
 
+		if(this.element.data('auto-onboarding-procedure')){
+			/* The user was flagged for an auto-onboarding-procedure (aop) and has no temporary key */
+			/* This means a preset is to be applied to the installer so that the user gets to the editor as efficiently as possible */
+			this.autoOnboardingSkip();
+			return;
+		}
+
 		if(!this.element.data('has-temp-api-key') && !this.declineAssistedSkip){
 			/* Assisted skip, where we allow the user to get a temp key from us to try things out */
 			this.assistedSkip();
@@ -605,6 +612,36 @@ jQuery(function($) {
 		this.skipButton.addClass('wpgmza-hidden');
 
 		$(this.element).find('.step-assisted-skip').removeClass('wpgmza-hidden');
+	}
+
+	WPGMZA.Installer.prototype.autoOnboardingSkip = function(){
+		const self = this;
+
+		const procedure = this.element.data('auto-onboarding-procedure');
+
+		/* Hide all elements */
+		$(this.element).find('.step').removeClass('active');
+		$(this.element).find('.step-controller').addClass('wpgmza-hidden');
+		$(this.element).find('.step-loader').removeClass('wpgmza-hidden');
+
+		this.skipButton.addClass('wpgmza-hidden');
+
+		$(this.element).find('.step-loader .progress-finish').removeClass('wpgmza-hidden');
+
+		const options = {
+			action: "wpgmza_installer_page_auto_onboarding_procedure",
+			procedure: procedure,
+			nonce: this.element.attr("data-ajax-nonce")
+		};
+
+		$.ajax(WPGMZA.ajaxurl, {
+			method: "POST",
+			data: options,
+			success: function(response, status, xhr) {
+				window.location.href = self.redirectUrl;
+			}
+		});
+
 	}
 
 	WPGMZA.Installer.prototype.checkAutoSkip = function(){

@@ -740,6 +740,42 @@
 			</select>
 		</div>
 
+		<!-- Custom image placeholder -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title"><?php esc_html_e("Image Placeholder","wp-google-maps"); ?></div>
+			<input type="text" name="markerlist_image_placeholder" class="wpgmza-image-single-input" data-image-reset='true' />
+		</div>
+
+		<!-- Custom image placeholder hint -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title"></div>
+
+			<small class="hint">
+				<?php esc_html_e("Change the default marker listing image placeholder. Suggested a square image with a width/height of 275px", "wp-google-maps"); ?>
+			</small>
+		</div>
+
+		<!-- Prevent Marker Listing page scroll -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title"><?php esc_html_e("Disable Auto-Scroll", "wp-google-maps"); ?></div>
+
+			<div class="switch switch-inline">
+				<input name="disable_scroll_on_marker_listing_click"
+						id="disable_scroll_on_marker_listing_click" 
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="disable_scroll_on_marker_listing_click"></label>
+				<label for="disable_scroll_on_marker_listing_click">
+					<small>
+						<?php
+						esc_html_e('Prevent the page from scrolling to the map element when a marker listing item is clicked', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
 		<!-- Sub heading -->
 		<div class="tab-row">
 			<strong>
@@ -1240,6 +1276,7 @@
 			<select name='categoryTreeSource'>
 				<option value="native">Native</option>
 				<option value="wordpress">WordPress (beta)</option>
+				<option value="woocommerce">WooCommerce (beta)</option>
 			</select>
 		</div>
 		
@@ -1664,6 +1701,22 @@
 				<option value='none'><?php esc_html_e("None", "wp-google-maps"); ?></option>
 			</select>
 		</div>
+
+		<!-- Marker Field Query Mode -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title">
+				<?php esc_html_e('Marker Field Query Mode', 'wp-google-maps'); ?>
+			</div>
+
+			<select name='marker_field_query_mode'>
+				<option value=''><?php esc_html_e("Partial", "wp-google-maps"); ?></option>
+				<option value='strict'><?php esc_html_e("Exact", "wp-google-maps"); ?></option>
+			</select>
+
+			<small class="inline-hint">
+				<?php _e("By default, marker fields may return partial matches, in some cases you may prefer exact matches only", "wp-google-maps"); ?>
+			</small>
+		</div>
 	</div>
 
 	<!-- Woo Commerce Tab -->
@@ -1793,6 +1846,27 @@
 					<small>
 						<?php
 						esc_html_e('Defer all mapping script assets loaded on your site', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
+		<!-- Load ACF fields -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title"><?php esc_html_e("Load ACF in Info Windows", "wp-google-maps"); ?></div>
+
+			<div class="switch switch-inline">
+				<input name="enable_acf_additional_fields"
+						id="enable_acf_additional_fields" 
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+
+				<label for="enable_acf_additional_fields"></label>
+				<label for="enable_acf_additional_fields">
+					<small>
+						<?php
+						esc_html_e('Load additional ACF fields as part of your marker description. Only simple fields are supported. Note: This requires additional database queries', 'wp-google-maps');
 						?>
 					</small>
 				</label>
