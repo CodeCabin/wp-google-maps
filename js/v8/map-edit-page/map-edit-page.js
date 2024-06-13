@@ -399,6 +399,14 @@ jQuery(function($) {
 		var marker;
 
 		if(!WPGMZA.InternalEngine.isLegacy() && this.sidebarGroupings){
+			/* Context menu delegates */
+			if(this.sidebarGroupings.canOpenContextMenu()){
+				if(this.sidebarGroupings.openContextMenu(event)){
+					/* Context menu did open */
+					return;
+				}
+			}
+
 			if(this.sidebarGroupings.isOpen('global') || this.sidebarGroupings.isOpen('map-markers')){
 				/* Either their on the root tab, or they are on the marker list, so let's open the marker creator for them */
 				this.sidebarGroupings.openTabByFeatureType('marker');

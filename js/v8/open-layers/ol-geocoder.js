@@ -203,6 +203,10 @@ jQuery(function($) {
 		}
 		else if(options.latLng)
 		{
+			if(!(options.latLng instanceof WPGMZA.LatLng)){
+				options.latLng = new WPGMZA.LatLng(options.latLng);
+			}
+
 			location = options.latLng.toString();
 			
 			finish = function(response, status)

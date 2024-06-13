@@ -28,6 +28,7 @@
     --wpgmza-color-blue-alt : #00628f;
 
     --wpgmza-color-cyan     : #31b0d6;
+    --wpgmza-color-cyan-dark: #145a70;
 
     /* Grey tones */
     --wpgmza-color-grey-50 : #f9f9f9;
@@ -371,3 +372,119 @@ a.wpgmza-button-accent {
     line-height: 400px;
 	pointer-events: none;
 }
+
+/* Google AdvancedMarkerElement supports */
+/* This is a block of CSS replacements for things that use to be handled by Marker module */
+.wpgmza-google-icon-transform-fix {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.wpgmza-google-icon-transform-fix > div:not(.wpgmza-google-marker-label){
+    position: relative;
+}
+
+.wpgmza-google-icon-transform-fix > div > img{
+    position: absolute;
+    bottom: 0;
+    left: var(--wpgmza-icon-offset);
+}
+
+/* Marker nudge */
+.wpgmza-google-icon-nudge {
+    position:relative;
+    left: var(--wpgmza-nudge-x);
+    bottom: var(--wpgmza-nudge-y);
+}
+
+/* Marker non-interactive */
+.wpgmza-google-marker-non-interactive {
+    cursor: unset !important;
+    pointer-events: none !important;
+}
+
+/* Marker hidden */
+.wpgmza-google-marker-hidden{
+    display: none;
+}
+
+/* Marker Opacity, variable driven */
+.wpgmza-google-marker-opacity{
+    opacity: var(--wpgmza-opacity) !important;
+}
+
+/* Marker animations - For Google markers using AdvancedMarkerElement */
+/* Could become the defaults for OpenLayers too for consistency */
+.wpgmza-google-marker-bounce {
+    animation: wpgmza-google-animation-bounce 0.3s ease infinite alternate;
+}
+
+.wpgmza-google-marker-drop {
+    animation: wpgmza-google-animation-drop 0.3s linear forwards;
+}
+
+/* Marker Labels */
+.wpgmza-google-marker-label,
+.wpgmza-google-marker-label-legacy {
+    position: absolute;
+    font-size: 0.8rem;
+    bottom: -1.2rem;
+
+    min-width: max-content;
+
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    
+    text-shadow: 0px 0px 2px #fff;
+    text-shadow: 0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff;
+}
+
+/* Extend the legacy marker module styling as well, so it is accurate */
+.wpgmza-google-marker-label-legacy {
+    position: relative;
+    bottom: unset;
+    top: 1.6rem;
+}
+
+/* Keyframes */
+@keyframes wpgmza-google-animation-bounce {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes wpgmza-google-animation-drop {
+    0% {
+        transform: translateY(-200px) scaleY(0.9);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(0px) scaleY(1);
+        opacity: 1;
+    }
+    65% {
+        transform: translateY(-17px) scaleY(0.9);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-22px) scaleY(0.9);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px) scaleY(1);
+        opacity: 1;
+    }
+}
+

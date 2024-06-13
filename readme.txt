@@ -4,8 +4,8 @@ Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, block, map block, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
 Tested up to: 6.5
-Requires PHP: 5.3
-Stable tag: 9.0.38
+Requires PHP: 7.0
+Stable tag: 9.0.39
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.39 =
+Please update to 9.0.39 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.37 =
 Please update to 9.0.37 or above or above to ensure you are using the latest security enhancements.
 
@@ -316,6 +319,30 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.39 - 2024-06-13 =
+* Added quick create context menu to map editor, right click to use, can be disabled in settings (Atlas Novus)
+* Added icons to map editor sidebar to assist with navigating the available options/editors (Atlas Novus)
+* Added Google Maps Marker library inclusion to API script loader
+* Added support for AdvancedMarkerElement module, improving performance slightly. Setting added to control this, defaults to legacy Marker module (beta) (Google Maps)
+* Added notice about low-level user access and the potential risks with custom JS block. Security issue. Thanks Tim Coen (Wordfence)
+* Added increased display length default (10 items) for admin datatables, due to longer sidebar (Atlas Novus)
+* Added new styling for some pro notices throughout the editor and settings (Atlas Novus)
+* Added option to disable WP Engine Governor to prevent killed queries on some installations
+* Added marker settings tab to global settings area
+* Added additional marker functionality supports
+* Added option to use OpenLayers Vector render mode for markers. Considered very experimental and limits marker functionality (Alpha)
+* Added restyled popup notification to map editor (Atlas Novus)
+* Added hu_HU translations, thanks to Attila
+* Fixed issue where addslashes error would be thrown by block onRender method when using block control plugins like Widget Options
+* Fixed issue where use my location reverse geocoder would fail due missing object conversion (OpenLayers)
+* Fixed issue where focus outline would be applied to map elements in some themes (Google Maps)
+* Fixed typo on welcome page (Legacy)
+* Fixed typo in map editor sidebar (Atlas Novus)
+* Moved retina icon settings to markers settings tab
+* Moved marker render modes to markers settings tab
+* Moved marker pull method to markers settings tab
+* Updated PHP requirement to at least 7.0 
 
 = 9.0.38 - 2024-05-08 =
 * Fixed issue with plugin activation via Ajax, that was preventing some installations from fully completing 

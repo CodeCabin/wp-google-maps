@@ -202,6 +202,13 @@ class Plugin extends Factory
 			/* Load the Google CSP headers to the site */
 			add_action('send_headers', array($this, 'loadGoogleCSPHeaders'), 1); 
 		}
+
+		if(!empty($this->settings->disable_wp_engine_governor)){
+			/* Set the WP Engine Governor constant */
+			if(!defined('WPE_GOVERNOR')){
+				define('WPE_GOVERNOR', false);
+			}
+		}
 	}
 	
 	public function __set($name, $value)

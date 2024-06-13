@@ -92,6 +92,36 @@
 	background: var(--wpgmza-color-grey-75);
 }
 
+.wpgmza-wrap .wpgmza-editor .sidebar .navigation .item .dashicons {
+    margin-right: 0.15rem;
+    opacity: 0.4;
+    color: var(--wpgmza-color-charcoal);
+    font-size: 18px;
+    position: relative;
+    top: 1px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .navigation .item .nav-item-icon {
+    margin-right: 0.15rem;
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    position: relative; 
+    top: -1px;
+    opacity: 0.4;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .navigation .item .nav-item-icon img{
+    max-width: 18px;
+    max-height: 18px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+
 .wpgmza-wrap .wpgmza-editor .sidebar .grouping .navigation .item,
 .wpgmza-wrap .wpgmza-editor .sidebar .grouping .settings,
 .wpgmza-wrap .wpgmza-editor .sidebar .grouping .feature-list,
@@ -781,6 +811,30 @@
     margin-right: 5px;
 }
 
+/* Temporary overrides for upsells, testing as of 2024-06-07 */
+.wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell, 
+.wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell {
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-cyan));
+    background-size: 200%;
+    color: var(--wpgmza-color-white);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell a, 
+.wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell a {
+    color: var(--wpgmza-color-light);
+    font-weight: 500;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell::before, 
+.wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell::before{
+    background: var(--wpgmza-color-cyan-dark);
+    font-weight: 500;
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+/* Action bar */
 .wpgmza-wrap .wpgmza-editor .sidebar .action-bar {
     border-top: 1px solid var(--wpgmza-color-light);
     padding: 15px;
@@ -893,6 +947,27 @@
 
 .wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .upsell-block-card-actions {
     margin-top: 10px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .wpgmza-button{
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-cyan));
+    background-size: 200%;
+    color: var(--wpgmza-color-white);
+    font-weight: 600;
+    border: none;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .wpgmza-button:hover{
+    background-size:100%;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block.upsell-block-feature-list {
+    padding: 0;
+    animation: none;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .upsell-block.upsell-block-feature-list .upsell-block-card-image{
+    max-width: 25%;
 }
 
 /* Map Editor */
@@ -2087,7 +2162,7 @@
     width: 20px;
     height: 20px;
     display: inline-block;
-    border: 2px solid var(--wpgmza-color-dark);
+    border: 2px solid var(--wpgmza-color-light);
     text-align: center;
     font-weight: 700;
     line-height: 20px;
@@ -2097,13 +2172,20 @@
 
 .wpgmza-popup-notification {
     position: fixed;
-    background: var(--wpgmza-color-white);
+    /* background: var(--wpgmza-color-white); */
+    background: linear-gradient(45deg, var(--wpgmza-color-blue), var(--wpgmza-color-cyan));
+    background-size: 200%;
+
+    color: var(--wpgmza-color-light);
+
+    /* font-weight: 400; */
+    font-weight: 500;
+
     top: 45px;
     right: 15px;
     padding: 10px 20px;
     border-radius: 4px;
     box-shadow: 0 1px 1px 0 rgb(66 66 66 / 10%), 0 1px 5px 3px rgb(66 66 66 / 5%);
-    font-weight: 400;
     z-index: 99;
     -webkit-animation: wpgmzaPopin 0.2s forwards;
     animation: wpgmzaPopin 0.2s forwards;
@@ -4648,6 +4730,65 @@
     border-bottom-left-radius: 5px;
     font-weight: 600;
 }
+
+/* Context menu */
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu {
+    background: var(--wpgmza-color-white);
+    position: fixed;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    font-size: 0.75rem;
+
+    overflow: hidden;
+
+    min-width: 150px;
+
+    -webkit-animation: wpgmzaPopin 0.1s forwards;
+    animation: wpgmzaPopin 0.1s forwards;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu > * {
+    padding: 5px 7px;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+    border-bottom: 1px solid var(--wpgmza-color-light);
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu > * .nav-item-icon {
+    width: 20px;
+    height: 18px;
+    opacity: 0.4;
+    text-align: center;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu > * .nav-item-icon img {
+    max-width: 18px;
+    max-height: 18px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu .wpgmza-context-menu-heading{
+    font-weight: 600;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu > *:last-child {
+    border-bottom: none;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu .wpgmza-context-menu-item{
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.wpgmza-wrap .wpgmza-editor .wpgmza-context-menu .wpgmza-context-menu-item:hover{
+    background: var(--wpgmza-color-light);
+}
+
 
 
 /* Animations */

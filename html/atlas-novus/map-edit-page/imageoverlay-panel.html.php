@@ -17,7 +17,7 @@
 	</div>
 	
 	<!-- Edit instructions -->
-	<div class="wpgmza-feature-editing-instructions wpgmza-card wpgmza-shadow wpgmza-instruction-card wpgmza-pro-feature">
+	<div class="wpgmza-feature-editing-instructions wpgmza-card wpgmza-shadow wpgmza-instruction-card wpgmza-pro-feature wpgmza-pro-feature-hide">
 		<strong><?php _e("Editing overlays", "wp-google-maps"); ?></strong>
 		<ul>
 			<li>

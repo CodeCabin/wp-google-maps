@@ -264,6 +264,8 @@ jQuery(function($) {
 				options.mapTypeId = google.maps.MapTypeId.ROADMAP;
 				break;
 		}
+
+		options.mapId = `wpgmza_map_${this.id}`;
 		
 		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length)
 			options.styles = WPGMZA.GoogleMap.parseThemeData(this.wpgmza_theme_data);

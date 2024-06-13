@@ -130,15 +130,23 @@ class Gutenberg extends \WPGMZA\Factory
 		
 		foreach($attributes as $name => $value)
 		{
-			if(is_string($value)){
-				$v = addslashes($value);
-			} else if(is_array($value)){
-				$v = implode(',', array_map('addslashes', $value));
-			} else if(is_object($value)){
-				$value = (array) $value;
-				$v = implode(',', array_map('addslashes', $value));
-			} else {
-				$v = $value;
+			try {
+				if(is_string($value)){
+					$v = addslashes($value);
+				} else if(is_array($value)){
+					$v = implode(',', array_map('addslashes', $value));
+				} else if(is_object($value)){
+					$value = (array) $value;
+					$v = implode(',', array_map('addslashes', $value));
+				} else {
+					$v = $value;
+				}
+			} catch (\Exception $ex){
+				/* Skip, it's unlikely this is from us */
+				continue;
+			} catch (\Error $err){
+				/* Skip, it's unlikely this is from us */
+				continue;
 			}
 			
 			$str .= " $name=\"" . addslashes($v) . "\"";
