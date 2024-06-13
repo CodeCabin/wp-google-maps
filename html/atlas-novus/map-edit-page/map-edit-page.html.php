@@ -21,46 +21,57 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings">
+							<span class="dashicons dashicons-admin-settings"></span>
 							<?php _e("Settings", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-markers">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/marker-tab-icon.png"; ?>"/></div>
 							<?php _e("Markers", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-polygons">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>"/></div>
 							<?php _e("Polygons", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-polylines">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polyline.png"; ?>"/></div>
 							<?php _e("Polylines", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-heatmaps">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/heatmap.png"; ?>"/></div>
 							<?php _e("Heatmaps", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-circles">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/circle.png"; ?>"/></div>
 							<?php _e("Circles", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-rectangles">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/rectangle.png"; ?>"/></div>
 							<?php _e("Rectangles", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-point-labels">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/point-label.png"; ?>"/></div>
 							<?php _e("Point Labels", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-image-overlays">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/image-overlays.png"; ?>"/></div>
 							<?php _e("Image Overlays", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-help">
+							<span class="dashicons dashicons-info-outline"></span>
 							<?php _e("Help", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item pro caret-right" data-group="map-settings-pro">
+							<span class="dashicons dashicons-unlock"></span>
 							<?php _e("Pro Features", "wp-google-maps"); ?>
 						</div>
 
@@ -68,7 +79,7 @@
 							<!-- Upsell card - Custom Markers --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp" 
 										 title="<?php _e("Add detailed information to your markers!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Add detailed information to your markers!", "wp-google-maps"); ?>">
 								</div>
@@ -98,7 +109,7 @@
 							<!-- Upsell card - Custom Marker Icons --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-icons.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-icons.webp" 
 										 title="<?php _e("Create or upload custom marker icons for your markers!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Create or upload custom marker icons for your markers!", "wp-google-maps"); ?>">
 								</div>
@@ -128,7 +139,7 @@
 							<!-- Upsell card - Directions --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/directions.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/directions.webp" 
 										 title="<?php _e("Allow your visitors to get directions to your markers!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Allow your visitors to get directions to your markers!", "wp-google-maps"); ?>">
 								</div>
@@ -158,7 +169,7 @@
 							<!-- Upsell card - Marker Listings --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-listing.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-listing.webp" 
 										 title="<?php _e("List your markers in many different styles with your map!", "wp-google-maps"); ?>"
 										 alt="<?php _e("List your markers in many different styles with your map!", "wp-google-maps"); ?>">
 								</div>
@@ -188,7 +199,7 @@
 							<!-- Upsell card - Blocks --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/blocks.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/blocks.webp" 
 										 title="<?php _e("Additional blocks and shortcodes!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Additional blocks and shortcodes!", "wp-google-maps"); ?>">
 								</div>
@@ -218,7 +229,7 @@
 							<!-- Upsell card - Unlimited Maps --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/unlimited.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/unlimited.webp" 
 										 title="<?php _e("Create unlimited maps and markers!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Create unlimited maps and markers!", "wp-google-maps"); ?>">
 								</div>
@@ -248,7 +259,7 @@
 							<!-- Upsell card - Overlays --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/overlays.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/overlays.webp" 
 										 title="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>">
 								</div>
@@ -277,7 +288,7 @@
 							<!-- Upsell card - Streetview --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/streetview.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/streetview.webp" 
 										 title="<?php _e("Start in streetview!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Start in streetview!", "wp-google-maps"); ?>">
 								</div>
@@ -290,7 +301,7 @@
 									</div>
 									<div class="upsell-block-card-list">
 										<ul>
-											<li><?php _e("Start in streetview, be default!", "wp-google-maps"); ?></li>
+											<li><?php _e("Start in streetview, by default!", "wp-google-maps"); ?></li>
 											<li><?php _e("Set your starting location, heading, and pitch.", "wp-google-maps"); ?></li>
 										</ul>
 									</div>
@@ -306,7 +317,7 @@
 							<!-- Upsell card - Heatmaps --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/heatmaps.jpg');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/heatmaps.jpg" 
 										 title="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>">
 								</div>
@@ -335,7 +346,7 @@
 							<!-- Upsell card - Store Locator --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/store.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/store.webp" 
 										 title="<?php _e("Get more store locator features!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Get more store locator features!", "wp-google-maps"); ?>">
 								</div>
@@ -364,7 +375,7 @@
 							<!-- Upsell card - Behaviour --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp" 
 										 title="<?php _e("Add behaviour controls!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Add behaviour controls!", "wp-google-maps"); ?>">
 								</div>
@@ -402,58 +413,72 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings-general">
+							<span class="dashicons dashicons-admin-generic"></span>
 							<?php _e("General", "wp-google-maps"); ?>
 						</div>
 						
 						<div class="item caret-right" data-group="map-settings-store-locator">
+							<span class="dashicons dashicons-search"></span>
 							<?php _e("Store Locator", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-directions">
+							<span class="dashicons dashicons-location-alt"></span>
 							<?php _e("Directions", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-themes">
+							<span class="dashicons dashicons-admin-appearance"></span>
 							<?php _e("Themes", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-info-windows">
+							<span class="dashicons dashicons-admin-comments"></span>
 							<?php _e("Info Windows", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-marker-listings">
+							<span class="dashicons dashicons-editor-table"></span>
 							<?php _e("Marker Listing", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-category-legends">
+							<span class="dashicons dashicons-tag"></span>
 							<?php _e("Legends", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-behaviour">
+							<span class="dashicons dashicons-lightbulb"></span>
 							<?php _e("Behaviour", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-advanced">
+							<span class="dashicons dashicons-admin-tools"></span>
 							<?php _e("Advanced", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-integrations">
+							<span class="dashicons dashicons-image-filter"></span>
 							<?php _e("Integrations", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item hide-pro caret-right" data-group="map-settings-marker-field">
+							<span class="dashicons dashicons-list-view"></span>
 							<?php _e("Marker Fields", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-beta">
+							<span class="dashicons dashicons-hammer"></span>
 							<?php _e("Beta Features", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-shortcodes">
+							<span class="dashicons dashicons-shortcode"></span>
 							<?php _e("Shortcodes", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item pro caret-right" data-group="map-settings-pro">
+							<span class="dashicons dashicons-unlock"></span>
 							<?php _e("Pro Features", "wp-google-maps"); ?>
 						</div>
 					</div>
@@ -626,18 +651,22 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings-store-locator-general">
+							<span class="dashicons dashicons-admin-generic"></span>
 							<?php _e("General", "wp-google-maps"); ?>
 						</div>
 						
 						<div class="item caret-right" data-group="map-settings-store-locator-fields">
+							<span class="dashicons dashicons-editor-ul"></span>
 							<?php _e("Fields", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-store-locator-style">
+							<span class="dashicons dashicons-admin-customizer"></span>
 							<?php _e("Style", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-store-locator-advanced">
+							<span class="dashicons dashicons-admin-tools"></span>
 							<?php _e("Advanced", "wp-google-maps"); ?>
 						</div>
 
@@ -645,7 +674,7 @@
 							<!-- Upsell card - Store Locator --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/store.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/store.webp" 
 										 title="<?php _e("Get more store locator features!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Get more store locator features!", "wp-google-maps"); ?>">
 								</div>
@@ -1206,18 +1235,22 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings-themes-presets">
+							<span class="dashicons dashicons-admin-appearance"></span>
 							<?php _e("Presets", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-themes-editor">
+							<span class="dashicons dashicons-admin-customizer"></span>
 							<?php _e("Editor", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-themes-manual" data-wpgmza-require-engine="google-maps">
+							<span class="dashicons dashicons-editor-code"></span>
 							<?php _e("Theme Data", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-themes-custom-tile" data-wpgmza-require-engine="open-layers">
+							<span class="dashicons dashicons-format-image"></span>
 							<?php _e("Custom Image", "wp-google-maps"); ?>
 						</div>
 					</div>
@@ -1604,14 +1637,17 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings-marker-listings-general">
+							<span class="dashicons dashicons-admin-generic"></span>
 							<?php _e("General", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-marker-listings-filtering">
+							<span class="dashicons dashicons-filter"></span>
 							<?php _e("Filtering", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 						
 						<div class="item caret-right" data-group="map-settings-marker-listings-datatables">
+							<span class="dashicons dashicons-editor-table"></span>
 							<?php _e("DataTables", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 										
@@ -1619,7 +1655,7 @@
 							<!-- Upsell card - Marker Listings --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-listing.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/marker-listing.webp" 
 										 title="<?php _e("List your markers in many different styles with your map!", "wp-google-maps"); ?>"
 										 alt="<?php _e("List your markers in many different styles with your map!", "wp-google-maps"); ?>">
 								</div>
@@ -2124,22 +2160,27 @@
 
 					<div class="navigation">
 						<div class="item caret-right" data-group="map-settings-behaviour-marker">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/marker-tab-icon.png"; ?>"/></div>
 							<?php _e("Marker", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-behaviour-shapes">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>"/></div>
 							<?php _e("Shapes", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-behaviour-bounds">
+							<span class="dashicons dashicons-image-crop"></span>
 							<?php _e("Bounds", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-behaviour-user-location">
+							<span class="dashicons dashicons-businessperson"></span>
 							<?php _e("User Location", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 
 						<div class="item caret-right" data-group="map-settings-behaviour-streetview" data-wpgmza-require-engine="google-maps">
+							<span class="dashicons dashicons-editor-insertmore"></span>
 							<?php _e("Street View", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
 						</div>
 						
@@ -2147,7 +2188,7 @@
 							<!-- Upsell card - Behaviour --> 
 							<div class='upsell-block-card'>
 								<div class="upsell-block-card-image">
-									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp');" 
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/custom-markers.webp" 
 										 title="<?php _e("Add behaviour controls!", "wp-google-maps"); ?>"
 										 alt="<?php _e("Add behaviour controls!", "wp-google-maps"); ?>">
 								</div>
@@ -2259,6 +2300,26 @@
 							
 							<input name="wpgmza_zoom_on_marker_click_slider" style="display: none;" type="text" id="wpgmza_zoom_on_marker_click_slider" data-zoom-slider-preview="<?php _e("Preview: Marker Click Zoom", "wp-google-maps"); ?>">
 							<div id="zoom-on-marker-click-slider"></div> 
+						</fieldset>
+
+						<!-- Marker Labels (beta) -->
+						<fieldset class="wpgmza-pro-feature wpgmza-row">
+							<div class="wpgmza-col">
+								<legend><?php _e("Enable Marker Labels (beta)", "wp-google-maps"); ?></legend>
+							</div>
+							
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox' 
+										id='enable_marker_labels' 
+										name='enable_marker_labels' 
+										class='postform cmn-toggle cmn-toggle-round-flat wpgmza-pro-feature'>
+									<label for='enable_marker_labels' 
+										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+										data-off='<?php _e("No", "wp-google-maps"); ?>'>
+									</label>
+								</div>
+							</div>
 						</fieldset>
 					</div>
 				</div>
@@ -3182,6 +3243,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-markers-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Marker", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3233,6 +3295,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-polygon-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Polygon", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3267,6 +3330,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-polyline-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Polyline", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3301,6 +3365,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-heatmap-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Heatmap", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3311,6 +3376,37 @@
 					<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 						<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmaps-atlas-novus"><?php esc_html_e("Add heatmaps", "wp-google-maps"); ?></a>
 						<?php esc_html_e("with the Pro version","wp-google-maps"); ?>
+					</div>
+
+					<div class="upsell-block auto-rotate upsell-block-feature-list">
+						<!-- Upsell card - Heatmaps --> 
+						<div class='upsell-block-card'>
+							<div class="upsell-block-card-image">
+								<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/heatmaps.jpg" 
+										title="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>"
+										alt="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>">
+							</div>
+
+							<div class="upsell-block-card-content"> 
+								<div class="upsell-block-card-header">
+									<div class="upsell-block-card-header-title">
+										<?php _e("Add heatmaps with our Pro version", "wp-google-maps");  ?>
+									</div>
+								</div>
+								<div class="upsell-block-card-list">
+									<ul>
+										<li><?php _e("Create dynamic heatmaps quickly!", "wp-google-maps"); ?></li>
+										<li><?php _e("Adjust styles and intensity of heatmaps.", "wp-google-maps"); ?></li>
+									</ul>
+								</div>
+
+								<div class="upsell-block-card-actions">
+									<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmaps-card-atlas-novus" title="Pro Edition"  target="_BLANK" class="wpgmza-button">
+										<?php _e("Learn more","wp-google-maps"); ?>
+									</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -3342,6 +3438,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-circle-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Circle", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3376,6 +3473,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-rectangle-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Rectangle", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3410,6 +3508,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-point-label-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Label", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3444,6 +3543,7 @@
 
 				<div class="navigation">
 					<div class="item caret-right" data-group="map-image-overlay-editor">
+						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Overlay", "wp-google-maps"); ?>
 					</div>
 				</div>
@@ -3454,6 +3554,37 @@
 					<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 						<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=imageoverlays-atlas-novus"><?php esc_html_e("Add image overlays", "wp-google-maps"); ?></a>
 						<?php esc_html_e("with the Pro version","wp-google-maps"); ?>
+					</div>
+
+					<div class="upsell-block auto-rotate upsell-block-feature-list">
+						<!-- Upsell card - Overlays --> 
+						<div class='upsell-block-card'>
+							<div class="upsell-block-card-image">
+								<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/overlays.webp" 
+										title="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>"
+										alt="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>">
+							</div>
+
+							<div class="upsell-block-card-content"> 
+								<div class="upsell-block-card-header">
+									<div class="upsell-block-card-header-title">
+										<?php _e("Add image overlays with our Pro version", "wp-google-maps");  ?>
+									</div>
+								</div>
+								<div class="upsell-block-card-list">
+									<ul>
+										<li><?php _e("Add any image overlay to your map!", "wp-google-maps"); ?></li>
+										<li><?php _e("Showcase historical maps, datasets, or custom imagery on any map.", "wp-google-maps"); ?></li>
+									</ul>
+								</div>
+
+								<div class="upsell-block-card-actions">
+									<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=overlays-card-atlas-novus" title="Pro Edition"  target="_BLANK" class="wpgmza-button">
+										<?php _e("Learn more","wp-google-maps"); ?>
+									</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -3670,6 +3801,37 @@
 				</div>
 				
 			</div>
+
+			<!-- Context Menu -->
+			<div class="wpgmza-context-menu wpgmza-shadow wpgmza-hidden">
+				<div class="wpgmza-context-menu-heading"><?php _e("Quick Create", "wp-google-maps"); ?></div>
+
+				<div class="wpgmza-context-menu-item" data-group="map-markers-editor">
+					<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/marker-tab-icon.png"; ?>"/></div>
+					<?php _e("Marker", "wp-google-maps"); ?>
+				</div>
+				
+				<div class="wpgmza-context-menu-item" data-group="map-polygon-editor">
+					<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>"/></div>
+					<?php _e("Polygon", "wp-google-maps"); ?>
+				</div>
+				
+				<div class="wpgmza-context-menu-item" data-group="map-polyline-editor">
+					<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polyline.png"; ?>"/></div>
+					<?php _e("Polyline", "wp-google-maps"); ?>
+				</div>
+
+				<div class="wpgmza-context-menu-item" data-group="map-circle-editor">
+					<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/circle.png"; ?>"/></div>
+					<?php _e("Circle", "wp-google-maps"); ?>
+				</div>
+					
+				<div class="wpgmza-context-menu-item" data-group="map-rectangle-editor">
+					<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/rectangle.png"; ?>"/></div>
+					<?php _e("Rectangle", "wp-google-maps"); ?>
+				</div>
+						
+			</div>
 		</div>
-	</div>	
+	</div>
 </div>

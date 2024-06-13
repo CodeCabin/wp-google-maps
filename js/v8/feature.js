@@ -159,8 +159,11 @@ jQuery(function($) {
 			default:
 			
 				// For Google, because the native properties share the same name as the Google properties, we can just pass them straight in
-				
-				this.googleFeature.setOptions(props);
+				if(this.googleFeature instanceof google.maps.marker.AdvancedMarkerElement){
+					this.setOptions(props);
+				} else {
+					this.googleFeature.setOptions(props);
+				}
 			
 				break;
 		}

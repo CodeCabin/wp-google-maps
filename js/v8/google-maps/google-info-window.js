@@ -102,6 +102,18 @@ jQuery(function($) {
 		var html = "<div id='" + guid + "'>" + eaBtn + ' ' + this.content + "</div>";
 
 		this.googleInfoWindow.setContent(html);
+
+		if(this.googleObject instanceof google.maps.marker.AdvancedMarkerElement){
+			/* Check for nudge params */
+			if(this.feature.offsetX || this.feature.offsetY){
+				this.googleInfoWindow.setOptions({
+					pixelOffset : new google.maps.Size(
+						this.feature.offsetX,
+						-this.feature.offsetY
+					)
+				});
+			}
+		}
 		
 		var intervalID;
 		intervalID = setInterval(function(event) {

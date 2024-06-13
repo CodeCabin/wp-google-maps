@@ -151,7 +151,7 @@ class GoogleMapsAPILoader
 		$params['callback'] = "__wpgmzaMapEngineLoadedCallback";
 		
 		// Libraries
-		$libraries = array('geometry', 'places', 'visualization');
+		$libraries = array('geometry', 'places', 'visualization', 'marker');
 		
 		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT)
 			$libraries[] = 'drawing';

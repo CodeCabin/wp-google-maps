@@ -14,6 +14,8 @@ jQuery(function($) {
 			dynamicLabel : ""
 		};
 
+		
+
 		$(this.element).on("click", ".grouping .item", function(event){
 			self.openTab(event);
 
@@ -74,6 +76,7 @@ jQuery(function($) {
 			}
 		});
 
+		this.initContextMenu();
 		this.initUpsellBlocks();
 	}
 
@@ -269,6 +272,123 @@ jQuery(function($) {
 					currentWrapper.addClass('static');
 				}
 			}
+		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.initContextMenu = function(){
+		if(WPGMZA.InternalEngine.isLegacy()){
+			/* Not available for legacy engine */
+			return;
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.mapEditorContextMenu && WPGMZA.settings.mapEditorContextMenu === 'disabled'){
+			/* Disabled by site owner */
+			return;
+		}
+
+		this.contextMenu = {
+			element :  $(this.element).find('.wpgmza-context-menu')
+		};
+
+		this.contextMenu.element.find('.wpgmza-context-menu-item').on('click', (event) => {
+			const target = event.target || event.currentTarget || false;
+			if(target){
+				const item = $(target);
+				const itemGroup = item.data('group');
+				this.openTabByGroupId(itemGroup);
+
+				try{
+					if(WPGMZA.mapEditPage && itemGroup === 'map-markers-editor'){
+						if(this.contextMenu.cachedEvent){
+							/* This uses an older drawing system, so we need to funnel the original event back over to the map editor */
+							WPGMZA.mapEditPage.onRightClick(this.contextMenu.cachedEvent);
+						}
+					}
+				} catch (ex){
+					/* Something went wrong, leave it alone */
+				}
+			}
+			this.closeContextMenu();
+		});
+
+		$(this.element).on('click', () => {
+			this.closeContextMenu();
+		});
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isContextMenuReady = function(){
+		return this.contextMenu && this.contextMenu.element ? true : false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.canOpenContextMenu = function(){
+		const initialized = this.isContextMenuReady();
+		if(initialized){
+			const activeGroup = this.getActiveGroup();
+			if(activeGroup.indexOf('-editor') !== -1){
+				/* This is an editor tab */
+				return false;
+			}
+
+			if($(`.grouping[data-group="${activeGroup}"]`).find('.feature-list').length){
+				/* This is a dataset listing tab */
+				return false;
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isContextMenuOpen = function(){
+		if(this.isContextMenuReady() && !this.contextMenu.element.hasClass('wpgmza-hidden')){
+			return true;
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.openContextMenu = function(event){
+		if(this.canOpenContextMenu()){
+			if(event && event instanceof WPGMZA.Event){
+				if(event.latLng && event.target && event.target instanceof WPGMZA.Map){
+					const map = event.target;
+					
+					const position = {
+						container : map.element.getBoundingClientRect(),
+						coordinates : map.latLngToPixels(event.latLng)
+					};
+
+					position.context = {
+						left : position.container.x + position.coordinates.x,
+						top : position.container.y + position.coordinates.y
+					};
+					
+					/* Check for off-screen placements */
+					if(position.context.left > ($(window).width() - 150)){
+						position.context.left -= 150;
+					}
+
+					if(position.context.top > ($(window).height() - 180)){
+						position.context.top -= 180;
+					}
+
+					this.contextMenu.element.css('top', `${position.context.top}px`);
+					this.contextMenu.element.css('left', `${position.context.left}px`);
+
+					this.contextMenu.coordinates = event.latLng;
+					this.contextMenu.cachedEvent = event;
+
+					this.contextMenu.element.removeClass('wpgmza-hidden');
+					
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.closeContextMenu = function(){
+		if(this.isContextMenuReady()){
+			this.contextMenu.element.addClass('wpgmza-hidden');
 		}
 	}
 });

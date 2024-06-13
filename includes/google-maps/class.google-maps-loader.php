@@ -75,7 +75,7 @@ class GoogleMapsLoader
 		}
 		
 		// Libraries
-		$libraries = array('geometry', 'places', 'visualization');
+		$libraries = array('geometry', 'places', 'visualization', 'marker');
 		
 		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT){
 			$libraries[] = 'drawing';

@@ -99,7 +99,7 @@ global $wpgmza_global_array;
             <a class='wpgmza-button' href="https://wpgmaps.com/map-themes/" target="_BLANK"><?php _e("Find Themes", "wp-google-maps"); ?></a>
         </div>
         <div class="wpgmza-col wpgmza-text-align-right">
-            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/themes.png' ?>;' />
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/themes.png'; ?>' />
         </div>
     </div>
 
@@ -107,7 +107,7 @@ global $wpgmza_global_array;
 
     <div class="wpgmza-row">
         <div class="wpgmza-col wpgmza-text-align-left">
-            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/polygons-and-polylines.png' ?>;' />
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/polygons-and-polylines.png'; ?>' />
         </div>
 
         <div class="wpgmza-col">

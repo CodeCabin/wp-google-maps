@@ -111,7 +111,7 @@ jQuery(function($) {
 	WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT		= "element";
 	WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER		= "vector";	// NB: This feature is experimental
 	
-	WPGMZA.OLMarker.renderMode = WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT;
+	WPGMZA.OLMarker.renderMode = WPGMZA.settings && WPGMZA.settings.olMarkerMode && WPGMZA.settings.olMarkerMode === WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER ? WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER : WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT;
 	
 	if(WPGMZA.settings.engine == "open-layers" && WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 	{
@@ -202,7 +202,7 @@ jQuery(function($) {
 				this.feature.setStyle(style);
 			}
 			else
-				this.feature.setStyle(null);
+				this.feature.setStyle(WPGMZA.OLMarker.hiddenVectorLayerStyle);
 			
 			/*var source = this.map.markerLayer.getSource();
 			

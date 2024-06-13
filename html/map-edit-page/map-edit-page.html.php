@@ -1383,6 +1383,21 @@
 							<label for='enable_marker_ratings'></label>
 						</div>
 					</fieldset>
+
+					<fieldset class="wpgmza-pro-feature">
+						<legend>
+							<?php
+								_e("Enable Marker Labels (beta)", "wp-google-maps");
+							?>
+						</legend>
+						<div class='switch switch-inline'>
+							<input type="checkbox"
+								id="enable_marker_labels"
+								name="enable_marker_labels"
+								class="postform cmn-toggle cmn-toggle-round-flat wpgmza-pro-feature"/>
+							<label for="enable_marker_labels"></label>
+						</div>
+					</fieldset>
 					
 					<fieldset class="wpgmza-pro-feature">
 						<legend>

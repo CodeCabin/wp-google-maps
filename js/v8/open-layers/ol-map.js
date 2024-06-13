@@ -618,12 +618,13 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMap.prototype.addMarker = function(marker)
 	{
-		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT)
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT){
 			this.olMap.addOverlay(marker.overlay);
-		else
-		{
-			this.markerLayer.getSource().addFeature(marker.feature);
-			marker.featureInSource = true;
+		} else {
+			if(!marker.featureInSource){
+				this.markerLayer.getSource().addFeature(marker.feature);
+				marker.featureInSource = true;
+			}
 		}
 		
 		Parent.prototype.addMarker.call(this, marker);

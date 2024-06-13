@@ -94,7 +94,12 @@ jQuery(function($) {
 				/* Nothing to do here */
 			}
 		}
-		
+
+		if(!WPGMZA.InternalEngine.isLegacy()){
+			/* Increase display size */
+			options.iDisplayLength = 10;
+		}
+
 		return options;
 	}
 	

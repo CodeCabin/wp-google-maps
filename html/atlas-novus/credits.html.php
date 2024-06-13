@@ -126,6 +126,7 @@
 	<h2><?php _e("Security","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li title='Organization: Wordfence'>Tim Coen</li>
 			<li title='Organization: Wordfence'>Marco Wotschka</li>
 			<li title='Organization: Wordfence'>Akbar Kustirama</li>
 			<li title='Organization: Wordfence'>Richard Telleng</li>
@@ -202,6 +203,7 @@
 	<h2><?php _e("Translators","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li>Attila</li>
 			<li>Gerard Ayter Codina</li>
 			<li>Finn Sommer Jensen</li>
 			<li>Michael Møller</li>

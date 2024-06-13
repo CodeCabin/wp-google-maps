@@ -4635,8 +4635,11 @@ jQuery(function($) {
 			default:
 			
 				// For Google, because the native properties share the same name as the Google properties, we can just pass them straight in
-				
-				this.googleFeature.setOptions(props);
+				if(this.googleFeature instanceof google.maps.marker.AdvancedMarkerElement){
+					this.setOptions(props);
+				} else {
+					this.googleFeature.setOptions(props);
+				}
 			
 				break;
 		}
@@ -7442,6 +7445,8 @@ jQuery(function($) {
 				options.mapTypeId = google.maps.MapTypeId.ROADMAP;
 				break;
 		}
+
+		options.mapId = `wpgmza_map_${this.id}`;
 		
 		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length)
 			options.styles = WPGMZA.GoogleMap.parseThemeData(this.wpgmza_theme_data);
@@ -9747,13 +9752,10 @@ jQuery(function($) {
 	 */
 	WPGMZA.Marker.prototype.setPosition = function(latLng)
 	{
-		if(latLng instanceof WPGMZA.LatLng)
-		{
+		if(latLng instanceof WPGMZA.LatLng){
 			this.lat = latLng.lat;
 			this.lng = latLng.lng;
-		}
-		else
-		{
+		} else {
 			this.lat = parseFloat(latLng.lat);
 			this.lng = parseFloat(latLng.lng);
 		}
@@ -12558,6 +12560,8 @@ jQuery(function($) {
 			dynamicLabel : ""
 		};
 
+		
+
 		$(this.element).on("click", ".grouping .item", function(event){
 			self.openTab(event);
 
@@ -12618,6 +12622,7 @@ jQuery(function($) {
 			}
 		});
 
+		this.initContextMenu();
 		this.initUpsellBlocks();
 	}
 
@@ -12813,6 +12818,123 @@ jQuery(function($) {
 					currentWrapper.addClass('static');
 				}
 			}
+		}
+	}
+
+	WPGMZA.SidebarGroupings.prototype.initContextMenu = function(){
+		if(WPGMZA.InternalEngine.isLegacy()){
+			/* Not available for legacy engine */
+			return;
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.mapEditorContextMenu && WPGMZA.settings.mapEditorContextMenu === 'disabled'){
+			/* Disabled by site owner */
+			return;
+		}
+
+		this.contextMenu = {
+			element :  $(this.element).find('.wpgmza-context-menu')
+		};
+
+		this.contextMenu.element.find('.wpgmza-context-menu-item').on('click', (event) => {
+			const target = event.target || event.currentTarget || false;
+			if(target){
+				const item = $(target);
+				const itemGroup = item.data('group');
+				this.openTabByGroupId(itemGroup);
+
+				try{
+					if(WPGMZA.mapEditPage && itemGroup === 'map-markers-editor'){
+						if(this.contextMenu.cachedEvent){
+							/* This uses an older drawing system, so we need to funnel the original event back over to the map editor */
+							WPGMZA.mapEditPage.onRightClick(this.contextMenu.cachedEvent);
+						}
+					}
+				} catch (ex){
+					/* Something went wrong, leave it alone */
+				}
+			}
+			this.closeContextMenu();
+		});
+
+		$(this.element).on('click', () => {
+			this.closeContextMenu();
+		});
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isContextMenuReady = function(){
+		return this.contextMenu && this.contextMenu.element ? true : false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.canOpenContextMenu = function(){
+		const initialized = this.isContextMenuReady();
+		if(initialized){
+			const activeGroup = this.getActiveGroup();
+			if(activeGroup.indexOf('-editor') !== -1){
+				/* This is an editor tab */
+				return false;
+			}
+
+			if($(`.grouping[data-group="${activeGroup}"]`).find('.feature-list').length){
+				/* This is a dataset listing tab */
+				return false;
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.isContextMenuOpen = function(){
+		if(this.isContextMenuReady() && !this.contextMenu.element.hasClass('wpgmza-hidden')){
+			return true;
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.openContextMenu = function(event){
+		if(this.canOpenContextMenu()){
+			if(event && event instanceof WPGMZA.Event){
+				if(event.latLng && event.target && event.target instanceof WPGMZA.Map){
+					const map = event.target;
+					
+					const position = {
+						container : map.element.getBoundingClientRect(),
+						coordinates : map.latLngToPixels(event.latLng)
+					};
+
+					position.context = {
+						left : position.container.x + position.coordinates.x,
+						top : position.container.y + position.coordinates.y
+					};
+					
+					/* Check for off-screen placements */
+					if(position.context.left > ($(window).width() - 150)){
+						position.context.left -= 150;
+					}
+
+					if(position.context.top > ($(window).height() - 180)){
+						position.context.top -= 180;
+					}
+
+					this.contextMenu.element.css('top', `${position.context.top}px`);
+					this.contextMenu.element.css('left', `${position.context.left}px`);
+
+					this.contextMenu.coordinates = event.latLng;
+					this.contextMenu.cachedEvent = event;
+
+					this.contextMenu.element.removeClass('wpgmza-hidden');
+					
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	WPGMZA.SidebarGroupings.prototype.closeContextMenu = function(){
+		if(this.isContextMenuReady()){
+			this.contextMenu.element.addClass('wpgmza-hidden');
 		}
 	}
 });
@@ -15655,6 +15777,18 @@ jQuery(function($) {
 		var html = "<div id='" + guid + "'>" + eaBtn + ' ' + this.content + "</div>";
 
 		this.googleInfoWindow.setContent(html);
+
+		if(this.googleObject instanceof google.maps.marker.AdvancedMarkerElement){
+			/* Check for nudge params */
+			if(this.feature.offsetX || this.feature.offsetY){
+				this.googleInfoWindow.setOptions({
+					pixelOffset : new google.maps.Size(
+						this.feature.offsetX,
+						-this.feature.offsetY
+					)
+				});
+			}
+		}
 		
 		var intervalID;
 		intervalID = setInterval(function(event) {
@@ -16500,41 +16634,91 @@ jQuery(function($) {
 			}
 		}
 		
-		this.googleMarker = new google.maps.Marker(settings);
+		if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+			/* User has opted into the new render mode */
+			this.googleMarker = new google.maps.marker.AdvancedMarkerElement();
+		} else {
+			/* User is in classic/legacy mode, the default */
+			this.googleMarker = new google.maps.Marker(settings);
+
+			/* Notice to swap, for more advanced users */
+			if(WPGMZA && !WPGMZA.__hasNotifiedLegacyMarkers){
+				WPGMZA.__hasNotifiedLegacyMarkers = true;
+				console.log(`📍 WP Go Maps: You are currently using Google Maps default Markers module, which has been deprecated. 
+						\nGoogle has not discontinued this module, but is suggesting all users move over to their AdvancedMarkerElement instead, as it performs better and allows for more customization using CSS selectors.
+						\nOur team has added full support for this under Maps > Settings > Markers > Marker Render Mode, and highly recommend you try this new option on your site.
+						\nFor the moment, this is not our default, as we are still validating the new module for stability. We expect this feature to become the default in the future.
+						\nWant to disable this notice? Add the following to your Custom JavaScript block:\njQuery(($) => { WPGMZA.__hasNotifiedLegacyMarkers = true; });`);
+			}
+		}
+
 		this.googleMarker.wpgmzaMarker = this;
-		
 		this.googleFeature = this.googleMarker;
 		
-		this.googleMarker.setPosition(new google.maps.LatLng({
-			lat: parseFloat(this.lat),
-			lng: parseFloat(this.lng)
-		}));
+		this.setPosition(new WPGMZA.LatLng(this.lat, this.lng));
 		
-		if(this.anim)
-			this.googleMarker.setAnimation(this.anim);
-		if(this.animation)
-			this.googleMarker.setAnimation(this.animation);
-			
-		google.maps.event.addListener(this.googleMarker, "click", function() {
-			self.dispatchEvent("click");
-			self.dispatchEvent("select");
-		});
-		
-		google.maps.event.addListener(this.googleMarker, "mouseover", function() {
-			self.dispatchEvent("mouseover");
-		});
+		if(this.anim){
+			this.setAnimation(this.anim);
+		}
 
-		google.maps.event.addListener(this.googleMarker, "mouseout", function() {
-			self.dispatchEvent("mouseout");
-		});
+		if(this.animation){
+			this.setAnimation(this.animation);
+		}
+		
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			this.googleMarker.addListener("click", function() {
+				self.dispatchEvent("click");
+				self.dispatchEvent("select");
+			});
+
+			this.googleMarker.element.addEventListener("mouseover", function() {
+				self.dispatchEvent("mouseover");
+			});
+	
+			this.googleMarker.element.addEventListener("mouseout", function() {
+				self.dispatchEvent("mouseout");
+			});
+
+			/* Add a globally shared CSS glass for users to leverage */
+			if(this.googleMarker.element){
+				this.googleMarker.element.classList.add('wpgmza-google-marker-advanced');
+			}
+		} else {
+			/* Assume Marker module */
+			google.maps.event.addListener(this.googleMarker, "click", function() {
+				self.dispatchEvent("click");
+				self.dispatchEvent("select");
+			});
+
+			google.maps.event.addListener(this.googleMarker, "mouseover", function() {
+				self.dispatchEvent("mouseover");
+			});
+	
+			google.maps.event.addListener(this.googleMarker, "mouseout", function() {
+				self.dispatchEvent("mouseout");
+			});
+		}
 		
 		google.maps.event.addListener(this.googleMarker, "dragend", function() {
-			var googleMarkerPosition = self.googleMarker.getPosition();
-			
-			self.setPosition({
-				lat: googleMarkerPosition.lat(),
-				lng: googleMarkerPosition.lng()
-			});
+			let googleMarkerPosition;
+			if(self.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+				/* AdvancedMarkerElement module */
+				googleMarkerPosition = self.googleMarker.position;
+
+				self.setPosition({
+					lat: googleMarkerPosition.lat,
+					lng: googleMarkerPosition.lng
+				});
+			} else {
+				/* Assume Marker module */
+				googleMarkerPosition = self.googleMarker.getPosition();
+
+				self.setPosition({
+					lat: googleMarkerPosition.lat(),
+					lng: googleMarkerPosition.lng()
+				});
+			}
 			
 			self.dispatchEvent({
 				type: "dragend",
@@ -16554,6 +16738,9 @@ jQuery(function($) {
 		Parent = WPGMZA.Marker;
 	WPGMZA.GoogleMarker.prototype = Object.create(Parent.prototype);
 	WPGMZA.GoogleMarker.prototype.constructor = WPGMZA.GoogleMarker;
+
+	WPGMZA.GoogleMarker.MARKER_MODE_LEGACY = 'marker';
+	WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED = 'advancedMarkerElement';
 	
 	Object.defineProperty(WPGMZA.GoogleMarker.prototype, "opacity", {
 		
@@ -16563,25 +16750,47 @@ jQuery(function($) {
 		
 		"set": function(value) {
 			this._opacity = value;
-			this.googleMarker.setOpacity(value);
+			this.setOpacity(value);
 		}
 		
 	});
 	
 	WPGMZA.GoogleMarker.prototype.setLabel = function(label)
 	{
-		if(!label)
-		{
-			this.googleMarker.setLabel(null);
-			return;
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			if(this.googleMarker.content){
+				if(!label){
+					const existing = this.googleMarker.content.querySelector('.wpgmza-google-marker-label');
+					if(existing){
+						existing.remove();
+					}
+
+					return;
+				}
+
+				const labelElement = document.createElement("div");
+				labelElement.classList.add('wpgmza-google-marker-label');
+				labelElement.innerText = label;
+
+				this.googleMarker.content.appendChild(labelElement);
+			}
+		} else {
+			/* Assume Marker module */
+			if(!label){
+				this.googleMarker.setLabel(null);
+				return;
+			}
+			
+			this.googleMarker.setLabel({
+				text: label,
+				className: 'wpgmza-google-marker-label-legacy'
+			});
+			
+			if(!this.googleMarker.getIcon()){
+				this.googleMarker.setIcon(WPGMZA.settings.default_marker_icon);
+			}
 		}
-		
-		this.googleMarker.setLabel({
-			text: label
-		});
-		
-		if(!this.googleMarker.getIcon())
-			this.googleMarker.setIcon(WPGMZA.settings.default_marker_icon);
 	}
 	
 	/**
@@ -16591,10 +16800,20 @@ jQuery(function($) {
 	WPGMZA.GoogleMarker.prototype.setPosition = function(latLng)
 	{
 		Parent.prototype.setPosition.call(this, latLng);
-		this.googleMarker.setPosition({
-			lat: this.lat,
-			lng: this.lng
-		});
+
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			this.googleMarker.position = {
+				lat: this.lat,
+				lng: this.lng
+			};
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setPosition({
+				lat: this.lat,
+				lng: this.lng
+			});
+		}
 	}
 	
 	/**
@@ -16603,48 +16822,85 @@ jQuery(function($) {
 	 */
 	WPGMZA.GoogleMarker.prototype.updateOffset = function()
 	{
-		var self = this;
-		var icon = this.googleMarker.getIcon();
-		var img = new Image();
-		var params;
-		var x = this._offset.x;
-		var y = this._offset.y;
-		
-		if(!icon){
-			if(WPGMZA.settings.default_marker_icon){
-				icon = WPGMZA.settings.default_marker_icon;
-			} else if (this.map.settings.default_marker_icon){
-				icon = this.map.settings.default_marker_icon;
-			} else if(this.map.settings.default_marker){
-				icon = this.map.settings.default_marker;
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			if(this.googleMarker.content){
+				this.googleMarker.content.style.setProperty('--wpgmza-nudge-x', this._offset.x + 'px');
+				this.googleMarker.content.style.setProperty('--wpgmza-nudge-y', this._offset.y + 'px');
+				
+				this.googleMarker.content.classList.add('wpgmza-google-icon-nudge');
 			}
-		}
-
-		if(typeof icon == "string"){
-			params = {
-				url: icon
-			};
-		}else{
-			params = icon;
-		}
-
-		img.onload = function(){
-			var defaultAnchor = {
-				x: img.width / 2,
-				y: img.height
-			};
+		} else {
+			/* Marker Module */
+			var self = this;
+			var icon = this.googleMarker.getIcon();
+			var img = new Image();
+			var params;
+			var x = this._offset.x;
+			var y = this._offset.y;
 			
-			params.anchor = new google.maps.Point(defaultAnchor.x - x, defaultAnchor.y - y);
+			if(!icon){
+				if(WPGMZA.settings.default_marker_icon){
+					icon = WPGMZA.settings.default_marker_icon;
+				} else if (this.map.settings.default_marker_icon){
+					icon = this.map.settings.default_marker_icon;
+				} else if(this.map.settings.default_marker){
+					icon = this.map.settings.default_marker;
+				}
+			}
+
+			if(typeof icon == "string"){
+				params = {
+					url: icon
+				};
+			}else{
+				params = icon;
+			}
+
+			img.onload = function(){
+				var defaultAnchor = {
+					x: img.width / 2,
+					y: img.height
+				};
+				
+				params.anchor = new google.maps.Point(defaultAnchor.x - x, defaultAnchor.y - y);
+				
+				self.googleMarker.setIcon(params);
+			}
 			
-			self.googleMarker.setIcon(params);
+			img.src = params.url;
 		}
 		
-		img.src = params.url;
 	}
 	
 	WPGMZA.GoogleMarker.prototype.setOptions = function(options)
 	{
-		this.googleMarker.setOptions(options);
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			for(let key in options){
+				const value = options[key];
+				switch(key){
+					case 'animation': 
+						this.setAnimation(value);
+						break;
+					case 'opacity':
+						this.setOpacity(value);
+						break;
+					case 'visible':
+						this.setVisible(value);
+						break;
+					case 'zIndex':
+						this.googleMarker.zIndex = value;
+						break;
+					case 'title':
+						this.googleMarker.title = value;
+						break;
+				}
+			}
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setOptions(options);
+		}
 	}
 	
 	/**
@@ -16654,7 +16910,25 @@ jQuery(function($) {
 	WPGMZA.GoogleMarker.prototype.setAnimation = function(animation)
 	{
 		Parent.prototype.setAnimation.call(this, animation);
-		this.googleMarker.setAnimation(animation);
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			if(this.googleMarker.content){
+				switch(animation){
+					case WPGMZA.Marker.ANIMATION_BOUNCE:
+						this.googleMarker.content.classList.add('wpgmza-google-marker-bounce');
+						break;
+					case WPGMZA.Marker.ANIMATION_DROP:
+						this.googleMarker.content.classList.add('wpgmza-google-marker-drop');
+						break;
+					case WPGMZA.Marker.ANIMATION_NONE:
+					default:
+						break;
+				}
+			}
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setAnimation(animation);
+		}
 	}
 	
 	/**
@@ -16664,23 +16938,56 @@ jQuery(function($) {
 	WPGMZA.GoogleMarker.prototype.setVisible = function(visible)
 	{
 		Parent.prototype.setVisible.call(this, visible);
-		
-		this.googleMarker.setVisible(visible ? true : false);
+
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			if(this.googleMarker.element){
+				if(visible){
+					this.googleMarker.element.classList.remove('wpgmza-google-marker-hidden');
+				} else {
+					this.googleMarker.element.classList.add('wpgmza-google-marker-hidden');
+				}
+			}
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setVisible(visible ? true : false);
+		}
 	}
 	
 	WPGMZA.GoogleMarker.prototype.getVisible = function(visible)
 	{
-		return this.googleMarker.getVisible();
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			return this.googleMarker.element.classList.contains('wpgmza-google-marker-hidden') ? false : true;
+		} else {
+			/* Assume Marker module */
+			return this.googleMarker.getVisible();
+		}
 	}
 	
 	WPGMZA.GoogleMarker.prototype.setDraggable = function(draggable)
 	{
-		this.googleMarker.setDraggable(draggable);
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			this.googleMarker.gmpDraggable = draggable;
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setDraggable(draggable);
+		}
 	}
 	
 	WPGMZA.GoogleMarker.prototype.setOpacity = function(opacity)
 	{
-		this.googleMarker.setOpacity(opacity);
+		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
+			/* AdvancedMarkerElement module */
+			if(this.googleMarker.content){
+				this.googleMarker.content.style.setProperty("--wpgmza-opacity", opacity);
+				this.googleMarker.content.classList.add('wpgmza-google-marker-opacity');
+			}
+		} else {
+			/* Assume Marker module */
+			this.googleMarker.setOpacity(opacity);
+		}
 	}
 	
 });
@@ -19265,6 +19572,14 @@ jQuery(function($) {
 		var marker;
 
 		if(!WPGMZA.InternalEngine.isLegacy() && this.sidebarGroupings){
+			/* Context menu delegates */
+			if(this.sidebarGroupings.canOpenContextMenu()){
+				if(this.sidebarGroupings.openContextMenu(event)){
+					/* Context menu did open */
+					return;
+				}
+			}
+
 			if(this.sidebarGroupings.isOpen('global') || this.sidebarGroupings.isOpen('map-markers')){
 				/* Either their on the root tab, or they are on the marker list, so let's open the marker creator for them */
 				this.sidebarGroupings.openTabByFeatureType('marker');
@@ -20544,6 +20859,10 @@ jQuery(function($) {
 		}
 		else if(options.latLng)
 		{
+			if(!(options.latLng instanceof WPGMZA.LatLng)){
+				options.latLng = new WPGMZA.LatLng(options.latLng);
+			}
+
 			location = options.latLng.toString();
 			
 			finish = function(response, status)
@@ -21432,12 +21751,13 @@ jQuery(function($) {
 	 */
 	WPGMZA.OLMap.prototype.addMarker = function(marker)
 	{
-		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT)
+		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT){
 			this.olMap.addOverlay(marker.overlay);
-		else
-		{
-			this.markerLayer.getSource().addFeature(marker.feature);
-			marker.featureInSource = true;
+		} else {
+			if(!marker.featureInSource){
+				this.markerLayer.getSource().addFeature(marker.feature);
+				marker.featureInSource = true;
+			}
 		}
 		
 		Parent.prototype.addMarker.call(this, marker);
@@ -21755,7 +22075,7 @@ jQuery(function($) {
 	WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT		= "element";
 	WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER		= "vector";	// NB: This feature is experimental
 	
-	WPGMZA.OLMarker.renderMode = WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT;
+	WPGMZA.OLMarker.renderMode = WPGMZA.settings && WPGMZA.settings.olMarkerMode && WPGMZA.settings.olMarkerMode === WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER ? WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER : WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT;
 	
 	if(WPGMZA.settings.engine == "open-layers" && WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 	{
@@ -21846,7 +22166,7 @@ jQuery(function($) {
 				this.feature.setStyle(style);
 			}
 			else
-				this.feature.setStyle(null);
+				this.feature.setStyle(WPGMZA.OLMarker.hiddenVectorLayerStyle);
 			
 			/*var source = this.map.markerLayer.getSource();
 			
@@ -23348,7 +23668,12 @@ jQuery(function($) {
 				/* Nothing to do here */
 			}
 		}
-		
+
+		if(!WPGMZA.InternalEngine.isLegacy()){
+			/* Increase display size */
+			options.iDisplayLength = 10;
+		}
+
 		return options;
 	}
 	

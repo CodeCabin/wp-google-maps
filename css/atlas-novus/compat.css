@@ -5,6 +5,11 @@
     max-width: initial;
 }
 
+/* Issue with focus element */
+.wpgmza_map[data-maps-engine="google-maps"] *:focus {
+    outline: none;
+}
+
 /* This fixes common CSS conflicts, :not added to cater for Google UI changes */
 .wpgmza_map img:not(button>img){
     border: none !important;
