@@ -7446,10 +7446,19 @@ jQuery(function($) {
 				break;
 		}
 
-		options.mapId = `wpgmza_map_${this.id}`;
+		if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+			options.mapId = `wpgmza_map_${this.id}`;
+		}
 		
-		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length)
+		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length){
 			options.styles = WPGMZA.GoogleMap.parseThemeData(this.wpgmza_theme_data);
+
+			if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+				console.log(`📍 WP Go Maps: You are using the Advanced Marker Element mode, with a custom theme, this is not currently supported. Google requires you to load map themes via their cloud styling system instead. To remove this notice, please switch back to the default marker render mode`);
+			}
+		}
+
+
 		
 		return options;
 	}
@@ -16644,11 +16653,13 @@ jQuery(function($) {
 			/* Notice to swap, for more advanced users */
 			if(WPGMZA && !WPGMZA.__hasNotifiedLegacyMarkers){
 				WPGMZA.__hasNotifiedLegacyMarkers = true;
+				/*
 				console.log(`📍 WP Go Maps: You are currently using Google Maps default Markers module, which has been deprecated. 
 						\nGoogle has not discontinued this module, but is suggesting all users move over to their AdvancedMarkerElement instead, as it performs better and allows for more customization using CSS selectors.
 						\nOur team has added full support for this under Maps > Settings > Markers > Marker Render Mode, and highly recommend you try this new option on your site.
 						\nFor the moment, this is not our default, as we are still validating the new module for stability. We expect this feature to become the default in the future.
 						\nWant to disable this notice? Add the following to your Custom JavaScript block:\njQuery(($) => { WPGMZA.__hasNotifiedLegacyMarkers = true; });`);
+				*/
 			}
 		}
 
