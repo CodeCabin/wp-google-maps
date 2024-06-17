@@ -265,10 +265,19 @@ jQuery(function($) {
 				break;
 		}
 
-		options.mapId = `wpgmza_map_${this.id}`;
+		if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+			options.mapId = `wpgmza_map_${this.id}`;
+		}
 		
-		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length)
+		if(this.wpgmza_theme_data && this.wpgmza_theme_data.length){
 			options.styles = WPGMZA.GoogleMap.parseThemeData(this.wpgmza_theme_data);
+
+			if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+				console.log(`📍 WP Go Maps: You are using the Advanced Marker Element mode, with a custom theme, this is not currently supported. Google requires you to load map themes via their cloud styling system instead. To remove this notice, please switch back to the default marker render mode`);
+			}
+		}
+
+
 		
 		return options;
 	}

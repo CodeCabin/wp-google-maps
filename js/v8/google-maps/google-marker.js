@@ -43,11 +43,13 @@ jQuery(function($) {
 			/* Notice to swap, for more advanced users */
 			if(WPGMZA && !WPGMZA.__hasNotifiedLegacyMarkers){
 				WPGMZA.__hasNotifiedLegacyMarkers = true;
+				/*
 				console.log(`📍 WP Go Maps: You are currently using Google Maps default Markers module, which has been deprecated. 
 						\nGoogle has not discontinued this module, but is suggesting all users move over to their AdvancedMarkerElement instead, as it performs better and allows for more customization using CSS selectors.
 						\nOur team has added full support for this under Maps > Settings > Markers > Marker Render Mode, and highly recommend you try this new option on your site.
 						\nFor the moment, this is not our default, as we are still validating the new module for stability. We expect this feature to become the default in the future.
 						\nWant to disable this notice? Add the following to your Custom JavaScript block:\njQuery(($) => { WPGMZA.__hasNotifiedLegacyMarkers = true; });`);
+				*/
 			}
 		}
 
