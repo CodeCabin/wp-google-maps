@@ -116,8 +116,17 @@ jQuery(function($) {
 			success: function(response, status, xhr) {
 				
 				response.draw = draw;
-				self.lastResponse = response;
+				
+				/* Convert any false objects to arrays */
+				if(!(response.data instanceof Array) && response.data instanceof Object){
+					response.data = Object.keys(response.data).map((key) => response.data[key]);
+				}
 
+				if(!(response.meta instanceof Array) && response.meta instanceof Object){
+					response.meta = Object.keys(response.meta).map((key) => response.meta[key]);
+				}
+
+				self.lastResponse = response;
 				
 				callback(response);
 				

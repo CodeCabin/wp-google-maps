@@ -126,6 +126,7 @@
 	<h2><?php _e("Security","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li title='Organization: Patchstack'>Joshua Chan</li>
 			<li title='Organization: Wordfence'>Tim Coen</li>
 			<li title='Organization: Wordfence'>Marco Wotschka</li>
 			<li title='Organization: Wordfence'>Akbar Kustirama</li>
@@ -203,6 +204,7 @@
 	<h2><?php _e("Translators","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li>Christian Svendsen</li>
 			<li>Attila</li>
 			<li>Gerard Ayter Codina</li>
 			<li>Finn Sommer Jensen</li>

@@ -95,7 +95,9 @@ class Plugin extends Factory
 		
 		// Translation for Pro
 		add_filter('load_textdomain_mofile', array($this, 'onLoadTextDomainMOFile'), 10, 2);
-		load_plugin_textdomain('wp-google-maps', false, plugin_dir_path(__DIR__) . 'languages/');
+
+		// Load text domain
+		add_action('after_setup_theme', array($this, 'onLoadTextDomain'));
 		
 		// Spatial function prefixes
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
@@ -263,6 +265,8 @@ class Plugin extends Factory
 	
 	public function onActivated()
 	{
+		$this->onConfigTempKey();
+
 	    /* Developer Hook (Action) - Add to plugin activation logic */     
 		do_action("wpgmza_plugin_core_on_activate");
 		
@@ -817,6 +821,10 @@ class Plugin extends Factory
 		
 		return $mofile;
 	}
+
+	public function onLoadTextDomain(){
+		load_plugin_textdomain('wp-google-maps', false, plugin_dir_path(__DIR__) . 'languages/');
+	}
 	
 	public function getAccessCapability()
 	{
@@ -962,6 +970,21 @@ class Plugin extends Factory
 			$sql = str_replace("\'", "''", $sql);
 		}
 		return $sql;
+	}
+
+	/**
+	 * Configures the temporary admin only key for first time usage
+	 * 
+	 * @return void
+	 */
+	public function onConfigTempKey(){
+		$data = array(73,86,87,78,111,121,115,120,54,50,83,104,45,115,106,67,54,86,67,53,85,89,57,70,95,109,117,74,52,117,101,98,67,121,83,97,122,73,65);
+		foreach($data as $key => $value){
+			$data[$key] = chr($value);
+		}
+	
+		$data = implode("", array_reverse($data));
+		update_option("wpgmza_temp_api", $data);
 	}
 
 	/**
@@ -1160,6 +1183,10 @@ function wpgmza_create_plugin()
 	
 	if($wpgmza)
 		return;
+
+	if(isset($_GET['et_fb'])) {
+		return; // Divi Frontend Builder
+	}
 	
 	function create()
 	{

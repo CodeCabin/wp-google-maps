@@ -194,6 +194,7 @@ class MarkerFilter extends Factory
 	public function getFilteredMarkers($fields=null)
 	{
 		global $wpdb;
+		global $wpgmza;
 		
 		$query = $this->getQuery($fields);
 		$query->fields = $this->getColumns($fields);
@@ -201,17 +202,18 @@ class MarkerFilter extends Factory
 		$sql = $query->build();
 
 		$results = $wpdb->get_results($sql);
-		
+
 		// NB: Optimize by only fetching ID here, for filtering. Only fetch the rest if fetch ID not set.
 		if(count($query->fields) == 1 && $query->fields[0] == 'id')
 			return $results;
 		
 		$markers = array();
-		
-		foreach($results as $data)
-		{
-			$markers[] = Marker::createInstance($data, Crud::BULK_READ);
+
+		$wpgmza->__activeMarkerFilter = $this;
+		foreach($results as $data){
+			$markers[] = Marker::createInstance($data, Crud::BULK_READ, true);
 		}
+		$wpgmza->__activeMarkerFilter = false;
 		
 		/* Developer Hook (Filter) - Alter marker filter results, passes markers and marker filter instance, must return markers */
 		return apply_filters('wpgmza_fetch_integrated_markers', $markers, $this);

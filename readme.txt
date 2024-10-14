@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 9.0.40
+Stable tag: 9.0.41
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.41 =
+Please update to 9.0.41 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.40 =
 Please update to 9.0.40 or above for the latest stability improvements.
 
@@ -322,6 +325,23 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.41 - 2024-10-14 =
+* Added support for 'key' parameter on some OpenLayers tile servers
+* Added clarification on some of the limitations when using Google Advanced Marker Element render mode
+* Fixed issue where text domain was being loaded to early with WordPress 6.7 (Early)
+* Fixed issue where OpenLayers Geocode Cache Flush was only protected by logged in check, and not a nonce check as well. Security issue. Thanks Joshua Chan (Patchstack)
+* Fixed issue where Divi frontend builder would load our modules mistakenly, when they are not needed
+* Fixed issue where datatables response would be served as an object, instead of an array, on some environments. Solves issues with map lists in some cases
+* Fixed issue where DomDocument would not be loaded in time for map tour to initialize, on some environments
+* Fixed issue where map theme in OpenLayers would mistakenly apply to incorrect canvas layers
+* Fixed issue where title search placeholder supports
+* Fixed issue in marker filter class which would cause data to be refreshed via database in some cases (Performance)
+* Fixed issue with Ajax Table column exclusion which would lead to some columns not being excluded properly when flagged to do so
+* Fixed issue where map settings could not be accessed at all from within the marker instances. To allow more performance optimization in add-ons
+* Fixed issue where bicycle, transport and traffic legacy settings would be updated every time the map loads (Performance)
+* Updated default mapping engine to Google Maps, with a temporary key system to improve first usage
+* Updated nb_NO transslations, thanks to Christian Svendsen
 
 = 9.0.40 - 2024-06-17 =
 * Fixed a bug where Google Maps themes would not apply correctly due to changes in the Google Maps API initialization

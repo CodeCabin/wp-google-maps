@@ -425,7 +425,9 @@ jQuery(function($) {
 		let storeLocatorElement = false;
 		for(let i in selectors){
 			if($(selectors[i]).length > 0 && storeLocatorElement === false){
-				storeLocatorElement = $(selectors[i]);
+				if($(selectors[i]).attr('data-id') && parseInt($(selectors[i]).attr('data-id')) === parseInt(this.id)){
+					storeLocatorElement = $(selectors[i]);
+				}
 			}
 		}
 		if(storeLocatorElement.length){

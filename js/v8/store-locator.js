@@ -72,6 +72,10 @@ jQuery(function($) {
 			$(this.resetButton).on("click", function(event){
 				self.onReset(event);
 			});
+
+			if(self.map.settings.store_locator_name_string){
+				$(this.element).find("input.wpgmza-keywords").attr('placeholder', self.map.settings.store_locator_name_string);
+			}
 		}
 		
 		// Enter listener

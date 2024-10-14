@@ -602,6 +602,12 @@
 						<?php
 							_e("Google Maps has deprecated the default Marker module. They encourage using the Advanced Marker module instead, which allows CSS selection and minor performance improvements. We support this new render mode, which is considered beta for now, while we finalize our implementation.", "wp-google-maps");
 						?>
+
+						<br><br>  
+
+						<?php
+							_e("Please note, using the new render mode will also impact the limitations of some of our systems. You will not be able to use local map themes, control points of interes or enable some animations within this mode", "wp-google-maps");
+						?>
 					</small>
 				</p>
 			</label>
@@ -1182,6 +1188,20 @@
 					esc_html_e("Only trigger Datatable search on enter/return key (Reduce server load)","wp-google-maps"); 
 					?>
 				</li>
+
+				<li>
+					<div class='switch'>
+						<input name='enable_datatables_performance_mode' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='enable_datatables_performance_mode' 
+							value='yes'/>
+						<label for='enable_datatables_performance_mode'></label>
+					</div>
+					<?php 
+					esc_html_e("Enable Datatables performance search mode. Ignores non critical columns and marker fields search (Performance)","wp-google-maps"); 
+					?>
+				</li>
 			</ul>
 		</fieldset>
 		
@@ -1303,6 +1323,10 @@
 				
 				<li>
 					<div class='switch'><input name='carousel_navigation' class='cmn-toggle cmn-toggle-round-flat' type='checkbox' id='carousel_navigation' value='yes'/><label for='carousel_navigation'></label></div> <?php esc_html_e("Enable navigation","wp-google-maps"); ?>
+				</li>
+
+				<li>
+					<div class='switch'><input name='carousel_disable_autoplay' class='cmn-toggle cmn-toggle-round-flat' type='checkbox' id='carousel_disable_autoplay' value='yes'/><label for='carousel_disable_autoplay'></label></div> <?php esc_html_e("Disable Autoplay","wp-google-maps"); ?>
 				</li>
 				
 				

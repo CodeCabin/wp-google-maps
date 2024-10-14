@@ -116,7 +116,8 @@ jQuery(function($) {
 	{
 		$.ajax(WPGMZA.ajaxurl, {
 			data: {
-				action: "wpgmza_clear_nominatim_cache"
+				action: "wpgmza_clear_nominatim_cache",
+				wpgmza_security : WPGMZA.ajaxnonce || false
 			},
 			method: "POST",
 			success: function(response){

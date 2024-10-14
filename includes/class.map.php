@@ -79,9 +79,18 @@ class Map extends Crud
 
 
 		/** Legacy rollback for layers */
-		$this->bicycle = (!empty($this->bicycle) && intval($this->bicycle) == 2) ? 0 : $this->bicycle;
-		$this->traffic = (!empty($this->traffic) && intval($this->traffic) == 2) ? 0 : $this->traffic;
-		$this->transport_layer = (!empty($this->transport_layer) && intval($this->transport_layer) == 2) ? 0 : $this->transport_layer;
+		/* Edited: 2024-10-10 - We now only do this if the values are not set already, to prevent unneeded updates in DB */
+		if(!isset($this->bicycle)){
+			$this->bicycle = (!empty($this->bicycle) && intval($this->bicycle) == 2) ? 0 : $this->bicycle;
+		}
+
+		if(!isset($this->traffic)){
+			$this->traffic = (!empty($this->traffic) && intval($this->traffic) == 2) ? 0 : $this->traffic;
+		}
+
+		if(!isset($this->transport_layer)){
+			$this->transport_layer = (!empty($this->transport_layer) && intval($this->transport_layer) == 2) ? 0 : $this->transport_layer;
+		}
 	}
 	
 	public function __get($name)

@@ -2,6 +2,14 @@
 
 namespace WPGMZA;
 
+try {
+	wpgmza_require_once(plugin_dir_path(__FILE__) . '../class.dom-document.php');
+} catch (\Exception $ex){
+
+} catch (\Error $err){
+
+}
+
 class MapEditorTour extends DOMDocument {
 	public function __construct(){
 		global $wpgmza;

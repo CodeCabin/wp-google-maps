@@ -116,7 +116,7 @@ class AjaxTable extends Table
 		if(isset($input_params['mashup_ids']))
 		{
 			// NB: This is Pro logic and should be moved ideally
-			$mashup_ids		= $input_params['mashup_ids'];
+			$mashup_ids		= explode(',', $input_params['mashup_ids']);
 			$placeholders	= implode(',', array_fill(0, count($mashup_ids), '%d'));
 			
 			$clauses['mashup_ids'] = 'map_id IN (' . $placeholders. ')';
@@ -163,8 +163,9 @@ class AjaxTable extends Table
 		
 		foreach($columns as $key => $label)
 		{
-			if($exclude_columns && array_search($key, $exclude_columns) !== false)
+			if(!empty($exclude_columns) && in_array($key, $exclude_columns)){
 				continue;
+			}
 			
 			array_push($subclauses, "$key LIKE %s");
 			array_push($query_params, "%%" . $wpdb->esc_like($term) . "%%");

@@ -32,6 +32,9 @@ class Marker extends Feature implements \JsonSerializable
 		if(class_exists('WPGMZA\\CustomMarkerFields')){
 			/* Developer Hook (Filter) - Add or alter custom fields attached to the marker, passes marker ID */
 			$this->custom_fields = apply_filters('wpgmza_get_marker_custom_fields', $this->id);
+			if(!empty($this->custom_fields)){
+				$this->customFields = $this->custom_fields;
+			}
 		}
 	}
 	

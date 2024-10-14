@@ -523,6 +523,12 @@
 				<?php
 					_e("Google Maps has deprecated the default Marker module. They encourage using the Advanced Marker module instead, which allows CSS selection and minor performance improvements. We support this new render mode, which is considered beta for now, while we finalize our implementation.", "wp-google-maps");
 				?>
+
+				<br> 
+
+				<?php
+					_e("Please note, using the new render mode will also impact the limitations of some of our systems. You will not be able to use local map themes, control points of interes or enable some animations within this mode", "wp-google-maps");
+				?>
 			</small>
 		</div>
 
@@ -1061,6 +1067,21 @@
 						</label>
 					</div>
 				</li>
+
+				<li>
+					<div class='switch switch-inline'>
+						<input name='enable_datatables_performance_mode' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='enable_datatables_performance_mode' 
+							value='yes'/>
+
+						<label for='enable_datatables_performance_mode'></label>
+						<label for='enable_datatables_performance_mode'>
+							<?php esc_html_e("Enable Datatables performance search mode. Ignores non critical columns and marker fields search (Performance)","wp-google-maps"); ?>
+						</label>
+					</div>
+				</li>
 			</ul>
 		</div>
 
@@ -1287,6 +1308,21 @@
 						<label for='carousel_navigation'></label>
 						<label for='carousel_navigation'>
 							<?php esc_html_e("Enable navigation","wp-google-maps"); ?>
+						</label>
+					</div> 
+				</li>
+
+				<li>
+					<div class='switch switch-inline'>
+						<input name='carousel_disable_autoplay' 
+								class='cmn-toggle cmn-toggle-round-flat' 
+								type='checkbox' 
+								id='carousel_disable_autoplay' 
+								value='yes'/>
+
+						<label for='carousel_disable_autoplay'></label>
+						<label for='carousel_disable_autoplay'>
+							<?php esc_html_e("Disable Autoplay","wp-google-maps"); ?>
 						</label>
 					</div> 
 				</li>
@@ -1840,6 +1876,10 @@
 					<small>
 						<?php
 						esc_html_e('Adds a location editor directly to the WooCommerce product editor area', 'wp-google-maps');
+						?>
+ 
+						<?php
+							esc_html_e('(Please note, this does not work with the beta product editor)', 'wp-google-maps');
 						?>
 					</small>
 				</label>
