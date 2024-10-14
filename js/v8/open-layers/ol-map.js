@@ -378,6 +378,7 @@ jQuery(function($) {
 
 			if(WPGMZA.settings.open_layers_api_key && WPGMZA.settings.open_layers_api_key !== ""){
 				options.url += "?apikey=" + WPGMZA.settings.open_layers_api_key.trim();
+				options.url += "&key=" + WPGMZA.settings.open_layers_api_key.trim();
 			}
 		}
 

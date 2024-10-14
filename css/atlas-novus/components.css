@@ -673,7 +673,8 @@
     background: var(--wpgmza-component-color);
 }
 
-.wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:first-child{
+/* .wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:first-child */
+.wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:last-child{
     filter : var(--wpgmza-ol-tile-filter);
 }
 

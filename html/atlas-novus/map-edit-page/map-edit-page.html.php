@@ -1862,38 +1862,6 @@
 								</div>
 							</div>
 						</fieldset>
-
-						<!-- Pagination Style -->
-						<fieldset class="wpgmza-pro-feature">
-							<legend><?php _e("Select different pagination style", "wp-google-maps"); ?></legend>
-							
-							<select id="dataTable_pagination_style" name="dataTable_pagination_style" class="postform">
-								<option value="default">
-									<?php _e("Default", "wp-google-maps"); ?>
-								</option>
-								<option value="page-number-buttons-only">
-									<?php _e('Page number buttons only', 'wp-google-maps'); ?>
-								</option>
-								<option value="prev-and-next-buttons-only">
-									<?php _e('Previous and Next buttons only', 'wp-google-maps'); ?>
-								</option>
-								<option value="prev-and-next-buttons-plus-page-numbers">
-									<?php _e('Previous and Next buttons, plus page numbers', 'wp-google-maps'); ?>
-								</option>
-								<option value="first-prev-next-and-last-buttons">
-									<?php _e('First, Previous, Next and Last buttons', 'wp-google-maps'); ?>
-								</option>
-								<option value="first-prev-next-and-last-buttons-plus-page-numbers">
-									<?php _e('First, Previous, Next and Last buttons, plus page numbers', 'wp-google-maps'); ?>
-								</option>
-								<option value="first-and-last-buttons-plus-page-numbers">
-									<?php _e('First and Last buttons, plus page numbers', 'wp-google-maps'); ?>
-								</option>
-								<option value="hidden">
-									<?php _e('Hidden', 'wp-google-maps'); ?>
-								</option>
-							</select>
-						</fieldset>
 					</div>
 				</div>
 
@@ -1994,6 +1962,38 @@
 							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-datatables-atlas-novus" target="_BLANK">Pro version for only $39.99 once off</a>. Support and updates included forever.', "wp-google-maps");
 							?>
 						</div>
+
+						<!-- Pagination Style -->
+						<fieldset class="wpgmza-pro-feature">
+							<legend><?php _e("Select different pagination style", "wp-google-maps"); ?></legend>
+							
+							<select id="dataTable_pagination_style" name="dataTable_pagination_style" class="postform">
+								<option value="default">
+									<?php _e("Default", "wp-google-maps"); ?>
+								</option>
+								<option value="page-number-buttons-only">
+									<?php _e('Page number buttons only', 'wp-google-maps'); ?>
+								</option>
+								<option value="prev-and-next-buttons-only">
+									<?php _e('Previous and Next buttons only', 'wp-google-maps'); ?>
+								</option>
+								<option value="prev-and-next-buttons-plus-page-numbers">
+									<?php _e('Previous and Next buttons, plus page numbers', 'wp-google-maps'); ?>
+								</option>
+								<option value="first-prev-next-and-last-buttons">
+									<?php _e('First, Previous, Next and Last buttons', 'wp-google-maps'); ?>
+								</option>
+								<option value="first-prev-next-and-last-buttons-plus-page-numbers">
+									<?php _e('First, Previous, Next and Last buttons, plus page numbers', 'wp-google-maps'); ?>
+								</option>
+								<option value="first-and-last-buttons-plus-page-numbers">
+									<?php _e('First and Last buttons, plus page numbers', 'wp-google-maps'); ?>
+								</option>
+								<option value="hidden">
+									<?php _e('Hidden', 'wp-google-maps'); ?>
+								</option>
+							</select>
+						</fieldset>
 
 						<!-- No Results -->
 						<fieldset class="wpgmza-pro-feature">

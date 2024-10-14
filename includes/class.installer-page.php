@@ -47,7 +47,7 @@ class InstallerPage extends Page {
 			 * which means they came from the welcome/credits page, which is usually right after an installation
 			*/
 			if(empty(get_option('wpgmza-installer-initial-procedure'))){
-				$wrapper->setAttribute('data-auto-onboarding-procedure', 'engine_ol_2024_05');
+				$wrapper->setAttribute('data-auto-onboarding-procedure', 'engine_gm_2024_10');
 			}
 		}
 
@@ -115,6 +115,16 @@ class InstallerPage extends Page {
 					update_option('wpgmza-installer-retrigger-event', 'engine_ol_2024_05');
 					update_option('wpgmza-installer-initial-procedure', 'engine_ol_2024_05');
 
+					break;
+				case 'engine_gm_2024_10':
+					/* Procedure: Google Maps default engine, with internal temporary key
+					 * Introduced: 2024-10-10
+					 * Goal: Improve first usage time by skipping the wizard, using an internally shipped key, and getting the user into the 
+					*/
+					$nextReminder = date('Y-m-d', strtotime('+1 day'));
+					update_option('wpgmza-installer-paused', $nextReminder);
+
+					update_option('wpgmza-installer-initial-procedure', 'engine_gm_2024_10');
 					break;
 				default: 
 					/* Procedure is unknown, delay the installer for a day and come back to it then, because we aren't sure what was intended */

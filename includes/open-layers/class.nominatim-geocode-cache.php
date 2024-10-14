@@ -130,8 +130,7 @@ function clear_nominatim_cache()
 {
 	global $wpgmza;
 	
-	if(!$wpgmza->isUserAllowedToEdit())
-	{
+	if(!$wpgmza->isUserAllowedToEdit() || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce')){
 		http_response_code(401);
 		return;
 	}
