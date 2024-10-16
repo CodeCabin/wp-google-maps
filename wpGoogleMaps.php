@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.42
+Version: 9.0.43
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,9 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.43 - 2024-10-16
+ * Fixed issue where Divi editors would crash if Pro add-on was not fully up to date
+ * 
  * 9.0.42 - 2024-10-15
  * Fixed issue where map mashup query param would be parsed incorrectly 
  * 

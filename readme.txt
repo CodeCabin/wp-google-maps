@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 9.0.42
+Stable tag: 9.0.43
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -210,6 +210,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 9.0.43 =
+Please update to 9.0.43 or above for the latest stability improvements.
+
 = 9.0.41 =
 Please update to 9.0.41 or above or above to ensure you are using the latest security enhancements.
 
@@ -325,6 +328,9 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.43 - 2024-10-16 =
+* Fixed issue where Divi editors would crash if Pro add-on was not fully up to date
 
 = 9.0.42 - 2024-10-15 =
 * Fixed issue where map mashup query param would be parsed incorrectly 

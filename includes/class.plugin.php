@@ -1185,7 +1185,18 @@ function wpgmza_create_plugin()
 		return;
 
 	if(isset($_GET['et_fb'])) {
-		return; // Divi Frontend Builder
+		if(defined('WPGMZA_PRO_FILE')){
+			$proVersion = get_option('wpgmza_pro_db_version');
+			if(!empty($proVersion)){
+				if(version_compare($proVersion, '9.0.31', '>=')){
+					/* Only if Pro is updated (Checked by option as latest Pro will not load with Divi) */
+					return;
+				}
+			}
+		} else {
+			/* Basic only */
+			return;
+		}
 	}
 	
 	function create()
