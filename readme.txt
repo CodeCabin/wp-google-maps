@@ -189,6 +189,9 @@ It's super easy to add a map block to your page or post. Simply add a block in t
 = How do I add a map widget to my widget area? =
 To add your map to your widgets area, simply go to Appearance->Widgets and drag the "WP Go Maps" Map Widget to your sidebar. You then edit the map widget to reflect the correct map.
 
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/wp-google-maps)
+
 == Screenshots ==
 
 1. The "Lite" version of WP Go Maps.
@@ -742,8 +745,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
-
 
 
 
