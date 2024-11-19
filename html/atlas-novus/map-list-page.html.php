@@ -64,10 +64,8 @@
 				?></a>
 				
 			<?php
-			esc_html_e("of WP Go Maps for only", "wp-google-maps");
+			esc_html_e("of WP Go Maps", "wp-google-maps");
 			?>
-			
-			<strong>$39.99 <?php esc_html_e("once off!","wp-google-maps"); ?></strong>
 		</p>
 		
 		<div id="wpgmza-admin-map-table-container" class="wpgmza-card wpgmza-shadow-high wpgmza-datatable-container wpgmza-pad-y-20"></div>

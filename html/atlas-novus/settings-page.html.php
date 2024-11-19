@@ -862,7 +862,7 @@
 			<a target="_BLANK"
 				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('Add Beautiful Marker Listings', 'wp-google-maps'); ?> 
-			</a> <?php _e('to your maps with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
+			</a> <?php _e('to your maps with the Pro version. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
 		
 		<!-- Sub heading -->
@@ -1443,7 +1443,7 @@
 			<a target="_BLANK"
 				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=categories_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('Categorize markers', 'wp-google-maps'); ?> 
-			</a> <?php _e('with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
+			</a> <?php _e('with the Pro version. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
 
 		<!-- Category tree method --> 
@@ -1858,7 +1858,7 @@
 			<a target="_BLANK"
 				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=woo_settings-atlas-novus" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('WooCommerce Integration', 'wp-google-maps'); ?> 
-			</a> <?php _e('with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps'); ?>
+			</a> <?php _e('with the Pro version. Support and updates included forever.', 'wp-google-maps'); ?>
 		</div>
 
 		<!-- Woo Commerce Product Editor -->

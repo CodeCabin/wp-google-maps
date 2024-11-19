@@ -311,6 +311,9 @@ class GlobalSettings extends Settings
 				$data->{$key} = base64_encode($data->{$key});
 			}
 		}
+
+		/* Developer Hook (Filter) - Allow global settings JSON serialize filtering */
+		$data = apply_filters("wpgmza_global_settings_json_serialize_filter", $data);
 		
 		return $data;
 	}

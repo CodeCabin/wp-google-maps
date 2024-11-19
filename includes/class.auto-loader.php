@@ -59,7 +59,21 @@ class AutoLoader
 		$results = array();
 		
 		$buffer = file_get_contents($file);
+
+		/* Regex only based autoloader - Default as of 2024-11-18 */
+		if(preg_match('/^\s*namespace\s+(.+);/m', $buffer, $m)){
+			$namespace = '\\' . trim($m[1]);
+		}
 		
+		if(preg_match('/^(abstract)?\s*class\s+(\w+)/m', $buffer, $m)){
+			$class = trim($m[2]);
+		}
+		
+		$result = $namespace . '\\' . $class;
+		
+		/* Disabled as of 2024-11-18 */
+		/* This if/else logic block is failing in some environments. We should revisit it, but for now the regex only method seems very reliable on all environments */
+		/*
 		if(!function_exists('token_get_all')) {
 			// Regex fallback for users without token_get_all
 			if(preg_match('/^\s*namespace\s+(.+);/m', $buffer, $m)){
@@ -78,7 +92,7 @@ class AutoLoader
 				for (;$i<count($tokens);$i++) {
 					if ($tokens[$i][0] === T_NAMESPACE) {
 						for ($j=$i+1;$j<count($tokens); $j++) {
-							/* We need to be sure 'T_NAME_QUALIFIED' is defined before testing it */
+							// We need to be sure 'T_NAME_QUALIFIED' is defined before testing it 
 							if ($tokens[$j][0] === T_STRING || (defined('T_NAME_QUALIFIED') && $tokens[$j][0] === T_NAME_QUALIFIED)) {
 								$namespace .= '\\'.$tokens[$j][1];
 							} else if ($tokens[$j] === '{' || $tokens[$j] === ';') {
@@ -111,7 +125,7 @@ class AutoLoader
 				$triggerFallback = true;
 			}
 
-			/* Final fallback check */
+			// Final fallback check 
 			if(empty($class) && !empty($triggerFallback)){
 				// Regex fallback for users without token_get_all
 				if(preg_match('/^\s*namespace\s+(.+);/m', $buffer, $m)){
@@ -125,7 +139,7 @@ class AutoLoader
 				$result = $namespace . '\\' . $class;
 			}
 		}
-
+		*/
 		
 		if(empty($class)){
 			return null;
