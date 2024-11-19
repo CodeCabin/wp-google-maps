@@ -1186,7 +1186,7 @@
 						<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 							<?php
 							_e('<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions-atlas-novus">
-							Enable directions</a> with the Pro version for only $39.99 once off. Support and updates included forever', 'wp-google-maps');
+							Enable directions</a> with the Pro version. Support and updates included forever', 'wp-google-maps');
 							?>
 						</div>
 
@@ -1696,7 +1696,7 @@
 						<!-- Upsell -->
 						<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 							<?php
-							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-atlas-novus" target="_BLANK">Pro version for only $39.99 once off</a>. Support and updates included forever.', "wp-google-maps");
+							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-atlas-novus" target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
 							?>
 						</div>
 
@@ -1876,7 +1876,7 @@
 						<!-- Upsell -->
 						<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 							<?php
-							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-atlas-novus" target="_BLANK">Pro version for only $39.99 once off</a>. Support and updates included forever.', "wp-google-maps");
+							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-atlas-novus" target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
 							?>
 						</div>
 
@@ -1959,7 +1959,7 @@
 						<!-- Upsell -->
 						<div class="wpgmza-upsell wpgmza-card wpgmza-shadow">
 							<?php
-							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-datatables-atlas-novus" target="_BLANK">Pro version for only $39.99 once off</a>. Support and updates included forever.', "wp-google-maps");
+							_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-datatables-atlas-novus" target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
 							?>
 						</div>
 
@@ -2857,7 +2857,7 @@
 							<?php
 							echo sprintf(
 								__(
-								'Get the rest of these advanced features with the Pro version for only <a href="%s" target="_BLANK">$39.99 once off</a>. Support and updates included forever.',
+								'Get the rest of these advanced features with the <a href="%s" target="_BLANK">Pro version</a>. Support and updates included forever.',
 								"wp-google-maps"
 								),
 								"https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced-atlas-novus"
@@ -3131,11 +3131,11 @@
 					<div class="settings">
 						<!-- Upsell -->
 						<div class="wpgmza-upsell wpgmza-shadow wpgmza-card">
-							<?php _e('Get all of this and more for only $39.99 once off', 'wp-google-maps'); ?>
+							<?php _e('Get all of this and more with our Pro version', 'wp-google-maps'); ?>
 						</div>
 						
 						<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgradenow-atlas-novus" 
-						   target="_BLANK" title="Upgrade now for only $39.99 once off" 
+						   target="_BLANK" title="Upgrade now" 
 						   class="wpgmza-button wpgmza-button-accent wpgmza-stretch wpgmza-text-align-center" 
 						   id="wpgmza-upgrade-now__btn">
 								<?php esc_html_e('Upgrade Now', "wp-google-maps") ?>

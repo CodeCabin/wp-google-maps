@@ -249,7 +249,7 @@
 						
 						<?php
 						_e('<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions">
-						Enable directions</a> with the Pro version for only $39.99 once off. Support and updates included forever', 'wp-google-maps');
+						Enable directions</a> with the Pro version. Support and updates included forever', 'wp-google-maps');
 						?>
 
 					</div>
@@ -1086,7 +1086,7 @@
 						<?php
 						echo sprintf(
 							__(
-							'Get the rest of these advanced features with the Pro version for only <a href="%s" target="_BLANK">$39.99 once off</a>. Support and updates included forever.',
+							'Get the rest of these advanced features with the <a href="%s" target="_BLANK">Pro version</a>. Support and updates included forever.',
 							"wp-google-maps"
 							),
 							"https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced"
@@ -1581,7 +1581,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing"target="_BLANK">Pro version for only $39.99 once off</a>. Support and updates included forever.', "wp-google-maps");
+						_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing"target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
 						?>
 					</div>
 					
@@ -2311,11 +2311,11 @@
 							
 						<p>
 							<?php
-							_e('Get all of this and more for only $39.99 once off', 'wp-google-maps');
+							_e('Get all of this and more with our Pro version', 'wp-google-maps');
 							?>
 						</p>
 						<p>
-							<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgradenow" target="_BLANK" title="Upgrade now for only $39.99 once off" class="button-primary" style="font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;" id="wpgmza-upgrade-now__btn">
+							<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgradenow" target="_BLANK" title="Upgrade now" class="button-primary" style="font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;" id="wpgmza-upgrade-now__btn">
 									<?php esc_html_e('Upgrade Now', "wp-google-maps") ?>
 								</a>
 						</p>
@@ -2617,9 +2617,8 @@
 							<span style="font-size:18px; color:#666;" 
 								class='wpgmza-feature-item__desc'>
 								<?php
-								_e("Add detailed information to your markers for only", "wp-google-maps"); 
+								_e("Add detailed information to your markers!", "wp-google-maps"); 
 								?>
-								<strong>$39.99</strong>
 								<?php
 								_e("Click", "wp-google-maps");
 								?>

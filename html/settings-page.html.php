@@ -980,7 +980,7 @@
 				
 				<?php _e('Add Beautiful Marker Listings
 			</a> 
-			to your maps with the Pro version for only $39.99 once off. Support and updates included forever.', 'wp-google-maps');
+			to your maps with the Pro version. Support and updates included forever.', 'wp-google-maps');
 			?>
 			
 		</div>
