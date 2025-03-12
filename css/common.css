@@ -913,6 +913,322 @@ input[type='radio']:checked + .wpgmza-infowindow-picker__item span{
     top: 1.6rem;
 }
 
+/* Internal Autocomplete */
+.wpgmza-internal-autocomplete-list {
+    position: fixed;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow:  0 1px 1px 0 rgb(66 66 66 / 8%), 0 1px 3px 1px rgb(66 66 66 / 16%);
+    z-index: 999;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #eee;
+
+    cursor: pointer;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="adr"],
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="type"]{
+    font-size: 0.7rem;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:hover{
+    background: #eee;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:last-child{
+    border: none;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location > *{
+    max-width: 100%;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    white-space:nowrap;
+}
+
+.wpgmza-internal-autocomplete-list.wpgmza-hidden {
+	display: none;
+}
+
+/* Polyfill Google Routes instructions with the original directions icons */
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver {
+    background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/maneuvers.png);
+
+    background-size: 19px 630px;
+    width: 16px;
+    height: 16px;
+
+    display: none;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ferry{
+	display:block;
+	background-position:0 -614px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ferry-train{
+	display:block;
+	background-position:0 -566px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-merge{
+	display:block;
+	background-position:0 -143px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-name-change,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-depart,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-straight{
+	display:block;
+	background-position:0 -534px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-fork-left{
+	display:block;
+	background-position:0 -550px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ramp-left{
+	display:block;
+	background-position:0 -598px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-roundabout-left{
+	display:block;
+	background-position:0 -197px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-left,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-keep-left{
+	display:block;
+	background-position:0 -413px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-sharp-left{
+	display:block;
+	background-position:0 0;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-slight-left{
+	display:block;
+	background-position:0 -378px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-uturn-left{
+	display:block;
+	background-position:0 -305px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-fork-right{
+	display:block;
+	background-position:0 -499px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ramp-right{
+	display:block;
+	background-position:0 -429px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-roundabout-right{
+	display:block;
+	background-position:0 -232px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-right,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-keep-right{
+	display:block;
+	background-position:0 -483px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-sharp-right{
+	display:block;
+	background-position:0 -582px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-slight-right{
+	display:block;
+	background-position:0 -51px;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-uturn-right{
+	display:block;
+	background-position:0 -35px;
+}
+
+.wpgmza-route-instruction-inner {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    cursor: pointer;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-icon {
+    min-width: 30px;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-metric {
+    margin-left:auto;
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.8;
+    min-width: 120px;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-metric > * {
+    text-align: right;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-description {
+    max-width: 75%;
+    display: flex;
+    font-size: 0.9rem;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-description .wpgmza-route-instruction-step-no{
+    min-width: 30px;
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+.gm-style-iw-d .wpgmza-route-instruction-inner {
+    max-width: 400px;
+    border-radius: 5px;
+    border: none;
+}
+
+.wpgmza-directions-stop {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    background:#eee;
+}
+
+.wpgmza-directions-travel-time {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    display: flex;
+    align-items:stretch;
+}
+
+.wpgmza-directions-travel-time > div{
+    opacity: 0.8;
+}
+
+.wpgmza-directions-travel-time > div:last-child {
+    margin-left:auto;
+}
+
+.wpgmza-route-selection {
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    background: #eee;
+
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.wpgmza-route-selection .wpgmza-route-selection-heading{
+    padding: 5px 10px;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item{
+    padding: 5px 10px;
+    cursor: pointer;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+
+    transition: background 0.5s ease;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item:hover,
+.wpgmza-route-selection .wpgmza-route-selection-item.current-route{
+    background: #ddd;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-description{
+    font-weight: 500;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    display: flex;
+    align-items:center;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-description .wpgmza-route-selection-type{
+    font-size: 0.6rem;
+    padding: 0 4px;
+    border-radius: 3px;
+    opacity: 0.9;
+    background: #fff;
+    margin-left: 7px;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-metrics{
+    margin-left: auto;
+    text-align: right;
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.wpgmza-directions-route-warnings {
+    font-size: 0.7rem;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 20px;
+}
+
+.wpgmza-directions-route-warnings > div{
+    padding: 5px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.wpgmza-directions-route-warnings > div:first-child{
+    border-top: none;
+}
+
+.wpgmza-directions-notifications {
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 5px !important;
+    opacity: 0.8;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+}
+
+.wpgmza-print-directions,
+.wpgmza-reset-directions {
+    cursor: pointer;
+}
+
+.wpgmza-directions-step:before{
+	display:none;
+}
+
 /* Keyframes */
 @keyframes wpgmza-google-animation-bounce {
     0% {

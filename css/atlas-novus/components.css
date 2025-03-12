@@ -735,6 +735,50 @@
 }
 
 
+/* Internal Autocomplete */
+.wpgmza-internal-autocomplete-list {
+    position: fixed;
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--wpgmza-color-white);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--wpgmza-color-light);
+    border-radius: 5px;
+    box-shadow: var(--wpgmza-shadow-common);
+    z-index: 999;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--wpgmza-color-light);
+
+    cursor: pointer;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="adr"],
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="type"]{
+    font-size: 0.7rem;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:hover{
+    background: var(--wpgmza-color-light);
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:last-child{
+    border: none;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location > *{
+    max-width: 100%;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    white-space:nowrap;
+}
+
 
 /* Animations */
 @-webkit-keyframes wpgmzaInfiniteRotate {

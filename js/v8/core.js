@@ -629,6 +629,36 @@ jQuery(function($) {
 			return true;
 			
 		},
+
+		/**
+		 * Shorthand function to determine if the Places search by text method is supported
+		 * 
+		 * This doesn't require alpha libraries, and allows us to maintain the visuals of our address elements
+		 * 
+		 * It also means we  need to handle the pac container internally instead of via the google autocomplete modules
+		 * 
+		 * @method isGooglePlacesSearchSupported
+		 * @static
+		 * @return {boolean} True if the places autocomplete element is available
+		 */
+		isGooglePlacesSearchSupported: function(){
+			if(!window.google)
+				return false;
+			
+			if(!google.maps)
+				return false;
+			
+			if(!google.maps.places)
+				return false;
+			
+			if(!google.maps.places.Place)
+				return false;
+
+			if(!google.maps.places.Place.searchByText)
+				return false;
+			
+			return true;
+		},
 		
 		/**
 		 * The Google API status script enqueue, as reported by the server
