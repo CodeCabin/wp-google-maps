@@ -741,7 +741,8 @@ jQuery(function($) {
 										enhancedAutocomplete.disabledFlag = true;
 									} else {
 										/* General request error was reached, we need to report it and instantly swap back to Google */
-										console.error(results.error);
+										// console.error(results.error);
+										console.log("Enhanced Autocomplete Error: " + results.error + " (Switching to internal)");
 										this.swapEnhancedAutocomplete(element);
 									}
 								} else {
@@ -799,6 +800,10 @@ jQuery(function($) {
 		if(element._wpgmzaAddressInput){
 			if(!element._wpgmzaAddressInput.googleAutocompleteLoaded){
 				element._wpgmzaAddressInput.loadGoogleAutocomplete();
+
+				if(element._wpgmzaAddressInput.autocomplete){
+					element._wpgmzaAddressInput.findLocations();
+				}
 			}
 		}
 		

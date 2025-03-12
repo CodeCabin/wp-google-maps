@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 9.0.44
+Stable tag: 9.0.45
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -213,6 +213,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 9.0.45 =
+Please update to 9.0.45 or above for the latest stability improvements.
+
 = 9.0.43 =
 Please update to 9.0.43 or above for the latest stability improvements.
 
@@ -331,6 +334,11 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.45 - 2025-03-12 =
+* Fixed issue where deprecated Google Places API (Legacy) would cause engine error to appear
+* Added support for address autocomplete with Google Places text search instead of the original autocomplete. Required Places API (New) (Google)
+* Added internal autocomplete module to manage address suggestions, which can be extended to other service providers in the future
 
 = 9.0.44 - 2024-11-19 =
 * Added global settings JSON serialize filter, for add-ons to utilize 
