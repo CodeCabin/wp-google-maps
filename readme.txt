@@ -3,7 +3,7 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, block, map block, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.0
 Stable tag: 9.0.45
 License: GPLv2
