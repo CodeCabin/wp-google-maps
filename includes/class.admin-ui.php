@@ -8,6 +8,8 @@ class Admin extends \WPGMZA\Factory
 	{
 		add_action( 'admin_menu', array($this, 'onAdminMenu') );
 		add_action( 'admin_enqueue_scripts', array($this, 'onAdminEnqueueScripts') );
+
+		add_action( 'admin_init', array($this, 'onAdminInit') );
 	}
 	
 	public function onAdminEnqueueScripts()
@@ -15,6 +17,21 @@ class Admin extends \WPGMZA\Factory
 		global $wpgmza;
 		
 		$wpgmza->loadScripts(false);
+	}
+
+	public function onAdminInit(){
+		add_filter( 'wp_refresh_nonces', array($this, 'onAdminRefreshNonces') );
+	}
+
+	public function onAdminRefreshNonces($nonces){
+		if(!empty($_POST) && !empty($_POST['screen_id'])){
+			if(strpos($_POST['screen_id'], 'wp-google-maps') !== FALSE){
+				/* Looking at a WP Go Maps Related page */
+				$action = admin_url('admin-post.php');
+				$nonces['wpgmza_nonce'] = wp_create_nonce("wpgmza_$action");
+			}
+		}
+		return $nonces;
 	}
 
 	public function onAdminMenu()

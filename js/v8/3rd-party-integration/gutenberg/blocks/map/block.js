@@ -88,7 +88,7 @@
 						{ "className": "map-block-gutenberg-button-container" },
 						React.createElement(
 							"a",
-							{ href: "https://docs.wpgmaps.com/rYX4-creating-your-first-map",
+							{ href: "https://www.wpgmaps.com/help/docs/creating-your-first-map/",
 								target: "_blank",
 								"className": "button button-primary" },
 							React.createElement("i", { "className": "fa fa-book", "aria-hidden": "true" }),

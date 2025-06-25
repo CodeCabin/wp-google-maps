@@ -956,7 +956,7 @@
 								<?php
 								_e('View', 'wp-google-maps');
 								?>
-								<a href='https://docs.wpgmaps.com/store-locator' target='_BLANK'>
+								<a href='https://www.wpgmaps.com/help/docs/store-locator/' target='_BLANK'>
 									<?php
 									_e('Store Locator Documentation', 'wp-google-maps');
 									?>
@@ -3625,7 +3625,7 @@
 
 						<ul>
 							<li>
-								<a href="https://docs.wpgmaps.com/"
+								<a href="https://www.wpgmaps.com/help/"
 									title="<?php esc_attr_e('WP Go Maps Documentation Section', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Documentation", "wp-google-maps"); ?>
@@ -3633,7 +3633,7 @@
 							</li>
 							
 							<li>
-								<a href="https://docs.wpgmaps.com/troubleshooting"
+								<a href="https://www.wpgmaps.com/help/docs-category/troubleshooting/"
 									title="<?php esc_attr_e('WP Go Maps Troubleshooting Section', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Troubleshooting", "wp-google-maps"); ?>

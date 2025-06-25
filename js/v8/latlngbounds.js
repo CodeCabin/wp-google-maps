@@ -117,8 +117,12 @@ jQuery(function($) {
 		if(!(map instanceof WPGMZA.Map))
 			throw new Error("First argument must be an instance of WPGMZA.Map");
 		
-		if(this.isInInitialState())
-			throw new Error("Cannot extend by pixels in initial state");
+		if(this.isInInitialState()){
+			/* Throwing an error here causes the system to fail during initialization of the clustering system */
+			//throw new Error("Cannot extend by pixels in initial state");
+			return;
+		}
+			
 		
 		if(arguments.length >= 3)
 			y = arg;

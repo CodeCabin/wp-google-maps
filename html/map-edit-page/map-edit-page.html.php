@@ -825,7 +825,7 @@
 							<?php
 							_e('View', 'wp-google-maps');
 							?>
-							<a href='https://docs.wpgmaps.com/CB2H-store-locator' target='_BLANK'>
+							<a href='https://www.wpgmaps.com/help/docs/store-locator-legacy/' target='_BLANK'>
 								<?php
 								_e('Store Locator Documentation', 'wp-google-maps');
 								?>
@@ -2723,7 +2723,7 @@
 					|
 					<?php 
 					_e('Translating the plugin with', 'wp-google-maps'); ?>
-					<a href='https://docs.wpgmaps.com/translating-the-plugin-with-wpml' target='_BLANK'><?php esc_html_e('WPML', 'wp-google-maps'); ?></a>
+					<a href='https://www.wpgmaps.com/help/docs/translating-the-plugin-with-wpml-legacy/' target='_BLANK'><?php esc_html_e('WPML', 'wp-google-maps'); ?></a>
 				</small>
 			</p>
 

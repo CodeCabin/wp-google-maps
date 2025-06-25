@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.45
+Version: 9.0.46
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,20 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.46 - 2025-06-25
+ * Added option to disable new Camera Control in Google Maps
+ * Added support for automatic nonce refresh in the map editor if admin is logged out during usage
+ * Fixed issue where marker render mode notice included a typo
+ * Fixed issue where implicitly nullable parameter declarations deprecated notice was thrown on PHP 8.4 and above
+ * Fixed issue where incorrect nonce could lead to a page crash when saving a map. We now return instead of throwing an error to fail gracefully
+ * Fixed issue where fitBounds in OpenLayers would not add any padding, leading to markers outside of viewport
+ * Fixed issue where Traditional Chinese would still load Simplified Chinese API paramaters
+ * Fixed issue where LatLngBounds would fail to extend if clustering was enabled with beta caching module (Gold)
+ * Improved PHP 8.4 stability
+ * Removed legacy theme parse fallback logic which was not up to standard. Replaced with updated parser
+ * Updated da_DK translations, thanks to Finn Sommer
+ * Updated all documentation links
+ * 
  * 9.0.45 - 2025-03-12
  * Fixed issue where deprecated Google Places API (Legacy) would cause engine error to appear
  * Added support for address autocomplete with Google Places text search instead of the original autocomplete. Required Places API (New) (Google)

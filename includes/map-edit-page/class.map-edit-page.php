@@ -413,8 +413,10 @@ class MapEditPage extends Page
 		);
 		
 		// Check nonces
-		if(!$this->isNonceValid($this->form, $_POST['nonce']))
+		if(!$this->isNonceValid($this->form, $_POST['nonce'])){
 			throw new \Exception("Invalid nonce");
+			return;
+		}
 		
 		// Copy the data
 		$data = stripslashes_deep($_POST);

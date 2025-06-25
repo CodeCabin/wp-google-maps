@@ -114,7 +114,7 @@ class WPGMAPS_templates {
                         <div class="feature-section three-col">
                             <div class='col'>
                                 <h4><?php _e("New to WP Go Maps?","wp-google-maps"); ?></h4>
-                                <p><?php _e("You may want to","wp-google-maps"); ?> <a href='http://docs.wpgmaps.com/' target='_blank' title='Documentation'><?php _e("review our documentation","wp-google-maps"); ?></a> <?php _e("before you get started. If you're a tech-savvy individual, you may skip this step.","wp-google-maps"); ?></p>
+                                <p><?php _e("You may want to","wp-google-maps"); ?> <a href='https://www.wpgmaps.com/help/' target='_blank' title='Documentation'><?php _e("review our documentation","wp-google-maps"); ?></a> <?php _e("before you get started. If you're a tech-savvy individual, you may skip this step.","wp-google-maps"); ?></p>
                             </div>
                             <div class='col'>
                                 <h4><?php _e("Help me!","wp-google-maps"); ?></h4>
