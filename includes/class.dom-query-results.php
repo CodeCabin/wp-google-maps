@@ -7,7 +7,7 @@ class DOMQueryResults implements \ArrayAccess, \Countable, \Iterator
 	private $index = 0;
 	private $container;
 	
-	public function __construct(array $arr = null)
+	public function __construct(?array $arr = null)
 	{
 		if(!empty($arr))
 			$this->container = $arr;

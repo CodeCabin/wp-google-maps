@@ -99,6 +99,20 @@ jQuery(function($) {
 			
 		});
 
+		$(document).on('heartbeat-tick', (event, response, status, jqXHR) => {
+			try{
+				if(response && response.nonces_expired){
+					if(response.wpgmza_nonce){
+						/* The hearbeat sent back a new nonce which should replace the map editor nonce */
+						$('form[name="wpgmza_map_form"] input[name="nonce"]').val(response.wpgmza_nonce).trigger('change');
+					}
+				}
+			} catch (ex){
+				/* Ignore, we can't handle this data */
+			}
+			
+		});
+
 		var ajaxRequest = false;
 		var wpgmzaAjaxTimeout = false;
 

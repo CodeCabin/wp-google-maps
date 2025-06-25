@@ -34,7 +34,7 @@ class ParseException extends \Exception
 	 * @param int $code Unused, the error code
 	 * @param \Exception $previous The previous exception, used for exception chaining
 	 */
-	public function __construct($message, $code = 0, \Exception $previous = null) {
+	public function __construct($message, $code = 0, ?\Exception $previous = null) {
         \Exception::__construct($message, $code, $previous);
     }
 }
@@ -50,7 +50,7 @@ class ConvertException extends \Exception
 	 * @param int $code Unused, the error code
 	 * @param \Exception $previous The previous exception, used for exception chaining
 	 */
-	public function __construct($message, $code = 0, \Exception $previous = null) {
+	public function __construct($message, $code = 0, ?\Exception $previous = null) {
         \Exception::__construct($message, $code, $previous);
     }
 }

@@ -46,16 +46,20 @@ class GoogleMapsLoader
 		$suffix = '.com';
 		$region = false;
 
+		$localeOverride = false;
 		switch($locale){
 			case 'he_IL':
 				// Hebrew correction
 				$locale = 'iw';
 				break;
-			
 			case 'zh_CN':
 				// Chinese integration
-				// $suffix = '.cn';
 				$region = 'CN';
+				break;
+			case 'zh_TW':
+				// Traditional Chinese
+				$region = 'TW';
+				$localeOverride = 'zh-TW';
 				break;
 		}
 		
@@ -65,7 +69,7 @@ class GoogleMapsLoader
 		// Default params for google maps
 		$params = array(
 			'v' 		=> 'quarterly',
-			'language'	=> $locale,
+			'language'	=> !empty($localeOverride) ? $localeOverride : $locale,
 			'suffix'	=> $suffix
 		);
 

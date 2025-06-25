@@ -3660,6 +3660,9 @@
     border-radius: 4px;
     box-shadow: var(--wpgmza-shadow-high);
 
+    max-height: 60vh; 
+    overflow-y: auto;
+
     text-align: center;
 
     transform: translate(-50%, -50%);

@@ -124,7 +124,7 @@ global $wpgmza_global_array;
     <h2><?php _e("New to WP Go Maps?","wp-google-maps"); ?></h2>
     <h3>
         <?php _e("You may want to","wp-google-maps"); ?> 
-        <a href='http://docs.wpgmaps.com/' target='_blank' title='Documentation'>
+        <a href='https://www.wpgmaps.com/help/' target='_blank' title='Documentation'>
             <?php _e("review our documentation","wp-google-maps"); ?>
         </a> <?php _e("before you get started.","wp-google-maps"); ?>
     </h3>

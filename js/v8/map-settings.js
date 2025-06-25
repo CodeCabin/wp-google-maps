@@ -216,6 +216,7 @@ jQuery(function($) {
 		
 		// These settings are all inverted because the checkbox being set means "disabled"
 		options.zoomControl				= !isSettingDisabled(this.wpgmza_settings_map_zoom);
+		options.cameraControl			= !isSettingDisabled(this.wpgmza_settings_map_camera_control);
         options.panControl				= !isSettingDisabled(this.wpgmza_settings_map_pan);
         options.mapTypeControl			= !isSettingDisabled(this.wpgmza_settings_map_type);
         options.streetViewControl		= !isSettingDisabled(this.wpgmza_settings_map_streetview);

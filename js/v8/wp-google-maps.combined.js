@@ -6932,8 +6932,12 @@ jQuery(function($) {
 		if(!(map instanceof WPGMZA.Map))
 			throw new Error("First argument must be an instance of WPGMZA.Map");
 		
-		if(this.isInInitialState())
-			throw new Error("Cannot extend by pixels in initial state");
+		if(this.isInInitialState()){
+			/* Throwing an error here causes the system to fail during initialization of the clustering system */
+			//throw new Error("Cannot extend by pixels in initial state");
+			return;
+		}
+			
 		
 		if(arguments.length >= 3)
 			y = arg;
@@ -7628,6 +7632,7 @@ jQuery(function($) {
 		
 		// These settings are all inverted because the checkbox being set means "disabled"
 		options.zoomControl				= !isSettingDisabled(this.wpgmza_settings_map_zoom);
+		options.cameraControl			= !isSettingDisabled(this.wpgmza_settings_map_camera_control);
         options.panControl				= !isSettingDisabled(this.wpgmza_settings_map_pan);
         options.mapTypeControl			= !isSettingDisabled(this.wpgmza_settings_map_type);
         options.streetViewControl		= !isSettingDisabled(this.wpgmza_settings_map_streetview);
@@ -16225,34 +16230,19 @@ jQuery(function($) {
 		try{
 			json = JSON.parse(raw);	// Try to parse strict JSON
 		}catch(e) {
+			var str = raw;
+			
+			str = str.replace(/\\'/g, '\'');
+			str = str.replace(/\\"/g, '"');
+			str = str.replace(/\\0/g, '\0');
+			str = str.replace(/\\\\/g, '\\');
 			
 			try{
-				
-				json = eval(raw);	// Try to parse JS object
-				
+				json = JSON.parse(str);
 			}catch(e) {
-				
-				var str = raw;
-				
-				str = str.replace(/\\'/g, '\'');
-				str = str.replace(/\\"/g, '"');
-				str = str.replace(/\\0/g, '\0');
-				str = str.replace(/\\\\/g, '\\');
-				
-				try{
-					
-					json = eval(str);
-					
-				}catch(e) {
-					
-					console.warn("Couldn't parse theme data");
-				
+				console.warn("Couldn't parse theme data");
 				return [];
-					
-				}
-				
 			}
-			
 		}
 
 		/* As of 2023-04-28 Google Maps themes must contain array with each item being a defined object. This means older theme definitions
@@ -19520,6 +19510,20 @@ jQuery(function($) {
 			
 		});
 
+		$(document).on('heartbeat-tick', (event, response, status, jqXHR) => {
+			try{
+				if(response && response.nonces_expired){
+					if(response.wpgmza_nonce){
+						/* The hearbeat sent back a new nonce which should replace the map editor nonce */
+						$('form[name="wpgmza_map_form"] input[name="nonce"]').val(response.wpgmza_nonce).trigger('change');
+					}
+				}
+			} catch (ex){
+				/* Ignore, we can't handle this data */
+			}
+			
+		});
+
 		var ajaxRequest = false;
 		var wpgmzaAjaxTimeout = false;
 
@@ -21941,7 +21945,7 @@ jQuery(function($) {
 				parseFloat(northEast.lat)
 			])
 		]);
-		view.fit(extent, this.olMap.getSize());
+		view.fit(extent, { size : this.olMap.getSize(), padding : [60, 60, 60, 60] });
 	}
 	
 	WPGMZA.OLMap.prototype.panTo = function(latLng, zoom)

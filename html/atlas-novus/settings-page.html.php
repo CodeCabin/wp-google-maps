@@ -290,6 +290,13 @@
 						<?php esc_html_e('Disable Full Screen Control', 'wp-google-maps'); ?>
 					</div>
 				</label>
+
+				<label data-required-maps-engine="google-maps">
+					<div>
+						<input name="wpgmza_settings_map_camera_control" class="wpgmza-fancy-toggle-switch" type="checkbox"/>
+						<?php esc_html_e('Disable Camera Control', 'wp-google-maps'); ?>
+					</div>
+				</label>
 				
 				<label data-required-maps-engine="google-maps">
 					<div>
@@ -353,7 +360,7 @@
 		<div class="tab-row wpgmza-hidden">
 			<div class="title">
 				<?php esc_html_e('User Interface Style', 'wp-google-maps'); ?>
-				(<em><a href='https://docs.wpgmaps.com/user-interface-style' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
+				(<em><a href='https://www.wpgmaps.com/help/docs/user-interface-style-legacy/' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
 			</div>
 			
 			<ul>
@@ -527,7 +534,7 @@
 				<br> 
 
 				<?php
-					_e("Please note, using the new render mode will also impact the limitations of some of our systems. You will not be able to use local map themes, control points of interes or enable some animations within this mode", "wp-google-maps");
+					_e("Please note, using the new render mode will also impact the limitations of some of our systems. You will not be able to use local map themes, control points of interest or enable some animations within this mode", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -1662,7 +1669,7 @@
 			<small class="hint">
 				<?php
 				_e("This API key can be obtained from 
-				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://docs.wpgmaps.com/creating-a-google-maps-api-key' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>

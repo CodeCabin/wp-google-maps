@@ -554,7 +554,7 @@ jQuery(function($) {
 				parseFloat(northEast.lat)
 			])
 		]);
-		view.fit(extent, this.olMap.getSize());
+		view.fit(extent, { size : this.olMap.getSize(), padding : [60, 60, 60, 60] });
 	}
 	
 	WPGMZA.OLMap.prototype.panTo = function(latLng, zoom)
