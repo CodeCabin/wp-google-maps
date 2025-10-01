@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.46
+Version: 9.0.47
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,11 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.47 - 2025-10-01
+ * Fixed issue where Ajax transport would not correctly check for nonce values. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
+ * Fixed issue where Ajax transport would incorrectly handle authenticated methods/routes. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
+ * Fixed issue where remove duplicated helper would not re-asset permissions. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
+ * 
  * 9.0.46 - 2025-06-25
  * Added option to disable new Camera Control in Google Maps
  * Added support for automatic nonce refresh in the map editor if admin is logged out during usage
