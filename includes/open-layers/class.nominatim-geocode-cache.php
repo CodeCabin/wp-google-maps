@@ -66,18 +66,63 @@ class NominatimGeocodeCache
 	{
 		global $wpdb;
 		
-		if(empty($query))
+		$query = sanitize_text_field($query);
+
+		if(empty($query)){
 			throw new \Exception("First argument cannot be empty");
-				
-		$stmt = $wpdb->prepare("INSERT INTO {$this->table} (query, response) VALUES (%s, %s)", array(
-			$query,
-			$response
-		));
+		}
 
-		/* Developer Hook (Filter) - Modify nominatim cache store */
-		$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_set', $stmt, $query, $response );
+		if(!empty($response)){
+			if(is_string($response)){
+				try{
+					$json = json_decode(stripslashes($response));
+					$response = $json;
+				} catch(\Exception $ex){
+					$response = false;
+				} catch(\Error $err){
 
-		$wpdb->query($stmt);
+					$response = false;
+				}
+
+			}
+
+			if(!empty($response)){
+				if(is_object($response)){
+					$response = array($response);
+				}
+
+				if(is_array($response)){
+					$response = $this->sanitizeDataRecursive($response);
+				} else {
+					throw new \Exception("Response data must be array of objects");
+				}
+			} else {
+				throw new \Exception("Malformed response data");
+			}
+		} else {
+			throw new \Exception("Response data cannot be empty");
+		}
+			
+		
+		if(!empty($response) && is_array($response)){
+			$response = json_encode($response);
+
+			/* Remove old cache results */
+			$wpdb->query($wpdb->prepare("DELETE FROM {$this->table} WHERE query = %s", array($query)));
+
+			/* Store new cache result */
+			$stmt = $wpdb->prepare("INSERT INTO {$this->table} (query, response) VALUES (%s, %s)", array(
+				$query,
+				$response
+			));
+
+			/* Developer Hook (Filter) - Modify nominatim cache store */
+			$stmt = apply_filters( 'wpgmza_ol_nomination_cache_query_set', $stmt, $query, $response );
+
+			$wpdb->query($stmt);
+		} else {
+			throw new \Exception("Malformed response data");
+		}
 	}
 
 	/**
@@ -88,6 +133,31 @@ class NominatimGeocodeCache
 		global $wpdb;
 				
 		$stmt = $wpdb->query("TRUNCATE TABLE {$this->table}");
+	}
+
+	public function sanitizeDataRecursive($data){
+		if(!is_array($data) && !is_object($data)){
+			return sanitize_text_field($data);
+		}
+
+		foreach($data as $key => $value){
+			if(is_array($value) || is_object($value)){
+				$value = $this->sanitizeDataRecursive($value);
+			} else if(is_float($value)){
+				$value = floatval($value);
+			} else if(is_int($value)){
+				$value = intval($value);
+			} else {
+				$value = sanitize_text_field($value);
+			}
+
+			if(is_object($data)){
+				$data->{$key} = $value;
+			} else if(is_array($data)){
+				$data[$key] = $value;
+			}
+		}
+		return $data;
 	}
 }
 
@@ -114,11 +184,23 @@ function query_nominatim_cache()
 function store_nominatim_cache()
 {
 	$cache = new NominatimGeocodeCache();
-	$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
-	
-	wp_send_json(array(
-		'success' => 1
-	));
+	try{
+		$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
+		
+		wp_send_json(array(
+			'success' => 1
+		));
+	} catch (\Exception $ex){
+		wp_send_json(array(
+			'success' => 0,
+			'message' => $ex->getMessage()
+		));
+	} catch (\Error $err){
+		wp_send_json(array(
+			'success' => 0,
+			'message' => $err->getMessage()
+		));
+	}
 	exit;
 }
 
