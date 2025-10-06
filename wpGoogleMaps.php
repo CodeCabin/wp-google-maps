@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 9.0.47
+Version: 9.0.48
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,10 @@ Domain Path: /languages
 
 
 /*
+ * 9.0.48 - 2025-10-06
+ * Fixed issue where nominatim cache endpoints would not properly sanitize cache data. Security issue. Thanks Animesh Gaurav (Jetpack)
+ * Fixed issue where nominatim cache would not clear previously stored cache data for specific query sets
+ * 
  * 9.0.47 - 2025-10-01
  * Fixed issue where Ajax transport would not correctly check for nonce values. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
  * Fixed issue where Ajax transport would incorrectly handle authenticated methods/routes. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
