@@ -325,6 +325,12 @@ class RestAPI extends Factory
 			'callback'					=> array($this, 'geocodeCache'),
 			'useCompressedPathVariable'	=> true
 		));
+
+		$this->registerRoute('/query-nominatim', array(
+			'methods'					=> array('GET'),
+			'callback'					=> array($this, 'queryNominatim'),
+			'useCompressedPathVariable'	=> true
+		));
 		
 		$this->registerRoute('/decompress', array(
 			'methods'					=> array('GET'),
@@ -1087,6 +1093,30 @@ class RestAPI extends Factory
 			$record = array();
 		
 		return $record;
+	}
+
+	public function queryNominatim(){
+		$params	= $this->getRequestParameters();
+		$cache	= new NominatimGeocodeCache();
+
+		if(!empty($params) && !empty($params['data'])){
+			$query = (object) $params['data'];
+			$results = $cache->queryNominatimProxy($query);
+			if(!empty($results)){
+				if(!empty($query->_query) && empty($results->error)){
+					/* Cache key passed */
+					try{
+						$cache->set(sanitize_text_field($query->_query), $results);
+					} catch (\Exception $ex){
+						
+					} catch (\Error $err){
+						
+					}
+				}
+				return $results;
+			}
+		}
+		return array();
 	}
 	
 	public function decompress($request)

@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 9.0.48
+Stable tag: 9.0.49
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -213,6 +213,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 9.0.49 =
+Please update to 9.0.49 or above or above to ensure you are using the latest security enhancements.
+
 = 9.0.48 =
 Please update to 9.0.48 or above or above to ensure you are using the latest security enhancements.
 
@@ -343,6 +346,11 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 9.0.49 - 2025-10-15 =
+* Added server side nominatim query endpoint which handles cache storage, while retaining core functionality
+* Added ability for nominatim to report access blocks back to the end user in the event that it occurs
+* Fixed issue where nominatim storage endpoints were vulnerable to cache-poisoning, removed and replaced. Security issue. Thanks Dmitrii Ignatyev (CleanTalk Inc) (Wordfence)
 
 = 9.0.48 - 2025-10-06 =
 * Fixed issue where nominatim cache endpoints would not properly sanitize cache data. Security issue. Thanks Animesh Gaurav (Jetpack)
@@ -789,6 +797,8 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
+
 
 
 

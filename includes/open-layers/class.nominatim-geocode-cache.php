@@ -135,6 +135,73 @@ class NominatimGeocodeCache
 		$stmt = $wpdb->query("TRUNCATE TABLE {$this->table}");
 	}
 
+	/**
+	 * Queries the nominatim directly, as if it was a client side request
+	 * 
+	 * This offloads the process from the client, adding security and reliability to the request
+	 * 
+	 * Ideally this would be in some nominatim shared class, but this was a later addition to mitigate cache poisoning and
+	 * as such needs to exist here fro backwards compat, and long term reuse. 
+	 * 
+	 * We'll likely streamline this down the road into one geocoder system or something
+	 * 
+	 * @param object $query
+	 * 
+	 * @return array
+	 */
+	public function queryNominatimProxy($query){
+		if(!empty($query) && !empty($query->q)){
+            $args = array(
+                'q' => $query->q,
+                'format' => !empty($query->format) ? $query->format : 'json'
+            );
+
+			if(!empty($query->countrycodes)){
+				$args['countrycodes'] = $query->countrycodes;
+			}
+
+            $endpoint = 'https://nominatim.openstreetmap.org/search';
+
+            $url = add_query_arg($args, $endpoint);
+
+            $siteUrl = get_site_url();
+            $response = wp_remote_get($url, 
+                array(
+                    'headers' => array(
+                        'User-Agent' => 'WPGoMapsGeocoder (' . $siteUrl . ')', 
+                        'Referer' => $siteUrl
+                    ),
+                    'timeout' => 10
+                )
+            );
+
+            if(!is_wp_error($response)){
+                try {
+                    $response = wp_remote_retrieve_body($response);
+                    $json = json_decode($response);
+
+                    if(!empty($json)){
+                        return $json;
+                    } else {
+						/* Check if the user has been blocked by OSM/Nominatim */
+						if(strpos($response, 'Access blocked') !== FALSE){
+							$notice = strip_tags($response);
+							$notice = str_replace("Access blocked", "", $notice);
+							return (object) array(
+								'error' => $notice
+							);
+						}
+					}
+                } catch (\Exception $ex){
+                    return false;
+                } catch (\Error $err){
+                    return false;
+                }
+            }
+        }
+        return false;
+	}
+
 	public function sanitizeDataRecursive($data){
 		if(!is_array($data) && !is_object($data)){
 			return sanitize_text_field($data);
@@ -167,14 +234,16 @@ class NominatimGeocodeCache
  */
 function query_nominatim_cache()
 {
-	$cache = new NominatimGeocodeCache();
-	$record = $cache->get(sanitize_text_field($_GET['query']));
-	
-	if(!$record)
-		$record = array();
+	return;
 
-	wp_send_json($record);
-	exit;
+	// $cache = new NominatimGeocodeCache();
+	// $record = $cache->get(sanitize_text_field($_GET['query']));
+	
+	// if(!$record)
+	// 	$record = array();
+
+	// wp_send_json($record);
+	// exit;
 }
 
 /**
@@ -183,25 +252,27 @@ function query_nominatim_cache()
  */
 function store_nominatim_cache()
 {
-	$cache = new NominatimGeocodeCache();
-	try{
-		$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
+	return;
+
+	// $cache = new NominatimGeocodeCache();
+	// try{
+	// 	$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
 		
-		wp_send_json(array(
-			'success' => 1
-		));
-	} catch (\Exception $ex){
-		wp_send_json(array(
-			'success' => 0,
-			'message' => $ex->getMessage()
-		));
-	} catch (\Error $err){
-		wp_send_json(array(
-			'success' => 0,
-			'message' => $err->getMessage()
-		));
-	}
-	exit;
+	// 	wp_send_json(array(
+	// 		'success' => 1
+	// 	));
+	// } catch (\Exception $ex){
+	// 	wp_send_json(array(
+	// 		'success' => 0,
+	// 		'message' => $ex->getMessage()
+	// 	));
+	// } catch (\Error $err){
+	// 	wp_send_json(array(
+	// 		'success' => 0,
+	// 		'message' => $err->getMessage()
+	// 	));
+	// }
+	// exit;
 }
 
 /**
@@ -226,10 +297,11 @@ function clear_nominatim_cache()
 	exit;
 }
 
-add_action('wp_ajax_wpgmza_query_nominatim_cache', 			'WPGMZA\\query_nominatim_cache');
-add_action('wp_ajax_nopriv_wpgmza_query_nominatim_cache', 	'WPGMZA\\query_nominatim_cache');
+/* Deprecated since 9.0.49 */
+// add_action('wp_ajax_wpgmza_query_nominatim_cache', 			'WPGMZA\\query_nominatim_cache');
+// add_action('wp_ajax_nopriv_wpgmza_query_nominatim_cache', 	'WPGMZA\\query_nominatim_cache');
 
-add_action('wp_ajax_wpgmza_store_nominatim_cache', 			'WPGMZA\\store_nominatim_cache');
-add_action('wp_ajax_nopriv_wpgmza_store_nominatim_cache', 	'WPGMZA\\store_nominatim_cache');
+// add_action('wp_ajax_wpgmza_store_nominatim_cache', 			'WPGMZA\\store_nominatim_cache');
+// add_action('wp_ajax_nopriv_wpgmza_store_nominatim_cache', 	'WPGMZA\\store_nominatim_cache');
 
 add_action('wp_ajax_wpgmza_clear_nominatim_cache', 			'WPGMZA\\clear_nominatim_cache');

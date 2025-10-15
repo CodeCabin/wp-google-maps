@@ -13489,12 +13489,18 @@ jQuery(function($) {
 				if(status == WPGMZA.Geocoder.SUCCESS)
 					callback(results, status);
 				else{
+					let error = WPGMZA.localized_strings.address_not_found;
+					if(status == WPGMZA.Geocoder.FAIL && typeof results === 'string'){
+						error = results;
+					}
+
 					if(WPGMZA.InternalEngine.isLegacy()){
-						alert(WPGMZA.localized_strings.address_not_found);
+						alert(error);
 					} else {
-						self.showError(WPGMZA.localized_strings.address_not_found);
+						self.showError(error);
 						self.setVisualState(false);
 					}
+					
 				}
 				 
 			});
@@ -20946,26 +20952,15 @@ jQuery(function($) {
 				query: JSON.stringify(query)
 			},
 			success: function(response, xhr, status) {
-				// Legacy compatibility support
-				response.lng = response.lon;
+				if(response && response.lon){
+					// Legacy compatibility support
+					response.lng = response.lon;
+				}
 				
 				callback(response);
 			},
 			useCompressedPathVariable: true
 		});
-		
-		/*$.ajax(WPGMZA.ajaxurl, {
-			data: {
-				action: "wpgmza_query_nominatim_cache",
-				query: JSON.stringify(query)
-			},
-			success: function(response, xhr, status) {
-				// Legacy compatibility support
-				response.lng = response.lon;
-				
-				callback(response);
-			}
-		});*/
 	}
 	
 	/**
@@ -20987,11 +20982,26 @@ jQuery(function($) {
 		} else if(options.country){
 			data.countrycodes = options.country;
 		}
-		
-		$.ajax("https://nominatim.openstreetmap.org/search", {
-			data: data,
+
+		if(options._query){
+			data._query = options._query;
+		}
+
+		WPGMZA.restAPI.call("/query-nominatim", {
+			data: {
+				data: data,
+			},
 			success: function(response, xhr, status) {
-				callback(response);
+				if(response && response.length){
+					callback(response);
+				} else {
+					if(response && response.error){
+						/* There may be an additional error in place */
+						callback(response.error, WPGMZA.Geocoder.FAIL)
+					} else {
+						callback(null, WPGMZA.Geocoder.FAIL)
+					}
+				}
 			},
 			error: function(response, xhr, status) {
 				callback(null, WPGMZA.Geocoder.FAIL)
@@ -21002,21 +21012,14 @@ jQuery(function($) {
 	/**
 	 * @function cacheResponse
 	 * @access protected
-	 * @summary Caches a response on the server, usually after it's been returned from Nominatim
+	 * @summary Caches a response on the server, usually after it's been returned from Nominatim. Deprecated
 	 * @param {string} address The street address
 	 * @param {object|array} response The response to cache
 	 * @returns {void}
 	 */
 	WPGMZA.OLGeocoder.prototype.cacheResponse = function(query, response)
 	{
-		$.ajax(WPGMZA.ajaxurl, {
-			data: {
-				action: "wpgmza_store_nominatim_cache",
-				query: JSON.stringify(query),
-				response: JSON.stringify(response)
-			},
-			method: "POST"
-		});
+		
 	}
 
 	/**
@@ -21144,11 +21147,11 @@ jQuery(function($) {
 				finish(response, WPGMZA.Geocoder.SUCCESS);
 				return;
 			}
-			
-			self.getResponseFromNominatim($.extend(options, {address: location}), function(response, status) {
+
+			self.getResponseFromNominatim($.extend(options, {address: location, _query : JSON.stringify({location: location, options: options})}), function(response, status) {
 				if(status == WPGMZA.Geocoder.FAIL)
 				{
-					callback(null, WPGMZA.Geocoder.FAIL);
+					callback(typeof response === 'string' ? response : null, WPGMZA.Geocoder.FAIL);
 					return;
 				}
 				
@@ -21159,8 +21162,6 @@ jQuery(function($) {
 				}
 				
 				finish(response, WPGMZA.Geocoder.SUCCESS);
-				
-				self.cacheResponse(query, response);
 			});
 		});
 	}
