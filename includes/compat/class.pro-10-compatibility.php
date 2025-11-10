@@ -184,6 +184,10 @@ class Pro10Compatibility{
                                 }
                             }
 
+                            if(empty($target)){
+                                continue;
+                            }
+
                             $targetStyle = $target->getAttribute('style');
                             if(strpos($targetStyle, 'display')){
                                 /* Likely has a style rule applied */
