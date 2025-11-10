@@ -19,6 +19,16 @@ class InstallerPage extends Page {
 			$redirectUrl = admin_url('admin.php?page=wp-google-maps-menu&action=edit&map_id=' . $editingMap);
 		}
 
+		if($tileServerSelectContainer = $this->document->querySelector('[data-tile-server-select-container]')) {
+			$tileServerSelect = new TileServerSelect(array('name' => 'tile_server_url', 'ingoreKeyServers' => true, 'ignoreCustom' => true));
+			$tileServerSelectContainer->import($tileServerSelect);
+		}
+
+		if($tileServerSelectContainerZeroCost = $this->document->querySelector('[data-tile-server-select-container-zerocost]')) {
+			$tileServerSelectZeroCost = new TileServerSelect(array('name' => 'tile_server_url_leaflet_zerocost', 'provider' => 'OpenFreeMap', 'ignoreCustom' => true));
+			$tileServerSelectContainerZeroCost->import($tileServerSelectZeroCost);
+		}
+
 
 		$wrapper->setAttribute('data-redirect', $redirectUrl);
 
@@ -47,7 +57,7 @@ class InstallerPage extends Page {
 			 * which means they came from the welcome/credits page, which is usually right after an installation
 			*/
 			if(empty(get_option('wpgmza-installer-initial-procedure'))){
-				$wrapper->setAttribute('data-auto-onboarding-procedure', 'engine_gm_2024_10');
+				$wrapper->setAttribute('data-auto-onboarding-procedure', 'enging_zc_2025_11');
 			}
 		}
 
@@ -72,7 +82,7 @@ class InstallerPage extends Page {
 		if($action === 'wpgmza_installer_page_skip'){
 			/* Chosen to skip installation for now */
 			$nextReminder = date('Y-m-d', strtotime('+1 day'));
-			update_option('wpgmza-installer-paused', $nextReminder);
+			update_option('wpgmza-installer-paused', $nextReminder, false);
 
 			/* Delete retrigger events if stored */
 			delete_option('wpgmza-installer-retrigger-event');
@@ -81,12 +91,12 @@ class InstallerPage extends Page {
 			/* Chosen to use a temporary API key instead of finishing setup */
 			$temporaryKey = InstallerPage::generateTempApiKey();
 			if(!empty($temporaryKey)){
-				update_option('wpgmza_temp_api', $temporaryKey);
+				update_option('wpgmza_temp_api', $temporaryKey, false);
 			}
 
 			/* Also skips the installation and delays for a day, in the same way that the skip operation usually would */
 			$nextReminder = date('Y-m-d', strtotime('+1 day'));
-			update_option('wpgmza-installer-paused', $nextReminder);
+			update_option('wpgmza-installer-paused', $nextReminder, false);
 
 			/* Delete retrigger events if stored */
 			delete_option('wpgmza-installer-retrigger-event');
@@ -112,8 +122,8 @@ class InstallerPage extends Page {
 					delete_option('wpgmza-installer-paused');
 
 					/* Mark this so that if the user later changes engines, we can gracefully redirect them to setup again */
-					update_option('wpgmza-installer-retrigger-event', 'engine_ol_2024_05');
-					update_option('wpgmza-installer-initial-procedure', 'engine_ol_2024_05');
+					update_option('wpgmza-installer-retrigger-event', 'engine_ol_2024_05', false);
+					update_option('wpgmza-installer-initial-procedure', 'engine_ol_2024_05', false);
 
 					break;
 				case 'engine_gm_2024_10':
@@ -122,14 +132,34 @@ class InstallerPage extends Page {
 					 * Goal: Improve first usage time by skipping the wizard, using an internally shipped key, and getting the user into the 
 					*/
 					$nextReminder = date('Y-m-d', strtotime('+1 day'));
-					update_option('wpgmza-installer-paused', $nextReminder);
+					update_option('wpgmza-installer-paused', $nextReminder, false);
 
-					update_option('wpgmza-installer-initial-procedure', 'engine_gm_2024_10');
+					update_option('wpgmza-installer-initial-procedure', 'engine_gm_2024_10', false);
+					break;
+				case 'enging_zc_2025_11':
+					/* Procedure: Zero Cost default engine
+					 * Introduced: 2025-11-10
+					 * Goal: Prioritize zero cost mapping as the primary method
+					*/
+					if(!empty($wpgmza) && !empty($wpgmza->settings)){
+						$wpgmza->settings->set('wpgmza_maps_engine', 'leaflet-zerocost'); 
+						$wpgmza->settings->set('wpgmza_maps_engine_dialog_done', true);	
+
+						/* We need to set the tileserver so that they do not have to save once before editing */
+						$wpgmza->settings->set('tile_server_url_leaflet_zerocost', 'https://tiles.openfreemap.org/styles/liberty');	
+					}
+					
+					/* Prevent the system from coming back here in 1 day by mistake */
+					delete_option('wpgmza-installer-paused');
+
+					/* Mark this so that if the user later changes engines, we can gracefully redirect them to setup again */
+					update_option('wpgmza-installer-retrigger-event', 'enging_zc_2025_11', false);
+					update_option('wpgmza-installer-initial-procedure', 'enging_zc_2025_11', false);
 					break;
 				default: 
 					/* Procedure is unknown, delay the installer for a day and come back to it then, because we aren't sure what was intended */
 					$nextReminder = date('Y-m-d', strtotime('+1 day'));
-					update_option('wpgmza-installer-paused', $nextReminder);
+					update_option('wpgmza-installer-paused', $nextReminder, false);
 					break;
 			}
 		} else {
@@ -141,12 +171,34 @@ class InstallerPage extends Page {
 				}
 
 				if(!empty($_POST['api_key'])){
-					$wpgmza->settings->set('wpgmza_google_maps_api_key', sanitize_text_field($_POST['api_key']));
-					update_option('wpgmza_google_maps_api_key', $_POST['api_key']);
+					$apiKey = sanitize_text_field($_POST['api_key']);
+					switch($_POST['wpgmza_maps_engine']){
+						case 'google-maps':
+							$wpgmza->settings->set('wpgmza_google_maps_api_key', $apiKey);
+							update_option('wpgmza_google_maps_api_key', $apiKey, false);
+							break;
+						case 'leaflet-azure':
+							$wpgmza->settings->set('wpgmza_leaflet_azure_key', $apiKey);
+							break;
+						case 'leaflet-stadia':
+							$wpgmza->settings->set('wpgmza_leaflet_stadia_key', $apiKey);
+							break;
+						case 'leaflet-maptiler':
+							$wpgmza->settings->set('wpgmza_leaflet_maptiler_key', $apiKey);
+							break;
+						case 'leaflet-maptiler':
+							$wpgmza->settings->set('wpgmza_leaflet_locationiq_key', $apiKey);
+							break;
+					}
+					
 				}
 
 				if(!empty($_POST['tile_server_url'])){
 					$wpgmza->settings->set('tile_server_url', sanitize_text_field($_POST['tile_server_url']));
+				}
+
+				if(!empty($_POST['tile_server_url_leaflet_zerocost'])){
+					$wpgmza->settings->set('tile_server_url_leaflet_zerocost', sanitize_text_field($_POST['tile_server_url_leaflet_zerocost']));
 				}
 
 				delete_option('wpgmza-installer-paused');

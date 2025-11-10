@@ -22,7 +22,7 @@ class AdminMarkerDataTable extends MarkerDataTable
 
 		$buttonClass = $wpgmza->internalEngine->getButtonClass('button');
 
-		@$this->element->setAttribute('data-wpgmza-admin-marker-datatable', null);
+		@$this->element->setAttribute('data-wpgmza-admin-marker-datatable', '');
 		
 		$this->element->import('<div class="wpgmza-marker-listing__actions">
 			<span>&#x21b3;</span>

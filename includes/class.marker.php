@@ -170,6 +170,7 @@ class Marker extends Feature implements \JsonSerializable
 				$this->update_latlng();
 				break;
 		}
+
 	}
 	
 	public function getPosition()

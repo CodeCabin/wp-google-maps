@@ -20,7 +20,7 @@ jQuery(function($) {
 			self.onBulkDelete(event);
 		});
 
-		$(element).on("click", ".wpgmza.select_all_markers", function(event) {
+		$(element).on("click", ".wpgmza.select_all_features", function(event) {
 			self.onSelectAll(event);
 		});
 
@@ -39,6 +39,10 @@ jQuery(function($) {
 
 		$(element).on("click", "[data-move-map-feature-id]", function(event) {
 			self.onMoveMap(event);
+		});
+
+		$(element).on("click", "[data-fit-feature-bounds-id]", function(event) {
+			self.onFitBounds(event);
 		});
 	}
 	
@@ -116,11 +120,16 @@ jQuery(function($) {
 
 		var result = confirm(WPGMZA.localized_strings.general_delete_prompt_text);
 		if (result) {
-			ids.forEach(function(marker_id) {
-				var marker = map.getMarkerByID(marker_id);
-				
-				if(marker)
-					map.removeMarker(marker);
+			ids.forEach(function(featureId) {
+				try{
+					var feature = map[`get${WPGMZA.capitalizeWords(self.featureType)}ByID`](featureId);
+					
+					if(feature){
+						map[`remove${WPGMZA.capitalizeWords(self.featureType)}`](feature);
+					}
+				} catch (ex){
+
+				}
 			});
 			
 			WPGMZA.restAPI.call("/" + plural + "/", {
@@ -204,8 +213,6 @@ jQuery(function($) {
 				WPGMZA.animateScroll("#wpgmaps_tabs_markers");
 			}
 		}
-
-
 	}
 
 	WPGMZA.AdminFeatureDataTable.prototype.onDuplicate = function(event){
@@ -265,6 +272,62 @@ jQuery(function($) {
 			});
 		}
 
+	}
+
+	WPGMZA.AdminFeatureDataTable.prototype.onFitBounds = function(event) {
+		var id;
+
+		//Check if we have selected the center on marker button or called this function elsewhere 
+		if(event.currentTarget == undefined){
+			id = event;
+		} else {
+			id = $(event.currentTarget).attr("data-fit-feature-bounds-id");
+		}
+
+		if(id){
+			try{
+				const feature = WPGMZA.mapEditPage.map[`get${WPGMZA.capitalizeWords(this.featureType)}ByID`](id);
+				if(feature){
+					if(feature instanceof WPGMZA.Polyline || feature instanceof WPGMZA.Polygon){
+						/* Poly data */
+						const bounds = new WPGMZA.LatLngBounds();
+						const coordinates = feature.getGeometry();
+						if(coordinates){
+							for(let coordinate of coordinates){
+								bounds.extend(coordinate);
+							}
+
+							WPGMZA.mapEditPage.map.fitBounds(bounds);
+						}
+					} else if(feature instanceof WPGMZA.Rectangle || ((typeof WPGMZA.Imageoverlay !== 'undefined') && feature instanceof WPGMZA.Imageoverlay)){
+						/* Rectangle Data */
+						const bounds = feature.getBounds();
+						WPGMZA.mapEditPage.map.fitBounds(bounds);
+					} else if(feature instanceof WPGMZA.Circle){
+						/* Circle Data */
+						const center = feature.getPosition();
+						WPGMZA.mapEditPage.map.setCenter(center);
+					} else if(feature instanceof WPGMZA.Pointlabel){
+						/* Pointlabel data */
+						const center = feature.getPosition();
+						WPGMZA.mapEditPage.map.setCenter(center);
+					} else if (typeof WPGMZA.Heatmap !== 'undefined' && feature instanceof WPGMZA.Heatmap){
+						/* Heatmap data */
+						const bounds = new WPGMZA.LatLngBounds();
+						const coordinates = feature.getGeometry();
+						if(coordinates){
+							for(let coordinate of coordinates){
+								bounds.extend(coordinate);
+							}
+
+							WPGMZA.mapEditPage.map.fitBounds(bounds);
+						}
+					}
+				}
+			} catch(ex){
+				console.log(ex);
+			}
+		}
 	}
 	
 });

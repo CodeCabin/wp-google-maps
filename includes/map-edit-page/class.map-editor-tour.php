@@ -75,7 +75,7 @@ class MapEditorTour extends DOMDocument {
 				}
 
 				if(!empty($optionValue)){
-					update_option($optionName, $optionValue);
+					update_option($optionName, $optionValue, false);
 				}
 			}
 		}

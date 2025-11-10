@@ -11,7 +11,7 @@ jQuery(function($) {
 	if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN")
 		return;
 
-	if(typeof google === 'undefined' || typeof google.maps === 'undefined'){
+	if(typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.OverlayView === 'undefined'){
 		return;
 	}
 	

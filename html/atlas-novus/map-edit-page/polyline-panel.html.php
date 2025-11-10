@@ -35,6 +35,13 @@
 		</ul>
 	</div>
 
+	<!-- Translateion instruction -->
+	<div class="wpgmza-dynamic-translations-notice wpgmza-card wpgmza-shadow">
+		<strong><?php _e("Translating polylines", "wp-google-maps"); ?></strong>
+		<span><?php _e("Your polyline translations are being managed by:", "wp-google-maps"); ?> <span data-translation-provider></span></span>
+		<span><?php _e("Use their tools to translate content within your polyline", "wp-google-maps"); ?></span>
+	</div>
+
 	<!-- Hidden reference fields -->
 	<input data-ajax-name="id" type="hidden" value="-1"/>
 	<input data-ajax-name="map_id" type="hidden" value="-1"/>
@@ -44,40 +51,92 @@
 		<legend><?php esc_html_e("Name", "wp-google-maps"); ?></legend>
 		<input type="text" data-ajax-name="polyname"/>
 	</fieldset>
+
+	<!-- Title -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e("Title", "wp-google-maps"); ?></legend>
+		<input type="text" data-ajax-name="title"/>
+	</fieldset>
 	
-	<!-- Description field will go here -->
-	<!--
-	<fieldset>
-		<legend>
-			<?php
-			esc_html_e("Description", "wp-google-maps");
-			?>
-		</legend>
+	<!-- Description -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e("Description", "wp-google-maps"); ?></legend>
 		<textarea data-ajax-name="description"></textarea>
-	</fieldset> 
-	-->
-	
-	<!-- Line color -->
-	<fieldset>
-		<legend><?php esc_html_e("Line Color", "wp-google-maps"); ?></legend>
-		<input data-ajax-name="linecolor" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#808080"/>
 	</fieldset>
-	
-	<!-- Opacity -->
-	<fieldset>
-		<legend><?php esc_html_e("Opacity", "wp-google-maps"); ?></legend>
-		<input type="number" data-ajax-name="opacity" min="0" max="1" step="0.1" value="0.5"/>
+
+	<!-- Link -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e("Link", "wp-google-maps"); ?></legend>
+		<input type="text" data-ajax-name="link"/>
 	</fieldset>
-	
-	<!-- Hint -->
-	<div class="hint">
-		<?php esc_html_e('(0 - 1.0) example: 0.5 for 50%', 'wp-google-maps'); ?>
+
+	<div class="wpgmza-css-state-block">
+		<div class="wpgmza-css-state-block-tabs">
+			<div class="wpgmza-css-state-block-item" data-type="normal"><?php _e("Normal", "wp-google-maps"); ?></div>
+			<div class="wpgmza-css-state-block-item" data-type="hover"><?php _e("Hover", "wp-google-maps"); ?></div>
+		</div>
+
+		<!-- Normal shape state -->
+		<div class="wpgmza-css-state-block-content" data-type="normal">
+			<fieldset class="wpgmza-row">
+				<!-- Line color -->
+				<div class="wpgmza-col">
+					<legend><?php esc_html_e("Line Color", "wp-google-maps"); ?></legend>
+					<input data-ajax-name="linecolor" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#808080"/>
+				</div>
+
+				<!-- Opactiy -->
+				<div class="wpgmza-col">
+					<legend><?php esc_html_e("Opacity", "wp-google-maps"); ?></legend>
+					<input type="number" data-ajax-name="opacity" min="0" max="1" step="0.1" value="0.5"/>
+					<div class="hint">
+						<?php esc_html_e('Example: 0.5 for 50%', 'wp-google-maps'); ?>
+					</div>
+				</div>
+			</fieldset>	
+		</div>
+
+		<!-- Hover shape state -->
+		<div class="wpgmza-css-state-block-content" data-type="hover">
+			<fieldset class="wpgmza-row wpgmza-pro-feature">
+				<!-- Line color -->
+				<div class="wpgmza-col">
+					<legend><?php esc_html_e("Line Color", "wp-google-maps"); ?></legend>
+					<input data-ajax-name="ohlinecolor" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#808080"/>
+				</div>
+
+				<!-- Opactiy -->
+				<div class="wpgmza-col wpgmza-pro-feature">
+					<legend><?php esc_html_e("Opacity", "wp-google-maps"); ?></legend>
+					<input type="number" data-ajax-name="ohopacity" min="0" max="1" step="0.1" value="0.5"/>
+					<div class="hint">
+						<?php esc_html_e('Example: 0.5 for 50%', 'wp-google-maps'); ?>
+					</div>
+				</div>
+			</fieldset>	
+		</div>
 	</div>
 	
 	<!-- Thickness -->
 	<fieldset>
 		<legend> <?php esc_html_e("Line Thickness", "wp-google-maps"); ?> </legend>
 		<input type="number" data-ajax-name="linethickness" min="1" max="50" step="1" value="4"/>
+	</fieldset>
+
+	<!-- Line Style -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend> <?php esc_html_e("Line Style", "wp-google-maps"); ?> </legend>
+		<select data-ajax-name="linestyle">
+			<option value="0">
+				<?php esc_html_e('Solid', 'wp-google-maps'); ?>
+			</option>
+			<option value="1">
+				<?php esc_html_e('Dashed', 'wp-google-maps'); ?>
+			</option>
+			<option value="2">
+				<?php esc_html_e('Dotted', 'wp-google-maps'); ?>
+			</option>
+		</select>
 	</fieldset>
 
 	<!-- Layer -->
@@ -92,6 +151,12 @@
 				?>
 			</small>
 		</div>
+	</fieldset>
+
+	<!-- Category -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e('Category', 'wp-google-maps'); ?> </legend>
+		<div class="wpgmza-category-picker-container"></div>
 	</fieldset>
 	
 	<!-- Polyline data -->

@@ -49,6 +49,22 @@ class Page extends Factory
 
 		$this->document->querySelectorAll('.wpgmza-pro-feature-upsell')
 			->setAttribute('style', 'display:none;');
+
+		$features = $this->document->querySelectorAll('.wpgmza-pro-feature-hide');
+		foreach($features as $feature){
+			if(!empty($feature->parentNode)){
+				$parent = $feature->parentNode;
+				if($parent->hasClass('tab-row')){
+					$parent->setAttribute('style', 'display:none;');
+
+					$mapEngine = $parent->getAttribute('data-required-maps-engine');
+					if(!empty($mapEngine)){
+						/* Prevent engine selector from real-time unhiding this item */
+						$parent->removeAttribute('data-required-maps-engine');
+					}
+				}
+			}
+		}
 			
 	}
 	

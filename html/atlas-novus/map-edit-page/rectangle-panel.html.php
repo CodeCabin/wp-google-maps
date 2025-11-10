@@ -29,6 +29,13 @@
 		</ul>
 	</div>
 
+	<!-- Translateion instruction -->
+	<div class="wpgmza-dynamic-translations-notice wpgmza-card wpgmza-shadow">
+		<strong><?php _e("Translating rectangles", "wp-google-maps"); ?></strong>
+		<span><?php _e("Your rectangle translations are being managed by:", "wp-google-maps"); ?> <span data-translation-provider></span></span>
+		<span><?php _e("Use their tools to translate content within your rectangle", "wp-google-maps"); ?></span>
+	</div>
+
 	<!-- Hidden reference fields -->
 	<input data-ajax-name="id" type="hidden" value="-1"/>
 	<input data-ajax-name="map_id" type="hidden" value="-1"/>
@@ -159,6 +166,12 @@
 		</div>
 	</div>
 
+	<!-- Thickness -->
+	<fieldset>
+		<legend> <?php esc_html_e("Line Thickness", "wp-google-maps"); ?> </legend>
+		<input type="number" data-ajax-name="linethickness" min="1" max="50" step="1" value="3"/>
+	</fieldset>
+	
 	<!-- Layer -->
 	<fieldset class="wpgmza-pro-feature">
 		<legend><?php esc_html_e('Layer', 'wp-google-maps'); ?></legend>
@@ -173,6 +186,64 @@
 		</div>
 	</fieldset>
 	
+	<!-- Category -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e('Category', 'wp-google-maps'); ?> </legend>
+		<div class="wpgmza-category-picker-container"></div>
+	</fieldset>
+
+	<!-- Boundary Input -->
+	<div class="wpgmza-row wpgmza-pro-feature wpgmza-margin-t-20">
+		<div class="wpgmza-col">
+			<div class="wpgmza-boundary-input">
+				<div class="wpgmza-boundary-input-title">
+					<?php _e("Adjust Boundary", "wp-google-maps"); ?>
+				</div>
+
+				<div class="wpgmza-boundary-input-controls">
+					<!-- South West -->
+					<div class="wpgmza-boundary-input-corner" data-corner="southWest">
+						<div class="wpgmza-boundary-input-corner-title"><?php _e("South West", "wp-google-maps"); ?></div>
+						<div class="wpgmza-boundary-input-coorindate">
+							<div class="wpgmza-boundary-component">
+								<div class="wpgmza-boundary-component-label">
+									<?php _e("Lat", "wp-google-maps"); ?>
+								</div>
+								<input type="text" class="wpgmza-boundary-component-input" data-boundary-component="lat" />
+							</div>
+
+							<div class="wpgmza-boundary-component">
+								<div class="wpgmza-boundary-component-label">
+									<?php _e("Lng", "wp-google-maps"); ?>
+								</div>
+								<input type="text" class="wpgmza-boundary-component-input" data-boundary-component="lng" />
+							</div>
+						</div>
+					</div>
+					
+					<!-- North East -->
+					<div class="wpgmza-boundary-input-corner" data-corner="northEast">
+						<div class="wpgmza-boundary-input-corner-title"><?php _e("North East", "wp-google-maps"); ?></div>
+						<div class="wpgmza-boundary-input-coorindate">
+							<div class="wpgmza-boundary-component">
+								<div class="wpgmza-boundary-component-label">
+									<?php _e("Lat", "wp-google-maps"); ?>
+								</div>
+								<input type="text" class="wpgmza-boundary-component-input" data-boundary-component="lat" />
+							</div>
+
+							<div class="wpgmza-boundary-component">
+								<div class="wpgmza-boundary-component-label">
+									<?php _e("Lng", "wp-google-maps"); ?>
+								</div>
+								<input type="text" class="wpgmza-boundary-component-input" data-boundary-component="lng" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<!-- Buttons -->
 	<fieldset class="wpgmza-save-feature-container">

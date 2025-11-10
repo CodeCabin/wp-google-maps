@@ -242,7 +242,7 @@ class Shortcodes extends Factory {
 				array_splice($coreDependencies, $gutenbergIndex, 1);
 			}
 
-			if($wpgmza->settings->engine  == 'open-layers'){
+			if($wpgmza->settings->engine  != 'google-maps'){
 				if($index = array_search('wpgmza-google-vertex-context-menu', $coreDependencies)){
 					array_splice($coreDependencies, $index, 1);
 				}

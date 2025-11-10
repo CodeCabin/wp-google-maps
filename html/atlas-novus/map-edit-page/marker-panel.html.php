@@ -32,6 +32,13 @@
 		</ul>
 	</div>
 
+	<!-- Translateion instruction -->
+	<div class="wpgmza-dynamic-translations-notice wpgmza-card wpgmza-shadow">
+		<strong><?php _e("Translating markers", "wp-google-maps"); ?></strong>
+		<span><?php _e("Your marker translations are being managed by:", "wp-google-maps"); ?> <span data-translation-provider></span></span>
+		<span><?php _e("Use their tools to translate content within your markers", "wp-google-maps"); ?></span>
+	</div>
+
 	<!-- Hidden reference fields -->
 	<input data-ajax-name="id" type="hidden" value="-1"/>
 	<input data-ajax-name="map_id" type="hidden" value="-1"/>
@@ -53,7 +60,7 @@
 	<fieldset style='position:relative;' class="wpgmza-always-on">
 		<legend class="wpgmza-hide-in-adjust-mode"><?php esc_html_e('Address/GPS', 'wp-google-maps'); ?></legend>
 		
-		<div class="wpgmza-input-button__line wpgmza-hide-in-adjust-mode" style='display:block'>
+		<div class="wpgmza-input-button__line wpgmza-hide-in-adjust-mode wpgmza-marker-editor-address-field" style='display:block'>
 			<input id="wpgmza_add_address_map_editor" type="text" data-ajax-name="address" class="wpgmza-address" autocomplete="off"/>
 			<div id='wpgmza_autoc_disabled' style='display:none;'></div>
 
@@ -105,6 +112,7 @@
 			<div class="wpgmza-css-state-block-tabs">
 				<div class="wpgmza-css-state-block-item" data-type="normal"><?php _e("Normal", "wp-google-maps"); ?></div>
 				<div class="wpgmza-css-state-block-item" data-type="hover"><?php _e("Hover", "wp-google-maps"); ?></div>
+				<div class="wpgmza-css-state-block-item" data-type="select"><?php _e("Select", "wp-google-maps"); ?></div>
 			</div>
 
 			<!-- Normal shape state -->
@@ -115,6 +123,11 @@
 			<!-- Hover shape state -->
 			<div class="wpgmza-css-state-block-content" data-type="hover">
 				<div class="wpgmza-marker-hover-icon-picker-container"></div>
+			</div>
+
+			<!-- Select shape state -->
+			<div class="wpgmza-css-state-block-content" data-type="select">
+				<div class="wpgmza-marker-select-icon-picker-container"></div>
 			</div>
 		</div>
 	</fieldset>

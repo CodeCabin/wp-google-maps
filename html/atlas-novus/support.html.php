@@ -36,6 +36,8 @@
 			<?php _e("Getting started? Read through some of these articles to help you along your way.","wp-google-maps"); ?>
 		</div>
 
+		<strong style="margin-bottom:5px;"><?php _e("First time users", "wp-google-maps"); ?></strong>
+
 		<div class="tab-row">
 			<ul class="wpgmza-list-dots">
 				<li>
@@ -47,6 +49,7 @@
 						?>
 					</a>
 				</li>
+
 				<li>
 					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/'
 						target='_BLANK' 
@@ -56,6 +59,34 @@
 						?>
 					</a>
 				</li>
+
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/'
+						target='_BLANK' 
+						title='<?php _e("Display your map","wp-google-maps"); ?>'>
+						<?php
+						_e("Display your map","wp-google-maps");
+						?>
+					</a>
+				</li>
+
+				
+			</ul>
+		</div>
+
+		<strong style="margin-bottom:5px;"><?php _e("Map Engines", "wp-google-maps"); ?></strong>
+		<div class="tab-row">
+			<ul class="wpgmza-list-dots">
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/map-engine-selection-guide/' 
+						target='_BLANK' 
+						title='<?php _e("Map Engine Selection Guide","wp-google-maps"); ?>'>
+						<?php 
+						_e("Map Engine Selection Guide","wp-google-maps"); 
+						?>
+					</a>
+				</li>
+
 				<li>
 					<a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' 
 						target='_BLANK' 
@@ -65,17 +96,67 @@
 						?>
 					</a>
 				</li>
+
 				<li>
-					<a href='https://www.wpgmaps.com/help/'
+					<a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' 
 						target='_BLANK' 
-						title='<?php _e("WP Go Maps Documentation","wp-google-maps"); ?>'>
+						title='<?php _e("Creating an Azure Maps Subscription Key","wp-google-maps"); ?>'>
 						<?php 
-						_e("View all documentation.","wp-google-maps"); 
+						_e("Creating an Azure Maps Subscription Key","wp-google-maps"); 
+						?>
+					</a>
+				</li>
+
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/' 
+						target='_BLANK' 
+						title='<?php _e("Creating a Stadia Maps API Key","wp-google-maps"); ?>'>
+						<?php 
+						_e("Creating a Stadia Maps API Key","wp-google-maps"); 
+						?>
+					</a>
+				</li>
+
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/' 
+						target='_BLANK' 
+						title='<?php _e("Creating a MapTiler API Key","wp-google-maps"); ?>'>
+						<?php 
+						_e("Creating a MapTiler API Key","wp-google-maps"); 
+						?>
+					</a>
+				</li>
+
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' 
+						target='_BLANK' 
+						title='<?php _e("Creating a LocationIQ Access Token","wp-google-maps"); ?>'>
+						<?php 
+						_e("Creating a LocationIQ Access Token","wp-google-maps"); 
+						?>
+					</a>
+				</li>
+
+				<li>
+					<a href='https://www.wpgmaps.com/help/docs/address-providers' 
+						target='_BLANK' 
+						title='<?php _e("Address Providers","wp-google-maps"); ?>'>
+						<?php 
+						_e("Address Providers","wp-google-maps"); 
 						?>
 					</a>
 				</li>
 			</ul>
 		</div>
+
+		<a href='https://www.wpgmaps.com/help/'
+			target='_BLANK' 
+			title='<?php _e("WP Go Maps Documentation","wp-google-maps"); ?>'>
+			<?php 
+			_e("View all documentation.","wp-google-maps"); 
+			?>
+		</a>
+
 	</div>
 
 	<!-- Troubleshooting -->

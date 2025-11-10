@@ -106,6 +106,8 @@ class GDPRCompliance
 	{
 		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
 		
+		$wpgmza_other_settings = apply_filters('wpgmza_gdpr_options', $wpgmza_other_settings);
+
 		/* Developer Hook (Filter) - Alter GDPR HTML output by the plugin */
 		$html = apply_filters('wpgmza_gdpr_notice', $wpgmza_other_settings['wpgmza_gdpr_default_notice']);
 		
@@ -186,9 +188,24 @@ class GDPRCompliance
 	public function getConsentPromptHTML()
 	{
 		$wpgmza_other_settings = array_merge( (array)$this->getDefaultSettings(), get_option('WPGMZA_OTHER_SETTINGS') );
+		$wpgmza_other_settings = apply_filters('wpgmza_gdpr_options', $wpgmza_other_settings);
+		
 		$button_label = ((empty($wpgmza_other_settings['wpgmza_gdpr_button_label']) || $wpgmza_other_settings['wpgmza_gdpr_button_label'] === 'I agree') ? __('I agree', 'wp-google-maps') : $wpgmza_other_settings['wpgmza_gdpr_button_label']);
 
-		return '<div class="wpgmza-gdpr-compliance">' . $this->getNoticeHTML(false) . "<p class='wpgmza-centered'><button class='wpgmza-api-consent'>" . $button_label . "</button></div></p>";
+		$style = !empty($wpgmza_other_settings['wpgmza_gdpr_style']) && $wpgmza_other_settings['wpgmza_gdpr_style'] === 'legacy' ? 'legacy' : 'modern';
+		
+		$buttonHtml = "<p class='wpgmza-centered wpgmza-gdpr-button-container'><button class='wpgmza-api-consent'>" . $button_label . "</button></p>";
+		$innerHtml = $this->getNoticeHTML(false) . $buttonHtml;
+
+		$imageHtml = "";
+		if(!empty($style) && $style === 'modern'){
+			$imageHtml = "<div class='wpgmza-gdpr-image-placeholder'><img src='" . WPGMZA_PLUGIN_DIR_URL . "/images/default.png' /></div>";
+
+			$innerHtml = $this->getNoticeHTML(false);
+			$innerHtml = "<div class='wpgmza-gdpr-notice-card'><div class='wpgmza-gdpr-inner-notice'>{$innerHtml}</div>{$buttonHtml}</div>";
+		}
+
+		return '<div class="wpgmza-gdpr-compliance ' . $style . '">' . $imageHtml . $innerHtml . "</div>";
 	}
 	
 	/**
@@ -253,7 +270,7 @@ class GDPRCompliance
 			}
 		}
 		
-		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings);
+		update_option('WPGMZA_OTHER_SETTINGS', $wpgmza_other_settings, false);
 	}
 }
 

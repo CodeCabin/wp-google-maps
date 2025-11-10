@@ -151,7 +151,7 @@ class Settings implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 	protected function update()
 	{
 		$str = json_encode($this->data);
-		update_option($this->option_name, $str);
+		update_option($this->option_name, $str, false);
 	}
 	
 	

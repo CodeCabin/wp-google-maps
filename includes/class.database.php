@@ -63,7 +63,7 @@ class Database extends Factory
 		
 		$this->setDefaults();
 		
-		update_option('wpgmza_db_version', $wpgmza_version);
+		update_option('wpgmza_db_version', $wpgmza_version, false);
 	}
 	
 	protected function installMapsTable()
@@ -136,9 +136,11 @@ class Database extends Factory
 			did varchar(500) NOT NULL,
 			sticky tinyint(1) DEFAULT '0',
 			other_data LONGTEXT NOT NULL,
-			latlng POINT,
+			latlng POINT NOT NULL,
 			layergroup INT(3) DEFAULT '0',
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id),
+			SPATIAL KEY latlng_idx (latlng) 
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -166,7 +168,9 @@ class Database extends Factory
 			polyname VARCHAR(100) NOT NULL,
 			linethickness VARCHAR(3) NOT NULL,
 			layergroup INT(3) DEFAULT '0',
-			PRIMARY KEY  (id)
+			linestyle INT(3) DEFAULT '0',
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -184,8 +188,15 @@ class Database extends Factory
 			linethickness VARCHAR(3) NOT NULL,
 			opacity VARCHAR(3) NOT NULL,
 			polyname VARCHAR(100) NOT NULL,
+			title VARCHAR(250) NOT NULL,
+			description TEXT NOT NULL,
+			link VARCHAR(700) NOT NULL,
+			ohlinecolor VARCHAR(7) NOT NULL,
+			ohopacity VARCHAR(3) NOT NULL,
 			layergroup INT(3) DEFAULT '0',
-			PRIMARY KEY  (id)
+			linestyle INT(3) DEFAULT '0',
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -211,9 +222,11 @@ class Database extends Factory
 			ohLineColor VARCHAR(16),
 			ohFillOpacity FLOAT,
 			ohLineOpacity FLOAT,
+			linethickness VARCHAR(3) NOT NULL,
 			link VARCHAR(700) NOT NULL,
 			layergroup INT(3) DEFAULT '0',
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -239,9 +252,11 @@ class Database extends Factory
 			ohLineColor VARCHAR(16),
 			ohFillOpacity FLOAT,
 			ohLineOpacity FLOAT,
+			linethickness VARCHAR(3) NOT NULL,
 			link VARCHAR(700) NOT NULL,
 			layergroup INT(3) DEFAULT '0',
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -259,7 +274,8 @@ class Database extends Factory
 			lineColor VARCHAR(16),
 			opacity FLOAT,
 			fontSize VARCHAR(3),
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -276,7 +292,8 @@ class Database extends Factory
 			cornerB POINT,
 			image VARCHAR(700),
 			opacity FLOAT,
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();
 
 		dbDelta($sql);
@@ -326,5 +343,24 @@ class Database extends Factory
 			"lng"					=> -119.4179323999,
 			"approved"				=> 1
 		));
+	}
+
+	public function resolveSpatialCoordinates(){
+		global $wpdb;
+		global $wpgmza;
+		global $WPGMZA_TABLE_NAME_MARKERS;
+
+		try{
+			$sql = "UPDATE `{$WPGMZA_TABLE_NAME_MARKERS}` SET latlng = {$wpgmza->spatialFunctionPrefix}PointFromText(CONCAT('POINT(', CAST(lat AS DECIMAL(18,10)), ' ', CAST(lng AS DECIMAL(18,10)), ')')) WHERE latlng IS NULL";
+			$result = $wpdb->query($sql);
+			if(!empty($result)){
+				return true;
+			}
+		} catch (\Exception $ex){
+
+		} catch (\Error $err){
+
+		}
+		return false;
 	}
 }

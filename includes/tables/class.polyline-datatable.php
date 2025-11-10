@@ -18,7 +18,10 @@ class PolylineDataTable extends DataTable
 	{
 		return array(
 			'id'			=> __('ID',				'wp-google-maps'),
-			'polyname'		=> __('Name', 			'wp-google-maps')
+			'polyname'		=> __('Name', 			'wp-google-maps'),
+			'title' 		=> __('Title', 			'wp-google-maps'),
+			'description'	=> __('Description', 	'wp-google-maps'),
+			'link'			=> __('Link', 			'wp-google-maps')
 		);
 	}
 }

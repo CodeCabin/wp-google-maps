@@ -48,14 +48,43 @@ class MapEditPage extends Page
 
 		// Theme panel
 		if($element = $document->querySelector('.wpgmza-theme-panel')){
-			if($wpgmza->settings->engine != "open-layers"){
+			if($wpgmza->settings->engine == "google-maps"){
 				$themePanel = new ThemePanel($map);
 				$element->import($themePanel);
 			} else {
 				if(!$wpgmza->internalEngine->isLegacy()){
-					$themePanel = new OLThemePanel($map);
-					$element->import($themePanel);
+					/* Tile Server XYZ theme panel */
+					switch($wpgmza->settings->engine){
+						case 'leaflet':
+						case 'leaflet-azure':
+						case 'leaflet-stadia':
+						case 'leaflet-maptiler':
+						case 'leaflet-locationiq':
+						case 'leaflet-zerocost':
+							$themePanel = new LeafletThemePanel($map);
+							$element->import($themePanel);
+							break;
+						case 'open-layers-latest':
+						case 'open-layers':
+							$themePanel = new OLThemePanel($map);
+							$element->import($themePanel);
+							break;
+					}
 				}
+			}
+		}
+
+		/* Tileset Panel */
+		if($wpgmza->settings->engine != 'google-maps'){
+			if($element = $document->querySelector('.wpgmza-tileset-panel')){
+				$tilesetPanel = new TilesetPanel($map);
+				$element->import($tilesetPanel);
+			}
+		}
+
+		if($editorWrapper = $document->querySelector('.wpgmza-editor')){
+			if(!empty($wpgmza->settings->engine)){
+				$editorWrapper->setAttribute('data-map-engine', $wpgmza->settings->engine);
 			}
 		}
 		
@@ -103,6 +132,68 @@ class MapEditPage extends Page
 		$anchorControls = $document->querySelectorAll(".wpgmza-anchor-control");
 		foreach($anchorControls as $control){
 			$select = new UI\ComponentAnchorControl($control);
+		}
+
+		/* Previes */
+		if($mapPreviewButton = $document->querySelector('[data-map-preview-button]')){
+			if(!$wpgmza->internalEngine->isLegacy() && $wpgmza->previewMode->enabled()){
+				$previewLink = $wpgmza->previewMode->getPreviewLink($map->id);
+				if(!empty($previewLink)){
+					$mapPreviewButton->setAttribute('href', $previewLink);
+				} else {
+					$mapPreviewButton->remove();
+				}
+			} else {
+				$mapPreviewButton->remove();
+			}
+		}
+
+		/* Map type */
+		if($mapTypeSelect = $document->querySelector('#wpgmza_map_type')){
+			if(!empty($wpgmza->settings->engine) && $wpgmza->settings->engine !== 'google-maps'){
+				/* Check if the users preferred tile server allows map type selection */
+				$tileServer = TileServers::getBySettings($wpgmza->settings);
+				if(!empty($tileServer) && !empty($tileServer->multi) && !empty($tileServer->layers) && count($tileServer->layers) >= 2){
+					/* Has a multi-layer tile server */
+					$supportedTypes = array();
+					foreach($tileServer->layers as $index => $layer){
+						if(!empty($layer->selection_type)){
+							$supportedTypes[] = $layer->selection_type;
+						}
+					}
+
+					$options = $mapTypeSelect->querySelectorAll('option');
+					if(!empty($options)){
+						foreach($options as $option){
+							$optionType = $option->getAttribute('data-map-type');
+							if(!in_array($optionType, $supportedTypes)){
+								/* This option is not supported */
+								$option->remove();
+							}
+						}
+					}
+
+					if(!empty($map->type)){
+						$remappedType = $mapTypeSelect->querySelector("option[value='{$map->type}']");
+						if($remappedType){
+							$remappedType = $remappedType->getAttribute('data-map-type');
+							if(!in_array($remappedType, $supportedTypes)){
+								/* The current default is not supported by this tile server */
+								$defaultType = $mapTypeSelect->querySelector("option[data-map-type='" . $supportedTypes[0] . "']");
+								if($defaultType){
+									$map->type = $defaultType->getAttribute('value');
+								} else {
+									$map->type = false;
+								}
+							} 
+						} else {
+							$map->type = false;
+						}
+					}
+				} else {
+					$mapTypeSelect->parentNode->remove();
+				}
+			}
 		}
 		
 		// Now populate from the map, we need to wait until now so that all the controls are ready
@@ -159,6 +250,17 @@ class MapEditPage extends Page
 		
 		}
 
+		
+		if(!$wpgmza->internalEngine->isLegacy()){
+			$shapeLibraryContainers = $document->querySelectorAll(".wpgmza-shape-library-container");
+			foreach($shapeLibraryContainers as $shapeLibraryContainer){
+				$shapeLibraryPanel = new DOMDocument();
+				$shapeLibraryPanel->loadPHPFile($wpgmza->internalEngine->getTemplate('map-edit-page/shape-library-panel.html.php'));
+
+				$shapeLibraryContainer->import($shapeLibraryPanel);
+			}
+		}
+
 		if(empty($wpgmza->settings->wpgmza_google_maps_api_key) && $wpgmza->settings->engine == "google-maps"){
 			$document->querySelector(".wpgmza-missing-key-notice")->removeClass('wpgmza-hidden');
 		}
@@ -197,6 +299,8 @@ class MapEditPage extends Page
 		
 		$this->addShortcodeIDs();
 
+		$this->updateTranslationNotices();
+
 		$this->disableProFeatures();
 		$this->hideSelectedProFeatures();
 		$this->removeProMarkerFeatures();
@@ -204,6 +308,9 @@ class MapEditPage extends Page
 		$this->handleEngineSpecificFeatures();
 		
 		$this->populateAdvancedMarkersPanel();
+
+		$this->handleMarkerRenderSpecificFeatures();
+		$this->removeFeatureLimitNotices();
 		
 		/* Developer Hook (Action) - Alter output of the map edit page, passes DOMDocument for mutation */     
 		do_action("wpgmza_map_edit_page_created", $document);
@@ -349,15 +456,91 @@ class MapEditPage extends Page
 	{
 		$this->document->querySelectorAll(".wpgmza-marker-panel .wpgmza-pro-feature")->remove();
 	}
+
+	protected function updateTranslationNotices(){
+		$notices = $this->document->querySelectorAll('.wpgmza-dynamic-translations-notice');
+		if(!empty($notices)){
+			$providers = apply_filters('wpgmza_dynamic_translations_providers', array());
+			if(!empty($providers)){
+				$providers = implode(", ", $providers);
+				foreach($notices as $notice){
+					if($providerContainer = $notice->querySelector('[data-translation-provider]')){
+						$providerContainer->import($providers);
+					}
+				}
+			} else {
+				$notices->remove();
+			}
+		}
+	}
 	
-	protected function handleEngineSpecificFeatures()
-	{
+	protected function handleEngineSpecificFeatures(){
 		global $wpgmza;
 		
-		if($wpgmza->settings->engine == "open-layers")
-			$this->document->querySelectorAll("[data-wpgmza-require-engine='google-maps']")->remove();
-		else
-			$this->document->querySelectorAll("[data-wpgmza-require-engine='open-layers']")->remove();
+		$engine = !empty($wpgmza->settings) && !empty($wpgmza->settings->engine) ? $wpgmza->settings->engine : false;
+
+		if(!empty($engine)){
+			$elements = $this->document->querySelectorAll("[data-wpgmza-require-engine]");
+
+			if(!empty($elements)){
+				foreach($elements as $element){
+					$supported = $element->getAttribute('data-wpgmza-require-engine');
+					if(!empty($supported)){
+						$supported = explode("|", $supported);
+						if(!in_array($engine, $supported)){
+							/* This engine does not support this feature set */
+							$element->remove();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	protected function handleMarkerRenderSpecificFeatures(){
+		global $wpgmza;
+		$compiled = array();
+
+		$engine = !empty($wpgmza->settings) && !empty($wpgmza->settings->engine) ? $wpgmza->settings->engine : false;
+		$renderMode = false;
+		if(!empty($engine)){
+			$compiled[] = $engine;
+			if($engine === 'google-maps'){
+				$renderMode = !empty($wpgmza->settings) && !empty($wpgmza->settings->googleMarkerMode) ? $wpgmza->settings->googleMarkerMode : false;
+			}
+		}
+
+		if(!empty($renderMode)){
+			$compiled[] = $renderMode;
+		}
+
+		if(!empty($compiled) && count($compiled) > 1){
+			$compiled = implode('.', $compiled);
+
+			if(!empty($compiled)){
+				$elements = $this->document->querySelectorAll("[data-wpgmza-feature-limited='{$compiled}']");
+				foreach($elements as $element){
+					/* Disable features, as they are not supported by this mode */
+					$element->addClass('wpgmza-feature-limited');
+				}
+
+				$notices = $this->document->querySelectorAll("[data-wpgmza-feature-limited-notice='{$compiled}']");
+				foreach($notices as $notice){
+					/* Retain these notices, to help customers understand why this is the case */
+					$notice->addClass('retain-notice');
+				}
+			}
+		}
+	}
+
+	protected function removeFeatureLimitNotices(){
+		$notices = $this->document->querySelectorAll("[data-wpgmza-feature-limited-notice]");
+		foreach($notices as $notice){
+			if(!$notice->hasClass('retain-notice')){
+				/* This notice does not need to be retained */
+				$notice->remove();
+			}
+		}
 	}
 	
 	protected function populateAdvancedMarkersPanel() {
@@ -438,6 +621,9 @@ class MapEditPage extends Page
 		
 		// Set the data on the map settings
 		$this->map->set($data);
+
+		/* Developer Hook (Action) - Additional save logic - Not to be mistaken with Pro legacy hook - Passes map */
+		do_action("wpgmza_map_save_before_redirect", $this->map);
 		
 		// Done! Redirect to the specified URL
 		wp_redirect(wp_strip_all_tags($_POST['redirect_to']));

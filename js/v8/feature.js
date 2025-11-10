@@ -149,10 +149,21 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
 			
 				// The native properties (strokeColor, fillOpacity, etc) have to be translated for OpenLayers.
 				if(this.layer){
 					this.layer.setStyle(WPGMZA.OLFeature.getOLStyle(props));
+				}
+				break;
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(this.leafletFeature && this.leafletFeature instanceof L.Path){
+					this.leafletFeature.setStyle(WPGMZA.LeafletFeature.getLeafletStyle(props));
 				}
 				break;
 			
@@ -162,7 +173,7 @@ jQuery(function($) {
 				if(this.googleFeature instanceof google.maps.marker.AdvancedMarkerElement){
 					this.setOptions(props);
 				} else {
-					this.googleFeature.setOptions(props);
+					this.googleFeature.setOptions(WPGMZA.GoogleFeature.getGoogleStyle(props));
 				}
 			
 				break;

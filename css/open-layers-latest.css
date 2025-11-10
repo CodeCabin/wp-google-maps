@@ -1,0 +1,409 @@
+.wpgmza-ol-modern-infowindow-container
+{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+
+}
+
+.wpgmza_map
+{
+	position: relative;
+}
+
+.wpgmza_map.is-fullscreen{
+	min-height: 100%;
+}
+
+.wpgmza_map[data-maps-engine="open-layers-latest"] canvas {
+	max-width: unset;
+}
+
+/*
+.wpgmza-ol-modern-infowindow-container .wpgmza_modern_infowindow
+{
+	min-width: 160px;
+}
+*/
+
+@keyframes wpgmza-bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+@-webkit-keyframes wpgmza-bounce {
+  from {
+	bottom: 0px;
+  }
+  to {
+	bottom: 15px;
+  }
+}
+
+@keyframes wpgmza-drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+@-webkit-keyframes wpgmza-drop {
+	from {
+		bottom: 100vh;
+	}
+	to {
+		bottom: 0vh;
+	}
+}
+
+.ol-marker
+{
+	position: relative;
+}
+
+.ol-marker>img,
+.wpgmza_map .ol-marker > img
+{
+	/* NB: Re-added, removing this breaks marker animations */
+	position: absolute;
+	bottom: 0px;
+	transform: translateX(-50%);
+	max-width: none;
+	z-index: 2;
+}
+
+.ol-marker[data-anim='bounce']>img
+{
+	animation: wpgmza-bounce 0.3s infinite alternate;
+	-webkit-animation: wpgmza-bounce 0.3s infinite alternate;
+}
+
+.ol-marker[data-anim='drop']>img
+{
+	animation: wpgmza-drop 0.3s;
+	-webkit-animation: wpgmza-drop 0.3s;
+}
+
+.ol-marker-label
+{
+	top: 2.4rem;
+    position: relative;
+    transform: translateX(-50%);
+
+	font-size:0.7rem;
+	font-weight: bold;
+    color: #000;
+    
+    text-shadow: 0px 0px 2px #fff;
+    text-shadow: 0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff;
+}
+
+.ol-info-window-plain {
+    position: absolute;
+    bottom: 56px;
+    left: 0px;
+    transform: translateX(-50%);
+    background: white;
+    padding: 10px;
+    font-size: 14px;
+	width: 348px;
+	max-width: 648px;
+	overflow-y: auto;
+
+    /* box-shadow: 2px 2px 5px rgba(0,0,0,0.5); */
+    /* border: 1px solid lightgray; */
+}
+
+/* Hide for now, the way the container is wrapped, this causes scroll issues */
+/* Scroll is more important than the arrow mark I believe. Longterm, wrap content for scrolls */
+/*.ol-info-window-plain:after{
+	
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-top-color: white;
+	border-bottom: 0;
+	margin-left: -8px;
+	margin-bottom: -8px;
+}*/
+
+.ol-info-window-close
+{
+	float: right;
+	margin: 0 0 3px 3px;
+	cursor: pointer;
+}
+
+.ol-info-window-container,
+	.wpgmza-pro-info-window-container
+{
+	z-index: 999999;
+}
+
+.wpgmza_map, #wpgmza_map
+{
+	position: relative;
+}
+
+.wpgmza-ol-canvas-overlay
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-modern-store-locator,
+	#wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-modern-store-locator
+{
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	/*width: 100%;*/
+	max-width: 100% !important;
+	z-index: 99;
+}
+
+.wpgmza-modern-store-locator {
+	pointer-events: none;
+	z-index: 0;
+	position: absolute;
+	top: 0px;
+	max-width: 100% !important;
+	left: 50%;
+}
+.wpgmza-modern-store-locator .wpgmza-inner {
+	position:relative;
+	left:-50%;
+}
+
+.wpgmza-modern-store-locator>.wpgmza-inner
+{
+	pointer-events: all;
+}
+
+.ol-info-window-polygon {
+    bottom: 0 !important;
+}
+
+.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible {
+    font-size: 12px;
+}
+
+.wpgmza_map .ol-viewport .ol-control:not(.ol-attribution){
+    background: transparent;
+}
+
+.wpgmza_map .ol-viewport .ol-control button {
+    background: var(--wpgmza-color-white);
+    color: var(--wpgmza-color-charcoal);
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza_map .ol-viewport .ol-control button:focus, 
+.wpgmza_map .ol-viewport .ol-control button:hover{
+    background: var(--wpgmza-color-grey-50);
+}
+
+.wpgmza_map .ol-control button {
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 20px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rtl .wpgmza_map * {
+    direction: ltr;
+}
+
+.rtl .wpgmza_map .wpgmza-infowindow,
+.rtl .wpgmza_map .wpgmza-infowindow  *{
+    direction: rtl;
+}
+
+.wpgmza_map .ol-control-layers {
+    display: flex;
+    right: .5em;
+	top: .5em;
+}
+
+.wpgmza_map .ol-control-layers.ol-has-fullscreen {
+    right: calc(1em + 30px);
+}
+
+.wpgmza_map .ol-control-layers button.ol-layer-button {
+    width: fit-content;
+    font-size: 12px;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    border-radius: 0;
+    height: 30px;
+    overflow: hidden;
+    float: none;
+    margin: 0;
+    border: 0;
+    border-right: 1px solid var(--wpgmza-color-grey-300);
+    font-weight: 600;
+    color: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .ol-control-layers button.ol-layer-button.selected,
+.wpgmza_map .ol-control-layers button.ol-layer-button:hover{
+    color: var(--wpgmza-color-black);
+}
+
+.wpgmza_map .ol-control-layers button.ol-layer-button:first-child{
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.wpgmza_map .ol-control-layers button.ol-layer-button:last-child{
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border: none
+}
+
+/* User Location Control */
+.wpgmza_map .ol-control-user-location {
+    display: flex;
+    right: .5em;
+    top: calc(1em + 30px);
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button {
+    width: 30px;
+    font-size: 12px;
+    height: 30px;
+    overflow: hidden;
+    float: none;
+    margin: 0;
+    border: 0;
+    font-weight: 600;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part{
+    display:block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-circle{
+    border: 2px solid var(--wpgmza-color-charcoal);
+    width: 16px;
+    height: 16px;
+    left: 7px;
+    top: 7px;
+    border-radius: 20px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-top,
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-bottom{
+    width: 2px;
+    height: 6px;
+    background: var(--wpgmza-color-charcoal);;
+    border-radius: 3px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-left,
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-right{
+    height: 2px;
+    width: 6px;
+    background: var(--wpgmza-color-charcoal);
+    border-radius: 3px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-top,
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-bottom{
+    left: 14px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-top{
+    top: 5px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-bottom{
+    bottom: 5px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-left,
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-right{
+    top: 14px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-left{
+    left: 5px;
+}
+
+.wpgmza_map .ol-control-user-location .ol-user-location-button .ol-user-location-part.ol-user-location-part-right{
+    right: 5px;
+}
+
+/* Reset Map Control */
+.wpgmza_map .ol-control-reset-map {
+    display: flex;
+    left: .5em;
+    bottom: .5em;
+}
+
+.wpgmza_map .ol-control-reset-map .ol-reset-map-button {
+    width: 30px;
+    font-size: 12px;
+    height: 30px;
+    overflow: hidden;
+    float: none;
+    margin: 0;
+    border: 0;
+    font-weight: 600;
+}
+
+.wpgmza_map .ol-control-reset-map .ol-reset-map-button .ol-reset-map-part{
+    display:block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .ol-control-reset-map .ol-reset-map-button .ol-reset-map-part.ol-reset-map-part-circle{
+    border: 2px solid var(--wpgmza-color-charcoal);
+    width: 16px;
+    height: 16px;
+    left: 7px;
+    top: 7px;
+    border-radius: 20px;
+    border-left-color: transparent;
+    transform: rotate(-45deg);
+}
+
+.wpgmza_map .ol-control-reset-map .ol-reset-map-button .ol-reset-map-part.ol-reset-map-part-arrow{
+    width: 3px;
+    height: 3px;
+    border: 3px solid var(--wpgmza-color-charcoal);
+    box-sizing: border-box;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+
+    transform: rotate(-135deg);
+    top: 11px;
+    left: 5px;
+    border-radius: 2px;
+}

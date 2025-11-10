@@ -6,6 +6,7 @@ if(!defined('ABSPATH'))
 global $wpgmza;
 global $wpgmza_global_array; 
 
+$basicVersion = explode('.', $wpgmza->getBasicVersion());
 ?>
 
 <div class="wpgmza-writeup-tabs">
@@ -14,12 +15,13 @@ global $wpgmza_global_array;
 </div>
 
 <div id="wpgmza-welcome-page" class="wrap wpgmza-wrap wpgmza-writeup-block wpgmza-shadow-high">
-    <img src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/new-banner.png'; ?>" alt="WP Go Maps"/>
+    <div>
+        <h2><?php _e("Welcome to", "wp-google-maps"); ?> <?php printf(__("V%s","wp-google-maps"), array_shift($basicVersion)); ?></h2>
+    </div>
 
-    <hr>
-
-    <h1><?php _e("Welcome to Atlas Novus", "wp-google-maps"); ?></h1>
-    <h2><?php printf(__("WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasicVersion()); ?></h2>
+    <div>
+        <img src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/new-banner.png'; ?>" alt="WP Go Maps"/>
+    </div>
 
     <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
         <?php echo __("Skip Introduction, Get Started","wp-google-maps"); ?>
@@ -30,7 +32,7 @@ global $wpgmza_global_array;
 
     <h2><?php _e("Join Our Community", "wp-google-maps"); ?></h2>
 
-    <div class="wpgmza-row">
+    <div class="wpgmza-grid wpgmza-grid-auto-fit">
         <div class="wpgmza-col">
             <h3><?php _e("Facebook Group", "wp-google-maps"); ?></h3>
 
@@ -56,19 +58,76 @@ global $wpgmza_global_array;
     <hr>
 
 
-    <h2><?php _e("Create maps that you'll love!","wp-google-maps"); ?></h2>
-    <h3><?php _e("With our all new map editor, the possibilities are endless","wp-google-maps"); ?></h3>
+    <h2><?php _e("New Mapping Engines!","wp-google-maps"); ?></h2>
+    <h3><?php _e("We've added Leaflet, Azure Maps, MapTiler, Stadia Maps, LocationIQ and OpenLayers V10","wp-google-maps"); ?></h3>
+    <h3><?php _e("Giving you more freedom, while ensuring you have access to all the features you've come to love!","wp-google-maps"); ?></h3>
 
-    <img src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/modern-editor.png'; ?>" alt="Modern Map Editor"/>
+    <img src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/v10-map-engine-grid.png'; ?>" alt="Map Engines!"/>
 
     <div class="separator"></div>
 
-    <div class="wpgmza-row" data-image="right">
+    <div class="wpgmza-grid wpgmza-grid-auto-fit" data-image="right">
+        <div class="wpgmza-col">
+            <h2><?php _e("ZERO Cost Mapping","wp-google-maps"); ?></h2>
+            <h3><?php _e("Stop paying for map usage entirely.","wp-google-maps"); ?></h3>
+            <h3><?php _e("While still delivering high-quality maps and visuals.","wp-google-maps"); ?></h3>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/map-engine-selection-guide/#2-toc-title" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+        </div>
+        <div class="wpgmza-col wpgmza-text-align-right">
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/v10-zero-cost.png'; ?>' />
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="wpgmza-grid wpgmza-grid-auto-fit">
+        <div class="wpgmza-col wpgmza-text-align-left">
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/v10-tileservers.png'; ?>' />
+        </div>
+        <div class="wpgmza-col">
+            <h2><?php _e("Advanced Tile Servers","wp-google-maps"); ?></h2>
+            <h3><?php _e("Choose from over 50 tile servers from 9 providers.","wp-google-maps"); ?></h3>
+            <h3><?php _e("Unlock a world of visual customization for your maps.","wp-google-maps"); ?></h3>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/map-engine-selection-guide/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="wpgmza-grid wpgmza-grid-auto-fit" data-image="right">
+        <div class="wpgmza-col">
+            <h2><?php _e("Address Providers","wp-google-maps"); ?></h2>
+            <h3><?php _e("Accurate address suggestions and geocoding!","wp-google-maps"); ?></h3>
+            <h3><?php _e("Google Maps, Azure Maps, Nominatim, and LocationIQ","wp-google-maps"); ?></h3>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/address-providers/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+        </div>
+        <div class="wpgmza-col wpgmza-text-align-right">
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/v10-address-providers.png'; ?>' />
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="wpgmza-grid wpgmza-grid-auto-fit">
+        <div class="wpgmza-col wpgmza-text-align-left">
+            <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/atlas-novus/modern-editor.png'; ?>' />
+        </div>
+        <div class="wpgmza-col">
+            <h2><?php _e("Create maps that you'll love!","wp-google-maps"); ?></h2>
+            <h3><?php _e("With our map editor, the possibilities are endless!","wp-google-maps"); ?></h3>
+            <h3><?php _e("More drawing tools than we can count!","wp-google-maps"); ?></h3>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs-category/drawing-tools/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="wpgmza-grid wpgmza-grid-auto-fit" data-image="right">
         <div class="wpgmza-col">
             <h2><?php _e("Unlimited Markers","wp-google-maps"); ?></h2>
             <h3><?php _e("Create as many markers as you like!","wp-google-maps"); ?></h3>
             <h3><?php _e("No limits, ever!","wp-google-maps"); ?></h3>
-            <a class='wpgmza-button' href="#" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/creating-your-first-marker/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
         </div>
         <div class="wpgmza-col wpgmza-text-align-right">
             <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/unlimited-markers.png'; ?>' />
@@ -77,7 +136,7 @@ global $wpgmza_global_array;
 
     <div class="separator"></div>
 
-    <div class="wpgmza-row">
+    <div class="wpgmza-grid wpgmza-grid-auto-fit">
         <div class="wpgmza-col wpgmza-text-align-left">
             <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/store-locator.png'; ?>' />
         </div>
@@ -85,13 +144,13 @@ global $wpgmza_global_array;
             <h2><?php _e("Store Locator","wp-google-maps"); ?></h2>
             <h3><?php _e("Get users to your store, quickly and easily!","wp-google-maps"); ?></h3>
             <h3><?php _e("We will take care of finding the nearest locations","wp-google-maps"); ?></h3>
-            <a class='wpgmza-button' href="#" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/store-locator/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
         </div>
     </div>
 
     <div class="separator"></div>
 
-    <div class="wpgmza-row" data-image="right">
+    <div class="wpgmza-grid wpgmza-grid-auto-fit" data-image="right">
         <div class="wpgmza-col">
             <h2><?php _e("Themes","wp-google-maps"); ?></h2>
             <h3><?php _e("Select from various map themes!","wp-google-maps"); ?></h3>
@@ -105,16 +164,16 @@ global $wpgmza_global_array;
 
     <div class="separator"></div>
 
-    <div class="wpgmza-row">
+    <div class="wpgmza-grid wpgmza-grid-auto-fit">
         <div class="wpgmza-col wpgmza-text-align-left">
             <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/polygons-and-polylines.png'; ?>' />
         </div>
 
         <div class="wpgmza-col">
-            <h2><?php _e("Polylines","wp-google-maps"); ?>, <?php _e("Polygons","wp-google-maps"); ?>, <?php _e("Circles","wp-google-maps"); ?>, <?php _e("and Squares","wp-google-maps"); ?></h2>
+            <h2><?php _e("Shapes","wp-google-maps"); ?></h2>
             <h3><?php _e("Create shapes with ease and efficiency","wp-google-maps"); ?></h3>
             <h3><?php _e("We have gone back to the drawing board","wp-google-maps"); ?></h3>
-            <a class='wpgmza-button' href="#" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
+            <a class='wpgmza-button' href="https://www.wpgmaps.com/help/docs/adding-a-polygon/" target="_BLANK"><?php _e("Learn More", "wp-google-maps"); ?></a>
 
         </div>
     </div>

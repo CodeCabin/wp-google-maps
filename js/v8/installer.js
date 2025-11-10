@@ -54,6 +54,22 @@ jQuery(function($) {
 			self.setApiKey($(this).val());
 		});
 
+		$(this.element).on('keyup change', 'input[name="azure_key"]', function(event){
+			self.setApiKey($(this).val());
+		});
+
+		$(this.element).on('keyup change', 'input[name="stadia_key"]', function(event){
+			self.setApiKey($(this).val());
+		});
+
+		$(this.element).on('keyup change', 'input[name="maptiler_key"]', function(event){
+			self.setApiKey($(this).val());
+		});
+
+		$(this.element).on('keyup change', 'input[name="locationiq_key"]', function(event){
+			self.setApiKey($(this).val());
+		});
+
 		$(this.element).on('change', 'select[name="tile_server_url"]', function(event){
 			self.setTileServer($(this).val());
 		});
@@ -158,6 +174,9 @@ jQuery(function($) {
 		$(window).scrollTop(0);
 
 		this.trigger('step.installer.admin');
+
+		/* Trigger tile server update changes */
+		$(document.body).trigger('tileserverpreview.update.wpgmza');
 	}
 
 	WPGMZA.Installer.prototype.loadSubSteps = function(index){
@@ -313,9 +332,10 @@ jQuery(function($) {
 
 	WPGMZA.Installer.prototype.hasSatisfiedStepCondition = function(condition){
 		let satisfied = false;
+		let keyEngines = ['google-maps', 'leaflet-azure', 'leaflet-stadia', 'leaflet-maptiler', 'leaflet-locationiq']
 		switch(condition){
 			case 'engine-set-up':
-				satisfied = (this.engine && this.engine === 'google-maps') ? (this.apiKey ? true : false) : true 
+				satisfied = (this.engine && keyEngines.indexOf(this.engine) !== -1) ? (this.apiKey ? true : false) : true 
 				break;
 		}
 
@@ -476,7 +496,7 @@ jQuery(function($) {
 			nonce: this.element.attr("data-ajax-nonce"),
 			wpgmza_maps_engine : this.engine,
 			tile_server_url : formData.tile_server_url,
-			api_key : formData.api_key
+			api_key : this.apiKey
 		};
 
 		$(event.target).prop("disabled", true);

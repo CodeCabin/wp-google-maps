@@ -32,12 +32,14 @@ jQuery(function($) {
             brightness : {
                 enable : false,
                 value : 0,
-                unit : '%'
+                unit : '%',
+                max : 500
             },
             contrast : {
                 enable : false,
                 value : 0,
-                unit : '%'
+                unit : '%',
+                max : 500
             },
             grayscale : {
                 enable : false,
@@ -62,7 +64,8 @@ jQuery(function($) {
             saturate : {
                 enable : false,
                 value : 0,
-                unit : '%'
+                unit : '%',
+                max : 500
             }
         };
 
@@ -214,6 +217,8 @@ jQuery(function($) {
                     controlAttributes = "data-min='1' data-max='360'";
                 } else if (data.unit === 'px'){
                     controlAttributes = "data-min='1' data-max='200'";
+                } else if (data.max){
+                    controlAttributes = "data-min='0' data-max='" + data.max + "'";
                 }
 
                 const controlInput = $("<input class='css-filter-item-input' type='" + controlType + "' " + controlAttributes + " value='" + data.value + "' />");

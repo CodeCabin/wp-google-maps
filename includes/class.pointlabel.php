@@ -32,6 +32,8 @@ class Pointlabel extends Feature {
 			default:
 				break;
 		}
+
+		return Feature::__get($name);
 	}
 	
 	public function __set($name, $value){
@@ -40,6 +42,7 @@ class Pointlabel extends Feature {
 				$this->_center = new LatLng($value);
 				break;
 			default:
+				Feature::__set($name, $value);
 				break;
 		}
 	}
@@ -52,6 +55,11 @@ class Pointlabel extends Feature {
 		}
 		
 		Crud::set($arg, $val);
+	}
+
+	public static function get_table_name_static() {
+		global $WPGMZA_TABLE_NAME_POINT_LABELS;
+		return $WPGMZA_TABLE_NAME_POINT_LABELS;
 	}
 	
 }

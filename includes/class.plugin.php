@@ -8,6 +8,9 @@ if(!defined('ABSPATH'))
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.auto-loader.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.gdpr-compliance.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/3rd-party-integration/class.wp-migrate-db-integration.php');
+
+wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.dynamic-translations.php');
+
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/open-layers/class.nominatim-geocode-cache.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.maps-engine-dialog.php');
 wpgmza_require_once(WPGMZA_PLUGIN_DIR_PATH . 'includes/class.page.php');
@@ -43,6 +46,7 @@ class Plugin extends Factory
 	const PAGE_CATEGORIES		= "categories";
 	const PAGE_ADVANCED			= "advanced";
 	const PAGE_CUSTOM_FIELDS	= "custom-fields";
+	const PAGE_INSIGHTS 		= "insights";
 	
 	const MARKER_PULL_DATABASE	= "0";
 	const MARKER_PULL_XML		= "1";
@@ -62,6 +66,7 @@ class Plugin extends Factory
 	private $_gutenbergIntegration;
 	private $_pro7Compatiblity;
 	private $_pro9Compatibility;
+	private $_pro10Compatibility;
 	private $_dynamicTranslations;
 	private $_spatialFunctionPrefix = '';
 	private $_shortcodes;
@@ -69,6 +74,7 @@ class Plugin extends Factory
 	private $_adminNotices;
 	
 	protected $_internalEngine;
+	protected $_previewMode;
 	protected $_scriptLoader;
 
 	private $mysqlVersion = null;
@@ -109,7 +115,7 @@ class Plugin extends Factory
 		$this->_database = new Database();
 		
 		// Dynamic translation file
-		$this->_dynamicTranslations = new DynamicTranslations();
+		$this->_dynamicTranslations = DynamicTranslations::createInstance();
 		
 		// Legacy settings
 		$this->legacySettings = get_option('WPGMZA_OTHER_SETTINGS');
@@ -121,6 +127,7 @@ class Plugin extends Factory
 		$this->_stylingSettings = new StylingSettings();
 		$this->_pro7Compatiblity = new Pro7Compatibility();
 		$this->_pro9Compatibility = new Pro9Compatibility();
+		$this->_pro10Compatibility = new Pro10Compatibility($this->_settings);
 
 		$this->_restAPI = RestAPI::createInstance();
 		
@@ -130,6 +137,7 @@ class Plugin extends Factory
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
 
 		$this->_internalEngine = new InternalEngine($this->settings->internal_engine);
+		$this->_previewMode = new PreviewMode();
 		$this->_shortcodes = Shortcodes::createInstance($this->_internalEngine);
 		
 		// Initialisation listener
@@ -146,8 +154,12 @@ class Plugin extends Factory
 		
 		// Include nominatim for it's legacy AJAX hooks
 		// TODO: Use a RESTful approach here instead
-		if($this->settings->engine == 'open-layers')
+		if($this->settings->engine == 'open-layers' || $this->settings->engine === 'open-layers-latest' 
+			|| $this->settings->engine === 'leaflet' || $this->settings->engine === 'leaflet-zerocost'
+			|| $this->settings->engine === 'leaflet-azure' || $this->settings->engine === 'leaflet-maptiler'
+			|| $this->settings->engine === 'leaflet-stadia' || $this->settings->engine === 'leaflet-locationiq'){
 			require_once(plugin_dir_path(__FILE__) . 'open-layers/class.nominatim-geocode-cache.php');
+		}
 
 		
 		if(is_admin())
@@ -187,7 +199,7 @@ class Plugin extends Factory
 				if(empty(get_option('wpgmza_welcome_screen_done'))){
 					add_action('admin_init', function(){
 						/* In admin area, has not seen welcome page, and not doing ajax right now */
-						update_option('wpgmza_welcome_screen_done', true);
+						update_option('wpgmza_welcome_screen_done', true, false);
 						wp_redirect(admin_url('admin.php?page=wp-google-maps-menu&action=welcome_page'));
 						exit;
 					});
@@ -238,6 +250,7 @@ class Plugin extends Factory
 			case 'adminUI':
 			case 'scriptLoader':
 			case 'internalEngine':
+			case 'previewMode':
 			case 'adminNotices':
 				return $this->{'_' . $name};
 				break;
@@ -295,7 +308,7 @@ class Plugin extends Factory
 		if(!wp_doing_ajax()){
 			/* Plugin is being activated in the background, we can't redirect in this case */
 			/* We will pick this up when they refresh the page */
-			update_option('wpgmza_welcome_screen_done', true);
+			update_option('wpgmza_welcome_screen_done', true, false);
 			wp_redirect(admin_url('admin.php?page=wp-google-maps-menu&action=welcome_page'));
 			exit;
 		}
@@ -334,7 +347,7 @@ class Plugin extends Factory
 
 		$this->database->onFirstRun();
 		
-		update_option('wpgmza-first-run', date(\DateTime::ISO8601));
+		update_option('wpgmza-first-run', date(\DateTime::ISO8601), false);
 
 	    /* Developer Hook (Action) - Add to first run plugin logic */     
 		do_action("wpgmza_plugin_core_on_first_run");
@@ -410,6 +423,10 @@ class Plugin extends Factory
 		$resturl = preg_replace('#/$#', '', get_rest_url(null, 'wpgmza/v1'));
 		$resturl = preg_replace('#^http(s?):#', '', $resturl);
 		
+		$tileServer = TileServers::getBySettings($settings);
+
+		$settings = apply_filters('wpgmza_plugin_get_localized_data_settings', $settings);
+
 		/* Developer Hook (Filter) - Add or alter localization variables */
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
@@ -433,6 +450,7 @@ class Plugin extends Factory
 			'settings' 				=> $settings,
 			'stylingSettings'		=> $stylingSettings,
 			'currentPage'			=> $this->getCurrentPage(),
+			'tileServer'			=> $tileServer,
 			
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
 			'serverCanInflate'		=> RestAPI::isCompressedPathVariableSupported(),
@@ -535,6 +553,10 @@ class Plugin extends Factory
 			case 'wp-google-maps-menu-custom-fields':
 				return Plugin::PAGE_CUSTOM_FIELDS;
 				break;
+
+			case 'wp-google-maps-menu-insights':
+				return Plugin::PAGE_INSIGHTS;
+				break;
 		}
 		
 		return null;
@@ -624,6 +646,8 @@ class Plugin extends Factory
 		$dropOptions = false;
 		$simulateFirstRun = false;
 		
+		$byMapTables = array();
+		$byMapTarget = false;
 
 		switch($type){
 			case 'destroy_all_data':
@@ -713,6 +737,29 @@ class Plugin extends Factory
 				$truncateTables[] = $WPGMZA_TABLE_NAME_POINT_LABELS;
 				$truncateTables[] = $WPGMZA_TABLE_NAME_IMAGE_OVERLAYS;
 				break;
+			case 'destroy_by_map':
+				/* By map does not truncate, but it target delets */
+				if(!empty($_POST['data_type']) && !empty($_POST['map_id'])){
+					$dataType = trim(strip_tags($_POST['data_type']));
+					$byMapTarget = !empty(intval($_POST['map_id'])) ? intval($_POST['map_id']) : false;
+					if(!empty($dataType)){
+						if($dataType === 'markers'){
+							/* All markers */
+							$byMapTables[] = $WPGMZA_TABLE_NAME_MARKERS;
+						} else if($dataType === 'shapes'){
+							/* All shape related tables */
+							$byMapTables[] = $WPGMZA_TABLE_NAME_POLYGONS;
+							$byMapTables[] = $WPGMZA_TABLE_NAME_POLYLINES;
+							$byMapTables[] = $WPGMZA_TABLE_NAME_CIRCLES;
+							$byMapTables[] = $WPGMZA_TABLE_NAME_RECTANGLES;
+
+							$byMapTables[] = $WPGMZA_TABLE_NAME_HEATMAPS;
+							$byMapTables[] = $WPGMZA_TABLE_NAME_POINT_LABELS;
+							$byMapTables[] = $WPGMZA_TABLE_NAME_IMAGE_OVERLAYS;
+						}
+					}
+				}
+				break;
 			default:
 				/*
 				 * Pay respects to the original logic which use to live here 
@@ -747,6 +794,13 @@ class Plugin extends Factory
 					/* Truncate the table */
 					$wpdb->query("TRUNCATE TABLE `{$table}`");
 				}
+			}
+		}
+
+		if(!empty($byMapTables) && !empty($byMapTarget)){
+			/* Specific targeted maps - Usually only available with Pro as it supports multiple maps */
+			foreach($byMapTables as $targetTable){
+				$wpdb->query($wpdb->prepare("DELETE FROM `{$targetTable}` WHERE map_id = %d", array($byMapTarget)));
 			}
 		}
 
@@ -984,7 +1038,7 @@ class Plugin extends Factory
 		}
 	
 		$data = implode("", array_reverse($data));
-		update_option("wpgmza_temp_api", $data);
+		update_option("wpgmza_temp_api", $data, false);
 	}
 
 	/**

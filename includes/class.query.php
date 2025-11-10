@@ -17,6 +17,7 @@ class Query
 	private $_fields;
 	
 	private $_join;
+	private $_leftJoin;
 	private $_where;
 	
 	private $_union;
@@ -37,6 +38,7 @@ class Query
 		$this->_fields	= new QueryFragment();
 
 		$this->_join 	= new QueryFragment();
+		$this->_leftJoin = new QueryFragment();
 		$this->_where 	= new QueryFragment();
 		
 		$this->_union	= new QueryFragment();
@@ -211,6 +213,14 @@ class Query
 				
 				foreach($query->_join as $join)
 					$qstr .= 'JOIN ' . $join;
+			}
+
+			if(!empty($query->_leftJoin))
+			{
+				$qstr .= ' ';
+				
+				foreach($query->_leftJoin as $join)
+					$qstr .= 'LEFT JOIN ' . $join;
 			}
 			
 			$where = $query->_where->toArray();

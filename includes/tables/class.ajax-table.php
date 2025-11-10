@@ -267,7 +267,6 @@ class AjaxTable extends Table
 	protected function buildCountQueryString($input_params, &$count_query_params)
 	{
 		$count_where = $this->getWhereClause($input_params, $count_query_params, true);
-		
 		return "SELECT COUNT(id) FROM {$this->table_name} WHERE $count_where";
 	}
 
@@ -373,8 +372,8 @@ class AjaxTable extends Table
 		}
 		
 		$result = (object)array(
-			'recordsTotal'		=> $total_count,
-			'recordsFiltered'	=> $found_rows,
+			'recordsTotal'		=> apply_filters('wpgmza_ajax_table_records_total', $total_count),
+			'recordsFiltered'	=> apply_filters('wpgmza_ajax_table_records_filtered', $found_rows),
 			'data'				=> apply_filters('wpgmza_ajax_table_records', $rows),
 			'meta'				=> apply_filters('wpgmza_ajax_table_meta', $meta)
 		);

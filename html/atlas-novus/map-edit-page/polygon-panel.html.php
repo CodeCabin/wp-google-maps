@@ -35,6 +35,13 @@
 		</ul>
 	</div>
 
+	<!-- Translateion instruction -->
+	<div class="wpgmza-dynamic-translations-notice wpgmza-card wpgmza-shadow">
+		<strong><?php _e("Translating polygons", "wp-google-maps"); ?></strong>
+		<span><?php _e("Your polygon translations are being managed by:", "wp-google-maps"); ?> <span data-translation-provider></span></span>
+		<span><?php _e("Use their tools to translate content within your polygons", "wp-google-maps"); ?></span>
+	</div>
+
 	<!-- Hidden reference fields -->
 	<input data-ajax-name="id" type="hidden" value="-1"/>
 	<input data-ajax-name="map_id" type="hidden" value="-1"/>
@@ -148,6 +155,22 @@
 		<input type="number" data-ajax-name="linethickness" min="1" max="50" step="1" value="3"/>
 	</fieldset>
 
+	<!-- Line Style -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend> <?php esc_html_e("Line Style", "wp-google-maps"); ?> </legend>
+		<select data-ajax-name="linestyle">
+			<option value="0">
+				<?php esc_html_e('Solid', 'wp-google-maps'); ?>
+			</option>
+			<option value="1">
+				<?php esc_html_e('Dashed', 'wp-google-maps'); ?>
+			</option>
+			<option value="2">
+				<?php esc_html_e('Dotted', 'wp-google-maps'); ?>
+			</option>
+		</select>
+	</fieldset>
+
 	<!-- Layer -->
 	<fieldset class="wpgmza-pro-feature">
 		<legend><?php esc_html_e('Layer', 'wp-google-maps'); ?></legend>
@@ -160,6 +183,12 @@
 				?>
 			</small>
 		</div>
+	</fieldset>
+
+	<!-- Category -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e('Category', 'wp-google-maps'); ?> </legend>
+		<div class="wpgmza-category-picker-container"></div>
 	</fieldset>
 	
 	<!-- Raw polydata -->

@@ -59,6 +59,7 @@ jQuery(function($) {
         }
 
         const action = item.data('ajax-action');
+        const noticeSlug = this.element.data('slug');
 
         item.attr('data-disabled', 'true');
         item.css('opacity', "0.5");
@@ -67,6 +68,7 @@ jQuery(function($) {
             const data = {
                 action : 'wpgmza_persisten_notice_quick_action',
                 relay : action,
+                slug : noticeSlug,
                 wpgmza_security : WPGMZA.ajaxnonce
             };
 

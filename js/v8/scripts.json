@@ -1,6 +1,27 @@
 {
+    "wpgmza-wpgmza-accessibility": {
+        "src": "js\/v8\/accessibility.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-address-input": {
         "src": "js\/v8\/address-input.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-autocomplete": {
+        "src": "js\/v8\/autocomplete.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-boundary-input": {
+        "src": "js\/v8\/boundary-input.js",
         "pro": false,
         "dependencies": [
             "wpgmza-event-dispatcher"
@@ -319,6 +340,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-preset-selection-input": {
+        "src": "js\/v8\/preset-selection-input.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
     "wpgmza-rectangle": {
         "src": "js\/v8\/rectangle.js",
         "pro": false,
@@ -396,6 +424,20 @@
             "wpgmza"
         ]
     },
+    "wpgmza-tile-server-preview": {
+        "src": "js\/v8\/tile-server-preview.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-tileset-panel": {
+        "src": "js\/v8\/tileset-panel.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
     "wpgmza-tour": {
         "src": "js\/v8\/tour.js",
         "pro": false,
@@ -431,6 +473,20 @@
             "wpgmza"
         ]
     },
+    "wpgmza-azure-autocomplete": {
+        "src": "js\/v8\/azure\/azure-autocomplete.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-autocomplete"
+        ]
+    },
+    "wpgmza-azure-geocoder": {
+        "src": "js\/v8\/azure\/azure-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-geocoder"
+        ]
+    },
     "wpgmza-astra-theme-compatiblity": {
         "src": "js\/v8\/compatibility\/astra-theme-compatibility.js",
         "pro": false,
@@ -445,6 +501,13 @@
             "wpgmza"
         ]
     },
+    "wpgmza-google-autocomplete": {
+        "src": "js\/v8\/google-maps\/google-autocomplete.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-autocomplete"
+        ]
+    },
     "wpgmza-google-circle": {
         "src": "js\/v8\/google-maps\/google-circle.js",
         "pro": false,
@@ -457,6 +520,13 @@
         "pro": false,
         "dependencies": [
             "wpgmza-drawing-manager"
+        ]
+    },
+    "wpgmza-google-feature": {
+        "src": "js\/v8\/google-maps\/google-feature.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
         ]
     },
     "wpgmza-google-geocoder": {
@@ -558,6 +628,133 @@
             "wpgmza_api_call"
         ]
     },
+    "wpgmza-leaflet-circle": {
+        "src": "js\/v8\/leaflet\/leaflet-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-circle"
+        ]
+    },
+    "wpgmza-leaflet-drawing-manager": {
+        "src": "js\/v8\/leaflet\/leaflet-drawing-manager.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-drawing-manager"
+        ]
+    },
+    "wpgmza-leaflet-feature": {
+        "src": "js\/v8\/leaflet\/leaflet-feature.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-leaflet-geocoder": {
+        "src": "js\/v8\/leaflet\/leaflet-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-nominatim-geocoder"
+        ]
+    },
+    "wpgmza-leaflet-info-window": {
+        "src": "js\/v8\/leaflet\/leaflet-info-window.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-info-window"
+        ]
+    },
+    "wpgmza-leaflet-map": {
+        "src": "js\/v8\/leaflet\/leaflet-map.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-map"
+        ]
+    },
+    "wpgmza-leaflet-marker": {
+        "src": "js\/v8\/leaflet\/leaflet-marker.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-marker"
+        ]
+    },
+    "wpgmza-leaflet-modern-store-locator-circle": {
+        "src": "js\/v8\/leaflet\/leaflet-modern-store-locator-circle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-modern-store-locator-circle"
+        ]
+    },
+    "wpgmza-leaflet-pointlabel": {
+        "src": "js\/v8\/leaflet\/leaflet-pointlabel.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-text",
+            "wpgmza-pointlabel"
+        ]
+    },
+    "wpgmza-leaflet-polygon": {
+        "src": "js\/v8\/leaflet\/leaflet-polygon.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polygon"
+        ]
+    },
+    "wpgmza-leaflet-polyline": {
+        "src": "js\/v8\/leaflet\/leaflet-polyline.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-polyline"
+        ]
+    },
+    "wpgmza-leaflet-rectangle": {
+        "src": "js\/v8\/leaflet\/leaflet-rectangle.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-rectangle"
+        ]
+    },
+    "wpgmza-leaflet-text-overlay": {
+        "src": "js\/v8\/leaflet\/leaflet-text-overlay.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-leaflet-text"
+        ]
+    },
+    "wpgmza-leaflet-text": {
+        "src": "js\/v8\/leaflet\/leaflet-text.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-text"
+        ]
+    },
+    "wpgmza-leaflet-theme-editor": {
+        "src": "js\/v8\/leaflet\/leaflet-theme-editor.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-event-dispatcher"
+        ]
+    },
+    "wpgmza-leaflet-theme-panel": {
+        "src": "js\/v8\/leaflet\/leaflet-theme-panel.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-location-iq-autocomplete": {
+        "src": "js\/v8\/location-iq\/location-iq-autocomplete.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-autocomplete"
+        ]
+    },
+    "wpgmza-location-iq-geocoder": {
+        "src": "js\/v8\/location-iq\/location-iq-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-geocoder"
+        ]
+    },
     "wpgmza-circle-panel": {
         "src": "js\/v8\/map-edit-page\/circle-panel.js",
         "pro": false,
@@ -607,6 +804,20 @@
             "wpgmza-feature-panel"
         ]
     },
+    "wpgmza-nominatim-autocomplete": {
+        "src": "js\/v8\/nominatim\/nominatim-autocomplete.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-autocomplete"
+        ]
+    },
+    "wpgmza-nominatim-geocoder": {
+        "src": "js\/v8\/nominatim\/nominatim-geocoder.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-geocoder"
+        ]
+    },
     "wpgmza-ol-circle": {
         "src": "js\/v8\/open-layers\/ol-circle.js",
         "pro": false,
@@ -632,7 +843,7 @@
         "src": "js\/v8\/open-layers\/ol-geocoder.js",
         "pro": false,
         "dependencies": [
-            "wpgmza-geocoder"
+            "wpgmza-nominatim-geocoder"
         ]
     },
     "wpgmza-ol-info-window": {

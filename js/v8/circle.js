@@ -116,11 +116,24 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
 				if(WPGMZA.isProVersion()){
 					constructor = WPGMZA.OLProCircle;
 					break;
 				}
 				constructor = WPGMZA.OLCircle;
+				break;
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion()){
+					constructor = WPGMZA.LeafletProCircle;
+					break;
+				}
+				constructor = WPGMZA.LeafletCircle;
 				break;
 			
 			default:

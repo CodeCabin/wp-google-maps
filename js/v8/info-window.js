@@ -66,11 +66,21 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProInfoWindow;
 				return WPGMZA.OLInfoWindow;
 				break;
-			
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.LeafletProInfoWindow;
+				return WPGMZA.LeafletInfoWindow;
+				break;
 			default:
 				if(WPGMZA.isProVersion())
 					return WPGMZA.GoogleProInfoWindow;
@@ -108,11 +118,21 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.addEditButton = function() {
 		if (WPGMZA.currentPage == "map-edit") {
 			if(this.feature instanceof WPGMZA.Marker){
-				return ' <a title="Edit this marker" style="width:15px;" class="wpgmza_edit_btn" data-edit-marker-id="'+this.feature.id+'"><i class="fa fa-edit"></i></a>';	
+				let buttons = '<a title="Edit this marker" style="width:15px;" class="wpgmza_edit_btn" data-edit-marker-id="'+this.feature.id+'"><i class="fa fa-edit"></i></a>';
+				buttons += this.addDeleteButton();
+				return ' ' + buttons;	
 			}
 		}
 		return '';
+	}
 
+	WPGMZA.InfoWindow.prototype.addDeleteButton = function(){
+		if (WPGMZA.currentPage == "map-edit") {
+			if(this.feature instanceof WPGMZA.Marker){
+				return' <a title="Delete this marker" style="width:15px;" class="wpgmza_del_btn" data-delete-marker-id="'+this.feature.id+'"><i class="fa fa-trash"></i></a>';
+			}
+		}
+		return '';
 	}
 
 	WPGMZA.InfoWindow.prototype.workOutDistanceBetweenTwoMarkers = function(location1, location2) {
@@ -238,6 +258,55 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.onOpen = function()
 	{
 		
+	}
+
+	/**
+	 * Gets a list of data attributes to be added to the info-window container
+	 * 
+	 * These can be used for quick identification, or advanced styling from a structural perspective
+	 * 
+	 * @return object
+	 */
+	WPGMZA.InfoWindow.prototype.getWrapperAttributes = function(){
+		const attrs = {
+			type : 'system',
+			id : this.feature && this.feature.id ? this.feature.id : null,
+			feature : null
+		};
+
+		if(this.feature){
+			if(this.feature instanceof WPGMZA.Marker){
+				attrs.feature = 'marker';
+			} else if(this.feature instanceof WPGMZA.Polyline){
+				attrs.feature = 'polyline';
+			} else if(this.feature instanceof WPGMZA.Polygon){
+				attrs.feature = 'polygon';
+			} else if(this.feature instanceof WPGMZA.Circle){
+				attrs.feature = 'circle';
+			} else if(this.feature instanceof WPGMZA.Rectangle){
+				attrs.feature = 'rectangle';
+			}
+		}
+
+		return attrs;
+	}
+
+	WPGMZA.InfoWindow.prototype.compileWrapperAttributes = function(){
+		const attrs = this.getWrapperAttributes();
+
+		const compiled = [];
+		for(let key in attrs){
+			let value = attrs[key];
+			if(key && value){
+				compiled.push(`data-prop-${key}="${value}"`);
+			}
+		}
+
+		return compiled && compiled.length > 0 ? compiled.join(' ') : '';
+	}
+
+	WPGMZA.InfoWindow.prototype.getStyleTypeClass = function(){
+		return "wpgmza-infowindow-style-classic";
 	}
 	
 });

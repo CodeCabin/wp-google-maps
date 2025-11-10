@@ -12,13 +12,26 @@ jQuery(function($) {
 		this.element = $("#wpgmza-theme-panel");
 		this.map = WPGMZA.maps[0];
 		
-		if(WPGMZA.settings.engine == "open-layers"){
-			this.element.remove();
-
-			/* Init OL Theme Panel from here, we could use createInstance for this, but for now it's not needed */
-			this.olThemePanel = new WPGMZA.OLThemePanel();
-			return;
-		} 
+		switch(WPGMZA.settings.engine){
+			case 'open-layers':
+			case 'open-layers-latest':
+				this.element.remove();
+				/* Init OL Theme Panel from here, we could use createInstance for this, but for now it's not needed */
+				this.olThemePanel = new WPGMZA.OLThemePanel();
+				return;
+				break;
+			case 'leaflet':
+			case 'leaflet-azure':
+			case 'leaflet-stadia':
+			case 'leaflet-maptiler':
+			case 'leaflet-locationiq':
+			case 'leaflet-zerocost':
+				this.element.remove();
+				/* Swap for the Leaflet Theme Panel instead */
+				this.leafletThemePanel = new WPGMZA.LeafletThemePanel();
+				return;
+				break;
+		}
 		
 		if(!this.element.length)
 		{
@@ -75,6 +88,8 @@ jQuery(function($) {
 		
 		this.updateMapTheme();
 		WPGMZA.themeEditor.parse();
+
+		WPGMZA.notification("Theme preset applied!", false, '.grouping.open[data-group="map-settings-themes-presets"]', 'top-right');
 	}
 	
 	WPGMZA.ThemePanel.prototype.updateMapTheme = function()

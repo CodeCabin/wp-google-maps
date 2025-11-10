@@ -200,7 +200,6 @@ class MarkerFilter extends Factory
 		$query->fields = $this->getColumns($fields);
 		
 		$sql = $query->build();
-
 		$results = $wpdb->get_results($sql);
 
 		// NB: Optimize by only fetching ID here, for filtering. Only fetch the rest if fetch ID not set.

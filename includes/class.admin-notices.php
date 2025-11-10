@@ -14,50 +14,32 @@ class AdminNotices {
 	*/
 	public function __construct(){
 		global $wpgmza;
-
 		/**
 		 * Dynamic notices are declared here, this means they can be changed without altering DB store
 		 * 
 		 * This doesn't stop you from registering your own messages using the create method, but it allows logic blocks to be build in to change these messages on the fly
 		*/
-    
+
 		/* Developer Hook (Filter) - Register default dynamic titles for the admin notice system */
 		$this->dynamicTitles = apply_filters("wpgmza_admin_persistent_notices_dynamic_titles", 
 			array(
-				"switch_engines" => __("Welcome to Atlas Novus", "wp-google-maps"),
 				"disable_backups" => __("Automatic Backups Disabled", "wp-google-maps")
 			)
 		);
-
 		
 		/* Developer Hook (Filter) - Register default dynamic messages for the admin notice system */
 		$this->dynamicMessages = apply_filters("wpgmza_admin_persistent_notices_dynamic_messages", 
 			array(
-				"switch_engines" => __("You're using our Atlas Novus build, which includes exciting new features and improvements. If you are experiencing issues, remember you can switch to the legacy build at any time from the settings area.", "wp-google-maps"),
 				"disable_backups" => __("We've disabled automatic backups due to large marker counts in your database. You can still create manual backups as needed, or enable automatic backups if you are sure your server can process these requests.", "wp-google-maps")
 			)
 		);
 
-
+		/* Legacy Check */
 		if($wpgmza->internalEngine->isLegacy()){
-			$this->dynamicTitles['switch_engines'] = __("Try Atlas Novus", "wp-google-maps");
+			/* The user is currently running Legacy, which is officially end of life since V10 */
+			$this->dynamicTitles['switch_engines'] = __("Legacy Build", "wp-google-maps");
+			$this->dynamicMessages['switch_engines'] = __("You're using our Legacy build, which is no longer receiving feature updates. Switch over to our Atlas Novus engine now to get access to the latest features! We will automatically convert your map settings during migration!", "wp-google-maps");
 
-			$this->dynamicMessages['switch_engines'] = __("You're using our Legacy build, try our new Atlas Novus build for exciting new features, improved interface and better performance. You can switch at any time from the settings area.", "wp-google-maps");
-		}
-
-		/** 
-		 * Should we register default notices here as well? I am not sure 
-		 * 
-		 * Gut says no, but for now this makes more sense than doing it inline
-		*/
-		if(!empty($wpgmza->settings->internal_engine)){
-			/**
-			 * This initial swap notice detracts from the first-time experience, so for the moment it has been disabled for new users 
-			 * 
-			 * Users can still swap via the settings area though
-			 */
-
-			/*
 			$this->create('switch_engines', 
 				array(
 					'link' => 'admin.php?page=wp-google-maps-menu-settings',
@@ -67,7 +49,43 @@ class AdminNotices {
 					'title' => 'switch_engines'
 				)
 			);
-			*/
+		} else {
+			/* User is not in legacy */
+			$exists = $this->get('switch_engines', array('id'));
+			if(!empty($exists) && !empty($exists->id)){
+				/* But has the switch notice active - Dismiss it now */
+				$this->dismiss('switch_engines');
+			}
+
+		}
+
+		/* Upgrade Sale */
+		if($firstRun = get_option('wpgmza-first-run')){
+			$this->dynamicTitles['upgrade_for_you'] = __("Just for you - 20% off your Pro upgrade!", "wp-google-maps");
+			$this->dynamicMessages['upgrade_for_you'] = __("Thanks for exploring WP Go Maps! For a limited time, you can upgrade to Pro and get 20% off your license. Don't miss this opportunity to unlock unlimited maps, advanced markers, directions, marker listings and much more!", "wp-google-maps");
+
+			
+			$now		= new \DateTime();
+			$diff		= $now->diff(\DateTime::createFromFormat(\DateTime::ISO8601, $firstRun));
+
+			if(!empty($diff->days) && $diff->days >= 7){
+				if(empty(get_option('wpgmza_pro_db_version'))){
+					/* It's been at least 7 days since installation - And user hasn't ever installed Pro */
+					
+					$upgradeLink = "https://www.wpgmaps.com/purchase-professional-version/?wpgm_c=n7db5m0x&utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgrade-for-you" . ($wpgmza->internalEngine->isLegacy() ? '' : '-atlas-novus') ."-v10#pricing";
+
+					$this->create('upgrade_for_you', 
+						array(
+							'link' => $upgradeLink,
+							'link_label' => __("Unlock Pro (20% Discount)", "wp-google-maps"),
+							'link_external' => true,
+							'title' => 'upgrade_for_you',
+							'class' => 'special-offer',
+							'condition' => 'basicOnly'
+						)
+					);
+				}
+			}
 		}
 
     	/* Developer Hook (Action) - Create additional persistent notices, be mindful of conditional creation */     
@@ -346,6 +364,14 @@ class AdminNotices {
 					}
 
 					$wpgmza->settings->internal_engine = $engine;
+
+					/* Dismiss it - It's one-switch and done */
+					if(!empty($_POST['slug'])){
+						$slug = sanitize_text_field($_POST['slug']);
+						if (!empty($slug)){
+							$this->dismiss($slug);
+						}
+					}
 					break;
 			}
 		}
@@ -410,7 +436,12 @@ class AdminNotices {
 					}
 
 					if(!empty($data->options->link)){
-						$link->setAttribute('href', admin_url($data->options->link));
+						if(!empty($data->options->link_external)){
+							$link->setAttribute('href', $data->options->link);
+							$link->setAttribute('target', "_BLANK");
+						} else {
+							$link->setAttribute('href', admin_url($data->options->link));
+						}
 
 						if(!empty($data->options->link_label)){
 							$link->appendText($data->options->link_label);
@@ -432,6 +463,15 @@ class AdminNotices {
 
 					if(!empty($data->options->class) && !empty($wrapper)){
 						$wrapper->addClass($data->options->class);
+					}
+
+					if(!empty($data->options->condition)){
+						/* There is a display condition */
+						if($data->options->condition === 'basicOnly' && $wpgmza->isProVersion()){
+							/* Condition is basic only, user has Pro */
+							$this->dismiss($data->name);
+							return ''; // Return early
+						}
 					}
 				} else {
 					$title->remove();

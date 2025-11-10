@@ -32,6 +32,13 @@
 		</ul>
 	</div>
 
+	<!-- Translateion instruction -->
+	<div class="wpgmza-dynamic-translations-notice wpgmza-card wpgmza-shadow">
+		<strong><?php _e("Translating circles", "wp-google-maps"); ?></strong>
+		<span><?php _e("Your circle translations are being managed by:", "wp-google-maps"); ?> <span data-translation-provider></span></span>
+		<span><?php _e("Use their tools to translate content within your circles", "wp-google-maps"); ?></span>
+	</div>
+
 	<!-- Hiddent reference fields -->
 	<input data-ajax-name="id" type="hidden" value="-1"/>
 	<input data-ajax-name="map_id" type="hidden" value="-1"/>
@@ -163,6 +170,12 @@
 		</div>
 	</div>
 
+	<!-- Thickness -->
+	<fieldset>
+		<legend> <?php esc_html_e("Line Thickness", "wp-google-maps"); ?> </legend>
+		<input type="number" data-ajax-name="linethickness" min="1" max="50" step="1" value="3"/>
+	</fieldset>
+
 	<!-- Layer -->
 	<fieldset class="wpgmza-pro-feature">
 		<legend><?php esc_html_e('Layer', 'wp-google-maps'); ?></legend>
@@ -175,6 +188,12 @@
 				?>
 			</small>
 		</div>
+	</fieldset>
+
+	<!-- Category -->
+	<fieldset class="wpgmza-pro-feature">
+		<legend><?php esc_html_e('Category', 'wp-google-maps'); ?> </legend>
+		<div class="wpgmza-category-picker-container"></div>
 	</fieldset>
 
 

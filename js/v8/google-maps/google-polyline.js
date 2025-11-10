@@ -2,14 +2,17 @@
  * @namespace WPGMZA
  * @module GooglePolyline
  * @requires WPGMZA.Polyline
+ * @pro-requires WPGMZA.ProPolyline
  */
 jQuery(function($) {
 	
+	var Parent;
+
 	WPGMZA.GooglePolyline = function(options, googlePolyline) {
 
 		var self = this;
 		
-		WPGMZA.Polyline.call(this, options, googlePolyline);
+		Parent.call(this, options, googlePolyline);
 		
 		if(googlePolyline) {
 			this.googlePolyline = googlePolyline;
@@ -32,16 +35,22 @@ jQuery(function($) {
 		if(options)
 			this.setOptions(options);
 		
-		google.maps.event.addListener(this.googlePolyline, "click", function() {
-			self.dispatchEvent({type: "click"});
+		google.maps.event.addListener(this.googlePolyline, "click", function(event) {
+			let coordinates = new WPGMZA.LatLng(event.latLng.lat(), event.latLng.lng());
+			self.dispatchEvent({type: "click", coordinates : coordinates});
 		});
 	}
+
+	if(WPGMZA.isProVersion())
+		Parent = WPGMZA.ProPolyline;
+	else
+		Parent = WPGMZA.Polyline;
 	
-	WPGMZA.GooglePolyline.prototype = Object.create(WPGMZA.Polyline.prototype);
+	WPGMZA.GooglePolyline.prototype = Object.create(Parent.prototype);
 	WPGMZA.GooglePolyline.prototype.constructor = WPGMZA.GooglePolyline;
 	
 	WPGMZA.GooglePolyline.prototype.updateNativeFeature = function() {
-		this.googlePolyline.setOptions(this.getScalarProperties());
+		this.googlePolyline.setOptions(WPGMZA.GoogleFeature.getGoogleStyle(this.getScalarProperties()));
 	}
 	
 	WPGMZA.GooglePolyline.prototype.setEditable = function(value) {
@@ -81,6 +90,10 @@ jQuery(function($) {
 				
 			});
 		}
+	}
+
+	WPGMZA.GooglePolyline.prototype.setVisible = function(visible) {
+		this.googlePolyline.setVisible(visible ? true : false);
 	}
 	
 	WPGMZA.GooglePolyline.prototype.setDraggable = function(value) {

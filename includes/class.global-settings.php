@@ -60,19 +60,19 @@ class GlobalSettings extends Settings
 		{
 			case "wpgmza_google_maps_api_key":
 				// NB: Legacy support
-				update_option('wpgmza_google_maps_api_key', $value);
+				update_option('wpgmza_google_maps_api_key', $value, false);
 				break;
 				
 			case "wpgmza_marker_xml_location":
 				
 				// NB: Dreadful hack, it seems you can either have slashes constantly doubling up, or no slashes. Suspect fighting with legacy code, no time to fix this now. This should at least stop slashes accumulating on Windows machines.
 				$value = preg_replace("#\\{2,}#", "\\", $value);
-				update_option('wpgmza_xml_location', $value);
+				update_option('wpgmza_xml_location', $value, false);
 				
 				break;
 			
 			case "wpgmza_marker_xml_url":
-				update_option('wpgmza_xml_url', $value);
+				update_option('wpgmza_xml_url', $value, false);
 				break;
 				
 			case "wpgmza_maps_engine":
@@ -122,7 +122,7 @@ class GlobalSettings extends Settings
 		/* Developer Hook (Filter) - Add or alter default plugin installation settings */
 		$settings = apply_filters('wpgmza_plugin_get_default_settings', array(
 			'engine' 				=> 'google-maps',
-			'internal_engine'		=> InternalEngine::getRandomEngine(),
+			'internal_engine'		=> InternalEngine::getDefaultEngine(),
 			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
 			'default_marker_icon'	=> Marker::DEFAULT_ICON,
 			'developer_mode'		=> false,
@@ -248,7 +248,7 @@ class GlobalSettings extends Settings
 		
 		$legacy = $this->toArray();
 		
-		update_option(GlobalSettings::LEGACY_TABLE_NAME, $legacy);
+		update_option(GlobalSettings::LEGACY_TABLE_NAME, $legacy, false);
 		
 		$this->updatingLegacySettings = false;
 	}
@@ -264,7 +264,7 @@ class GlobalSettings extends Settings
 		
 		$json = json_encode($legacy);
 		
-		update_option(GlobalSettings::TABLE_NAME, $json);
+		update_option(GlobalSettings::TABLE_NAME, $json, false);
 	}
 	
 	public function jsonSerialize()
@@ -305,7 +305,9 @@ class GlobalSettings extends Settings
 		 * 
 		 * As of 9.0.18 (23-03-13) 
 		 */
-		$apikeyIndexes = array('googleMapsApiKey', 'wpgmza_google_maps_api_key', 'google_maps_api_key');
+		$apikeyIndexes = array(
+			'googleMapsApiKey', 'wpgmza_google_maps_api_key', 'google_maps_api_key'
+		);
 		foreach($apikeyIndexes as $key){
 			if(!empty($data->{$key})){
 				$data->{$key} = base64_encode($data->{$key});

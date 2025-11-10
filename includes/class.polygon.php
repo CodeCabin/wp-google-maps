@@ -13,4 +13,9 @@ class Polygon extends Feature
 		
 		Crud::__construct("{$wpdb->prefix}wpgmza_polygon", $id_or_fields, $read_mode);
 	}
+
+	public static function get_table_name_static() {
+		global $wpdb;
+		return "{$wpdb->prefix}wpgmza_polygon";
+	}
 }

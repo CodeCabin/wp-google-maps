@@ -15,16 +15,86 @@
 
 			<hr>
 
-			<div class="wpgmza-row">
-				<input type="radio" name="wpgmza_maps_engine" value="google-maps" id='engine_select_google' class="wpgmza-hidden" />
-				<label class="wpgmza-col wpgmza-installer-engine-select" for='engine_select_google'>
-					<img class="installer-engine-tile" src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/Google_maps_logo.png" />
-				</label>
-				
-				<input type="radio" name="wpgmza_maps_engine" value="open-layers" id='engine_select_open_layers' class="wpgmza-hidden" />
-				<label class="wpgmza-col wpgmza-installer-engine-select" for='engine_select_open_layers'>
-					<img class="installer-engine-tile" src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/openlayers_logo.png" />
-				</label>
+			<div class="wpgmza-map-engine-selector">
+				<div class="wpgmza-map-engine-selector-grid">
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Google Maps', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="google-maps" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/google_maps_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Microsoft Azure (Formerly Bing)', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet-azure" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/azure_maps_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Stadia Maps', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet-stadia" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/stadia_maps_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Maptiler', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet-maptiler" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/maptiler_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('LocationIQ', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet-locationiq" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/location_iq_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Zero Cost Mapping Preset', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet-zerocost" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/zerocost_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Leaflet', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="leaflet" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/leaflet_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('OpenLayers (V10)', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="open-layers-latest" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<span>Version 10</span>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/openlayers_logo.png" />
+					</label>
+
+					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('OpenLayers (Legacy)', 'wp-google-maps'); ?>">
+						<input type="radio" name="wpgmza_maps_engine" value="open-layers" class="wpgmza-hidden" />
+						<div class="wpgmza-map-engine-item-backdrop"></div>
+						<span>Version 6</span>
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/openlayers_logo.png" />
+					</label>
+				</div>
+
+				<!-- Powered by leaflet notice -->
+				<div class='wpgmza-map-engine-powered-by' data-required-maps-engine="leaflet-azure|leaflet-stadia|leaflet-maptiler|leaflet-locationiq">
+					<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-azure"><?php esc_html_e("Microsoft Azure Maps", "wp-google-maps"); ?></span> 
+					<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-stadia"><?php esc_html_e("Stadia Maps", "wp-google-maps"); ?></span> 
+					<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-maptiler"><?php esc_html_e("Maptiler", "wp-google-maps"); ?></span> 
+					<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-locationiq"><?php esc_html_e("Location IQ", "wp-google-maps"); ?></span> 
+					<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-zerocost"><?php esc_html_e("Zero Cost Mapping", "wp-google-maps"); ?></span> 
+					<span><?php esc_html_e("is powered by", "wp-google-maps"); ?></span>
+					<span class='wpgmza-map-engine-powered-by-highlight'>
+						<?php esc_html_e("Leaflet", "wp-google-maps"); ?>
+						<span class='wpgmza-map-engine-powered-by-highlight' data-required-maps-engine="leaflet-zerocost"><?php esc_html_e("& OpenFreeMap", "wp-google-maps"); ?></span> 
+					</span>
+				</div>
+			</div>
+
+			<div class="wpgmza-row wpgmza-margin-t-20">
+				<div class="wpgmza-col">
+					<a href="https://www.wpgmaps.com/help/docs/map-engine-selection-guide/" target="_BLANK">
+						<small><?php _e("Not Sure? Take a look at our comparison guide!", "wp-google-maps"); ?></small>
+					</a>
+				</div>
 			</div>
 
 			<hr>
@@ -78,9 +148,286 @@
 				</div>
 			</div>
 
+			<!-- Azure Maps Features -->
+			<div class="engine-step" data-engine="leaflet-azure">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-lock"></i>
+						<span>
+							<?php _e("Requires an API key", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-search-plus"></i>
+						<span>
+							<?php _e("Address suggestions", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Improved performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-paint-roller"></i>
+						<span>
+							<?php _e("Multiple Styles", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-globe"></i>
+						
+						<span>
+							<?php _e("Satellite Views", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("You will need a Microsoft Azure Subscription key to access map tiles and address suggestions", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- Stadia Maps Features -->
+			<div class="engine-step" data-engine="leaflet-stadia">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-lock"></i>
+						<span>
+							<?php _e("Requires an API key", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Improved performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-paint-roller"></i>
+						<span>
+							<?php _e("Multiple Styles", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("You will need a Stadia Maps API Key to access map tiles", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- Stadia Maps Features -->
+			<div class="engine-step" data-engine="leaflet-maptiler">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-lock"></i>
+						<span>
+							<?php _e("Requires an API key", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Improved performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-paint-roller"></i>
+						<span>
+							<?php _e("Multiple Styles", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("You will need a Maptiler API Key to access map tiles", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- LocationIQ Maps Features -->
+			<div class="engine-step" data-engine="leaflet-locationiq">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-lock"></i>
+						<span>
+							<?php _e("Requires an API key", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-search-plus"></i>
+						<span>
+							<?php _e("Address suggestions", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Improved performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-paint-roller"></i>
+						<span>
+							<?php _e("Multiple Styles", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("You will need a LocationIQ API Key to access map tiles and address suggestions", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- Leaflet Features -->
+			<div class="engine-step" data-engine="leaflet">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-unlock"></i>
+						<span>
+							<?php _e("No API keys required", "wp-google-maps"); ?> *
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-search-plus"></i>
+						<span>
+							<?php _e("Address suggestions", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Great performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-wrench"></i>
+						<span>
+							<?php _e("Powerful Features", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-layer-group"></i>
+						<span>
+							<?php _e("Multiple Tile Servers", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("Some tile servers do require an API key, however, there are many free options available", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- Leaflet Features -->
+			<div class="engine-step" data-engine="leaflet-zerocost">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-unlock"></i>
+						<span>
+							<?php _e("No API keys required", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-search-plus"></i>
+						<span>
+							<?php _e("Address suggestions", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Great performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-wrench"></i>
+						<span>
+							<?php _e("Powerful Features", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-layer-group"></i>
+						<span>
+							<?php _e("Zero Cost Mapping", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+
 			<!-- OpenLayers Features -->
+			<div class="engine-step" data-engine="open-layers-latest">
+				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-unlock"></i>
+						<span>
+							<?php _e("No API keys required", "wp-google-maps"); ?> *
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-search-plus"></i>
+						<span>
+							<?php _e("Address suggestions", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-stopwatch"></i>
+						<span>
+							<?php _e("Improved performance", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-wrench"></i>
+						<span>
+							<?php _e("Powerful Features", "wp-google-maps"); ?>
+						</span>
+					</div>
+
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-layer-group"></i>
+						<span>
+							<?php _e("Multiple Tile Servers", "wp-google-maps"); ?>
+						</span>
+					</div>
+				</div>
+
+				<div class="wpgmza-margin-t-20">
+					<em><?php _e("Some tile servers do require an API key, however, there are many free options available", "wp-google-maps"); ?></em>
+				</div>
+			</div>
+
+			<!-- OpenLayers Legacy Features -->
 			<div class="engine-step" data-engine="open-layers">
 				<div class="wpgmza-flex-grid center">
+					<div class="wpgmza-installer-feature-item">
+						<i class="fas fa-exclamation"></i>
+						<span>
+							<?php _e("Legacy Engine", "wp-google-maps"); ?>
+						</span>
+					</div>
+
 					<div class="wpgmza-installer-feature-item">
 						<i class="fas fa-unlock"></i>
 						<span>
@@ -112,7 +459,7 @@
 				</div>
 
 				<div class="wpgmza-margin-t-20">
-					<em><?php _e("Directions services and some map tile servers require a free API key, which will need to be created independently", "wp-google-maps"); ?></em>
+					<em><?php _e("This engine is being deprecated and is no longer recommended!", "wp-google-maps"); ?></em>
 				</div>
 			</div>
 			
@@ -265,57 +612,159 @@
 
 			</div>
 
-			<!-- OpenLayers Setup -->
-			<div class="engine-step" data-engine="open-layers">
-				<h1><?php _e("OpenLayers", "wp-google-maps"); ?></h1>
+			<!-- Azure Maps Setup -->
+			<div class="engine-step" data-engine="leaflet-azure">
+				<h1><?php _e("Azure Maps", "wp-google-maps"); ?></h1>
+				<h2><?php _e("Let's get your Subscription key set up!", "wp-google-maps"); ?></h2>
+				<hr>
+
+				<div class="wpgmza-row">
+					<div class="wpgmza-col">
+						<h3><?php _e("Get your key from the Microsoft Azure", "wp-google-maps"); ?></h3>
+	
+						<a class="wpgmza-button" target="_BLANK" href="https://portal.azure.com/">
+							<?php _e("Go to Azure Portal", "wp-google-maps"); ?>
+						</a>
+
+						<br>
+						<br>
+						<br>
+
+						<h3><?php _e("Once ready, add your key below", "wp-google-maps"); ?></h3>
+
+						<input type="text" class="wpgmza-text-align-center" name="azure_key">
+
+						<hr>
+
+						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
+
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Stadia Maps Setup -->
+			<div class="engine-step" data-engine="leaflet-stadia">
+				<h1><?php _e("Stadia Maps", "wp-google-maps"); ?></h1>
+				<h2><?php _e("Let's get your API key set up!", "wp-google-maps"); ?></h2>
+				<hr>
+
+				<div class="wpgmza-row">
+					<div class="wpgmza-col">
+						<h3><?php _e("Get your key from the Stadia Maps", "wp-google-maps"); ?></h3>
+	
+						<a class="wpgmza-button" target="_BLANK" href="https://client.stadiamaps.com">
+							<?php _e("Go to Stadia Maps", "wp-google-maps"); ?>
+						</a>
+
+						<br>
+						<br>
+						<br>
+
+						<h3><?php _e("Once ready, add your key below", "wp-google-maps"); ?></h3>
+
+						<input type="text" class="wpgmza-text-align-center" name="stadia_key">
+
+						<hr>
+
+						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
+
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Maptiler Maps Setup -->
+			<div class="engine-step" data-engine="leaflet-maptiler">
+				<h1><?php _e("Maptiler", "wp-google-maps"); ?></h1>
+				<h2><?php _e("Let's get your API key set up!", "wp-google-maps"); ?></h2>
+				<hr>
+
+				<div class="wpgmza-row">
+					<div class="wpgmza-col">
+						<h3><?php _e("Get your key from the Maptiler", "wp-google-maps"); ?></h3>
+	
+						<a class="wpgmza-button" target="_BLANK" href="https://cloud.maptiler.com/">
+							<?php _e("Go to Maptiler", "wp-google-maps"); ?>
+						</a>
+
+						<br>
+						<br>
+						<br>
+
+						<h3><?php _e("Once ready, add your key below", "wp-google-maps"); ?></h3>
+
+						<input type="text" class="wpgmza-text-align-center" name="maptiler_key">
+
+						<hr>
+
+						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
+
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- LocationIQ Maps Setup -->
+			<div class="engine-step" data-engine="leaflet-locationiq">
+				<h1><?php _e("LocationIQ", "wp-google-maps"); ?></h1>
+				<h2><?php _e("Let's get your API key set up!", "wp-google-maps"); ?></h2>
+				<hr>
+
+				<div class="wpgmza-row">
+					<div class="wpgmza-col">
+						<h3><?php _e("Get your key from the LocationIQ", "wp-google-maps"); ?></h3>
+	
+						<a class="wpgmza-button" target="_BLANK" href="https://locationiq.com/">
+							<?php _e("Go to LocationIQ", "wp-google-maps"); ?>
+						</a>
+
+						<br>
+						<br>
+						<br>
+
+						<h3><?php _e("Once ready, add your key below", "wp-google-maps"); ?></h3>
+
+						<input type="text" class="wpgmza-text-align-center" name="locationiq_key">
+
+						<hr>
+
+						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
+
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Tile Server Setup -->
+			<div class="engine-step" data-engine="open-layers|open-layers-latest|leaflet">
+				<h1><?php _e("Find a style", "wp-google-maps"); ?></h1>
 				<h2><?php _e("What tile server would you like to use?", "wp-google-maps"); ?></h2>
 				<hr>
 
-				<div class="wpgmza-row align-center">
-					<div class="wpgmza-col">
-						<img class='open_layers_sample_tile wpgmza-card wpgmza-pad-0 wpgmza-shadow' src="https://a.tile.openstreetmap.org/7/20/49.png">				
-					</div>
-
-					<div class="wpgmza-col wpgmza-text-align-left">
-						<select name="tile_server_url" style="width: 256px;">
-							<option 
-								value="https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-								data-usage-policy="https://wiki.openstreetmap.org/wiki/Tile_usage_policy">
-								<?php
-								_e('OpenStreetMap', 'wp-google-maps');
-								?>
-							</option>
-
-							<option
-								value="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-								data-usage-policy="https://foundation.wikimedia.org/wiki/Maps_Terms_of_Use"
-								data-preview-image="https://wiki.openstreetmap.org/w/images/0/02/Wikimedia-tile.png">
-								<?php
-								_e('Wikimedia Maps', 'wp-google-maps');
-								?>
-							</option>
-							
-							<option value="https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-								data-preview-image="https://wiki.openstreetmap.org/w/images/6/63/Humanitarian_style.png">
-								<?php
-								_e('Humanitarian', 'wp-google-maps');
-								?>
-							</option>
-
-							<option value="https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png"
-								data-preview-image="https://tile.memomaps.de/tilegen/12/2200/1343.png">
-								<?php
-								_e('Öpnvkarte', 'wp-google-maps');
-								?>
-							</option>
-						</select>
-					</div>
+				<div class="wpgmza-row align-center" data-tile-server-select-container>
+					
 				</div>
 
 				<br><br>
 				<br><br>
 
 				<em><?php _e("There are more tile servers available within the settings area of the plugin, but they may require additional set up.", "wp-google-maps"); ?></em>
+			</div>
+
+			<!-- Tile Server Setup -->
+			<div class="engine-step" data-engine="leaflet-zerocost">
+				<h1><?php _e("Find a style", "wp-google-maps"); ?></h1>
+				<h2><?php _e("What tile style would you like to use?", "wp-google-maps"); ?></h2>
+				<hr>
+
+				<div class="wpgmza-row align-center" data-tile-server-select-container-zerocost>
+					
+				</div>
 			</div>
 			<hr>
 		</div>

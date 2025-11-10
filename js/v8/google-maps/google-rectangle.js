@@ -79,6 +79,22 @@ jQuery(function($) {
 		return WPGMZA.LatLngBounds.fromGoogleLatLngBounds( this.googleRectangle.getBounds() );
 	}
 	
+	WPGMZA.GoogleRectangle.prototype.setBounds = function(cornerA, cornerB){
+		if(this.googleRectangle){
+			this.cornerA = cornerA;
+			this.cornerB = cornerB;
+			
+			this.googleRectangle.setOptions({
+				bounds :  {
+					north: parseFloat(this.cornerA.lat),
+					west: parseFloat(this.cornerA.lng),
+					south: parseFloat(this.cornerB.lat),
+					east: parseFloat(this.cornerB.lng)
+				}
+			});
+		}
+	}
+
 	WPGMZA.GoogleRectangle.prototype.setVisible = function(visible)
 	{
 		this.googleRectangle.setVisible(visible ? true : false);

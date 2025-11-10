@@ -39,8 +39,7 @@ class Rectangle extends Feature
 	
 	public function __get($name)
 	{
-		switch($name)
-		{
+		switch($name) {
 			case "cornerA":
 			case "cornerB":
 				return $this->{"_$name"};
@@ -49,18 +48,20 @@ class Rectangle extends Feature
 			default:
 				break;
 		}
+
+		return Feature::__get($name);
 	}
 	
 	public function __set($name, $value)
 	{
-		switch($name)
-		{
+		switch($name) {
 			case "cornerA":
 			case "cornerB":
 				$this->{"_$name"} = new LatLng($value);
 				break;
 				
 			default:
+				Feature::__set($name, $value);
 				break;
 		}
 	}
@@ -78,5 +79,10 @@ class Rectangle extends Feature
 			$arg->cornerB = $this->_cornerB = new LatLng($arg->cornerB);
 		
 		Crud::set($arg, $val);
+	}
+
+	public static function get_table_name_static() {
+		global $WPGMZA_TABLE_NAME_RECTANGLES;
+		return $WPGMZA_TABLE_NAME_RECTANGLES;
 	}
 }

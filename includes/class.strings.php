@@ -96,6 +96,7 @@ class Strings
 
 			'use_two_fingers'			=> __('Use two fingers to move the map', 'wp-google-maps'),
 			'use_ctrl_scroll_to_zoom'	=> __('Use ctrl + scroll to zoom the map', 'wp-google-maps'),
+			'use_ctrl_scroll_to_zoom_ios'	=> __('Use cmd + scroll to zoom the map', 'wp-google-maps'),
 			'geocode_was_not_successful'	=> __('Geocode was not successful for the following reason: ', 'wp-google-maps'),
 			'geocoding_library_notice'	=> __('Geocoding this address failed. Please check you have enabled the Geocoding API for your Google Maps API project.', 'wp-google-maps'),
 			
@@ -107,7 +108,11 @@ class Strings
 			'new_map'						=> __('New Map', 'wp-google-maps'),
 			'all'							=> __('All', 'wp-google-maps'),
 			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.'),"https://wpgmaps.com/documentation/autocomplete-disabled/"),
-			'autcomplete_placeholder' 		=> __('Enter a location', 'wp-google-maps')
+			'autcomplete_placeholder' 		=> __('Enter a location', 'wp-google-maps'),
+			'map_type_roadmap'				=> __('Roadmap', 'wp-google-maps'),
+			'map_type_satellite'			=> __('Satellite', 'wp-google-maps'),
+			'map_type_terrain'			    => __('Terrain', 'wp-google-maps'),
+			'map_type_hybrid'				=> __('Hybrid', 'wp-google-maps')
 		));
 	}
 	

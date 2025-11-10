@@ -11,7 +11,7 @@
 				<div class="grouping open" data-group="global">
 					<div class="heading block" id="wpgmza-main-heading">
 						<div class="wpgmza-row align-center">
-							<?php _e('Component Style', 'wp-google-maps'); ?> &nbsp;<small>(<?php _e("beta", "wp-google-maps"); ?>)</small>
+							<?php _e('Component Style', 'wp-google-maps'); ?>
 						</div>
 					</div>
 

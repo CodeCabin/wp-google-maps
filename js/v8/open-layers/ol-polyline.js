@@ -2,6 +2,7 @@
  * @namespace WPGMZA
  * @module OLPolyline
  * @requires WPGMZA.Polyline
+ * @pro-requires WPGMZA.ProPolyline
  */
 jQuery(function($) {
 	
@@ -11,7 +12,7 @@ jQuery(function($) {
 	{
 		var self = this;
 		
-		WPGMZA.Polyline.call(this, options);
+		Parent.call(this, options);
 		
 		if(olFeature)
 		{
@@ -60,7 +61,10 @@ jQuery(function($) {
 			this.setOptions(options);
 	}
 	
-	Parent = WPGMZA.Polyline;
+	if(WPGMZA.isProVersion())
+		Parent = WPGMZA.ProPolyline;
+	else
+		Parent = WPGMZA.Polyline;
 		
 	WPGMZA.OLPolyline.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLPolyline.prototype.constructor = WPGMZA.OLPolyline;
@@ -83,6 +87,11 @@ jQuery(function($) {
 		return result;
 	}
 	
+	WPGMZA.OLPolyline.prototype.setVisible = function(visible)
+	{
+		this.layer.setVisible(visible ? true : false);
+	}
+
 	WPGMZA.OLPolyline.prototype.setOptions = function(options)
 	{
 		Parent.prototype.setOptions.apply(this, arguments);

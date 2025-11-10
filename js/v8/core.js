@@ -19,6 +19,7 @@ jQuery(function($) {
 		PAGE_CATEGORIES:		"categories",
 		PAGE_ADVANCED:			"advanced",
 		PAGE_CUSTOM_FIELDS:		"custom-fields",
+		PAGE_INSIGHTS:			"insights",
 
 		MOBILE_RESOLUTION_THRESHOLD : 1000,
 		
@@ -99,6 +100,10 @@ jQuery(function($) {
 					
 				case 'wp-google-maps-menu-custom-fields':
 					return WPGMZA.PAGE_CUSTOM_FIELDS;
+					break;
+					
+				case 'wp-google-maps-menu-insights':
+					return WPGMZA.PAGE_INSIGHTS;
 					break;
 					
 				default:
@@ -431,8 +436,7 @@ jQuery(function($) {
 				return; // NB: The user has declined to share location. Only ask once per session.
 			}
 			
-			if(watch)
-			{
+			if(watch) {
 				trigger = "userlocationupdated";
 				nativeFunction = "watchPosition";
 				
@@ -442,14 +446,18 @@ jQuery(function($) {
 				}, 0);*/
 			}
 			
-			if(!navigator.geolocation)
-			{
+			if(!navigator.geolocation) {
 				console.warn("No geolocation available on this device");
 				return;
 			}
 			
+			let highPrecision = true;
+			if(WPGMZA.settings && WPGMZA.settings.userLocationPrecision && WPGMZA.settings.userLocationPrecision === 'low'){
+				highPrecision = false;
+			}
+
 			var options = {
-				enableHighAccuracy: true
+				enableHighAccuracy: highPrecision
 			};
 			
 			if(!navigator.geolocation[nativeFunction])
@@ -552,33 +560,39 @@ jQuery(function($) {
 			switch(WPGMZA.settings.engine)
 			{
 				case "open-layers":
+				case "open-layers-latest":
+					/* OpenLayers Legacy (V6) and V10 */
 					engine = "OL";
 					break;
-				
+				case "leaflet":
+				case "leaflet-azure":
+				case "leaflet-stadia":
+				case "leaflet-maptiler":
+				case "leaflet-locationiq":
+				case "leaflet-zerocost":
+					/* Leaflet */
+					engine = "Leaflet";
+					break;
 				default:
+					/* Google */
 					engine = "Google";
 					break;
 			}
 			
-			if(
-				WPGMZA[engine + pro + instanceName]
-				&&
-				engine + instanceName != "OLFeature" // NB: Some classes, such as OLFeature, are static utility classes and cannot be inherited from, do not check the inheritence chain for these
-				)
+			if(WPGMZA[engine + pro + instanceName] && engine + instanceName != "OLFeature" && engine + instanceName != "LeafletFeature" && engine + instanceName != "GoogleFeature"){
+				// NB: Some classes, such as OLFeature, are static utility classes and cannot be inherited from, do not check the inheritence chain for these
 				fullInstanceName = engine + pro + instanceName;
-			else if(WPGMZA[pro + instanceName])
+			} else if(WPGMZA[pro + instanceName]) {
 				fullInstanceName = pro + instanceName;
-			else if(
-				WPGMZA[engine + instanceName] 
-				&& 
-				WPGMZA[engine + instanceName].prototype
-				)
+			} else if(WPGMZA[engine + instanceName] &&  WPGMZA[engine + instanceName].prototype){
 				fullInstanceName = engine + instanceName; 
-			else
+			} else {
 				fullInstanceName = instanceName;
+			}
 			
-			if(fullInstanceName == "OLFeature")
-				return;	// Nothing inherits from OLFeature - it's purely a "static" utility class
+			if(fullInstanceName == "OLFeature" || fullInstanceName == "LeafletFeature" || fullInstanceName == "GoogleFeature"){
+				return;	// Nothing inherits from OLFeature, LeafletFeature or GoogleFeature - it's purely a "static" utility class
+			}
 			
 			assert = instance instanceof WPGMZA[fullInstanceName];
 			
@@ -768,24 +782,26 @@ jQuery(function($) {
 			return decodeURIComponent(m[1]);
 		},
 
-		notification: function(text, time) {
-			
-			switch(arguments.length)
-			{
-				case 0:
-					text = "";
-					time = 4000;
-					break;
-					
-				case 1:
-					time = 4000;
-					break;
+		notification: function(text, time, container, anchor) {
+			text = text ? text : "";
+			time = time ? parseInt(time) : 3000;
+			container = container ? container : "body";
+			anchor = anchor ? anchor : 'fixed';
+			if(anchor === 'fixed' && container !== 'body'){
+				anchor = "top-right";
 			}
 			
-			var html = '<div class="wpgmza-popup-notification">' + text + '</div>';
-			jQuery('body').append(html);
-			setTimeout(function(){
-				jQuery('body').find('.wpgmza-popup-notification').remove();
+			let html = `<div class="wpgmza-popup-notification ${anchor}">${text}</div>`;
+			jQuery(container).append(html);
+
+			if(time - 300 > 0){
+				setTimeout(() => {
+					jQuery(container).find('.wpgmza-popup-notification').addClass('animate-end');
+				}, time - 300);
+			}
+			
+			setTimeout(() => {
+				jQuery(container).find('.wpgmza-popup-notification').remove();
 			}, time);
 			
 		},
@@ -793,17 +809,30 @@ jQuery(function($) {
 		initMaps: function(){
 			$(document.body).find(".wpgmza_map:not(.wpgmza-initialized)").each(function(index, el) {
 				if(el.wpgmzaMap) {
+					if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN"){
+						/* User has not granted access, fail silently */
+						return;
+					}
+
 					console.warn("Element missing class wpgmza-initialized but does have wpgmzaMap property. No new instance will be created");
 					return;
 				}
+
 				try{
 					el.wpgmzaMap = WPGMZA.Map.createInstance(el);
 				} catch (ex){
+					/* Init has failed, to requeue this for the next init run let's clear the instance */
+					if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN"){
+						/* User has not granted access, fail silently */
+						return;
+					}
+
+					el.wpgmzaMap = false;
 					console.warn('Map initalization: ' + ex);
 				}
 			});
 			
-			WPGMZA.Map.nextInitTimeoutID = setTimeout(WPGMZA.initMaps, 3000);
+			WPGMZA.Map.nextInitTimeoutID = setTimeout(WPGMZA.initMaps, 2000);
 		},
 
 		initCapsules: function(){
@@ -840,6 +869,7 @@ jQuery(function($) {
 			setTimeout(() => {
 				try {
 					WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+					WPGMZA.accessibility = WPGMZA.Accessibility.createInstance();
 					if(WPGMZA.CloudAPI){
 						WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
 					}
@@ -1094,6 +1124,7 @@ jQuery(function($) {
 		$(function(){
 			try {
 				WPGMZA.restAPI	= WPGMZA.RestAPI.createInstance();
+				WPGMZA.accessibility = WPGMZA.Accessibility.createInstance();
 				if(WPGMZA.CloudAPI){
 					WPGMZA.cloudAPI	= WPGMZA.CloudAPI.createInstance();
 				}

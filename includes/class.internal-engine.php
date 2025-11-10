@@ -30,6 +30,17 @@ class InternalEngine {
 		$this->templateDir = "html";
 
 		$this->baseDirOverride = false;
+
+		$this->hooks();
+	}
+
+	/**
+	 * Register hooks for the internal engine
+	 * 
+	 * @return void
+	 */
+	public function hooks(){
+		add_filter('wpgmza_internal_engine_template_path', array($this, 'getThemeOverrides'), 10, 3);
 	}
 
 	/**
@@ -136,7 +147,8 @@ class InternalEngine {
 
 		$this->unsetBaseDir();
 
-		return $template;
+		/* Developer Hook (Filter) - Used to override the path to a template file */
+		return apply_filters('wpgmza_internal_engine_template_path', $template, $path, $baseOverride);
 	}
 
 	/**
@@ -178,6 +190,43 @@ class InternalEngine {
 		}
 
 		return !empty($expLink) ? $expLink : "";
+	}
+
+	/**
+	 * Allows template files to be overridden by the users theme 
+	 * 
+	 * We recommend placing these within a child theme location like:
+	 * - /theme/wp-google-maps/example.html.php
+	 * 
+	 * This will them automatically override the internal templating directory and allows for further customization
+	 * 
+	 * Doing this will allow the plugin to update, while still retaining your customized user interface (Store Locator etc)
+	 * 
+	 * @param string $template The current template path
+	 * @param string $path The initial path (filename) passed into the call
+	 * @param string $baseOverride The override base directory, not needed in this example, but useful for determining if it is a pro file
+	 * 
+	 * @return string
+	 */
+	public function getThemeOverrides($template, $path, $baseOverride = false){
+		try{
+			$themeDir = get_stylesheet_directory();
+			if(!empty($themeDir) && !empty($path)){
+				if(file_exists($themeDir)){
+					$overrideDir = rtrim($themeDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . "wp-google-maps";
+					if(!empty($overrideDir) && file_exists($overrideDir)){
+						if(file_exists($overrideDir . DIRECTORY_SEPARATOR . $path)){
+							return $overrideDir . DIRECTORY_SEPARATOR . $path;
+						}
+					}
+				}
+			}
+		} catch (\Exception $ex){
+
+		} catch (\Error $err){
+			
+		}
+		return $template;
 	}
 
 	/**
@@ -292,19 +341,6 @@ class InternalEngine {
 	 * @return string
 	 */
 	public static function getRandomEngine(){
-		/* Standard split ratio approach, not in use as of 9.0.24 */
-		/*
-		$today = intval(date('j'));
-		$days = intval(date('t'));
-
-		$rFact = $today / $days;
-
-		if($rFact <= self::RAND_PROB_FACTOR){
-			return self::getExperimentalBuildName();
-		}
-		return self::getStableBuildName();
-		*/
-
 		/* Week based split ratio - As of 9.0.24*/
 		$expRange = (object) array(
 			"start" => 7,
@@ -316,25 +352,49 @@ class InternalEngine {
 			/* Installation falls within the experimental build range (2nd week of every month, at the moment) */
 			return self::getExperimentalBuildName();
 		}
+		return self::getDeprecatedBuildName();
+	}
+
+	/**
+	 * Get the default engine to be used in all installations
+	 * 
+	 * Note: V9 use to select a random engine, split test, but from V10 we select Atlas Novus by default for all new installations
+	 * 
+	 * @return string
+	 */
+	public static function getDefaultEngine(){
 		return self::getStableBuildName();
 	}
 
 	/**
-	 * Get stable build name, in this case legacy 
+	 * Get stable build name, since V10 Atlas Novus
 	 * 
 	 * @return string
 	 */
 	public static function getStableBuildName(){
-		return self::LEGACY;
+		return self::ATLAS_NOVUS;
 	}
 
 	/**
 	 * Get experimental build name, in this case atlas novus 
+	 * 
+	 * Note: As of V10 Atlas Novus is no longer experimental, but is considered default
 	 * 
 	 * @return string
 	 */
 	public static function getExperimentalBuildName(){
 		return self::ATLAS_NOVUS;
 	} 
+
+	/**
+	 * Get the last deprecated build name
+	 * 
+	 * Legacy since V10
+	 * 
+	 * @return string
+	 */
+	public static function getDeprecatedBuildName(){
+		return self::LEGACY;
+	}
 
 }

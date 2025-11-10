@@ -102,8 +102,8 @@ class NominatimGeocodeCache
 		} else {
 			throw new \Exception("Response data cannot be empty");
 		}
-			
-		
+
+
 		if(!empty($response) && is_array($response)){
 			$response = json_encode($response);
 
@@ -229,53 +229,6 @@ class NominatimGeocodeCache
 }
 
 /**
- * Bind function to query Nominatim cache.
- * @deprecated This will be moved to the REST API in the future
- */
-function query_nominatim_cache()
-{
-	return;
-
-	// $cache = new NominatimGeocodeCache();
-	// $record = $cache->get(sanitize_text_field($_GET['query']));
-	
-	// if(!$record)
-	// 	$record = array();
-
-	// wp_send_json($record);
-	// exit;
-}
-
-/**
- * Bind function to store a response on the Nominatim cache.
- * @deprecated This will be moved to the REST API in the future
- */
-function store_nominatim_cache()
-{
-	return;
-
-	// $cache = new NominatimGeocodeCache();
-	// try{
-	// 	$cache->set(sanitize_text_field($_POST['query']), $_POST['response']);
-		
-	// 	wp_send_json(array(
-	// 		'success' => 1
-	// 	));
-	// } catch (\Exception $ex){
-	// 	wp_send_json(array(
-	// 		'success' => 0,
-	// 		'message' => $ex->getMessage()
-	// 	));
-	// } catch (\Error $err){
-	// 	wp_send_json(array(
-	// 		'success' => 0,
-	// 		'message' => $err->getMessage()
-	// 	));
-	// }
-	// exit;
-}
-
-/**
  * Bind function to clear the Nominatim cache.
  * @deprecated This will be moved to the REST API in the future
  */
@@ -296,12 +249,5 @@ function clear_nominatim_cache()
 	));
 	exit;
 }
-
-/* Deprecated since 9.0.49 */
-// add_action('wp_ajax_wpgmza_query_nominatim_cache', 			'WPGMZA\\query_nominatim_cache');
-// add_action('wp_ajax_nopriv_wpgmza_query_nominatim_cache', 	'WPGMZA\\query_nominatim_cache');
-
-// add_action('wp_ajax_wpgmza_store_nominatim_cache', 			'WPGMZA\\store_nominatim_cache');
-// add_action('wp_ajax_nopriv_wpgmza_store_nominatim_cache', 	'WPGMZA\\store_nominatim_cache');
 
 add_action('wp_ajax_wpgmza_clear_nominatim_cache', 			'WPGMZA\\clear_nominatim_cache');

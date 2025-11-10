@@ -8,6 +8,8 @@
 				title="<?php _e('Default', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Default', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -30,6 +32,8 @@
 				title="<?php _e('Blue', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Blue', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -38,6 +42,8 @@
 				data-theme-json='[{"featureType": "administrative","elementType": "labels.text.fill","stylers": [{"color": "#444444"}]},{"featureType": "landscape","elementType": "all","stylers": [{"color": "#f2f2f2"}]},{"featureType": "poi","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "road","elementType": "all","stylers": [{"saturation": -100},{"lightness": 45}]},{"featureType": "road.highway","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "road.arterial","elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "water","elementType": "all","stylers": [{"color": "#46bcec"},{"visibility": "on"}]}]'
 				/>
 			
+			
+
 			<button type="button" class="wpgmza-button wpgmza-select-theme-preset">
 				<?php
 				_e('Select Preset', 'wp-google-maps');
@@ -52,6 +58,8 @@
 				title="<?php _e('Apple Maps', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Apple Maps', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -74,6 +82,8 @@
 				title="<?php _e('Grayscale', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Grayscale', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -95,6 +105,8 @@
 				src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>/images/pale.png"
 				title="<?php _e('Pale', 'wp-google-maps'); ?>"
 				/>
+
+			<span><?php _e('Pale', 'wp-google-maps'); ?></span>
 			
 			<input 
 				type="radio" 
@@ -118,6 +130,8 @@
 				title="<?php _e('Red', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Red', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -140,6 +154,8 @@
 				title="<?php _e('Dark Grey', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Dark Grey', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -162,6 +178,8 @@
 				title="<?php _e('Monochrome', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Monochrome', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -184,6 +202,8 @@
 				title="<?php _e('Old Fashioned', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Old Fashioned', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 
@@ -206,6 +226,8 @@
 				title="<?php _e('Night Mode', 'wp-google-maps'); ?>"
 				/>
 			
+			<span><?php _e('Night Mode', 'wp-google-maps'); ?></span>
+
 			<input 
 				type="radio" 
 				name="wpgmza_theme" 

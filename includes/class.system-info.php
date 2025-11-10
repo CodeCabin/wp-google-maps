@@ -65,6 +65,22 @@ class SystemInfo {
 					case "map_engine":
 						$value = ucwords(str_replace("-", " ", $wpgmza->settings->wpgmza_maps_engine));
 						break;
+					case "tile_server":
+						if($wpgmza->settings->wpgmza_maps_engine === 'google-maps'){
+							$value = "Google Maps Platform";
+						} else {
+							$server = $wpgmza->settings->tile_server_url;
+							$definition = TileServers::getByUrl($server);
+							if(!empty($definition)){
+								$value = $definition->label;
+								if(!empty($definition->provider)){
+									$value .=  " ({$definition->provider})";
+								}
+							} else {
+								$value = "Unknow";
+							}
+						}
+						break;
 				}
 			}
 
@@ -92,6 +108,7 @@ class SystemInfo {
 			'build_code'			=> self::TYPE_PROP,
 			'internal_engine'		=> self::TYPE_PROP,
 			'map_engine'			=> self::TYPE_PROP,
+			'tile_server'			=> self::TYPE_PROP
 		);
 	}
 }

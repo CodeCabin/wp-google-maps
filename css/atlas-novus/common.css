@@ -5,7 +5,6 @@
 */
 :root{
     /* Primary colors */
-    /*--wpgmza-color-brand    : #f07935;*/
     --wpgmza-color-brand    : #cc9999;
 
     --wpgmza-color-light    : #eeeeee;
@@ -26,9 +25,15 @@
 
     --wpgmza-color-blue     : #0073aa;
     --wpgmza-color-blue-alt : #00628f;
+    --wpgmza-color-blue-light : #ddecf3;
 
     --wpgmza-color-cyan     : #31b0d6;
     --wpgmza-color-cyan-dark: #145a70;
+
+    /* CTA colors */
+    --wpgmza-color-gold  : #e2973f;
+    --wpgmza-color-gold-alt  : #d38c3b;
+    --wpgmza-color-gold-light  : #fff4e6;
 
     /* Grey tones */
     --wpgmza-color-grey-50 : #f9f9f9;
@@ -154,12 +159,30 @@
     border-color: var(--wpgmza-color-blue-alt);
 }
 
+
+.wpgmza-button-call-to-action{
+    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+
+    border: none;
+    color: var(--wpgmza-color-white);
+    font-weight: 600;
+
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-button-call-to-action:hover{
+    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+    background-size: 200%;
+    border-color: none;
+}
+
 a.wpgmza-button {
     color: var(--wpgmza-color-charcoal);
 }
 
 a.wpgmza-button-primary,
-a.wpgmza-button-accent {
+a.wpgmza-button-accent,
+a.wpgmza-button-call-to-action {
     color: var(--wpgmza-color-white);
 }
 
@@ -283,6 +306,10 @@ a.wpgmza-button-accent {
 
 .wpgmza-text-align-right{
 	text-align: right;
+}
+
+.wpgmza-text-vertical-middle {
+    vertical-align: middle;
 }
 
 .wpgmza-list-dots{
@@ -450,6 +477,81 @@ a.wpgmza-button-accent {
     position: relative;
     bottom: unset;
     top: 1.6rem;
+}
+
+/* Grid Supports */
+.wpgmza-grid {
+    display: grid;
+    gap: 15px; 
+}
+
+.wpgmza-grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.wpgmza-grid-cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.wpgmza-grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.wpgmza-grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.wpgmza-grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.wpgmza-grid-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.wpgmza-grid-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.wpgmza-grid-item-col-span-2 {
+    grid-column: span 2;
+}
+
+.wpgmza-grid-item-col-span-3 {
+    grid-column: span 3;
+}
+
+.wpgmza-grid-item-col-span-4 {
+    grid-column: span 4;
+}
+
+.wpgmza-grid-item-col-span-5 {
+    grid-column: span 5;
+}
+
+.wpgmza-grid-item-col-span-6 {
+    grid-column: span 6;
+}
+
+.wpgmza-grid-align-center {
+    justify-items: center; 
+}
+
+.wpgmza-grid-align-end {
+    justify-items: end;
+}
+
+.wpgmza-grid-valign-center {
+    align-items: center; 
+}
+.wpgmza-grid-valign-end {
+    align-items: end;
+}
+
+@media (max-width: 768px) {
+    .wpgmza-grid {
+        grid-template-columns: 1fr; 
+    }
 }
 
 /* Keyframes */

@@ -4,6 +4,8 @@
 
 	global $wpgmza;
 
+	$basicVersion = explode('.', $wpgmza->getBasicVersion());
+
 ?>
 <div class="wpgmza-writeup-tabs">
     <a href="admin.php?page=wp-google-maps-menu&amp;action=welcome_page" class="tab"><?php _e("Welcome","wp-google-maps"); ?></a>
@@ -11,9 +13,10 @@
 </div>
 
 <div id="wpgmza-credits-page" class="wrap wpgmza-wrap wpgmza-writeup-block wpgmza-shadow-high">
-
-	<h1><?php _e("Welcome to Atlas Novus", "wp-google-maps"); ?></h1>
-    <h2><?php printf(__("WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasicVersion()); ?></h2>
+	<div>
+		<h2><?php _e("The team behind", "wp-google-maps"); ?></h2>
+	</div>
+    <h1><?php printf(__("WP Go Maps %s","wp-google-maps"), array_shift($basicVersion)); ?></h1>
 
     <hr>
 
@@ -89,23 +92,6 @@
 			</span>
 		</div>
 
-		<div class="member">
-			<a href="https://twitter.com/glen_smith" class="web" target="_BLANK">
-				<div class="wpgmza-rounded-image">
-					<img 
-						class="wpgmza-developer-avatar gravatar"
-						src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/8afc912f69e8-512.jpeg" 
-						alt="Glen Smith"/>
-				</div>
-				Glen Smith</a>
-			<span class="title">
-				<?php _e("Quality Assurance","wp-google-maps"); ?>
-			</span>
-		</div>
-
-	</div>
-
-	<div class="credit-container">
 		<div class="member">
 			<a href="https://hackerone.com/jerbinessim" class="web" target="_BLANK">
 				<div class="wpgmza-rounded-image">
@@ -185,6 +171,9 @@
 			<!-- Issue Reporters - Internal -->
 			<li title="Issue Reporter | GitHub: @patdumond">Patricia Dumond</li>
 			<li title="Issue Reporter | GitHub: @DiegoSilva776">Diego Silva</li>
+
+			<!-- QA - Internal -->
+			<li title="Version 9 Quality Assurance">Glen Smith <code>V9</code></li>
 
 			<!-- Previous Internal Developers -->
 			<li title="Version 8 Developer">Perry Rylance <code>V8</code></li>

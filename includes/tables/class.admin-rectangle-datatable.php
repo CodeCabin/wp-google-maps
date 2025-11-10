@@ -11,14 +11,27 @@ class AdminRectangleDataTable extends RectangleDataTable
 {
 	use AdminFeatureDatatable;
 	
-	public function __construct($ajax_parameters=null)
-	{
+	public function __construct($ajax_parameters=null) {
+		global $wpgmza;
+
 		RectangleDataTable::__construct($ajax_parameters);
+
+		$buttonClass = $wpgmza->internalEngine->getButtonClass('button');
+		$this->element->import('<div class="wpgmza-marker-listing__actions">
+			<span>&#x21b3;</span>
+			<button class="wpgmza ' . $buttonClass . ' select_all_features" type="button">' . __('Select All', 'wp-google-maps') . '</button>
+			<button class="wpgmza ' . $buttonClass . ' bulk_delete" type="button">' . __('Bulk Delete', 'wp-google-maps') . '</button>
+		</div>');
 	}
 	
 	public function getColumns()
 	{
-		$columns = RectangleDataTable::getColumns();
+		$columns = array(
+			'mark' => __('Mark', 'wp-google-maps')
+		);
+		
+		$columns = array_merge($columns, RectangleDataTable::getColumns());
+
 		$columns['action'] = __('Action', 'wp-google-maps');
 		return $columns;
 	}
@@ -31,5 +44,13 @@ class AdminRectangleDataTable extends RectangleDataTable
 			$columns[$index] = $this->getActionButtons();
 		
 		return $columns;
+	}
+
+	protected function getSearchClause($input_params, &$query_params, $exclude_columns=null)
+	{
+		return RectangleDataTable::getSearchClause($input_params, $query_params, array(
+			'mark',
+			'action'
+		));
 	}
 }

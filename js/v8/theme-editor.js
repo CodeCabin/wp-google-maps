@@ -13,13 +13,25 @@ jQuery(function($) {
 		
 		this.element = $("#wpgmza-theme-editor");
 		
-		if(WPGMZA.settings.engine == "open-layers")
-		{
-			this.element.remove();
+		switch(WPGMZA.settings.engine){
+			case 'open-layers':
+			case 'open-layers-latest':
+				this.element.remove();
+				/* Auto init OL Theme Editor, we could do this with a createInstance call, but the code here will be minimal, so lets skip this for the moment */
+				this.olThemeEditor = new WPGMZA.OLThemeEditor();
 
-			/* Auto init OL Theme Editor, we could do this with a createInstance call, but the code here will be minimal, so lets skip this for the moment */
-			this.olThemeEditor = new WPGMZA.OLThemeEditor();
-			return;
+				return;
+				break;
+			case 'leaflet':
+			case 'leaflet-azure':
+			case 'leaflet-stadia':
+			case 'leaflet-maptiler':
+			case 'leaflet-locationiq':
+			case 'leaflet-zerocost':
+				this.element.remove();
+				this.leafletThemeEditor = new WPGMZA.LeafletThemeEditor();
+				return;
+				break;
 		}
 		
 		if(!this.element.length)
@@ -392,7 +404,7 @@ jQuery(function($) {
 			self.writeElementStylers();
 		});
 		
-		if(WPGMZA.settings.engine == "open-layers")
+		if(WPGMZA.settings.engine == "open-layers" || WPGMZA.settings.engine == "open-layers-latest")
 			$("#wpgmza_theme_editor :input").prop("disabled", true);
 	}
 

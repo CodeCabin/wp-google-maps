@@ -99,7 +99,11 @@ jQuery(function($) {
 
 		var guid = WPGMZA.guid();
 		var eaBtn = !WPGMZA.isProVersion() ? this.addEditButton() : '';
-		var html = "<div id='" + guid + "'>" + eaBtn + ' ' + this.content + "</div>";
+
+		const dataProps = this.compileWrapperAttributes();
+		const styleTypeClass = this.getStyleTypeClass();
+
+		var html = "<div id='" + guid + "' " + dataProps + " class='" + styleTypeClass + "'>" + eaBtn + ' ' + this.content + "</div>";
 
 		this.googleInfoWindow.setContent(html);
 

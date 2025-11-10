@@ -183,6 +183,8 @@ jQuery(function($) {
 				return;
 			}
 			
+			label = label.replaceAll("&amp;", "&");
+
 			this.googleMarker.setLabel({
 				text: label,
 				className: 'wpgmza-google-marker-label-legacy'

@@ -304,8 +304,7 @@ class ScriptLoader
 		{
 			if(++$iterations > 100000)
 			{
-				if(!ScriptLoader::$dependencyErrorDisplayed)
-				{
+				if(!ScriptLoader::$dependencyErrorDisplayed && !(defined('REST_REQUEST') && REST_REQUEST)) {
 					?>
 					<div class="notice notice-error">
 						<p>
@@ -665,10 +664,22 @@ class ScriptLoader
 		switch($wpgmza->settings->engine)
 		{
 			case "open-layers":
+				$loader = new OLLoader(OLLoader::VERSION_TYPE_LEGACY);
+				$loader->loadOpenLayers();
+				break;
+			case "open-layers-latest":
 				$loader = new OLLoader();
 				$loader->loadOpenLayers();
 				break;
-				
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				$loader = LeafletLoader::createInstance();
+				$loader->load();
+				break;
 			default:
 				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
 				$loader->loadGoogleMaps();
@@ -706,10 +717,22 @@ class ScriptLoader
 		switch($wpgmza->settings->engine)
 		{
 			case "open-layers":
+				$loader = new OLLoader(OLLoader::VERSION_TYPE_LEGACY);
+				$loader->loadOpenLayers();
+				break;
+			case "open-layers-latest":
 				$loader = new OLLoader();
 				$loader->loadOpenLayers();
 				break;
-				
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				$loader = LeafletLoader::createInstance();
+				$loader->load();
+				break;
 			default:
 				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
 				$loader->loadGoogleMaps();

@@ -16,9 +16,14 @@ jQuery(function($) {
 		WPGMZA.RestAPI.URL = WPGMZA.resturl;
 	
 		this.useAJAXFallback = false;
+		this.enableAntiCache = false;
 
 		if(WPGMZA.settings && WPGMZA.settings.force_ajax_only_mode){
 			this.useAJAXFallback = true;
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.enable_anti_cache_requests){
+			this.enableAntiCache = true;
 		}
 
 		$(document.body).trigger("init.restapi.wpgmza");
@@ -72,6 +77,10 @@ jQuery(function($) {
 	WPGMZA.RestAPI.prototype.compressParams = function(params)
 	{
 		var suffix = "";
+
+		if(typeof params === 'undefined'){
+			params = {};
+		}
 		
 		if(params.markerIDs)
 		{
@@ -137,9 +146,17 @@ jQuery(function($) {
 		params.data.route = route;
 		params.data.action = "wpgmza_rest_api_request";
 		
+		let ajaxurl = WPGMZA.ajaxurl;
+		if(WPGMZA.settings && WPGMZA.settings.enable_anti_cache_requests){
+			params.data.cachebust = Date.now();
+			if(params.method === 'POST'){
+				ajaxurl += (ajaxurl.indexOf('?') !== -1 ? "&" : "?") + "cachebust=" + params.data.cachebust;
+			}
+		}
+
 		WPGMZA.restAPI.addNonce(route, params, WPGMZA.RestAPI.CONTEXT_AJAX);
 		
-		return $.ajax(WPGMZA.ajaxurl, params);
+		return $.ajax(ajaxurl, params);
 	}
 	
 	WPGMZA.RestAPI.prototype.getNonce = function(route)
@@ -355,6 +372,12 @@ jQuery(function($) {
 		if(WPGMZA.RestAPI.URL.match(/\?/))
 			route = route.replace(/\?/, "&");
 		
+		if(this.enableAntiCache){
+			if(route.indexOf('cachebust') === -1){
+				route += (route.indexOf('?') !== -1 ? "&" : "?") + "cachebust=" + (Date.now());
+			}
+		}
+
 		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	

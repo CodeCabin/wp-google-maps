@@ -26,10 +26,14 @@
 					'Add dynamic heatmap data with the <a href="%s" target="_BLANK">Pro version</a>. <a href="%s" target="_BLANK">View a demo</a>',
 					"wp-google-maps"
 				),
-				esc_attr("https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap"),
-				esc_attr("https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap_demo")
+				esc_attr("https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap-v10"),
+				esc_attr("https://www.wpgmaps.com/demo/heatmaps-demo/?utm_source=plugin&utm_medium=link&utm_campaign=heatmap_demo-v10")
 			);
 		?>
+		<a target="_BLANK" class="wpgmza-upsell-button"
+			href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmapeditor-btn-atlas-novus-v10" . wpgmzaGetUpsellLinkParams()));  ?>">
+			<?php _e('Unlock Heatmaps', 'wp-google-maps'); ?> 
+		</a>
 	</div>
 
 	<!-- Hidden reference fields-->

@@ -202,8 +202,7 @@ class DOMDocument extends \DOMDocument
 		$html				= DOMDocument::convertUTF8ToHTMLEntities($html);
 		$suppress_warnings	= !(defined('WP_DEBUG') && WP_DEBUG);
 		
-		if(!$suppress_warnings)
-		{
+		if(!$suppress_warnings){
 			$error_handler = set_error_handler(array($this, 'onError'), E_WARNING);
 		}
 		
@@ -211,14 +210,14 @@ class DOMDocument extends \DOMDocument
 		if(version_compare(PHP_VERSION, '5.4.0', '>='))
 		{
 			if($suppress_warnings)
-				$result = @$this->loadHTML($html, $options);
+				$result = @$this->loadHTML($html, !empty($options) ? $options : LIBXML_NOERROR);
 			else
 				$result = $this->loadHTML($html, $options);
 		}
 		else
 		{
 			if($suppress_warnings)
-				$result = @$this->loadHTML($html);
+				$result = @$this->loadHTML($html, !empty($options) ? $options : LIBXML_NOERROR);
 			else
 				$result = $this->loadHTML($html);
 		}
@@ -363,6 +362,8 @@ class DOMDocument extends \DOMDocument
 	public function saveInnerBody()
 	{
 		$result = '';
+
+		$this->applyAria();
 		
 		if(property_exists($this, 'documentElement'))
 			$body = $this->querySelector('body');
@@ -384,5 +385,28 @@ class DOMDocument extends \DOMDocument
 			return $this->saveInnerBody();
 		
 		return null;
+	}
+
+	public function applyAria(){
+		$fields = $this->querySelectorAll('label + input,label + select');
+		if(!empty($fields)){
+			foreach($fields as $field){
+				try{
+					$label = $field->previousElementSibling;
+					if($label instanceof DomElement && $label->tagName === 'label'){
+						if($label->hasAttribute('id')){
+							$field->setAttribute('aria-labelledby', $label->getAttribute('id'));
+						} else {
+							$field->setAttribute('aria-label', trim($label->nodeValue));
+						}
+					} 
+					
+				} catch (\Exception $ex){
+
+				} catch (\Error $err){
+
+				}
+			}
+		}
 	}
 }

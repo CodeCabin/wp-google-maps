@@ -32,7 +32,7 @@ class MapsEngineDialog
 		$settings['wpgmza_maps_engine'] = sanitize_text_field($_POST['engine']);
 		$settings['wpgmza_maps_engine_dialog_done'] = true;
 		
-		update_option('WPGMZA_OTHER_SETTINGS', $settings);
+		update_option('WPGMZA_OTHER_SETTINGS', $settings, false);
 		
 		wp_send_json(array('success' => 1));
 		exit;
@@ -61,7 +61,7 @@ class MapsEngineDialog
 		<div 
 			id="wpgmza-maps-engine-dialog" style="display: none;" 
 			data-ajax-nonce="<?php echo wp_create_nonce('wpgmza_maps_engine_dialog_set_engine'); ?>"
-			data-installer-link="<?php echo admin_url('admin.php?page=wp-google-maps-menu&action=installer' . $installerParams); ?>"
+			data-installer-link="<?php echo esc_attr(admin_url('admin.php?page=wp-google-maps-menu&action=installer' . $installerParams)); ?>"
 			>
 			<h1>
 				<?php
@@ -151,7 +151,7 @@ class MapsEngineDialog
 						<p class="wpgmza-mock-radio wpgmza-centered">
 							<span class="wpgmza-mock-radio-button"></span>
 							<img class="wpgmza-mock-radio-label" 
-								src="<?php echo plugin_dir_url(__DIR__); ?>images/Google_maps_logo.png"
+								src="<?php echo plugin_dir_url(__DIR__); ?>images/google_maps_logo.png"
 								/>
 						</p>
 					</label>
