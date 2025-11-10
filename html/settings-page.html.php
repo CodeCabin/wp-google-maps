@@ -981,7 +981,7 @@
 			<a target="_blank"
 				href="<?php 
 				
-					echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings" . wpgmzaGetUpsellLinkParams()));
+					echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mlisting_settings-v10" . wpgmzaGetUpsellLinkParams()));
 				
 				?>">
 				

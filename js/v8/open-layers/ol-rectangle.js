@@ -96,6 +96,47 @@ jQuery(function($) {
 			bottomRightLatLng
 		);
 	}
+
+	WPGMZA.OLRectangle.prototype.setBounds = function(cornerA, cornerB){
+		if(this.olFeature){
+			this.cornerA = cornerA;
+			this.cornerB = cornerB;
+
+			let coordinates = [[]];
+			coordinates[0].push(ol.proj.fromLonLat([
+				parseFloat(this.cornerA.lng),
+				parseFloat(this.cornerA.lat)
+			]));
+			
+			coordinates[0].push(ol.proj.fromLonLat([
+				parseFloat(this.cornerB.lng),
+				parseFloat(this.cornerA.lat)
+			]));
+			
+			coordinates[0].push(ol.proj.fromLonLat([
+				parseFloat(this.cornerB.lng),
+				parseFloat(this.cornerB.lat)
+			]));
+			
+			coordinates[0].push(ol.proj.fromLonLat([
+				parseFloat(this.cornerA.lng),
+				parseFloat(this.cornerB.lat)
+			]));
+			
+			coordinates[0].push(ol.proj.fromLonLat([
+				parseFloat(this.cornerA.lng),
+				parseFloat(this.cornerA.lat)
+			]));
+			
+			this.olFeature.setGeometry(new ol.geom.Polygon(coordinates));
+			this.trigger('change');
+		}
+	}
+
+	WPGMZA.OLRectangle.prototype.setVisible = function(visible)
+	{
+		this.layer.setVisible(visible ? true : false);
+	}
 	
 	WPGMZA.OLRectangle.prototype.setOptions = function(options)
 	{

@@ -71,6 +71,40 @@ class StoreLocator extends Factory implements \IteratorAggregate
 				->addClass("wpgmza-not-found-msg js-not-found-msg");
 		}
 
+		if(!$wpgmza->internalEngine->isLegacy()){
+			if(!empty($this->map->store_locator_button_style)){
+				if($this->map->store_locator_button_style === 'text'){
+					/* Replace with standard buttons */
+					$svgButtons = $this->_document->querySelectorAll('svg[role="button"]');
+					$wrapper = $this->_document->querySelector('.wpgmza-store-locator');
+					if(!empty($svgButtons) && $wrapper){
+						foreach($svgButtons as $svg){
+							/* Reconstruct the button, and then remove the SVG */
+							$button = $this->_document->createElement('button');
+							$button->appendText($svg->getAttribute('title'));
+							$attrs = array('class', 'aria-label');
+							foreach($attrs as $attr){
+								if($svg->hasAttribute($attr)){
+									$button->setAttribute($attr, $svg->getAttribute($attr));
+								}
+							}
+
+							if($button->hasClass('wpgmza-aria-bridge')){
+								/* Not needed for buttons */
+								$button->removeClass('wpgmza-aria-bridge');
+							}
+
+							
+							$wrapper->insertAfter($button, $svg);
+
+							$svg->remove();
+						}
+					}
+				}
+			}
+		}
+		
+
 		/* Location placeholder */
 		if(!empty($this->map->store_locator_location_placeholder)){
 			$this->_document->querySelectorAll("input[data-name='defaultAddress']")->setAttribute('placeholder', $this->map->store_locator_location_placeholder);

@@ -150,3 +150,150 @@
 .wpgmza-google-html-overlay{
 	position: absolute;
 }
+
+.wpgmza_map .google-maps-control-user-location {
+    border: 0px;
+    margin: 10px;
+    padding: 0px;
+    text-transform: none;
+    appearance: none;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 2px;
+    height: 40px;
+    width: 40px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    overflow: hidden;
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part {
+    display:block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-circle{
+    border: 2px solid #666666;
+    width: 20px;
+    height: 20px;
+    left: 10px;
+    top: 10px;
+    border-radius: 20px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-top,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-bottom{
+    width: 2px;
+    height: 6px;
+    background:#666666;
+    border-radius: 3px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-left,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-right{
+    height: 2px;
+    width: 6px;
+    background: #666666;
+    border-radius: 3px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-top,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-bottom{
+    left: 19px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-top{
+    top: 8px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-bottom{
+    bottom: 8px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-left,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-right{
+    top: 19px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-left{
+    left: 8px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-right{
+    right: 8px;
+}
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-circle{
+    border-color: #333333;
+}
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-top,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-bottom,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-left,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-right{
+    background: #333333;
+}
+
+/* Reset Map */
+.wpgmza_map .google-maps-control-reset-map {
+    border: 0px;
+    margin: 10px;
+    padding: 0px;
+    text-transform: none;
+    appearance: none;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 2px;
+    height: 40px;
+    width: 40px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    overflow: hidden;
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part {
+    display:block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part.google-maps-reset-map-part-circle{
+	border: 2px solid #666666;
+    width: 16px;
+    height: 16px;
+	left: 12px;
+    top: 12px;
+    border-radius: 20px;
+    border-left-color: transparent;
+    transform: rotate(-45deg);
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part.google-maps-reset-map-part-arrow{
+	width: 3px;
+    height: 3px;
+    border: 3px solid #666666;
+    box-sizing: border-box;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+
+    transform: rotate(-135deg);
+	top: 15px;
+    left: 10px;
+    border-radius: 2px;
+}
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-reset-map-part-circle{
+    border-color: #333333;
+    border-left-color: transparent;
+}
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-reset-map-part-arrow{
+    border-color: #333333;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}

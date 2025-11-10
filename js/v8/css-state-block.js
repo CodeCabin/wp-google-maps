@@ -16,7 +16,7 @@ jQuery(function($) {
     
         this.bindEvents();
         
-        this.element.find('.wpgmza-css-state-block-item:first-child').click();
+        this.element.find('.wpgmza-css-state-block-item:first-child').trigger('click');
     }
 
     WPGMZA.extend(WPGMZA.CSSStateBlock, WPGMZA.EventDispatcher);

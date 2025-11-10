@@ -13,12 +13,25 @@ class AdminPolygonDataTable extends PolygonDataTable
 	
 	public function __construct($ajax_parameters=null)
 	{
+		global $wpgmza;
+
 		PolygonDataTable::__construct($ajax_parameters);
+
+		$buttonClass = $wpgmza->internalEngine->getButtonClass('button');
+		$this->element->import('<div class="wpgmza-marker-listing__actions">
+			<span>&#x21b3;</span>
+			<button class="wpgmza ' . $buttonClass . ' select_all_features" type="button">' . __('Select All', 'wp-google-maps') . '</button>
+			<button class="wpgmza ' . $buttonClass . ' bulk_delete" type="button">' . __('Bulk Delete', 'wp-google-maps') . '</button>
+		</div>');
 	}
 	
 	public function getColumns()
 	{
-		$columns = PolygonDataTable::getColumns();
+		$columns = array(
+			'mark' => __('Mark', 'wp-google-maps')
+		);
+
+		$columns = array_merge($columns, PolygonDataTable::getColumns());
 		$columns['action'] = __('Action', 'wp-google-maps');
 		return $columns;
 	}
@@ -31,5 +44,13 @@ class AdminPolygonDataTable extends PolygonDataTable
 			$columns[$index] = $this->getActionButtons();
 		
 		return $columns;
+	}
+
+	protected function getSearchClause($input_params, &$query_params, $exclude_columns=null)
+	{
+		return PolygonDataTable::getSearchClause($input_params, $query_params, array(
+			'mark',
+			'action'
+		));
 	}
 }

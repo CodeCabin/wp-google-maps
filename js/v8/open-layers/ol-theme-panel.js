@@ -36,6 +36,7 @@ jQuery(function($) {
 
 				if(input.wpgmzaCSSFilterInput){
 					input.wpgmzaCSSFilterInput.parseFilters(filter);
+					WPGMZA.notification("Theme preset applied!", false, '.grouping.open[data-group="map-settings-themes-presets"]', 'top-right');
 				}
 			}
 		}

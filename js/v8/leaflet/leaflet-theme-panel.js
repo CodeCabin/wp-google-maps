@@ -1,0 +1,45 @@
+/**
+ * @namespace WPGMZA
+ * @module LeafletThemePanel
+ * @requires WPGMZA
+ */
+jQuery(function($) {
+	
+	WPGMZA.LeafletThemePanel = function() {
+		var self = this;
+		
+		this.element = $("#wpgmza-leaflet-theme-panel");
+		this.map = WPGMZA.maps[0];
+		
+		if(!this.element.length)
+		{
+			console.warn("No element to initialise theme panel on");
+			return;
+		}
+		
+		this.element.on("click", "#wpgmza-theme-presets label, .theme-selection-panel label", function(event) {
+			self.onThemePresetClick(event);
+		});
+
+		
+		
+		WPGMZA.LeafletThemePanel = this;
+	}
+
+	WPGMZA.LeafletThemePanel.prototype.onThemePresetClick = function(event){
+		if(event.currentTarget){
+			const element = $(event.currentTarget);
+			const filter = element.data('filter');
+
+			if(filter && $('input[name="wpgmza_leaflet_tile_filter"]').length){
+				const input = $('input[name="wpgmza_leaflet_tile_filter"]').get(0);
+
+				if(input.wpgmzaCSSFilterInput){
+					input.wpgmzaCSSFilterInput.parseFilters(filter);
+
+					WPGMZA.notification("Theme preset applied!", false, '.grouping.open[data-group="map-settings-themes-presets"]', 'top-right');
+				}
+			}
+		}
+	}
+});

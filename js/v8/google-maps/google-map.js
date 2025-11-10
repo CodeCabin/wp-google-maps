@@ -182,6 +182,8 @@ jQuery(function($) {
 		var self = this;
 		var options = this.settings.toGoogleMapsOptions();
 		
+		options = this.extendNativeConfig(options);
+		
 		this.googleMap = new google.maps.Map(this.engineElement, options);
 		
 		google.maps.event.addListener(this.googleMap, "bounds_changed", function() { 
@@ -223,8 +225,7 @@ jQuery(function($) {
 				lng: parseFloat(clone.center.lng)
 			};
 		
-		if(this.settings.hide_point_of_interest)
-		{
+		if(this.settings.hide_point_of_interest){
 			var noPoi = {
 				featureType: "poi",
 				elementType: "labels",
@@ -239,6 +240,13 @@ jQuery(function($) {
 				clone.styles = [];
 			
 			clone.styles.push(noPoi);
+		}
+
+		if(WPGMZA.settings && WPGMZA.settings.googleMarkerMode && WPGMZA.settings.googleMarkerMode === WPGMZA.GoogleMarker.MARKER_MODE_ADVANCED){
+			/* Advanced Marker Module - Disable local styles */
+			if(clone.styles){
+				delete clone.styles;
+			}
 		}
 		
 		this.googleMap.setOptions(clone);

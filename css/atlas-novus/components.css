@@ -24,6 +24,7 @@
     --wpgmza-component-backdrop-filter: none;
 
     --wpgmza-ol-tile-filter : none;
+    --wpgmza-leaflet-tile-filter : none;
 }
 
 .wpgmza_map {
@@ -31,7 +32,8 @@
     max-width:100% !important;
 }
 
-.wpgmza_map[data-maps-engine="open-layers"]{
+.wpgmza_map[data-maps-engine="open-layers"],
+.wpgmza_map[data-maps-engine="open-layers-latest"]{
     overflow: hidden;
 }
 
@@ -130,7 +132,14 @@
 }
 
 
-.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.top_left {
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.top_left {
     top: 0;
     left: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
 }
@@ -146,7 +155,14 @@
 
 }
 
-.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_left {
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.bottom_left {
     bottom: 0;
 }
 
@@ -157,7 +173,14 @@
     max-height: calc(100% - (var(--wpgmza-component-margin) * 1.4) - var(--wpgmza-component-margin));
 }
 
-.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_right {
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.bottom_right {
     right: 0;
 }
 
@@ -176,7 +199,8 @@
 }
 
 .wpgmza_map .wpgmza-inner-stack input:not([type="checkbox"]),
-.wpgmza_map .wpgmza-inner-stack select{
+.wpgmza_map .wpgmza-inner-stack select,
+.wpgmza_map .wpgmza-inner-stack button{
     font-size: var(--wpgmza-component-font-size);
     line-height: var(--wpgmza-component-font-size);
     padding: var(--wpgmza-component-inner-padding);
@@ -229,12 +253,12 @@
     left: 2px;
     top: 0px;
     position: absolute;
-    width: 5px;
+    width: 4px;
     height: 7px;
     border: 2px solid var(--wpgmza-component-text-color-accent);
     border-top: 0;
     border-left: 0;
-    transform: rotate(30deg);
+    transform: rotate(40deg);
     transition: 0.2s ease;
 }
 
@@ -314,11 +338,41 @@
 
 .wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus,
 .wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus{
-    outline: none;
+    outline: none;    
 }
 
 .wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-address-container{
     display: flex;
+    position: relative;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-address-container[data-autocomplete-state="busy"]:after,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-address-container[data-autocomplete-state="busy"]:after{
+    content: "";
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 5px;
+    top: 12px;
+    border: 2px solid var(--wpgmza-color-grey-500);
+    border-radius: 14px;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    box-sizing: border-box;
+    -webkit-animation: wpgmzaInfiniteRotate 0.5s forwards linear;
+    animation: wpgmzaInfiniteRotate 0.5s forwards linear;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button{
+    min-height: var(--wpgmza-component-native-control-height);
+    font-weight: 500;
+    color: var(--wpgmza-color-grey-600);
+    transition:  color 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button:hover{
+    color: var(--wpgmza-color-grey-900);
 }
 
 .wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg,
@@ -667,10 +721,38 @@
     width: 16px;
 }
 
+.wpgmza_map .gm-style .gm-style-iw-c {
+    color: var(--wpgmza-component-text-color);
+    background-color: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza_map .gm-style .gm-style-iw-tc::after {
+    background-color: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .gm-style .gm-style-iw-c .gm-style-iw-d{
+    scrollbar-color:   var(--wpgmza-color-grey-500) transparent;
+    overflow: auto !important;
+
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
 
 /* OL */
 .wpgmza_map .ol-viewport .ol-control button{
     background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .ol-info-window-plain {
+    background: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+
+    box-shadow: var(--wpgmza-shadow-high);
 }
 
 /* .wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:first-child */
@@ -678,6 +760,26 @@
     filter : var(--wpgmza-ol-tile-filter);
 }
 
+/* Leaflet */
+.wpgmza_map .leaflet-control-container .leaflet-bar a{
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .leaflet-map-pane .leaflet-tile-pane {
+    filter : var(--wpgmza-leaflet-tile-filter);
+}
+
+.wpgmza_map .leaflet-popup .leaflet-popup-content-wrapper{
+    background: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza_map .leaflet-popup .leaflet-popup-tip{
+    background: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
 
 /* Map Placements - Legacy receives this port to improve placement reliability */
 .wpgmza_map.wpgmza-auto-left {
@@ -746,7 +848,7 @@
     border: 1px solid var(--wpgmza-color-light);
     border-radius: 5px;
     box-shadow: var(--wpgmza-shadow-common);
-    z-index: 999;
+    z-index: 9999999;
 }
 
 .wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location{
@@ -779,6 +881,204 @@
     white-space:nowrap;
 }
 
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-meta-list] > [data-autocomplete-field]:before {
+    content : "•";
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-meta-list] > [data-autocomplete-field]:first-child:before {
+    display: none;
+}
+
+/* GDPR Modern */
+.wpgmza-gdpr-compliance.modern {
+    display: flex;
+    flex-direction: column;
+    font-size:  14px;
+    align-items: center;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-image-placeholder{
+    max-width: 100%;
+    width: 800px;
+    overflow: hidden;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-image-placeholder img{
+    opacity: 0.6;
+    width: 100%;
+    filter:  blur(5px) grayscale(20%);
+    transform: scale(1.1);
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card {
+    position: absolute;
+    width: 700px;
+    max-width: 100%;
+    background: var(--wpgmza-color-white);
+    box-sizing: border-box;
+    padding: 15px;
+    height: 70%;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--wpgmza-shadow-common);
+    border-radius: 5px;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice{
+    overflow: auto;
+    max-height: calc(100% - 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice p{
+    margin: 0;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice p span{
+    font-weight: 500;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container{
+    text-align: right;
+    margin: 0;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container button{
+    border: none;
+    background: var(--wpgmza-color-gray-200);
+    box-sizing: border-box;
+    padding: 8px 15px;
+    margin-top: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container button:hover{
+    background: var(--wpgmza-color-gray-300);
+}
+
+/* Map Preview */
+.wpgmza-preview-mode-banner {
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-cyan));
+    background-size: 200%;
+    color: var(--wpgmza-color-white);
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    box-shadow: var(--wpgmza-shadow-common);
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-heading{
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-subheading{
+    opacity: 0.9;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper{
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper span{
+    opacity: 0.9;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper strong{
+    font-weight: 500;
+}
+
+/* Accessibility */
+.wpgmza_map .wpgmza-inner-stack input:focus,
+.wpgmza_map .wpgmza-inner-stack select:focus,
+.wpgmza_map .wpgmza-inner-stack a:focus,
+.wpgmza_map .wpgmza-inner-stack button:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:focus,
+.wpgmza_map .wpgmza-aria-bridge:focus,
+.wpgmza-standalone-component .wpgmza-aria-bridge:focus,
+.wpgmza-standalone-component input:focus,
+.wpgmza-standalone-component select:focus{
+    outline: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:focus-visible,
+.wpgmza_map .wpgmza-aria-bridge:focus-visible {
+    outline: none;
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-component-color-accent) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="radio"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .legacy-listing-adapter .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack a:focus-visible,
+.wpgmza_map .wpgmza-inner-stack button:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-bridge:focus-visible,
+.wpgmza-standalone-component input:focus-visible,
+.wpgmza-standalone-component select:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-component-color-accent) r g b / 0.9);
+    outline-offset: -3px;
+}
+
+.wpgmza_map .wpgmza-inner-stack a:focus-visible,
+.wpgmza_map .wpgmza-inner-stack button:focus-visible {
+    outline-offset: 2px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button:focus-visible{
+    outline-offset: -3px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-store-locator input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-store-locator select:focus-visible {
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-color-gray-500) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input[type="radio"]:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent input:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent select:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-color-gray-500) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-aria-accent .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-use-my-location:focus-visible {
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-color-white) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent  a:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent a:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent .wpgmza-aria-bridge:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-color-white) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .legacy-listing-adapter .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="radio"]:focus-visible {
+    box-shadow: none;
+}
 
 /* Animations */
 @-webkit-keyframes wpgmzaInfiniteRotate {

@@ -48,7 +48,6 @@ jQuery(function($) {
 		
 		this.element = element;
 		this.element.wpgmzaMap = this;
-		$(this.element).addClass("wpgmza-initialized");
 		
 		this.engineElement = element;
 		
@@ -62,8 +61,10 @@ jQuery(function($) {
 
 		// GDPR
 		if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN") {
-			$(element).append($(WPGMZA.api_consent_html));
-			$(element).css({height: "auto"});
+			if($(element).find('.wpgmza-gdpr-compliance').length <= 0){
+				$(element).append($(WPGMZA.api_consent_html));
+				$(element).css({height: "auto"});
+			}
 			return;
 		}
 		
@@ -101,6 +102,7 @@ jQuery(function($) {
 		
 		// Initialisation
 		this.on("init", function(event) {
+			$(self.element).addClass("wpgmza-initialized");
 			self.onInit(event);
 		});
 
@@ -149,12 +151,26 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
-				if(WPGMZA.isProVersion())
+			case "open-layers-latest":
+				if(WPGMZA.isProVersion()){
 					return WPGMZA.OLProMap;
+				}
 				
 				return WPGMZA.OLMap;
 				break;
 			
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion()){
+					return WPGMZA.LeafletProMap;
+				}
+
+				return WPGMZA.LeafletMap;
+				break;
 			default:
 				if(WPGMZA.isProVersion())
 					return WPGMZA.GoogleProMap;
@@ -362,12 +378,25 @@ jQuery(function($) {
 				}
 			}
 
-			if(this.settings && this.settings.wpgmza_ol_tile_filter){
-				let tileFilter = this.settings.wpgmza_ol_tile_filter.trim();
-				if(tileFilter){
-					$(this.element).css('--wpgmza-ol-tile-filter', tileFilter);
+			if(WPGMZA.settings && WPGMZA.settings.engine && this.settings){
+				if(WPGMZA.settings.engine === 'open-layers' || WPGMZA.settings.engine === 'open-layers-latest'){
+					if(this.settings.wpgmza_ol_tile_filter){
+						let tileFilter = this.settings.wpgmza_ol_tile_filter.trim();
+						if(tileFilter){
+							$(this.element).css('--wpgmza-ol-tile-filter', tileFilter);
+						}
+					} 
+				} else if(WPGMZA.settings.engine === 'leaflet' || WPGMZA.settings.engine === 'leaflet-azure' || WPGMZA.settings.engine === 'leaflet-stadia' || WPGMZA.settings.engine === 'leaflet-maptiler' || WPGMZA.settings.engine === 'leaflet-locationiq' || WPGMZA.settings.engine === 'leaflet-zerocost'){
+					if(this.settings.wpgmza_leaflet_tile_filter){
+						let tileFilter = this.settings.wpgmza_leaflet_tile_filter.trim();
+						if(tileFilter){
+							$(this.element).css('--wpgmza-leaflet-tile-filter', tileFilter);
+						}
+					} 
 				}
 			}
+			
+			
 		}
 	}
 
@@ -387,6 +416,18 @@ jQuery(function($) {
 					this.settings.map_start_zoom = mobileZoomOverride;
 				} catch (e){
 	
+				}
+			}
+
+			if(this.settings.map_dimensions_mobile_override_enabled){
+				try {
+					this.settings.map_width = this.settings.map_mobile_width ? parseInt(this.settings.map_mobile_width) :this.settings.map_width;
+					this.settings.map_width_type = this.settings.map_mobile_width_type ? this.settings.map_mobile_width_type : this.settings.map_width_type;
+
+					this.settings.map_height = this.settings.map_mobile_height ? parseInt(this.settings.map_mobile_height) : this.settings.map_height;
+					this.settings.map_height_type = this.settings.map_mobile_height_type ? this.settings.map_mobile_height_type : this.settings.map_height_type;
+				} catch (e){
+
 				}
 			}
 		}
@@ -461,6 +502,14 @@ jQuery(function($) {
 		for(var name in options)
 			this.settings[name] = options[name];
 	}
+
+	WPGMZA.Map.prototype.shouldBatchLoad = function(){
+		if(WPGMZA.settings.fetchMarkersBatchSize && WPGMZA.settings.enable_batch_loading){
+			/* Batch loading is enabled */
+			return true;
+		}
+		return false;
+	}
 	
 	WPGMZA.Map.prototype.getRESTParameters = function(options)
 	{
@@ -492,8 +541,7 @@ jQuery(function($) {
 		if(this.fetchFeaturesXhr)
 			this.fetchFeaturesXhr.abort();
 			
-		if(!WPGMZA.settings.fetchMarkersBatchSize || !WPGMZA.settings.enable_batch_loading)
-		{
+		if(!this.shouldBatchLoad()){
 			data = this.getRESTParameters({
 				filter: JSON.stringify(filter)
 			});
@@ -508,249 +556,42 @@ jQuery(function($) {
 				
 			});
 		} else {
-			var offset = 0;
-			var limit = parseInt(WPGMZA.settings.fetchMarkersBatchSize);
-			
-			function fetchNextBatch(){
-				filter.offset = offset;
-				filter.limit = limit;
-				
-				data = self.getRESTParameters({
-					filter: JSON.stringify(filter)
-				});
-				
-				self.fetchFeaturesXhr = WPGMZA.restAPI.call("/markers/", {
-					
-					useCompressedPathVariable: true,
-					data: data,
-					success: function(result, status, xhr) {
-						
-						if(result.length){
-							self.onMarkersFetched(result, true);	// Expect more batches
-							
-							offset += limit;
-							fetchNextBatch();
-						} else {
-							self.onMarkersFetched(result);			// Final batch
-							
-							data.exclude = "markers";
-							
-							WPGMZA.restAPI.call("/features/", {
-								
-								useCompressedPathVariable: true,
-								data: data,
-								success: function(result, status, xhr) {
-									self.onFeaturesFetched(result);
-								}
-								
-							});
-						}
-						
-					}
-					
-				});
-			}
-			
-			fetchNextBatch();
+			this.fetchMarkersBatched(filter, 0);
 		}
 	}
-	
-	WPGMZA.Map.prototype.fetchFeaturesViaXML = function()
-	{
-		var self = this;
+
+	WPGMZA.Map.prototype.fetchMarkersBatched = function(filter, offset){
+		offset = offset ? offset : 0;
+		const limit = parseInt(WPGMZA.settings.fetchMarkersBatchSize);
+
+		filter.offset = offset;
+		filter.limit = limit;
 		
-		var urls = [
-			WPGMZA.markerXMLPathURL + this.id + "markers.xml"
-		];
-		
-		if(this.mashupIDs)
-			this.mashupIDs.forEach(function(id) {
-				urls.push(WPGMZA.markerXMLPathURL + id + "markers.xml")
-			});
-		
-		var unique = urls.filter(function(item, index) {
-			return urls.indexOf(item) == index;
+		const data = this.getRESTParameters({
+			filter: JSON.stringify(filter)
 		});
 		
-		urls = unique;
-		
-		function fetchFeaturesExcludingMarkersViaREST()
-		{
-			var filter = {
-				map_id: this.id,
-				mashup_ids: this.mashupIDs
-			};
-			
-			var data = {
-				filter: JSON.stringify(filter),
-				exclude: "markers"
-			};
-			
-			WPGMZA.restAPI.call("/features/", {
-								
-				useCompressedPathVariable: true,
-				data: data,
-				success: function(result, status, xhr) {
-					self.onFeaturesFetched(result);
-				}
-				
-			});
-		}
-		
-		if(window.Worker && window.Blob && window.URL && WPGMZA.settings.enable_asynchronous_xml_parsing)
-		{
-			var source 	= WPGMZA.loadXMLAsWebWorker.toString().replace(/function\(\)\s*{([\s\S]+)}/, "$1");
-			var blob 	= new Blob([source], {type: "text/javascript"});
-			var worker	= new Worker(URL.createObjectURL(blob));
-			
-			worker.onmessage = function(event) {
-				self.onMarkersFetched(event.data);
-				
-				fetchFeaturesExcludingMarkersViaREST();
-			};
-			
-			worker.postMessage({
-				command: "load",
-				protocol: window.location.protocol,
-				urls: urls
-			});
-		}
-		else
-		{
-			var filesLoaded = 0;
-			var converter = new WPGMZA.XMLCacheConverter();
-			var converted = [];
-			
-			for(var i = 0; i < urls.length; i++)
-			{
-				$.ajax(urls[i], {
-					success: function(response, status, xhr) {
-						converted = converted.concat( converter.convert(response) );
-						
-						if(++filesLoaded == urls.length)
-						{
-							self.onMarkersFetched(converted);
-							
-							fetchFeaturesExcludingMarkersViaREST();
+		this.fetchFeaturesXhr = WPGMZA.restAPI.call("/markers/", {
+			useCompressedPathVariable: true,
+			data: data,
+			success: (result, status, xhr) => {
+				if(result.length){
+					this.onMarkersFetched(result, true); // Expect more batches
+					this.fetchMarkersBatched(filter, offset + limit);
+				} else {
+					this.onMarkersFetched(result); // Final batch
+					
+					data.exclude = "markers";
+					WPGMZA.restAPI.call("/features/", {
+						useCompressedPathVariable: true,
+						data: data,
+						success: function(result, status, xhr) {
+							this.onFeaturesFetched(result);
 						}
-					}
-				});
+					});
+				}
 			}
-		}
-	}
-	
-	WPGMZA.Map.prototype.fetchFeatures = function()
-	{
-		var self = this;
-		
-		if(WPGMZA.settings.wpgmza_settings_marker_pull != WPGMZA.MARKER_PULL_XML || WPGMZA.is_admin == "1")
-		{
-			this.fetchFeaturesViaREST();
-		}
-		else
-		{
-			this.fetchFeaturesViaXML();
-		}
-	}
-	
-	WPGMZA.Map.prototype.onFeaturesFetched = function(data)
-	{
-		if(data.markers)
-			this.onMarkersFetched(data.markers);
-		
-		for(var type in data)
-		{
-			if(type == "markers")
-				continue;	// NB: Ignore markers for now - onMarkersFetched processes them
-			
-			var module = type.substr(0, 1).toUpperCase() + type.substr(1).replace(/s$/, "");
-			
-			for(var i = 0; i < data[type].length; i++)
-			{	
-				var instance = WPGMZA[module].createInstance(data[type][i]);
-				var addFunctionName = "add" + module;
-				
-				this[addFunctionName](instance);
-			}
-		}
-	}
-	
-	WPGMZA.Map.prototype.onMarkersFetched = function(data, expectMoreBatches)
-	{
-		var self = this;
-		var startFiltered = (this.shortcodeAttributes.cat && this.shortcodeAttributes.cat.length)
-		
-		for(var i = 0; i < data.length; i++)
-		{
-			var obj = data[i];
-			var marker = WPGMZA.Marker.createInstance(obj);
-			
-			if(startFiltered)
-			{
-				marker.isFiltered = true;
-				marker.setVisible(false);
-			}
-			
-			this.addMarker(marker);
-		}
-		
-		if(expectMoreBatches)
-			return;
-		
-		this.showPreloader(false);
-		
-		var triggerEvent = function()
-		{
-			self._markersPlaced = true;
-			self.trigger("markersplaced");
-			self.off("filteringcomplete", triggerEvent);
-		}
-		
-		if(this.shortcodeAttributes.cat)
-		{
-			var categories = this.shortcodeAttributes.cat.split(",");
-			
-			// Set filtering controls
-			var select = $("select[mid='" + this.id + "'][name='wpgmza_filter_select']");
-			
-			for(var i = 0; i < categories.length; i++)
-			{
-				$("input[type='checkbox'][mid='" + this.id + "'][value='" + categories[i] + "']").prop("checked", true);
-				select.val(categories[i]);
-			}
-			
-			this.on("filteringcomplete", triggerEvent);
-			
-			// Force category ID's in case no filtering controls are present
-			this.markerFilter.update({
-				categories: categories
-			});
-		}
-		else
-			triggerEvent();
-
-		//Check to see if they have added markers in the shortcode
-		if(this.shortcodeAttributes.markers)
-		{	 
-			//remove all , from the shortcode to find ID's  
-			var arr = this.shortcodeAttributes.markers.split(",");
-
-			//Store all the markers ID's
-			var markers = [];
-		   
-			//loop through the shortcode
-			for (var i = 0; i < arr.length; i++) {
-				var id = arr[i];
-			    id = id.replace(' ', '');
-				var marker = this.getMarkerByID(id);
-		   
-				//push the marker infromation to markers
-				markers.push(marker);
-			   }
-
-			//call fitMapBoundsToMarkers function on markers ID's in shortcode
-			this.fitMapBoundsToMarkers(markers);	   
-		}
+		});
 	}
 	
 	WPGMZA.Map.prototype.fetchFeaturesViaXML = function()
@@ -1045,27 +886,14 @@ jQuery(function($) {
 		switch(parseInt(this.settings.wpgmza_map_align))
 		{
 			case 1:
-				/* Float rules result in unreliable placement in some themes, which can cause overlaps */
-				/* $(this.element).css({"float": "left"}); */
-
 				$(this.element).addClass('wpgmza-auto-left');
 				break;
 				
 			case 2:
-				/*
-				$(this.element).css({
-					"margin-left": "auto",
-					"margin-right": "auto"
-				});
-				*/
-				
 				$(this.element).addClass('wpgmza-auto-left');
 				break;
 			
 			case 3:
-				/* Float rules result in unreliable placement in some themes, which can cause overlaps */
-				/* $(this.element).css({"float": "right"}); */
-
 				$(this.element).addClass('wpgmza-auto-right');
 				break;
 			
@@ -1730,6 +1558,10 @@ jQuery(function($) {
 
 	WPGMZA.Map.prototype.closeStreetView = function(options){
 		
+	}
+
+	WPGMZA.Map.prototype.extendNativeConfig = function(config){
+		return config;
 	}
 	
 	$(document).ready(function(event) {

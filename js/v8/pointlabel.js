@@ -60,11 +60,24 @@ jQuery(function($) {
 	WPGMZA.Pointlabel.getConstructor = function(){
 		switch(WPGMZA.settings.engine){
 			case "open-layers":
+			case "open-layers-latest":
 				if(WPGMZA.isProVersion()){
 					return WPGMZA.OLProPointlabel;
 					break;
 				}
 				return WPGMZA.OLPointlabel;
+				break;
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion()){
+					return WPGMZA.LeafletProPointlabel;
+					break;
+				}
+				return WPGMZA.LeafletPointlabel;
 				break;
 			
 			default:

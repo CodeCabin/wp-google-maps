@@ -65,7 +65,7 @@ jQuery(function($) {
 	
 	WPGMZA.GooglePolygon.prototype.updateNativeFeature = function()
 	{
-		this.googlePolygon.setOptions(this.getScalarProperties());
+		this.googlePolygon.setOptions(WPGMZA.GoogleFeature.getGoogleStyle(this.getScalarProperties()));
 	}
 	
 	/**
@@ -124,6 +124,10 @@ jQuery(function($) {
 		}
 	}
 	
+	WPGMZA.GooglePolygon.prototype.setVisible = function(visible) {
+		this.googlePolygon.setVisible(visible ? true : false);
+	}
+
 	WPGMZA.GooglePolygon.prototype.setDraggable = function(value)
 	{
 		this.googlePolygon.setDraggable(value);

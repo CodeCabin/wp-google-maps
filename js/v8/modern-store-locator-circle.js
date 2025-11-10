@@ -73,11 +73,24 @@ jQuery(function($) {
 	 */
 	WPGMZA.ModernStoreLocatorCircle.createInstance = function(map, settings) {
 		
-		if(WPGMZA.settings.engine == "google-maps")
-			return new WPGMZA.GoogleModernStoreLocatorCircle(map, settings);
-		else
-			return new WPGMZA.OLModernStoreLocatorCircle(map, settings);
-		
+		switch(WPGMZA.settings.engine){
+			case 'google-maps':
+				return new WPGMZA.GoogleModernStoreLocatorCircle(map, settings);
+				break;
+			case 'leaflet':
+			case 'leaflet-azure':
+			case 'leaflet-stadia':
+			case 'leaflet-maptiler':
+			case 'leaflet-locationiq':
+			case 'leaflet-zerocost':
+				return new WPGMZA.LeafletModernStoreLocatorCircle(map, settings);
+				break;
+			case 'open-layers':
+			case 'open-layers-latest':
+			default:
+				return new WPGMZA.OLModernStoreLocatorCircle(map, settings);
+				break;
+		}
 	};
 	
 	/**

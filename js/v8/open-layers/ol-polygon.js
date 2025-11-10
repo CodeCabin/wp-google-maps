@@ -80,6 +80,11 @@ jQuery(function($) {
 		return result;
 	}
 	
+	WPGMZA.OLPolygon.prototype.setVisible = function(visible)
+	{
+		this.layer.setVisible(visible ? true : false);
+	}
+
 	WPGMZA.OLPolygon.prototype.setOptions = function(options)
 	{
 		Parent.prototype.setOptions.apply(this, arguments);

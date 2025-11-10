@@ -51,10 +51,10 @@ jQuery(function($) {
 				return 1;
 			}
 
-			if (v1parts[i] === v2parts[i]) {
+			if (parseInt(v1parts[i]) === parseInt(v2parts[i])) {
 				continue;
 			}
-			if (v1parts[i] > v2parts[i]) {
+			if (parseInt(v1parts[i]) > parseInt(v2parts[i])) {
 				return 1;
 			}
 			return -1;

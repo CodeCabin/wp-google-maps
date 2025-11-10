@@ -27,10 +27,8 @@ class Circle extends Feature
 		return Crud::get_column_parameter($name);
 	}
 	
-	public function __get($name)
-	{
-		switch($name)
-		{
+	public function __get($name) {
+		switch($name) {
 			case "center":
 				return $this->{"_$name"};
 				break;
@@ -38,6 +36,8 @@ class Circle extends Feature
 			default:
 				break;
 		}
+
+		return Feature::__get($name);
 	}
 	
 	public function __set($name, $value)
@@ -49,6 +49,7 @@ class Circle extends Feature
 				break;
 				
 			default:
+				Feature::__set($name, $value);
 				break;
 		}
 	}
@@ -61,5 +62,10 @@ class Circle extends Feature
 			$arg->center = $this->_center = new LatLng($arg->center);
 		
 		Crud::set($arg, $val);
+	}
+
+	public static function get_table_name_static() {
+		global $WPGMZA_TABLE_NAME_CIRCLES;
+		return $WPGMZA_TABLE_NAME_CIRCLES;
 	}
 }

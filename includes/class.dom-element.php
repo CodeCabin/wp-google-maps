@@ -82,15 +82,32 @@ class DOMElement extends \DOMElement
 	 */
 	public function closest($selector)
 	{
-		if($this === $this->ownerDocument->getDocumentElementSafe())
-			throw new \Exception('Method not valid on document element');
-		
-		for($el = $this; $el->parentNode != null; $el = $el->parentNode)
-		{
-			$m = $el->parentNode->querySelectorAll($selector);
-			if(array_search($el, $m, true) !== false)
-				return $el;
+		$allMatches = $this->ownerDocument->querySelectorAll($selector);
+
+		if (is_array($allMatches)) {
+			$allMatches = $allMatches;
+		} else if ($allMatches instanceof \Traversable) {
+			$allMatches = iterator_to_array($allMatches, false);
+		} else {
+			return null; 
 		}
+		
+		for($el = $this; $el !== null; $el = $el->parentNode){
+			if(array_search($el, $allMatches, true) !== false){
+				return $el;
+			}
+
+			if($el === $this->ownerDocument->documentElement){
+				break;
+			}
+		}
+
+		// for($el = $this; $el->parentNode != null; $el = $el->parentNode)
+		// {
+		// 	$m = $el->parentNode->querySelectorAll($selector);
+		// 	if(array_search($el, $m, true) !== false)
+		// 		return $el;
+		// }
 		
 		return null;
 	}

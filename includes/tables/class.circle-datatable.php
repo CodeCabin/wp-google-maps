@@ -18,7 +18,9 @@ class CircleDataTable extends DataTable
 	{
 		return array(
 			'id'			=> __('ID',				'wp-google-maps'),
-			'name'			=> __('Name', 			'wp-google-maps')
+			'name'			=> __('Name', 			'wp-google-maps'),
+			'description'	=> __('Description', 	'wp-google-maps'),
+			'link'			=> __('Link', 			'wp-google-maps')
 		);
 	}
 }

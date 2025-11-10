@@ -13,7 +13,7 @@ class MapListPage extends Page
 		
 		// Review nag
 		if(isset($_GET['wpgmza-close-review-nag']))
-			update_option('wpgmza-review-nag-closed', true);
+			update_option('wpgmza-review-nag-closed', true, false);
 		
 		$daysSinceFirstRun = 0;
 		if($str = get_option('wpgmza-first-run'))

@@ -33,21 +33,27 @@ class SettingsPage extends Page {
 			$this->form->querySelector('input[name="wpgmza_gdpr_require_consent_before_load"]')->setAttribute('disabled', 'disabled');
 		}
 
-		if(class_exists("WPGMZA\\MapSelect")){
-			if($wooCheckoutMapSelectWrapper = $this->document->querySelector('.woo-checkout-map-select-wrapper')){
-				$wooCheckoutMapSelect = new MapSelect('woo_checkout_map_id');
-				$wooCheckoutMapSelectWrapper->import($wooCheckoutMapSelect);
+		/* Tile Server Select */
+		if($tileServerSelectContainer = $this->document->querySelector('[data-tile-server-select-container]')) {
+			$tileServerSelect = new TileServerSelect(array('name' => 'tile_server_url'));
+			$tileServerSelectContainer->import($tileServerSelect);
+		}
 
-				if(!empty($wpgmza->settings->woo_checkout_map_id)){
-					/* Verify the option/map still exists */
-					$mapSelectOption = $wooCheckoutMapSelectWrapper->querySelector("option[value='{$wpgmza->settings->woo_checkout_map_id}']");
-					if(empty($mapSelectOption)){
-						/* Map has since been removed */
-						unset($wpgmza->settings->woo_checkout_map_id);
-					}
-				}
+		/* Dynamic Tile Server Selects */
+		$dynamicTileServerSelectContainers = $this->document->querySelectorAll('[data-tile-server-select-container-filtered]');
+		if(!empty($dynamicTileServerSelectContainers)){
+			foreach($dynamicTileServerSelectContainers as $dynamicContainer){
+				$tileFilter = $dynamicContainer->getAttribute('data-tile-server-select-container-filtered');
+				$forEngine = $dynamicContainer->getAttribute('data-required-maps-engine');
+				$forEngine = str_replace("-", "_", $forEngine);
+
+				$dynamicTileServerSelect = new TileServerSelect(array('name' => "tile_server_url_{$forEngine}", 'provider' => $tileFilter, 'disableKeyFlags' => true));
+				$dynamicContainer->import($dynamicTileServerSelect);
 			}
 		}
+
+		/* Call internal pre-render processor, to allow additional content alteration internally */
+		$this->onPreRender();
 
 	    /* Developer Hook (Action) - Alter output of the settings page, passes DOMDocument for mutation */     
 		do_action("wpgmza_global_settings_page_created", $this->document);
@@ -104,6 +110,10 @@ class SettingsPage extends Page {
 			wp_redirect($_SERVER['HTTP_REFERER']);
 			return;
 		}
+	}
+
+	public function onPreRender(){
+
 	}
 
 	public static function dangerZoneDelete(){

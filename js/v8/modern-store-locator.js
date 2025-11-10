@@ -238,6 +238,7 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
 				return new WPGMZA.OLModernStoreLocator(map_id);
 				break;
 			

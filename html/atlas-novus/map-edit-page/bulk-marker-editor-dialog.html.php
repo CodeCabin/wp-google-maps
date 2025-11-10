@@ -14,7 +14,7 @@
 							'Bulk edit markers with the <a href="%s" target="_BLANK">Pro version</a>.',
 							"wp-google-maps"
 						),
-						esc_attr("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=bulkedit-atlas-novus" . wpgmzaGetUpsellLinkParams())
+						esc_attr("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=bulkedit-atlas-novus-v10" . wpgmzaGetUpsellLinkParams())
 					);
 				?>
 			</div>

@@ -30,10 +30,13 @@ jQuery(function($) {
 		this._codemirrors = {};
 		
 		this.updateEngineSpecificControls();
+		this.updateMarkerRenderSpecificControls();
+		this.updateAddressProviderSpecificControls();
 		this.updateStorageControls();
 		this.updateBatchControls();
 		this.updateGDPRControls();
 		this.updateWooControls();
+		this.updateInsightsControls();
 		
 		//$("#wpgmza-developer-mode").hide();
 		$(window).on("keypress", function(event) {
@@ -49,15 +52,24 @@ jQuery(function($) {
 			var ttype = jQuery(this).attr('danger');
 			var warning = 'Are you sure?';
 			if (ttype == 'wpgmza_destroy_all_data') { warning = 'Are you sure? This will delete ALL data and settings for WP Go Maps!'; }
+
+			let destroyPacket = {
+				action: 'wpgmza_maps_settings_danger_zone_delete_data',
+				type: ttype,
+				nonce: wpgmza_dz_nonce
+			};
+
+			if(ttype == 'wpgmza_destroy_by_map'){
+				destroyPacket.map_id = $('.wpgmza-danger-zone-map-target-select select').val();
+				destroyPacket.data_type = $('.wpgmza-danger-zone-map-target-data-select').val();
+
+				warning = `Are you sure? This will delete all ${destroyPacket.data_type} for map ID: ${destroyPacket.map_id}`;
+			}
+
 			if (window.confirm(warning)) {
-	            
 				jQuery.ajax(WPGMZA.ajaxurl, {
 		    		method: 'POST',
-		    		data: {
-		    			action: 'wpgmza_maps_settings_danger_zone_delete_data',
-		    			type: ttype,
-		    			nonce: wpgmza_dz_nonce
-		    		},
+		    		data: destroyPacket,
 		    		success: function(response, status, xhr) {
 		    			if (ttype == 'wpgmza_destroy_all_data') {
 		    				window.location.replace('admin.php?page=wp-google-maps-menu&action=welcome_page');
@@ -79,6 +91,19 @@ jQuery(function($) {
 		$("select[name='wpgmza_maps_engine']").on("change", function(event) {
 			self.updateEngineSpecificControls();
 		});
+
+		$("input[name='wpgmza_maps_engine']").on("change", function(event) {
+			self.updateEngineSpecificControls();
+		});
+
+		$("select[name='googleMarkerMode']").on('change', function(event){
+			/* For google maps, let's just trigger the event dispatch for render mode - Later, we'll do the same with OL I imagine */
+			self.updateMarkerRenderSpecificControls();
+		})
+
+		$("select[name='address_provider']").on('change', function(event) {
+			self.updateAddressProviderSpecificControls();
+		});
 		
 		$('[name="wpgmza_settings_marker_pull"]').on('click', function(event) {
 			self.updateStorageControls();
@@ -94,6 +119,10 @@ jQuery(function($) {
 
 		$('input[name="woo_checkout_map_enabled"]').on('change', function(event) {
 			self.updateWooControls();
+		});
+
+		$('input[name="enable_insights"]').on('change', function(event) {
+			self.updateInsightsControls();
 		});
 
 		$('select[name="tile_server_url"]').on('change', function(event){
@@ -128,10 +157,13 @@ jQuery(function($) {
 				
 				}
 	       },
-	       activate: function(){
+	       activate: function(event, ui){
 	       	for(var i in self._codemirrors){
 	       		self._codemirrors[i].refresh();
 	       	}
+
+			/* Trigger tile server update changes */
+			$(document.body).trigger('tileserverpreview.update.wpgmza');
 	       }
 	    });
 
@@ -218,6 +250,32 @@ jQuery(function($) {
 			}
 		});
 
+		$('.wpgmza-system-health-tool-button').on('click', function(event){
+			event.preventDefault();
+			const type = $(this).data('tool-type');
+			if(type){
+				const data = {
+					type : type
+				};
+
+				const button = $(this);
+				button.attr('disabled', 'disabled');
+
+				WPGMZA.restAPI.call("/system-health-tools/", {
+					method:	"POST",
+					data:	data,
+					success: function(data, status, xhr) {
+						button.removeAttr('disabled');
+						if(data){
+							if(data.message){
+								window.alert(data.message);
+							}
+						}
+					}
+				});
+			}
+		});
+
 		$('.wpgmza-performance-tool-button').on('click', function(event){
 			event.preventDefault();
 			const type = $(this).data('tool-type');
@@ -255,12 +313,80 @@ jQuery(function($) {
 	 * @method
 	 * @memberof WPGMZA.SettingsPage
 	 */
-	WPGMZA.SettingsPage.prototype.updateEngineSpecificControls = function()
-	{
-		var engine = $("select[name='wpgmza_maps_engine']").val();
+	WPGMZA.SettingsPage.prototype.updateEngineSpecificControls = function(){
+		let engine = $("select[name='wpgmza_maps_engine']").val();
+		if($("select[name='wpgmza_maps_engine']").length <= 0){
+			/* Likely using the new grid selector */
+			engine = $('input[type="radio"][name="wpgmza_maps_engine"]:checked').val();
+		}
 		
-		$("[data-required-maps-engine][data-required-maps-engine!='" + engine + "']").hide();
-		$("[data-required-maps-engine='" + engine + "']").show();
+		$("[data-required-maps-engine]").each((index, element) => {
+			element = $(element);
+			let supported = element.data('required-maps-engine');
+			if(supported){
+				supported = supported.split('|');
+				if(supported.indexOf(engine) !== -1){
+					element.show();
+				} else {
+					element.hide();
+				}
+			}
+		});
+
+		/* Trigger tile server update changes */
+		$(document.body).trigger('tileserverpreview.update.wpgmza');
+
+		this.updateMarkerRenderSpecificControls();
+	}
+
+	WPGMZA.SettingsPage.prototype.updateMarkerRenderSpecificControls = function(){
+		let engine = $("select[name='wpgmza_maps_engine']").val();
+		if($("select[name='wpgmza_maps_engine']").length <= 0){
+			/* Likely using the new grid selector */
+			engine = $('input[type="radio"][name="wpgmza_maps_engine"]:checked').val();
+		}
+		
+		let renderMode = false;
+		if(engine === 'google-maps'){
+			renderMode = $("select[name='googleMarkerMode']").val();
+		} else if(engine === 'open-layers' || engine === 'open-layers-latest'){
+			renderMode = $("select[name='olMarkerMode']").val();
+		}
+
+		const compileMode = `${engine}.${renderMode}`;
+		$("[data-required-marker-renderer]").each((index, element) => {
+			element = $(element);
+			let target = element.data('required-marker-renderer');
+			if(target){
+				if(target === compileMode){
+					element.show();
+				} else {
+					element.hide();
+				}
+			}
+		});
+
+		/* Trigger tile server update changes */
+		$(document.body).trigger('tileserverpreview.update.wpgmza');
+	}
+
+	WPGMZA.SettingsPage.prototype.updateAddressProviderSpecificControls = function(){
+		let provider = $("select[name='address_provider']").val();
+
+		$("[data-required-address-provider]").each((index, element) => {
+			element = $(element);
+			let supported = element.data('required-address-provider');
+			if(supported){
+				supported = supported.split('|');
+				if(supported.indexOf(provider) !== -1){
+					element.show();
+				} else {
+					element.hide();
+				}
+			}
+		});
+
+		$(document.body).trigger('addressprovider.update.wpgmza');
 	}
 	
 	WPGMZA.SettingsPage.prototype.updateStorageControls = function()
@@ -319,6 +445,20 @@ jQuery(function($) {
 			$('.woo-checkout-maps-select-row').show();
 		} else {
 			$('.woo-checkout-maps-select-row').hide();
+		}
+	}
+
+	/**
+	 * Update the Insight controls (visibility etc) based on toggle selections
+	 * @method
+	 * @memberof WPGMZA.SettingsPage
+	*/
+	WPGMZA.SettingsPage.prototype.updateInsightsControls = function(){
+		const showInsightControls =  $("input[name='enable_insights']").prop("checked");
+		if(showInsightControls){
+			$('.wpgmza-insights-controls').show();
+		} else {
+			$('.wpgmza-insights-controls').hide();
 		}
 	}
 

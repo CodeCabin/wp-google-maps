@@ -182,6 +182,20 @@ jQuery(function($) {
 			// Trust the force!
 			WPGMZA.FeaturePanel.prototype.onSave.apply(self, arguments);
 		} else {
+			if(WPGMZA.settings && WPGMZA.settings.reduce_editor_geocoding){
+				/* User has reduced geocoding enabled */
+				let existingCoordinates = {
+					lat : $(this.element).find("[data-ajax-name='lat']").val().trim(),
+					lng : $(this.element).find("[data-ajax-name='lng']").val().trim(),
+				};
+
+				if(existingCoordinates.lat.length > 0 && existingCoordinates.lng.length > 0){
+					/* Lat and lng already exist, no need to re-geocode in this case */
+					WPGMZA.FeaturePanel.prototype.onSave.apply(this, arguments);
+					return;
+				}
+			}
+
 			geocoder.geocode(geocodingData, function(results, status) {
 				switch(status)
 				{

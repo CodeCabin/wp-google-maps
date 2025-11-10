@@ -86,6 +86,7 @@ class Feature extends Crud
 		$floats	= $m[0];
 		$count	= count($floats);
 		
+		
 		if($count % 2 == 1)
 			throw new \Exception('Invalid spatial data, odd number of coordinates found');
 		
@@ -192,7 +193,6 @@ class Feature extends Crud
 					}
 					break;
 				default:
-					
 					if(isset($columns[$key]) && $this->isTypeSpatial($columns[$key]->Type))
 					{
 						$converted = $this->convertSpatialTextToJson($value);

@@ -386,6 +386,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		$wpdb->query($stmt);
 		
 		$this->id = $wpdb->insert_id;
+
+		/* Developer Hook (Action) - CRUD Create */
+		do_action('wpgmza_crud_create', $this);
 	}
 	
 	protected function getReadColumns()
@@ -498,6 +501,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 			$wpdb->query($stmt);
 		}
 		
+		/* Developer Hook (Action) - CRUD Update */
+		do_action('wpgmza_crud_update', $this);
+
 		return $this;
 	}
 	
@@ -516,6 +522,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$wpdb->query($stmt);
 		
+		/* Developer Hook (Action) - CRUD Trash */
+		do_action('wpgmza_crud_trash', $this);
+
 		$this->trashed = true;
 	}
 	
@@ -624,7 +633,12 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		if(!is_array($this->fields))
 			throw new \Exception("Field data is not an array");
 		
-		return array_merge($this->fields, array('id' => $this->id));
+		$serialize = array_merge($this->fields, array('id' => $this->id));
+		
+		/* Developer Hook (Action) - CRUD Serialize */
+		$serialize = apply_filters('wpgmza_crud_serialize', $serialize, $this);
+		
+		return $serialize;
 	}
 	
 	/**
@@ -637,8 +651,13 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 	{
 		$this->assert_not_trashed();
 		
-		if(isset($this->fields[$name]))
+		if(isset($this->overrides[$name])){
+			return $this->overrides[$name];
+		}
+
+		if(isset($this->fields[$name])){
 			return $this->fields[$name];
+		}
 		
 		switch($name)
 		{
@@ -706,6 +725,9 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 			$stmt = $wpdb->prepare("UPDATE {$this->table_name} SET $name = $placeholder WHERE id = %d", $params);
 			$wpdb->query($stmt);
 			
+			/* Developer Hook (Action) - CRUD Update Single */
+			do_action('wpgmza_crud_update', $this, [$name]);
+
 			return;
 		}
 		

@@ -10,7 +10,7 @@ jQuery(function($) {
 	if(WPGMZA.settings.engine && WPGMZA.settings.engine != "google-maps")
 		return;
 	
-	if(!window.google || !window.google.maps)
+	if(!window.google || !window.google.maps || !google.maps.OverlayView)
 		return;
 	
 	WPGMZA.GoogleHTMLOverlay = function(map)

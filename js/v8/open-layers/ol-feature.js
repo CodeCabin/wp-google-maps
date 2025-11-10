@@ -30,6 +30,7 @@ jQuery(function($) {
 			"linecolor":		"strokeColor",
 			"lineopacity":		"strokeOpacity",
 			"linethickness":	"strokeWeight",
+			"lineDashArray":	"lineDash",
 		};
 		
 		for(var name in options){
@@ -48,10 +49,16 @@ jQuery(function($) {
 			if("strokeWeight" in options)
 				weight = options.strokeWeight;
 			
-			translated.stroke = new ol.style.Stroke({
+			let strokeConfig = {
 				color: WPGMZA.hexOpacityToString(options.strokeColor, opacity),
 				width: weight
-			});
+			};
+
+			if("lineDash" in options){
+				strokeConfig.lineDash = options.lineDash.split(" ");
+			}
+
+			translated.stroke = new ol.style.Stroke(strokeConfig);
 		}
 		
 		if(options.fillColor){

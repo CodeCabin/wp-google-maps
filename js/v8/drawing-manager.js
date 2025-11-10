@@ -41,6 +41,14 @@ jQuery(function($) {
 			case "google-maps":
 				return WPGMZA.GoogleDrawingManager;
 				break;
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				return WPGMZA.LeafletDrawingManager;
+				break;
 				
 			default:
 				return WPGMZA.OLDrawingManager;

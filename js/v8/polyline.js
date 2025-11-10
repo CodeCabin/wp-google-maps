@@ -49,7 +49,7 @@ jQuery(function($) {
 		enumerable: true,
 		"get": function()
 		{
-			if(!this.opacity || !this.opacity.length)
+			if(!this.opacity || (typeof this.opacity === 'string' && !this.opacity.length))
 				return 0.6;
 			
 			return this.opacity;
@@ -64,7 +64,7 @@ jQuery(function($) {
 		enumerable: true,
 		"get": function()
 		{
-			if(!this.linethickness || !this.linethickness.length)
+			if(!this.linethickness || (typeof this.linethickness === 'string' && !this.linethickness.length))
 				return 1;
 			
 			return parseInt(this.linethickness);
@@ -101,10 +101,25 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.OLProPolyline;
 				return WPGMZA.OLPolyline;
+				break;
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.LeafletProPolyline;
+				return WPGMZA.LeafletPolyline;
 				break;
 			
 			default:
+				if(WPGMZA.isProVersion())
+					return WPGMZA.GoogleProPolyline;
 				return WPGMZA.GooglePolyline;
 				break;
 		}

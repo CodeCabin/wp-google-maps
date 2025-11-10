@@ -69,11 +69,21 @@ jQuery(function($) {
 		switch(WPGMZA.settings.engine)
 		{
 			case "open-layers":
+			case "open-layers-latest":
 				if(WPGMZA.isProVersion())
 					return WPGMZA.OLProMarker;
 				return WPGMZA.OLMarker;
 				break;
-				
+			case "leaflet":
+			case "leaflet-azure":
+			case "leaflet-stadia":
+			case "leaflet-maptiler":
+			case "leaflet-locationiq":
+			case "leaflet-zerocost":
+				if(WPGMZA.isProVersion())
+					return WPGMZA.LeafletProMarker;
+				return WPGMZA.LeafletMarker;
+				break;
 			default:
 				if(WPGMZA.isProVersion())
 					return WPGMZA.GoogleProMarker;

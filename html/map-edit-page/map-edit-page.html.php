@@ -248,7 +248,7 @@
 						<i class="fa fa-arrow-circle-right"></i>
 						
 						<?php
-						_e('<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions">
+						_e('<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=directions-v10">
 						Enable directions</a> with the Pro version. Support and updates included forever', 'wp-google-maps');
 						?>
 
@@ -431,7 +431,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable intelligent, automatic search area with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator">Pro add-on</a>', 'wp-google-maps');
+						_e('Enable intelligent, automatic search area with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator-v10">Pro add-on</a>', 'wp-google-maps');
 						?>
 					</div>
 					
@@ -573,7 +573,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable search by category with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator">Pro add-on</a>', 'wp-google-maps');
+						_e('Enable search by category with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator-v10">Pro add-on</a>', 'wp-google-maps');
 						?>
 					</div>
 					
@@ -596,7 +596,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable user geolocation features with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator">Pro add-on</a>', 'wp-google-maps');
+						_e('Enable user geolocation features with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator-v10">Pro add-on</a>', 'wp-google-maps');
 						?>
 					</div>
 					
@@ -816,7 +816,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable custom styling options with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator">Pro add-on</a>', 'wp-google-maps');
+						_e('Enable custom styling options with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=store-locator-v10">Pro add-on</a>', 'wp-google-maps');
 						?>
 					</div>
 					
@@ -851,7 +851,7 @@
 						<div class="wpgmza-upsell">
 							<i class="fa fa-arrow-circle-right"></i>
 							<?php
-							_e('Enable custom marker icons with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced">Pro add-on</a>', 'wp-google-maps');
+							_e('Enable custom marker icons with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced-v10">Pro add-on</a>', 'wp-google-maps');
 							?>
 						</div>
 					</fieldset>
@@ -942,7 +942,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable user geolocation features with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced">Pro add-on</a>', 'wp-google-maps');
+						_e('Enable user geolocation features with our <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced-v10">Pro add-on</a>', 'wp-google-maps');
 						?>
 					</div>
 					
@@ -1089,7 +1089,7 @@
 							'Get the rest of these advanced features with the <a href="%s" target="_BLANK">Pro version</a>. Support and updates included forever.',
 							"wp-google-maps"
 							),
-							"https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced"
+							"https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced-v10"
 						);
 						?>
 
@@ -1581,7 +1581,7 @@
 					<div class="wpgmza-upsell">
 						<i class="fa fa-arrow-circle-right"></i>
 						<?php
-						_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing"target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
+						_e('Enable Marker Listing with the <a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker_listing-v10"target="_BLANK">Pro version</a>. Support and updates included forever.', "wp-google-maps");
 						?>
 					</div>
 					
@@ -2315,7 +2315,7 @@
 							?>
 						</p>
 						<p>
-							<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgradenow" target="_BLANK" title="Upgrade now" class="button-primary" style="font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;" id="wpgmza-upgrade-now__btn">
+							<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=upgradenow-v10" target="_BLANK" title="Upgrade now" class="button-primary" style="font-size:20px; display:block; width:220px; text-align:center; height:42px; line-height:41px;" id="wpgmza-upgrade-now__btn">
 									<?php esc_html_e('Upgrade Now', "wp-google-maps") ?>
 								</a>
 						</p>
@@ -2542,7 +2542,7 @@
 						
 						<div class="wpgmza-upsell">
 							<i class="fa fa-arrow-circle-right"></i>
-							<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced_markers"><?php esc_html_e("Add advanced markers", "wp-google-maps"); ?></a>
+							<a target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=advanced_markers-v10"><?php esc_html_e("Add advanced markers", "wp-google-maps"); ?></a>
 							<?php
 							esc_html_e("with the Pro version","wp-google-maps");
 							?>
@@ -2623,7 +2623,7 @@
 								_e("Click", "wp-google-maps");
 								?>
 								
-								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image1"
+								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image1-v10"
 									title="Pro Edition" 
 									target="_BLANK">
 									<?php
@@ -2655,7 +2655,7 @@
 								<?php
 								_e("Click","wp-google-maps");
 								?>
-								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image3"
+								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image3-v10"
 									title="<?php _e("Pro Edition", "wp-google-maps"); ?>"
 									target="_BLANK">
 									<?php
@@ -2686,7 +2686,7 @@
 								<?php
 								_e("Click", "wp-google-maps");
 								?>
-								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image2" 
+								<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=image2-v10" 
 									title="<?php _e("Pro Edition", "wp-google-maps"); ?>"
 									target="_BLANK">
 									<?php

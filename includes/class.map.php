@@ -19,6 +19,8 @@ class Map extends Crud
 	protected $_element;
 	
 	protected $_storeLocator;
+
+	protected $_mapSettingsMigrator;
 	
 	/**
 	 * Constructor
@@ -57,17 +59,27 @@ class Map extends Crud
 			$this->onInit();
 		
 		$wpgmza->loadScripts(true);
+
+		$this->_mapSettingsMigrator = new MapSettingsMigrator();
+		$this->_mapSettingsMigrator->migrateMapSettings($this);
 	}
 
 	public function getDataSettingsObject(){
 		$localized = $this;
 		$ignore = array('shortcode');
 
+		if(!empty($this->tile_server_override)){
+			$localized->tile_server_override_config = TileServers::getBySlug($this->tile_server_override);
+		}
+
 		foreach ($ignore as $key) {
 			if(!empty($localized->{$key})){
 				unset($localized->{$key});
 			}
 		}
+
+		/* Developer Hook (Action) - CRUD Serialize */
+		$localized = apply_filters('wpgmza_map_data_settings_object', $localized, $this);
 		
 		return $localized;
 	}

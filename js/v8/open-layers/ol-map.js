@@ -18,15 +18,33 @@ jQuery(function($) {
 		
 		var viewOptions = this.settings.toOLViewOptions();
 		
+		this.mapType = viewOptions.mapType ? viewOptions.mapType : 'roadmap';
+		this.tileLayers = this.getTileLayers();
+
 		$(this.element).html("");
-		
-		this.olMap = new ol.Map({
+
+		viewOptions = this.extendNativeConfig(viewOptions);
+
+		let mapOptions = {
 			target: $(element)[0],
-			layers: [
-				this.getTileLayer()
-			],
+			layers: this.tileLayers,
 			view: this.getTileView(viewOptions)
-		});
+		};
+
+		if(!this.isLegacy()){
+			/* Has V10 OpenLayers */
+			const attributionOptions = { collapsible: true };
+			if(typeof WPGMZA.tileServer !== 'undefined' && WPGMZA.tileServer instanceof Object){
+				if(WPGMZA.tileServer.attribution && WPGMZA.tileServer.type === 'xyz'){
+					attributionOptions.attributions = WPGMZA.tileServer.attribution;
+				}
+			}
+			const attribution = new ol.control.Attribution(attributionOptions);
+			mapOptions.controls = ol.control.defaults.defaults({attribution: false}).extend([attribution]);
+		}
+		
+		
+		this.olMap = new ol.Map(mapOptions);
 
 		if(this.customTileMode){
 			/* The system is in custom tile view mode */
@@ -130,7 +148,12 @@ jQuery(function($) {
 					
 				});
 				
-				this.gestureOverlay.text(WPGMZA.localized_strings.use_ctrl_scroll_to_zoom);
+				let getstureString = WPGMZA.localized_strings.use_ctrl_scroll_to_zoom;
+				if(WPGMZA.isDeviceiOS()){
+					getstureString = WPGMZA.localized_strings.use_ctrl_scroll_to_zoom_ios;
+				}
+				
+				this.gestureOverlay.text(getstureString);
 			}
 		}
 		
@@ -143,8 +166,19 @@ jQuery(function($) {
 			
 		}, this);
 		
-		if(!isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_full_screen_control))
+
+		/* Layer control */
+		const multiLayerConfig = this.settings.hasMutlilayerTileServer();
+		if(multiLayerConfig){
+			/* This map has more than one layer in it's tile server configuration */
+			if(!isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_type)){
+				this.addMapTypeControl(multiLayerConfig, !isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_full_screen_control));
+			}
+		}
+
+		if(!isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_full_screen_control)){
 			this.olMap.addControl(new ol.control.FullScreen());
+		}
 		
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 		{
@@ -308,8 +342,8 @@ jQuery(function($) {
 					
 					nativeFeature = props.wpgmzaFeature;
 					nativeFeaturesUnderPixel.push(nativeFeature);
-					
-					nativeFeature.trigger("click");
+					let clickCoordinates = new WPGMZA.LatLng(latLng);
+					nativeFeature.trigger({type:"click", coordinates : clickCoordinates});
 				}
 
 				if(featuresUnderPixel.length > 0){
@@ -338,7 +372,54 @@ jQuery(function($) {
 			
 			return self.onRightClick(event);
 		});
-		
+
+		// Touch event support
+		$(this.element).on("touchstart", function (event) {
+            try{
+            	let offsetX;
+            	let offsetY;
+              	if(self.element){
+					const nestedCanvases = self.element.querySelectorAll('canvas');
+
+					const touch = event.originalEvent.changedTouches[0];
+					const targetElement = event.originalEvent.target;
+					const rect = targetElement.getBoundingClientRect();
+
+					offsetX = touch.clientX - rect.left;
+					offsetY = touch.clientY - rect.top;
+					
+					if(nestedCanvases.length > 1){
+						const diff = (nestedCanvases[0].width  /  nestedCanvases[1].width);
+						offsetX *= diff;
+						offsetY *= diff;
+					}
+              	}
+
+              	var featuresUnderPixel = self.olMap.getFeaturesAtPixel([offsetX, offsetY]);
+            }catch(e) {
+              return;
+            }
+            
+            if(!featuresUnderPixel){
+              	featuresUnderPixel = [];
+			}
+            
+            var nativeFeaturesUnderPixel = [], i, props;
+            for(i = 0; i < featuresUnderPixel.length; i++){
+              	props = featuresUnderPixel[i].getProperties();
+              
+              	if(!props.wpgmzaFeature){
+                	continue;
+				}
+              
+              	nativeFeature = props.wpgmzaFeature;
+              	nativeFeaturesUnderPixel.push(nativeFeature);
+              
+              	nativeFeature.trigger("click");
+            }
+		});
+
+
 		// Dispatch event
 		if(!WPGMZA.isProVersion())
 		{
@@ -360,73 +441,67 @@ jQuery(function($) {
 	WPGMZA.OLMap.prototype = Object.create(Parent.prototype);
 	WPGMZA.OLMap.prototype.constructor = WPGMZA.OLMap;
 	
-	WPGMZA.OLMap.prototype.getTileLayer = function()
-	{
-		var options = {};
-		
-		if(WPGMZA.settings.tile_server_url){
-			options.url = WPGMZA.settings.tile_server_url;
-
-			if(WPGMZA.settings.tile_server_url === 'custom_override'){
-				if(WPGMZA.settings.tile_server_url_override && WPGMZA.settings.tile_server_url_override.trim() !== ""){
-					options.url = WPGMZA.settings.tile_server_url_override.trim();
-				} else {
-					//Override attempt, let's default?
-					options.url = "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-				}
-			}
-
-			if(WPGMZA.settings.open_layers_api_key && WPGMZA.settings.open_layers_api_key !== ""){
-				options.url += "?apikey=" + WPGMZA.settings.open_layers_api_key.trim();
-				options.url += "&key=" + WPGMZA.settings.open_layers_api_key.trim();
-			}
-		}
-
-		if(this.settings && this.settings.custom_tile_enabled){
-			if(this.settings.custom_tile_image_width && this.settings.custom_tile_image_height){
-				let width = parseInt(this.settings.custom_tile_image_width);
-				let height = parseInt(this.settings.custom_tile_image_height);
-
-				let imageDimensions = null; //autodetect
-				try{
-					if(window.devicePixelRatio && window.devicePixelRatio != 1){
-						/* For retina displays, lets multiple the target dimensions, with the devicePixelRatio */
-						/* Updated 2022-07-07: Was unreliable, moved to setting manual dimensions */
-						/*
-						width *= window.devicePixelRatio;
-						height *= window.devicePixelRatio;
-						*/
-						imageDimensions = [width, height];
-					}
-				} catch (ex){
-					/* Do nothing */
-				}
-
-				if(this.settings.custom_tile_image){
-					const extent = [0, 0, width, height];
-		
-					const projection = new ol.proj.Projection({
-						code: 'custom-tile-map',
-						units: 'pixels',
-						extent: extent
-					});
-
-					return new ol.layer.Image({
-						source: new ol.source.ImageStatic({
-							attributions: this.settings.custom_tile_image_attribution ? this.settings.custom_tile_image_attribution : '©',
-							url: this.settings.custom_tile_image,
-							projection: projection,
-							imageExtent: extent,
-							imageSize: imageDimensions
-						})
-					});
-				}
-			}
-		}
-		
-		return new ol.layer.Tile({
-			source: new ol.source.OSM(options)
+	WPGMZA.OLMap.prototype.getTileLayers = function() {
+		let url = WPGMZA.settings.tile_server_url ? WPGMZA.settings.tile_server_url : "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+		const config = this.settings.configureTileServer(url, {
+			authentication : WPGMZA.settings.open_layers_api_key ? WPGMZA.settings.open_layers_api_key : false, 
+			map : this
 		});
+		
+		if(config && config.url){
+			if(config.type && config.type === 'vector' && typeof olms !== 'undefined'){
+				const layerGroup = new ol.layer.Group();
+				olms.apply(layerGroup, config.url);
+
+				return [layerGroup];
+			} else if(config.type && config.type === 'custom' && config.custom){
+				/* Custom mode */
+				const extent = [0, 0, config.custom.width, config.custom.height];
+		
+				const projection = new ol.proj.Projection({
+					code: 'custom-tile-map',
+					units: 'pixels',
+					extent: extent
+				});
+
+				return [new ol.layer.Image({
+					source: new ol.source.ImageStatic({
+						attributions: config.custom.attribution ? config.custom.attribution : '©',
+						url: config.url,
+						projection: projection,
+						imageExtent: extent,
+						imageSize: config.custom.dimensions ? config.custom.dimensions : null
+					})
+				})];
+			}
+
+			const layers = [];
+
+			if(config.dependencies){
+				for(let dependency of config.dependencies){
+					config.options.url = dependency.url;
+					layers.push(
+						new ol.layer.Tile({
+							source: new ol.source.OSM(config.options)
+						})
+					);
+				}
+			}
+
+			config.options.url = config.url;
+			layers.push(
+				new ol.layer.Tile({
+					source: new ol.source.OSM(config.options)
+				})
+			);
+
+			return layers;
+		}
+		
+		/* Fallback */
+		return [new ol.layer.Tile({
+			source: new ol.source.OSM({url : url})
+		})];
 	}
 
 	WPGMZA.OLMap.prototype.getTileView = function(viewOptions){
@@ -451,7 +526,7 @@ jQuery(function($) {
 				}
 			}
 		}
-		return new ol.View(viewOptions)
+		return new ol.View(viewOptions);
 	}
 	
 	WPGMZA.OLMap.prototype.wrapLongitude = function()
@@ -602,6 +677,31 @@ jQuery(function($) {
 	WPGMZA.OLMap.prototype.setMaxZoom = function(value)
 	{
 		this.olMap.getView().setMaxZoom(value);
+	}
+
+	WPGMZA.OLMap.prototype.setMapType = function(type){
+		if(this.mapType !== type){
+			this.mapType = type;
+
+			if(this.tileLayers){
+				for(let layer of this.tileLayers){
+					this.olMap.removeLayer(layer);
+				}
+			}
+
+			this.tileLayers = this.getTileLayers();
+			const reversedLayers = this.tileLayers.slice().reverse();
+			for(let layer of reversedLayers){
+				this.olMap.getLayers().insertAt(0, layer);
+			}
+
+			$(this.element).find('.ol-layer-button[data-map-type]').removeClass('selected');
+			$(this.element).find('.ol-layer-button[data-map-type="' + type + '"]').addClass('selected');
+		}	
+	}
+
+	WPGMZA.OLMap.prototype.getMapType = function(){
+		return this.mapType ? this.mapType : 'roadmap';
 	}
 	
 	WPGMZA.OLMap.prototype.setOptions = function(options)
@@ -791,6 +891,11 @@ jQuery(function($) {
 	{
 		this.olMap.updateSize();
 	}
+
+	WPGMZA.OLMap.prototype.resetBounds = function() {
+		var latlng = new WPGMZA.LatLng(this.settings.map_start_lat, this.settings.map_start_lng);
+		this.panTo(latlng, this.settings.map_start_zoom);
+	}
 	
 	WPGMZA.OLMap.prototype.onRightClick = function(event)
 	{
@@ -824,6 +929,61 @@ jQuery(function($) {
 			
 		}, this);
 
+	}
+
+	WPGMZA.OLMap.prototype.addMapTypeControl = function(config, hasFullscreen){
+		if(this.olMap && config && config.layers && config.layers.length >= 2){
+			const container = document.createElement('div');
+			container.classList.add('ol-control');
+			container.classList.add('ol-unselectable');
+			container.classList.add('ol-control-layers');
+
+			if(hasFullscreen){
+				container.classList.add('ol-has-fullscreen');
+			}
+
+			// .ol-full-screen {
+			// 	right: .5em;
+			// 	top: .5em;
+			// }
+
+			for(let index in config.layers){
+				const layer = config.layers[index];
+				let label = WPGMZA.localized_strings[`map_type_${layer}`] ? WPGMZA.localized_strings[`map_type_${layer}`] : WPGMZA.capitalizeWords(layer);
+
+				const button = document.createElement('button');
+				button.innerText = label;
+				button.classList.add('ol-layer-button');
+				button.classList.add('ol-layer-button');
+				button.setAttribute('type', 'button');
+				button.setAttribute('data-map-type', layer);
+
+				if(config.active && config.active === layer){
+					button.classList.add('selected');
+				}
+
+				container.append(button);
+
+				button.addEventListener('click', (event) => {
+					event.preventDefault();
+
+					this.setMapType(layer);
+				});
+			}
+
+			const layerController = new ol.control.Control({
+				element : container,
+			});
+
+			this.olMap.addControl(layerController);
+		}
+	}
+
+	WPGMZA.OLMap.prototype.isLegacy = function(){
+		if(WPGMZA.settings && WPGMZA.settings.engine === 'open-layers'){
+			return true; // Using Legacy V6 OpenLayers
+		}
+		return false;
 	}
 	
 });

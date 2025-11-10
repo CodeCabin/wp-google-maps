@@ -70,7 +70,7 @@ jQuery(function($) {
 		this.overlay = new ol.Overlay({
 			element: this.element,
 			stopEvent: true,
-			insertFirst: true
+			insertFirst: false
 		});
 		
 		this.overlay.setPosition(ol.proj.fromLonLat([
@@ -82,6 +82,22 @@ jQuery(function($) {
 		$(this.element).show();
 		
 		this.setContent(this.content);
+
+		let dataProps = this.compileWrapperAttributes();
+		if(dataProps){
+			dataProps = dataProps.split(" ");
+			for(let prop of dataProps){
+				let [propKey, propValue] = prop.split("=");
+				if(propKey && propValue){
+					$(this.element).attr(propKey, propValue.replaceAll('"', ''));
+				}
+			}
+		}
+
+		const styleTypeClass = this.getStyleTypeClass();
+		if(styleTypeClass){
+			$(this.element).addClass(styleTypeClass);
+		}
 		
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 		{

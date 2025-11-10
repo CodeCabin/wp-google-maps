@@ -37,6 +37,15 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Geocoder
 	 */
 	WPGMZA.Geocoder.FAIL			= "fail";
+
+	WPGMZA.Geocoder.Providers = {
+		GOOGLE_MAPS : 1,
+        NOMINATIM : 2,
+        OPEN_LAYERS : 3,
+        LEAFLET : 4,
+        AZURE_MAPS : 5,
+		LOCATION_IQ : 6
+	};
 	
 	/**
 	 * Returns the contructor to be used by createInstance, depending on the selected maps engine.
@@ -44,14 +53,85 @@ jQuery(function($) {
 	 * @memberof WPGMZA.Geocoder
 	 * @return {function} The appropriate contructor
 	 */
-	WPGMZA.Geocoder.getConstructor = function()
-	{
-		switch(WPGMZA.settings.engine)
-		{
-			case "open-layers":
+	WPGMZA.Geocoder.getConstructor = function() {
+		let provider = WPGMZA.settings && WPGMZA.settings.address_provider ? WPGMZA.settings.address_provider : false;
+        if(!provider){
+            /* Provider unknown, use engine default */
+            if(WPGMZA.settings && WPGMZA.settings.engine){
+                switch(WPGMZA.settings.engine){
+                    case 'google-maps':
+                        provider = WPGMZA.Geocoder.Providers.GOOGLE_MAPS;
+                        break;
+                    case 'open-layers':
+                    case 'open-layers-latest':
+						provider = WPGMZA.Geocoder.Providers.OPEN_LAYERS;
+                        break;
+                    case 'leaflet':
+                    case 'leaflet-stadia':
+                    case 'leaflet-maptiler':
+                    case 'leaflet-zerocost':
+						provider = WPGMZA.Geocoder.Providers.LEAFLET;
+                        break;
+                        break;
+                    case 'leaflet-azure':
+                        /* Azure */
+                        provider = WPGMZA.Geocoder.Providers.AZURE_MAPS;
+                        break;
+					case 'leaflet-locationiq':
+                        /* LocationIQ */
+                        provider = WPGMZA.Geocoder.Providers.LOCATION_IQ;
+                        break;
+                }
+            } 
+        } else if (typeof provider === 'string'){
+            switch(provider){
+                case 'google-maps':
+                    provider = WPGMZA.Geocoder.Providers.GOOGLE_MAPS;
+                    break;
+                case 'nominatim':
+                    provider = WPGMZA.Geocoder.Providers.NOMINATIM;
+					if(WPGMZA.settings && WPGMZA.settings.engine){
+						/* Sub filter by engine, just to ensure we get the correct extension */
+						switch(WPGMZA.settings.engine){
+							case 'open-layers':
+							case 'open-layers-latest':
+								provider = WPGMZA.Geocoder.Providers.OPEN_LAYERS;
+								break;
+							case 'leaflet':
+							case 'leaflet-stadia':
+							case 'leaflet-maptiler':
+							case 'leaflet-zerocost':
+								provider = WPGMZA.Geocoder.Providers.LEAFLET;
+								break;
+						}
+					}
+                    break;
+                case 'azure-maps':
+                    provider = WPGMZA.Geocoder.Providers.AZURE_MAPS;
+                    break;
+				case 'location-iq':
+                    provider = WPGMZA.Geocoder.Providers.LOCATION_IQ;
+                    break;
+            }
+        }
+
+		switch(provider){
+			case WPGMZA.Geocoder.Providers.NOMINATIM:
+				return WPGMZA.NominatimGeocoder;
+				break;
+			case WPGMZA.Geocoder.Providers.OPEN_LAYERS:
 				return WPGMZA.OLGeocoder;
 				break;
-				
+			case WPGMZA.Geocoder.Providers.LEAFLET:
+				return WPGMZA.LeafletGeocoder;
+				break;
+			case WPGMZA.Geocoder.Providers.AZURE_MAPS:
+				return WPGMZA.AzureGeocoder;
+				break;
+			case WPGMZA.Geocoder.Providers.LOCATION_IQ:
+				return WPGMZA.LocationIQGeocoder;
+				break;
+			case WPGMZA.Geocoder.Providers.GOOGLE_MAPS:
 			default:
 				return WPGMZA.GoogleGeocoder;
 				break;

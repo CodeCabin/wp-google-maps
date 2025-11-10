@@ -300,6 +300,7 @@ jQuery(function($) {
 				if(status == WPGMZA.Geocoder.SUCCESS)
 					callback(results, status);
 				else{
+
 					let error = WPGMZA.localized_strings.address_not_found;
 					if(status == WPGMZA.Geocoder.FAIL && typeof results === 'string'){
 						error = results;
@@ -311,7 +312,6 @@ jQuery(function($) {
 						self.showError(error);
 						self.setVisualState(false);
 					}
-					
 				}
 				 
 			});

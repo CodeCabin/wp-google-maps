@@ -113,7 +113,7 @@ jQuery(function($) {
 	
 	WPGMZA.OLMarker.renderMode = WPGMZA.settings && WPGMZA.settings.olMarkerMode && WPGMZA.settings.olMarkerMode === WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER ? WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER : WPGMZA.OLMarker.RENDER_MODE_HTML_ELEMENT;
 	
-	if(WPGMZA.settings.engine == "open-layers" && WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
+	if((WPGMZA.settings.engine == "open-layers" || WPGMZA.settings.engine == "open-layers-latest") && WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 	{
 		WPGMZA.OLMarker.defaultVectorLayerStyle = new ol.style.Style({
 			image: new ol.style.Icon({
@@ -177,6 +177,7 @@ jQuery(function($) {
 			$(this.element).append(this.label);
 		}
 		
+		label = label.replaceAll("&amp;", "&");
 		this.label.html(label);
 	}
 	

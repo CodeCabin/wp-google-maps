@@ -1,0 +1,529 @@
+{
+    "openstreetmap" : {
+        "url" : "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "label" : "Standard",
+        "provider" : "OpenStreetMap",
+        "attribution" : "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "openstreetmap_de" : {
+        "url" : "https://tile.openstreetmap.de/{z}/{x}/{y}.png",
+        "label" : "DE (German)",
+        "provider" : "OpenStreetMap",
+        "attribution" : "<a href='https://www.openstreetmap.de/karte.html'>OpenStreetMap.de</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "openstreetmap_fr" : {
+        "url" : "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+        "label" : "FR (France)",
+        "provider" : "OpenStreetMap",
+        "attribution" : "<a href='https://www.openstreetmap.fr/'>OpenStreetMap France</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "cyclosm" : {
+        "url" : "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+        "label" : "CyclOSM",
+        "provider" : "OpenStreetMap",
+        "attribution" : "<a href='https://www.cyclosm.org/'>CyclOSM</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "humanitarian" : {
+        "url" : "https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+        "label" : "Humanitarian",
+        "provider" : "OpenStreetMap",
+        "attribution" : "<a href='https://www.hotosm.org/'>Humanitarian OpenStreetMap Team (HOT)</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "openfreemap-liberty" : {
+        "url" : "https://tiles.openfreemap.org/styles/liberty",
+        "label" : "Liberty",
+        "provider" : "OpenFreeMap",
+        "attribution" : "<a href='https://openfreemap.org/'>OpenFreeMap</a> | &copy; <a href='https://www.openmaptiles.org/'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "vector"
+    },
+    "openfreemap-bright" : {
+        "url" : "https://tiles.openfreemap.org/styles/bright",
+        "label" : "Bright",
+        "provider" : "OpenFreeMap",
+        "attribution" : "<a href='https://openfreemap.org/'>OpenFreeMap</a> | &copy; <a href='https://www.openmaptiles.org/'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "vector"
+    },
+    "openfreemap-positron" : {
+        "url" : "https://tiles.openfreemap.org/styles/positron",
+        "label" : "Positron",
+        "provider" : "OpenFreeMap",
+        "attribution" : "<a href='https://openfreemap.org/'>OpenFreeMap</a> | &copy; <a href='https://www.openmaptiles.org/'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "vector"
+    },
+    "microsoft_azure_multilayer" : {
+        "url" : "{alias:azure-multilayer}",
+        "label" : "Road & Satellite",
+        "provider" : "Microsoft Azure (Bing)",
+        "multi" : true,
+        "layers" : [
+            {
+                "slug" : "microsoft_azure_road",
+                "selection_type" : "roadmap"
+            },
+            {
+                "slug" : "microsoft_azure_satellite",
+                "selection_type" : "satellite"
+            }
+        ],
+        "key_required" : true
+    },
+    "microsoft_azure_road" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:road}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.base.road"
+        },
+        "label" : "Roadmap",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "microsoft_azure_satellite" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:satellite}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.base.hybrid.road"
+        },
+        "dependencies" : ["microsoft_azure_imagery"],
+        "label" : "Satellite",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "microsoft_azure_imagery" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:imagery}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.imagery"
+        },
+        "label" : "Imagery Only",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "microsoft_azure_darkgrey" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:darkgrey}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.base.darkgrey"
+        },
+        "label" : "Dark Grey",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "microsoft_azure_weather" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:weather}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.weather.radar.main"
+        },
+        "dependencies" : ["microsoft_azure_imagery"],
+        "label" : "Weather (Radar)",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "microsoft_azure_weather_infrared" : {
+        "url" : "https://atlas.microsoft.com/map/tile{alias:weatherinfrared}",
+        "params" : {
+            "zoom" : "{z}",
+            "x" : "{x}",
+            "y" : "{y}",
+            "tileSize" : "256",
+            "language" : "EN",
+            "api-version" : "2.0",
+            "tilesetId" : "microsoft.weather.infrared.main"
+        },
+        "dependencies" : ["microsoft_azure_imagery"],
+        "label" : "Weather (Infrared)",
+        "provider" : "Microsoft Azure (Bing)",
+        "key_required" : true,
+        "key_field_name" : "subscription-key",
+        "attribution" : "&copy; {{YEAR}} TomTom, Microsoft",
+		"type" : "xyz"
+    },
+    "stadia_multilayer" : {
+        "url" : "{alias:stadia-multilayer}",
+        "label" : "Road & Satellite",
+        "provider" : "Stadia Maps",
+        "multi" : true,
+        "layers" : [
+            {
+                "slug" : "stadia_outdoors",
+                "selection_type" : "roadmap"
+            },
+            {
+                "slug" : "stadia_alidade_satellite",
+                "selection_type" : "satellite"
+            }
+        ],
+        "key_required" : true
+    },
+    "stadia_alidade_smooth" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png",
+        "label" : "Alidade Smooth",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_alidade_smooth_dark" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png",
+        "label" : "Alidade Smooth Dark",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_alidade_satellite" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg",
+        "label" : "Alidade Satellite",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; CNES, Distribution Airbus DS, &copy; Airbus DS, &copy; PlanetObserver (Contains Copernicus Data) | &copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_outdoors" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png",
+        "label" : "Outdoors",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_stamen_toner" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png",
+        "label" : "Stamen Toner",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://stamen.com/' target='_blank'>Stamen Design</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_stamen_terrain" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png",
+        "label" : "Stamen Terrain",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://stamen.com/' target='_blank'>Stamen Design</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_stamen_watercolor" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg",
+        "label" : "Stamen Watercolor",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://stamen.com/' target='_blank'>Stamen Design</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "stadia_osm_bright" : {
+        "url" : "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png",
+        "label" : "OSM Bright",
+        "provider" : "Stadia Maps",
+        "key_required" : true,
+        "key_field_name" : "api_key",
+        "attribution" : "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> | &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_multilayer" : {
+        "url" : "{alias:maptiler-multilayer}",
+        "label" : "Road & Satellite",
+        "provider" : "Maptiler",
+        "multi" : true,
+        "layers" : [
+            {
+                "slug" : "maptiler_streets",
+                "selection_type" : "roadmap"
+            },
+            {
+                "slug" : "maptiler_satellite",
+                "selection_type" : "satellite"
+            }
+        ],
+        "key_required" : true
+    },
+    "maptiler_aquarelle" : {
+        "url" : "https://api.maptiler.com/maps/aquarelle/256/{z}/{x}/{y}.png",
+        "label" : "Aquarelle",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_backdrop" : {
+        "url" : "https://api.maptiler.com/maps/backdrop/256/{z}/{x}/{y}.png",
+        "label" : "Backdrop",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_basic" : {
+        "url" : "https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png",
+        "label" : "Basic",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_bright" : {
+        "url" : "https://api.maptiler.com/maps/bright/256/{z}/{x}/{y}.png",
+        "label" : "Bright",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_dataviz" : {
+        "url" : "https://api.maptiler.com/maps/dataviz/256/{z}/{x}/{y}.png",
+        "label" : "Dataviz",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_landscape" : {
+        "url" : "https://api.maptiler.com/maps/landscape/256/{z}/{x}/{y}.png",
+        "label" : "Landscape",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_ocean" : {
+        "url" : "https://api.maptiler.com/maps/ocean/256/{z}/{x}/{y}.png",
+        "label" : "Ocean",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_outdoor" : {
+        "url" : "https://api.maptiler.com/maps/outdoor/{z}/{x}/{y}.png",
+        "label" : "Outdoor",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_satellite" : {
+        "url" : "https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.png",
+        "label" : "Satellite",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_streets" : {
+        "url" : "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png",
+        "label" : "Streets",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_pastel" : {
+        "url" : "https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png",
+        "label" : "Pastel",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_toner" : {
+        "url" : "https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png",
+        "label" : "Toner",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_topo" : {
+        "url" : "https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png",
+        "label" : "Topo",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "maptiler_winter" : {
+        "url" : "https://api.maptiler.com/maps/winter/{z}/{x}/{y}.png",
+        "label" : "Winter",
+        "provider" : "Maptiler",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://www.maptiler.com/copyright/'>Maptiler</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "location_iq_streets" : {
+        "url" : "https://{s}-tiles.locationiq.com/v3/streets/r/{z}/{x}/{y}.png",
+        "label" : "Streets",
+        "provider" : "LocationIQ",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://locationiq.com/?ref=maps' target='_blank'>LocationIQ</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "location_iq_light" : {
+        "url" : "https://{s}-tiles.locationiq.com/v3/light/r/{z}/{x}/{y}.png",
+        "label" : "Light",
+        "provider" : "LocationIQ",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://locationiq.com/?ref=maps' target='_blank'>LocationIQ</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "location_iq_dark" : {
+        "url" : "https://{s}-tiles.locationiq.com/v3/dark/r/{z}/{x}/{y}.png",
+        "label" : "Dark",
+        "provider" : "LocationIQ",
+        "key_required" : true,
+        "key_field_name" : "key",
+        "attribution" : "&copy; <a href='https://locationiq.com/?ref=maps' target='_blank'>LocationIQ</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "transport_map" : {
+        "url" : "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png",
+        "label" : "Transport Map",
+        "provider" : "Thunderforest",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://www.thunderforest.com/'>Thunderforest</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "thunderforest_landscape" : {
+        "url" : "https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png",
+        "label" : "Landscape",
+        "provider" : "Thunderforest",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://www.thunderforest.com/'>Thunderforest</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "thunderforest_outdoors" : {
+        "url" : "https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png",
+        "label" : "Outdoors",
+        "provider" : "Thunderforest",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://www.thunderforest.com/'>Thunderforest</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "opencyclemap" : {
+        "url" : "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png",
+        "label" : "OpenCycleMap",
+        "provider" : "Thunderforest",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://www.thunderforest.com/'>Thunderforest</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "carto_light" : {
+        "url" : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        "label" : "Positron (Light)",
+        "provider" : "Carto",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://carto.com/attributions'>CARTO</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "carto_dark" : {
+        "url" : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
+        "label" : "Dark Matter (Dark)",
+        "provider" : "Carto",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://carto.com/attributions'>CARTO</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "wikimedia" : {
+        "url" : "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+        "label" : "Wikimedia Maps",
+        "provider" : "Other",
+        "attribution" : "<a href='https://foundation.wikimedia.org/wiki/Maps_Terms_of_Use'>Wikimedia Maps</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "caltopo" : {
+        "url" : "https://caltopo.com/tile/mb_topo/{z}/{x}/{y}.png",
+        "label" : "Caltopo",
+        "provider" : "Other",
+        "key_required" : true,
+        "attribution" : "&copy; <a href='https://caltopo.com/about/terms'>Caltopo</a> | &copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "opnvkarte" : {
+        "url" : "https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png",
+        "label" : "Öpnvkarte",
+        "provider" : "Other",
+        "attribution" : "<a href='http://memomaps.de/'>memomaps.de</a> | <a href='http://www.openptmap.org/'>OpenPtMap</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "opentopo" : {
+        "url" : "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+        "label" : "OpenTopoMap",
+        "provider" : "Other",
+        "attribution" : "<a href='http://viewfinderpanoramas.org'>SRTM</a> | &copy; <a href='https://opentopomap.org/'>OpenTopoMap</a> | &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+		"type" : "xyz"
+    },
+    "custom" : {
+        "url" : "custom_override",
+        "label" : "Custom (Enter URL) (XYZ)",
+        "provider" : "Other",
+        "attribution" : "",
+		"type" : "xyz"
+    }
+}
