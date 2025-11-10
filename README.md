@@ -1,4 +1,4 @@
-# WP Go Maps V9 - Public Repo
+# WP Go Maps V10 - Public Repo
 Welcome to the official WP Go Maps (formerly WP Google Maps) public GitHub repo.
 
 In most cases this repo should match the SVN release within a few days from it's release. With that said, this does not represent an active working copy of upcoming releases. This is to say that internal repos do exist where the bulk of our development happens. Once a release is considered final, and released to the public, this code base is updated. 
@@ -19,7 +19,7 @@ For developers who contribute actively to our core code, we also offer free Pro 
 Please share it with us by logging a new issue with the phrase "Feature Request" in the title, or by using the `enhancement` tag on this repo. In some cases a feature may already have been requested and may be in the works on our end. Either way, someone from our team will let you know and ask any questions we may have about the request!
 
 ## I am a developer, is there anything I should look out for?
-Yes, developers tend to enable developer mode. At this stage, the code is compiled in real-time, on each page load. In most cases, this is fine, however, if you have a major version mismatch (Example: Basic V9 + Pro V8), expect to see errors in the system. 
+Yes, developers tend to enable developer mode. At this stage, the code is compiled in real-time, on each page load. In most cases, this is fine, however, if you have a major version mismatch (Example: Basic V10 + Pro V9), expect to see errors in the system. 
 
 The compiled code acts as a polyfill between major versions, but once the developer mode is enabled, this polyfill file is no longer in use. Furthermore, deactivating developer mode will not restore the original code but instead uses the latest compiled version. 
 
