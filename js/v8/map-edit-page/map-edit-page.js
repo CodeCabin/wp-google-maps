@@ -230,6 +230,20 @@ jQuery(function($) {
 			}
 		});
 
+		/* One time hints */
+		$(document.body).find('.wpgmza-one-time-hint').each((index, hint) => {
+			const delay = $(hint).data('hint-delay');
+			if(delay){
+				setTimeout(() => {
+					$(hint).addClass('show-hint');
+
+					setTimeout(() => {
+						$(hint).remove();
+					}, parseInt(delay) * 1000);
+				}, parseInt(delay) * 1000);
+			}
+		})
+
 		this.initZoomSliderPreviews();
 	}
 	

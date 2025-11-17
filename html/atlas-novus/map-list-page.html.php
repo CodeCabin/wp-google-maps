@@ -75,7 +75,7 @@
 			</a>
 		</p>
 		
-		<div id="wpgmza-admin-map-table-container" class="wpgmza-card wpgmza-shadow-high wpgmza-datatable-container wpgmza-pad-y-20"></div>
+		<div id="wpgmza-admin-map-table-container" class="wpgmza-card wpgmza-shadow-high wpgmza-datatable-container wpgmza-datatable-container-maps wpgmza-pad-y-20"></div>
 	</div>
 </div>
 

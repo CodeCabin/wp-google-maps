@@ -26,6 +26,29 @@
             }
         });
 
+		$(element).on("mousedown", "tr td", function(event){
+			let tableColumn = $(event.target);
+			if(tableColumn.find('button,input').length > 0){
+				/* Ignore columns that contain an input, or a button */
+				return;
+			}
+
+			if(tableColumn.parent().find('button[data-map-id]').length > 0){
+				const mapId = tableColumn.parent().find('button[data-map-id]').data('map-id');
+				if(mapId){
+					const editUrl = window.location.href + `&action=edit&map_id=${mapId}`;
+					switch(event.which){
+						case 1:
+							window.location.href = editUrl;
+							break;
+						case 2: 
+							window.open(editUrl);
+							break;
+					}
+				}
+			}
+		});
+
  		$(element).find(".wpgmza.select_all_maps").on("click", function(event) {
 			self.onSelectAll(event); 
 		});

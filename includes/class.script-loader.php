@@ -458,8 +458,10 @@ class ScriptLoader
 	 */
 	public function build()
 	{
-		$this->scanDependencies();
-		$this->buildCombinedFile();
+		if($this->canRecompile()){
+			$this->scanDependencies();
+			$this->buildCombinedFile();
+		}
 	}
 	
 	/**
@@ -543,9 +545,8 @@ class ScriptLoader
 	public function getPluginScripts()
 	{
 		global $wpgmza;
-		
-		if(!$wpgmza->isInDeveloperMode())
-		{
+
+		if(!$wpgmza->isInDeveloperMode() || !$this->canRecompile()){
 			$dir = ($this->proMode ? plugin_dir_path(WPGMZA_PRO_FILE) : plugin_dir_path(__DIR__));
 			
 			$combined = 'js/v8/wp-google-maps' . ($this->proMode ? '-pro' : '') . '.combined.js';
@@ -555,12 +556,19 @@ class ScriptLoader
 			
 			$minified_file_exists = file_exists($dir . $minified);
 			
-			if($minified_file_exists)
+			if($minified_file_exists){
 				$delta = filemtime($dir . $combined) - filemtime($dir . $minified);
+			}
 			
 			$deltaTolerance = 30;
-			if(!$minified_file_exists || $delta > $deltaTolerance)
+			if(!$minified_file_exists || $delta > $deltaTolerance){
 				$src = $combined;
+			}
+
+			if(!$this->canRecompile()){
+				/* Current versions cannot recompile so we need to use minified only */
+				$src = $minified;
+			}
 			
 			$scripts = array('wpgmza' => 
 				(object)array(
@@ -956,4 +964,41 @@ class ScriptLoader
 		/* Developer Hook (Filter) - Add or alter script arguments */
 		return apply_filters('wpgmza-modify-scripts-arguments', $scriptArguments);
 	}
+
+	/**
+	 * A quick check to determine the system can recompile scripts with the current installation setup 
+	 * 
+	 * This checks if the major versions installed on the users site mismatch in any way, if they do, we will not allow recompiling
+	 * 
+	 * This allows us to prefer minified files, in events where a recompile would usually occur
+	 * 
+	 * This DOES NOT validate developer mode, that should still be done separately if needed
+	 * 
+	 * @return bool
+	 */
+	public function canRecompile(){
+		global $wpgmza;
+		if(!empty($wpgmza) && method_exists($wpgmza, 'isProVersion') && $wpgmza->isProVersion()){
+			/* This installation includes a pro version - We need to check the major version number */
+			if(method_exists($wpgmza, 'getProVersion')){ 
+				$basicVersion = $wpgmza->getBasicVersion();
+				$proVersion = $wpgmza->getProVersion();
+
+				if(!empty($basicVersion) && !empty($proVersion)){
+					$basicVersion = explode('.', $basicVersion);
+					$proVersion = explode('.', $proVersion);
+					if(!empty($basicVersion) && !empty($proVersion)){
+						$basicVersion = array_shift($basicVersion);
+						$proVersion = array_shift($proVersion);
+						if(intval($basicVersion) !== intval($proVersion)){
+							/* Our basic and Pro major versions do not match and we should never recompile */
+							return false;
+						}
+					}
+				}
+			}
+		}
+		/* Basic only, or basic and pro match major versions, we can proceed */
+		return true;
+	}	
 }

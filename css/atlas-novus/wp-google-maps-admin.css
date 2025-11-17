@@ -5,6 +5,8 @@
     overflow: hidden;
     
     margin-bottom: -65px;
+
+    position: initial;
 }
 
 .wpgmza-wrap.minimal{
@@ -88,7 +90,6 @@
 
 .wpgmza-wrap .wpgmza-editor .sidebar .navigation .item:hover{
 	cursor: pointer;
-	font-weight: 400;
 	background: var(--wpgmza-color-grey-75);
 }
 
@@ -153,6 +154,22 @@
 
 .wpgmza-wrap .wpgmza-editor .sidebar .heading.has-back .item.caret-left:after{
     left: 25px;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .item.item-focus{
+    background: var(--wpgmza-color-blue-light);
+    font-weight: 500;
+    color: var(--wpgmza-color-blue);
+    border-color: var(--wpgmza-color-blue-light-alt);
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .item.item-focus .dashicons {
+    color: var(--wpgmza-color-blue-dark);
+    opacity: 0.8;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .item.item-focus:hover{
+    background: var(--wpgmza-color-blue-light-alt);
 }
 
 /* Upsell temp... Not sure, should this be a brand color variation? Who knows */
@@ -436,6 +453,16 @@
     background: var(--wpgmza-color-grey-900);
     border: 1px solid var(--wpgmza-color-grey-900);
     color: var(--wpgmza-color-white) !important;
+}
+
+.wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr > td{
+    transition: background-color 0.2s ease;
+}
+
+.wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr:hover > td,
+.wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr:hover > td.sorting_1{
+    cursor: pointer;
+    background: var(--wpgmza-color-grey-50);
 }
 
 /* Datatables preloader - Had to recreate this here, as it is not possible to override the HTML entirely */
@@ -1538,6 +1565,7 @@
 }
 
 .wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.bottom-anchor,
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.bottom-left-anchor,
 .wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.top-anchor{
     position: absolute;
     bottom: 30px;
@@ -1548,6 +1576,18 @@
 .wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.top-anchor{
     bottom: unset;
     top: 30px;
+}
+
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.bottom-left-anchor {
+    left : 30px;
+    transform: none;
+}
+
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-notice.wpgmza-quick-tip-container .wpgmza-button{
+    padding: 5px;
+    margin-left: 10px;
+    min-height: unset;
+    line-height: 14px;
 }
 
 .wpgmza-card.wpgmza-persistent-notice:before{
@@ -5165,6 +5205,75 @@
     border-radius: 16px; 
     box-shadow: var(--wpgmza-shadow-common);
 }
+
+/* One time hint system */
+.wpgmza-wrap .wpgmza-one-time-hint{
+    display: none;
+}
+
+.wpgmza-wrap .wpgmza-one-time-hint.show-hint{
+    position: absolute;
+    display:block;
+
+    background: var(--wpgmza-color-white);
+    padding: 10px;
+    border: 2px solid var(--wpgmza-color-charcoal);
+    border-radius: 4px;
+
+    font-weight: 500;
+
+    box-shadow: var(--wpgmza-shadow-common);
+
+    z-index: 99;
+
+    margin-left: 30px;
+
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-one-time-hint.show-hint:before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: calc(50% - 2px);
+    width: 10px;
+    height: 4px;
+    background: var(--wpgmza-color-charcoal);
+
+    box-shadow: var(--wpgmza-shadow-common);
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-one-time-hint.show-hint:after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: calc(50% - 8px);
+    left: -25px;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+
+    border: 4px solid var(--wpgmza-color-charcoal);
+
+    box-shadow: var(--wpgmza-shadow-common);
+
+    border-radius: 16px;
+    transform: rotate(45deg);
+    
+    -webkit-animation: wpgmzaPopinTabs 0.5s forwards;
+    animation: wpgmzaPopinTabs 0.5s forwards;
+}
+
+.wpgmza-wrap .wpgmza-one-time-hint[data-hint-tag='quickCreateMarkers']{
+    top: 80px;
+    left: 50px
+}
+ 
 
 /* Zoom Previews */
 .wpgmza-wrap .zoom-slider-preview-frame {

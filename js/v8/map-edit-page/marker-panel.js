@@ -232,7 +232,7 @@ jQuery(function($) {
 			});
 		}
 
-		WPGMZA.mapEditPage.map.resetBounds();
+		// WPGMZA.mapEditPage.map.resetBounds();
 	}
 
 });

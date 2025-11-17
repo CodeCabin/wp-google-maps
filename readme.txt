@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 10.0.01
+Stable tag: 10.0.02
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -354,6 +354,21 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 10.0.02 - 2025-11-17 =
+* Added shapes and overlays sub-section to map editor, moving all relevant datasets into that panel (UX Improvement)
+* Added ability to click on a map from the map list to open the editor (UX Improvement)
+* Added primary button color to edit map button within map list (UX Improvement)
+* Added blue highlight to primary dataset creation buttons to make it clearer how to add datasets (UX Improvement)
+* Added button to marker quick tip notice to jump straight to marker creation (UX Improvement)
+* Added conditional checks for major version mismatches in compiler, preventing mismatched major versions from throwing build errors
+* Added a one time hint tool to our internal map editor tour system, which will show helpful usage hints after the main tour is completed. 
+* Fixed issue where Google Maps logo would not display on some installations, within the engine selector
+* Fixed issue where plugins that load bootstrap in our editor might cause editor placement issues, plugin conflict
+* Fixed issue where map preview would not generate on some themes. We now generate a draft page, which is reused and pruned when new previews are created
+* Moved save map notice in map editor to top anchor
+* Moved add marker quick tip notice in map editor to bottom left anchor
+* Removed bounds reset system when adding a marker to a map, to allow multiple markers to be added to the same region without reset
+
 = 10.0.01 - 2025-11-10 =
 * Fixed issue with compatibility layer for older versions of Pro add-on (V8 and below)
 
@@ -453,6 +468,8 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
+
+
 
 
 
