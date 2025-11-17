@@ -98,7 +98,7 @@ class AdminMapDataTable extends DataTable
 						$columns[$key] = "REPLACE('
 						<div class=\"wpgmza-action-group\">
 							<button 
-								class=\"{$buttonClass}\"
+								class=\"{$buttonClass} wpgmza-button-primary\"
 								data-map-id=\"$placeholder\" 
 								data-action=\"edit\">
 								" . esc_sql( __('Edit', 'wp-google-maps') ) . "
@@ -120,7 +120,7 @@ class AdminMapDataTable extends DataTable
 					} else {
 						$columns[$key] = "REPLACE('
 						<button 
-							class=\"{$buttonClass}\"
+							class=\"{$buttonClass} wpgmza-button-primary\"
 							data-map-id=\"$placeholder\" 
 							data-action=\"edit\">
 							" . esc_sql( __('Edit', 'wp-google-maps') ) . "

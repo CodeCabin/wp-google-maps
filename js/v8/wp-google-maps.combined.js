@@ -14179,6 +14179,13 @@ jQuery(function($) {
 			}
 		});
 
+		$('[data-quick-action-relay]').on('click', function(event){
+			let trigger = $(this).data('quick-action-relay');
+			if(trigger){
+				$('.quick-actions .icon[data-type="' + trigger + '"]').trigger('click');
+			}
+		});
+
 		$('.wpgmza-feature-accordion[data-wpgmza-feature-type]').on('sidebar-delegate-edit', function(event){
 			if(event.feature){
 				self.openTabByFeatureType(event.feature);
@@ -24329,7 +24336,7 @@ jQuery(function($) {
 			});
 		}
 
-		WPGMZA.mapEditPage.map.resetBounds();
+		// WPGMZA.mapEditPage.map.resetBounds();
 	}
 
 });
@@ -24618,6 +24625,20 @@ jQuery(function($) {
 				
 			}
 		});
+
+		/* One time hints */
+		$(document.body).find('.wpgmza-one-time-hint').each((index, hint) => {
+			const delay = $(hint).data('hint-delay');
+			if(delay){
+				setTimeout(() => {
+					$(hint).addClass('show-hint');
+
+					setTimeout(() => {
+						$(hint).remove();
+					}, parseInt(delay) * 1000);
+				}, parseInt(delay) * 1000);
+			}
+		})
 
 		this.initZoomSliderPreviews();
 	}
@@ -29600,6 +29621,29 @@ jQuery(function($) {
                     break;
             }
         });
+
+		$(element).on("mousedown", "tr td", function(event){
+			let tableColumn = $(event.target);
+			if(tableColumn.find('button,input').length > 0){
+				/* Ignore columns that contain an input, or a button */
+				return;
+			}
+
+			if(tableColumn.parent().find('button[data-map-id]').length > 0){
+				const mapId = tableColumn.parent().find('button[data-map-id]').data('map-id');
+				if(mapId){
+					const editUrl = window.location.href + `&action=edit&map_id=${mapId}`;
+					switch(event.which){
+						case 1:
+							window.location.href = editUrl;
+							break;
+						case 2: 
+							window.open(editUrl);
+							break;
+					}
+				}
+			}
+		});
 
  		$(element).find(".wpgmza.select_all_maps").on("click", function(event) {
 			self.onSelectAll(event); 

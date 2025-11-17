@@ -111,7 +111,7 @@
 					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Google Maps', 'wp-google-maps'); ?>">
 						<input type="radio" name="wpgmza_maps_engine" value="google-maps" class="wpgmza-hidden" />
 						<div class="wpgmza-map-engine-item-backdrop"></div>
-						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/google_maps_logo.png" />
+						<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/Google_maps_logo.png" />
 					</label>
 
 					<label class="wpgmza-map-engine-item" title="<?php esc_attr_e('Microsoft Azure (Formerly Bing)', 'wp-google-maps'); ?>">

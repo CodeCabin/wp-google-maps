@@ -279,7 +279,11 @@ class MapEditPage extends Page
 			$editorTour = new MapEditorTour();
 			if($editorTour->canTour()){
 				@$document->querySelector(".wpgmza-wrap")->import($editorTour);
+			} else {
+				/* Only if the main tour is already complete */
+				$editorTour->loadOTH($document);
 			}
+
 		}
 
 		/* This will be reworked into the page module, OR, into a dedicated method */

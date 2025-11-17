@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.0.01
+Version: 10.0.02
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,21 @@ Domain Path: /languages
 
 
 /*
+ * 10.0.02 - 2025-11-17
+ * Added shapes and overlays sub-section to map editor, moving all relevant datasets into that panel (UX Improvement)
+ * Added ability to click on a map from the map list to open the editor (UX Improvement)
+ * Added primary button color to edit map button within map list (UX Improvement)
+ * Added blue highlight to primary dataset creation buttons to make it clearer how to add datasets (UX Improvement)
+ * Added button to marker quick tip notice to jump straight to marker creation (UX Improvement)
+ * Added conditional checks for major version mismatches in compiler, preventing mismatched major versions from throwing build errors
+ * Added a one time hint tool to our internal map editor tour system, which will show helpful usage hints after the main tour is completed. 
+ * Fixed issue where Google Maps logo would not display on some installations, within the engine selector
+ * Fixed issue where plugins that load bootstrap in our editor might cause editor placement issues, plugin conflict
+ * Fixed issue where map preview would not generate on some themes. We now generate a draft page, which is reused and pruned when new previews are created
+ * Moved save map notice in map editor to top anchor
+ * Moved add marker quick tip notice in map editor to bottom left anchor
+ * Removed bounds reset system when adding a marker to a map, to allow multiple markers to be added to the same region without reset
+ * 
  * 10.0.01 - 2025-11-10
  * Fixed issue with compatibility layer for older versions of Pro add-on (V8 and below)
  * 

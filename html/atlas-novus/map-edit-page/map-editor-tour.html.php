@@ -6,7 +6,7 @@
                 <span><?php _e("Need a little help getting started?", "wp-google-maps"); ?></span>
             </div>
             <div class="wpgmza-tour-prompt-actions">
-                <a href="#" class="wpgmza-button" data-action="start"><?php _e("Start tour", "wp-google-maps"); ?></a>
+                <a href="#" class="wpgmza-button wpgmza-button-primary" data-action="start"><?php _e("Start tour", "wp-google-maps"); ?></a>
                 <a href="#" class="wpgmza-button" data-action="dismiss"><?php _e("Dismiss", "wp-google-maps"); ?></a>
             </div>
         </div>

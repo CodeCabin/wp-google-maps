@@ -30,45 +30,9 @@
 							<?php _e("Markers", "wp-google-maps"); ?>
 						</div>
 
-						<div class="item caret-right" data-group="map-polygons">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>" alt="<?php esc_attr_e("Polygons", "wp-google-maps"); ?>"/></div>
-							<?php _e("Polygons", "wp-google-maps"); ?>
-						</div>
-
-						<div class="item caret-right" data-group="map-polylines">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polyline.png"; ?>" alt="<?php esc_attr_e("Polylines", "wp-google-maps"); ?>"/></div>
-							<?php _e("Polylines", "wp-google-maps"); ?>
-						</div>
-
-						<div class="item caret-right" data-group="map-heatmaps">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/heatmap.png"; ?>" alt="<?php esc_attr_e("Heatmaps", "wp-google-maps"); ?>"/></div>
-							<?php _e("Heatmaps", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
-						</div>
-
-						<div class="item caret-right" data-group="map-circles">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/circle.png"; ?>" alt="<?php esc_attr_e("Circles", "wp-google-maps"); ?>"/></div>
-							<?php _e("Circles", "wp-google-maps"); ?>
-						</div>
-
-						<div class="item caret-right" data-group="map-rectangles">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/rectangle.png"; ?>" alt="<?php esc_attr_e("Rectangles", "wp-google-maps"); ?>"/></div>
-							<?php _e("Rectangles", "wp-google-maps"); ?>
-						</div>
-
-						<div class="item caret-right" data-group="map-point-labels">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/point-label.png"; ?>" alt="<?php esc_attr_e("Point Labels", "wp-google-maps"); ?>"/></div>
-							<?php _e("Point Labels", "wp-google-maps"); ?>
-						</div>
-
-						<div class="item caret-right" data-group="map-image-overlays">
-							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/image-overlays.png"; ?>" alt="<?php esc_attr_e("Image Overlays", "wp-google-maps"); ?>"/></div>
-							<?php _e("Image Overlays", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
-						</div>
-
-						<div class="item caret-right" data-group="map-shape-library">
-							<span class="dashicons dashicons-category"></span>
-							<?php _e("Shape Library", "wp-google-maps"); ?> 
-							<span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
+						<div class="item caret-right" data-group="map-datasets">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>" alt="<?php esc_attr_e("Shapes and Overlays", "wp-google-maps"); ?>"/></div>
+							<?php _e("Shapes and Overlays", "wp-google-maps"); ?>
 						</div>
 
 						<div class="item caret-right" data-group="map-help">
@@ -406,6 +370,118 @@
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Map Datasets Tab -->
+				<div class="grouping" data-group="map-datasets">
+					<div class="heading block has-back">
+						<div class="item caret-left" data-group='global'></div>
+						<?php _e('Shapes and Overlays', 'wp-google-maps'); ?>
+					</div>
+
+					<div class="navigation">
+						<div class="item caret-right" data-group="map-polygons">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polygon.png"; ?>" alt="<?php esc_attr_e("Polygons", "wp-google-maps"); ?>"/></div>
+							<?php _e("Polygons", "wp-google-maps"); ?>
+						</div>
+
+						<div class="item caret-right" data-group="map-polylines">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/polyline.png"; ?>" alt="<?php esc_attr_e("Polylines", "wp-google-maps"); ?>"/></div>
+							<?php _e("Polylines", "wp-google-maps"); ?>
+						</div>
+
+						<div class="item caret-right" data-group="map-heatmaps">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/heatmap.png"; ?>" alt="<?php esc_attr_e("Heatmaps", "wp-google-maps"); ?>"/></div>
+							<?php _e("Heatmaps", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
+						</div>
+
+						<div class="item caret-right" data-group="map-circles">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/circle.png"; ?>" alt="<?php esc_attr_e("Circles", "wp-google-maps"); ?>"/></div>
+							<?php _e("Circles", "wp-google-maps"); ?>
+						</div>
+
+						<div class="item caret-right" data-group="map-rectangles">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/rectangle.png"; ?>" alt="<?php esc_attr_e("Rectangles", "wp-google-maps"); ?>"/></div>
+							<?php _e("Rectangles", "wp-google-maps"); ?>
+						</div>
+
+						<div class="item caret-right" data-group="map-point-labels">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/point-label.png"; ?>" alt="<?php esc_attr_e("Point Labels", "wp-google-maps"); ?>"/></div>
+							<?php _e("Point Labels", "wp-google-maps"); ?>
+						</div>
+
+						<div class="item caret-right" data-group="map-image-overlays">
+							<div class="nav-item-icon"><img src="<?php echo WPGMZA_PLUGIN_DIR_URL . "images/image-overlays.png"; ?>" alt="<?php esc_attr_e("Image Overlays", "wp-google-maps"); ?>"/></div>
+							<?php _e("Image Overlays", "wp-google-maps"); ?> <span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
+						</div>
+
+						<div class="item caret-right" data-group="map-shape-library">
+							<span class="dashicons dashicons-category"></span>
+							<?php _e("Shape Library", "wp-google-maps"); ?> 
+							<span class='wpgmza-upsell-pro-pill' title="<?php echo __("Add more features with our Pro add-on", "wp-google-maps"); ?>"><?php _e("Pro", "wp-google-maps"); ?></span>
+						</div>
+
+						<div class="upsell-block auto-rotate">
+							<!-- Upsell card - Overlays --> 
+							<div class='upsell-block-card'>
+								<div class="upsell-block-card-image">
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/overlays.webp" 
+										 title="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>"
+										 alt="<?php _e("Add image overlays to your map!", "wp-google-maps"); ?>">
+								</div>
+
+								<div class="upsell-block-card-content"> 
+									<div class="upsell-block-card-header">
+										<div class="upsell-block-card-header-title">
+											<?php _e("Add image overlays with our Pro version", "wp-google-maps");  ?>
+										</div>
+									</div>
+									<div class="upsell-block-card-list">
+										<ul>
+											<li><?php _e("Add any image overlay to your map!", "wp-google-maps"); ?></li>
+											<li><?php _e("Showcase historical maps, datasets, or custom imagery on any map.", "wp-google-maps"); ?></li>
+										</ul>
+									</div>
+
+									<div class="upsell-block-card-actions">
+										<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=overlays-card-sub-atlas-novus-v10" title="Pro Edition"  target="_BLANK" class="wpgmza-button">
+											<?php _e("Unlock Overlays","wp-google-maps"); ?>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- Upsell card - Heatmaps --> 
+							<div class='upsell-block-card'>
+								<div class="upsell-block-card-image">
+									<img src="<?php echo WPGMZA_PLUGIN_DIR_URL; ?>images/atlas-novus/heatmaps.jpg" 
+										 title="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>"
+										 alt="<?php _e("Add heatmaps to your map!", "wp-google-maps"); ?>">
+								</div>
+
+								<div class="upsell-block-card-content"> 
+									<div class="upsell-block-card-header">
+										<div class="upsell-block-card-header-title">
+											<?php _e("Add heatmaps with our Pro version", "wp-google-maps");  ?>
+										</div>
+									</div>
+									<div class="upsell-block-card-list">
+										<ul>
+											<li><?php _e("Create dynamic heatmaps quickly!", "wp-google-maps"); ?></li>
+											<li><?php _e("Adjust styles and intensity of heatmaps.", "wp-google-maps"); ?></li>
+										</ul>
+									</div>
+
+									<div class="upsell-block-card-actions">
+										<a href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmaps-card-sub-atlas-novus-v10" title="Pro Edition"  target="_BLANK" class="wpgmza-button">
+											<?php _e("Unlock Heatmaps","wp-google-maps"); ?>
+										</a>
+									</div>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -3848,7 +3924,7 @@
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-markers-editor">
+					<div class="item caret-right item-focus" data-group="map-markers-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Marker", "wp-google-maps"); ?>
 					</div>
@@ -3912,13 +3988,13 @@
 			<!-- Polygons Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-polygons" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Polygons', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-polygon-editor">
+					<div class="item caret-right item-focus" data-group="map-polygon-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Polygon", "wp-google-maps"); ?>
 					</div>
@@ -3949,13 +4025,13 @@
 			<!-- Polylines Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-polylines" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Polylines', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-polyline-editor">
+					<div class="item caret-right item-focus" data-group="map-polyline-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Polyline", "wp-google-maps"); ?>
 					</div>
@@ -3985,13 +4061,13 @@
 			<!-- Heatmaps Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-heatmaps" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Heatmaps', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-heatmap-editor">
+					<div class="item caret-right item-focus" data-group="map-heatmap-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Heatmap", "wp-google-maps"); ?>
 					</div>
@@ -4059,13 +4135,13 @@
 			<!-- Circles Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-circles" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Circles', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-circle-editor">
+					<div class="item caret-right item-focus" data-group="map-circle-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Circle", "wp-google-maps"); ?>
 					</div>
@@ -4095,13 +4171,13 @@
 			<!-- Rectangles Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-rectangles" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Rectangles', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-rectangle-editor">
+					<div class="item caret-right item-focus" data-group="map-rectangle-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Rectangle", "wp-google-maps"); ?>
 					</div>
@@ -4131,13 +4207,13 @@
 			<!-- Point Labels Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-point-labels" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Point Labels', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-point-label-editor">
+					<div class="item caret-right item-focus" data-group="map-point-label-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Label", "wp-google-maps"); ?>
 					</div>
@@ -4167,13 +4243,13 @@
 			<!-- Image Overlays Tab -->
 			<div class="grouping auto-expand has-fullscreen" data-group="map-image-overlays" data-feature-discard="true">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Image Overlays', 'wp-google-maps'); ?>
 					<div class="grouping-toggle-fullscreen" title="Toggle expanded panel view"></div>
 				</div>
 
 				<div class="navigation">
-					<div class="item caret-right" data-group="map-image-overlay-editor">
+					<div class="item caret-right item-focus" data-group="map-image-overlay-editor">
 						<span class="dashicons dashicons-insert"></span>
 						<?php _e("Add Overlay", "wp-google-maps"); ?>
 					</div>
@@ -4241,7 +4317,7 @@
 			<!-- Shapes - Shape Importer -->
 			<div class="grouping auto-expand" data-group="map-shape-library">
 				<div class="heading block has-back">
-					<div class="item caret-left" data-group='global'></div>
+					<div class="item caret-left" data-group='map-datasets'></div>
 					<?php _e('Shape Library', 'wp-google-maps'); ?>
 				</div>
 
@@ -4454,14 +4530,19 @@
 				</div>
 
 				<div id="wpgmaps_save_reminder" style="display:none;">
-                    <div class="wpgmza-nag wpgmza-update-nag wpgmza-card wpgmza-shadow wpgmza-notice warning bottom-anchor">
+                    <div class="wpgmza-nag wpgmza-update-nag wpgmza-card wpgmza-shadow wpgmza-notice warning top-anchor">
                         <strong><?php _e("Remember to save your map!","wp-google-maps"); ?></strong>
                     </div>
                 </div>
 
-				<div class="wpgmza-nag wpgmza-update-nag wpgmza-card wpgmza-shadow wpgmza-notice info top-anchor wpgmza-quick-tip-container">
+				<div class="wpgmza-nag wpgmza-update-nag wpgmza-card wpgmza-shadow wpgmza-notice info bottom-left-anchor wpgmza-quick-tip-container">
 					<strong><?php _e("Quick tip: ","wp-google-maps"); ?></strong>
 					<span><?php _e("You can right-click on the map to create a marker quickly!", "wp-google-maps"); ?></span>
+					<div class="wpgmza-button wpgmza-button-primary" data-quick-action-relay="marker"><?php _e("Go", "wp-google-maps"); ?></div>
+				</div>
+
+				<div class="wpgmza-one-time-hint" data-hint-delay="5" data-hint-tag='quickCreateMarkers'>
+					<span><?php _e("Click here to add markers", "wp-google-maps"); ?></span>
 				</div>
 				
 			</div>

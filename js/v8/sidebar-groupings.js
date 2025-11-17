@@ -38,6 +38,13 @@ jQuery(function($) {
 			}
 		});
 
+		$('[data-quick-action-relay]').on('click', function(event){
+			let trigger = $(this).data('quick-action-relay');
+			if(trigger){
+				$('.quick-actions .icon[data-type="' + trigger + '"]').trigger('click');
+			}
+		});
+
 		$('.wpgmza-feature-accordion[data-wpgmza-feature-type]').on('sidebar-delegate-edit', function(event){
 			if(event.feature){
 				self.openTabByFeatureType(event.feature);
