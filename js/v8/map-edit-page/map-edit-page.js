@@ -242,7 +242,47 @@ jQuery(function($) {
 					}, parseInt(delay) * 1000);
 				}, parseInt(delay) * 1000);
 			}
-		})
+		});
+
+		/* Map Engine Toolbar */
+		if($(document.body).find('.wpgmza-engine-switch-toolbar').length > 0){
+			$(document.body).find('.wpgmza-engine-switch-toolbar .wpgmza-button[data-engine-switch-control]').on('click', function(event){
+				const engineSwitchControl = $(this).attr('data-engine-switch-control');
+				if(engineSwitchControl === 'apply'){
+					/* Apply the new engine, via Ajax and then save this map to show it */
+					$.ajax(WPGMZA.ajaxurl, {
+						method: "POST",
+						data : {
+							action : 'wpgmza_persisten_notice_quick_action',
+							relay : 'swap_map_engine_from_toolbar',
+							map_engine : $(document.body).find('.wpgmza-engine-switch-toolbar select').val(),
+							wpgmza_security : WPGMZA.ajaxnonce
+						},
+						success : function(response){
+							/* Save the map for good measure */
+							$('input[name="wpgmza_savemap"]').click();
+						},
+						error: function(){}
+					});
+				} else if(engineSwitchControl === 'dismiss'){
+					/* Dismiss this toolbar - It will never show again */
+					$(document.body).find('.wpgmza-engine-switch-toolbar').hide();
+					
+					$.ajax(WPGMZA.ajaxurl, {
+						method: "POST",
+						data : {
+							action : 'wpgmza_persisten_notice_quick_action',
+							relay : 'swap_map_engine_from_toolbar_dismiss',
+							wpgmza_security : WPGMZA.ajaxnonce
+						},
+						success : function(response){
+							
+						},
+						error: function(){}
+					});
+				}
+			});
+		}
 
 		this.initZoomSliderPreviews();
 	}

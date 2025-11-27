@@ -846,8 +846,8 @@
 /* upsell */
 
 .wpgmza-wrap .wpgmza-editor .wpgmza-upsell-pro-pill {
-    background: var(--wpgmza-color-gold);
-    color: var(--wpgmza-color-charcoal);
+    background: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
     
     text-transform: uppercase;
     font-size: 0.7em;
@@ -942,24 +942,24 @@
 
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell a.wpgmza-upsell-button, 
 .wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell a.wpgmza-upsell-button{
-    background: var(--wpgmza-color-gold);
+    background: var(--wpgmza-color-blue);
     padding: 3px 8px;
     border-radius: 4px;
     text-decoration: none;
     margin-left: 10px;
     box-shadow: var(--wpgmza-shadow-common);
-    color: var(--wpgmza-color-charcoal);
+    color: var(--wpgmza-color-white);
 }
 
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell a.wpgmza-upsell-button:hover, 
 .wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell a.wpgmza-upsell-button:hover{
-    background: var(--wpgmza-color-gold-alt);
+    background: var(--wpgmza-color-blue-alt);
 }
 
 .wpgmza-wrap .wpgmza-editor .sidebar .wpgmza-upsell::before, 
 .wpgmza-tabs-container .ui-tabs-panel .wpgmza-upsell::before{
-    background: var(--wpgmza-color-gold);
-    color: var(--wpgmza-color-charcoal);
+    background: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
     font-weight: 600;
     box-shadow: var(--wpgmza-shadow-common);
 }
@@ -1109,7 +1109,7 @@
 }
 
 .wpgmza-wrap .wpgmza-editor .sidebar .upsell-block-card .upsell-block-card-content .wpgmza-button{
-    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
     background-size: 200%;
     color: var(--wpgmza-color-white);
     font-weight: 600;
@@ -1122,8 +1122,8 @@
     display: block;
     width: fit-content;
     font-weight: 600;
-    background: var(--wpgmza-color-gold);
-    color: var(--wpgmza-color-charcoal);
+    background: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
     text-transform: uppercase;
     font-size: 0.7em;
     padding: 3px 5px;
@@ -1447,7 +1447,7 @@
 }
 
 .wpgmza-pro-upsell-card.wpgmza-pro-upsell-card-highlight {
-    background: var(--wpgmza-color-gold-light);
+    background: var(--wpgmza-color-blue-light);
     position: relative;
 }
 
@@ -1456,8 +1456,8 @@
     top: 5px; 
     right: 5px;
 
-    background: var(--wpgmza-color-gold);
-    color: var(--wpgmza-color-charcoal);
+    background: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
 
     font-weight: 600;
     box-shadow: var(--wpgmza-shadow-common);
@@ -1609,7 +1609,7 @@
 }
 
 .wpgmza-card.wpgmza-persistent-notice.special-offer .wpgmza-button {
-    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
     border: none;
     color: var(--wpgmza-color-charcoal);
     font-weight: 600;
@@ -6196,6 +6196,28 @@
 .wpgmza-tile-server-preview-container.preview-failed[data-failed-fallback="openfreemap-positron"]:before {
     background-image: url('../../images/openfreemap-positron.png');
 }
+
+/* Map Engine Switch Toolbar */
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-engine-switch-toolbar{
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    
+}
+
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-engine-switch-toolbar > div:first-child{
+    font-weight: 500;
+}
+
+.wpgmza-wrap .wpgmza-editor .map-container-wrap .wpgmza-engine-switch-toolbar .wpgmza-engine-switch-toolbar-inner{
+    display: flex; 
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
 
 /* Animations */
 @-webkit-keyframes wpgmzaTourPromptWiggle {

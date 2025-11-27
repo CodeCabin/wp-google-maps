@@ -66,10 +66,10 @@ class WPMLDynamicTranslations extends \WPGMZA\Factory{
     public function enabled(){
         global $wpgmza;
         if (defined('ICL_SITEPRESS_VERSION')){
-            if(!empty($wpgmza) && !empty($wpgmza->settings) && !empty($wpgmza->settings->wpml_disable_dynamic_translations)){
-                return false;
+            if(!empty($wpgmza) && !empty($wpgmza->settings) && !empty($wpgmza->settings->wpml_enable_dynamic_translations)){
+                return true;
             }
-            return true;
+            return false;
         }
         return false;
     }

@@ -277,11 +277,33 @@ class MapEditPage extends Page
 			@$document->querySelector(".wpgmza-wrap")->import($bulkMarkerEditorDialog->document);
 
 			$editorTour = new MapEditorTour();
-			if($editorTour->canTour()){
-				@$document->querySelector(".wpgmza-wrap")->import($editorTour);
+			if($editorTour->shouldReceiveFTU()){
+				/* Load the current first time usage flow */
+				$editorTour->loadFTU($document);
 			} else {
-				/* Only if the main tour is already complete */
-				$editorTour->loadOTH($document);
+				if($editorTour->canTour()){
+					/* Load the default tour */
+					@$document->querySelector(".wpgmza-wrap")->import($editorTour);
+				} else {
+					/* Only if the main tour is already complete */
+					$editorTour->loadOTH($document);
+				}
+			}
+
+			/* Load the engine switcher - Dismissable */
+			$engineSwitchToolbarDismissed = get_option('wpgmza-engine-switch-toolbar-dismissed');
+			if($engineSwitchToolbar = $document->querySelector('.wpgmza-engine-switch-toolbar')){
+				if(!empty($engineSwitchToolbarDismissed)){
+					/* Has dismissed toolbar */
+					$engineSwitchToolbar->remove();
+				} else {
+					if(!empty($wpgmza->settings->wpgmza_maps_engine)){
+						if($currentEngineOption = $engineSwitchToolbar->querySelector('option[value="' . $wpgmza->settings->wpgmza_maps_engine . '"]')){
+							$currentEngineOption->setAttribute('selected', 'selected');
+						}
+					}
+					$engineSwitchToolbar->removeClass('hidden');
+				}
 			}
 
 		}

@@ -84,6 +84,24 @@ class MapEditorTour extends DOMDocument {
 		exit;
 	}
 
+	public function shouldReceiveFTU(){
+		/* Should user receive first time usage flow */
+		$optionName = "wpgmza-tour-ftu-complete";
+		$optionValue = get_option($optionName);
+		if(empty($optionValue)){
+			return true;
+		}
+		return false;
+	}
+
+	public function loadFTU($document){
+		$firstTimeUsageFlow = "ftu.trigger.markercreator";
+		if($wrapper = $document->querySelector('.wpgmza-wrap')){
+			$wrapper->setAttribute('data-wpgmza-ftu', $firstTimeUsageFlow);
+			update_option("wpgmza-tour-ftu-complete", date("Y-m-d H:i:s"), false);
+		}
+	}
+
 	public function loadOTH($document){
 		$hintContainers = $document->querySelectorAll('.wpgmza-one-time-hint');
 		if(!empty($hintContainers)){

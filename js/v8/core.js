@@ -828,7 +828,7 @@ jQuery(function($) {
 					}
 
 					el.wpgmzaMap = false;
-					console.warn('Map initalization: ' + ex);
+					// console.warn('Map initalization: ' + ex);
 				}
 			});
 			

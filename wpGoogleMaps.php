@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.0.02
+Version: 10.0.03
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,14 @@ Domain Path: /languages
 
 
 /*
+ * 10.0.03 - 2025-11-27
+ * Added first time usage flow which opens the marker creator once for new users (UX Improvement)
+ * Added engine swap toolbar to map editor for first time usage, once dismissed does not show again (UX Improvement)
+ * Added a new setting to enable dynamic translations, as this must be an opt in for large data sites
+ * Updated internal CTA buttons and controls from gold to blue (UX Improvement)
+ * Removed a console log within the map initialization controller, it is not relevant with delayed loading
+ * Removed the disable dynamic translation, instead we now allow this via an opt in instead
+ * 
  * 10.0.02 - 2025-11-17
  * Added shapes and overlays sub-section to map editor, moving all relevant datasets into that panel (UX Improvement)
  * Added ability to click on a map from the map list to open the editor (UX Improvement)
