@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 10.0.02
+Stable tag: 10.0.03
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -214,6 +214,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.0.03 = 
+Please update to 10.0.03 or above to ensure you are using the latest architecture, and latest features.
+
 = 10.0.01 =
 Please update to 10.0.01 or above to ensure you are using the latest architecture, and latest features.
 
@@ -354,6 +357,14 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 10.0.03 - 2025-11-27 =
+* Added first time usage flow which opens the marker creator once for new users (UX Improvement)
+* Added engine swap toolbar to map editor for first time usage, once dismissed does not show again (UX Improvement)
+* Added a new setting to enable dynamic translations, as this must be an opt in for large data sites
+* Updated internal CTA buttons and controls from gold to blue (UX Improvement)
+* Removed a console log within the map initialization controller, it is not relevant with delayed loading
+* Removed the disable dynamic translation, instead we now allow this via an opt in instead
+
 = 10.0.02 - 2025-11-17 =
 * Added shapes and overlays sub-section to map editor, moving all relevant datasets into that panel (UX Improvement)
 * Added ability to click on a map from the map list to open the editor (UX Improvement)
@@ -468,8 +479,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
-
 
 
 

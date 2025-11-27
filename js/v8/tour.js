@@ -43,6 +43,21 @@ jQuery(function($) {
             const type = $(element).data('type');
             WPGMZA.adminTours[type] = WPGMZA.Tour.createInstance(element);
         });
+
+        if($(document.body).find('[data-wpgmza-ftu]').length > 0){
+            const ftuTag = $(document.body).find('[data-wpgmza-ftu]').data('wpgmza-ftu');
+            if(ftuTag){
+                /* We have a first time usage trigger */
+                switch(ftuTag){
+                    case 'ftu.trigger.markercreator':
+                        /* Trigger a click of the marker creator */
+                        $(document.body).on('markersplaced.wpgmza', () => {
+                            $('.wpgmza-editor .item[data-group="map-markers-editor"]').click();
+                        });
+                        break;
+                }
+            }
+        }
     }
 
     /**

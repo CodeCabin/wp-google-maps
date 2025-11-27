@@ -2506,21 +2506,21 @@
 			</strong>
 		</div>
 
-		<!-- WPML Disable Dynamic Translations -->
+		<!-- WPML Enable Dynamic Translations -->
 		<div class="tab-row">
-			<div class="title"><?php esc_html_e("Disable Dynamic Translations", "wp-google-maps"); ?></div>
+			<div class="title"><?php esc_html_e("Enable Dynamic Translations", "wp-google-maps"); ?></div>
 
 			<div class="switch switch-inline">
-				<input name="wpml_disable_dynamic_translations"
-						id="wpml_disable_dynamic_translations" 
+				<input name="wpml_enable_dynamic_translations"
+						id="wpml_enable_dynamic_translations" 
 						class="cmn-toggle cmn-toggle-round-flat" 
 						type="checkbox"/>
 
-				<label for="wpml_disable_dynamic_translations"></label>
-				<label for="wpml_disable_dynamic_translations">
+				<label for="wpml_enable_dynamic_translations"></label>
+				<label for="wpml_enable_dynamic_translations">
 					<small>
 						<?php
-						esc_html_e('By default, all marker/shape content is available within WPML to be translated. Requires WPML to be installed and enabled.', 'wp-google-maps');
+						esc_html_e('When enabled, all marker/shape content is available within WPML to be translated. Requires WPML to be installed and enabled.', 'wp-google-maps');
 						?>
 					</small>
 				</label>

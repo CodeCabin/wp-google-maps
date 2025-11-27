@@ -4544,7 +4544,24 @@
 				<div class="wpgmza-one-time-hint" data-hint-delay="5" data-hint-tag='quickCreateMarkers'>
 					<span><?php _e("Click here to add markers", "wp-google-maps"); ?></span>
 				</div>
-				
+
+				<div class="wpgmza-engine-switch-toolbar wpgmza-hidden wpgmza-card wpgmza-shadow">
+					<div><?php _e('Would you like to try a different map engine?', 'wp-google-maps'); ?></div>
+					<div class="wpgmza-engine-switch-toolbar-inner">
+						<select data-engine-switch-control="engine">
+							<option value="google-maps"><?php _e('Google Maps', 'wp-google-maps'); ?></option>
+							<option value="leaflet-azure"><?php _e('Microsoft Azure (Formerly Bing)', 'wp-google-maps'); ?></option>
+							<option value="leaflet-stadia"><?php _e('Stadia Maps', 'wp-google-maps'); ?></option>
+							<option value="leaflet-maptiler"><?php _e('Maptiler', 'wp-google-maps'); ?></option>
+							<option value="leaflet-zerocost"><?php _e('Zero Cost Mapping', 'wp-google-maps'); ?></option>
+							<option value="leaflet"><?php _e('Leaflet', 'wp-google-maps'); ?></option>
+							<option value="open-layers-latest"><?php _e('OpenLayers', 'wp-google-maps'); ?></option>
+						</select>
+
+						<div class="wpgmza-button wpgmza-button-primary" data-engine-switch-control="apply"><?php _e("Apply", "wp-google-maps"); ?></div>
+						<div class="wpgmza-button" data-engine-switch-control="dismiss"><?php _e("Dismiss", "wp-google-maps"); ?></div>
+					</div>
+				</div>
 			</div>
 
 			<!-- Context Menu -->

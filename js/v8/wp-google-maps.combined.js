@@ -830,7 +830,7 @@ jQuery(function($) {
 					}
 
 					el.wpgmzaMap = false;
-					console.warn('Map initalization: ' + ex);
+					// console.warn('Map initalization: ' + ex);
 				}
 			});
 			
@@ -16265,6 +16265,21 @@ jQuery(function($) {
             const type = $(element).data('type');
             WPGMZA.adminTours[type] = WPGMZA.Tour.createInstance(element);
         });
+
+        if($(document.body).find('[data-wpgmza-ftu]').length > 0){
+            const ftuTag = $(document.body).find('[data-wpgmza-ftu]').data('wpgmza-ftu');
+            if(ftuTag){
+                /* We have a first time usage trigger */
+                switch(ftuTag){
+                    case 'ftu.trigger.markercreator':
+                        /* Trigger a click of the marker creator */
+                        $(document.body).on('markersplaced.wpgmza', () => {
+                            $('.wpgmza-editor .item[data-group="map-markers-editor"]').click();
+                        });
+                        break;
+                }
+            }
+        }
     }
 
     /**
@@ -24638,7 +24653,47 @@ jQuery(function($) {
 					}, parseInt(delay) * 1000);
 				}, parseInt(delay) * 1000);
 			}
-		})
+		});
+
+		/* Map Engine Toolbar */
+		if($(document.body).find('.wpgmza-engine-switch-toolbar').length > 0){
+			$(document.body).find('.wpgmza-engine-switch-toolbar .wpgmza-button[data-engine-switch-control]').on('click', function(event){
+				const engineSwitchControl = $(this).attr('data-engine-switch-control');
+				if(engineSwitchControl === 'apply'){
+					/* Apply the new engine, via Ajax and then save this map to show it */
+					$.ajax(WPGMZA.ajaxurl, {
+						method: "POST",
+						data : {
+							action : 'wpgmza_persisten_notice_quick_action',
+							relay : 'swap_map_engine_from_toolbar',
+							map_engine : $(document.body).find('.wpgmza-engine-switch-toolbar select').val(),
+							wpgmza_security : WPGMZA.ajaxnonce
+						},
+						success : function(response){
+							/* Save the map for good measure */
+							$('input[name="wpgmza_savemap"]').click();
+						},
+						error: function(){}
+					});
+				} else if(engineSwitchControl === 'dismiss'){
+					/* Dismiss this toolbar - It will never show again */
+					$(document.body).find('.wpgmza-engine-switch-toolbar').hide();
+					
+					$.ajax(WPGMZA.ajaxurl, {
+						method: "POST",
+						data : {
+							action : 'wpgmza_persisten_notice_quick_action',
+							relay : 'swap_map_engine_from_toolbar_dismiss',
+							wpgmza_security : WPGMZA.ajaxnonce
+						},
+						success : function(response){
+							
+						},
+						error: function(){}
+					});
+				}
+			});
+		}
 
 		this.initZoomSliderPreviews();
 	}

@@ -373,6 +373,21 @@ class AdminNotices {
 						}
 					}
 					break;
+				case 'swap_map_engine_from_toolbar':
+					/* We handle this here for simplicity - but it belongs somewhere else to be honest */
+					global $wpgmza;
+					$switch = !empty($_POST['map_engine']) ? sanitize_text_field($_POST['map_engine']) : false;
+					$valid = array("google-maps", "leaflet-azure", "leaflet-stadia", "leaflet-maptiler", "leaflet-zerocost", "leaflet", "open-layers-latest");
+					
+					if(in_array($switch, $valid)){
+						/* Valid switch */
+						$wpgmza->settings->wpgmza_maps_engine = $switch;
+					}
+					break;
+				case 'swap_map_engine_from_toolbar_dismiss':
+					/* We handle this here for simplicity - but it belongs somewhere else to be honest */
+					update_option("wpgmza-engine-switch-toolbar-dismissed", date("Y-m-d H:i:s"), false);
+					break;
 			}
 		}
 

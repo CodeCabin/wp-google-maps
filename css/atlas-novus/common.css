@@ -162,17 +162,17 @@
 
 
 .wpgmza-button-call-to-action{
-    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
 
     border: none;
-    color: var(--wpgmza-color-white);
+    color: var(--wpgmza-color-white) !important;
     font-weight: 600;
 
     box-shadow: var(--wpgmza-shadow-common);
 }
 
 .wpgmza-button-call-to-action:hover{
-    background: linear-gradient(30deg, var(--wpgmza-color-gold), var(--wpgmza-color-gold-alt));
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
     background-size: 200%;
     border-color: none;
 }
