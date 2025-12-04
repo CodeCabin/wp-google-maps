@@ -17,7 +17,7 @@
 				</p>
 				<ul>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/creating-your-first-map-legacy/' 
+						<a href='https://www.wpgmaps.com/help/docs/creating-your-first-map-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-first-map-docs-legacy-v10' 
 							target='_BLANK' 
 							title='<?php _e("Creating your first map","wp-google-maps"); ?>'>
 							<?php
@@ -26,7 +26,7 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/adding-gutenberg-blocks/'
+						<a href='https://www.wpgmaps.com/help/docs/adding-gutenberg-blocks/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-gutenberg-blocks-docs-legacy-v10'
 							target='_BLANK' 
 							title='<?php _e("Adding a Map Block","wp-google-maps"); ?>'>
 							<?php
@@ -36,7 +36,7 @@
 					</li>
 					
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/using-your-map-in-a-widget-legacy/'
+						<a href='https://www.wpgmaps.com/help/docs/using-your-map-in-a-widget-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-widget-docs-legacy-v10'
 							target='_BLANK' 
 							title='<?php _e("Using your map as a Widget","wp-google-maps"); ?>'>
 							<?php
@@ -45,7 +45,7 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/how-do-i-change-the-wp-go-maps-plugin-language/' 
+						<a href='https://www.wpgmaps.com/help/docs/how-do-i-change-the-wp-go-maps-plugin-language/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-translation-docs-legacy-v10' 
 							target='_BLANK' 
 							title='<?php _e("Changing the Google Maps language","wp-google-maps"); ?>'>
 							<?php 
@@ -54,7 +54,7 @@
 						</a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/help/'
+						<a href='https://www.wpgmaps.com/help/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-docs-legacy-v10'
 							target='_BLANK' 
 							title='<?php _e("WP Go Maps Documentation","wp-google-maps"); ?>'>
 							<?php 
@@ -85,13 +85,13 @@
 				</p>
 				<ul>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/my-map-is-not-showing-on-my-website/' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
+						<a href='https://www.wpgmaps.com/help/docs/my-map-is-not-showing-on-my-website/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-map-noshow-docs-legacy-v10' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/markers-are-not-showing-on-my-map-on-the-front-end/' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
+						<a href='https://www.wpgmaps.com/help/docs/markers-are-not-showing-on-my-map-on-the-front-end/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-marker-noshow-docs-legacy-v10' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
 					</li>
 					<li>
-						<a href='https://www.wpgmaps.com/help/docs/im-getting-a-jquery-not-found-error/' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
+						<a href='https://www.wpgmaps.com/help/docs/im-getting-a-jquery-not-found-error/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-jquery-error-docs-legacy-v10' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
 					</li>
 				</ul>
 			</div>
@@ -101,10 +101,10 @@
 				<h2><i class="fa fa-bullhorn "></i> <?php _e("Support","wp-google-maps"); ?></h2>
 				<p><?php _e("Still need help? Use one of these links below.","wp-google-maps"); ?></p>
 				<ul>
-					<li><a href='https://www.wpgmaps.com/forums/' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Support forum","wp-google-maps"); ?></a></li>
+					<li><a href='https://www.wpgmaps.com/forums/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-forums-legacy-v10' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Support forum","wp-google-maps"); ?></a></li>
 					<li><a href='https://www.facebook.com/groups/wpgooglemaps' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Facebook Community","wp-google-maps"); ?></a></li>
 					<li><a href='https://www.reddit.com/r/wpgooglemaps/' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Reddit Community","wp-google-maps"); ?></a></li>
-					<li><a href='https://www.wpgmaps.com/contact-us/' target='_BLANK' title='<?php _e("Contact us","wp-google-maps"); ?>'><?php _e("Contact us","wp-google-maps"); ?></a></li>
+					<li><a href='https://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-contactus-legacy-v10' target='_BLANK' title='<?php _e("Contact us","wp-google-maps"); ?>'><?php _e("Contact us","wp-google-maps"); ?></a></li>
 				</ul>
 			</div>
 		</div>

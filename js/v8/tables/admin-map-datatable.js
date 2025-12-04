@@ -31,6 +31,9 @@
 			if(tableColumn.find('button,input').length > 0){
 				/* Ignore columns that contain an input, or a button */
 				return;
+			} else if(tableColumn.hasClass('wpgmza-button')){
+				/* This is the button itself */
+				return;
 			}
 
 			if(tableColumn.parent().find('button[data-map-id]').length > 0){

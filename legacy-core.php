@@ -1034,7 +1034,7 @@ function wpgmza_review_nag() {
                 if ($days_diff >= 10) {
                     $rate_text = sprintf( __( '<h3>We need your love!</h3><p>If you are enjoying our plugin, please consider <a href="%1$s" target="_blank" class="button-border button-border__green">reviewing WP Go Maps</a>. It would mean the world to us! If you are experiencing issues with the plugin, please <a href="%2$s" target="_blank"  class="button-border button-border__green">contact us</a> and we will help you as soon as humanly possible!</p>', 'wp-google-maps' ),
                         esc_attr('https://wordpress.org/support/view/plugin-reviews/wp-google-maps?filter=5'),
-                        esc_attr('http://www.wpgmaps.com/contact-us/')
+                        esc_attr('http://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=review-request-contact-us')
                     );
                     echo "<style>.wpgmza_upgrade_nag { display:none; }</style>";
                     echo "<div class='updated wpgmza_nag_review_div'>".$rate_text."<p><a href='admin.php?page=wp-google-maps-menu&action2=close_review' class='wpgmza_close_review_nag button-border button-border__green' title='".__("We will not nag you again, promise!","wp-google-maps")."'>".__("Close","wp-google-maps")."</a></p></div>";

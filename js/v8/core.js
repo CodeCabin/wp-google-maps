@@ -20,6 +20,7 @@ jQuery(function($) {
 		PAGE_ADVANCED:			"advanced",
 		PAGE_CUSTOM_FIELDS:		"custom-fields",
 		PAGE_INSIGHTS:			"insights",
+		PAGE_PRO_FEATURES:		"pro-features",
 
 		MOBILE_RESOLUTION_THRESHOLD : 1000,
 		
@@ -104,6 +105,10 @@ jQuery(function($) {
 					
 				case 'wp-google-maps-menu-insights':
 					return WPGMZA.PAGE_INSIGHTS;
+					break;
+
+				case 'wp-google-maps-menu-pro-features':
+					return WPGMZA.PAGE_PRO_FEATURES;
 					break;
 					
 				default:

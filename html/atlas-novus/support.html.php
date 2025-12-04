@@ -41,7 +41,7 @@
 		<div class="tab-row">
 			<ul class="wpgmza-list-dots">
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-your-first-map/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-your-first-map/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-first-map-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating your first map","wp-google-maps"); ?>'>
 						<?php
@@ -51,7 +51,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/'
+					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-map-block-docs-atlas-novus-v10'
 						target='_BLANK' 
 						title='<?php _e("Creating a Map Block","wp-google-maps"); ?>'>
 						<?php
@@ -61,7 +61,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/'
+					<a href='https://www.wpgmaps.com/help/docs/displaying-your-map-on-your-wordpress-site/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-map-display-docs-atlas-novus-v10'
 						target='_BLANK' 
 						title='<?php _e("Display your map","wp-google-maps"); ?>'>
 						<?php
@@ -78,7 +78,7 @@
 		<div class="tab-row">
 			<ul class="wpgmza-list-dots">
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/map-engine-selection-guide/' 
+					<a href='https://www.wpgmaps.com/help/docs/map-engine-selection-guide/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-map-engine-guide-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Map Engine Selection Guide","wp-google-maps"); ?>'>
 						<?php 
@@ -88,7 +88,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-create-api-key-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating a Google Maps API Key","wp-google-maps"); ?>'>
 						<?php 
@@ -98,7 +98,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-azure-key-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating an Azure Maps Subscription Key","wp-google-maps"); ?>'>
 						<?php 
@@ -108,7 +108,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-stadia-key-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating a Stadia Maps API Key","wp-google-maps"); ?>'>
 						<?php 
@@ -118,7 +118,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-maptiler-key-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating a MapTiler API Key","wp-google-maps"); ?>'>
 						<?php 
@@ -128,7 +128,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' 
+					<a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-locationiq-key-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Creating a LocationIQ Access Token","wp-google-maps"); ?>'>
 						<?php 
@@ -138,7 +138,7 @@
 				</li>
 
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/address-providers' 
+					<a href='https://www.wpgmaps.com/help/docs/address-providers?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-address-provider-docs-atlas-novus-v10' 
 						target='_BLANK' 
 						title='<?php _e("Address Providers","wp-google-maps"); ?>'>
 						<?php 
@@ -149,7 +149,7 @@
 			</ul>
 		</div>
 
-		<a href='https://www.wpgmaps.com/help/'
+		<a href='https://www.wpgmaps.com/help/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-docs-atlas-novus-v10'
 			target='_BLANK' 
 			title='<?php _e("WP Go Maps Documentation","wp-google-maps"); ?>'>
 			<?php 
@@ -172,13 +172,13 @@
 		<div class="tab-row">
 			<ul class="wpgmza-list-dots">
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/my-map-is-not-showing-on-my-website/' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
+					<a href='https://www.wpgmaps.com/help/docs/my-map-is-not-showing-on-my-website/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-map-noshow-docs-atlas-novus-v10' target='_BLANK' title='<?php _e("My map is not showing on my website","wp-google-maps"); ?>'><?php _e("My map is not showing on my website","wp-google-maps"); ?></a>
 				</li>
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/markers-are-not-showing-on-my-map-on-the-front-end/' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
+					<a href='https://www.wpgmaps.com/help/docs/markers-are-not-showing-on-my-map-on-the-front-end/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-marker-noshow-docs-atlas-novus-v10' target='_BLANK' title='<?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?>'><?php _e("My markers are not showing on my map in the front-end","wp-google-maps"); ?></a>
 				</li>
 				<li>
-					<a href='https://www.wpgmaps.com/help/docs/im-getting-a-jquery-not-found-error/' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
+					<a href='https://www.wpgmaps.com/help/docs/im-getting-a-jquery-not-found-error/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-jquery-error-docs-atlas-novus-v10' target='_BLANK' title='<?php esc_attr_e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?>'><?php _e("I'm getting jQuery errors showing on my website","wp-google-maps"); ?></a>
 				</li>
 			</ul>
 		</div>
@@ -215,10 +215,10 @@
 
 		<div class="tab-row">
 			<ul class="wpgmza-list-dots">
-				<li><a href='https://www.wpgmaps.com/forums/' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Support forum","wp-google-maps"); ?></a></li>
+				<li><a href='https://www.wpgmaps.com/forums/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-forums-atlas-novus-v10' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Support forum","wp-google-maps"); ?></a></li>
 				<li><a href='https://www.facebook.com/groups/wpgooglemaps' target='_BLANK' title='<?php _e("Facebook Community","wp-google-maps"); ?>'><?php _e("Facebook Community","wp-google-maps"); ?></a></li>
 				<li><a href='https://www.reddit.com/r/wpgooglemaps/' target='_BLANK' title='<?php _e("Reddit Community","wp-google-maps"); ?>'><?php _e("Reddit Community","wp-google-maps"); ?></a></li>
-				<li><a href='https://www.wpgmaps.com/contact-us/' target='_BLANK' title='<?php _e("Contact us","wp-google-maps"); ?>'><?php _e("Contact us","wp-google-maps"); ?></a></li>
+				<li><a href='https://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=support-contactus-atlas-novus-v10' target='_BLANK' title='<?php _e("Contact us","wp-google-maps"); ?>'><?php _e("Contact us","wp-google-maps"); ?></a></li>
 			</ul>
 		</div>
 	</div>

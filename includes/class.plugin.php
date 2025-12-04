@@ -47,6 +47,7 @@ class Plugin extends Factory
 	const PAGE_ADVANCED			= "advanced";
 	const PAGE_CUSTOM_FIELDS	= "custom-fields";
 	const PAGE_INSIGHTS 		= "insights";
+	const PAGE_PRO_FEATURES		= "pro-features";
 	
 	const MARKER_PULL_DATABASE	= "0";
 	const MARKER_PULL_XML		= "1";
@@ -556,6 +557,10 @@ class Plugin extends Factory
 
 			case 'wp-google-maps-menu-insights':
 				return Plugin::PAGE_INSIGHTS;
+				break;
+
+			case 'wp-google-maps-menu-pro-features':
+				return Plugin::PAGE_PRO_FEATURES;
 				break;
 		}
 		

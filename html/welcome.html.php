@@ -83,7 +83,7 @@ printf(__("Welcome to WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasi
         <div class="col wpgmza-flex-grid__item">
             <div class="wpgmza-card">
                 <h4><?php _e("Themes","wp-google-maps"); ?></h4>
-                <p><?php _e("Select from various <a href='http://wpgmaps.com/map-themes/' target='_BLANK'>map themes</a>, or make your own.","wp-google-maps"); ?></p>
+                <p><?php _e("Select from various <a href='http://wpgmaps.com/map-themes/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=welcome-themes-legacy-v10' target='_BLANK'>map themes</a>, or make your own.","wp-google-maps"); ?></p>
                 <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/themes.png' ?>;' style="border:1px solid #ccc;" />
             </div>
         </div>
@@ -141,19 +141,19 @@ printf(__("Welcome to WP Go Maps version %s","wp-google-maps"), $wpgmza->getBasi
                             <div class='col wpgmza-support__col'>
                                 <div class="wpgmza-card">
                                     <h4><?php _e("New to WP Go Maps?","wp-google-maps"); ?></h4>
-                                    <p><?php _e("You may want to","wp-google-maps"); ?> <a href='https://www.wpgmaps.com/help/' target='_blank' title='Documentation'><?php _e("review our documentation","wp-google-maps"); ?></a> <?php _e("before you get started. If you're a tech-savvy individual, you may skip this step.","wp-google-maps"); ?></p>
+                                    <p><?php _e("You may want to","wp-google-maps"); ?> <a href='https://www.wpgmaps.com/help/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=welcome-docs-legacy-v10' target='_blank' title='Documentation'><?php _e("review our documentation","wp-google-maps"); ?></a> <?php _e("before you get started. If you're a tech-savvy individual, you may skip this step.","wp-google-maps"); ?></p>
                                 </div>
                             </div>
                             <div class='col wpgmza-support__col'>
                                 <div class="wpgmza-card">
                                     <h4><?php _e("Help me!","wp-google-maps"); ?></h4>
-                                    <p><?php _e("Visit our","wp-google-maps"); ?> <a title='Support Desk' target='_blank' href='http://www.wpgmaps.com/support/'><?php _e("Support Desk","wp-google-maps"); ?></a> <?php _e("for quick and friendly help. We'll answer your request within 24hours.","wp-google-maps"); ?></p>
+                                    <p><?php _e("Visit our","wp-google-maps"); ?> <a title='Support Desk' target='_blank' href='http://www.wpgmaps.com/support/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=welcome-support-desk-legacy-v10'><?php _e("Support Desk","wp-google-maps"); ?></a> <?php _e("for quick and friendly help. We'll answer your request within 24hours.","wp-google-maps"); ?></p>
                                 </div>
                             </div>
                             <div class='col wpgmza-support__col'>
                                 <div class="wpgmza-card">
                                     <h4><?php _e("Feedback","wp-google-maps"); ?></h4>
-                                    <p><?php _e("We need you to help us make this plugin better.","wp-google-maps"); ?> <a href='http://www.wpgmaps.com/contact-us/' title='Feedback' target='_BLANK'><?php _e("Send us your feedback","wp-google-maps"); ?></a> <?php _e("and we'll act on it as soon as humanly possible.","wp-google-maps"); ?></p>
+                                    <p><?php _e("We need you to help us make this plugin better.","wp-google-maps"); ?> <a href='http://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=welcome-contactus-legacy-v10' title='Feedback' target='_BLANK'><?php _e("Send us your feedback","wp-google-maps"); ?></a> <?php _e("and we'll act on it as soon as humanly possible.","wp-google-maps"); ?></p>
                                 </div>
                             </div>
                         </div>

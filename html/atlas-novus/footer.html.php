@@ -9,7 +9,7 @@
 		
 		<?php esc_html_e("See the", "wp-google-maps"); ?>
 
-		<a href='https://www.wpgmaps.com/help/docs-category/troubleshooting/' 
+		<a href='https://www.wpgmaps.com/help/docs-category/troubleshooting/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=footer-docs-troubleshooting-atlas-novus-v10' 
 			title='<?php esc_attr_e('WP Go Maps Troubleshooting Section', 'wp-google-maps'); ?>'
 			target='_BLANK'>
 			<?php
@@ -18,7 +18,7 @@
 		</a> 
 		<?php
 		esc_html_e("or ask a question on our ", "wp-google-maps"); ?>
-		<a href='http://www.wpgmaps.com/forums/forum/' 
+		<a href='http://www.wpgmaps.com/forums/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=footer-forum-atlas-novus-v10' 
 			title='<?php esc_attr_e('WP Go Maps Support Forum', 'wp-google-maps'); ?>'
 			target='_BLANK'>
 			<?php

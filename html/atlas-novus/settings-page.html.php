@@ -234,7 +234,7 @@
 			<small class="hint">
 				<?php
 				_e("This API key can be obtained from 
-				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-dev-console-atlas-novus-v10' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-create-api-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -246,7 +246,7 @@
 			<small class="hint">
 				<?php
 				_e("This key can be obtained from 
-				the <a href='https://portal.azure.com/' target='_BLANK'>Azure Portal</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://portal.azure.com/' target='_BLANK'>Azure Portal</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-azure-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -258,7 +258,7 @@
 			<small class="hint">
 				<?php
 				_e("This key can be obtained from 
-				<a href='https://client.stadiamaps.com' target='_BLANK'>Stadia Maps</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				<a href='https://client.stadiamaps.com' target='_BLANK'>Stadia Maps</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-stadia-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -270,7 +270,7 @@
 			<small class="hint">
 				<?php
 				_e("This key can be obtained from 
-				<a href='https://cloud.maptiler.com/' target='_BLANK'>Maptiler</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				<a href='https://cloud.maptiler.com/' target='_BLANK'>Maptiler</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-maptiler-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -282,7 +282,7 @@
 			<small class="hint">
 				<?php
 				_e("This key can be obtained from 
-				<a href='https://locationiq.com/' target='_BLANK'>LocationIQ</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				<a href='https://locationiq.com/' target='_BLANK'>LocationIQ</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-locationiq-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -371,7 +371,7 @@
 		<div class="tab-row wpgmza-hidden">
 			<div class="title">
 				<?php esc_html_e('User Interface Style', 'wp-google-maps'); ?>
-				(<em><a href='https://www.wpgmaps.com/help/docs/user-interface-style-legacy/' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
+				(<em><a href='https://www.wpgmaps.com/help/docs/user-interface-style-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-interface-style-docs-atlas-novus-v10' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
 			</div>
 			
 			<ul>
@@ -805,7 +805,7 @@
 		</div>
 
 		<!-- Link target -->
-		<div class="tab-row">
+		<div class="tab-row wpgmza-pro-feature">
 			<div class="title"><?php _e("Link target", "wp-google-maps"); ?></div>
 			<ul>
 				<!-- Link targets -->
@@ -827,7 +827,7 @@
 		</div>
 
 		<!-- Link rel -->
-		<div class="tab-row">
+		<div class="tab-row wpgmza-pro-feature">
 			<div class="title"></div>
 			<ul>
 				<!-- Link rel -->
@@ -842,6 +842,38 @@
 						<?php esc_html_e("Mark as no follow","wp-google-maps"); ?>
 						<small>
 							<em><?php esc_html_e("(Enable this to add 'nofollow' rel to links)","wp-google-maps"); ?></em>	
+						</small>
+					</div>
+				</li>
+
+				<!-- Link noopener -->
+				<li>
+					<div class='switch switch-inline'>
+						<input name='wpgmza_settings_infowindow_links_noopener' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='wpgmza_settings_infowindow_links_noopener' 
+							value='yes'/> 
+						<label for='wpgmza_settings_infowindow_links_noopener'></label>
+						<?php esc_html_e("Mark as no opener","wp-google-maps"); ?>
+						<small>
+							<em><?php esc_html_e("(Enable this to add 'noopener' rel to links)","wp-google-maps"); ?></em>	
+						</small>
+					</div>
+				</li>
+
+				<!-- Link noreferrer -->
+				<li>
+					<div class='switch switch-inline'>
+						<input name='wpgmza_settings_infowindow_links_noreferrer' 
+							class='cmn-toggle cmn-toggle-round-flat' 
+							type='checkbox' 
+							id='wpgmza_settings_infowindow_links_noreferrer' 
+							value='yes'/> 
+						<label for='wpgmza_settings_infowindow_links_noreferrer'></label>
+						<?php esc_html_e("Mark as no opener","wp-google-maps"); ?>
+						<small>
+							<em><?php esc_html_e("(Enable this to add 'noreferrer' rel to links)","wp-google-maps"); ?></em>	
 						</small>
 					</div>
 				</li>
@@ -1644,7 +1676,7 @@
 
 			<p>
 				<?php
-				_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/">Privacy Policy</a>', 'wp-google-maps');
+				_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-gdpr-atlas-novus-v10">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-gdpr-privacy-atlas-novus-v10">Privacy Policy</a>', 'wp-google-maps');
 				?>
 			</p>
 		</div>
@@ -1940,7 +1972,7 @@
 				<option value="location-iq"><?php esc_html_e('LocationIQ', 'wp-google-maps'); ?></option>
 			</select>
 			<small class="inline-hint">
-				<a href="https://www.wpgmaps.com/help/docs/address-providers/" target="_blank"><?php _e("Learn about address providers", "wp-google-maps"); ?></a>
+				<a href="https://www.wpgmaps.com/help/docs/address-providers/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-address-provider-docs-atlas-novus-v10" target="_blank"><?php _e("Learn about address providers", "wp-google-maps"); ?></a>
 			</small>
 		</div>
 
@@ -1961,21 +1993,21 @@
 			<small class="hint" data-required-address-provider="google-maps">
 				<?php
 				_e("This API key can be obtained from 
-				the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-dev-console-addr-atlas-novus-v10' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-create-api-key-addr-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 				
 			<small class="hint" data-required-address-provider="azure-maps">
 				<?php
 				_e("This key can be obtained from 
-				the <a href='https://portal.azure.com/' target='_BLANK'>Azure Portal</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				the <a href='https://portal.azure.com/' target='_BLANK'>Azure Portal</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-azure-key-addr-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 
 			<small class="hint" data-required-address-provider="location-iq">
 				<?php
 				_e("This key can be obtained from 
-				<a href='https://locationiq.com/' target='_BLANK'>LocationIQ</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+				<a href='https://locationiq.com/' target='_BLANK'>LocationIQ</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-locationiq-key-addr-docs-atlas-novus-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 				?>
 			</small>
 		</div>
@@ -2604,7 +2636,7 @@
 		<div class="tab-row">
 			<div class="title"></div>
 			<div class="wpgmza-card wpgmza-shadow notice" style='margin-left: 0;'>
-				<span><?php _e("Take a look at our <a href='https://www.wpgmaps.com/help/docs/customization-guides/' target='_BLANK'>customization guides</a> for starter presets!"); ?></span>
+				<span><?php _e("Take a look at our <a href='https://www.wpgmaps.com/help/docs/customization-guides/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-customization-docs-atlas-novus-v10' target='_BLANK'>customization guides</a> for starter presets!"); ?></span>
 			</div>
 		</div>
 

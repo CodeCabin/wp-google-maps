@@ -7,7 +7,6 @@ class LeafletThemePanel extends DOMDocument{
 		global $wpgmza;
 		DOMDocument::__construct();
 		$this->loadPHPFile($wpgmza->internalEngine->getTemplate('leaflet-theme-panel.html.php'));
-
 		$tileServer = "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 		if(!empty($wpgmza->settings) && !empty($wpgmza->settings->tile_server_url)){
 			$tileServer = $wpgmza->settings->tile_server_url;

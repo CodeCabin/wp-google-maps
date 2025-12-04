@@ -156,7 +156,7 @@
 		<fieldset>
 			<legend>
 				<?php esc_html_e('User Interface Style', 'wp-google-maps'); ?>
-				(<em><a href='https://www.wpgmaps.com/help/docs/user-interface-style-legacy/' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
+				(<em><a href='https://www.wpgmaps.com/help/docs/user-interface-style-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-interface-style-docs-legacy-v10' target='_BLANK'><?php esc_html_e('examples', 'wp-google-maps'); ?></a></em>)
 			</legend>
 			
 			<ul>
@@ -1439,7 +1439,7 @@
 					<small>
 						<?php
 						_e("This API key can be obtained from 
-						the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
+						the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-dev-console-legacy-v10' target='_BLANK'>Google Developers Console</a>. Our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-create-api-key-legacy-v10' target='_BLANK'>documentation</a> provides a full guide on how to obtain this.", "wp-google-maps");
 						?>
 					</small>
 				</p>
@@ -1879,7 +1879,7 @@
 	
 	<p>
 		<?php
-		_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/">Privacy Policy</a>', 'wp-google-maps');
+		_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-gdpr-legacy-v10">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=settings-gdpr-privacy-legacy-v10">Privacy Policy</a>', 'wp-google-maps');
 		?>
 	</p>
 </div>

@@ -248,7 +248,7 @@
 	
 	<div>
 		<?php
-			echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/');
+			echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=themepanel-atlas-novus-v10');
 		?>
 	</div>
 </div>

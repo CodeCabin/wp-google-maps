@@ -117,7 +117,7 @@ if(!defined('ABSPATH'))
 	
 	<p>
 		<?php
-		_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/">Privacy Policy</a>', 'wp-google-maps');
+		_e('For more information about WPGM and GDPR compliance, please refer to our <a href="https://www.wpgmaps.com/gdpr/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=gdpr-settings-legacy-v10">GDPR information page</a> and our <a href="https://www.wpgmaps.com/privacy-policy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=gdpr-settings-privacy-legacy-v10">Privacy Policy</a>', 'wp-google-maps');
 		?>
 	</p>
 </div>

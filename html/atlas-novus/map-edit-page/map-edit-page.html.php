@@ -1051,7 +1051,7 @@
 								<?php
 								_e('View', 'wp-google-maps');
 								?>
-								<a href='https://www.wpgmaps.com/help/docs/store-locator/' target='_BLANK'>
+								<a href='https://www.wpgmaps.com/help/docs/store-locator/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-store-locator-docs-atlas-novus-v10' target='_BLANK'>
 									<?php
 									_e('Store Locator Documentation', 'wp-google-maps');
 									?>
@@ -1580,7 +1580,7 @@
 
 							<div class="hint">
 								<?php
-									echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/');
+									echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-themes-atlas-novus-v10');
 								?>
 							</div>
 						</div>
@@ -3895,7 +3895,7 @@
 						</div>
 						
 						<div class="wpgmza-text-align-center">	
-							<a href="https://www.wpgmaps.com/demo/" class="wpgmza-button" target="_BLANK"><?php esc_html_e('View the demos', 'wp-google-maps'); ?></a>
+							<a href="https://www.wpgmaps.com/demo/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-demo-view-atlas-novus-v10" class="wpgmza-button" target="_BLANK"><?php esc_html_e('View the demos', 'wp-google-maps'); ?></a>
 						</div>
 						
 						<br>
@@ -3905,12 +3905,12 @@
 							?>
 							<br>
 							<?php 
-								_e("Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-us/\" target=\"_BLANK\">contact form</a>.", "wp-google-maps");
+								_e("Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-contactus-atlas-novus-v10\" target=\"_BLANK\">contact form</a>.", "wp-google-maps");
 							?>
 						</div>
 						
 						<br>
-						<div class="wpgmza-text-align-center"><?php _e("Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask a question on our support forum</a>.", "wp-google-maps"); ?> </div>
+						<div class="wpgmza-text-align-center"><?php _e("Need help? <a href=\"https://www.wpgmaps.com/forums/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-forums-atlas-novus-v10\" target=\"_BLANK\">Ask a question on our support forum</a>.", "wp-google-maps"); ?> </div>
 					</div>
 				</div>
 			</form>
@@ -4364,7 +4364,7 @@
 
 						<ul>
 							<li>
-								<a href="https://www.wpgmaps.com/help/"
+								<a href="https://www.wpgmaps.com/help/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-docs-atlas-novus-v10"
 									title="<?php esc_attr_e('WP Go Maps Documentation Section', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Documentation", "wp-google-maps"); ?>
@@ -4372,7 +4372,7 @@
 							</li>
 							
 							<li>
-								<a href="https://www.wpgmaps.com/help/docs-category/troubleshooting/"
+								<a href="https://www.wpgmaps.com/help/docs-category/troubleshooting/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-docs-troubleshooting-atlas-novus-v10"
 									title="<?php esc_attr_e('WP Go Maps Troubleshooting Section', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Troubleshooting", "wp-google-maps"); ?>
@@ -4380,7 +4380,7 @@
 							</li>
 
 							<li>
-								<a href="https://www.wpgmaps.com/forums/forum/"
+								<a href="https://www.wpgmaps.com/forums/forum/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-forums-atlas-novus-v10"
 									title="<?php esc_attr_e('WP Go Maps Community Forums', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Community forums", "wp-google-maps"); ?>
@@ -4404,7 +4404,7 @@
 							</li>
 
 							<li>
-								<a href="https://www.wpgmaps.com/contact-us/"
+								<a href="https://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-contactus-atlas-novus-v10"
 									title="<?php esc_attr_e('WP Go Maps Get in touch', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Get in touch", "wp-google-maps"); ?>
@@ -4412,7 +4412,7 @@
 							</li>
 
 							<li>
-								<a href="https://www.wpgmaps.com/privacy-policy"
+								<a href="https://www.wpgmaps.com/privacy-policy?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-privacy-atlas-novus-v10"
 									title="<?php esc_attr_e('WP Go Maps Privacy Policy', 'wp-google-maps'); ?>"
 									target="_BLANK">
 										<?php _e("Privacy policy", "wp-google-maps"); ?>
@@ -4430,7 +4430,7 @@
 
 						<div class="info-content">
 							<?php
-								_e("Thank you for using <a href='https://www.wpgmaps.com'>WP Go Maps</a>!", 'wp-google-maps');
+								_e("Thank you for using <a href='https://www.wpgmaps.com?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-thankyou-use-atlas-novus-v10'>WP Go Maps</a>!", 'wp-google-maps');
 							?>
 						</div>
 					</div>
@@ -4553,6 +4553,7 @@
 							<option value="leaflet-azure"><?php _e('Microsoft Azure (Formerly Bing)', 'wp-google-maps'); ?></option>
 							<option value="leaflet-stadia"><?php _e('Stadia Maps', 'wp-google-maps'); ?></option>
 							<option value="leaflet-maptiler"><?php _e('Maptiler', 'wp-google-maps'); ?></option>
+							<option value="leaflet-locationiq"><?php _e('LocationIQ', 'wp-google-maps'); ?></option>
 							<option value="leaflet-zerocost"><?php _e('Zero Cost Mapping', 'wp-google-maps'); ?></option>
 							<option value="leaflet"><?php _e('Leaflet', 'wp-google-maps'); ?></option>
 							<option value="open-layers-latest"><?php _e('OpenLayers', 'wp-google-maps'); ?></option>

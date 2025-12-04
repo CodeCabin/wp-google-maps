@@ -825,7 +825,7 @@
 							<?php
 							_e('View', 'wp-google-maps');
 							?>
-							<a href='https://www.wpgmaps.com/help/docs/store-locator-legacy/' target='_BLANK'>
+							<a href='https://www.wpgmaps.com/help/docs/store-locator-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-store-locator-docs-legacy-v10' target='_BLANK'>
 								<?php
 								_e('Store Locator Documentation', 'wp-google-maps');
 								?>
@@ -2321,18 +2321,18 @@
 						</p>
 						
 						<p>	
-							<a href="https://www.wpgmaps.com/demo/" target="_BLANK">
+							<a href="https://www.wpgmaps.com/demo/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-demo-view-legacy-v10" target="_BLANK">
 								<?php esc_html_e('View the demos', 'wp-google-maps'); ?></a>
 						</p>
 						
 						<p>
 							<?php 
-							_e("Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-us/\" target=\"_BLANK\">contact form</a>.", "wp-google-maps")
+							_e("Have a sales question? Contact Nick on <a href=\"mailto:nick@wpgmaps.com\">nick@wpgmaps.com</a> or use our <a href=\"https://www.wpgmaps.com/contact-us/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-contactus-legacy-v10\" target=\"_BLANK\">contact form</a>.", "wp-google-maps")
 							?>
 						</p>
 						<p>
 							<?php
-							_e("Need help? <a href=\"https://www.wpgmaps.com/forums/\" target=\"_BLANK\">Ask a question on our support forum</a>.", "wp-google-maps")
+							_e("Need help? <a href=\"https://www.wpgmaps.com/forums/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-forums-legacy-v10\" target=\"_BLANK\">Ask a question on our support forum</a>.", "wp-google-maps")
 							?>
 						</p>
 					</div>
@@ -2713,7 +2713,7 @@
 					?>
 					|
 					<?php
-					_e("Please refer to our <a href='https://www.wpgmaps.com/privacy-policy' target='_blank'>Privacy Policy</a> for information on Data Processing", 'wp-google-maps')
+					_e("Please refer to our <a href='https://www.wpgmaps.com/privacy-policy?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-privacy-legacy-v10' target='_blank'>Privacy Policy</a> for information on Data Processing", 'wp-google-maps')
 					?>
 					|
 					<?php
@@ -2723,7 +2723,7 @@
 					|
 					<?php 
 					_e('Translating the plugin with', 'wp-google-maps'); ?>
-					<a href='https://www.wpgmaps.com/help/docs/translating-the-plugin-with-wpml-legacy/' target='_BLANK'><?php esc_html_e('WPML', 'wp-google-maps'); ?></a>
+					<a href='https://www.wpgmaps.com/help/docs/translating-the-plugin-with-wpml-legacy/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-wpml-docs-legacy-v10' target='_BLANK'><?php esc_html_e('WPML', 'wp-google-maps'); ?></a>
 				</small>
 			</p>
 
