@@ -5,7 +5,7 @@
 		?>
 	</strong>
 	<br/>
-	<a href='https://www.wpgmaps.com/help/docs-category/troubleshooting/' 
+	<a href='https://www.wpgmaps.com/help/docs-category/troubleshooting/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=footer-help-legacy-v10' 
 		title='<?php esc_attr_e('WP Go Maps Troubleshooting Section', 'wp-google-maps'); ?>'
 		target='_BLANK'>
 		<?php
@@ -15,7 +15,7 @@
 	<br/>
 	<?php
 	esc_html_e("Or ask a question on our ", "wp-google-maps"); ?>
-	<a href='http://www.wpgmaps.com/forums/forum/' 
+	<a href='http://www.wpgmaps.com/forums/forum/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=footer-forum-legacy-v10' 
 		title='<?php esc_attr_e('WP Go Maps Support Forum', 'wp-google-maps'); ?>'
 		target='_BLANK'>
 		<?php

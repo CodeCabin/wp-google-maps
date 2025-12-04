@@ -151,10 +151,10 @@
 
 						<p>
 							<?php _e("The entire process is managed by Google and takes only a few minutes.", "wp-google-maps"); ?> 
-							<?php _e("If preferred, you can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?>
+							<?php _e("If preferred, you can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-dev-console-legacy-v10' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?>
 						</p>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-create-api-key-legacy-v10' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
 						
 						
 					</div>

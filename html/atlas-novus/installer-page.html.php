@@ -91,7 +91,7 @@
 
 			<div class="wpgmza-row wpgmza-margin-t-20">
 				<div class="wpgmza-col">
-					<a href="https://www.wpgmaps.com/help/docs/map-engine-selection-guide/" target="_BLANK">
+					<a href="https://www.wpgmaps.com/help/docs/map-engine-selection-guide/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-engine-selection-docs-atlas-novus-v10" target="_BLANK">
 						<small><?php _e("Not Sure? Take a look at our comparison guide!", "wp-google-maps"); ?></small>
 					</a>
 				</div>
@@ -490,10 +490,10 @@
 
 						<p>
 							<?php _e("The entire process is managed by Google and takes only a few minutes.", "wp-google-maps"); ?> 
-							<?php _e("If preferred, you can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?>
+							<?php _e("If preferred, you can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-dev-console-atlas-novus-v10' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?>
 						</p>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-create-api-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
 						
 						
 					</div>
@@ -599,9 +599,9 @@
 					<div class="sub-step wpgmza-hidden" data-sub-step="google-maps-manual-key">
 						<h3><?php _e("You've chosen to enter a key manually", "wp-google-maps"); ?></h3>
 
-						<p><?php _e("You can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?></p>
+						<p><?php _e("You can create an API key from the <a href='https://wpgmaps.com/google-maps-developer-console/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-dev-console-atlas-novus-v10' target='_BLANK'>Google Developers Console</a>.", "wp-google-maps"); ?></p>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-google-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-create-api-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide on API key management.", "wp-google-maps"); ?></p>
 
 						<br><br>
 
@@ -638,7 +638,7 @@
 
 						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-an-azure-maps-subscription-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-azure-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
 						
 					</div>
 				</div>
@@ -670,7 +670,7 @@
 
 						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-stadia-maps-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-stadia-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
 						
 					</div>
 				</div>
@@ -702,7 +702,7 @@
 
 						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-maptiler-api-key/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-maptiler-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
 						
 					</div>
 				</div>
@@ -734,7 +734,7 @@
 
 						<h3><?php _e("Not sure how to start?", "wp-google-maps"); ?></h3>
 
-						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
+						<p><?php _e("Please review our <a href='https://www.wpgmaps.com/help/docs/creating-a-location-iq-access-token/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=installer-locationiq-key-docs-atlas-novus-v10' target='_BLANK'>documentation</a> for a comprehensive guide.", "wp-google-maps"); ?></p>
 						
 					</div>
 				</div>

@@ -377,11 +377,45 @@ class AdminNotices {
 					/* We handle this here for simplicity - but it belongs somewhere else to be honest */
 					global $wpgmza;
 					$switch = !empty($_POST['map_engine']) ? sanitize_text_field($_POST['map_engine']) : false;
-					$valid = array("google-maps", "leaflet-azure", "leaflet-stadia", "leaflet-maptiler", "leaflet-zerocost", "leaflet", "open-layers-latest");
+					$valid = array("google-maps", "leaflet-azure", "leaflet-stadia", "leaflet-maptiler", "leaflet-locationiq", "leaflet-zerocost", "leaflet", "open-layers-latest");
 					
 					if(in_array($switch, $valid)){
 						/* Valid switch */
 						$wpgmza->settings->wpgmza_maps_engine = $switch;
+
+						switch($switch){
+							case 'leaflet-azure':
+								if(empty($wpgmza->settings->tile_server_url_leaflet_azure)){
+									$wpgmza->settings->tile_server_url_leaflet_azure = "{alias:azure-multilayer}";
+								}
+								break;
+							case 'leaflet-stadia':
+								if(empty($wpgmza->settings->tile_server_url_leaflet_stadia)){
+									$wpgmza->settings->tile_server_url_leaflet_stadia = "{alias:stadia-multilayer}";
+								}
+								break;
+							case 'leaflet-maptiler':
+								if(empty($wpgmza->settings->tile_server_url_leaflet_maptiler)){
+									$wpgmza->settings->tile_server_url_leaflet_maptiler = "{alias:maptiler-multilayer}";
+								}
+								break;
+							case 'leaflet-locationiq':
+								if(empty($wpgmza->settings->tile_server_url_leaflet_locationiq)){
+									$wpgmza->settings->tile_server_url_leaflet_locationiq = "https://{s}-tiles.locationiq.com/v3/streets/r/{z}/{x}/{y}.png";
+								}
+								break;
+							case 'leaflet-zerocost':
+								if(empty($wpgmza->settings->tile_server_url_leaflet_zerocost)){
+									$wpgmza->settings->tile_server_url_leaflet_zerocost = "https://tiles.openfreemap.org/styles/liberty";
+								}
+								break;
+							case 'leaflet':
+							case 'open-layers-latest':
+								if(empty($wpgmza->settings->tile_server_url)){
+									$wpgmza->settings->tile_server_url = "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+								}
+								break;
+						}
 					}
 					break;
 				case 'swap_map_engine_from_toolbar_dismiss':

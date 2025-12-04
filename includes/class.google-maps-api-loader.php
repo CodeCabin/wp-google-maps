@@ -349,7 +349,7 @@ class GoogleMapsAPILoader
 				 *  V9 Will move away from this switch, and instead use an array with a filter for devs to extend further as needed
 				*/
 				switch($post->post_type){
-					case 'wpsl_stores';
+					case 'wpsl_stores':
 						$status->message = 'Page is explicitly excluded in settings';
 						$status->code = GoogleMapsAPILoader::PAGE_EXPLICITLY_EXCLUDED;
 						return false;
