@@ -80,5 +80,9 @@ jQuery(function($) {
 	WPGMZA.Text.prototype.refresh = function(){
 		
 	}
+
+	WPGMZA.Text.prototype.setMap = function(map){
+		
+	}
 	
 });

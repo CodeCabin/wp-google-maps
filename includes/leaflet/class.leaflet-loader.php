@@ -32,10 +32,10 @@ class LeafletLoader extends Factory {
 	/**
 	 * Loads the OpenLayers libraries and styles
 	 */
-	public function load() {
+	public function load($forceLoad = false) {
 		global $wpgmza;
 		
-		if(LeafletLoader::$leafletAPILoadCalled){
+		if(LeafletLoader::$leafletAPILoadCalled && empty($forceLoad)){
 			return;
 		}
 		
@@ -87,7 +87,6 @@ class LeafletLoader extends Factory {
 			}
 		}
 		
-
 		LeafletLoader::$leafletAPILoadCalled = true;
 	}
 }

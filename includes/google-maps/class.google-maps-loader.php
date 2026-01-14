@@ -135,11 +135,11 @@ class GoogleMapsLoader
 	 * This function loads the Google API if it hasn't been called already
 	 * @return void
 	 */
-	public function loadGoogleMaps()
+	public function loadGoogleMaps($forceLoad = false)
 	{
 		global $wpgmza;
 		
-		if(GoogleMapsLoader::$googleAPILoadCalled)
+		if(GoogleMapsLoader::$googleAPILoadCalled && empty($forceLoad))
 			return;
 		
 		$apiLoader = new GoogleMapsAPILoader();

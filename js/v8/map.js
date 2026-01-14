@@ -585,8 +585,8 @@ jQuery(function($) {
 					WPGMZA.restAPI.call("/features/", {
 						useCompressedPathVariable: true,
 						data: data,
-						success: function(result, status, xhr) {
-							this.onFeaturesFetched(result);
+						success: (featureResult, featureStatus, featureXhr) => {
+							this.onFeaturesFetched(featureResult);
 						}
 					});
 				}

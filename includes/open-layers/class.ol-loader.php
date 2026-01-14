@@ -33,10 +33,10 @@ class OLLoader {
 	/**
 	 * Loads the OpenLayers libraries and styles
 	 */
-	public function loadOpenLayers() {
+	public function loadOpenLayers($forceLoad = false) {
 		global $wpgmza;
 		
-		if(OLLoader::$olAPILoadCalled){
+		if(OLLoader::$olAPILoadCalled && empty($forceLoad)){
 			return;
 		}
 		

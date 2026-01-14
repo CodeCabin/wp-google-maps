@@ -57,6 +57,7 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.refresh = function(){
+		if(!this.styleOptions){ return; }
 		this.setText(this.styleOptions.text);
 	}
 
@@ -67,6 +68,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setText = function(text){
+		if(!this.styleOptions){ return; }
+
 		if(text){
         	this.styleOptions.text = text;
 		}
@@ -78,11 +81,15 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setFontSize = function(size){
+		if(!this.styleOptions){ return; }
+
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setFillColor = function(color){
+		if(!this.styleOptions){ return; }
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -91,6 +98,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setLineColor = function(color){
+		if(!this.styleOptions){ return; }
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -98,6 +107,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setOpacity = function(opacity){
+		if(!this.styleOptions){ return; }
+
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){
@@ -111,7 +122,9 @@ jQuery(function($) {
 
 	
 	WPGMZA.LeafletTextOverlay.prototype.remove = function(){
-        this.leafletFeature.remove();
+		if(this.leafletFeature){
+        	this.leafletFeature.remove();
+		}
 	}
 	
 });

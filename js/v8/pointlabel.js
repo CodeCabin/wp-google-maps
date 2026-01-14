@@ -34,6 +34,9 @@ jQuery(function($) {
 				this.marker = pointlabel.marker;
 			}
 		}
+
+		this.on('mapchanged', this.updateNativeMap);
+		this.on('mapchanged', this.updateNativeFeature);
 	}
 	
 	WPGMZA.Pointlabel.prototype = Object.create(WPGMZA.Feature.prototype);
@@ -53,6 +56,10 @@ jQuery(function($) {
 				this.textFeature.remove();
 			}
 			this._map = a;
+
+			if(this.textFeature){
+				this.trigger("mapchanged");
+			}
 		}
 		
 	});
@@ -238,7 +245,12 @@ jQuery(function($) {
 		
 		if(map){
 			map.addPointlabel(this);
+		}		
+	}
+
+	WPGMZA.Pointlabel.prototype.updateNativeMap = function(){
+		if(this.textFeature){
+			this.textFeature.setMap(this.map ? this.map : null);
 		}
-			
 	}
 });
