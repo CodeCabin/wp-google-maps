@@ -20,7 +20,10 @@ jQuery(function($) {
 				position: this.getPosition()
 			});
 		}
+
 		this.updateNativeFeature();
+
+		
 	}
 
 	if(WPGMZA.isProVersion()){

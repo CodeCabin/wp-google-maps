@@ -224,6 +224,11 @@ class Plugin extends Factory
 				define('WPE_GOVERNOR', false);
 			}
 		}
+
+		/* WP Rocket Exclusion - Inline JS */
+		if(empty($this->settings->disable_wprocket_compatibility_fix)){
+			add_filter('rocket_defer_inline_exclusions', array($this, 'enableWPRocketCompat'), 10, 1);
+		}
 	}
 	
 	public function __set($name, $value)
@@ -1078,6 +1083,31 @@ class Plugin extends Factory
 		} catch (\Error $err){
 			
 		}
+	}
+
+	/**
+	 * Excludes our inline JS from WP Rocket defer loading
+	 * 
+	 * This is done to prevent an asset timing incompatibility which prevents map initialization
+	 * 
+	 * This means users do not need to configure additional settings to allow WP Go Maps to function well with WP Rocket
+	 * 
+	 * Importantly, all assets can still be deferred, but our initializer, and settings will not be deferred loaded
+	 * 
+	 * @param mixed $excludeList The current list of exclusions
+	 * 
+	 * @return array
+	 */
+	public function enableWPRocketCompat($excludeList){
+		if(!is_array($excludeList)){
+			/* Not yet in array format */
+			$excludeList = array();
+		}
+
+		/* Add our inline JS Localizer block - We still have a delayed loader system integrated here */
+		$excludeList[] = 'wpgmza-js-extra';
+
+		return $excludeList;
 	}
 
 	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {

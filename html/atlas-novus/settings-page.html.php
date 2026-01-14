@@ -2980,6 +2980,27 @@
 			</div>
 		</div>
 
+		<!-- WP Rocket -->
+		<div class="tab-row has-hint">
+			<div class="title"><?php esc_html_e("Disable WP Rocket Exclusion Fix", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="disable_wprocket_compatibility_fix"
+						id="disable_wprocket_compatibility_fix"
+						class="cmn-toggle cmn-toggle-round-flat" 
+						type="checkbox"/>
+				
+				<label for="disable_wprocket_compatibility_fix"></label>
+				<label for="disable_wprocket_compatibility_fix">
+					<small>
+						<?php
+						esc_html_e("We exclude our inline settings object script from the WP Rocket JS Deferred optimzations. As defer loading of the inline script may lead to initialization issues. You can disable this fix, if you prefer.", "wp-google-maps");
+						?>
+					</small>
+				</label>
+				
+			</div>
+		</div>
+
 		<!-- Sub heading : Infrastructure -->
 		<div class="tab-row as-heading">
 			<strong>

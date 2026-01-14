@@ -9510,8 +9510,8 @@ jQuery(function($) {
 					WPGMZA.restAPI.call("/features/", {
 						useCompressedPathVariable: true,
 						data: data,
-						success: function(result, status, xhr) {
-							this.onFeaturesFetched(result);
+						success: (featureResult, featureStatus, featureXhr) => {
+							this.onFeaturesFetched(featureResult);
 						}
 					});
 				}
@@ -12151,6 +12151,9 @@ jQuery(function($) {
 				this.marker = pointlabel.marker;
 			}
 		}
+
+		this.on('mapchanged', this.updateNativeMap);
+		this.on('mapchanged', this.updateNativeFeature);
 	}
 	
 	WPGMZA.Pointlabel.prototype = Object.create(WPGMZA.Feature.prototype);
@@ -12170,6 +12173,10 @@ jQuery(function($) {
 				this.textFeature.remove();
 			}
 			this._map = a;
+
+			if(this.textFeature){
+				this.trigger("mapchanged");
+			}
 		}
 		
 	});
@@ -12355,8 +12362,13 @@ jQuery(function($) {
 		
 		if(map){
 			map.addPointlabel(this);
+		}		
+	}
+
+	WPGMZA.Pointlabel.prototype.updateNativeMap = function(){
+		if(this.textFeature){
+			this.textFeature.setMap(this.map ? this.map : null);
 		}
-			
 	}
 });
 
@@ -15397,6 +15409,10 @@ jQuery(function($) {
 	}
 
 	WPGMZA.Text.prototype.refresh = function(){
+		
+	}
+
+	WPGMZA.Text.prototype.setMap = function(map){
 		
 	}
 	
@@ -20343,6 +20359,16 @@ jQuery(function($) {
 	}
 	
 	WPGMZA.extend(WPGMZA.GoogleText, WPGMZA.Text);
+
+	WPGMZA.GoogleText.prototype.setMap = function(map){
+		if(this.overlay){
+			if(map && map.googleMap){
+				this.overlay.setMap(map.googleMap);
+			} else {
+				this.overlay.setMap(null);
+			}
+		}
+	}
 	
 });
 
@@ -22251,7 +22277,10 @@ jQuery(function($) {
 				position: this.getPosition()
 			});
 		}
+
 		this.updateNativeFeature();
+
+		
 	}
 
 	if(WPGMZA.isProVersion()){
@@ -22629,7 +22658,7 @@ jQuery(function($) {
 	
 	WPGMZA.LeafletText = function(options){
 		WPGMZA.Text.apply(this, arguments);
-
+		this.options = options;
 		this.overlay = new WPGMZA.LeafletTextOverlay(options);
 	}
 
@@ -22639,6 +22668,24 @@ jQuery(function($) {
 		/* Only for OL */
 		if(this.overlay){
 			this.overlay.refresh();
+		}
+	}
+
+	WPGMZA.LeafletText.prototype.setMap = function(map){
+		if(this.overlay){
+			if(map && map.leafletMap){
+				if(this.overlay.leafletFeature){
+					this.overlay.remove();
+					this.overlay.leafletFeature.addTo(map.leafletMap);
+					this.overlay.refresh();
+				} else {
+					this.options.map = map;
+					this.overlay = new WPGMZA.LeafletTextOverlay(this.options);
+					this.overlay.refresh();
+				}
+			} else {
+				this.overlay.remove();
+			}
 		}
 	}
 });
@@ -22703,6 +22750,7 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.refresh = function(){
+		if(!this.styleOptions){ return; }
 		this.setText(this.styleOptions.text);
 	}
 
@@ -22713,6 +22761,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setText = function(text){
+		if(!this.styleOptions){ return; }
+
 		if(text){
         	this.styleOptions.text = text;
 		}
@@ -22724,11 +22774,15 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setFontSize = function(size){
+		if(!this.styleOptions){ return; }
+
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setFillColor = function(color){
+		if(!this.styleOptions){ return; }
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -22737,6 +22791,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setLineColor = function(color){
+		if(!this.styleOptions){ return; }
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -22744,6 +22800,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.LeafletTextOverlay.prototype.setOpacity = function(opacity){
+		if(!this.styleOptions){ return; }
+
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){
@@ -22757,7 +22815,9 @@ jQuery(function($) {
 
 	
 	WPGMZA.LeafletTextOverlay.prototype.remove = function(){
-        this.leafletFeature.remove();
+		if(this.leafletFeature){
+        	this.leafletFeature.remove();
+		}
 	}
 	
 });
@@ -28596,6 +28656,7 @@ jQuery(function($) {
 	WPGMZA.OLText = function(options){
 		WPGMZA.Text.apply(this, arguments);
 
+		this.options = options;
 		this.overlay = new WPGMZA.OLTextOverlay(options);
 	}
 
@@ -28605,6 +28666,22 @@ jQuery(function($) {
 		/* Only for OL */
 		if(this.overlay){
 			this.overlay.refresh();
+		}
+	}
+
+	WPGMZA.OLText.prototype.setMap = function(map){
+		if(this.overlay){
+			if(map && map.olMap){
+				if(this.overlay.olMap){
+					this.overlay.remove();
+					map.olMap.addLayer(this.overlay.layer);
+				} else {
+					this.options.map = map;
+					this.overlay = new WPGMZA.OLTextOverlay(this.options);
+				}
+			} else {
+				this.overlay.remove();
+			}
 		}
 	}
 });
@@ -28697,15 +28774,21 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setText = function(text){
+		if(!this.styleOptions){ return; }
+
 		this.styleOptions.text = text;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFontSize = function(size){
+		if(!this.styleOptions){ return; }
+		
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFillColor = function(color){
+		if(!this.styleOptions){ return; }
+		
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -28714,6 +28797,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setLineColor = function(color){
+		if(!this.styleOptions){ return; }
+		
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -28721,6 +28806,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setOpacity = function(opacity){
+		if(!this.styleOptions){ return; }
+		
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){

@@ -13,5 +13,15 @@ jQuery(function($) {
 	}
 	
 	WPGMZA.extend(WPGMZA.GoogleText, WPGMZA.Text);
+
+	WPGMZA.GoogleText.prototype.setMap = function(map){
+		if(this.overlay){
+			if(map && map.googleMap){
+				this.overlay.setMap(map.googleMap);
+			} else {
+				this.overlay.setMap(null);
+			}
+		}
+	}
 	
 });

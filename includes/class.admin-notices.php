@@ -328,7 +328,9 @@ class AdminNotices {
 	 * @return void
 	*/
 	public function dismissFromPostAjax(){
-		if (empty($_POST['slug']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce')) {
+		global $wpgmza;
+		
+		if (empty($_POST['slug']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
 			wp_send_json_error(__( 'Security check failed, import will continue, however, we cannot provide you with live updates', 'wp-google-maps' ));
 		}
 
@@ -347,7 +349,9 @@ class AdminNotices {
 	 * @return void
 	 */
 	public function processBackgroundAction(){
-		if (empty($_POST['relay']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce')) {
+		global $wpgmza;
+
+		if (empty($_POST['relay']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
 			wp_send_json_error(__( 'Security check failed, import will continue, however, we cannot provide you with live updates', 'wp-google-maps' ));
 		}
 

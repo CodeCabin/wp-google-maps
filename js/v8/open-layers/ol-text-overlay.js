@@ -85,15 +85,21 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setText = function(text){
+		if(!this.styleOptions){ return; }
+
 		this.styleOptions.text = text;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFontSize = function(size){
+		if(!this.styleOptions){ return; }
+		
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFillColor = function(color){
+		if(!this.styleOptions){ return; }
+		
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -102,6 +108,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setLineColor = function(color){
+		if(!this.styleOptions){ return; }
+		
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -109,6 +117,8 @@ jQuery(function($) {
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setOpacity = function(opacity){
+		if(!this.styleOptions){ return; }
+		
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){

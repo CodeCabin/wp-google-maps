@@ -667,17 +667,17 @@ class ScriptLoader
 		
 		// Get library scripts
 		$libraries = $this->getLibraryScripts();
-		
+
 		// Enqueue Google API call if necessary
 		switch($wpgmza->settings->engine)
 		{
 			case "open-layers":
 				$loader = new OLLoader(OLLoader::VERSION_TYPE_LEGACY);
-				$loader->loadOpenLayers();
+				$loader->loadOpenLayers($forceLoad);
 				break;
 			case "open-layers-latest":
 				$loader = new OLLoader();
-				$loader->loadOpenLayers();
+				$loader->loadOpenLayers($forceLoad);
 				break;
 			case "leaflet":
 			case "leaflet-azure":
@@ -686,11 +686,11 @@ class ScriptLoader
 			case "leaflet-locationiq":
 			case "leaflet-zerocost":
 				$loader = LeafletLoader::createInstance();
-				$loader->load();
+				$loader->load($forceLoad);
 				break;
 			default:
 				$loader = ($wpgmza->isProVersion() ? new GoogleProMapsLoader() : new GoogleMapsLoader());
-				$loader->loadGoogleMaps();
+				$loader->loadGoogleMaps($forceLoad);
 				break;
 		}
 
