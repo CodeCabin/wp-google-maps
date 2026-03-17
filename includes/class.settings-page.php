@@ -66,6 +66,10 @@ class SettingsPage extends Page {
 		} else {
 			if(!$this->isNonceValid($this->form, $_POST['nonce']))
 				throw new \Exception("Invalid nonce");
+
+			if(!$wpgmza->isUserAllowedToEdit()){
+				throw new \Exception("You do not have permission to perform this action");
+			}
 			
 			$oldPullMethod	= $wpgmza->settings->wpgmza_settings_marker_pull;
 			

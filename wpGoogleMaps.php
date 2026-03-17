@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.0.05
+Version: 10.0.06
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,12 @@ Domain Path: /languages
 
 
 /*
+ * 10.0.06 - 2026-03-17
+ * Fixed issue where nonce refresh actions were missing permission checks, creating an XSS vulnerability. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
+ * Fixed issue where settings storage would rely purely on nonce checks, without reasserting permissions. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
+ * Fixed issue where Google marker click event for AdvancedMarkerRender mode was set to 'click' instead of the suggested 'gmp-click'
+ * Fixed issue where marker offset method would fail in Leaflet causing issues with NVC systems and other marker nudge modules
+ * 
  * 10.0.05 - 2026-01-14
  * Fixed issue where notice actions were missing permission checks. Low level users could trigger actions like switching map engines. Security issue. Thanks Moose Love (Nagasaki Prefectural University) (Wordfence)
  * Fixed issue where deferred loading with WP Rocket would lead to initialization error. We now exclude inline initializer and settings object from this system. Can be disabled in settings

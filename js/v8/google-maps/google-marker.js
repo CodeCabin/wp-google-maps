@@ -68,7 +68,7 @@ jQuery(function($) {
 		
 		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
 			/* AdvancedMarkerElement module */
-			this.googleMarker.addListener("click", function() {
+			this.googleMarker.addListener("gmp-click", function() {
 				self.dispatchEvent("click");
 				self.dispatchEvent("select");
 			});

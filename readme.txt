@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 10.0.05
+Stable tag: 10.0.06
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -214,6 +214,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.0.06 = 
+Please update to 10.0.06 or above or above to ensure you are using the latest security enhancements.
+
 = 10.0.05 = 
 Please update to 10.0.05 or above or above to ensure you are using the latest security enhancements.
 
@@ -362,6 +365,12 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 10.0.06 - 2026-03-17 =
+* Fixed issue where nonce refresh actions were missing permission checks, creating an XSS vulnerability. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
+* Fixed issue where settings storage would rely purely on nonce checks, without reasserting permissions. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
+* Fixed issue where Google marker click event for AdvancedMarkerRender mode was set to 'click' instead of the suggested 'gmp-click'
+* Fixed issue where marker offset method would fail in Leaflet causing issues with NVC systems and other marker nudge modules
 
 = 10.0.05 - 2026-01-14 =
 * Fixed issue where notice actions were missing permission checks. Low level users could trigger actions like switching map engines. Security issue. Thanks Moose Love (Nagasaki Prefectural University) (Wordfence)
