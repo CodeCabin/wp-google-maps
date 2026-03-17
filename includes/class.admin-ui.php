@@ -26,11 +26,14 @@ class Admin extends \WPGMZA\Factory
 	}
 
 	public function onAdminRefreshNonces($nonces){
+		global $wpgmza;
 		if(!empty($_POST) && !empty($_POST['screen_id'])){
 			if(strpos($_POST['screen_id'], 'wp-google-maps') !== FALSE){
-				/* Looking at a WP Go Maps Related page */
-				$action = admin_url('admin-post.php');
-				$nonces['wpgmza_nonce'] = wp_create_nonce("wpgmza_$action");
+				if(!empty($wpgmza) && $wpgmza->isUserAllowedToEdit()){
+					/* Looking at a WP Go Maps Related page */
+					$action = admin_url('admin-post.php');
+					$nonces['wpgmza_nonce'] = wp_create_nonce("wpgmza_$action");
+				}
 			}
 		}
 		return $nonces;

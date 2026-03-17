@@ -121,10 +121,13 @@ jQuery(function($) {
 	WPGMZA.LeafletMarker.prototype.updateOffset = function(x, y){
 		var x = this._offset.x;
 		var y = this._offset.y;
-		
-		this.element.style.position = "relative";
-		this.element.style.left = x + "px";
-		this.element.style.top = y + "px";
+
+		let element = this.getNativeElement();
+		if(element){
+			element.style.position = "relative";
+			element.style.left = x + "px";
+			element.style.top = y + "px";
+		}
 	}
 	
 	WPGMZA.LeafletMarker.prototype.setAnimation = function(anim) {
