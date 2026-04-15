@@ -350,6 +350,7 @@
 .wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable thead td{
     border-bottom: 1px solid var(--wpgmza-color-light);
     border-top: 1px solid var(--wpgmza-color-light);
+    text-align: center;
 }
 
 .wpgmza-wrap .wpgmza-datatable-container table.dataTable tr td[data-wpgmza-column-name="mark"],
@@ -368,10 +369,10 @@
     border: none;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container table.dataTable.display tbody tr>.sorting_1, 
-.wpgmza-wrap .wpgmza-datatable-container table.dataTable.order-column.stripe tbody tr>.sorting_1,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable.display tbody tr>.sorting_1, 
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable.order-column.stripe tbody tr>.sorting_1{
+.wpgmza-wrap .wpgmza-datatable-container table.dataTable.display tbody tr>.dt-ordering-1, 
+.wpgmza-wrap .wpgmza-datatable-container table.dataTable.order-column.stripe tbody tr>.dt-ordering-1,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable.display tbody tr>.dt-ordering-1, 
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable.order-column.stripe tbody tr>.dt-ordering-1{
     background: none;
 }
 
@@ -403,53 +404,67 @@
 .wpgmza-wrap .wpgmza-editor .sidebar .feature-list table.dataTable.display tbody tr td{
     border-bottom: 1px solid var(--wpgmza-color-light);
     border-top: none;
+    box-shadow: none;
 }
 
 .wpgmza-wrap .wpgmza-datatable-container .dataTable,
 .wpgmza-wrap .wpgmza-editor .sidebar .dataTable {
     width: 100% !important;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_length,
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_info,
+.wpgmza-wrap .wpgmza-datatable-container .dt-length,
+.wpgmza-wrap .wpgmza-datatable-container .dt-info,
 .wpgmza-wrap .wpgmza-datatable-container .wpgmza-marker-listing__actions,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_length,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_info,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-length,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-info,
 .wpgmza-wrap .wpgmza-editor .sidebar .feature-list .wpgmza-marker-listing__actions {
     padding-left: 20px;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_filter,
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_paginate,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_filter,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_paginate{
+.wpgmza-wrap .wpgmza-datatable-container .dt-search,
+.wpgmza-wrap .wpgmza-datatable-container .dt-paging,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-search,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-paging{
     padding-right: 20px;
+}
+
+.wpgmza-wrap .wpgmza-datatable-container .dt-input,
+.wpgmza-wrap .wpgmza-editor .sidebar .dt-input{
+    font-size: 11px;
+    padding: 3px 7px;
+}
+
+.wpgmza-wrap .wpgmza-datatable-container select.dt-input,
+.wpgmza-wrap .wpgmza-editor .sidebar select.dt-input{
+    padding-right: 18px;
 }
 
 .wpgmza-wrap .wpgmza-datatable-container .dataTable tbody tr td,
 .wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTable tbody tr td {
     text-align: center;
+    box-shadow: none;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_paginate .paginate_button:hover,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_paginate .paginate_button:hover{
+.wpgmza-wrap .wpgmza-datatable-container .dt-paging .dt-paging-button:hover,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-paging .dt-paging-button:hover{
     background: var(--wpgmza-color-light);
     border: 1px solid var(--wpgmza-color-light);
     color: var(--wpgmza-color-charcoal) !important;
     border-radius: 4px;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_paginate .paginate_button.current,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_paginate .paginate_button.current{
+.wpgmza-wrap .wpgmza-datatable-container .dt-paging .dt-paging-button.current,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-paging .dt-paging-button.current{
     background: var(--wpgmza-color-dark);
     border: 1px solid var(--wpgmza-color-dark);
     border-radius: 4px;
     color: var(--wpgmza-color-white) !important;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_paginate .paginate_button.current:hover,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_paginate .paginate_button.current:hover{
+.wpgmza-wrap .wpgmza-datatable-container .dt-paging .dt-paging-button.current:hover,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-paging .dt-paging-button.current:hover{
     background: var(--wpgmza-color-grey-900);
     border: 1px solid var(--wpgmza-color-grey-900);
     color: var(--wpgmza-color-white) !important;
@@ -457,17 +472,18 @@
 
 .wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr > td{
     transition: background-color 0.2s ease;
+    box-shadow: none;
 }
 
 .wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr:hover > td,
-.wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr:hover > td.sorting_1{
+.wpgmza-wrap .wpgmza-datatable-container.wpgmza-datatable-container-maps table.dataTable.display tbody tr:hover > td.dt-ordering-1{
     cursor: pointer;
     background: var(--wpgmza-color-grey-50);
 }
 
 /* Datatables preloader - Had to recreate this here, as it is not possible to override the HTML entirely */
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_processing:before,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_processing:before {
+.wpgmza-wrap .wpgmza-datatable-container .dt-processing:before,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-processing:before {
   content: "";
   height: 60px;
   width: 60px;
@@ -476,7 +492,7 @@
   border: 5px solid var(--wpgmza-color-grey-500);
   border-radius: 60px;
   left: calc(50% - 30px);
-  top: calc(50% - 50px);
+  top: calc(50% - 30px);
 
   border-bottom-color: transparent;
   box-sizing: border-box;
@@ -485,8 +501,8 @@
   animation-iteration-count: infinite;
 }
 
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_processing:after,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_processing:after {
+.wpgmza-wrap .wpgmza-datatable-container .dt-processing:after,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-processing:after {
     content: "\f041";
     font-family: "FontAwesome";
     width: 60px;
@@ -494,7 +510,7 @@
     position: absolute;
     font-size: 25px;
     left: calc(50% - 30px);
-    top: calc(50% - 50px);
+    top: calc(50% - 30px);
     text-align: center;
     line-height: 60px;
     color: var(--wpgmza-color-grey-700);
@@ -503,12 +519,12 @@
     animation: wpgmzaPulseFade 1s forwards;
     animation-iteration-count: infinite;
 }
-.wpgmza-wrap .wpgmza-datatable-container .dataTables_processing,
-.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dataTables_processing {
+.wpgmza-wrap .wpgmza-datatable-container .dt-processing,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-processing {
     background: var(--wpgmza-color-white);
     color: var(--wpgmza-color-dark) !important;
     font-size: 1em !important;
-    height: 120px;
+    height: 70px;
     width: 200px;
     text-align: center;
     left: 50%;
@@ -520,6 +536,11 @@
     padding-top: 10px;
     font-size: 14px !important;
     box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-wrap .wpgmza-datatable-container .dt-processing > div,
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-processing > div{
+    display: none;
 }
 
 .wpgmza-wrap .wpgmza-datatable-container .wpgmza-action-group {
@@ -535,6 +556,16 @@
 
 .wpgmza-wrap .wpgmza-datatable-container .wpgmza-action-group > *:last-child {
     margin-right: 0;
+}
+
+.wpgmza-wrap .wpgmza-editor .sidebar .feature-list .dt-container div.dt-layout-row,
+.wpgmza-wrap .wpgmza-datatable-container  div.dt-container div.dt-layout-row {
+    margin: 0;
+}
+
+.wpgmza-wrap .wpgmza-datatable-container #wpgmza-category-table_wrapper .dataTable tbody tr td:first-child,
+.wpgmza-wrap .wpgmza-datatable-container #wpgmza-category-table_wrapper .dataTable thead tr th:first-child{
+    text-align: left;
 }
 
 .wpgmza-wrap .wpgmza-editor .sidebar .general-info{

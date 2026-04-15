@@ -800,6 +800,7 @@ jQuery(function($) {
 
 	WPGMZA.FeaturePanel.prototype.getWritersBlockConfig = function(){
 		return {
+			enableWordCount : true,
 			customTools : [
 				{
 					tag : 'shared-blocks',

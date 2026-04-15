@@ -101,7 +101,7 @@ jQuery(function($) {
 
 		if(!WPGMZA.InternalEngine.isLegacy()){
 			/* Increase display size */
-			options.iDisplayLength = 10;
+			options.pageLength = 10;
 		}
 
 		return options;

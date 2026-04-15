@@ -2044,6 +2044,12 @@
 							</div>
 						</fieldset>
 
+						<p class='wpgmza-shadow wpgmza-card wpgmza-pos-relative' id="marker_listing_require_max_length_warning" style="display: none;">
+							<?php
+								_e("<strong>Important Note</strong><br>For the best results with <strong>Grouped Listings</strong>, please adjust <strong>Maps > Settings > Marker Listing > Show X items by default > To 'ALL'</strong> to prevent pagination from interfering with groupings", "wp-google-maps");
+							?>
+						</p>
+
 						<!-- Placement -->
 						<fieldset class="wpgmza-pro-feature wpgmza-row">
 							<legend><?php _e("Placement", "wp-google-maps"); ?></legend>
@@ -3307,6 +3313,23 @@
 							<div class='wpgmza-open-layers-feature-unavailable'></div>
 						</fieldset>
 
+						<!-- Map Scale line Control -->
+						<fieldset class="wpgmza-row">
+							<div class="wpgmza-col">
+								<legend><?php _e("Enable map scale line control", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox'
+										id='wpgmza_enable_scale_control' 
+										name='enable_scale_control' 
+										class='postform cmn-toggle cmn-toggle-round-flat'/>
+									<label for="wpgmza_enable_scale_control"></label>
+								</div>
+							</div>
+						</fieldset>
+
 						<!-- Disable lightbox -->
 						<fieldset class="wpgmza-pro-feature wpgmza-row">
 							<div class="wpgmza-col">
@@ -3374,6 +3397,7 @@
 								</div>
 							</div>
 						</fieldset>
+
 
 						<!-- KML -->
 						<fieldset class="wpgmza-pro-feature">
@@ -3762,6 +3786,29 @@
 								<li class="wpgmza-pro-feature-hide"><strong>default_from</strong> <em><?php _e("Default directions starting point (string|latlng)", "wp-google-maps"); ?></em></li>
 								<li class="wpgmza-pro-feature-hide"><strong>default_to</strong> <em><?php _e("Default directions ending point (string|latlng)", "wp-google-maps"); ?></em></li>
 								<li class="wpgmza-pro-feature-hide"><strong>auto_run</strong> <em><?php _e("Automatically draw directions (true|false)", "wp-google-maps"); ?></em></li>
+							</ul>
+
+							<div class="hint"><?php _e("Note: Shortcode must be placed on a page with a map present", "wp-google-maps"); ?></div>
+						</div>
+
+						<!-- Marker Field Filter Shortcode -->
+						<fieldset class="wpgmza-row align-center wpgmza-pro-feature">
+							<div class="wpgmza-col">
+								<?php _e("Marker Field Filter", "wp-google-maps"); ?>
+							</div>
+
+							<div class="wpgmza-col wpgmza-text-align-right">
+								<button class="wpgmza-button wpgmza-shortcode-button">[wpgmza_marker_field_filter id="<span></span>"]</button>
+							</div>
+						</fieldset>
+
+						<!-- Marker Field Filter Shortcode Desc -->
+						<div class="wpgmza-shortcode-description wpgmza-card wpgmza-shadow wpgmza-margin-t-10 wpgmza-hidden wpgmza-pro-feature-hide">
+							<span><?php _e("Attributes", "wp-google-maps"); ?></span>
+							<ul>
+								<!-- Pro Features -->
+								<li class="wpgmza-pro-feature-hide"><strong>id</strong> <em><?php _e("The ID of the map you are loading (number)", "wp-google-maps"); ?></em></li>
+								<li class="wpgmza-pro-feature-hide"><strong>field_ids</strong> <em><?php _e("Comma-separated list of custom field IDs to display (numbers). Ignore to show all filters.", "wp-google-maps"); ?></em></li>
 							</ul>
 
 							<div class="hint"><?php _e("Note: Shortcode must be placed on a page with a map present", "wp-google-maps"); ?></div>

@@ -8,7 +8,7 @@ jQuery(function($) {
 	
 	$(document).ready(function(event) {
 		
-		var parent = document.body.onclick;
+		var parent = document.body && document.body.onclick ? document.body.onclick : false;
 		
 		if(!parent)
 			return;

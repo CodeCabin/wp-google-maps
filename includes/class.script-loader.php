@@ -123,7 +123,6 @@ class ScriptLoader
 		
 		$libraryDependencies = array(
 			'datatables'			=> $plugin_dir_url . "js/jquery.dataTables{$minified}.js",
-			'datatables-responsive'	=> $plugin_dir_url . "js/dataTables.responsive.js",
 			'javascript-cookie'		=> $plugin_dir_url . 'lib/jquery-cookie.js',
 			'remodal'				=> $plugin_dir_url . "lib/remodal{$minified}.js",
 			// PEP JS for iOS 12 pointer events
@@ -475,9 +474,6 @@ class ScriptLoader
 		if(!$forceLoad && !$wpgmza->getCurrentPage())
 			return; // NB: Not forcing a load, and not on a map page.
 		
-		// wp_enqueue_style('wpgmza-color-picker', plugin_dir_url(__DIR__) . 'lib/spectrum.css');
-		// wp_enqueue_style('datatables', '//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css');
-
 		$version_string = $wpgmza->getBasicVersion();
 		if(method_exists($wpgmza, 'getProVersion')){
 			$version_string .= '+pro-' . $wpgmza->getProVersion();
@@ -816,9 +812,13 @@ class ScriptLoader
 		
 		// Enqueue other scripts
 		foreach($this->scripts as $handle => $script){
+			// Skip scripts that require wpgmza_api_call when the Maps API is not being loaded (e.g. non-Google Maps engine)
+			if(!$apiLoader->isIncludeAllowed() && !empty($script->dependencies) && in_array('wpgmza_api_call', (array)$script->dependencies)){
+				continue;
+			}
 			$fullpath = plugin_dir_url(($script->pro ? WPGMZA_PRO_FILE : __DIR__)) . $script->src;
 			wp_enqueue_script($handle, $fullpath, $script->dependencies, $version_string, $scriptArgs);
-			
+
 		}
 		
 	    /* Developer Hook (Action) - Enqueue additional scripts */     
@@ -903,7 +903,7 @@ class ScriptLoader
 		global $wpgmza;
 
 		if (!empty($wpgmza->settings->wpgmza_do_not_enqueue_datatables) && !is_admin()) {
-			$dequeue = array('datatables', 'datatables-responsive');
+			$dequeue = array('datatables');
 			foreach($dequeue as $tag){
 				if (isset($dep[$tag])) {
 					unset($dep[$tag]);

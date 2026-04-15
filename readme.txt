@@ -5,7 +5,7 @@ Tags: google maps, maps, map, map markers, block, map block, google map, google 
 Requires at least: 3.5
 Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 10.0.06
+Stable tag: 10.0.07
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -214,6 +214,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.0.07 = 
+Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
+
 = 10.0.06 = 
 Please update to 10.0.06 or above or above to ensure you are using the latest security enhancements.
 
@@ -366,6 +369,29 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 == Changelog ==
 
+= 10.0.07 - 2026-04-15 =
+* Added methods to internal Google Drawing Manager, internalizing this feature, and allowing removal of native Google Drawing Manager. Due to upcoming deprecation
+* Added scale line control support for Google Maps, Leaflet, and OpenLayers. Can be enabled on a per map basis
+* Added ability to override plugin language from within the settings. Defaults to site language
+* Added ability to override custom tile server token field name
+* Added ability to override custom tile server type (raster or vector)
+* Added native Elementor integration with Map and Store Locator widgets, mirroring the existing Gutenberg block structure
+* Added ElementorModuleWidget abstract base class to provide a shared preview/render pattern for all Elementor module widgets
+* Added support for WPML post type translations, ensuring integrated post type marker sources respect the active language
+* Added blueprint JSON file to assets for preview mode support moving forward
+* Fixed issue where script loader would throw a notice for Google vertex menu when not using Google Maps engine
+* Fixed issue where Leaflet maps set to a starting zoom below 2 would cause incorrect marker placement due to EPSG3857 world-copy wrapping; a safe minZoom floor of 2 is now enforced for standard tile maps (custom tile/CRS.Simple maps are unaffected)
+* Fixed issue where Astra Theme Compatibility layer may trigger an error on some environments
+* Improved the language loader to ensure we don't unexpectedly trigger a global language file due to missing files, as this leads to outdated translations
+* Improved all datatables related styles to better support the V2 upgrade
+* Updated FR translation files. Thanks to Madevcomfr
+* Updated credits page to include new contributors and translators
+* Updated internal process to ensure accurate version management (SVN)
+* Updated DataTables to V2 release, and migrated core modules to support this change
+* Updated WritersBlock internal library to add additional features
+* Remove responsive DataTables extension as this is bundled in our V2 files
+* Removed Google Drawing Manager as a dependency, in favour of internal module, which is being deprecated by Google
+
 = 10.0.06 - 2026-03-17 =
 * Fixed issue where nonce refresh actions were missing permission checks, creating an XSS vulnerability. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
 * Fixed issue where settings storage would rely purely on nonce checks, without reasserting permissions. Security issue. Thanks Nguyen Ba Hung (bashu) (KCSC) (Wordfence)
@@ -516,8 +542,6 @@ Please update your WP Go Maps version to 6.3.15 to ensure you are using the late
 
 
 For more, please view the WP Go Maps site
-
-
 
 
 
