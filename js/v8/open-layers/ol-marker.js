@@ -165,8 +165,10 @@ jQuery(function($) {
 		
 		if(!label)
 		{
-			if(this.label)
+			if(this.label){
 				$(this.element).find(".ol-marker-label").remove();
+				this.label = false;
+			}
 			
 			return;
 		}

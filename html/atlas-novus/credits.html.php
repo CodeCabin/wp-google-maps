@@ -112,6 +112,8 @@
 	<h2><?php _e("Security","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li title="Organization: Bashu | KCSC | Wordfence">Nguyen Ba Hung</li>
+			<li title="Organization: Nagasaki Prefectural University | Wordfence">Moose Love</li>
 			<li title="Organization: Jetpack">Animesh Gaurav</li>
 			<li title="Organization: CleanTalk Inc | Wordfence">Dmitrii Ignatyev</li>
 			<li title='Organization: Patchstack'>Joshua Chan</li>
@@ -195,6 +197,7 @@
 	<h2><?php _e("Translators","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li>Madevcomfr</li>
 			<li>Christian Svendsen</li>
 			<li>Attila</li>
 			<li>Gerard Ayter Codina</li>

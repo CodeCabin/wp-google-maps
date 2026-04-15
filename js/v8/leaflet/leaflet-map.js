@@ -203,6 +203,11 @@ jQuery(function($) {
 			this.addFullscreenControl();
 		}
 
+		/* Scale Control */
+		if(this.settings.enable_scale_control){
+			this.enableScaleControl(true);
+		}
+
 		/* Click listener */
 		this.leafletMap.on('click', (event) => {
 			this.dispatchEvent({
@@ -775,6 +780,32 @@ jQuery(function($) {
 			}
 
 			layerController.addTo(this.leafletMap);
+		}
+	}
+
+	/**
+	 * Enables / disables the scale control bar
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.LeafletMap.prototype.enableScaleControl = function(enable)
+	{
+		if(!this.leafletMap)
+			return;
+
+		if(this.scaleControl){
+			this.scaleControl.remove();
+			this.scaleControl = null;
+		}
+
+		if(enable){
+			const imperial = (this.settings.store_locator_distance == WPGMZA.Distance.MILES);
+
+			this.scaleControl = L.control.scale({
+				imperial: imperial,
+				metric: !imperial,
+				position: 'bottomleft'
+			}).addTo(this.leafletMap);
 		}
 	}
 

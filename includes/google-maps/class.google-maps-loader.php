@@ -42,7 +42,7 @@ class GoogleMapsLoader
 		global $wpgmza;
 		
 		// Locale
-		$locale = get_locale();
+		$locale = (!empty($wpgmza->settings->locale_override) && $wpgmza->settings->locale_override !== 'site-default') ? $wpgmza->settings->locale_override : get_locale();
 		$suffix = '.com';
 		$region = false;
 

@@ -65,6 +65,7 @@ class Plugin extends Factory
 	private $_gdprCompliance;
 	private $_restAPI;
 	private $_gutenbergIntegration;
+	private $_elementorIntegration;
 	private $_pro7Compatiblity;
 	private $_pro9Compatibility;
 	private $_pro10Compatibility;
@@ -133,6 +134,7 @@ class Plugin extends Factory
 		$this->_restAPI = RestAPI::createInstance();
 		
 		$this->_gutenbergIntegration = Integration\Gutenberg::createInstance();
+		$this->_elementorIntegration = Integration\Elementor::createInstance();
 	
 		if(!empty($this->settings->wpgmza_maps_engine))
 			$this->settings->engine = $this->settings->wpgmza_maps_engine;
@@ -471,6 +473,7 @@ class Plugin extends Factory
 
 			'is_admin'				=> (is_admin() ? 1 : 0),
 			'locale'				=> get_locale(),
+				'wpml_language'			=> defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : null,
 			
 			'isServerIIS'			=> (isset($_SERVER["SERVER_SOFTWARE"]) && preg_match('/microsoft-iis/i', $_SERVER["SERVER_SOFTWARE"])),
 			'labelpointIcon'		=> plugin_dir_url(WPGMZA_FILE) . 'images/label-point.png',
@@ -880,9 +883,14 @@ class Plugin extends Factory
 	public function onLoadTextDomainMOFile($mofile, $domain)
 	{
 		if($domain == 'wp-google-maps' && !class_exists("WPML_Translation_Management") && function_exists('get_user_locale')){
-			$mofile = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . \get_user_locale() . '.mo';
+			$locale = (!empty($this->settings->locale_override) && $this->settings->locale_override !== 'site-default') ? $this->settings->locale_override : \get_user_locale();
+			$bundled = plugin_dir_path(__DIR__) . 'languages/wp-google-maps-' . $locale . '.mo';
+
+			if(file_exists($bundled)){
+				return $bundled;
+			}
 		}
-		
+
 		return $mofile;
 	}
 

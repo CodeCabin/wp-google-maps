@@ -114,7 +114,7 @@ class GoogleMapsAPILoader
 		global $wpgmza;
 		
 		// Locale
-		$locale = get_locale();
+		$locale = (!empty($wpgmza->settings->locale_override) && $wpgmza->settings->locale_override !== 'site-default') ? $wpgmza->settings->locale_override : get_locale();
 		
 		switch($locale)
 		{
@@ -152,10 +152,7 @@ class GoogleMapsAPILoader
 		
 		// Libraries
 		$libraries = array('geometry', 'places', 'visualization', 'marker');
-		
-		if($wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT)
-			$libraries[] = 'drawing';
-		
+
 		$params['libraries'] = implode(',', $libraries);
 
 		if(!empty($wpgmza->settings->enable_google_api_async_param)){

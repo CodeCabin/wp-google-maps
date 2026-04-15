@@ -190,12 +190,21 @@ jQuery(function($) {
 			self.onBoundsChanged();
 		});
 
-		if(this.settings.bicycle == 1)
+		if(this.settings.bicycle == 1){
 			this.enableBicycleLayer(true);
-		if(this.settings.traffic == 1)
+		}
+
+		if(this.settings.traffic == 1){
 			this.enableTrafficLayer(true);
-		if(this.settings.transport_layer)
+		}
+
+		if(this.settings.transport_layer){
 			this.enablePublicTransportLayer(true);
+		}
+
+		if(this.settings.enable_scale_control){
+			this.enableScaleControl(true);
+		}
 
 		this.showPointsOfInterest(this.settings.wpgmza_show_point_of_interest);
 		
@@ -538,6 +547,26 @@ jQuery(function($) {
 		);
 	}
 	
+	/**
+	 * Enables / disables the scale control bar
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.GoogleMap.prototype.enableScaleControl = function(enable)
+	{
+		const units = (this.settings.store_locator_distance == WPGMZA.Distance.MILES)
+			? google.maps.ScaleControlStyle.IMPERIAL
+			: google.maps.ScaleControlStyle.METRIC;
+
+		this.googleMap.setOptions({
+			scaleControl: enable,
+			scaleControlOptions: {
+				style: units,
+				position: google.maps.ControlPosition.BOTTOM_LEFT
+			}
+		});
+	}
+
 	/**
 	 * Shows / hides points of interest
 	 * @param show boolean, enable or not

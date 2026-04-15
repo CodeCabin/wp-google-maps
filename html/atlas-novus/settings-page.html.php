@@ -1910,6 +1910,29 @@
 			<input type='text' class='wpgmza_tile_server_override_component wpgmza-hidden' name="tile_server_url_override" placeholder="https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png" style='width: 40%;'/>
 		</div>
 
+		<!-- Custom Tile Server Token Field Name-->
+		<div class="tab-row" data-required-maps-engine="open-layers|open-layers-latest|leaflet">
+			<div class='title wpgmza_tile_server_key_field_name_override wpgmza-hidden'><?php _e('Custom Tile API Field Name', 'wp-google-maps'); ?></div>
+			<input type='text' class='wpgmza_tile_server_key_field_name_override wpgmza-hidden' name="tile_server_key_field_name_override" placeholder="Default: 'apikey'"/>
+		</div>
+
+		<!-- Custom Tile Server Token Field Name-->
+		<div class="tab-row" data-required-maps-engine="open-layers|open-layers-latest|leaflet">
+			<div class='title wpgmza_tile_server_type_override wpgmza-hidden'><?php _e('Custom Tile Type', 'wp-google-maps'); ?></div>
+			<select name="tile_server_type_override" class='wpgmza_tile_server_type_override wpgmza-hidden'>
+				<option value="">
+					<?php
+					_e('Raster (XYZ)', 'wp-google-maps');
+					?>
+				</option>
+				<option value="vector">
+					<?php
+					_e('Vector', 'wp-google-maps');
+					?>
+				</option>
+			</select>
+		</div>
+
 		<!-- Google Maps API load -->
 		<div class="tab-row" data-required-maps-engine="google-maps">
 			<div class="title">
@@ -2323,6 +2346,36 @@
 			</strong>
 		</div>
 
+		<!-- WPML Notice -->
+		<span class="wpgmza-card wpgmza-shadow notice notice-error wpgmza-wpml-notice wpgmza-hidden" style="display: block;">
+			<strong><?php _e("Important Note", "wp-google-maps"); ?>:</strong>
+			<?php
+				_e('WP Go Maps language options have been disabled as they are fully controlled by WPML', 'wp-google-maps');
+			?>
+		</span>
+
+		<!-- Language Override -->
+		<div class="tab-row has-hint">
+			<div class="title"><?php _e("Plugin Language", "wp-google-maps"); ?></div>
+			<?php 
+				wp_dropdown_languages(array(
+					'name'                        => 'locale_override',
+					'id'                          => 'locale_override',
+					'languages'                   => get_available_languages(),
+					'show_available_translations' => true,
+					'show_option_site_default'    => true,
+					'show_option_en_us' => false,
+				));
+			?>
+		</div>
+
+		<div class="tab-row">
+			<div class="title"></div>
+			<small>
+				<?php _e("Allows you to force a specific language on our plugin interfaces and your mapping system. The default will use the locale best suited to your site or user.", "wp-google-maps"); ?>
+			</small>
+		</div>
+
 		<!-- Gallery Image Size -->
 		<div class="tab-row has-hint wpgmza-pro-feature wpgmza-pro-feature-hide">
 			<div class="title"><?php _e("Gallery Image Size", "wp-google-maps"); ?></div>
@@ -2357,6 +2410,18 @@
 			<small class="inline-hint">
 				<?php _e("By default, marker fields may return partial matches, in some cases you may prefer exact matches only", "wp-google-maps"); ?>
 			</small>
+		</div>
+
+		<!-- Marker Field Query relationship -->
+		<div class="tab-row wpgmza-pro-feature">
+			<div class="title">
+				<?php esc_html_e('Marker Field Query Relationship', 'wp-google-maps'); ?>
+			</div>
+
+			<select name='marker_field_query_rel'>
+				<option value=''><?php esc_html_e("AND", "wp-google-maps"); ?></option>
+				<option value='OR'><?php esc_html_e("OR", "wp-google-maps"); ?> (<?php esc_html_e("beta", "wp-google-maps"); ?>)</option>
+			</select>
 		</div>
 	</div>
 

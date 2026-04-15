@@ -221,10 +221,23 @@ jQuery(function($) {
 			options.maxZoom = Math.max(this.map_min_zoom, this.map_max_zoom);
 		}
 
+		// Leaflet's EPSG3857 projection breaks marker positioning below zoom 3 due to
+		// world-copy wrapping. Enforce a safe floor for standard tile maps only —
+		// custom tile mode uses L.CRS.Simple which does not have this constraint.
+		if(!this.customTileMode) {
+			const safeMinZoom = 3;
+			if(!options.minZoom || options.minZoom < safeMinZoom) {
+				options.minZoom = safeMinZoom;
+			}
+			if(options.zoom < options.minZoom) {
+				options.zoom = options.minZoom;
+			}
+		}
+
 		function isSettingDisabled(value) {
 			if(value === "yes")
 				return true;
-			
+
 			return (value ? true : false);
 		}
 
@@ -432,6 +445,14 @@ jQuery(function($) {
                 if(settings.tile_server_url_override && settings.tile_server_url_override.trim() !== ""){
                     config.url = settings.tile_server_url_override.trim();
                 }
+				
+				if(settings.tile_server_key_field_name_override && settings.tile_server_key_field_name_override.trim() !== ""){
+					config.authentication.name = settings.tile_server_key_field_name_override.trim();
+				}
+
+				if(settings.tile_server_type_override && settings.tile_server_type_override.trim() !== ""){
+					config.type = settings.tile_server_type_override.trim();
+				}
             }
 
             if(options){
@@ -524,12 +545,12 @@ jQuery(function($) {
 				}
 
 				/* Definition - Check auth name  */
-				if(config.definition.key_field_name){
+				if(config.definition.key_field_name && config.definition.slug !== 'custom'){
 					config.authentication.name = config.definition.key_field_name;
 				} 
 
 				/* Definition - Check type change */
-				if(config.definition.type && config.definition.type !== config.type){
+				if(config.definition.type && config.definition.type !== config.type && config.definition.slug !== 'custom'){
 					config.type = config.definition.type;
 				}
 

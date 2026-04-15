@@ -378,6 +378,10 @@ jQuery(function($) {
 			}
 		}
 
+		if(WPGMZA.wpml_language && route.indexOf('lang=') === -1){
+			route += (route.indexOf('?') !== -1 ? "&" : "?") + "lang=" + encodeURIComponent(WPGMZA.wpml_language);
+		}
+
 		return $.ajax(WPGMZA.RestAPI.URL + route, params);
 	}
 	

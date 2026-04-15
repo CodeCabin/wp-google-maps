@@ -79,6 +79,8 @@ jQuery(function($) {
 		if(!label){
 			if(this.label){
 				this.label.remove();
+				this.label = false;
+
 			}
 			return;
 		}

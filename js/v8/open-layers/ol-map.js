@@ -179,6 +179,10 @@ jQuery(function($) {
 		if(!isSettingDisabled(WPGMZA.settings.wpgmza_settings_map_full_screen_control)){
 			this.olMap.addControl(new ol.control.FullScreen());
 		}
+
+		if(this.settings.enable_scale_control){
+			this.enableScaleControl(true);
+		}
 		
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
 		{
@@ -976,6 +980,31 @@ jQuery(function($) {
 			});
 
 			this.olMap.addControl(layerController);
+		}
+	}
+
+	/**
+	 * Enables / disables the scale control bar
+	 * @param enable boolean, enable or not
+	 * @return void
+	 */
+	WPGMZA.OLMap.prototype.enableScaleControl = function(enable)
+	{
+		if(!this.olMap)
+			return;
+
+		if(this.scaleControl){
+			this.olMap.removeControl(this.scaleControl);
+			this.scaleControl = null;
+		}
+
+		if(enable){
+			const units = (this.settings.store_locator_distance == WPGMZA.Distance.MILES)
+				? 'imperial'
+				: 'metric';
+
+			this.scaleControl = new ol.control.ScaleLine({ units: units });
+			this.olMap.addControl(this.scaleControl);
 		}
 	}
 

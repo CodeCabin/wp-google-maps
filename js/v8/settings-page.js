@@ -128,8 +128,12 @@ jQuery(function($) {
 		$('select[name="tile_server_url"]').on('change', function(event){
 			if($('select[name="tile_server_url"]').val() === "custom_override"){
 				$('.wpgmza_tile_server_override_component').removeClass('wpgmza-hidden');
+				$('.wpgmza_tile_server_key_field_name_override').removeClass('wpgmza-hidden');
+				$('.wpgmza_tile_server_type_override').removeClass('wpgmza-hidden');
 			} else {
 				$('.wpgmza_tile_server_override_component').addClass('wpgmza-hidden');
+				$('.wpgmza_tile_server_key_field_name_override').addClass('wpgmza-hidden');
+				$('.wpgmza_tile_server_type_override').addClass('wpgmza-hidden');
 			}
 		});
 		$('select[name="tile_server_url"]').trigger('change');
