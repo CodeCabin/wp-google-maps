@@ -13,6 +13,13 @@ class Pro10Compatibility{
         add_action('wpgmza_global_settings_page_created', array($this, 'disableV10Features'));
         add_action('wpgmza_map_edit_page_created', array($this, 'disableV10Features'));
         add_action('wpgmza_installer_page_created', array($this, 'disableV10Features'));
+
+        add_filter('wpgmza-get-library-dependencies',  array($this, 'swapDataTablesForLegacy'));
+        add_action('wp_enqueue_scripts',               array($this, 'swapDataTablesAssetsForLegacy'), 999);
+        add_action('admin_enqueue_scripts',            array($this, 'swapDataTablesAssetsForLegacy'), 999);
+        add_action('enqueue_block_assets',             array($this, 'swapDataTablesAssetsForLegacy'), 999);
+
+        add_filter('wpgmza_google_maps_api_params',    array($this, 'addDrawingLibraryForLegacyPro'));
 	}
 	
 	public function validateMapEngine(){
@@ -220,6 +227,53 @@ class Pro10Compatibility{
                 }
             }
         }
+    }
+
+    /**
+     * Adds the Google Maps 'drawing' library to the API load URL when Pro is below V10 and the
+     * current page is the map editor. Compiled Pro JS files from older versions bootstrap the
+     * native Google Drawing Manager on this page; without the library the editor fails to init.
+     * Hooks: wpgmza_google_maps_api_params
+     */
+    public function addDrawingLibraryForLegacyPro($params){
+        global $wpgmza;
+        if($this->isIncompatible() && $wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT){
+            $libraries = !empty($params['libraries']) ? explode(',', $params['libraries']) : array();
+            if(!in_array('drawing', $libraries)){
+                $libraries[] = 'drawing';
+            }
+            $params['libraries'] = implode(',', $libraries);
+        }
+        return $params;
+    }
+
+    /**
+     * Replaces the DataTables V2 JS URL with the V1.12 CDN URL when Pro is below V10.
+     * V2 init logic is incompatible with the Pro module versions used before V10.
+     * Hooks: wpgmza-get-library-dependencies
+     */
+    public function swapDataTablesForLegacy($libraries){
+        if($this->isIncompatible()){
+            $libraries['datatables'] = 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js';
+        }
+        return $libraries;
+    }
+
+    /**
+     * Replaces the DataTables CSS and loads the Responsive extension from CDN when Pro is below V10.
+     * The Responsive extension is bundled inside the V2 file; for V1.12 it must be loaded separately.
+     * Hooks: wp_enqueue_scripts, admin_enqueue_scripts, enqueue_block_assets (priority 999)
+     */
+    public function swapDataTablesAssetsForLegacy(){
+        if(!$this->isIncompatible()){
+            return;
+        }
+
+        wp_deregister_style('datatables');
+        wp_enqueue_style('datatables', 'https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css');
+
+        wp_enqueue_script('datatables-responsive', 'https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js', array('datatables'), false, false);
+        wp_enqueue_style('datatables-responsive', 'https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css');
     }
 
     private function isIncompatible(){
