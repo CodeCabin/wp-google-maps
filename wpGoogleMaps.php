@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.0.08
+Version: 10.0.09
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -12,6 +12,9 @@ Domain Path: /languages
 
 
 /*
+ * 10.0.09 - 2026-04-16
+ * Fixed issue where minified code base was not accurately compiled due to issue with internal build tools. Only affected pro users
+ * 
  * 10.0.08 - 2026-04-16
  * Fixed issue where users on Pro below V10 would experience a DataTables V2 init failure, preventing access to the map editor and marker list. When Pro below V10 is detected, DataTables V1.12 and its Responsive extension are now loaded from CDN instead
  * Fixed issue where users on Pro below V10 would see an init failure on the map editor due to the Google Drawing Manager library not being loaded. The drawing library is now injected into the Google Maps API URL via the compatibility layer when Pro below V10 is detected on the map edit page
