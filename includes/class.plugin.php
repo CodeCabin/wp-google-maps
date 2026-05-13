@@ -438,7 +438,7 @@ class Plugin extends Factory
 		/* Developer Hook (Filter) - Add or alter localization variables */
 		$result = apply_filters('wpgmza_plugin_get_localized_data', array(
 			'adminurl'				=> admin_url(),
-			'siteHash'				=> md5(site_url()),
+			'siteHash'				=> Plugin::getSiteHash(),
 			'ajaxurl' 				=> admin_url('admin-ajax.php'),
 			'pluginDirURL'			=> plugin_dir_url(WPGMZA_FILE),
 			
@@ -1116,6 +1116,15 @@ class Plugin extends Factory
 		$excludeList[] = 'wpgmza-js-extra';
 
 		return $excludeList;
+	}
+
+	public static function getSiteHash(){
+		$hash = get_option('wpgmza_site_hash');
+		if(empty($hash)){
+			$hash = md5( uniqid( '', true ) . site_url() . microtime( true ) );
+			update_option('wpgmza_site_hash', $hash, false);
+		}
+		return $hash;
 	}
 
 	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {
