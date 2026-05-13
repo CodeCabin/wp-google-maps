@@ -35,7 +35,9 @@ class SettingsPage extends Page {
 
 		if(class_exists("WPML_Translation_Management")){
 			$this->form->querySelector('.wpgmza-wpml-notice')->removeClass('wpgmza-hidden');
-			$this->form->querySelector('select[name="locale_override"]')->setAttribute('disabled', 'disabled');
+			if($localOverrideSelect = $this->form->querySelector('select[name="locale_override"]')){
+				$localOverrideSelect->setAttribute('disabled', 'disabled');
+			}
 		}
 
 		/* Tile Server Select */

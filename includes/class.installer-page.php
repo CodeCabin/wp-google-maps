@@ -227,8 +227,7 @@ class InstallerPage extends Page {
 	 * @return string 
 	 */
 	public static function generateTempApiKey(){
-		$siteUrl = site_url();
-		$siteHash = md5($siteUrl);
+		$siteHash = Plugin::getSiteHash();
 		$response = wp_remote_get("https://wpgmaps.us-3.evennode.com/api/v1/google/generate/temporary?d={$siteUrl}&h={$siteHash}");
 		if(is_array($response) && !is_wp_error($response)){
 			try {

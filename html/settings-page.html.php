@@ -1787,6 +1787,7 @@
 				_e('WP Go Maps GDPR options have been disabled as they are fully controlled by Complianz', 'wp-google-maps');
 			?>
 		</span>
+		<span class="wpgmza-wpml-notice wpgmza-hidden"></span>
 	</div>
 
 	

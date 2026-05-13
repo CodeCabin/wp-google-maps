@@ -838,6 +838,12 @@ class RestAPI extends Factory
 				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m)) {
 					try{
 						$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
+
+						if(empty($marker->approved) && !$wpgmza->isUserAllowedToEdit()){
+							/* Marker is not approved */
+							return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
+						}
+
 						return $marker;
 					} catch (\Exception $ex){
 						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));

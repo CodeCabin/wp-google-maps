@@ -237,7 +237,7 @@ class Pro10Compatibility{
      */
     public function addDrawingLibraryForLegacyPro($params){
         global $wpgmza;
-        if($this->isIncompatible() && $wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT){
+        if($this->requiresLegacyDataTables() && $wpgmza->getCurrentPage() == Plugin::PAGE_MAP_EDIT){
             $libraries = !empty($params['libraries']) ? explode(',', $params['libraries']) : array();
             if(!in_array('drawing', $libraries)){
                 $libraries[] = 'drawing';
@@ -253,7 +253,7 @@ class Pro10Compatibility{
      * Hooks: wpgmza-get-library-dependencies
      */
     public function swapDataTablesForLegacy($libraries){
-        if($this->isIncompatible()){
+        if($this->requiresLegacyDataTables()){
             $libraries['datatables'] = 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js';
         }
         return $libraries;
@@ -265,7 +265,7 @@ class Pro10Compatibility{
      * Hooks: wp_enqueue_scripts, admin_enqueue_scripts, enqueue_block_assets (priority 999)
      */
     public function swapDataTablesAssetsForLegacy(){
-        if(!$this->isIncompatible()){
+        if(!$this->requiresLegacyDataTables()){
             return;
         }
 
@@ -280,7 +280,17 @@ class Pro10Compatibility{
         global $wpgmza_pro_version;
         if(!empty($wpgmza_pro_version)) {
 		    if(version_compare($wpgmza_pro_version, '10.0.0', '<')){
-                return true; 
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function requiresLegacyDataTables(){
+        global $wpgmza_pro_version;
+        if(!empty($wpgmza_pro_version)){
+            if(version_compare($wpgmza_pro_version, '10.0.06', '<')){
+                return true;
             }
         }
         return false;
