@@ -1,18 +1,20 @@
-=== WP Go Maps (formerly WP Google Maps) ===
+=== WP Go Maps - Most Popular Map Plugin ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, map markers, block, map block, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
+Tags: google maps, maps, map, maps plugin, store locator
 Requires at least: 3.5
 Tested up to: 7.0
 Requires PHP: 7.0
 Stable tag: 10.0.10
 License: GPLv2
 
-The easiest to use Google maps plugin! Create a custom Google map, map block, store locator or map widget with high quality markers containing categories, descriptions, images and links.
+The easiest to use map plugin! Create a custom map, map block, store locator or map widget with high quality markers.
 
 == Description ==
 
 The easiest to use Google Maps, Leaflet and Open Layers Map Plugin (including a Map Block)!
+
+Formerly WP Google Maps.
 
 Add a customized Google map, map block or Store Locator to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
 
@@ -20,7 +22,7 @@ While the free version of WP Go Maps allows you to create a Google map with as m
 
 Create Elementor Maps, map blocks and map widgets easily with our WP Go Maps Elementor map block integration, straight out the box!
 
-Do you use the classic editor? We still support map widgets for classic WordPress installations. No need to compromise, the map widget includes the same functionality as our map blocks! 
+Do you use the classic editor? We still support map widgets for classic WordPress installations. No need to compromise, the map widget includes the same functionality as our map blocks!  
 
 The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-version/) version allows you create custom Google maps with high quality markers containing locations, descriptions, images, categories, links and directions. 
 
@@ -217,161 +219,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 = 10.0.10 = 
 Please update to 10.0.10 or above to ensure you are using the latest security enhancements.
 
-= 10.0.07 = 
+= 10.0.08 = 
 Please update to 10.0.08 or above for the latest stability improvements.
 
 = 10.0.07 = 
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
-= 10.0.06 = 
-Please update to 10.0.06 or above or above to ensure you are using the latest security enhancements.
-
-= 10.0.05 = 
-Please update to 10.0.05 or above or above to ensure you are using the latest security enhancements.
-
-= 10.0.04 = 
-Please update to 10.0.04 or above to ensure you are using the latest architecture, and latest features.
-
-= 10.0.03 = 
-Please update to 10.0.03 or above to ensure you are using the latest architecture, and latest features.
-
-= 10.0.01 =
-Please update to 10.0.01 or above to ensure you are using the latest architecture, and latest features.
-
-= 10.0.00 =
-Please update to 10.0.00 or above to ensure you are using the latest architecture, and latest features.
-
-= 9.0.49 =
-Please update to 9.0.49 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.48 =
-Please update to 9.0.48 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.47 =
-Please update to 9.0.47 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.46 =
-Please update to 9.0.46 or above for the latest stability improvements.
-
-= 9.0.45 =
-Please update to 9.0.45 or above for the latest stability improvements.
-
-= 9.0.43 =
-Please update to 9.0.43 or above for the latest stability improvements.
-
-= 9.0.41 =
-Please update to 9.0.41 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.40 =
-Please update to 9.0.40 or above for the latest stability improvements.
-
-= 9.0.39 =
-Please update to 9.0.39 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.37 =
-Please update to 9.0.37 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.36 =
-Please update to 9.0.36 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.34 =
-Please update to 9.0.34 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.33 =
-Please update to 9.0.33 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.32 =
-Please update to 9.0.32 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.31 =
-Please update to 9.0.31 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.30 =
-Please update to 9.0.30 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.28 =
-Please update to 9.0.28 or above or above to ensure you are using the latest security enhancements.
-
-= 9.0.27 =
-Please update to 9.0.27 or above for the latest stability improvements and PHP compatibility
-
-= 9.0.26 =
-Please update to 9.0.26 or above for the latest stability improvements.
-
-= 9.0.25 =
-Please update to 9.0.25 or above for the latest stability improvements.
-
-= 9.0.23 =
-Please update to 9.0.23 or above to ensure you are using the latest architecture, and latest features.
-
-= 9.0.22 =
-Please update to 9.0.22 or above for the latest stability improvements.
-
-= 9.0.21 =
-Please update to 9.0.21 or above to ensure you are using the latest architecture, and latest features.
-
-= 9.0.20 =
-Please update to 9.0.20 or above for the latest stability improvements.
-
-= 9.0.19 =
-Please update to 9.0.19 or above for the latest stability improvements.
-
-= 9.0.18 =
-Please update to 9.0.18 or above for the latest stability improvements.
-
-= 9.0.17 =
-Please update to 9.0.17 or above for the latest stability improvements.
-
-= 9.0.16 =
-Please update to 9.0.16 or above for the latest stability improvements.
-
-= 9.0.15 =
-Please update to 9.0.15 or above to ensure you are using the latest security enhancements.
-
-= 9.0.14 =
-Please update to 9.0.14 or above for the latest stability improvements.
-
-= 9.0.13 =
-Please update to 9.0.13 or above for the latest stability improvements.
-
-= 9.0.4 =
-Please update to 9.0.4 or above for the latest stability improvements.
-
-= 9.0.3 =
-Please update to 9.0.3 or above for the latest stability improvements.
-
-= 9.0.1 =
-Please update to 9.0.1 or above for the latest stability improvements.
-
-= 9.0.0 =
-Please update to 9.0.0 or above to ensure you are using the latest architecture, and latest features.
-
-= 8.1.20 =
-Please update to 8.1.20 or above to ensure you are using the latest security enhancements.
-
-= 8.1.18 =
-Please update to 8.1.18 or above to ensure you are using the latest security enhancements.
-
-= 8.1.16 =
-Please update to 8.1.16 or above to ensure plugin stability.
-
-= 8.1.13 =
-Please update to 8.1.13 or above to ensure you are using the latest security enhancements.
-
-= 8.1.12 =
-Please update to 8.1.12 for PHP8 compatibility.
-
-= 8.1.4 =
-Please update to 8.1.4 to ensure a smooth user experience.
-
-= 8.0.26 =
-Please update to 8.0.26 or above to ensure you are using the latest security enhancements.
-
-= 7.11.19 =
-Please update to 7.11.18 or above to ensure you are using the latest security enhancements.
-
-= 6.3.15 =
-Please update your WP Go Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
 
