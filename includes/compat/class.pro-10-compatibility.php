@@ -220,7 +220,7 @@ class Pro10Compatibility{
                             }
 
                             if(!empty($label)){
-                                $label->import(" <strong><small>(" . __(($engine === 'googlemaps' ? "Google Maps Only" : "Open Layers Only"), 'wp-google-maps') . ")</small></strong>");
+                                $label->import(" <strong><small>(" . ($engine === 'googlemaps' ? __("Google Maps Only", 'wp-google-maps') : __("Open Layers Only", 'wp-google-maps')) . ")</small></strong>");
                             }
                         }
                     }

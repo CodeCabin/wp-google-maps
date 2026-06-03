@@ -96,7 +96,7 @@ function wpgmza_b_add_circle($mid)
 	                    </p>
 	                </div>
 
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_save_circle' class='button-primary' value='".__("Save Circle","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_save_circle' class='button-primary' value='".__("Save Circle","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -129,7 +129,7 @@ function wpgmza_b_edit_circle($mid)
 		
 		if(empty($results))
 		{
-			echo "<p class='notice notice-error'>" . __('Invalid circle ID', 'wp-google-maps') . "</p>";
+			echo "<p class='notice notice-error'>" . esc_html__('Invalid circle ID', 'wp-google-maps') . "</p>";
 			return;
 		}
 		
@@ -218,7 +218,7 @@ function wpgmza_b_edit_circle($mid)
 	                    </p>
 	                </div>
 
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_save_circle' class='button-primary' value='".__("Save Circle","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_save_circle' class='button-primary' value='".__("Save Circle","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -235,7 +235,7 @@ function wpgmza_b_edit_circle($mid)
 
 function wpgmaps_b_admin_add_circle_javascript()
 {
-	$res = wpgmza_get_map_data(sanitize_text_field($_GET['map_id']));
+	$res = wpgmza_get_map_data(sanitize_text_field(wp_unslash($_GET['map_id'])));
 	$wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
 
 	$wpgmza_lat = $res->map_start_lat;

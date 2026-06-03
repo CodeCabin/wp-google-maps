@@ -30,7 +30,7 @@ class MarkerDataTable extends DataTable
 		
 		$clause = AjaxTable::getWhereClause($input_params, $query_params, $clause_for_total);
 		
-		if(!((isset($_SERVER['HTTP_REFERER']) && preg_match('/page=wp-google-maps-menu/', $_SERVER['HTTP_REFERER']) && $wpgmza->isUserAllowedToEdit())))
+		if(!((isset($_SERVER['HTTP_REFERER']) && preg_match('/page=wp-google-maps-menu/', sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER']))) && $wpgmza->isUserAllowedToEdit())))
 		{
 			$clause .= ' AND approved=%d';
 			$query_params[] = 1;

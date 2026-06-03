@@ -68,7 +68,7 @@ class InstallerPage extends Page {
 	public static function post(){
 		global $wpgmza;
 		
-		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_installer_page')){
+		if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpgmza_installer_page')){
 			http_response_code(403);
 			exit;
 		}
@@ -227,6 +227,7 @@ class InstallerPage extends Page {
 	 * @return string 
 	 */
 	public static function generateTempApiKey(){
+		$siteUrl = site_url();
 		$siteHash = Plugin::getSiteHash();
 		$response = wp_remote_get("https://wpgmaps.us-3.evennode.com/api/v1/google/generate/temporary?d={$siteUrl}&h={$siteHash}");
 		if(is_array($response) && !is_wp_error($response)){

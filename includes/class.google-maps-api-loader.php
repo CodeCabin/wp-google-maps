@@ -92,11 +92,11 @@ class GoogleMapsAPILoader
 				<div class="notice notice-warning is-dismissable">
 					<p>
 						<?php
-						_e( sprintf(
-							'WP Go Maps: You have selected the Google Maps engine, but the Google Maps API is not being loaded for the following reason: %s.<br/>We recommend you uncheck "Do not load Google Maps API" and set "Load Maps Engine API" to "Where Required" in your <a href="%s">maps settings page</a>', 
+						printf(
+							__('WP Go Maps: You have selected the Google Maps engine, but the Google Maps API is not being loaded for the following reason: %s.<br/>We recommend you uncheck "Do not load Google Maps API" and set "Load Maps Engine API" to "Where Required" in your <a href="%s">maps settings page</a>', 'wp-google-maps'),
 							$status->message,
 							admin_url('admin.php?page=wp-google-maps-menu-settings')
-						));
+						);
 						?>
 					</p>
 				</div>

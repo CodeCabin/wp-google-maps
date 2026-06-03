@@ -14,7 +14,15 @@ jQuery(function($) {
 		this.element.on("click", ".tileset-option", (event) => {
 			this.onTilesetChange(event);
 
-            WPGMZA.notification("Save map to apply tileset!", false, '.grouping.open[data-group="map-settings-themes-tileset"]', 'top-right');
+			/* Skip the "Save map to apply tileset!" reminder when Atlas
+			 * Major's live preview is mounted — the live preview JS
+			 * applies the tileset to the map immediately on click, so
+			 * the notification would be misleading. Atlas Novus / Legacy
+			 * still need the reminder since their editors can't preview
+			 * the swap until the map is saved + reloaded. */
+			if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')){
+				WPGMZA.notification("Save map to apply tileset!", false, '.grouping.open[data-group="map-settings-themes-tileset"]', 'top-right');
+			}
 		});
 
         this.onTilesetChange();

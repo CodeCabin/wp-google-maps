@@ -73,10 +73,19 @@ jQuery(function($) {
 				this.moveModal = WPGMZA.GenericModal.createInstance($('.wpgmza-map-select-modal'));
 			}
 
+			/* Bulk editor modal is lazy-initialized via getBulkEditorModal()
+			   to avoid jstree timing issues (CategoryPicker requires jstree
+			   which may not be loaded during DataTable construction) */
+		}
+	}
+
+	WPGMZA.AdminFeatureDataTable.prototype.getBulkEditorModal = function(){
+		if(!this.bulkEditorModal && this.featureType === 'marker'){
 			if($('.wpgmza-bulk-marker-editor-modal').length){
 				this.bulkEditorModal = WPGMZA.GenericModal.createInstance($('.wpgmza-bulk-marker-editor-modal'));
 			}
 		}
+		return this.bulkEditorModal;
 	}
 	
 	WPGMZA.AdminFeatureDataTable.prototype.getDataTableSettings = function()
@@ -169,8 +178,9 @@ jQuery(function($) {
 			ids.push(row.wpgmzaFeatureData.id);
 		});
 
-		if(this.bulkEditorModal && ids.length){
-			this.bulkEditorModal.show(function(data){
+		var modal = this.getBulkEditorModal();
+		if(modal && ids.length){
+			modal.show(function(data){
 				data.ids = ids;
 				data.action = "bulk_edit";
 

@@ -17,7 +17,7 @@ class MapsEngineDialog
 	public static function post(){
 		global $wpgmza;
 		
-		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_maps_engine_dialog_set_engine')){
+		if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpgmza_maps_engine_dialog_set_engine')){
 			http_response_code(403);
 			exit;
 		}

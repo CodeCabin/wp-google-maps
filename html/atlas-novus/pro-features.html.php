@@ -22,7 +22,7 @@ global $wpgmza;
     
 
     <a class="wpgmza-button wpgmza-button-call-to-action" target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-atlas-novus-v10">
-        <?php echo __("Upgrade to Premium Now","wp-google-maps"); ?>
+        <?php esc_html_e("Upgrade to Premium Now","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>
 
@@ -210,7 +210,7 @@ global $wpgmza;
 
     <h2><?php _e("Ready to unlock your maps?", "wp-google-maps"); ?></h2>                
     <a class="wpgmza-button wpgmza-button-call-to-action" target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-unlock-alt-atlas-novus-v10">
-        <?php echo __("Unlock with Premium","wp-google-maps"); ?>
+        <?php esc_html_e("Unlock with Premium","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>
 </div>

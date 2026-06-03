@@ -165,17 +165,39 @@ class MarkerFilter extends Factory
 	public function getQuery()
 	{
 		global $WPGMZA_TABLE_NAME_MARKERS;
-		
+
 		$query = new Query();
-		
+
 		$query->type	= 'SELECT';
 		$query->table	= $WPGMZA_TABLE_NAME_MARKERS;
-		
+
 		$this->applyRadiusClause($query);
 		$this->applyIDsClause($query);
 		$this->applyLimit($query);
-		
+		$this->applyApprovedClause($query);
+
 		return $query;
+	}
+
+	/* Restrict results to approved markers unless the request
+	   originates from the plugin's own admin UI and the user has
+	   edit capability. Capability check is the real gate; the
+	   HTTP_REFERER check just narrows the bypass to in-plugin admin
+	   pages so admins browsing the frontend still see the
+	   approved-only view non-admin visitors see. Mirrors
+	   MarkerDataTable::getWhereClause(). Pro overrides this in
+	   ProMarkerFilter to honor the permission-gated
+	   `includeUnapproved` option instead. */
+	protected function applyApprovedClause($query)
+	{
+		global $wpgmza;
+
+		if(isset($_SERVER['HTTP_REFERER'])
+			&& preg_match('/page=wp-google-maps-menu/', sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER'])))
+			&& $wpgmza->isUserAllowedToEdit())
+			return;
+
+		$query->where['approved'] = 'approved = 1';
 	}
 	
 	public function getColumns($fields=null)

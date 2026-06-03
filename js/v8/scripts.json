@@ -13,6 +13,48 @@
             "wpgmza-event-dispatcher"
         ]
     },
+    "wpgmza-atlas-major-auto-save": {
+        "src": "js/v8/atlas-major-autosave.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-atlas-major-feature-list": {
+        "src": "js/v8/atlas-major-feature-list.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-atlas-major-live-preview": {
+        "src": "js/v8/atlas-major-live-preview.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-atlas-major-marker-list": {
+        "src": "js/v8/atlas-major-marker-list.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-atlas-major-pro-pill": {
+        "src": "js/v8/atlas-major-pro-pill.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza"
+        ]
+    },
+    "wpgmza-atlas-major-tabs": {
+        "src": "js/v8/atlas-major-tabs.js",
+        "pro": false,
+        "dependencies": [
+            "wpgmza-sidebar-groupings"
+        ]
+    },
     "wpgmza-autocomplete": {
         "src": "js/v8/autocomplete.js",
         "pro": false,

@@ -78,6 +78,21 @@
 
         <div class="wpgmza-card wpgmza-shadow-high wpgmza-demo-showcase-card" data-demo-showcase>
             <div class="wpgmza-demo-showcase-image wpgmza-demo-showcase-fill-scale">
+                <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/store-locator.png'; ?>' />
+            </div>
+
+            <div class="wpgmza-demo-showcase-title"><?php _e("Store Locator", "wp-google-maps"); ?><span class="wpgmza-demo-showcase-version wpgmza-demo-showcase-version-pro"><?php _e("Pro Demo", "wp-google-maps"); ?></span></div>
+            <div class="wpgmza-demo-showcase-description"><?php _e("Get users to your store, quickly and easily!", "wp-google-maps"); ?></div>
+
+            <div class="wpgmza-demo-showcase-link-wrapper">
+                <a class='wpgmza-button wpgmza-button-call-to-action' href="https://www.wpgmaps.com/demo/store-locator/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=maplist-demo-store-locator-pro-atlas-novus-v10" target="_BLANK">
+                    <?php _e("View Demo", "wp-google-maps"); ?>
+                </a>
+            </div>
+        </div>
+
+        <div class="wpgmza-card wpgmza-shadow-high wpgmza-demo-showcase-card" data-demo-showcase>
+            <div class="wpgmza-demo-showcase-image wpgmza-demo-showcase-fill-scale">
                 <img src='<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/themes.png'; ?>' />
             </div>
 

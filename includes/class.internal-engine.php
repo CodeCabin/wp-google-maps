@@ -8,6 +8,7 @@ if(!defined('ABSPATH'))
 class InternalEngine {
 	const LEGACY = "legacy";
 	const ATLAS_NOVUS  = "atlas-novus";
+	const ATLAS_MAJOR  = "atlas-major";
 
 	const RAND_PROB_FACTOR = 0.7;
 
@@ -44,21 +45,59 @@ class InternalEngine {
 	}
 
 	/**
-	 * Get the current internal engine 
-	 * 
+	 * Get the current internal engine.
+	 *
+	 * Returns the EFFECTIVE engine after compatibility checks. If the user
+	 * has Atlas Major selected but the active Pro add-on is too old (see
+	 * ProAtlasMajorCompatibility), this returns Atlas Novus instead so
+	 * template/CSS/JS path resolution falls back cleanly across the board.
+	 * The stored setting is unchanged — Atlas Major resumes automatically
+	 * when Pro is updated.
+	 *
 	 * @return string
 	 */
 	public function getEngine(){
-		return $this->engine;		
+		if($this->engine === self::ATLAS_MAJOR
+			&& class_exists('\WPGMZA\ProAtlasMajorCompatibility')
+			&& \WPGMZA\ProAtlasMajorCompatibility::isProIncompatible()){
+			return self::ATLAS_NOVUS;
+		}
+		return $this->engine;
+	}
+
+	/**
+	 * Get the raw stored engine, ignoring any compatibility-based fallbacks.
+	 * Use this only when you specifically need the user's saved preference
+	 * (e.g. UI rendering of the engine picker, persistence). For all asset
+	 * loading and feature gating use getEngine() / isAtlasMajor().
+	 *
+	 * @return string
+	 */
+	public function getStoredEngine(){
+		return $this->engine;
 	}
 
 	/**
 	 * Check if the user is running legacy engine
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isLegacy(){
 		return $this->getEngine() === self::LEGACY;
+	}
+
+	/**
+	 * Check if the user is running Atlas Major engine.
+	 *
+	 * Reads the EFFECTIVE engine via getEngine(), which already applies
+	 * the ProAtlasMajorCompatibility fallback. If Atlas Major is selected
+	 * but Pro is too old, getEngine() returns Atlas Novus and this
+	 * returns false naturally — no separate compat check needed here.
+	 *
+	 * @return bool
+	 */
+	public function isAtlasMajor(){
+		return $this->getEngine() === self::ATLAS_MAJOR;
 	}
 
 	/**
@@ -271,23 +310,55 @@ class InternalEngine {
 	 * @return string 
 	 */
 	private function compilePath($base, $type, $file){
+		/* Use the effective engine (getEngine()), which applies the
+		   ProAtlasMajorCompatibility fallback. This ensures template
+		   paths resolve to atlas-novus when Atlas Major is selected
+		   but Pro is too old to support it. */
+		$effectiveEngine = $this->getEngine();
 		$compiled = array(
 			'base' => $base,
 			'type' => $type,
-			'engine' => $this->engine,
+			'engine' => $effectiveEngine,
 			'file' => $file
 		);
 
-		if(empty($this->engine) || $this->engine === self::LEGACY){
+		if(empty($effectiveEngine) || $effectiveEngine === self::LEGACY){
 			unset($compiled['engine']);
 		}
 
 		if(!$this->validatePath($compiled)){
 			if(!empty($compiled['engine'])){
-				unset($compiled['engine']);
+				/* Try the fallback engine before going to legacy */
+				$fallback = $this->getFallbackEngine();
+				if(!empty($fallback)){
+					$compiled['engine'] = $fallback;
+					if(!$this->validatePath($compiled)){
+						unset($compiled['engine']);
+					}
+				} else {
+					unset($compiled['engine']);
+				}
 			}
-		} 
+		}
 		return $this->buildPath($compiled);
+	}
+
+	/**
+	 * Get the fallback engine for the current engine
+	 *
+	 * Atlas Major falls back to Atlas Novus, allowing templates to be
+	 * inherited without duplication. Only templates that differ need
+	 * to be created in the atlas-major directory.
+	 *
+	 * @return string|null The fallback engine name, or null if none
+	 */
+	private function getFallbackEngine(){
+		switch($this->getEngine()){
+			case self::ATLAS_MAJOR:
+				return self::ATLAS_NOVUS;
+			default:
+				return null;
+		}
 	}
 
 	/**
@@ -325,6 +396,7 @@ class InternalEngine {
 		switch ($engine) {
 			case self::LEGACY:
 			case self::ATLAS_NOVUS:
+			case self::ATLAS_MAJOR:
 				return $engine;
 			default:
 				return self::getStableBuildName();
@@ -357,9 +429,13 @@ class InternalEngine {
 
 	/**
 	 * Get the default engine to be used in all installations
-	 * 
-	 * Note: V9 use to select a random engine, split test, but from V10 we select Atlas Novus by default for all new installations
-	 * 
+	 *
+	 * V9 selected a random engine for a split test. V10 picked Atlas Novus
+	 * by default. From V10.1 new installs default to Atlas Major —
+	 * existing installs keep whatever `internal_engine` value they already
+	 * have in `wpgmza_global_settings`, so only fresh installs pick up
+	 * the new default.
+	 *
 	 * @return string
 	 */
 	public static function getDefaultEngine(){
@@ -367,12 +443,18 @@ class InternalEngine {
 	}
 
 	/**
-	 * Get stable build name, since V10 Atlas Novus
-	 * 
+	 * Get stable build name.
+	 *
+	 * V10 = Atlas Novus. V10.1 = Atlas Major (now stable).
+	 *
+	 * This is also the fallback validateEngine() returns for unknown /
+	 * corrupted stored engine values, so it always points at whatever the
+	 * current "default for everyone" engine is.
+	 *
 	 * @return string
 	 */
 	public static function getStableBuildName(){
-		return self::ATLAS_NOVUS;
+		return self::ATLAS_MAJOR;
 	}
 
 	/**

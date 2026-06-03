@@ -149,7 +149,7 @@ class GDPRCompliance
 		} catch (\Exception $ex){
 			if(function_exists('mb_convert_encoding')){
 				$html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-			} else if (function_exists('utf8_decode')){
+			} else if(version_compare(phpversion(), '8.2', '<') && function_exists('utf8_decode')){
 				$html = utf8_decode($html);
 			}
 		}

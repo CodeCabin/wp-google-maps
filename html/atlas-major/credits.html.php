@@ -1,0 +1,271 @@
+<?php
+	if(!defined('ABSPATH'))
+		exit;
+
+	global $wpgmza;
+
+	$basicVersion = explode('.', $wpgmza->getBasicVersion());
+
+?>
+<div class="wpgmza-writeup-tabs am-writeup-tabs">
+    <a href="admin.php?page=wp-google-maps-menu&amp;action=welcome_page" class="tab am-tab-link"><?php _e("Welcome","wp-google-maps"); ?></a>
+    <a href="admin.php?page=wp-google-maps-menu&amp;action=credits" class="tab tab-active am-tab-link am-tab-link-active"><?php _e("Credits","wp-google-maps"); ?></a>
+</div>
+
+<div id="wpgmza-credits-page" class="wrap wpgmza-wrap wpgmza-writeup-block wpgmza-shadow-high wpgmza-atlas-major am-page">
+
+    <div class="am-page-hero am-credits-hero">
+        <div>
+            <h2 class="am-page-title"><?php _e("The team behind", "wp-google-maps"); ?></h2>
+        </div>
+        <h1 class="am-credits-version"><?php printf(__("WP Go Maps %s","wp-google-maps"), array_shift($basicVersion)); ?></h1>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h3 class="am-section-subtitle"><?php _e("WP Go Maps helps you create maps that you'll love!","wp-google-maps"); ?></h3>
+        <h3 class="am-section-subtitle"><?php _e("Created by an international team of exceptional developers, with a passion for mapping","wp-google-maps"); ?></h3>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h2 class="am-section-title"><?php _e("Project Leaders","wp-google-maps"); ?></h2>
+
+        <div class="credit-container am-credit-grid">
+            <a href="https://profiles.wordpress.org/nickduncan/" class="member am-member-card web am-member-link" target="_BLANK">
+                <div class="wpgmza-rounded-image am-avatar-wrap">
+                    <img
+                        class="wpgmza-developer-avatar gravatar am-avatar"
+                        src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/38d79f24b5a649e132f8ed93f6dc2d37.jpg"
+                        alt="Nick Duncan"/>
+                </div>
+                <div class="am-member-info">
+                    <span class="am-member-name">Nick Duncan</span>
+                    <span class="title am-member-title">
+                        <?php _e("Founder &amp; Lead Developer","wp-google-maps"); ?>
+                    </span>
+                </div>
+            </a>
+
+            <a href="https://profiles.wordpress.org/dylanauty/" class="member am-member-card web am-member-link" target="_BLANK">
+                <div class="wpgmza-rounded-image am-avatar-wrap">
+                    <img
+                        class="wpgmza-developer-avatar gravatar am-avatar"
+                        src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/3e032ec3258ebc08eeed69568141164a.jpg"
+                        alt="Dylan Auty"/>
+                </div>
+                <div class="am-member-info">
+                    <span class="am-member-name">Dylan Auty</span>
+                    <span class="title am-member-title">
+                        <?php _e("Lead Developer &amp; Support","wp-google-maps"); ?>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h2 class="am-section-title"><?php _e("Contributors","wp-google-maps"); ?></h2>
+
+        <div class="credit-container am-credit-grid">
+            <a href="https://twitter.com/thebossybabe" class="member am-member-card web am-member-link" target="_BLANK">
+                <div class="wpgmza-rounded-image am-avatar-wrap">
+                    <img
+                        class="wpgmza-developer-avatar gravatar am-avatar"
+                        src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/tam-duncan.png"
+                        alt="Tam Duncan"/>
+                </div>
+                <div class="am-member-info">
+                    <span class="am-member-name">Tam Duncan</span>
+                    <span class="title am-member-title">
+                        <?php _e("Marketing","wp-google-maps"); ?>
+                    </span>
+                </div>
+            </a>
+
+            <a href="https://profiles.wordpress.org/matthewlau/" class="member am-member-card web am-member-link" target="_BLANK">
+                <div class="wpgmza-rounded-image am-avatar-wrap">
+                    <img
+                        class="wpgmza-developer-avatar gravatar am-avatar"
+                        src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/matthew.png"
+                        alt="Matthew Lau"/>
+                </div>
+                <div class="am-member-info">
+                    <span class="am-member-name">Matthew Lau</span>
+                    <span class="title am-member-title">
+                        <?php esc_html_e("Support &amp; Developer","wp-google-maps"); ?>
+                    </span>
+                </div>
+            </a>
+
+            <a href="https://hackerone.com/jerbinessim" class="member am-member-card web am-member-link" target="_BLANK">
+                <div class="wpgmza-rounded-image am-avatar-wrap">
+                    <img
+                        class="wpgmza-developer-avatar gravatar am-avatar"
+                        src="<?php echo plugin_dir_url(WPGMZA_FILE); ?>images/d32b41e4f213.png"
+                        alt="Nessim Jerbi"/>
+                </div>
+                <div class="am-member-info">
+                    <span class="am-member-name">Nessim Jerbi</span>
+                    <span class="title am-member-title">
+                        <?php _e("Security Analyst","wp-google-maps"); ?>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h2 class="am-section-title"><?php _e("Security","wp-google-maps"); ?></h2>
+        <div class="credit-container am-chain-block">
+            <ul class="list-chain am-chain-list">
+                <li title="Organization: Patchstack">Austin Ginder</li>
+                <li title="Organization: Bashu | KCSC | Wordfence">Nguyen Ba Hung</li>
+                <li title="Organization: Nagasaki Prefectural University | Wordfence">Moose Love</li>
+                <li title="Organization: Jetpack">Animesh Gaurav</li>
+                <li title="Organization: CleanTalk Inc | Wordfence">Dmitrii Ignatyev</li>
+                <li title='Organization: Patchstack'>Joshua Chan</li>
+                <li title='Organization: Wordfence'>Tim Coen</li>
+                <li title='Organization: Wordfence'>Marco Wotschka</li>
+                <li title='Organization: Wordfence'>Akbar Kustirama</li>
+                <li title='Organization: Wordfence'>Richard Telleng</li>
+                <li title='Organization: Patchstack'>Rafie Muhammad</li>
+                <li title='Organization: WPScan'>Marc</li>
+                <li title='Organization: Fraudless.tech'>Ilyess Ghalem</li>
+                <li>Visse</li>
+                <li>Mohammed Adam</li>
+                <li>Thomas Chauchefoin</li>
+                <li>Nessim Jerbi</li>
+                <li>Gerard Arall</li>
+                <li>David Clough</li>
+                <li>Rezaduty</li>
+            </ul>
+        </div>
+
+        <p class="am-credits-note">
+            <em><?php _e("Special thanks to our amazing community, for all your security reports and contributions", "wp-google-maps"); ?></em>
+        </p>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h2 class="am-section-title"><?php _e("Core Contributions","wp-google-maps"); ?></h2>
+        <div class="credit-container am-chain-block">
+            <ul class="list-chain am-chain-list">
+                <!-- Actionable code changes from community -->
+                <li title="Stability Improvements | GitHub: @shazahm1">Steven Zahm</li>
+                <li title="Stability Improvements | GitHub: @CNick">CNick</li>
+                <li title="Optimization | GitHub: @Lowwebtech">Lowwebtech</li>
+                <li title="Localization Improvements | GitHub: @garretthyder">Garrett Hyder</li>
+                <li title="Stability Improvements | GitHub: @KZeni">Kurt Zenisek</li>
+                <li title="Core Improvements | GitHub: @nicoletta-maia">Nicoletta Maia</li>
+
+                <!-- Issue Reporters -->
+                <li title="Issue Reporter | Organization: Hostpoint AG">Pascal</li>
+                <li title="Issue Reporter">Arūnas Liuiza</li>
+                <li title="Issue Reporter | GitHub: @AmitT">Amit Tal</li>
+                <li title="Issue Reporter | GitHub: @Gismo1337">Sebastian Richter</li>
+                <li title="Issue Reporter | GitHub: @dmitriyKharlashin">Dmitriy Kharlashin</li>
+                <li title="Issue Reporter | GitHub: @MikeNGarrett">Mike Garrett</li>
+                <li title="Issue Reporter | GitHub: @frank6tg">Frank Gomez</li>
+                <li title="Issue Reporter | GitHub: @Tes3awy">Osama Abbas</li>
+                <li title="Issue Reporter | GitHub: @MrKoopie">D Koop</li>
+                <li title="Issue Reporter | GitHub: @DavidHepper">David Hepper</li>
+                <li title="Issue Reporter | GitHub: @stevengliebe">Steven Gliebe</li>
+                <li title="Issue Reporter | GitHub: @aamorozov">Andrey Morozov</li>
+                <li title="Issue Reporter | GitHub: @Tanmccuin">Tanner McCuin</li>
+                <li title="Issue Reporter | GitHub: @stephangriesel">Stephan Griesel</li>
+                <li title="Issue Reporter | GitHub: @nickw108">Nick Weisser</li>
+                <li title="Issue Reporter | GitHub: @waded">Wade Dorrell</li>
+                <li title="Issue Reporter">Dani Haberer</li>
+
+                <!-- Issue Reporters - Internal -->
+                <li title="Issue Reporter | GitHub: @patdumond">Patricia Dumond</li>
+                <li title="Issue Reporter | GitHub: @DiegoSilva776">Diego Silva</li>
+
+                <!-- QA - Internal -->
+                <li title="Version 9 Quality Assurance">Glen Smith <code>V9</code></li>
+
+                <!-- Previous Internal Developers -->
+                <li title="Version 8 Developer">Perry Rylance <code>V8</code></li>
+                <li title="Version 8 Developer">Steven De Beer <code>V8</code></li>
+                <li title="Version 7 Developer">Dylan Kotze <code>V7</code></li>
+                <li title="Version 7 Developer">Trevor Anderson <code>V7</code></li>
+                <li title="Version 6 Developer">Jarek Kacprzak <code>V6</code></li>
+                <li title="Version 6 Developer">Jarryd Long <code>V6</code></li>
+            </ul>
+        </div>
+
+        <p class="am-credits-note">
+            <em><?php _e("Special thanks to all the developers who have helped improve our architecture", "wp-google-maps"); ?></em>
+        </p>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h2 class="am-section-title"><?php _e("Translators","wp-google-maps"); ?></h2>
+        <div class="credit-container am-chain-block">
+            <ul class="list-chain am-chain-list">
+                <li>Madevcomfr</li>
+                <li>Christian Svendsen</li>
+                <li>Attila</li>
+                <li>Gerard Ayter Codina</li>
+                <li>Finn Sommer Jensen</li>
+                <li>Michael Møller</li>
+                <li>Daniel Tan</li>
+                <li>Mats Wale</li>
+                <li>Starlogic</li>
+                <li>Pedro Ponz</li>
+                <li>Neno</li>
+                <li>Martin Sleipner</li>
+                <li>Lyubomir Kolev</li>
+                <li>Suha Karalar</li>
+                <li>Konstantinos Koukoulakis</li>
+                <li>Tommaso Mori</li>
+                <li>Arnaud Thomas</li>
+                <li>Borisa Djuraskovic</li>
+                <li>Matteo Ender</li>
+                <li>Fernando</li>
+                <li>Alessio Cornale</li>
+                <li>Michik1712</li>
+                <li>Alejandro Catalán</li>
+                <li>Petr Aubrecht</li>
+                <li>Updownbikes</li>
+            </ul>
+        </div>
+
+        <p class="am-credits-note">
+            <em><?php _e("Special thanks to our amazing community, for all your translation contributions", "wp-google-maps"); ?></em>
+        </p>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-section">
+        <h3 class="am-section-subtitle">
+            <?php _e("Want to see your name on this page?","wp-google-maps"); ?>
+            <a href="https://github.com/CodeCabin/wp-google-maps/" class="am-github-link">
+                <?php _e("Get involved on GitHub.","wp-google-maps"); ?>
+            </a>
+        </h3>
+    </div>
+
+    <hr class="am-divider">
+
+    <div class="am-cta-footer">
+        <h2 class="am-section-title"><?php _e("Ready to get started?", "wp-google-maps"); ?></h2>
+        <a class="wpgmza-button am-btn am-btn-accent" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
+            <?php esc_html_e("Let's get started","wp-google-maps"); ?>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+
+</div>

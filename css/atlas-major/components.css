@@ -1,0 +1,1431 @@
+:root{
+    --wpgmza-component-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    --wpgmza-component-shadow-high: rgb(0 0 0 / 15%) 0px 1px 15px -1px;
+	--wpgmza-component-standalone-shadow: rgb(0 0 0 / 15%) 0px 1px 4px -1px;
+	
+    --wpgmza-component-color: var(--wpgmza-color-white);
+    --wpgmza-component-color-accent:  #1A73E8;
+
+    --wpgmza-component-text-color: var(--wpgmza-color-black);
+    --wpgmza-component-text-color-accent: var(--wpgmza-color-white);
+
+    --wpgmza-component-border-radius: 2px;
+    --wpgmza-component-border-radius-rounded: 10px;
+	--wpgmza-component-border-radius-pill: 40px;
+	
+    --wpgmza-component-margin: 10px;
+	
+    --wpgmza-component-native-control-height:  40px;
+    
+    --wpgmza-component-font-size: 15px;
+    
+    --wpgmza-component-inner-padding: 10px 15px;
+
+    --wpgmza-component-backdrop-filter: none;
+
+    --wpgmza-ol-tile-filter : none;
+    --wpgmza-leaflet-tile-filter : none;
+}
+
+.wpgmza_map {
+    border:0;
+    max-width:100% !important;
+    position: relative;
+}
+
+.wpgmza_map[data-maps-engine="open-layers"],
+.wpgmza_map[data-maps-engine="open-layers-latest"]{
+    overflow: hidden;
+}
+
+.wpgmza_map img { 
+	max-width:none; 
+} 
+
+.wpgmza_widget { 
+	overflow: auto; 
+}
+
+/* Preloader */
+.wpgmza_map .wpgmza-preloader {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wpgmza_map .wpgmza-preloader div:first-child{
+    height: 100%;
+    width: 100%;
+    border: 3px solid var(--wpgmza-color-grey-500);
+    border-radius: 60px;
+    border-bottom-color: transparent;
+    box-sizing: border-box;
+    
+    -webkit-animation: wpgmzaInfiniteRotate 1s forwards;
+    animation: wpgmzaInfiniteRotate 1s forwards;
+    animation-iteration-count: infinite;
+}
+
+/* Inner stacks */
+.wpgmza_map .wpgmza-inner-stack{
+	display: none;
+    position: absolute;
+    color: var(--wpgmza-component-text-color);
+}
+
+.wpgmza_map.wpgmza-initialized .wpgmza-inner-stack{
+	display: flex;
+    pointer-events: none;
+    max-height: 100%;
+    
+    max-width: var(--wpgmza--viewport-overlays-max-width);
+}
+
+/* Define the stack anchors */
+.wpgmza_map .wpgmza-inner-stack.top{
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Small viewport: force the top-centered stack to sit BETWEEN the
+   engine's top-left zoom controls (Leaflet / OL +/- cluster) and
+   the top-right control (e.g. fullscreen button). The default
+   Store Locator anchor is `top` (see atlas-major-live-preview.js
+   COMPONENTS['store-locator'].defaultAnchor = 0 = 'top'), so the
+   most common symptom was the SL input sitting behind the zoom
+   buttons on mobile.
+   Uses explicit `left` + `right` offsets and wipes the base
+   rule's translate-50% centering (`transform: none`) so the stack
+   physically can't extend over the control areas — more robust
+   than a max-width-only constraint, which relies on the inner
+   flex children being willing to shrink.
+   Applied via BOTH the JS-added `.wpgmza-viewport-small` class
+   (covers narrow desktop columns) AND a `@media (max-width:
+   760px)` query (covers true mobile devices, and render paths
+   where the class isn't applied promptly e.g. the WP Go Maps
+   Preview admin page). 760px matches
+   InternalViewport.CONTAINER_THRESHOLD_SMALL exactly. */
+.wpgmza_map.wpgmza-viewport-small .wpgmza-inner-stack.top {
+    left: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+    right: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+    transform: none;
+    max-width: none;
+    width: auto;
+}
+@media (max-width: 760px) {
+    .wpgmza_map .wpgmza-inner-stack.top {
+        left: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+        right: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+        transform: none;
+        max-width: none;
+        width: auto;
+    }
+}
+
+/* Small viewport: park the SL radius-dropdown chevron flush
+   against the right edge of the select (`right 0px center`).
+   The `.wpgmza-atlas-major select` baseline paints the chevron
+   at `right 12px center` with `padding-right: 36px !important`;
+   on mobile the select's rightmost padding band tends to land
+   behind the adjacent top-right control (fullscreen), so the
+   further the chevron sits inside the select, the more likely
+   it gets visually obscured. `right 0px` puts it as far left
+   of the obscured zone as the rule allows — flush right edge,
+   maximum visibility, no clipping. */
+.wpgmza_map.wpgmza-viewport-small .wpgmza-inner-stack.top .wpgmza-store-locator select {
+    background-position: right 0px center !important;
+}
+@media (max-width: 760px) {
+    .wpgmza_map .wpgmza-inner-stack.top .wpgmza-store-locator select {
+        background-position: right 0px center !important;
+    }
+}
+
+/* Small viewport: allow the address input to shrink with the
+   viewport. The SL is a flex row between the zoom and
+   fullscreen controls; below ~530px the input's placeholder
+   width plus the (non-shrinking) radius dropdown together
+   exceed the available horizontal space. Without explicit
+   `min-width: 0` the flex algorithm refuses to shrink a flex
+   item below its content/min-content width (browsers default
+   `min-width: auto` for flex items), so the input forces the
+   container to overflow, pushing content behind the fullscreen
+   button. Setting `min-width: 0` on both the address container
+   AND the input element itself lets the input collapse as
+   narrow as the viewport demands — the placeholder text gets
+   ellipsis-clipped, the chevron + dropdown remain visible, and
+   nothing overflows. */
+@media (max-width: 760px) {
+    .wpgmza_map .wpgmza-inner-stack.top .wpgmza-store-locator .wpgmza-address-container {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+    .wpgmza_map .wpgmza-inner-stack.top .wpgmza-store-locator .wpgmza-address-container input {
+        min-width: 0;
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+}
+.wpgmza_map.wpgmza-viewport-small .wpgmza-inner-stack.top .wpgmza-store-locator .wpgmza-address-container {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.wpgmza_map.wpgmza-viewport-small .wpgmza-inner-stack.top .wpgmza-store-locator .wpgmza-address-container input {
+    min-width: 0;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.wpgmza_map .wpgmza-inner-stack.left{
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+
+    z-index: 1;
+
+    max-width: var(--wpgmza--viewport-panels-max-width);
+}
+
+.wpgmza_map .wpgmza-inner-stack.right{
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+
+    z-index: 1;
+
+    max-width: var(--wpgmza--viewport-panels-max-width);
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom{
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.center{
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wpgmza_map .wpgmza-inner-stack.top_left{
+    top: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+    left: 0;
+}
+
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.top_left,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.top_left {
+    top: 0;
+    left: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+}
+
+.wpgmza_map .wpgmza-inner-stack.top_right{
+    top: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+    right: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom_left{
+    bottom: calc(var(--wpgmza-component-margin) * 2.5);
+    left: 0;
+    max-height: calc(100% - (var(--wpgmza-component-margin) * 2.5) - var(--wpgmza-component-margin));
+}
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.bottom_left,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.bottom_left {
+    bottom: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom_right{
+    bottom: calc(var(--wpgmza-component-margin) * 1.4);
+    right: calc(var(--wpgmza-component-native-control-height) + var(--wpgmza-component-margin));
+
+    max-height: calc(100% - (var(--wpgmza-component-margin) * 1.4) - var(--wpgmza-component-margin));
+}
+
+.wpgmza_map[data-maps-engine="open-layers"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="open-layers-latest"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-azure"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-stadia"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-maptiler"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-zerocost"] .wpgmza-inner-stack.bottom_right,
+.wpgmza_map[data-maps-engine="leaflet-locationiq"] .wpgmza-inner-stack.bottom_right {
+    right: 0;
+}
+
+/* Base sub element style */
+.wpgmza_map .wpgmza-inner-stack > * {
+    background: var(--wpgmza-component-color);
+    box-shadow: var(--wpgmza-component-shadow);
+    border-radius: var(--wpgmza-component-border-radius);
+    margin: var(--wpgmza-component-margin);
+    overflow: hidden;
+    min-height: var(--wpgmza-component-native-control-height);
+    width: fit-content;
+    pointer-events: all;
+    font-size: var(--wpgmza-component-font-size);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .wpgmza-inner-stack input:not([type="checkbox"]),
+.wpgmza_map .wpgmza-inner-stack select,
+.wpgmza_map .wpgmza-inner-stack button{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+
+    height: 100%;
+    margin: 0;
+    border: none;
+
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    
+    box-sizing: border-box;
+    padding: 0;
+
+    background: var(--wpgmza-color-white);
+    width: 15px;
+    height: 15px;
+    border: 2px solid var(--wpgmza-color-grey-400);
+    border-radius: 50%;
+    overflow: hidden;
+
+    min-width: unset;
+    box-shadow: none;
+
+    transition: 0.1s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:checked{
+    background: var(--wpgmza-component-color-accent);
+    border-color: var(--wpgmza-component-color-accent);
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:focus{
+    outline: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:before{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:after{
+    content: "";
+    opacity: 0;
+    display: block;
+    left: 2px;
+    top: 0px;
+    position: absolute;
+    width: 4px;
+    height: 7px;
+    border: 2px solid var(--wpgmza-component-text-color-accent);
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(40deg);
+    transition: 0.2s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type=checkbox]:checked:after{
+    opacity: 1;
+}
+
+.wpgmza_map .wpgmza-inner-stack select{
+    padding-right: 30px;
+    background: transparent;
+}
+
+.wpgmza_map .wpgmza-inner-stack label{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+    
+    margin: 0;
+}
+
+.wpgmza_map .wpgmza-inner-stack button,
+.wpgmza_map .wpgmza-inner-stack > * button,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-button,
+.wpgmza_map .wpgmza-inner-stack button.wpgmza-button,
+.wpgmza_map .wpgmza-inner-stack input[type='submit'],
+.wpgmza_map .wpgmza-inner-stack input[type='search'],
+.wpgmza_map .wpgmza-inner-stack input[type='button'],
+.wpgmza_map .wpgmza-inner-stack input[type='reset'],
+.wpgmza-standalone-component button,
+.wpgmza-standalone-component > * button,
+.wpgmza-standalone-component .wpgmza-button,
+.wpgmza-standalone-component button.wpgmza-button,
+.wpgmza-standalone-component input[type='submit'],
+.wpgmza-standalone-component input[type='search'],
+.wpgmza-standalone-component input[type='button'],
+.wpgmza-standalone-component input[type='reset']{
+    font-size: var(--wpgmza-component-font-size);
+    line-height: var(--wpgmza-component-font-size);
+    padding: var(--wpgmza-component-inner-padding);
+    height: 100%;
+    margin: 0;
+    border: none;
+    background-color: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    cursor: pointer;
+}
+
+.wpgmza_map .wpgmza-inner-stack input::placeholder,
+.wpgmza-standalone-component input::placeholder{
+    color: var(--wpgmza-component-text-color);
+    opacity: 0.6;
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type]:focus{
+    outline: none;
+}
+
+/* Base Store locator */
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator{
+    display: flex;
+    height: fit-content;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator label{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select{
+    padding-right: 5px;
+    background: transparent;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select{
+    padding-right: 30px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus{
+    outline: none;    
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-address-container,
+.wpgmza-live-preview-component.wpgmza-store-locator .wpgmza-address-container,
+.wpgmza-live-preview-component .wpgmza-store-locator .wpgmza-address-container{
+    display: flex;
+    position: relative;
+}
+
+/* Store locator when anchored above/below the map (frontend standalone
+   or live preview slot-above/slot-below): align-items centre on the two
+   key containers so their label/input/button/select sit on the same
+   baseline. The flex-direction: row is set alongside the existing
+   `.wpgmza-standalone-component .wpgmza-store-locator > div` rule below
+   (see the combined rule further down). */
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-address-container,
+.am-preview-slot-above .wpgmza-store-locator .wpgmza-address-container,
+.am-preview-slot-below .wpgmza-store-locator .wpgmza-address-container,
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-radius-container,
+.am-preview-slot-above .wpgmza-store-locator .wpgmza-radius-container,
+.am-preview-slot-below .wpgmza-store-locator .wpgmza-radius-container{
+    align-items: center;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-address-container[data-autocomplete-state="busy"]:after,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-address-container[data-autocomplete-state="busy"]:after{
+    content: "";
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 5px;
+    top: 12px;
+    border: 2px solid var(--wpgmza-color-grey-500);
+    border-radius: 14px;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    box-sizing: border-box;
+    -webkit-animation: wpgmzaInfiniteRotate 0.5s forwards linear;
+    animation: wpgmzaInfiniteRotate 0.5s forwards linear;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button{
+    min-height: var(--wpgmza-component-native-control-height);
+    font-weight: 500;
+    color: var(--wpgmza-color-grey-600);
+    transition:  color 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button:hover{
+    color: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg,
+.wpgmza-standalone-component .wpgmza-store-locator svg{
+    padding:  12px;
+    stroke: var(--wpgmza-color-grey-500);
+    transition:  stroke 0.25s ease;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg:not(.wpgmza-use-loc):hover,
+.wpgmza-standalone-component .wpgmza-store-locator svg:not(.wpgmza-use-loc):hover{
+    cursor: pointer;
+    stroke: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg.wpgmza-loading,
+.wpgmza-standalone-component .wpgmza-store-locator svg.wpgmza-loading{
+    display: none;
+    -webkit-animation: wpgmzaInfiniteRotate 1s forwards;
+    animation: wpgmzaInfiniteRotate 1s forwards;
+    animation-iteration-count: infinite;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator svg.wpgmza-loading > mask > path,
+.wpgmza-standalone-component .wpgmza-store-locator svg.wpgmza-loading > mask > path{
+    fill: var(--wpgmza-color-grey-500);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-reset,
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-reset{
+    display: none;
+    border-left: 1px solid var(--wpgmza-color-grey-100);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="busy"] .wpgmza-search{
+    display: none;
+} 
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="busy"] .wpgmza-loading{
+    display: block;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator[data-state="complete"] .wpgmza-reset,
+.wpgmza-standalone-component .wpgmza-store-locator[data-state="complete"] .wpgmza-reset{
+    display: block;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-error{
+    display: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator .wpgmza-error.visible {
+    top: 55px;
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    text-align: left;
+    padding: 5px 15px;
+    width: calc(100% - calc(var(--wpgmza-component-margin) * 2));
+    box-shadow: var(--wpgmza-component-shadow);
+    background: var(--wpgmza-component-color);
+    border-radius: var(--wpgmza-component-border-radius);
+    box-sizing: border-box;
+}
+
+.wpgmza_map .wpgmza-inner-stack.bottom .wpgmza-store-locator .wpgmza-error.visible,
+.wpgmza_map .wpgmza-inner-stack.bottom_left .wpgmza-store-locator .wpgmza-error.visible,
+.wpgmza_map .wpgmza-inner-stack.bottom_right .wpgmza-store-locator .wpgmza-error.visible {
+    top: unset;
+    bottom: 55px;
+}
+
+/* Standalone components (Not within the map container) */
+.wpgmza-standalone-component {
+    display: block;
+    width: 100%;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-left {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.wpgmza-standalone-component.wpgmza-auto-right {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.wpgmza-standalone-component input:not([type="checkbox"]),
+.wpgmza-standalone-component select{
+    border: none;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin: 0;
+    margin-right: 5px;
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza-standalone-component select{
+    padding-right: 30px;
+}
+
+.wpgmza-standalone-component label{
+    font-size: 14px;
+    margin: 0;
+}
+
+.wpgmza-standalone-component input:not([type="checkbox"]):focus,
+.wpgmza-standalone-component select:focus{
+    border: none;
+    outline: none;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator {
+    display: inline-flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator > div,
+.am-preview-slot-above .wpgmza-store-locator > div,
+.am-preview-slot-below .wpgmza-store-locator > div{
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator svg{
+    background: var(--wpgmza-component-color);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator svg:not(:first-of-type){
+    margin-left: 5px;
+}
+
+.wpgmza-standalone-component .wpgmza-store-locator .wpgmza-error{
+    flex-basis: 100%;
+}
+
+/* Scroll bars */
+.wpgmza_map .wpgmza-inner-stack *::-webkit-scrollbar{
+  width: .4rem;
+}
+
+.wpgmza_map .wpgmza-inner-stack *::-webkit-scrollbar-thumb{
+  background-color: var(--wpgmza-color-grey-200);
+  border-radius: 5px;
+}
+
+/* Use location general */
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .line,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .circle_outer,
+.wpgmza-standalone-component svg.wpgmza-use-loc .line,
+.wpgmza-standalone-component svg.wpgmza-use-loc .circle_outer {
+    stroke: var(--wpgmza-color-grey-500);
+    transition: 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc .circle_inner,
+.wpgmza-standalone-component svg.wpgmza-use-loc .circle_inner {
+    fill: var(--wpgmza-color-grey-500);
+    transition: 0.25s ease;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .line,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_outer,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .line,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .circle_outer,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .line,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_outer,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .line,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .circle_outer {
+    stroke: var(--wpgmza-color-grey-900);
+}
+
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_inner,
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-use-loc:hover .circle_inner,
+.wpgmza-standalone-component .wpgmza-use-my-location:hover svg.wpgmza-use-loc .circle_inner,
+.wpgmza-standalone-component svg.wpgmza-use-loc:hover .circle_inner{
+    fill: var(--wpgmza-color-grey-900);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location.wpgmza-button,
+.wpgmza-standalone-component .wpgmza-use-my-location.wpgmza-button,
+.wpgmza-live-preview-component.wpgmza-store-locator .wpgmza-use-my-location.wpgmza-button,
+.wpgmza-live-preview-component .wpgmza-store-locator .wpgmza-use-my-location.wpgmza-button{
+    padding: 0;
+    height: var(--wpgmza-component-native-control-height);
+    width: var(--wpgmza-component-native-control-height);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza_map .wpgmza-inner-stack svg.wpgmza-multiply,
+.wpgmza-standalone-component svg.wpgmza-multiply{
+    stroke: var(--wpgmza-color-grey-500);
+}
+
+/* Error messages (Inner map) */
+.wpgmza_map .wpgmza-google-maps-api-error-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--wpgmza-color-black-overlay);
+    z-index: 5;
+    overflow-y: auto;
+
+    -webkit-animation: wpgmzaFadeIn 0.5s forwards;
+    animation: wpgmzaFadeIn 0.5s forwards;
+
+}
+
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner{
+    background: var(--wpgmza-color-white);
+    box-shadow: var(--wpgmza-shadow-high);
+    width: 500px;
+    max-width: 80%;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+
+    font-size: 13px;
+
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner h2{
+    margin: 0;
+    padding-bottom: 15px;
+    font-weight: 400;
+    font-size: 1.3em;
+    border-bottom: var(--wpgmza-color-grey-100) solid 1px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner p{
+    margin: 10px 0;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner ul{
+    margin: 10px 0;
+    list-style: none;
+    padding: 0;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner ul li{
+    padding: 0 12px;
+}
+
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .notice{
+    position: relative !important;
+    width: fit-content !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .notice:before{
+    content: "";
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    background: var(--wpgmza-color-grey-400);
+    border-radius: 12px;
+    margin-right: 8px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .error-overlay-inner .wpgmza-documentation-buttons a{
+    font-size: 0.85em;
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+.wpgmza_map .wpgmza-google-maps-api-error-overlay .wpgmza-front-end-only{
+    font-size: 13px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: var(--wpgmza-color-black);    
+}
+
+/* Engine control overrides */
+/* Google Maps */
+.wpgmza_map .gm-style button.gm-control-active,
+.wpgmza_map .gm-style .gm-svpc,
+.wpgmza_map .gmnoprint button,
+.wpgmza_map .gmnoprint > div:not(.gm-style-mtc){
+    background: var(--wpgmza-component-color) !important;
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .gm-style button.gm-control-active,
+.wpgmza_map .gm-style .gm-svpc,
+.wpgmza_map .gmnoprint > div:not(.gm-style-mtc){
+    border-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint .gm-style-mtc:first-child button{
+    border-top-left-radius: var(--wpgmza-component-border-radius) !important;
+    border-bottom-left-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint .gm-style-mtc:last-child button{
+    border-top-right-radius: var(--wpgmza-component-border-radius) !important;
+    border-bottom-right-radius: var(--wpgmza-component-border-radius) !important;
+}
+
+.wpgmza_map .gmnoprint > div > button.gm-control-active,
+.wpgmza_map .gmnoprint.gm-bundled-control .gmnoprint{
+    backdrop-filter: none;
+    background: transparent !important;
+}
+
+.wpgmza_map .gmnoprint > div > button.gm-control-active + div{
+    background-color: var(--wpgmza-color-grey-100) !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint.gm-style-cc > div,
+.wpgmza_map .gm-style .gmnoprint .gm-style-cc,
+.wpgmza_map .gm-style .gmnoprint .gm-style-cc button{
+    background: transparent !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass button{
+    background: none !important;
+}
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass > img{
+    display: none;
+}
+
+
+.wpgmza_map .gm-style .gmnoprint .gm-compass > .gm-compass-needle img{
+    width: 16px;
+}
+
+.wpgmza_map .gm-style .gm-style-iw-c {
+    color: var(--wpgmza-component-text-color);
+    background-color: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+/* Equal padding on Google's info-window container — Google's own
+   default applies asymmetric padding (no top, generous right) that
+   leaves our content visually off-balance. !important is required
+   because Google injects inline styles on this element. */
+.gm-style-iw.gm-style-iw-c {
+    padding: 8px 12px !important;
+}
+
+.wpgmza_map .gm-style .gm-style-iw-tc::after {
+    background-color: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .gm-style .gm-style-iw-c .gm-style-iw-d{
+    scrollbar-color:   var(--wpgmza-color-grey-500) transparent;
+    overflow: auto !important;
+
+    padding-bottom: 10px;
+}
+
+/* Google Maps info window chrome — float the close button over the
+   content instead of reserving a 48px block above it */
+.wpgmza_map .gm-style .gm-style-iw-chr {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+/* Nudge close button away from scrollbar and add subtle contrast */
+.wpgmza_map .gm-style .gm-style-iw-chr {
+    right: 6px;
+    top: 2px;
+}
+
+.wpgmza_map .gm-style .gm-style-iw-chr button span {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
+}
+
+/* Constrain info window images */
+.wpgmza_map .gm-style .gm-style-iw-d img {
+    max-height: 200px;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.wpgmza_map .gm-style .gm-style-iw-c .gm-style-iw-d > div {
+    padding-top: 8px;
+}
+
+/* OL */
+.wpgmza_map .ol-viewport .ol-control button{
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .ol-info-window-plain {
+    background: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+
+    box-shadow: var(--wpgmza-shadow-high);
+}
+
+/* .wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:first-child */
+.wpgmza_map .ol-viewport:first-child > .ol-unselectable:first-child .ol-layer:first-child > canvas:last-child{
+    filter : var(--wpgmza-ol-tile-filter);
+}
+
+/* Leaflet */
+.wpgmza_map .leaflet-control-container .leaflet-bar a{
+    background: var(--wpgmza-component-color);
+}
+
+.wpgmza_map .leaflet-map-pane .leaflet-tile-pane {
+    filter : var(--wpgmza-leaflet-tile-filter);
+}
+
+.wpgmza_map .leaflet-popup .leaflet-popup-content-wrapper{
+    background: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    border-radius: var(--wpgmza-component-border-radius);
+}
+
+.wpgmza_map .leaflet-popup .leaflet-popup-tip{
+    background: var(--wpgmza-component-color);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+/* Map Placements - Legacy receives this port to improve placement reliability */
+.wpgmza_map.wpgmza-auto-left {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.wpgmza_map.wpgmza-auto-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.wpgmza_map.wpgmza-auto-right {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.wpgmza-gdpr-compliance ~ .wpgmza-google-maps-api-error-overlay {
+    display: none;
+}
+
+/* Info-window additional fields */
+.wpgmza-integration-fields-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field{
+    display: flex;
+    gap: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-label{
+    font-weight: 500;
+    max-width: 30%;
+    flex: 2;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value{
+    max-width: 100%;
+    flex: 3;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value p{
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+}
+
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value iframe,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value video,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value audio,
+.wpgmza-integration-fields-wrapper .wpgmza-integration-field .wpgmza-integration-field-value img{
+    max-width: 100%;
+}
+
+
+/* Internal Autocomplete */
+.wpgmza-internal-autocomplete-list {
+    position: fixed;
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--wpgmza-color-white);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--wpgmza-color-light);
+    border-radius: 5px;
+    box-shadow: var(--wpgmza-shadow-common);
+    z-index: 9999999;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--wpgmza-color-light);
+
+    cursor: pointer;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="adr"],
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-field="type"]{
+    font-size: 0.7rem;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:hover{
+    background: var(--wpgmza-color-light);
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location:last-child{
+    border: none;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location > *{
+    max-width: 100%;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    white-space:nowrap;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-meta-list] > [data-autocomplete-field]:before {
+    content : "•";
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.wpgmza-internal-autocomplete-list .wpgmza-internal-autocomplete-location [data-autocomplete-meta-list] > [data-autocomplete-field]:first-child:before {
+    display: none;
+}
+
+/* GDPR Modern */
+.wpgmza-gdpr-compliance.modern {
+    display: flex;
+    flex-direction: column;
+    font-size:  14px;
+    align-items: center;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-image-placeholder{
+    max-width: 100%;
+    width: 800px;
+    overflow: hidden;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-image-placeholder img{
+    opacity: 0.6;
+    width: 100%;
+    filter:  blur(5px) grayscale(20%);
+    transform: scale(1.1);
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card {
+    position: absolute;
+    width: 700px;
+    max-width: 100%;
+    background: var(--wpgmza-color-white);
+    box-sizing: border-box;
+    padding: 15px;
+    height: 70%;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--wpgmza-shadow-common);
+    border-radius: 5px;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice{
+    overflow: auto;
+    max-height: calc(100% - 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice p{
+    margin: 0;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-inner-notice p span{
+    font-weight: 500;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container{
+    text-align: right;
+    margin: 0;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container button{
+    border: none;
+    background: var(--wpgmza-color-gray-200);
+    box-sizing: border-box;
+    padding: 8px 15px;
+    margin-top: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.wpgmza-gdpr-compliance.modern .wpgmza-gdpr-notice-card .wpgmza-gdpr-button-container button:hover{
+    background: var(--wpgmza-color-gray-300);
+}
+
+/* Map Preview */
+.wpgmza-preview-mode-banner {
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-cyan));
+    background-size: 200%;
+    color: var(--wpgmza-color-white);
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    box-shadow: var(--wpgmza-shadow-common);
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-heading{
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-subheading{
+    opacity: 0.9;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper{
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper span{
+    opacity: 0.9;
+}
+
+.wpgmza-preview-mode-banner .wpgmza-preview-mode-banner-shortcode-wrapper strong{
+    font-weight: 500;
+}
+
+/* Accessibility */
+.wpgmza_map .wpgmza-inner-stack input:focus,
+.wpgmza_map .wpgmza-inner-stack select:focus,
+.wpgmza_map .wpgmza-inner-stack a:focus,
+.wpgmza_map .wpgmza-inner-stack button:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:focus,
+.wpgmza_map .wpgmza-aria-bridge:focus,
+.wpgmza-standalone-component .wpgmza-aria-bridge:focus,
+.wpgmza-standalone-component input:focus,
+.wpgmza-standalone-component select:focus{
+    outline: none;
+}
+
+.wpgmza_map .wpgmza-inner-stack input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-use-my-location:focus-visible,
+.wpgmza_map .wpgmza-aria-bridge:focus-visible {
+    outline: none;
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-component-color-accent) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="radio"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .legacy-listing-adapter .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack a:focus-visible,
+.wpgmza_map .wpgmza-inner-stack button:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-bridge:focus-visible,
+.wpgmza-standalone-component input:focus-visible,
+.wpgmza-standalone-component select:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-component-color-accent) r g b / 0.9);
+    outline-offset: -3px;
+}
+
+.wpgmza_map .wpgmza-inner-stack a:focus-visible,
+.wpgmza_map .wpgmza-inner-stack button:focus-visible {
+    outline-offset: 2px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-store-locator button:focus-visible{
+    outline-offset: -3px;
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent select:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-store-locator input:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-store-locator select:focus-visible {
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-color-gray-500) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent input[type="radio"]:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent input:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent select:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-color-gray-500) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-aria-accent .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent .wpgmza-use-my-location:focus-visible {
+    box-shadow: inset 0 -2px 0 0 rgb(from var(--wpgmza-color-white) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .wpgmza-aria-accent  a:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent a:focus-visible,
+.wpgmza-standalone-component .wpgmza-aria-accent .wpgmza-aria-bridge:focus-visible{
+    outline: 2px solid rgb(from var(--wpgmza-color-white) r g b / 0.9);
+}
+
+.wpgmza_map .wpgmza-inner-stack .legacy-listing-adapter .wpgmza-aria-bridge:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="checkbox"]:focus-visible,
+.wpgmza_map .wpgmza-inner-stack input[type="radio"]:focus-visible {
+    box-shadow: none;
+}
+
+/* Animations */
+@-webkit-keyframes wpgmzaInfiniteRotate {
+   0% { 
+        transform : rotate(0deg);
+   }
+   100% {
+       transform : rotate(360deg); 
+   }
+}
+
+@keyframes wpgmzaInfiniteRotate {
+   0% { 
+        transform : rotate(0deg);
+   }
+   100% {
+       transform : rotate(360deg); 
+   }
+}
+
+@-webkit-keyframes wpgmzaPopin {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% {  transform: scale(1); }
+}
+
+@keyframes wpgmzaPopin {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% {  transform: scale(1); }
+}
+
+@-webkit-keyframes wpgmzaFadeIn {
+    0% { opacity : 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes wpgmzaFadeIn {
+    0% { opacity : 0; }
+    100% { opacity: 1; }
+}
+
+/* Google Maps — Reset View control (Pro).
+   Ported from atlas-novus/compat.css, which isn't loaded under Atlas Major.
+   The control is added imperatively by ProGoogleMap.addResetMapControl(); these
+   styles give it a circular-arrow icon and sit it at the map's bottom-left. */
+.wpgmza_map .google-maps-control-reset-map {
+    border: 0;
+    margin: 10px;
+    padding: 0;
+    text-transform: none;
+    appearance: none;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    border-radius: var(--wpgmza-component-border-radius, 2px);
+    height: 40px;
+    width: 40px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
+    overflow: hidden;
+    background: var(--wpgmza-component-color, #fff);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part {
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part.google-maps-reset-map-part-circle {
+    border: 2px solid #666;
+    width: 16px;
+    height: 16px;
+    left: 12px;
+    top: 12px;
+    border-radius: 20px;
+    border-left-color: transparent;
+    transform: rotate(-45deg);
+}
+
+.wpgmza_map .google-maps-control-reset-map .google-maps-reset-map-part.google-maps-reset-map-part-arrow {
+    width: 3px;
+    height: 3px;
+    border: 3px solid #666;
+    box-sizing: border-box;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    transform: rotate(-135deg);
+    top: 15px;
+    left: 10px;
+    border-radius: 2px;
+}
+
+.wpgmza_map .google-maps-control-reset-map:hover .google-maps-reset-map-part.google-maps-reset-map-part-circle {
+    border-color: #333;
+    border-left-color: transparent;
+}
+
+.wpgmza_map .google-maps-control-reset-map:hover .google-maps-reset-map-part.google-maps-reset-map-part-arrow {
+    border-color: #333;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+/* Google Maps — User-Location control (Pro).
+   Ported from atlas-novus/compat.css; Leaflet + OL variants live in the
+   engine CSS files (loaded regardless of UI variant). */
+.wpgmza_map .google-maps-control-user-location {
+    border: 0;
+    margin: 10px;
+    padding: 0;
+    text-transform: none;
+    appearance: none;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    border-radius: var(--wpgmza-component-border-radius, 2px);
+    height: 40px;
+    width: 40px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
+    overflow: hidden;
+    background: var(--wpgmza-component-color, #fff);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part {
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-circle {
+    border: 2px solid #666;
+    width: 20px;
+    height: 20px;
+    left: 10px;
+    top: 10px;
+    border-radius: 20px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-top,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-bottom {
+    width: 2px;
+    height: 6px;
+    background: #666;
+    border-radius: 3px;
+    left: 19px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-left,
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-right {
+    height: 2px;
+    width: 6px;
+    background: #666;
+    border-radius: 3px;
+    top: 19px;
+}
+
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-top { top: 8px; }
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-bottom { bottom: 8px; }
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-left { left: 8px; }
+.wpgmza_map .google-maps-control-user-location .google-maps-user-location-part.google-maps-user-location-part-right { right: 8px; }
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-circle {
+    border-color: #333;
+}
+
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-top,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-bottom,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-left,
+.wpgmza_map .google-maps-control-user-location:hover .google-maps-user-location-part.google-maps-user-location-part-right {
+    background: #333;
+}
+
+/* Marker icon picker preview.
+   Ported from the base plugin's common.css (which the Atlas Major build
+   doesn't include). Without these dimensions + background sizing the
+   `.wpgmza-marker-icon-preview` div has no width/height under Atlas Major,
+   so the icon chosen via Upload/Create never shows even though the URL is
+   correctly stored. Applies to every icon picker instance — directions
+   origin/destination, store locator centre marker, advanced-settings
+   marker icon, user-location icon, etc. */
+.wpgmza-marker-icon-preview {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: #E8E8E8 dashed 2px;
+    border-radius: 4px;
+}
+
+.wpgmza-marker-icon-picker > * {
+    vertical-align: middle;
+}
+
+

@@ -23,8 +23,8 @@ $basicVersion = explode('.', $wpgmza->getBasicVersion());
         <img src="<?php echo WPGMZA_PLUGIN_DIR_URL . 'images/new-banner.png'; ?>" alt="WP Go Maps"/>
     </div>
 
-    <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
-        <?php echo __("Skip Introduction, Get Started","wp-google-maps"); ?>
+    <a class="wpgmza-button wpgmza-button-primary" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
+        <?php esc_html_e("Skip Introduction, Get Started","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>
 
@@ -217,7 +217,7 @@ $basicVersion = explode('.', $wpgmza->getBasicVersion());
     
     <h2><?php _e("Ready to get started?", "wp-google-maps"); ?></h2>                
     <a class="wpgmza-button" href="<?php echo admin_url('admin.php?page=wp-google-maps-menu&amp;action=installer&amp;autoskip=true'); ?>">
-        <?php echo __("Let's get started","wp-google-maps"); ?>
+        <?php esc_html_e("Let's get started","wp-google-maps"); ?>
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
     </a>
 </div>

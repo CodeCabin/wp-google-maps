@@ -54,26 +54,33 @@ jQuery(function($) {
 			}
 		}
 		
-		if(typeof subject == "object")
+		/* Use Array.isArray instead of `typeof subject == "object"`:
+		   typeof returns "object" for plain objects and null too, which
+		   would fall into this branch and return a non-array, causing
+		   Google Maps to throw "InvalidValueError: not an Array" from
+		   the downstream setPath() call. Seen in the wild when polydata
+		   in the DB is stored as an object-shaped JSON (e.g. from a
+		   migration artifact) rather than a JSON array. */
+		if(Array.isArray(subject))
 		{
 			var arr = subject;
-			
+
 			for(var i = 0; i < arr.length; i++)
 			{
 				arr[i].lat = parseFloat(arr[i].lat);
 				arr[i].lng = parseFloat(arr[i].lng);
 			}
-			
+
 			return arr;
 		}
 		else if(typeof subject == "string")
 		{
 			// Guessing old format
 			var stripped, pairs, coords, results = [];
-			
+
 			stripped = subject.replace(/[^ ,\d\.\-+e]/g, "");
 			pairs = stripped.split(",");
-			
+
 			for(var i = 0; i < pairs.length; i++)
 			{
 				coords = pairs[i].split(" ");
@@ -82,11 +89,16 @@ jQuery(function($) {
 					lng: parseFloat(coords[0])
 				});
 			}
-			
+
 			return results;
 		}
-		
-		throw new Error("Invalid geometry");
+
+		/* Return [] rather than throw — a throw here propagates out of
+		   the AJAX success callback that builds features and aborts
+		   loading of every feature after the bad row. Google Maps
+		   silently accepts an empty path, so the offending shape just
+		   renders as nothing while everything around it keeps working. */
+		return [];
 	}
 	
 	WPGMZA.Feature.prototype.setOptions = function(options)

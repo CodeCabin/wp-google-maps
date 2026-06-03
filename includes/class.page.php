@@ -26,7 +26,7 @@ class Page extends Factory
 			.wpgmza-pro-feature select, 
 			.wpgmza-pro-feature textarea')
 			->setAttribute('disabled', 'disabled')
-			->setAttribute('title', __('Get the Pro add-on to enable this feature'));
+			->setAttribute('title', __('This feature is available with the Pro add-on', 'wp-google-maps'));
 		
 		foreach($this->document->querySelectorAll('a[href="#marker-filtering"]') as $el)
 			$el->parentNode->remove();
@@ -100,7 +100,7 @@ class Page extends Factory
 		
 		$action	= $form->getAttribute("action");
 		
-		return wp_verify_nonce($nonce, "wpgmza_$action");
+		return wp_verify_nonce(sanitize_text_field(wp_unslash($nonce)), "wpgmza_$action");
 	}
 	
 	public function __get($name)

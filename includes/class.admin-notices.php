@@ -330,11 +330,11 @@ class AdminNotices {
 	public function dismissFromPostAjax(){
 		global $wpgmza;
 		
-		if (empty($_POST['slug']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
+		if (empty($_POST['slug']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wpgmza_security'])), 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
 			wp_send_json_error(__( 'Security check failed, import will continue, however, we cannot provide you with live updates', 'wp-google-maps' ));
 		}
 
-		$slug = sanitize_text_field($_POST['slug']);
+		$slug = sanitize_text_field(wp_unslash($_POST['slug']));
 		if (!empty($slug)){
 			$this->dismiss($slug);
 			wp_send_json_success('Complete');
@@ -351,11 +351,11 @@ class AdminNotices {
 	public function processBackgroundAction(){
 		global $wpgmza;
 
-		if (empty($_POST['relay']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
+		if (empty($_POST['relay']) || empty($_POST['wpgmza_security']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wpgmza_security'])), 'wpgmza_ajaxnonce') || !$wpgmza->isUserAllowedToEdit()) {
 			wp_send_json_error(__( 'Security check failed, import will continue, however, we cannot provide you with live updates', 'wp-google-maps' ));
 		}
 
-		$relayAction = sanitize_text_field($_POST['relay']);
+		$relayAction = sanitize_text_field(wp_unslash($_POST['relay']));
 		if(!empty($relayAction)){
 			switch($relayAction){
 				case 'swap_internal_engine':
@@ -371,7 +371,7 @@ class AdminNotices {
 
 					/* Dismiss it - It's one-switch and done */
 					if(!empty($_POST['slug'])){
-						$slug = sanitize_text_field($_POST['slug']);
+						$slug = sanitize_text_field(wp_unslash($_POST['slug']));
 						if (!empty($slug)){
 							$this->dismiss($slug);
 						}

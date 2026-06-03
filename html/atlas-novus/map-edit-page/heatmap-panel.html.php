@@ -31,7 +31,7 @@
 			);
 		?>
 		<a target="_BLANK" class="wpgmza-upsell-button"
-			href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmapeditor-btn-atlas-novus-v10" . wpgmzaGetUpsellLinkParams()));  ?>">
+			href="<?php echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=heatmapeditor-btn-atlas-novus-v10" . wpgmzaGetUpsellLinkParams()));  ?>">
 			<?php _e('Unlock Heatmaps', 'wp-google-maps'); ?> 
 		</a>
 	</div>

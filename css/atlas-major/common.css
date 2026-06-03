@@ -1,0 +1,1053 @@
+/**
+ * WP Go Maps - Atlas Novus 
+ * 
+ * Root Variables for use by all sub CSS files 
+*/
+:root{
+    /* Primary colors */
+    --wpgmza-color-brand    : #cc9999;
+
+    --wpgmza-color-light    : #eeeeee;
+    --wpgmza-color-dark     : #59595b;
+    --wpgmza-color-error    : #ea4335;
+    --wpgmza-color-warning  : #FFA11E;
+    --wpgmza-color-success  : #39C217;
+    
+    /* Alternate colors */
+    --wpgmza-color-light-alt : #e6e6e6;
+
+    /* Alias colors */
+    --wpgmza-color-white    : #ffffff;
+    --wpgmza-color-charcoal : #333333;
+    --wpgmza-color-black    : #000000;
+    
+    --wpgmza-color-black-overlay : #0000002e;
+
+    --wpgmza-color-blue     : #0073aa;
+    --wpgmza-color-blue-alt : #00628f;
+    --wpgmza-color-blue-light : #ddecf3;
+    --wpgmza-color-blue-light-alt : #cce3ee;
+
+    --wpgmza-color-cyan     : #31b0d6;
+    --wpgmza-color-cyan-dark: #145a70;
+
+    /* CTA colors */
+    --wpgmza-color-gold  : #e2973f;
+    --wpgmza-color-gold-alt  : #d38c3b;
+    --wpgmza-color-gold-light  : #fff4e6;
+
+    /* Grey tones */
+    --wpgmza-color-grey-50 : #f9f9f9;
+    --wpgmza-color-grey-75 : #f7f6f6;
+    --wpgmza-color-grey-100 : #f5f5f5;
+    --wpgmza-color-grey-150 : #efefef;
+    --wpgmza-color-grey-200 : #e8e8e8;
+    --wpgmza-color-grey-250 : #e4e4e4;
+    --wpgmza-color-grey-300 : #dcdcdc;
+    --wpgmza-color-grey-400 : #dddddd;
+    --wpgmza-color-grey-500 : #bfbfbf;
+    --wpgmza-color-grey-600 : #868686;
+    --wpgmza-color-grey-700 : #737373;
+    --wpgmza-color-grey-800 : #545454;
+    --wpgmza-color-grey-900 : #4d4d4e;
+
+
+    /* Transparent Grey tones */
+    --wpgmza-color-grey-A150 : #e2e2e28a;
+
+    /* Common Grey Aliased */
+    --wpgmza-color-grey-common : var(--wpgmza-color-grey-400);
+    
+    /* Grey tones mapped to Gray tones */
+    --wpgmza-color-gray-common : var(--wpgmza-color-grey-common);
+    
+    --wpgmza-color-gray-50 : var(--wpgmza-color-grey-50);
+    --wpgmza-color-gray-75 : var(--wpgmza-color-grey-75);
+    --wpgmza-color-gray-100 : var(--wpgmza-color-grey-100);
+    --wpgmza-color-gray-150 : var(--wpgmza-color-grey-150);
+    --wpgmza-color-gray-200 : var(--wpgmza-color-grey-200);
+    --wpgmza-color-gray-250 : var(--wpgmza-color-grey-250);
+    --wpgmza-color-gray-300 : var(--wpgmza-color-grey-300);
+    --wpgmza-color-gray-400 : var(--wpgmza-color-grey-400);
+    --wpgmza-color-gray-500 : var(--wpgmza-color-grey-500);
+    --wpgmza-color-gray-600 : var(--wpgmza-color-grey-600);
+    --wpgmza-color-gray-700 : var(--wpgmza-color-grey-700);
+    --wpgmza-color-gray-800 : var(--wpgmza-color-grey-800);
+    --wpgmza-color-gray-900 : var(--wpgmza-color-grey-900);
+
+    --wpgmza-color-gray-A150 : var(--wpgmza-color-grey-A150);
+
+    --wpgmza-shadow-common : 0 1px 1px 0 rgb(66 66 66 / 8%), 0 1px 3px 1px rgb(66 66 66 / 16%);
+    --wpgmza-shadow-high :  0 1px 1px 0 rgb(66 66 66 / 10%), 0 1px 5px 3px rgb(66 66 66 / 5%);
+
+}
+
+.wpgmza-hidden {
+	display: none !important;
+}
+
+.wpgmza-card {
+    background: var(--wpgmza-color-white);
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.wpgmza-shadow {
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-shadow-high {
+    box-shadow: var(--wpgmza-shadow-high);
+}
+
+#wpgmaps_options input:disabled + label,
+.wpgmza-feature-panel input:disabled + label,
+.wpgmza-pro-feature {
+	opacity: 0.6;
+}
+
+.wpgmza-button {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    background: var(--wpgmza-color-light);
+    border-color: var(--wpgmza-color-light);
+
+    transition: background 0.3s ease;
+}
+
+.wpgmza-button:hover{
+    cursor: pointer;
+    background: var(--wpgmza-color-light-alt);
+    border-color: var(--wpgmza-color-light-alt);
+}
+
+.wpgmza-button-white {
+    background: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-primary{
+	background: var(--wpgmza-color-dark);
+	border-color: var(--wpgmza-color-dark);
+	color: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-primary:hover{
+	background: var(--wpgmza-color-charcoal);
+	border-color: var(--wpgmza-color-charcoal);
+}
+
+.wpgmza-button-accent{
+    background: var(--wpgmza-color-blue);
+    border-color: var(--wpgmza-color-blue);
+    color: var(--wpgmza-color-white);
+}
+
+.wpgmza-button-accent:hover{
+    background: var(--wpgmza-color-blue-alt);
+    border-color: var(--wpgmza-color-blue-alt);
+}
+
+
+.wpgmza-button-call-to-action{
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
+
+    border: none;
+    color: var(--wpgmza-color-white) !important;
+    font-weight: 600;
+
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.wpgmza-button-call-to-action:hover{
+    background: linear-gradient(30deg, var(--wpgmza-color-blue), var(--wpgmza-color-blue-alt));
+    background-size: 200%;
+    border-color: none;
+}
+
+a.wpgmza-button {
+    color: var(--wpgmza-color-charcoal);
+}
+
+a.wpgmza-button-primary,
+a.wpgmza-button-accent,
+a.wpgmza-button-call-to-action {
+    color: var(--wpgmza-color-white);
+}
+
+
+/* Layout Helpers */
+.wpgmza-pos-absolute{
+	position: absolute;
+}
+
+.wpgmza-pos-relative{
+    position: relative;
+}
+
+.wpgmza-pad-0 {
+    padding: 0;
+}
+
+.wpgmza-pad-5{
+    padding: 5px;
+}
+
+.wpgmza-pad-10{
+    padding: 10px;
+}
+
+.wpgmza-pad-x-10{
+    padding: 0 10px;
+}
+
+.wpgmza-pad-y-10{
+    padding: 10px 0;
+}
+
+.wpgmza-pad-20{
+    padding: 20px;
+}
+
+.wpgmza-pad-x-20{
+    padding: 0 20px;
+}
+
+.wpgmza-pad-y-20{
+    padding: 20px 0;
+}
+
+.wpgmza-margin-0 {
+    margin: 0;
+}
+
+.wpgmza-margin-10 {
+    margin: 10px;
+}
+
+.wpgmza-margin-x-10 {
+    margin: 0 10px;
+}
+
+.wpgmza-margin-y-10 {
+    margin: 10px 0;
+}
+
+.wpgmza-margin-b-10 {
+    margin-bottom: 10px;
+}
+
+.wpgmza-margin-t-10 {
+    margin-top: 10px;
+}
+
+.wpgmza-margin-l-10 {
+    margin-left: 10px;
+}
+
+.wpgmza-margin-r-10 {
+    margin-right: 10px;
+}
+
+.wpgmza-margin-20 {
+    margin: 20px;
+}
+
+.wpgmza-margin-x-20 {
+    margin: 0 20px;
+}
+
+.wpgmza-margin-y-20 {
+    margin: 20px 0;
+}
+
+.wpgmza-margin-b-20 {
+    margin-bottom: 20px;
+}
+
+.wpgmza-margin-t-20 {
+    margin-top: 20px;
+}
+
+.wpgmza-margin-l-20 {
+    margin-left: 20px;
+}
+
+.wpgmza-margin-r-20 {
+    margin-right: 20px;
+}
+
+.wpgmza-stretch {
+	width: 100%;
+}
+
+.wpgmza-fit-content {
+    width: fit-content;
+}
+
+.wpgmza-text-align-center{
+	text-align: center;
+}
+
+.wpgmza-text-align-left{
+	text-align: left;
+}
+
+.wpgmza-text-align-right{
+	text-align: right;
+}
+
+.wpgmza-text-vertical-middle {
+    vertical-align: middle;
+}
+
+.wpgmza-list-dots{
+    list-style: circle;
+    margin-left: 20px !important;
+}
+
+.wpgmza-rounded-image {
+    border-radius: 60px;
+    overflow: hidden;
+}
+
+.wpgmza-rounded-image img {
+    transform: scale(1.1);
+}
+
+.wpgmza-flex-row {
+    display:  flex;
+}
+
+.wpgmza-flex-col {
+    display:  flex;
+    flex-direction: column;
+}
+
+.wpgmza-inline-indent {
+    width: calc(20px * var(--wpgmza-depth));
+    height: 18px;
+    display: inline-block;
+    position: relative;
+}
+
+/* Unhappy with this styling, it's a work in progress, shelved for now */
+/*
+.wpgmza-inline-indent:before{
+    content: "";
+    display: block;
+    width: calc(100% - 10px);
+    height: 4px;
+    background: var(--wpgmza-color-grey-400);
+    border-radius: 10px;
+    position: absolute;  
+    left: 0px;
+    top: 9px;  
+}
+*/
+
+/* Required positioning context for GoogleHTMLOverlay-based
+   elements (cluster icons in Gold, text overlays, etc.).
+   GoogleHTMLOverlay.updateElementPosition() in
+   js/v8/google-maps/google-html-overlay.js sets `top` / `left`
+   inline but does NOT set `position`, so without this rule the
+   inline coordinates are ignored and every overlay stacks at
+   0,0. Present in the base css/common.css and atlas-novus/
+   compat.css but was missing from this Atlas Major variant
+   (InternalEngine replaces common.css with this file rather
+   than supplementing it, so the base rule never reaches the
+   page). */
+.wpgmza-google-html-overlay {
+    position: absolute;
+}
+
+.wpgmza-google-text-overlay > .wpgmza-inner{
+    position: absolute;
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+    font-weight: bold;
+
+    text-shadow: 0px 0px 2px var(--wpgmza-color-white);
+    text-shadow: 0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white),
+        0px 0px 2px var(--wpgmza-color-white);
+}
+
+/* Override autocomplete styles */
+.pac-container {
+    border-radius: 2px;
+    border-top: none;
+    box-shadow: var(--wpgmza-shadow-common);
+}
+
+.pac-container .pac-item{
+    border-top: none;
+}
+
+.pac-container .pac-item .pac-item-query{
+    color: var(--wpgmza-color-charcoal);
+}
+
+.wpgmza-gesture-overlay{
+    color: white;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    text-align: center;
+    line-height: 400px;
+	pointer-events: none;
+}
+
+/* Google AdvancedMarkerElement supports */
+/* This is a block of CSS replacements for things that use to be handled by Marker module */
+.wpgmza-google-icon-transform-fix {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.wpgmza-google-icon-transform-fix > div:not(.wpgmza-google-marker-label){
+    position: relative;
+}
+
+.wpgmza-google-icon-transform-fix > div > img{
+    position: absolute;
+    bottom: 0;
+    left: var(--wpgmza-icon-offset);
+}
+
+/* Marker nudge */
+.wpgmza-google-icon-nudge {
+    position:relative;
+    left: var(--wpgmza-nudge-x);
+    bottom: var(--wpgmza-nudge-y);
+}
+
+/* Marker non-interactive */
+.wpgmza-google-marker-non-interactive {
+    cursor: unset !important;
+    pointer-events: none !important;
+}
+
+/* Marker hidden */
+.wpgmza-google-marker-hidden{
+    display: none;
+}
+
+/* Marker Opacity, variable driven */
+.wpgmza-google-marker-opacity{
+    opacity: var(--wpgmza-opacity) !important;
+}
+
+/* Marker animations - For Google markers using AdvancedMarkerElement */
+/* Could become the defaults for OpenLayers too for consistency */
+.wpgmza-google-marker-bounce {
+    animation: wpgmza-google-animation-bounce 0.3s ease infinite alternate;
+}
+
+.wpgmza-google-marker-drop {
+    animation: wpgmza-google-animation-drop 0.3s linear forwards;
+}
+
+/* Marker Labels */
+.wpgmza-google-marker-label,
+.wpgmza-google-marker-label-legacy {
+    position: absolute;
+    font-size: 0.8rem;
+    bottom: -1.2rem;
+
+    min-width: max-content;
+
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    
+    text-shadow: 0px 0px 2px #fff;
+    text-shadow: 0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff,
+        0px 0px 2px #fff;
+}
+
+/* Extend the legacy marker module styling as well, so it is accurate */
+.wpgmza-google-marker-label-legacy {
+    position: relative;
+    bottom: unset;
+    top: 1.6rem;
+}
+
+/* Grid Supports */
+.wpgmza-grid {
+    display: grid;
+    gap: 15px; 
+}
+
+.wpgmza-grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.wpgmza-grid-cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.wpgmza-grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.wpgmza-grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.wpgmza-grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.wpgmza-grid-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.wpgmza-grid-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.wpgmza-grid-item-col-span-2 {
+    grid-column: span 2;
+}
+
+.wpgmza-grid-item-col-span-3 {
+    grid-column: span 3;
+}
+
+.wpgmza-grid-item-col-span-4 {
+    grid-column: span 4;
+}
+
+.wpgmza-grid-item-col-span-5 {
+    grid-column: span 5;
+}
+
+.wpgmza-grid-item-col-span-6 {
+    grid-column: span 6;
+}
+
+.wpgmza-grid-align-center {
+    justify-items: center; 
+}
+
+.wpgmza-grid-align-end {
+    justify-items: end;
+}
+
+.wpgmza-grid-valign-center {
+    align-items: center; 
+}
+.wpgmza-grid-valign-end {
+    align-items: end;
+}
+
+@media (max-width: 768px) {
+    .wpgmza-grid {
+        grid-template-columns: 1fr; 
+    }
+}
+
+/* Keyframes */
+@keyframes wpgmza-google-animation-bounce {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes wpgmza-google-animation-drop {
+    0% {
+        transform: translateY(-200px) scaleY(0.9);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(0px) scaleY(1);
+        opacity: 1;
+    }
+    65% {
+        transform: translateY(-17px) scaleY(0.9);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-22px) scaleY(0.9);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px) scaleY(1);
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================================
+   PORTED FROM BASE css/common.css
+   ----------------------------------------------------------
+   InternalEngine::getStylesheet('common.css') resolves to this
+   Atlas Major variant when Atlas Major is active and REPLACES
+   the base common.css rather than supplementing it. That means
+   any rule defined in base common.css but not present here is
+   silently lost under Atlas Major.
+
+   Items below were missing and ported back. Each block names
+   the feature it belongs to so future maintainers can decide
+   whether to keep, restyle, or drop them as Atlas Major UI
+   evolves. Colors kept literal (not tokenised to --am-*) where
+   the values are functional / not part of Atlas Major's design
+   language (e.g. Google Routes sprite background offsets,
+   ratings red→green gradient, error-overlay red highlight).
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   1. DIRECTIONS UI (Pro/Gold feature)
+   ----------------------------------------------------------
+   Polyfill for Google Routes turn-by-turn output. The
+   maneuver classes use background-position offsets into
+   Google's hosted maneuvers.png sprite, so those values are
+   coordinate-tied and must stay literal. Step cards / route
+   selection / warnings panels use the same neutral grey
+   palette as the base, intentionally muted so the directions
+   readout doesn't fight the surrounding map UI for attention. */
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver {
+    background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/maneuvers.png);
+    background-size: 19px 630px;
+    width: 16px;
+    height: 16px;
+    display: none;
+}
+
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ferry        { display: block; background-position: 0 -614px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ferry-train  { display: block; background-position: 0 -566px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-merge        { display: block; background-position: 0 -143px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-name-change,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-depart,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-straight     { display: block; background-position: 0 -534px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-fork-left    { display: block; background-position: 0 -550px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ramp-left    { display: block; background-position: 0 -598px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-roundabout-left { display: block; background-position: 0 -197px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-left,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-keep-left    { display: block; background-position: 0 -413px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-sharp-left  { display: block; background-position: 0 0; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-slight-left { display: block; background-position: 0 -378px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-uturn-left   { display: block; background-position: 0 -305px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-fork-right   { display: block; background-position: 0 -499px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-ramp-right   { display: block; background-position: 0 -429px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-roundabout-right { display: block; background-position: 0 -232px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-right,
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-keep-right   { display: block; background-position: 0 -483px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-sharp-right  { display: block; background-position: 0 -582px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-turn-slight-right { display: block; background-position: 0 -51px; }
+.wpgmza-route-instruction-icon .wpgmza-route-maneuver.wpgmza-route-maneuver-uturn-right  { display: block; background-position: 0 -35px; }
+
+.wpgmza-route-instruction-inner {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    cursor: pointer;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-icon {
+    min-width: 30px;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-metric {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.8;
+    min-width: 120px;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-metric > * {
+    text-align: right;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-description {
+    max-width: 75%;
+    display: flex;
+    font-size: 0.9rem;
+}
+
+.wpgmza-route-instruction-inner .wpgmza-route-instruction-description .wpgmza-route-instruction-step-no {
+    min-width: 30px;
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+.gm-style-iw-d .wpgmza-route-instruction-inner {
+    max-width: 400px;
+    border-radius: 5px;
+    border: none;
+}
+
+.wpgmza-directions-stop {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+}
+
+.wpgmza-directions-travel-time {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    display: flex;
+    align-items: stretch;
+}
+
+.wpgmza-directions-travel-time > div {
+    opacity: 0.8;
+}
+
+.wpgmza-directions-travel-time > div:last-child {
+    margin-left: auto;
+}
+
+.wpgmza-route-selection {
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    background: #eee;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-heading {
+    padding: 5px 10px;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    transition: background 0.5s ease;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item:hover,
+.wpgmza-route-selection .wpgmza-route-selection-item.current-route {
+    background: #ddd;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-description {
+    font-weight: 500;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-description .wpgmza-route-selection-type {
+    font-size: 0.6rem;
+    padding: 0 4px;
+    border-radius: 3px;
+    opacity: 0.9;
+    background: #fff;
+    margin-left: 7px;
+}
+
+.wpgmza-route-selection .wpgmza-route-selection-item .wpgmza-route-selection-metrics {
+    margin-left: auto;
+    text-align: right;
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.wpgmza-directions-route-warnings {
+    font-size: 0.7rem;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.wpgmza-directions-route-warnings > div {
+    padding: 5px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.wpgmza-directions-route-warnings > div:first-child {
+    border-top: none;
+}
+
+.wpgmza-directions-notifications {
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 5px !important;
+    opacity: 0.8;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #eee;
+}
+
+.wpgmza-print-directions,
+.wpgmza-reset-directions {
+    cursor: pointer;
+}
+
+.wpgmza-directions-step:before {
+    display: none;
+}
+
+
+/* ----------------------------------------------------------
+   2. RATINGS WIDGETS (Gold + UGM feature)
+   ----------------------------------------------------------
+   Star, thumbs, and gradient rating widgets shown inside
+   marker info windows. Colors are intentionally literal —
+   yellow stars, red→green gradient bar, ghostwhite thumbs
+   chip — because they're product-functional rather than
+   theme-driven. */
+
+.wpgmza-rating-gradient-container {
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid lightgray;
+    width: 128px;
+    height: 1em;
+}
+
+.wpgmza-rating-gradient-container > .wpgmza-rating-gradient {
+    height: 100%;
+    background: linear-gradient(to right, #ff0000 0%, #00ff00 128px);
+    pointer-events: none;
+    transition: width 0.5s;
+}
+
+.wpgmza-rating-stars-container {
+    position: relative;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.wpgmza-rating-stars-container + .wpgmza-num-ratings {
+    position: relative;
+}
+
+.wpgmza-rating-stars-container > span {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-top: 0.3em;
+}
+
+.wpgmza-rating-stars-container > span.wpgmza-background {
+    text-shadow: 0px 0px 2px black;
+}
+
+.wpgmza-rating-stars-container > span.wpgmza-foreground {
+    overflow: hidden;
+    color: yellow;
+    text-shadow: 0px -1px 3px orange inner;
+}
+
+.wpgmza-rating-thumbs-container, .wpgmza-rating-thumbs-container * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wpgmza-rating-thumbs-container {
+    background: ghostwhite;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+}
+
+.wpgmza-rating-thumbs-container > span.wpgmza-downvote,
+.wpgmza-rating-thumbs-container > span.wpgmza-upvote {
+    padding: 0.5em 1em;
+}
+
+.wpgmza-rating-thumbs-container i {
+    position: relative;
+    font-size: 1.5em;
+    top: 0.0em;
+    transition: top 0.6s;
+}
+
+.wpgmza-rating-thumbs-container .wpgmza-upvote > i { top: -0.05em; }
+.wpgmza-rating-thumbs-container .wpgmza-down > i   { top:  0.05em; }
+.wpgmza-rating-thumbs-container .wpgmza-upvote:hover > i   { top: -0.25em; }
+.wpgmza-rating-thumbs-container .wpgmza-downvote:hover > i { top:  0.25em; }
+
+.wpgmza-rating-thumbs-container > span.wpgmza-upvote {
+    border-left: 1px solid lightgrey;
+}
+
+.wpgmza-rating-thumbs-container > span:hover,
+.wpgmza-rating-thumbs-container > span.wpgmza-remembered-rating {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(201,201,201,0.2) 100%);
+}
+
+.wpgmza-rating-thumbs-container > span:active {
+    background: linear-gradient(to top, rgba(255,255,255,0.5) 0%, rgba(201,201,201,0.2) 100%);
+}
+
+.wpgmza-rating.wpgmza-loading {
+    filter: grayscale(100%);
+}
+
+
+/* ----------------------------------------------------------
+   3. GOOGLE MAPS API ERROR OVERLAY — legacy sub-rules
+   ----------------------------------------------------------
+   Atlas Major has its own outer-frame styling for the error
+   overlay in components.css (.error-overlay-inner — newer
+   DOM). These rules target the ORIGINAL DOM (an unordered
+   list with documentation-button anchors and a frontend-only
+   flag) — they're harmless when the new DOM is rendered
+   (selectors don't match) and restore the styled fallback
+   when the legacy DOM is rendered. The ⛔ bullet prefix in
+   particular is important UX so users notice the error rather
+   than skim past plain bullets. */
+
+.wpgmza-google-maps-api-error-overlay,
+.wpgmza-google-maps-api-error-overlay * {
+    text-align: left;
+}
+
+.wpgmza-google-api-error-list {
+    list-style: none;
+}
+
+.wpgmza-google-api-error-list li {
+    background: ghostwhite;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: 1px solid #ccc;
+}
+
+.wpgmza-google-api-error-list li:before {
+    content: "\26D4";
+    color: red;
+}
+
+.wpgmza-google-maps-api-error-overlay a {
+    color: blue;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons {
+    float: right;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a {
+    color: #444444;
+    background: #F3F3F3;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 9pt;
+    outline: none;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a:hover {
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: #F7F7F7;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a:active {
+    box-shadow: inset 1px 1px 1px #DFDFDF;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-documentation-buttons a i {
+    font-weight: bold;
+    padding-right: 0.3em;
+}
+
+.wpgmza-google-maps-api-error-overlay .wpgmza-front-end-only {
+    color: red;
+    font-size: 0.8em;
+}
+
+
+/* ----------------------------------------------------------
+   4. OPENLAYERS VIEWPORT CSS-VARIABLE POLYFILL
+   ----------------------------------------------------------
+   OpenLayers controls (zoom, attribution, etc.) read these
+   variables from their nearest scoped ancestor. Defining
+   them at :root isn't enough in every theme context because
+   some themes re-scope OL inside containers that don't
+   inherit :root variables cleanly. Re-declaring on the
+   `.ol-viewport` element guarantees the controls always have
+   the tokens they need. Affects all non-Google engines:
+   Leaflet, Azure, Stadia, Maptiler, LocationIQ, and the OL
+   engine itself. */
+
+.wpgmza_map .ol-viewport {
+    --wpgmza-color-white    : #ffffff;
+    --wpgmza-color-charcoal : #333333;
+    --wpgmza-color-grey-50  : #f9f9f9;
+    --wpgmza-shadow-common  : 0 1px 1px 0 rgb(66 66 66 / 8%), 0 1px 3px 1px rgb(66 66 66 / 16%);
+}
+
+
+/* ----------------------------------------------------------
+   5. IMPORT LOG (admin Tools → Import)
+   ----------------------------------------------------------
+   Toggle-shown log panel that displays the bulk-import
+   progress / errors. Uses monospace + pre-wrap so multi-line
+   server output and stack traces render legibly. The buttons
+   strip is absolutely positioned above the log panel — needs
+   .wpgmza-import-log to be a positioning ancestor. */
+
+.wpgmza-import-log {
+    display: none;
+    position: relative;
+}
+
+.wpgmza-import-log > .wpgmza-log-contents {
+    white-space: pre-wrap;
+    display: block;
+    word-wrap: break-word;
+    border: 1px dotted grey;
+    padding: 1em;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.wpgmza-import-log-buttons {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+}
+
