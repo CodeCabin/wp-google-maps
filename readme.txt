@@ -1,12 +1,13 @@
-=== WP Go Maps - Most Popular Map Plugin ===
+=== WP Go Maps - Google Maps, OpenStreetMap, Leaflet Map ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, maps plugin, store locator
-Requires at least: 3.5
+Tags: google maps, maps, map, map plugin, store locator
+Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.0.10
+Stable tag: 10.1.00
 License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest to use map plugin! Create a custom map, map block, store locator or map widget with high quality markers.
 
@@ -216,6 +217,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.1.00 = 
+Please update to 10.1.00 or above to ensure you are using the latest security enhancements.
+
 = 10.0.10 = 
 Please update to 10.0.10 or above to ensure you are using the latest security enhancements.
 
@@ -225,8 +229,38 @@ Please update to 10.0.08 or above for the latest stability improvements.
 = 10.0.07 = 
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
-
 == Changelog ==
+
+= 10.1.00 - 2026-06-03 =
+* Added Atlas Major, a new editor UI.
+* Added live preview to the map editor, showing how the page will render with real-time updates as settings change (Atlas Major)
+* Added automatic background save via REST. Form changes are persisted shortly after a change with a "Saved" indicator, falling back to a native form submit after 3 seconds if the REST request fails (Atlas Major)
+* Added live tileset swap, applying a tileset to the editor map immediately on selection without needing to save (Atlas Major)
+* Added click-drag isolation on info-window panels, directions boxes, and inner-stack overlays so panel interactions no longer drag the map underneath (Atlas Major)
+* Added "Save & Reload" confirmation modal for settings that require a fresh map construction, with an in-progress overlay during the reload (Atlas Major)
+* Added auto-scroll to top and address field focus after a successful Add Marker (Atlas Major)
+* Added auto-close of info window panel after delete, and auto-refresh of info window content after a marker save (Atlas Major)
+* Added store locator text override preservation across editor rebuilds (Atlas Major)
+* Added 🔑 indicator next to engines in the engine switch dropdown that require an API key
+* Added missing API key notice for Microsoft Azure, Stadia Maps, Maptiler, and LocationIQ. Previously only Google Maps would surface this notice
+* Added auto-return to the feature list panel after a successful Add Marker or Add shape
+* Fixed issue where saving the map in basic would write empty strings into Pro-only store locator visual fields, leading to invisible store locator circles after Pro was activated
+* Fixed issue where info-window distance calculation read the wrong unit source, causing "miles away" labels to render kilometre values
+* Fixed issue where the map list page displayed poorly on small screens due to DataTables 2 colgroup widths
+* Fixed issue where the map editor REST autosave returned a 500 error under Pro because an admin-only file include was not available in the REST request context
+* Fixed issue where the Plugin class __isset method was missing magic-getter cases, causing several live preview Pro template injections to silently fail (Atlas Major)
+* Fixed issue where the custom image overlay live preview could corrupt the map start coordinates because the Leaflet CRS is locked at map construction (Atlas Major)
+* Fixed issue where unchecked checkboxes were treated as enabled in live preview (Atlas Major)
+* Fixed issue where the action bar Save Map and Preview buttons would wrap to separate rows on narrow sidebars (Atlas Major)
+* Fixed issue where the bulk markers REST endpoint would return unapproved markers to unauthenticated users. Security issue, thanks to Fraudless.tech (Ilyess Ghalem)
+* Improved default map height for new maps from 400px to 600px
+* Improved Save Map button feedback to pulse red with a spinner during autosave and manual saves (Atlas Major)
+* Improved engine switching from the editor toolbar to reload the editor so the new engine libraries load correctly
+* Improved missing API key notice to render as a centered card over the map area
+* Improved store locator radius circle cleanup when components rebuild in live preview (Atlas Major)
+* Improved editor diagnostics by removing verbose console output on page load and save (Atlas Major)
+* Improved internationalisation by auditing UI strings and migrating hardcoded text to WPGMZA.localized_strings (Atlas Major)
+* Improved cursor handling across editor panels and info-window overlays so Leaflet's grab cursor no longer leaks into UI surfaces (Atlas Major)
 
 = 10.0.10 - 2026-05-13 =
 * Fixed issue where Datatables AJAX fallback would bypass the approval filter. Security issue, thanks to WPScan, Jetpack, Automattic (Erwan)
@@ -413,10 +447,4 @@ Please update to 10.0.07 or above to ensure you are using the latest architectur
 * Archived V9 changelogs
 
 
-
-For more, please view the WP Go Maps site
-
-
-
-
-
+For more, please view the WP Go Maps site.

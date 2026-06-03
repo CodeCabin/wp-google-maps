@@ -3,15 +3,49 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.0.10
+Version: 10.1.00
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
 Domain Path: /languages
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 
 /*
+ * 10.1.00 - 2026-06-03
+ * New UI introduced: "Atlas Major"
+ * Added Atlas Major UI as an opt-in beta. Activate via Settings > Danger Zone > Internal Build. Built on Tailwind CSS with a Plus Jakarta Sans typeface
+ * Added Live Preview to the map editor — a browser mockup frame around the map area showing how the page will render, with real-time updates as settings change
+ * Added automatic background save via REST. Form changes are persisted shortly after a change with a "Saved" pill indicator; falls back to a native form submit after 3s if the REST request fails
+ * Added live tileset swap — clicking a tileset card under Themes > Tileset applies it to the editor map immediately without needing to save
+ * Added click-drag isolation on info-window panels, directions boxes, and inner-stack overlays so panel interactions no longer drag the map underneath
+ * Added "Save & Reload" confirmation modal for settings that require a fresh map construction (e.g. custom image overlay enable/disable), including an in-progress overlay during the reload
+ * Added auto-scroll-to-top + address field focus after a successful Add Marker
+ * Added auto-close of info window panel after Delete, and auto-refresh of info window content after a marker save
+ * Added "Below Map" as the default placement for the Marker Listing component on new maps in the Atlas Major editor
+ * Added store locator text override preservation across editor rebuilds
+ * Added 🔑 indicator next to engines in the editor's engine-switch dropdown that require an API key
+ * Added missing-API-key notice for Microsoft Azure, Stadia Maps, Maptiler, and LocationIQ (previously Google Maps only)
+ * Added auto-return to the feature list panel after a successful Add Marker / Add shape
+ * Fixed issue where saving the map in basic would write empty strings into Pro-only store locator visual fields (line/fill colour and opacity), leading to invisible store-locator circles after Pro was activated
+ * Fixed issue where info-window distance calculation read the wrong unit source, causing "miles away" labels with kilometre values
+ * Fixed issue where the map list page displayed poorly on small screens due to DataTables 2 colgroup widths
+ * Fixed issue where the map editor's REST auto-save returned a 500 under Pro because an admin-only file include wasn't available in the REST request context
+ * Fixed issue where Plugin class __isset was missing magic-getter cases, causing several live-preview Pro template injections to silently fail
+ * Fixed issue where the Custom Image overlay's live preview could corrupt the map start coordinates because the Leaflet CRS is locked at map construction
+ * Fixed unchecked checkboxes being treated as enabled in Atlas Major live preview
+ * Fixed issue where the bulk markers REST endpoint would return unapproved markers to unauthenticated users. Security issue, thanks to Fraudless.tech (Ilyess Ghalem)
+ * Improved cursor handling across editor panels and info-window overlays so Leaflet's grab cursor no longer leaks into UI surfaces
+ * Improved internationalisation by auditing Atlas Major UI strings and migrating hardcoded text to WPGMZA.localized_strings
+ * Improved default map height for new maps from 400px to 600px
+ * Improved Save Map button feedback — pulses red with a spinner during autosave and manual saves
+ * Improved engine switching from the editor toolbar — now reloads the editor so the new engine's libraries load
+ * Improved the missing-API-key notice — renders as a centered card over the map area
+ * Improved store-locator radius circle cleanup when components rebuild in live preview
+ * Improved Atlas Major editor diagnostics — removed verbose console.log noise on page load and save
+ *
  * 10.0.10 - 2026-05-13
  * Fixed issue where Datatables AJAX fallback would bypass the approval filter. Security issue, thanks to WPScan, Jetpack, Automattic (Erwan)
  * Fixed issue where single marker endpoint and AJAX fallback would bypass the approval filter. Security issue, thanks to WPScan, Jetpack, Automattic (Erwan)
@@ -325,7 +359,7 @@ if (isset($_GET['page']) && ($_GET['page'] == 'wp-google-maps-menu' || $_GET['pa
 						?></p><br />
 
 						<p><?php
-							echo __('Please note, in this configuration our new Atlas Novus build cannot be enabled, which means some new features will not be available.', 'wp-google-maps');
+							echo esc_html__('Please note, in this configuration our new Atlas Novus build cannot be enabled, which means some new features will not be available.', 'wp-google-maps');
 						?></p>
 						<p>&nbsp;</p>
 					</div><br />

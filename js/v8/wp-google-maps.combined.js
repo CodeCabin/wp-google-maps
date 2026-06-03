@@ -1230,6 +1230,3826 @@ jQuery(function($) {
     }
 });
 
+// js/v8/atlas-major-autosave.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorAutoSave
+ * @requires WPGMZA
+ *
+ * Auto-save for the map edit page under Atlas Major. Hijacks the
+ * #wpgmaps_options form submit, saves via REST (POST
+ * /wpgmza/v1/maps/{id}/settings), and additionally polls every 10s
+ * for a dirty form. On AJAX failure the handler shows an error state,
+ * counts down 3s, then falls back to a native form submit so the user
+ * never loses work.
+ *
+ * Shared UX: a pill (.am-save-pill) in the top bar, right of the
+ * shortcode pill, has states: idle (hidden), saving, saved, error.
+ * "Saved" persists once set (Google Docs-style).
+ */
+jQuery(function($) {
+
+	/**
+	 * Resolve a localized string from WPGMZA.localized_strings, with an
+	 * English fallback for the rare case where the server-side
+	 * localization array is missing or hasn't been refreshed.
+	 */
+	function L(key, fallback){
+		return (WPGMZA.localized_strings && WPGMZA.localized_strings[key]) || fallback;
+	}
+
+	if(WPGMZA.currentPage != "map-edit"){
+		return;
+	}
+
+	if(!document.querySelector('.wpgmza-atlas-major')){
+		return;
+	}
+
+	WPGMZA.AtlasMajorAutoSave = function(){
+		var self = this;
+
+		this.form           = $('#wpgmaps_options');
+		if(!this.form.length){
+			return;
+		}
+
+		this.pill           = $('.am-save-pill');
+		this.pauseToggle    = $('.am-autosave-pause-toggle');
+		this.saveButtons    = $('label[for="wpgmza_savemap"]');
+		this.saveButtonOriginalText = this.saveButtons.first().text();
+		this.pollIntervalMs = 10000;
+
+		/* Paused state — when paused, autosave skips all automatic
+		 * triggers (change events, interval ticks). Manual Save Map
+		 * clicks still flush so the user can intentionally commit when
+		 * they want to.
+		 *
+		 * DEFAULT IS PAUSED — autosave is opt-in. The user toggles it
+		 * on via the top-bar pause button; the choice is persisted to
+		 * localStorage so it sticks across reloads. The previous
+		 * behaviour (autosave-on by default) was too aggressive: an
+		 * autosave-on-init flush could write empty values for any form
+		 * field that wasn't serialised, clobbering the saved record. */
+		this.paused = true;
+		try {
+			if(window.localStorage && localStorage.getItem('wpgmza_autosave_enabled') === '1'){
+				this.paused = false;
+			}
+		} catch(e){ }
+
+		/* Instant visual flip on click. Bound outside the grace period
+		 * so the user always gets feedback, even if they click Save
+		 * before our submit hijack is wired up (in which case the form
+		 * submits natively and the page reloads, restoring the button). */
+		var self2 = this;
+		this.saveButtons.on('click', function(e){
+			if($(this).hasClass('is-disabled')){
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				return false;
+			}
+			self2.setSaveButtonState('saving');
+		});
+		this.fallbackDelayMs = 3000;
+		this.changeDebounceMs = 1500; // coalesce rapid changes (toggle spam, slider drags)
+		this.gracePeriodMs  = 3000;   // don't save in the first N ms after page load
+
+		this.inFlight       = false;
+		this.pendingFlush   = false;        // set true if a save is requested while one is in flight
+		this.fallbackTimer  = null;
+		this.changeTimer    = null;
+		this.ready          = false;        // flips true after grace period; nothing is bound before this
+
+		/* Grace period — on initial load a lot of other JS initialises,
+		 * populates form fields, fires synthetic change events, and
+		 * occasionally triggers form.submit() programmatically for
+		 * internal wiring. We don't want our form-submit hijack, our
+		 * change listener, or the interval to interfere with any of
+		 * that bootstrap. Nothing binds or fires until the grace
+		 * period elapses. */
+		setTimeout(function(){
+			self.lastHash = self.hashForm();
+			self.ready = true;
+			self.attachListeners();
+		}, this.gracePeriodMs);
+
+		/* Pause toggle in the top bar (right of the save pill). Wire it
+		 * up immediately (no grace period needed — the toggle just flips
+		 * a flag, it doesn't trigger saves). */
+		this.attachPauseToggle();
+		this.refreshPauseToggleUI();
+
+		/* "Remember to save your map!" pill — show for 8 seconds on
+		 * every pan / zoom (when autosave is off). Implemented from
+		 * autosave's own listener with a sliding hide timer so we
+		 * don't depend on jQuery .show()/.hide() inline-style state. */
+		this.attachReminderPillTimer();
+	};
+
+	/**
+	 * Watch the form's view-state inputs (map_start_lat / map_start_lng /
+	 * map_start_zoom). Whenever any value differs from the last polled
+	 * snapshot, flash the "Remember to save your map!" pill for 8
+	 * seconds. Subsequent changes reset the timer.
+	 *
+	 * Polling is intentionally dumb: it doesn't depend on jQuery's
+	 * .show()/.hide() state, the map's event dispatcher, or
+	 * MutationObserver — all of which I tried and could not get to fire
+	 * reliably on every pan after the first. The inputs are updated
+	 * directly by the editor's onBoundsChanged via .val(), so they are
+	 * the canonical "what is the map showing" signal. 4 polls/sec is
+	 * trivial overhead.
+	 *
+	 * Skipped silently when autosave is enabled.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.attachReminderPillTimer = function(){
+		var self = this;
+
+		var pillEl = document.getElementById('wpgmaps_save_reminder');
+		var latEl  = document.querySelector('input[name="map_start_lat"]');
+		var lngEl  = document.querySelector('input[name="map_start_lng"]');
+		var zoomEl = document.querySelector('input[name="map_start_zoom"]');
+		if(!pillEl || !latEl || !lngEl || !zoomEl){
+			/* DOM not ready yet — retry shortly. */
+			setTimeout(function(){ self.attachReminderPillTimer(); }, 250);
+			return;
+		}
+
+		var last = {
+			lat:  latEl.value,
+			lng:  lngEl.value,
+			zoom: zoomEl.value
+		};
+
+		setInterval(function(){
+			/* === 1. Detect lat/lng/zoom changes (pan/zoom via .val()) === */
+			var cur = {
+				lat:  latEl.value,
+				lng:  lngEl.value,
+				zoom: zoomEl.value
+			};
+			var panZoomChanged = (cur.lat !== last.lat || cur.lng !== last.lng || cur.zoom !== last.zoom);
+			if(panZoomChanged) last = cur;
+
+			/* === 2. Detect anything else via form hash ===
+			 * The save-pill `unsaved` flip-trigger lives in BOTH the
+			 * change/input listener AND here as a safety net — some
+			 * settings UIs in the editor mutate inputs via .val()
+			 * without dispatching a change event (custom toggles,
+			 * pickers, sliders, etc.), so the listener alone misses
+			 * them. Hashing four times per second is cheap and
+			 * catches everything the listener doesn't. Only runs
+			 * once `lastHash` has been initialised by the grace-
+			 * period callback — before that, every tick would look
+			 * "changed" and the pill would falsely flip to unsaved
+			 * before the user has done anything. */
+			var hashChanged = false;
+			if(self.ready && typeof self.lastHash !== 'undefined'){
+				var cur_hash = self.hashForm();
+				if(cur_hash !== self.lastHash){
+					hashChanged = true;
+				}
+			}
+
+			var anyChange = panZoomChanged || hashChanged;
+			if(!anyChange) return;
+
+			/* Pan/zoom updates lat/lng/zoom via .val() which doesn't
+			 * fire a `change` event — and some custom settings UIs
+			 * do the same. Flip the save-pill to "unsaved" here so
+			 * the green "Saved" can't stay stale across user
+			 * changes. Runs in BOTH paused and active states; the
+			 * existing 10s polling in attachListeners() handles the
+			 * actual flush when autosave is on. */
+			self.setPillState('unsaved');
+
+			if(!self.paused) return; // autosave on — reminder pill is suppressed by CSS anyway
+
+			if(!panZoomChanged) return; // only flash the "Remember!" pill on pan/zoom, not generic form edits
+
+			/* Autosave off — show the "Remember to save your map!"
+			 * pill for 8 seconds. Subsequent changes reset the timer.
+			 *
+			 * Force-clear any inline display on the inner card too —
+			 * there are dormant fadeOut() calls in
+			 * atlas-major-live-preview.js (initSaveReminder) that
+			 * historically set display:none on `.am-save-reminder`,
+			 * and similar leftovers could exist for other classes.
+			 * Resetting both elements every flash makes this
+			 * resilient regardless of what else touched them. */
+			pillEl.style.display = 'block';
+			var innerCard = pillEl.firstElementChild;
+			if(innerCard) innerCard.style.display = '';
+
+			clearTimeout(self._reminderPillTimer);
+			self._reminderPillTimer = setTimeout(function(){
+				pillEl.style.display = 'none';
+			}, 8000);
+		}, 250);
+	};
+
+	/**
+	 * Bind the top-bar pause toggle button. Clicking flips paused
+	 * state, persists to localStorage, and updates the button's visual
+	 * state. The flag is also read at construction so a paused state
+	 * survives page reloads.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.attachPauseToggle = function(){
+		var self = this;
+		if(!this.pauseToggle.length) return;
+		this.pauseToggle.on('click', function(e){
+			e.preventDefault();
+			self.setPaused(!self.paused);
+		});
+	};
+
+	/**
+	 * Update the pause toggle button's visual state to reflect
+	 * `this.paused`. Adds/removes a `is-paused` class plus an
+	 * accessible label + tooltip. The button itself is styled in
+	 * atlas-major.css.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.refreshPauseToggleUI = function(){
+		if(!this.pauseToggle.length) return;
+		this.pauseToggle.toggleClass('is-paused', !!this.paused);
+		var label = this.paused
+			? L('atlas_major_autosave_paused_label', 'Autosave off')
+			: L('atlas_major_autosave_active_label', 'Autosave on');
+		var title = this.paused
+			? L('atlas_major_autosave_resume_tip', 'Click to enable autosave')
+			: L('atlas_major_autosave_pause_tip', 'Click to disable autosave (manual Save Map still works)');
+		this.pauseToggle.attr({ 'aria-label': label, 'title': title });
+		this.pauseToggle.find('.am-autosave-pause-text').text(label);
+
+		/* Mirror the autosave state onto <body> so CSS can scope the
+		 * legacy "Remember to save your map!" pill to "autosave is OFF".
+		 * When autosave is enabled, hide the pill immediately (any
+		 * pending 8s timer is also canceled so it can't re-show). */
+		$('body').toggleClass('wpgmza-autosave-on', !this.paused);
+		if(!this.paused){
+			clearTimeout(this._reminderPillTimer);
+			$('#wpgmaps_save_reminder').hide();
+		}
+	};
+
+	/**
+	 * Public setter — flip the paused flag, persist it to localStorage,
+	 * and refresh the UI. Safe to call before listeners are attached
+	 * (grace period hasn't elapsed).
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.setPaused = function(paused){
+		this.paused = !!paused;
+		try {
+			/* `wpgmza_autosave_enabled` is the opt-in flag. Absence
+			 * (the default) means autosave is paused; '1' means the
+			 * user has explicitly enabled it. */
+			if(this.paused) localStorage.removeItem('wpgmza_autosave_enabled');
+			else            localStorage.setItem('wpgmza_autosave_enabled', '1');
+		} catch(e){ }
+		this.refreshPauseToggleUI();
+	};
+
+	/**
+	 * Bind all the form / interval listeners. Only called AFTER the
+	 * grace period so it can't interfere with any JS that runs
+	 * during initial page bootstrap (marker list render, live
+	 * preview init, etc.).
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.attachListeners = function(){
+		var self = this;
+
+		/* "Unsaved changes" pill state — fires on every change/input
+		 * regardless of paused state. Without this, the pill could
+		 * stay green "Saved" indefinitely after the user toggled
+		 * autosave off and made edits, falsely implying the map was
+		 * up to date. The pill flips to amber "Unsaved changes" as
+		 * soon as anything in the form changes; flush() resets it
+		 * to "Saved" on success. Cheap — just attribute + text
+		 * mutations on one element. */
+		this.form.on('change input', function(){
+			self.setPillState('unsaved');
+		});
+
+		/* Change events — coalesced with a debounce so a rapid burst
+		 * of changes (toggle spam, slider drag, typing in text fields
+		 * that fire change on blur) results in one save rather than
+		 * many. The "did anything change" decision is made inside
+		 * flush() via the hash comparison. */
+		this.form.on('change', function(e){
+			if(self.paused) return;
+			clearTimeout(self.changeTimer);
+			self.changeTimer = setTimeout(function(){
+				self.changeTimer = null;
+				if(self.paused) return;
+				if(!self.inFlight){
+					self.flush(/* triggeredByUser */ false);
+				}
+			}, self.changeDebounceMs);
+		});
+
+		/* Hijack form submit — catches both "Save Map" <label for=...>
+		 * buttons (top bar + bottom action bar), any keyboard-Enter
+		 * submit, and anything else that triggers the form.submit()
+		 * event. One binding covers everything. */
+		this.form.on('submit', function(e){
+			e.preventDefault();
+			self.flush(/* triggeredByUser */ true);
+		});
+
+		/* 10s tick — hash the form and compare to lastHash. If they
+		 * differ, something changed and we flush. This is the safety
+		 * net that catches changes the `change` event misses:
+		 *   - programmatic .val() writes (map pan/zoom updating the
+		 *     hidden lat/lng/zoom inputs, sliders setting values via
+		 *     jQuery UI, etc. — these don't fire `change` by default)
+		 *   - toggle switches whose click handlers suppress / delay
+		 *     the change event
+		 * Hashing is cheap (a few ms for a ~100-field form). */
+		setInterval(function(){
+			if(self.paused) return;
+			if(self.inFlight) return;
+			if(self.hashForm() !== self.lastHash){
+				self.flush(/* triggeredByUser */ false);
+			}
+		}, this.pollIntervalMs);
+	};
+
+	/**
+	 * Find the current map's ID from the most reliable source
+	 * available at call time. Falls through: form's hidden input →
+	 * WPGMZA.mapEditPage.map → `?map_id=` query param.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.resolveMapId = function(){
+		var val = parseInt(this.form.find('input[name="map_id"]').val() || 0, 10);
+		if(val) return val;
+
+		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.map && WPGMZA.mapEditPage.map.id){
+			return parseInt(WPGMZA.mapEditPage.map.id, 10);
+		}
+
+		var m = window.location.search.match(/[?&]map_id=(\d+)/);
+		if(m) return parseInt(m[1], 10);
+
+		return 0;
+	};
+
+	/**
+	 * Build a compact hash of the form's serialised state. Good enough
+	 * to detect whether the user has actually changed anything —
+	 * we skip hitting the server if the 10s tick fires but nothing
+	 * has actually changed since the last snapshot.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.hashForm = function(){
+		var pairs = this.form.serializeArray();
+		var str = JSON.stringify(pairs);
+		var hash = 0;
+		for(var i = 0; i < str.length; i++){
+			hash = ((hash << 5) - hash) + str.charCodeAt(i);
+			hash |= 0;
+		}
+		return hash + '_' + str.length;
+	};
+
+	/**
+	 * Fire the save request. If a save is already in flight, queue a
+	 * follow-up to run immediately after. Rapid user clicks on "Save
+	 * Map" never double-submit.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.flush = function(triggeredByUser){
+		var self = this;
+
+		if(this.inFlight){
+			this.pendingFlush = true;
+			return;
+		}
+
+		/* Skip if nothing has changed, unless the user explicitly hit
+		 * Save — then we always send so they get the UX reassurance
+		 * of a "Saved" pill update. */
+		var currentHash = this.hashForm();
+		if(!triggeredByUser && currentHash === this.lastHash){
+			return;
+		}
+
+		/* Resolve the map id lazily — the hidden `map_id` input is
+		 * populated at runtime by other JS, so reading it in the
+		 * constructor would often give an empty value. Resolve it
+		 * per-save and fall back through: form input → WPGMZA
+		 * mapEditPage.map → URL param → the map instance's id. */
+		var mapId = this.resolveMapId();
+		if(!mapId){
+			/* Nothing we can do yet — the next tick will try again. */
+			return;
+		}
+
+		this.inFlight = true;
+		this.setPillState('saving');
+		/* Flip the Save Map button to "Saving…" for ALL flushes — both
+		 * user-triggered (clicking Save) and autosave (debounced after a
+		 * settings change). Previously only user-triggered showed the
+		 * button state change, which made autosaves invisible to the
+		 * user except via the small "Saved" pill. Showing the button
+		 * state for autosaves makes it obvious that work is being
+		 * persisted. */
+		this.setSaveButtonState('saving');
+
+		/* Convert serialised form pairs into a plain object. Repeating
+		 * keys (e.g. checkbox arrays) would collide — but map settings
+		 * don't use those today, so a flat object is fine. */
+		var pairs = this.form.serializeArray();
+		var payload = {};
+		for(var i = 0; i < pairs.length; i++){
+			payload[pairs[i].name] = pairs[i].value;
+		}
+
+		WPGMZA.restAPI.call('/maps/' + mapId + '/settings/', {
+			method: 'POST',
+			data: payload,
+			success: function(response){
+				self.inFlight = false;
+				self.lastHash = currentHash;
+
+				/* Cancel any countdown/fallback from a previous failure. */
+				if(self.fallbackTimer){
+					clearTimeout(self.fallbackTimer);
+					self.fallbackTimer = null;
+				}
+
+				self.setPillState('saved');
+				self.setSaveButtonState('idle');
+
+				/* Hide the legacy "Remember to save your map!" nag —
+				 * the change has been persisted, the user no longer
+				 * needs to remember. Cancel any pending 8s timer too. */
+				clearTimeout(self._reminderPillTimer);
+				$('#wpgmaps_save_reminder').hide();
+
+				/* If another save was queued while this one was in
+				 * flight, flush it now. */
+				if(self.pendingFlush){
+					self.pendingFlush = false;
+					self.flush(/* triggeredByUser */ false);
+				}
+
+				/* One-shot reload signal: the live-preview modal sets
+				 * this when the user confirms "Save & Reload" for a
+				 * setting that needs the editor reconstructed (e.g.
+				 * custom_tile_enabled — leaflet CRS is locked at map
+				 * construction). Wait for any queued recursive flush
+				 * to also complete (its success will land here too
+				 * with inFlight=false) before reloading, so we don't
+				 * abort a save mid-request. */
+				if(self.reloadAfterSave && !self.inFlight){
+					self.reloadAfterSave = false;
+					window.location.reload();
+				}
+			},
+			error: function(xhr, status, err){
+				self.inFlight = false;
+				/* lastHash is NOT updated on failure, so the next tick
+				 * sees the same diff and retries automatically. */
+				self.setPillState('error');
+				/* Leave the save button in the 'saving' state — the
+				 * fallback will trigger a native form submit shortly,
+				 * which reloads the page (button restores naturally).
+				 * If we restored it here it would briefly look idle
+				 * during the 3s countdown which is misleading. */
+				self.scheduleFallback();
+			}
+		});
+	};
+
+	/**
+	 * Schedule a native form submit as a 3s countdown fallback. The
+	 * native submit hits admin-post.php?action=wpgmza_save_map, which
+	 * is the same server-side handler the form has always used — so
+	 * data is never lost when AJAX is broken.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.scheduleFallback = function(){
+		var self = this;
+		if(this.fallbackTimer) return;
+
+		var remaining = Math.floor(this.fallbackDelayMs / 1000);
+		var template = L('atlas_major_save_failed_retrying', 'Save failed — retrying in %ds');
+		this.updatePillText('error', template.replace('%d', remaining));
+
+		this.fallbackTimer = setInterval(function(){
+			remaining--;
+			if(remaining <= 0){
+				clearInterval(self.fallbackTimer);
+				self.fallbackTimer = null;
+				/* Trigger the native submit. `form.submit()` on the
+				 * DOM element bypasses our jQuery `submit` handler so
+				 * we don't re-enter the AJAX path. */
+				self.form.get(0).submit();
+				return;
+			}
+			self.updatePillText('error', template.replace('%d', remaining));
+		}, 1000);
+	};
+
+	/**
+	 * Visually toggle the "Save Map" button (a <label for="wpgmza_savemap">
+	 * — there are two of them: top bar + bottom action bar) between
+	 * idle and a disabled "Saving…" state. The label is the user-facing
+	 * control; the underlying submit input stays hidden.
+	 */
+	WPGMZA.AtlasMajorAutoSave.prototype.setSaveButtonState = function(state){
+		if(!this.saveButtons.length) return;
+		if(state === 'saving'){
+			/* Don't change the button text — replacing "Save Map" with
+			 * "Saving…" makes the button wider, which on tight action-bar
+			 * layouts (top-bar with Get Shortcode + Preview + Save Map)
+			 * causes the Save button to wrap onto a new line. The
+			 * .wpgmza-saving CSS class provides all the visual feedback
+			 * (dark red background + pulsing glow + spinner badge) without
+			 * changing the button's content or width. */
+			this.saveButtons
+				.addClass('wpgmza-saving is-disabled')
+				.attr('aria-disabled', 'true')
+				.css('pointer-events', 'none');
+		} else {
+			/* Idle — remove visual saving cues. No need to restore text
+			 * since saving state never changed it (see comment above). */
+			this.saveButtons
+				.removeClass('wpgmza-saving is-disabled')
+				.removeAttr('aria-disabled')
+				.css('pointer-events', '');
+		}
+	};
+
+	WPGMZA.AtlasMajorAutoSave.prototype.setPillState = function(state){
+		if(!this.pill.length) return;
+
+		/* Don't downgrade transient in-flight states. `saving` and
+		 * `error` represent the current request lifecycle; allowing
+		 * a `change` event mid-save to flip the pill back to
+		 * `unsaved` would lie about what's actually in flight. The
+		 * success / error callbacks in flush() always settle to
+		 * `saved` or `error` after the request, so the pill returns
+		 * to a correct state regardless. */
+		if(state === 'unsaved'){
+			var current = this.pill.attr('data-state');
+			if(current === 'saving' || current === 'error') return;
+		}
+
+		this.pill.attr('data-state', state);
+
+		var text = '';
+		switch(state){
+			case 'saving':   text = L('atlas_major_saving', 'Saving…'); break;
+			case 'saved':    text = L('atlas_major_saved', 'Saved');    break;
+			case 'unsaved':  text = L('atlas_major_unsaved', 'Unsaved changes'); break;
+			case 'error':    text = L('atlas_major_save_failed', 'Save failed'); break;
+			case 'idle':     text = '';         break;
+		}
+		this.pill.find('.am-save-pill-text').text(text);
+	};
+
+	WPGMZA.AtlasMajorAutoSave.prototype.updatePillText = function(state, text){
+		if(!this.pill.length) return;
+		this.pill.attr('data-state', state);
+		this.pill.find('.am-save-pill-text').text(text);
+	};
+
+	/* Boot.
+	 *
+	 * Autosave is OFF BY DEFAULT — users opt in via the top-bar pause
+	 * button. The localStorage flag `wpgmza_autosave_enabled` records
+	 * the user's choice ('1' = enabled, absent/anything else = paused).
+	 * Read on construction so the choice survives page reloads.
+	 *
+	 * To manually enable / disable from the console:
+	 *     localStorage.setItem('wpgmza_autosave_enabled', '1')
+	 *     localStorage.removeItem('wpgmza_autosave_enabled')
+	 *
+	 * A separate hard kill switch — window.WPGMZA_DISABLE_AUTOSAVE — is
+	 * kept for hard-disabling autosave construction entirely (e.g. when
+	 * developing in DevTools without wanting any save behaviour at all).
+	 */
+	$(document).ready(function(){
+		if(window.WPGMZA_DISABLE_AUTOSAVE === true){
+			return;
+		}
+		WPGMZA.atlasMajorAutoSave = new WPGMZA.AtlasMajorAutoSave();
+	});
+
+});
+
+
+// js/v8/atlas-major-feature-list.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorFeatureList
+ * @requires WPGMZA
+ *
+ * Custom feature list renderer for Atlas Major.
+ * Renders clean lists for all shape types (polygons, polylines, circles,
+ * rectangles, point labels, heatmaps, image overlays) matching the
+ * Concept C mockup design. Same pattern as AtlasMajorMarkerList.
+ */
+jQuery(function($) {
+
+	if(!document.querySelector('.wpgmza-atlas-major'))
+		return;
+
+	WPGMZA.AtlasMajorFeatureList = function(container, featureType){
+		this.container = container;
+		this.featureType = featureType;
+		this.page = 1;
+		this.perPage = 50;
+		this.searchTerm = '';
+
+		this.render();
+		this.bindMapEvents();
+	}
+
+	/**
+	 * Get features from the map by type
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.getFeatures = function(){
+		var map = WPGMZA.maps[0];
+		if(!map) return [];
+
+		var plural = this.featureType + 's';
+		return map[plural] || [];
+	}
+
+	/**
+	 * Get a display name for a feature
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.getFeatureName = function(feature){
+		/* Try common name properties */
+		if(feature.title && feature.title.trim()) return feature.title;
+		if(feature.name && feature.name.trim()) return feature.name;
+		if(feature.text && feature.text.trim()) return feature.text;
+
+		/* Fallback: type + ID */
+		var type = WPGMZA.capitalizeWords(this.featureType);
+		return type + ' #' + feature.id;
+	}
+
+	/**
+	 * Get a subtitle/description for a feature
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.getFeatureSubtitle = function(feature){
+		if(feature.address && feature.address.trim()) return feature.address;
+		if(feature.description && feature.description.trim()){
+			var text = feature.description.replace(/<[^>]*>/g, '').trim();
+			return text.length > 60 ? text.substring(0, 60) + '...' : text;
+		}
+		return '';
+	}
+
+	/**
+	 * Render the list
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.render = function(){
+		if(!this.container) return;
+
+		var features = this.getFeatures();
+		var total = features.length;
+		var totalPages = Math.ceil(total / this.perPage);
+		if(this.page > totalPages) this.page = Math.max(1, totalPages);
+
+		var start = (this.page - 1) * this.perPage;
+		var pageItems = features.slice(start, start + this.perPage);
+
+		var html = '';
+		if(total === 0){
+			html = '<div class="am-ml-empty"><div class="am-empty-text">No ' + this.featureType + 's yet</div></div>';
+		} else {
+			html = '<ul class="am-ml">';
+			for(var i = 0; i < pageItems.length; i++){
+				html += this.renderItem(pageItems[i]);
+			}
+			html += '</ul>';
+		}
+		this.container.innerHTML = html;
+		this.bindItemEvents();
+	}
+
+	/**
+	 * Render a single feature item
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.renderItem = function(feature){
+		var id = feature.id;
+		var name = this.esc(this.getFeatureName(feature));
+		var subtitle = this.esc(this.getFeatureSubtitle(feature));
+		var type = this.featureType;
+
+		return '<li class="am-mi" data-feature-id="' + id + '" data-feature-type="' + type + '">' +
+			'<div class="am-mi-body">' +
+				'<div class="am-mi-name">' + name + '</div>' +
+				(subtitle ? '<div class="am-mi-addr">' + subtitle + '</div>' : '') +
+			'</div>' +
+			'<div class="am-mi-ops">' +
+				'<button class="am-mi-btn" data-edit-' + type + '-id="' + id + '" title="Edit">' +
+					'<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>' +
+				'</button>' +
+				'<button class="am-mi-btn" data-fit-feature-bounds-id="' + id + '" title="Center">' +
+					'<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>' +
+				'</button>' +
+				'<button class="am-mi-btn am-mi-btn-danger" data-delete-' + type + '-id="' + id + '" title="Delete">' +
+					'<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+				'</button>' +
+			'</div>' +
+		'</li>';
+	}
+
+	/**
+	 * Bind click events
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.bindItemEvents = function(){
+		var self = this;
+		var $container = $(this.container);
+
+		$container.off('click.amflist');
+
+		/* Row click → edit */
+		$container.on('click.amflist', '.am-mi', function(e){
+			if($(e.target).closest('.am-mi-ops').length) return;
+			var id = $(this).data('feature-id');
+			/* Trigger the edit click on the data attribute — core listens on body for these */
+			$('<a data-edit-' + self.featureType + '-id="' + id + '">').appendTo('body').trigger('click').remove();
+		});
+
+		/* Edit button — let it bubble to body where FeaturePanel listens */
+		$container.on('click.amflist', '[data-edit-' + self.featureType + '-id]', function(e){
+			/* Already has the data attribute, event bubbles to body handler */
+		});
+
+		/* Center/fit bounds — let it bubble to AdminFeatureDataTable on body */
+		$container.on('click.amflist', '[data-fit-feature-bounds-id]', function(e){
+			e.stopPropagation();
+			var id = $(this).attr('data-fit-feature-bounds-id');
+			/* Trigger on the datatable element so the handler catches it */
+			var dtElement = $('[data-wpgmza-feature-type="' + self.featureType + '"]');
+			if(dtElement.length){
+				$('<a data-fit-feature-bounds-id="' + id + '">').appendTo(dtElement).trigger('click').remove();
+			}
+		});
+
+		/* Delete — let it bubble to body handler */
+		$container.on('click.amflist', '[data-delete-' + self.featureType + '-id]', function(e){
+			/* Already has the data attribute, event bubbles to body handler */
+		});
+	}
+
+	/**
+	 * Bind map events for live updates
+	 */
+	WPGMZA.AtlasMajorFeatureList.prototype.bindMapEvents = function(){
+		var self = this;
+		var map = WPGMZA.maps[0];
+		if(!map) return;
+
+		var type = this.featureType;
+		map.on(type + 'added', function(){ self.render(); });
+		map.on(type + 'removed', function(){ self.render(); });
+	}
+
+	WPGMZA.AtlasMajorFeatureList.prototype.esc = function(str){
+		var d = document.createElement('div');
+		d.textContent = str;
+		return d.innerHTML;
+	}
+
+	/**
+	 * Initialize all feature lists
+	 */
+	function initFeatureLists(){
+		if(!WPGMZA.maps || !WPGMZA.maps[0]) return;
+
+		$('.am-feature-list-container[data-feature-type]').each(function(){
+			var el = this;
+			var type = $(el).attr('data-feature-type');
+
+			if(el._amFeatureList) return;
+
+			el._amFeatureList = new WPGMZA.AtlasMajorFeatureList(el, type);
+		});
+	}
+
+	$(document.body).on('wpgmza_map_edit_page_created', function(){
+		setTimeout(initFeatureLists, 1000);
+	});
+
+	$(window).on('load', function(){
+		setTimeout(initFeatureLists, 1500);
+	});
+});
+
+
+// js/v8/atlas-major-live-preview.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorLivePreview
+ * @requires WPGMZA
+ *
+ * Live preview of frontend map components inside the Atlas Major map editor.
+ * Base plugin handles: Store Locator.
+ * Pro components are added by atlas-major-live-preview-pro.js via registerComponent().
+ */
+jQuery(function($) {
+
+	if(!document.querySelector('.wpgmza-atlas-major'))
+		return;
+
+	/* ========================================================
+	   ANCHOR MAP — mirrors ComponentAnchorControl PHP constants
+	   ======================================================== */
+	var ANCHOR_NAMES = {
+		0: 'top',
+		1: 'left',
+		2: 'center',
+		3: 'right',
+		4: 'bottom',
+		5: 'top_left',
+		6: 'top_right',
+		7: 'bottom_left',
+		8: 'bottom_right'
+	};
+	var ANCHOR_ABOVE = 9;
+	var ANCHOR_BELOW = 10;
+
+	/* ========================================================
+	   COMPONENT REGISTRY — base plugin only registers store locator.
+	   Pro adds its own via registerComponent().
+	   ======================================================== */
+	var COMPONENTS = {
+		'store-locator': {
+			enabledCheck: function(){ return $('input[name="store_locator_enabled"]').is(':checked'); },
+			anchorField: 'select[name="store_locator_component_anchor"]',
+			defaultAnchor: 0,
+			proOnly: false,
+			onInit: function(map, clone){
+				/* Set data-id so initStoreLocator() finds it */
+				clone.find('.wpgmza-store-locator').attr('data-id', map.id);
+				/* Call the real init */
+				map.initStoreLocator();
+				/* The map "init" event has already fired, so the filteringcomplete
+				   listener inside the StoreLocator constructor never bound.
+				   Bind it manually now. */
+				if(map.storeLocator && map.markerFilter){
+					map.markerFilter.on("filteringcomplete", function(event){
+						map.storeLocator.onFilteringComplete(event);
+					});
+				}
+			},
+			onTeardown: function(map){
+				if(map.storeLocator){
+					/* Destroy the search-radius circle before dropping the
+					 * storeLocator reference. Otherwise the next render
+					 * leaves the circle drawn on the leaflet/google map
+					 * with no live storeLocator owning it — visible but
+					 * orphaned, can't be cleared by reset/search. Mirrors
+					 * the cleanup in initStoreLocatorSettingsSync's
+					 * destroyAndRedrawCircle() — handles both classic
+					 * (removeCircle on the engine map) and modern
+					 * (canvas overlay needs explicit destroy) circle
+					 * subclasses. */
+					var circle = map.storeLocator._circle;
+					if(circle){
+						try { circle.setVisible(false); } catch(e){}
+						if(!(circle instanceof WPGMZA.ModernStoreLocatorCircle) && circle.map){
+							try { circle.map.removeCircle(circle); } catch(e){}
+						} else if(circle instanceof WPGMZA.ModernStoreLocatorCircle && typeof circle.destroy === 'function'){
+							try { circle.destroy(); } catch(e){}
+						}
+						map.storeLocator._circle = null;
+					}
+					map.storeLocator = null;
+				}
+			}
+		}
+	};
+
+	/* ========================================================
+	   CONSTRUCTOR
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview = function(){
+		var self = this;
+
+		this.map = WPGMZA.maps[0];
+		if(!this.map || !this.map.element) return;
+
+		this.mapElement = $(this.map.element);
+		this.templates = $('#wpgmza-live-preview-templates');
+		this.previewFrame = $('.am-preview-frame');
+		this.slotAbove = $('.am-preview-slot-above');
+		this.slotBelow = $('.am-preview-slot-below');
+		this.enabled = localStorage.getItem('wpgmza-live-preview') !== '0';
+		this._activeComponents = {};
+
+		if(!this.templates.length) return;
+
+		/* Create inner-stack scaffold */
+		this.stacks = {};
+		this.createInnerStacks();
+
+		/* Set viewport CSS variables */
+		this.setViewportVariables();
+		$(window).on('resize', function(){ self.setViewportVariables(); });
+
+		/* Toggle */
+		this.previewFrame.toggleClass('am-preview-off', !this.enabled);
+		this.initToggle();
+
+		/* Initial render */
+		this.render();
+
+		/* Bind reactivity */
+		this.bindEvents();
+
+		/* Store locator live settings sync */
+		this.initStoreLocatorSettingsSync();
+
+		/* Map init/start state sync (center, zoom, bounds, streetview) */
+		this.initMapStateSync();
+
+		/* Marker click/interaction behaviour sync */
+		this.initMarkerBehaviourSync();
+
+		/* Advanced: map controls & layers */
+		this.initControlsAndLayersSync();
+
+		/* Save reminder — show when any setting changes */
+		this.initSaveReminder();
+
+		/* Click outside to close color pickers */
+		$(document).on('mousedown', function(e){
+			if(!$(e.target).closest('.wpgmza-color-input-wrapper, .wpgmza-color-input-host').length){
+				$('.wpgmza-color-picker.active').removeClass('active');
+			}
+		});
+	}
+
+	/* ========================================================
+	   INNER-STACK SCAFFOLD
+	   ======================================================== */
+	/**
+	 * Register a newly-created inner-stack element so clicks/drags on
+	 * it don't propagate down to the underlying Leaflet map (which
+	 * would interpret the drag as a map pan). Mirrors the
+	 * `L.DomEvent.disableClickPropagation` calls in
+	 * leaflet-map.js:288-295 (which only run on inner-stacks present at
+	 * map-construction time — dynamic stacks created later by the live
+	 * preview need the same treatment manually).
+	 *
+	 * No-op for non-Leaflet engines (Google Maps, OpenLayers) — Google
+	 * Maps' own overlay layer handles event isolation; OpenLayers' map
+	 * surface only listens on its own canvas. Kept on the public
+	 * AtlasMajorLivePreview namespace so Pro can call it too.
+	 *
+	 * @param {jQuery|HTMLElement} stack — the inner-stack element.
+	 */
+	WPGMZA.AtlasMajorLivePreview.registerInnerStack = function(stack){
+		if(!stack) return;
+		if(typeof window.L === 'undefined' || !window.L.DomEvent) return;
+		var el = stack instanceof jQuery ? stack[0] : stack;
+		if(!el) return;
+		try {
+			L.DomEvent.disableClickPropagation(el);
+			L.DomEvent.disableScrollPropagation(el);
+			L.DomEvent.on(el, 'mousedown', L.DomEvent.stopPropagation);
+		} catch(e){ }
+	};
+
+	WPGMZA.AtlasMajorLivePreview.prototype.createInnerStacks = function(){
+		var mapEl = this.mapElement;
+
+		for(var code in ANCHOR_NAMES){
+			var name = ANCHOR_NAMES[code];
+			var existing = mapEl.children('.wpgmza-inner-stack.' + name);
+			if(existing.length){
+				this.stacks[code] = existing;
+			} else {
+				var stack = $('<div class="wpgmza-inner-stack ' + name + ' wpgmza-live-preview-stack"></div>');
+				mapEl.append(stack);
+				WPGMZA.AtlasMajorLivePreview.registerInnerStack(stack);
+				this.stacks[code] = stack;
+			}
+		}
+	}
+
+	/* ========================================================
+	   VIEWPORT CSS VARIABLES
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.setViewportVariables = function(){
+		var el = this.mapElement[0];
+		if(!el) return;
+		var w = el.offsetWidth || 800;
+		var oMult = w < 760 ? 1 : (w < 960 ? 0.7 : 0.5);
+		var pMult = w < 760 ? 1 : (w < 960 ? 0.5 : 0.3);
+		el.style.setProperty('--wpgmza--viewport-overlays-max-width', (oMult * 100) + '%');
+		el.style.setProperty('--wpgmza--viewport-panels-max-width', (pMult * 100) + '%');
+		el.style.setProperty('--wpgmza--viewport-container-width', w + 'px');
+		el.style.setProperty('--wpgmza--viewport-container-height', (el.offsetHeight || 500) + 'px');
+	}
+
+	/* ========================================================
+	   TOGGLE
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initToggle = function(){
+		var self = this;
+		var checkbox = $('#am-live-preview-toggle');
+		checkbox.prop('checked', this.enabled);
+		checkbox.on('change', function(){
+			self.enabled = $(this).is(':checked');
+			self.previewFrame.toggleClass('am-preview-off', !self.enabled);
+			localStorage.setItem('wpgmza-live-preview', self.enabled ? '1' : '0');
+			self.render();
+
+			/* The map container's dimensions change when the mockup
+			 * frame is toggled (the mockup wraps it to ~1000px wide vs
+			 * full editor width in the off state). Leaflet / OpenLayers
+			 * cache viewport size and only recalculate on explicit
+			 * resize — without this the map tiles stay sized to the
+			 * old container and subsequent height changes look broken.
+			 * The CSS transition needs ~250ms to settle, so defer the
+			 * resize slightly. */
+			setTimeout(function(){
+				if(self.map && typeof self.map.onElementResized === 'function'){
+					self.map.onElementResized();
+				}
+				/* Leaflet-specific: force an invalidateSize as a belt-
+				 * and-suspenders for any engine that doesn't fully
+				 * resize from onElementResized. */
+				if(self.map && self.map.leafletMap && typeof self.map.leafletMap.invalidateSize === 'function'){
+					self.map.leafletMap.invalidateSize();
+				}
+			}, 300);
+		});
+	}
+
+	/* ========================================================
+	   STATE CHECKS
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.isComponentEnabled = function(key){
+		var def = COMPONENTS[key];
+		if(!def) return false;
+		if(def.proOnly && (!WPGMZA.isProVersion || !WPGMZA.isProVersion()))
+			return false;
+		return def.enabledCheck();
+	}
+
+	WPGMZA.AtlasMajorLivePreview.prototype.getComponentAnchor = function(key){
+		var def = COMPONENTS[key];
+		if(!def) return 0;
+		var field = $(def.anchorField);
+		if(field.length){
+			var val = parseInt(field.val());
+			if(!isNaN(val)) return val;
+		}
+		return def.defaultAnchor;
+	}
+
+	/* ========================================================
+	   RENDER — places components and calls init methods
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.render = function(){
+		var self = this;
+		var map = this.map;
+
+		/* Teardown all active components */
+		for(var activeKey in this._activeComponents){
+			this.teardownComponent(activeKey);
+		}
+
+		/* Clear DOM */
+		$('.wpgmza-live-preview-component').remove();
+		this.slotAbove.empty();
+		this.slotBelow.empty();
+
+		if(!this.enabled){
+			$(document.body).trigger('wpgmza_live_preview_rendered', [this]);
+			return;
+		}
+
+		for(var key in COMPONENTS){
+			if(!this.isComponentEnabled(key)) continue;
+
+			var anchor = this.getComponentAnchor(key);
+			var templateEl = this.templates.find('[data-preview-component="' + key + '"]');
+			if(!templateEl.length || !templateEl.children().length) continue;
+
+			var clone = templateEl.children().first().clone();
+			clone.addClass('wpgmza-live-preview-component');
+			clone.attr('data-live-preview-key', key);
+
+			/* Place in correct position */
+			var target;
+			if(anchor === ANCHOR_ABOVE){
+				this.slotAbove.append(clone);
+				target = this.slotAbove;
+			} else if(anchor === ANCHOR_BELOW){
+				this.slotBelow.append(clone);
+				target = this.slotBelow;
+			} else {
+				var stack = this.stacks[anchor] || this.stacks[0];
+				if(stack && stack.length){
+					stack.append(clone);
+					target = stack;
+				}
+			}
+
+			/* Ensure inner stacks with content are visible */
+			if(target && target.hasClass('wpgmza-live-preview-stack')){
+				target.css('display', 'flex');
+			}
+
+			/* Call component init */
+			var def = COMPONENTS[key];
+			if(def.onInit){
+				try {
+					def.onInit(map, clone);
+				} catch(e){
+					console.warn('AtlasMajorLivePreview: init failed for ' + key, e);
+				}
+			}
+
+			this._activeComponents[key] = true;
+		}
+
+		/* Hide empty stacks */
+		this.mapElement.find('.wpgmza-live-preview-stack').each(function(){
+			if(!$(this).children('.wpgmza-live-preview-component').length){
+				$(this).css('display', '');
+			}
+		});
+
+		/* Fire event for Pro to hook into */
+		$(document.body).trigger('wpgmza_live_preview_rendered', [this]);
+	}
+
+	/* ========================================================
+	   TEARDOWN — removes component and cleans up JS instance
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.teardownComponent = function(key){
+		var def = COMPONENTS[key];
+		if(def && def.onTeardown){
+			try {
+				def.onTeardown(this.map);
+			} catch(e){
+				console.warn('AtlasMajorLivePreview: teardown failed for ' + key, e);
+			}
+		}
+		delete this._activeComponents[key];
+	}
+
+	/* ========================================================
+	   EVENT BINDING
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.bindEvents = function(){
+		var self = this;
+		var timer = null;
+
+		function debouncedRender(){
+			clearTimeout(timer);
+			timer = setTimeout(function(){ self.render(); }, 200);
+		}
+
+		/* Watch all known component fields */
+		var selectors = [];
+		for(var key in COMPONENTS){
+			var def = COMPONENTS[key];
+			if(def.anchorField) selectors.push(def.anchorField);
+		}
+		/* Toggle checkboxes */
+		selectors.push('input[name="store_locator_enabled"]');
+
+		$(document.body).on('change', selectors.join(','), debouncedRender);
+
+		/* cmn-toggle labels */
+		$(document.body).on('click', 'label[for="store_locator_enabled"]', function(){
+			setTimeout(debouncedRender, 50);
+		});
+
+		/* Allow Pro to add more watched fields */
+		$(document.body).on('wpgmza_live_preview_watch_field', function(e, selector){
+			$(document.body).on('change', selector, debouncedRender);
+		});
+	}
+
+	/* ========================================================
+	   STORE LOCATOR SETTINGS SYNC
+	   Updates live-changeable settings without full rebuild.
+	   Structural changes trigger a full rebuild via render().
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initStoreLocatorSettingsSync = function(){
+		var self = this;
+		var map = this.map;
+
+		/* --- Circle settings (color, opacity, radius style) ---
+		   Sync value into map.settings, destroy cached circle,
+		   re-trigger filtering to redraw with new values */
+		/* Destroy circle and re-trigger filtering to recreate it */
+		function destroyAndRedrawCircle(){
+			if(map.storeLocator && map.storeLocator._circle){
+				var circle = map.storeLocator._circle;
+				circle.setVisible(false);
+				if(!(circle instanceof WPGMZA.ModernStoreLocatorCircle) && circle.map){
+					/* Classic circle — remove from map cleanly. */
+					try { circle.map.removeCircle(circle); } catch(e){}
+				} else if(circle instanceof WPGMZA.ModernStoreLocatorCircle && typeof circle.destroy === 'function'){
+					/* Modern circle is a canvas overlay — setVisible(false)
+					 * only hides, leaving the canvas attached to the DOM.
+					 * Without destroy(), a subsequent modern→modern cycle
+					 * (radar→classic→radar) stacks orphaned canvases which
+					 * block the new canvas's paint. Engine-specific
+					 * subclasses all implement destroy() to detach canvas
+					 * + unbind map events. */
+					try { circle.destroy(); } catch(e){}
+				}
+				map.storeLocator._circle = null;
+			}
+			if(map.storeLocator && map.storeLocator.state === WPGMZA.StoreLocator.STATE_APPLIED && map.storeLocator._center){
+				map.markerFilter.update({}, map.storeLocator);
+			}
+		}
+
+		/* Update modern circle color/draw without destroying */
+		function updateModernCircleColor(){
+			if(map.storeLocator && map.storeLocator._circle && map.storeLocator._circle instanceof WPGMZA.ModernStoreLocatorCircle){
+				map.storeLocator._circle.settings.color = map.storeLocator.circleStrokeColor;
+				if(typeof map.storeLocator._circle.draw === 'function'){
+					map.storeLocator._circle.draw();
+				}
+				return true;
+			}
+			return false;
+		}
+
+		/* Color fields — live update for modern circle, destroy+redraw for classic */
+		['sl_stroke_color', 'sl_fill_color'].forEach(function(name){
+			$(document.body).on('change input', '[name="' + name + '"]', function(){
+				map.settings[name] = $(this).val();
+				if(!updateModernCircleColor()){
+					destroyAndRedrawCircle();
+				}
+			});
+		});
+
+		/* Opacity fields — only affect classic circle */
+		['sl_stroke_opacity', 'sl_fill_opacity'].forEach(function(name){
+			$(document.body).on('change input', '[name="' + name + '"]', function(){
+				map.settings[name] = $(this).val();
+				destroyAndRedrawCircle();
+			});
+		});
+
+		/* Radius style switch — always needs full destroy+recreate (different circle class) */
+		$(document.body).on('change input', '[name="wpgmza_store_locator_radius_style"]', function(){
+			map.settings.wpgmza_store_locator_radius_style = $('[name="wpgmza_store_locator_radius_style"]:checked').val();
+			destroyAndRedrawCircle();
+		});
+
+		/* --- Live-updatable simple settings (just sync into map.settings) ---
+		 * Some fields (store_locator_button_style, store_locator_style)
+		 * are ALSO in rebuildFields below — the rebuildFields handler
+		 * triggers a render but doesn't sync map.settings. We include
+		 * them here too so map.settings has the new value by the time
+		 * render() finishes and wpgmza_live_preview_rendered fires
+		 * (post-render transforms like applyButtonStyleToPreview read
+		 * from map.settings). Both handlers fire on change; simpleFields
+		 * is bound first so the sync lands before render is scheduled. */
+		var simpleFields = [
+			'wpgmza_store_locator_bounce',
+			'store_locator_distance',
+			'store_locator_auto_area_max_zoom',
+			'store_locator_show_distance',
+			'wpgmza_store_locator_use_their_location',
+			'wpgmza_store_locator_hide_before_search',
+			'store_locator_nearby_searches',
+			'wpgmza_store_locator_restrict',
+			'store_locator_button_style',
+			'store_locator_style',
+			/* Info window settings — handled separately below */
+			'close_infowindow_on_map_click'
+		];
+
+		simpleFields.forEach(function(name){
+			$(document.body).on('change input', '[name="' + name + '"]', function(){
+				var el = $(this);
+				if(el.is(':checkbox')){
+					/* Unchecked = '' (falsy) NOT '0' — the string '0' is
+					 * truthy in JS so downstream `if(map.settings.foo)`
+					 * checks treat unchecked checkboxes as enabled. */
+					map.settings[name] = el.is(':checked') ? '1' : '';
+				} else if(el.is(':radio')){
+					map.settings[name] = $('[name="' + name + '"]:checked').val();
+				} else {
+					map.settings[name] = el.val();
+				}
+			});
+		});
+
+		/* --- Live text updates — modify the cloned DOM directly ---
+		   Fallbacks route through WPGMZA.localized_strings so translated
+		   copy shows when the user hasn't entered a custom override.
+		   Strings are registered in class.strings.php::getLocalizedStrings(). */
+		var LS = (WPGMZA && WPGMZA.localized_strings) || {};
+		var textFieldMap = {
+			'store_locator_query_string': function(val){
+				$('.wpgmza-live-preview-component.wpgmza-store-locator label.wpgmza-address, .wpgmza-live-preview-component .wpgmza-store-locator label.wpgmza-address').text(val || LS.atlas_major_sl_address_label || 'ZIP / Address:');
+			},
+			'store_locator_location_placeholder': function(val){
+				$('.wpgmza-live-preview-component.wpgmza-store-locator input.wpgmza-address, .wpgmza-live-preview-component .wpgmza-store-locator input.wpgmza-address').attr('placeholder', val || LS.autcomplete_placeholder || 'Enter a location');
+			},
+			'store_locator_name_string': function(val){
+				$('.wpgmza-live-preview-component.wpgmza-store-locator label.wpgmza-keywords, .wpgmza-live-preview-component .wpgmza-store-locator label.wpgmza-keywords').text(val || LS.atlas_major_sl_keywords_label || 'Title / Description:');
+				$('.wpgmza-live-preview-component.wpgmza-store-locator input.wpgmza-keywords, .wpgmza-live-preview-component .wpgmza-store-locator input.wpgmza-keywords').attr('placeholder', val || LS.atlas_major_sl_keywords_placeholder || 'Enter a title');
+			},
+			'store_locator_not_found_message': function(val){
+				map.settings.store_locator_not_found_message = val;
+			},
+			'store_locator_default_address': function(val){
+				map.settings.store_locator_default_address = val;
+				$('.wpgmza-live-preview-component.wpgmza-store-locator input.wpgmza-address, .wpgmza-live-preview-component .wpgmza-store-locator input.wpgmza-address').val(val || '');
+			},
+			'wpgmza_store_locator_default_radius': function(val){
+				map.settings.wpgmza_store_locator_default_radius = val;
+				$('.wpgmza-live-preview-component.wpgmza-store-locator select.wpgmza-radius, .wpgmza-live-preview-component .wpgmza-store-locator select.wpgmza-radius').val(val);
+			}
+		};
+
+		for(var tfName in textFieldMap){
+			(function(name, handler){
+				$(document.body).on('change input', '[name="' + name + '"]', function(){
+					handler($(this).val());
+				});
+			})(tfName, textFieldMap[tfName]);
+		}
+
+		/* Re-apply every textFieldMap handler from the current form
+		 * value. Used after a full live-preview render() — toggling a
+		 * structural field (Enable Title Search, Enable Categories,
+		 * etc.) reclones the store locator template, which resets all
+		 * the user's customised labels/placeholders/default address/
+		 * default radius back to template defaults. Re-running each
+		 * handler against the current form state restores those
+		 * customisations on the freshly-cloned DOM. */
+		function reapplyTextFieldValues(){
+			for(var name in textFieldMap){
+				var $input = $('[name="' + name + '"]');
+				if(!$input.length) continue;
+				try {
+					textFieldMap[name]($input.val());
+				} catch(e){ }
+			}
+		}
+
+		/* Distance unit DOM sync — bring the SL DOM (suffix span +
+		 * radius option text) in line with the current form-state
+		 * unit. Idempotent: safe to call any time, including
+		 * immediately after a fresh template clone whose option
+		 * text was server-rendered with the SAVED unit baked in.
+		 *
+		 * The `oldSuffix` derivation reads from the live form value
+		 * (`isMiles ? 'km' : 'mi'`) and the regex only matches
+		 * options ending with that opposite suffix — so calling
+		 * this on a DOM that already matches the form is a no-op
+		 * (the regex fails to match, nothing changes).
+		 *
+		 * Localised strings aren't available client-side, so we
+		 * fall back to English — acceptable because this is the
+		 * admin-only live preview. */
+		function applyDistanceUnitToDOM(){
+			var isMiles = $('input[name="store_locator_distance"]').is(':checked');
+			var oldSuffix = isMiles ? 'km' : 'mi';
+			var newSuffix = isMiles ? 'mi' : 'km';
+			map.settings.store_locator_distance = isMiles ? '1' : '0';
+
+			/* Swap the suffix text. class.map-edit-page.php wraps the
+			 * suffix in <span class="wpgmza-distance-unit-suffix">. */
+			$('.wpgmza-distance-unit-suffix').text(newSuffix);
+
+			/* Each <option> in the live-preview store locator's radius
+			 * dropdown has its unit baked into the text ("10km",
+			 * "25km", etc.) because StoreLocator::populateRadiusSelect
+			 * writes `$radius . $suffix` at server render. Swap the
+			 * trailing unit on every option so the dropdown reflects
+			 * the current toggle state. The underlying `value`
+			 * attribute (just the number) is unchanged. */
+			$('.wpgmza-live-preview-component .wpgmza-radius option, .wpgmza-live-preview-component select.wpgmza-radius option').each(function(){
+				var $opt = $(this);
+				var text = $opt.text();
+				/* Only rewrite options that end with the old suffix,
+				 * so we don't double-suffix on repeat toggles. */
+				var re = new RegExp('(\\d+)\\s*' + oldSuffix + '\\s*$', 'i');
+				if(re.test(text)){
+					$opt.text(text.replace(re, '$1' + newSuffix));
+				}
+			});
+		}
+
+		/* User toggled the distance unit — full update including
+		 * circle redraw and info-window clear (in case "X miles
+		 * away" is currently showing). */
+		$(document.body).on('change', 'input[name="store_locator_distance"]', function(){
+			applyDistanceUnitToDOM();
+
+			/* Rebuild the circle so its radius recalculates under the
+			 * new unit. Modern circles redraw in-place via draw();
+			 * classic circles need a full destroy+recreate. */
+			if(!updateModernCircleColor()){
+				destroyAndRedrawCircle();
+			}
+
+			/* Info window "X miles/km away" text is cached in the open
+			 * popup — rebuild it so the unit flips too. info-window.js
+			 * reads map.settings.store_locator_distance live in
+			 * getContent, so reopening the popup regenerates the text
+			 * with the new unit. */
+			clearCachedInfoWindows();
+		});
+
+		/* Live preview re-rendered (most importantly: SL toggled
+		 * back on after being off). The freshly-cloned SL template
+		 * was server-rendered with the SAVED unit baked into the
+		 * radius option text + suffix span, so if the user changed
+		 * the unit while SL was disabled, the re-enabled template
+		 * would still display the saved unit. Re-applying the DOM
+		 * sync brings it in line with the current form value.
+		 *
+		 * Lightweight only — no circle redraw, no info-window
+		 * clear, since the re-init path handles those naturally
+		 * (no circle yet on a fresh re-enable, info windows already
+		 * cleared by the marker teardown/rebuild). Mirrors the
+		 * pattern used by `applyKeywordSearchVisibility` in
+		 * atlas-major-live-preview-pro.js. */
+		$(document.body).on('wpgmza_live_preview_rendered', function(){
+			applyDistanceUnitToDOM();
+		});
+
+		/* --- Info window settings — sync + clear cached info windows so new style applies --- */
+		var iwFields = ['wpgmza_iw_type', 'iw_primary_color', 'iw_accent_color', 'iw_text_color'];
+
+		function clearCachedInfoWindows(){
+			if(!map.markers) return;
+
+			/* Find which marker has an open info window */
+			var openMarker = null;
+			for(var i = 0; i < map.markers.length; i++){
+				var m = map.markers[i];
+				if(m.infoWindow && m.infoWindow.element && $(m.infoWindow.element).is(':visible')){
+					openMarker = m;
+				}
+			}
+			if(!openMarker && map.lastInteractedMarker && map.lastInteractedMarker.infoWindow){
+				openMarker = map.lastInteractedMarker;
+			}
+
+			/* Close and delete all cached info windows */
+			for(var i = 0; i < map.markers.length; i++){
+				if(map.markers[i].infoWindow){
+					try { map.markers[i].infoWindow.close(); } catch(e){}
+					delete map.markers[i].infoWindow;
+				}
+			}
+
+			/* Clear lastInteractedMarker so openInfoWindow doesn't try to close a deleted infoWindow */
+			map.lastInteractedMarker = null;
+
+			/* Reopen on the same marker with new style */
+			if(openMarker){
+				setTimeout(function(){
+					openMarker.openInfoWindow();
+				}, 100);
+			}
+		}
+
+		iwFields.forEach(function(name){
+			$(document.body).on('change input', '[name="' + name + '"]', function(){
+				var el = $(this);
+				if(el.is(':radio')){
+					map.settings[name] = $('[name="' + name + '"]:checked').val();
+				} else {
+					map.settings[name] = el.val();
+				}
+				clearCachedInfoWindows();
+			});
+		});
+
+		/* "Show distance from search" — toggles whether marker info windows
+		 * include "X miles/km away" after a store locator search.
+		 *
+		 * Two problems `simpleFields` above introduces that we fix here:
+		 *
+		 * 1. simpleFields writes a STRING '1'/'0' into map.settings. The
+		 *    info-window.js check `if(map.settings.store_locator_show_distance
+		 *    && ...)` is ALWAYS truthy for a non-empty string — the string
+		 *    '0' reads as true, leaving the distance visible after OFF.
+		 *    We overwrite with an integer 0/1 so the truthy check works.
+		 *
+		 * 2. simpleFields binds on `'change input'` — a checkbox click
+		 *    fires BOTH events. simpleFields thus writes the string value
+		 *    twice (once per event). If we only listen for 'change', our
+		 *    integer gets clobbered by the subsequent 'input' event
+		 *    writing the string back. We bind on both events too so our
+		 *    integer wins reliably.
+		 *
+		 * clearCachedInfoWindows is called once (on the 'change' event
+		 * only) so we close + reopen the info window exactly once per
+		 * user toggle — not twice per click. */
+		$(document.body).on('change input', 'input[name="store_locator_show_distance"]', function(e){
+			map.settings.store_locator_show_distance = $(this).is(':checked') ? 1 : 0;
+			if(e.type === 'change'){
+				clearCachedInfoWindows();
+			}
+		});
+
+		/* Enable Store Locator toggle — when turned OFF mid-search, tear
+		 * down the side-effects of the previous search: destroy the
+		 * circle, reset state to INITIAL, and refresh info windows so
+		 * they drop the "X miles/km away" line (the check in
+		 * info-window.js gates on storeLocator.state === STATE_APPLIED,
+		 * which no longer holds after the reset). Without this teardown
+		 * the circle stayed painted on the map and info windows kept
+		 * the stale distance text after the toggle flipped off. */
+		$(document.body).on('change', 'input[name="store_locator_enabled"]', function(){
+			if($(this).is(':checked')) return; // turning ON — render() handles it via bindEvents
+
+			if(map.storeLocator){
+				/* Destroy circle (same logic as destroyAndRedrawCircle
+				 * but without the follow-up redraw). */
+				if(map.storeLocator._circle){
+					var circle = map.storeLocator._circle;
+					circle.setVisible(false);
+					if(!(circle instanceof WPGMZA.ModernStoreLocatorCircle) && circle.map){
+						try { circle.map.removeCircle(circle); } catch(e){}
+					} else if(circle instanceof WPGMZA.ModernStoreLocatorCircle && typeof circle.destroy === 'function'){
+						try { circle.destroy(); } catch(e){}
+					}
+					map.storeLocator._circle = null;
+				}
+				/* Reset search state so info-window.js' distance check
+				 * (storeLocator.state === STATE_APPLIED) no longer
+				 * passes. We don't touch map.storeLocator._center /
+				 * _bounds — if the user toggles SL back on the state
+				 * goes back to INITIAL and they'll need to search
+				 * again, which matches the expected reset UX. */
+				map.storeLocator.state = WPGMZA.StoreLocator.STATE_INITIAL;
+			}
+
+			clearCachedInfoWindows();
+		});
+
+		/* --- Map width/height — apply to the map wrapper (NOT the mockup
+		 * page). Previously this wrote `max-width` onto
+		 * `.am-preview-page-inner`, which shrank the entire mockup
+		 * "website" frame instead of just the map. It also caused a
+		 * visual shift because .am-preview-page-inner has
+		 * `margin-left: max(70px, calc((100% - 1000px) / 2))` that
+		 * still assumes max-width: 1000px — once JS overwrote that
+		 * with 100%, the margin calc went off-grid. Now we target the
+		 * map wrapper, which sits inside the page-inner and is what
+		 * the frontend equivalent (.wpgmza_map inline style) also
+		 * sizes. */
+		function updateMapDimensions(){
+			var width = $('input[name="map_width"]').val();
+			var widthType = $('select[name="map_width_type"]').val() || '%';
+			var height = $('input[name="map_height"]').val();
+			var heightType = $('select[name="map_height_type"]').val() || 'px';
+
+			var mapWrapper = $('.am-preview-page-inner .map_wrapper');
+			var mapEl = $(map.element);
+
+			if(width && widthType){
+				mapWrapper.css({
+					'width': width + widthType,
+					'max-width': '100%' // so % values remain parent-bound
+				});
+			}
+			if(height && heightType){
+				mapWrapper.css({
+					'height': height + heightType,
+					'min-height': height + heightType
+				});
+				mapEl.css({
+					'height': height + heightType,
+					'min-height': height + heightType
+				});
+			}
+
+			/* Tell the map engine to resize to fit its new container.
+			 * onElementResized handles most engines; Leaflet needs an
+			 * explicit invalidateSize() because it caches viewport
+			 * dimensions and doesn't recalc unless told to. */
+			setTimeout(function(){
+				if(map.onElementResized){
+					map.onElementResized();
+				}
+				if(map.leafletMap && typeof map.leafletMap.invalidateSize === 'function'){
+					map.leafletMap.invalidateSize();
+				}
+				self.setViewportVariables();
+			}, 100);
+		}
+
+		$(document.body).on('change input', 'input[name="map_width"], select[name="map_width_type"], input[name="map_height"], select[name="map_height_type"]', function(){
+			updateMapDimensions();
+		});
+
+		/* Apply the saved width/height once on initial load too — the
+		 * change handler only fires on user interaction, so without
+		 * this initial call the preview shows the map at its CSS
+		 * default (100% width) regardless of the saved map_width value
+		 * (e.g. 500px). Defer slightly so the form values have been
+		 * populated by the upstream WPGMZA init. */
+		setTimeout(updateMapDimensions, 500);
+
+		/* Apply store_locator_button_style (SVG icons vs. text buttons)
+		 * to any currently-rendered live preview component. The hidden
+		 * template always holds the icon (SVG) version — we transform
+		 * to text buttons here when the setting calls for it. Mirrors
+		 * the PHP logic in class.store-locator.php that does the same
+		 * transformation at server render time. */
+		function applyButtonStyleToPreview(){
+			var style = (map.settings && map.settings.store_locator_button_style) || '';
+			$('.wpgmza-live-preview-component.wpgmza-store-locator, .wpgmza-live-preview-component .wpgmza-store-locator').each(function(){
+				var wrapper = this;
+				if(style === 'text'){
+					$(wrapper).find('svg[role="button"]').each(function(){
+						var svg = this;
+						var btn = document.createElement('button');
+						btn.textContent = svg.getAttribute('title') || '';
+						var attrs = ['class', 'aria-label'];
+						for(var i = 0; i < attrs.length; i++){
+							if(svg.hasAttribute(attrs[i])){
+								btn.setAttribute(attrs[i], svg.getAttribute(attrs[i]));
+							}
+						}
+						/* The PHP strips .wpgmza-aria-bridge on buttons */
+						btn.classList.remove('wpgmza-aria-bridge');
+						svg.parentNode.insertBefore(btn, svg.nextSibling);
+						svg.parentNode.removeChild(svg);
+					});
+				}
+				/* For 'icons' (default) we don't need to do anything — the
+				 * template clone already has SVG buttons. The reverse
+				 * transform (text → SVG) isn't possible without a
+				 * template copy, which is why we force the PHP template
+				 * render to always use icons. */
+			});
+		}
+
+		/* Re-apply button style after every live-preview render. The
+		 * render() flow clones the template (always icons) and replaces
+		 * existing components, so we need to re-transform to 'text'
+		 * after each render. Same reasoning for reapplyTextFieldValues:
+		 * a structural rebuild (Enable Title Search etc.) reclones the
+		 * store locator template, dropping any user-customised labels/
+		 * placeholders/defaults. Re-applying the textFieldMap handlers
+		 * from the current form state restores them. */
+		$(document.body).on('wpgmza_live_preview_rendered', function(){
+			applyButtonStyleToPreview();
+			reapplyTextFieldValues();
+		});
+
+		/* Also apply right now — the constructor calls render() BEFORE
+		 * initStoreLocatorSettingsSync binds listeners, so the initial
+		 * render's `wpgmza_live_preview_rendered` event fires before
+		 * we're listening. Running once here covers that initial pass;
+		 * subsequent renders go through the listener above. */
+		applyButtonStyleToPreview();
+
+		/* --- Structural changes — need full store locator rebuild --- */
+		var rebuildFields = [
+			'store_locator_name_search',
+			'store_locator_category',
+			'store_locator_search_area',
+			'store_locator_button_style',
+			'store_locator_style'
+		];
+
+		var rebuildTimer = null;
+		rebuildFields.forEach(function(name){
+			$(document.body).on('change', '[name="' + name + '"]', function(){
+				clearTimeout(rebuildTimer);
+				rebuildTimer = setTimeout(function(){ self.render(); }, 300);
+			});
+		});
+
+		/* Toggle labels for structural fields (need full rebuild) */
+		$(document.body).on('click',
+			'label[for="wpgmza_store_locator_name_search"], label[for="wpgmza_store_locator_category_enabled"]',
+			function(){
+				clearTimeout(rebuildTimer);
+				rebuildTimer = setTimeout(function(){ self.render(); }, 300);
+			}
+		);
+
+		/* Toggle labels for simple settings (just sync).
+		 *
+		 * NOTE: `store_locator_show_distance` was intentionally REMOVED
+		 * from this selector list. The dedicated change handler above
+		 * writes an INTEGER (0/1) so the truthy check in
+		 * info-window.js works correctly; this label-click handler
+		 * fires a 50ms-delayed STRING write ('0'/'1') that ran AFTER
+		 * change/input events and clobbered the integer with a string
+		 * (which reads as truthy — causing the distance line to stick
+		 * even when the toggle was off). Clicking a <label for="X">
+		 * natively toggles the checkbox and fires change/input events
+		 * on the input, so `simpleFields` already syncs — this
+		 * click-delayed write is redundant for all four toggles. */
+		$(document.body).on('click',
+			'label[for="wpgmza_store_locator_use_their_location"], label[for="wpgmza_store_locator_hide_before_search"], label[for="store_locator_nearby_searches"]',
+			function(){
+				var forId = $(this).attr('for');
+				var checkbox = $('#' + forId);
+				setTimeout(function(){
+					/* Unchecked = '' (falsy), NOT '0' (truthy string) */
+					map.settings[checkbox.attr('name')] = checkbox.is(':checked') ? '1' : '';
+				}, 50);
+			}
+		);
+	}
+
+	/* ========================================================
+	   MAP STATE SYNC
+	   Apply map-level settings (start position, zoom, bounds,
+	   streetview) directly to the map via existing APIs — no
+	   component rebuild needed.
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initMapStateSync = function(){
+		var self = this;
+		var map = this.map;
+
+		function readFloat(sel){
+			var v = parseFloat($(sel).val());
+			return isNaN(v) ? null : v;
+		}
+
+		function readInt(sel){
+			var v = parseInt($(sel).val());
+			return isNaN(v) ? null : v;
+		}
+
+		/* Note: map_start_lat/lng/zoom and wpgmza_start_location/zoom are
+		   implicit hidden fields — they auto-update as the user pans/zooms
+		   the map. No explicit watcher needed. */
+
+		/* --- Max/min zoom limits ---
+		   NOTE: the form field names are misleading. Per the UI labels:
+		     map_max_zoom  = "Maximum Zoom Out Level" → Google minZoom
+		     map_min_zoom  = "Maximum Zoom In Level"  → Google maxZoom */
+		function applyZoomLimits(){
+			var outLimit = readInt('input[name="map_max_zoom"]'); /* most zoomed out */
+			var inLimit  = readInt('input[name="map_min_zoom"]'); /* most zoomed in */
+
+			map.settings.map_max_zoom = outLimit;
+			map.settings.map_min_zoom = inLimit;
+
+			/* Engine-specific — Google Maps is the primary engine */
+			if(map.googleMap && typeof map.googleMap.setOptions === 'function'){
+				var opts = {};
+				if(outLimit !== null) opts.minZoom = outLimit;
+				if(inLimit !== null)  opts.maxZoom = inLimit;
+				map.googleMap.setOptions(opts);
+			}
+			/* Leaflet */
+			if(map.leafletMap){
+				if(outLimit !== null && typeof map.leafletMap.setMinZoom === 'function') map.leafletMap.setMinZoom(outLimit);
+				if(inLimit !== null  && typeof map.leafletMap.setMaxZoom === 'function') map.leafletMap.setMaxZoom(inLimit);
+			}
+		}
+
+		$(document.body).on('change input', 'input[name="map_max_zoom"], input[name="map_min_zoom"]', applyZoomLimits);
+
+		/* --- Start in streetview (Google Maps only) ---
+		 * The editor workflow (Atlas Novus behaviour) is: toggle ON → .streetview-starting-editor
+		 * fieldset fades in and WPGMZA.StreetViewEditor enters add mode. The user drags the
+		 * native Google pegman from the map's top-right control onto a location; position/
+		 * heading/pitch then populate. All of that is handled by Pro's ProMapEditPage +
+		 * StreetViewEditor (pro-map-edit-page.js + streetview-editor.js) bound to the single
+		 * admin map instance — the live preview shares that same map, so no extra wiring is
+		 * needed here. We only mirror the raw setting value onto map.settings.
+		 */
+		$(document.body).on('change', 'input[name="map_starts_in_streetview"]', function(){
+			var enabled = $(this).is(':checked');
+			map.settings.map_starts_in_streetview = enabled ? '1' : '0';
+
+			/* If the map currently has streetview open (e.g. loaded with this setting
+			   already enabled + a saved location) and the user toggles OFF, close it
+			   so the user isn't stuck looking at streetview. */
+			if(!enabled && typeof map.closeStreetView === 'function'){
+				map.closeStreetView();
+			}
+		});
+
+		/* --- Jump to nearest marker on init — trigger the effect on toggle --- */
+		$(document.body).on('change', 'input[name="jump_to_nearest_marker_on_initialization"]', function(){
+			map.settings.jump_to_nearest_marker_on_initialization = $(this).is(':checked') ? '1' : '';
+			if(!$(this).is(':checked')) return;
+
+			/* Find nearest marker to current center and pan to it */
+			if(!map.markers || !map.markers.length) return;
+			var center = map.getCenter();
+			if(!center) return;
+
+			var nearest = null;
+			var nearestDist = Infinity;
+			for(var i = 0; i < map.markers.length; i++){
+				var m = map.markers[i];
+				if(!m.lat || !m.lng) continue;
+				var dLat = m.lat - center.lat;
+				var dLng = m.lng - center.lng;
+				var dist = dLat*dLat + dLng*dLng;
+				if(dist < nearestDist){
+					nearestDist = dist;
+					nearest = m;
+				}
+			}
+			if(nearest && WPGMZA.LatLng){
+				map.setCenter(new WPGMZA.LatLng({lat: nearest.lat, lng: nearest.lng}));
+			}
+		});
+
+		/* --- Fit bounds to markers --- */
+		function fitBoundsToMarkers(){
+			if(!map.markers || !map.markers.length) return;
+			if(typeof map.fitBoundsToVisibleMarkers === 'function'){
+				map.fitBoundsToVisibleMarkers();
+				return;
+			}
+			/* Fallback */
+			if(WPGMZA.LatLngBounds){
+				var bounds = new WPGMZA.LatLngBounds();
+				for(var i = 0; i < map.markers.length; i++){
+					var m = map.markers[i];
+					if(m.lat && m.lng) bounds.extend(new WPGMZA.LatLng({lat: m.lat, lng: m.lng}));
+				}
+				if(typeof map.fitBounds === 'function') map.fitBounds(bounds);
+			}
+		}
+
+		$(document.body).on('change', 'input[name="fit_maps_bounds_to_markers"]', function(){
+			map.settings.fit_maps_bounds_to_markers = $(this).is(':checked') ? '1' : '';
+			if($(this).is(':checked')) fitBoundsToMarkers();
+		});
+
+		/* --- Fit bounds to markers after filtering --- */
+		var fitOnFilterHandler = null;
+		function setFitOnFilterHandler(enable){
+			if(fitOnFilterHandler){
+				$(document.body).off('filteringcomplete.wpgmza.fitOnFilter');
+				fitOnFilterHandler = null;
+			}
+			if(enable){
+				fitOnFilterHandler = function(event){
+					if(event.map && event.map.id === map.id){
+						fitBoundsToMarkers();
+					}
+				};
+				$(document.body).on('filteringcomplete.wpgmza.fitOnFilter', fitOnFilterHandler);
+			}
+		}
+
+		$(document.body).on('change', 'input[name="fit_maps_bounds_to_markers_after_filtering"]', function(){
+			var enabled = $(this).is(':checked');
+			map.settings.fit_maps_bounds_to_markers_after_filtering = enabled ? '1' : '0';
+			setFitOnFilterHandler(enabled);
+		});
+
+		/* Initial state on load */
+		if($('input[name="fit_maps_bounds_to_markers_after_filtering"]').is(':checked')){
+			setFitOnFilterHandler(true);
+		}
+
+		/* --- Map alignment ---
+		 * Align the map within the live preview's mockup page.
+		 * Values mirror the select options:
+		 *   1 = Left (default), 2 = Center, 3 = Right, 4 = None
+		 * We apply margin-* on the .map_wrapper so the map element
+		 * sits in the requested position when its width is < 100%.
+		 * For 100%-wide maps the alignment is visually a no-op. */
+		function applyMapAlignment(){
+			var v = parseInt($('select[name="wpgmza_map_align"]').val(), 10);
+			var wrapper = $('.am-preview-page-inner .map_wrapper');
+			if(!wrapper.length) return;
+
+			/* Reset alignment-related margins first so we don't stack */
+			wrapper.css({ 'margin-left': '', 'margin-right': '' });
+
+			switch(v){
+				case 2: /* Center */
+					wrapper.css({ 'margin-left': 'auto', 'margin-right': 'auto' });
+					break;
+				case 3: /* Right */
+					wrapper.css({ 'margin-left': 'auto', 'margin-right': '0' });
+					break;
+				case 4: /* None — no alignment, sits at default flow position */
+				case 1: /* Left — default */
+				default:
+					wrapper.css({ 'margin-left': '0', 'margin-right': 'auto' });
+					break;
+			}
+		}
+
+		$(document.body).on('change input', 'select[name="wpgmza_map_align"]', applyMapAlignment);
+		/* Apply once on load so the saved alignment takes effect without
+		 * requiring user interaction. Slight delay so the form value
+		 * is populated. */
+		setTimeout(applyMapAlignment, 500);
+	}
+
+	/* ========================================================
+	   MARKER BEHAVIOUR SYNC
+	   Mirror marker click / info-window click-behaviour flags into
+	   map.settings so Pro's runtime code (ProMarker.onClick,
+	   ProMap.onMapClick) picks them up on the next interaction.
+	   For enable_marker_labels, iterate existing markers and apply
+	   setLabel() immediately so the change is visible without a reload.
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initMarkerBehaviourSync = function(){
+		var map = WPGMZA.maps[0];
+		if(!map) return;
+
+		/* --- Click marker opens link --- */
+		$(document.body).on('change', 'input[name="click_open_link"]', function(){
+			map.settings.click_open_link = $(this).is(':checked') ? 1 : 0;
+		});
+
+		/* --- Zoom on marker click (+ zoom level from slider) ---
+		 * The slider writes its value to input[name="wpgmza_zoom_on_marker_click_slider"];
+		 * the existing zoom-slider UI fires change events on that input already. */
+		$(document.body).on('change', 'input[name="wpgmza_zoom_on_marker_click"]', function(){
+			map.settings.wpgmza_zoom_on_marker_click = $(this).is(':checked') ? 1 : 0;
+		});
+
+		$(document.body).on('change input', 'input[name="wpgmza_zoom_on_marker_click_slider"]', function(){
+			var v = parseInt($(this).val(), 10);
+			if(!isNaN(v)) map.settings.wpgmza_zoom_on_marker_click_slider = v;
+		});
+
+		/* close_infowindow_on_map_click is already synced by initStoreLocatorSettingsSync's
+		   simpleFields array — no handler needed here. */
+
+		/* --- Enable marker labels (beta) ---
+		 * ProMarker applies labels at onAdd/setVisible time using map.settings.enable_marker_labels
+		 * and the marker's own title. Iterate existing markers and flip them live. */
+		$(document.body).on('change', 'input[name="enable_marker_labels"]', function(){
+			var enabled = $(this).is(':checked');
+			map.settings.enable_marker_labels = enabled ? 1 : 0;
+
+			if(!map.markers) return;
+			for(var i = 0; i < map.markers.length; i++){
+				var m = map.markers[i];
+				if(typeof m.setLabel !== 'function') continue;
+				if(enabled){
+					if(m.title){
+						m.setLabel(m.title);
+					}
+				} else {
+					m.setLabel(null);
+				}
+			}
+		});
+	}
+
+	/* ========================================================
+	   CONTROLS & LAYERS SYNC (Map Settings → Advanced)
+	   Live-apply layer toggles and scale control via the existing
+	   engine methods. All of these are idempotent — calling them
+	   with the same enable state is a no-op.
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initControlsAndLayersSync = function(){
+		var map = WPGMZA.maps[0];
+		if(!map) return;
+
+		function syncAndApply(name, method){
+			$(document.body).on('change', 'input[name="' + name + '"]', function(){
+				var enabled = $(this).is(':checked');
+				map.settings[name] = enabled ? '1' : '0';
+				if(typeof map[method] === 'function'){
+					map[method](enabled);
+				}
+			});
+		}
+
+		syncAndApply('bicycle',          'enableBicycleLayer');
+		syncAndApply('traffic',          'enableTrafficLayer');
+		syncAndApply('transport_layer',  'enablePublicTransportLayer');
+		syncAndApply('enable_scale_control', 'enableScaleControl');
+	}
+
+	/* ========================================================
+	   SAVE REMINDER
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.initSaveReminder = function(){
+		var self = this;
+		var shown = false;
+
+		var fadeTimer = null;
+		var frontendOnlyFadeTimer = null;
+
+		/* Settings whose changes do NOT affect the live preview. When these
+		   change, show a "frontend only" notice instead of the save reminder. */
+		var FRONTEND_ONLY_SETTINGS = [
+			'only_load_markers_within_viewport',
+			'lazyload_info_window_content',
+			/* Mobile overrides — preview frame is fixed-size desktop,
+			   these only take effect on a real mobile viewport. */
+			'zoom_level_mobile_override_enabled',
+			'zoom_level_mobile_override',
+			'map_dimensions_mobile_override_enabled',
+			'map_mobile_width',
+			'map_mobile_width_type',
+			'map_mobile_height',
+			'map_mobile_height_type',
+			/* Advanced tab — frontend-only behaviours */
+			'disable_lightbox_images',   /* takes effect on marker image click on frontend */
+			'use_Raw_Jpeg_Coordinates',  /* admin-side JPEG exif reader, no live preview effect */
+			/* Marker Listing — click-triggered effects only */
+			'marker_listing_nudge_marker_center',
+			'marker_listing_nudge_x',
+			'marker_listing_nudge_y',
+			'zoom_level_on_marker_listing_override',
+			'zoom_level_on_marker_listing_click',
+			'marker_listing_disable_zoom',
+			/* Directions — fires only when user runs directions */
+			'directions_behaviour',
+			'force_google_directions_app',
+			/* UGM / VGM — all settings only affect the frontend visitor-
+			   facing submission form (rendered via shortcode on public
+			   pages). None has a live preview effect inside the editor. */
+			'wpgmza_ugm_enbaled',
+			'wpgmza_ugm_access',
+			'wpgmza_ugm_desc_enabled',
+			'wpgmza_ugm_category_enbaled',
+			'wpgmza_ugm_upload_images',
+			'wpgmza_ugm_link_enabled',
+			'zoom_after_ugm_submission',
+			'wpgmza_ugm_form_header',
+			'wpgmza_ugm_form_title',
+			'wpgmza_ugm_form_title_ph',
+			'wpgmza_ugm_form_address',
+			'wpgmza_ugm_form_address_ph',
+			'wpgmza_ugm_form_address_help',
+			'wpgmza_ugm_form_desc',
+			'wpgmza_ugm_form_link',
+			'wpgmza_ugm_form_link_ph',
+			'wpgmza_ugm_form_image',
+			'wpgmza_ugm_form_category'
+		];
+
+		function showReminder(){
+			if(shown) return;
+			shown = true;
+
+			if(self.enabled){
+				$('.am-save-reminder-preview').show();
+				$('.am-save-reminder-toolbar').hide();
+			} else {
+				$('.am-save-reminder-toolbar').show();
+				$('.am-save-reminder-preview').hide();
+			}
+
+			/* Fade out after 8 seconds */
+			clearTimeout(fadeTimer);
+			fadeTimer = setTimeout(function(){
+				$('.am-save-reminder').fadeOut(400, function(){
+					shown = false;
+				});
+			}, 8000);
+		}
+
+		function showFrontendOnlyNotice(){
+			if(self.enabled){
+				$('.am-frontend-only-notice-preview').stop(true, true).show();
+				$('.am-frontend-only-notice-toolbar').hide();
+			} else {
+				$('.am-frontend-only-notice-toolbar').stop(true, true).show();
+				$('.am-frontend-only-notice-preview').hide();
+			}
+
+			clearTimeout(frontendOnlyFadeTimer);
+			frontendOnlyFadeTimer = setTimeout(function(){
+				$('.am-frontend-only-notice').fadeOut(400);
+			}, 8000);
+		}
+
+		function isFrontendOnlySetting(el){
+			var name = $(el).attr('name');
+			if(!name) return false;
+			return FRONTEND_ONLY_SETTINGS.indexOf(name) !== -1;
+		}
+
+		/* Listen for ANY form change inside the sidebar */
+		$('.wpgmza-editor .sidebar').on('change input', 'input, select, textarea', function(){
+			if(isFrontendOnlySetting(this)){
+				showFrontendOnlyNotice();
+			} else {
+				showReminder();
+			}
+		});
+
+		/* Also catch cmn-toggle label clicks */
+		$('.wpgmza-editor .sidebar').on('click', 'label[for]', function(){
+			var targetId = $(this).attr('for');
+			var targetEl = document.getElementById(targetId);
+			if(targetEl && FRONTEND_ONLY_SETTINGS.indexOf($(targetEl).attr('name')) !== -1){
+				setTimeout(showFrontendOnlyNotice, 50);
+			} else {
+				setTimeout(showReminder, 50);
+			}
+		});
+
+		/* Map move/zoom triggers save reminder */
+		if(self.map){
+			self.map.on('dragend', function(){ showReminder(); });
+			self.map.on('zoomchanged', function(){ showReminder(); });
+		}
+
+		/* Update visibility when preview is toggled */
+		$('#am-live-preview-toggle').on('change', function(){
+			if(shown){
+				if(self.enabled){
+					$('.am-save-reminder-preview').show();
+					$('.am-save-reminder-toolbar').hide();
+				} else {
+					$('.am-save-reminder-toolbar').show();
+					$('.am-save-reminder-preview').hide();
+				}
+			}
+		});
+	}
+
+	/* ========================================================
+	   PUBLIC API — for Pro to register components
+	   ======================================================== */
+	WPGMZA.AtlasMajorLivePreview.prototype.registerComponent = function(key, config){
+		COMPONENTS[key] = config;
+
+		/* Watch the enabled field and anchor field */
+		var self = this;
+		if(config.anchorField){
+			$(document.body).trigger('wpgmza_live_preview_watch_field', [config.anchorField]);
+		}
+	}
+
+	WPGMZA.AtlasMajorLivePreview.prototype.getTemplatesContainer = function(){
+		return this.templates;
+	}
+
+	WPGMZA.AtlasMajorLivePreview.prototype.getMap = function(){
+		return this.map;
+	}
+
+	/* ========================================================
+	   LIVE TILESET SWAP — Themes > Tileset card click applies
+	   the new tileset to the live preview map without needing a
+	   save. Map editor under Atlas Major previously showed only
+	   "Save map to apply tileset!" notification; this hooks the
+	   click and reloads the leaflet/maplibre tile layer in place.
+
+	   Pulls config from the public tileservers.json (same source
+	   the PHP-side `TileServers::getList()` reads). One-shot
+	   fetch, cached on `WPGMZA.atlasMajorTileServers` so repeat
+	   clicks don't re-hit the network.
+
+	   Engine guard: only runs on Leaflet-family engines (Google
+	   Maps tilesets are managed by Google's own type selector,
+	   not the OpenFreeMap/OSM tileset cards in this panel).
+	   ======================================================== */
+	jQuery(function($){
+		var tilesetCache = null;
+
+		function fetchTileServers(callback){
+			if(WPGMZA.atlasMajorTileServers){
+				callback(WPGMZA.atlasMajorTileServers);
+				return;
+			}
+			if(tilesetCache){
+				callback(tilesetCache);
+				return;
+			}
+			$.ajax({
+				url: WPGMZA.pluginDirURL + 'js/tileservers.json',
+				dataType: 'json',
+				cache: true,
+				success: function(data){
+					/* Stamp slug into each entry, mirroring the PHP
+					   getList() behaviour. */
+					for(var slug in data){
+						if(data[slug] && typeof data[slug] === 'object'){
+							data[slug].slug = slug;
+						}
+					}
+					tilesetCache = data;
+					WPGMZA.atlasMajorTileServers = data;
+					callback(data);
+				},
+				error: function(){
+					/* Silent fail — tileset just won't update live; the
+					   pre-existing "Save map to apply" notification
+					   already covers the fallback path. */
+				}
+			});
+		}
+
+		/* CRS is locked at leaflet map construction (leaflet-map.js:29-38
+		   sets it from `customTileMode` at init only). Trying to swap
+		   the layer type (custom image overlay <-> XYZ tiles) into a
+		   map whose CRS doesn't match the new layer renders the map
+		   grey — XYZ tiles request URLs in Web Mercator coords that
+		   don't translate inside L.CRS.Simple, and L.imageOverlay
+		   bounds get interpreted as lat/lng inside EPSG3857. The
+		   extended Simple CRS preserves `infinite: true`; EPSG3857
+		   doesn't set it — that's our reliable signal. */
+		function mapHasSimpleCRS(map){
+			return !!(map && map.leafletMap && map.leafletMap.options.crs && map.leafletMap.options.crs.infinite);
+		}
+
+		/* Reload the leaflet/maplibre tile layer in place using the
+		   current map.settings values. Used by both the tileset card
+		   click handler and the custom-image field handlers — anything
+		   that changes a tile-layer-relevant setting calls this to
+		   visualise the change without a save. */
+		function reloadLiveTileLayer(){
+			if(!WPGMZA.atlasMajorLivePreview) return;
+			var lp = WPGMZA.atlasMajorLivePreview;
+			var map = lp.getMap && lp.getMap();
+			if(!map || !map.leafletMap) return; /* Leaflet-only path */
+			if(typeof map.getTileLayers !== 'function') return;
+
+			/* CRS-compat guard: only proceed when the map's locked CRS
+			   is appropriate for the layer we're about to add. The
+			   modal that fires on custom_tile_enabled toggle already
+			   tells the user a save+reload is needed — a fresh map
+			   construction will reset the CRS to match. Skipping the
+			   reload here keeps the visual stable (last good state)
+			   instead of going grey/blank. */
+			var wantSimple = !!(map.settings && map.settings.custom_tile_enabled);
+			if(mapHasSimpleCRS(map) !== wantSimple) return;
+
+			if(map.tileLayers && map.tileLayers.length){
+				map.tileLayers.forEach(function(layer){
+					try { map.leafletMap.removeLayer(layer); } catch(e){}
+				});
+			}
+
+			try {
+				map.tileLayers = map.getTileLayers();
+				map.tileLayers.forEach(function(layer){
+					layer.addTo(map.leafletMap);
+				});
+
+				/* Deliberately NOT calling fitBounds(customTileBounds)
+				   here. The custom-image branch of getTileLayers sets
+				   customTileBounds to `[[0,0],[height,width]]` which is
+				   only valid in L.CRS.Simple — but the map was already
+				   constructed in EPSG3857 (Mercator) and CRS is locked
+				   at construction. Calling fitBounds against those
+				   bounds in Mercator pans the map to invalid lat/lng,
+				   which onCenterChanged writes into map_start_lat /
+				   map_start_lng form fields. Saving then sends garbage
+				   coords to the REST endpoint. The custom image
+				   overlay visually requires save+reload to display
+				   correctly anyway (so the map can be reconstructed
+				   with CRS.Simple), so live preview just no-ops the
+				   view shift here — the toggle still applies cleanly
+				   and the save path stays valid. */
+			} catch(e){
+				/* If something throws, fall back silently. */
+			}
+		}
+
+		function applyTilesetToLivePreview(slug){
+			if(!WPGMZA.atlasMajorLivePreview) return;
+			var lp = WPGMZA.atlasMajorLivePreview;
+			var map = lp.getMap && lp.getMap();
+			if(!map) return;
+
+			fetchTileServers(function(servers){
+				var config = servers[slug];
+				if(!config){
+					/* Empty slug = "Global Default" — fall back to whatever
+					   the engine's default tile server URL is. */
+					if(!slug){
+						config = WPGMZA.tileServer || null;
+					}
+					if(!config) return;
+				}
+
+				/* Update the in-memory settings so configureTileServer
+				   picks up the new override. tile_server_override is
+				   the slug; tile_server_override_config is the hydrated
+				   definition that getTileLayers reads via
+				   configureTileServer (map-settings.js:472-482). */
+				map.settings.tile_server_override = slug || '';
+				map.settings.tile_server_override_config = config;
+
+				/* For zerocost engine the URL also lives on the global
+				   settings under tile_server_url_leaflet_zerocost. Keep
+				   it in sync so getTileLayers' switch/case path returns
+				   the right base URL. */
+				if(WPGMZA.settings && WPGMZA.settings.engine === 'leaflet-zerocost' && config.url){
+					WPGMZA.settings.tile_server_url_leaflet_zerocost = config.url;
+				}
+
+				reloadLiveTileLayer();
+			});
+		}
+
+		/* Bind the tileset card click. Body-delegated so it survives
+		   the panel re-renders that SidebarGroupings can do. */
+		$(document.body).on('click', '#wpgmza-tileset-panel .tileset-option', function(){
+			if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')) return;
+			var slug = $(this).find('input[name="tile_server_override"]').val();
+			applyTilesetToLivePreview(slug);
+		});
+
+		/* Custom Image overlay — Themes > Custom Image tab.
+		   `configureTileServer` (map-settings.js:644-676) flips into
+		   `type: 'custom'` mode when `custom_tile_enabled` is true and
+		   `custom_tile_image` is set. getTileLayers then renders an
+		   L.imageOverlay over the explicit bounds derived from
+		   width/height. We mirror each form field into map.settings
+		   and reload the tile layer so the image appears immediately.
+
+		   Toggling OFF reverts to the active tileset (via the same
+		   reload path — when custom_tile_enabled=false, configureTileServer
+		   skips the custom branch and returns the regular tile config).
+		   Field debounced so dragging width/height inputs doesn't
+		   spam reloads on every keystroke. */
+		var customTileTimer = null;
+		function syncCustomTileFromForm(){
+			if(!WPGMZA.atlasMajorLivePreview) return;
+			var lp = WPGMZA.atlasMajorLivePreview;
+			var map = lp.getMap && lp.getMap();
+			if(!map || !map.settings) return;
+
+			map.settings.custom_tile_enabled = $('input[name="custom_tile_enabled"]').is(':checked') ? 1 : 0;
+			map.settings.custom_tile_image = $('input[name="custom_tile_image"]').val() || '';
+			map.settings.custom_tile_image_width = $('input[name="custom_tile_image_width"]').val() || '';
+			map.settings.custom_tile_image_height = $('input[name="custom_tile_image_height"]').val() || '';
+			map.settings.custom_tile_image_attribution = $('input[name="custom_tile_image_attribution"]').val() || '';
+
+			/* getTileLayers' custom branch only ever sets customTileMode
+			   and customTileBounds — never resets them. If the user
+			   toggles custom_tile_enabled off, those flags would stay
+			   true from the previous enable, leaking custom-tile state
+			   into subsequent renders (and into the saved form payload
+			   where leaflet-map.js reads them at construction). Reset
+			   them explicitly here whenever the toggle is off. */
+			if(!map.settings.custom_tile_enabled){
+				map.customTileMode = false;
+				map.customTileBounds = null;
+				map.customTileDimensions = null;
+
+				/* If the saved map_start_lat / map_start_lng came from a
+				   previous custom-tile session they're in L.CRS.Simple
+				   pixel coords (e.g., 400, 600 for an 800x600 image),
+				   not lat/lng. Saving those would break the map on
+				   next reload (leaflet-map.js constructs in EPSG3857
+				   without the customTileMode bounds-check at line
+				   40-44). Detect out-of-range values and reset to the
+				   plugin defaults from class.map.php:195-200 +
+				   class.database.php:334 (zoom 4). The setView call
+				   triggers MapEditPage.onCenterChanged which writes
+				   the new values into map_start_lat / map_start_lng /
+				   map_start_zoom inputs. */
+				var lat = parseFloat($('input[name="map_start_lat"]').val());
+				var lng = parseFloat($('input[name="map_start_lng"]').val());
+				var coordsInvalid = isNaN(lat) || isNaN(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180;
+
+				if(coordsInvalid && map.leafletMap){
+					var defaultLat = 36.778261;
+					var defaultLng = -119.4179323999;
+					var defaultZoom = 4;
+
+					try {
+						map.leafletMap.setView([defaultLat, defaultLng], defaultZoom);
+					} catch(e){}
+
+					/* Force-write in case setView's moveend doesn't fire
+					   in time before a save click. */
+					$('input[name="map_start_lat"]').val(defaultLat).trigger('change');
+					$('input[name="map_start_lng"]').val(defaultLng).trigger('change');
+					$('input[name="map_start_zoom"]').val(defaultZoom).trigger('change');
+				}
+			}
+		}
+
+		function applyCustomTileLive(){
+			clearTimeout(customTileTimer);
+			customTileTimer = setTimeout(function(){
+				syncCustomTileFromForm();
+				reloadLiveTileLayer();
+			}, 200);
+		}
+
+		/* Modal that intercepts custom-image enable/disable. Because
+		   the leaflet CRS is locked at map construction
+		   (leaflet-map.js:29-38), live preview can't visually swap
+		   between image overlay (CRS.Simple) and XYZ tiles (EPSG3857)
+		   without rebuilding the entire engine. Instead, we ask the
+		   user to confirm a save+reload — clicking the savemap submit
+		   button POSTs the form and the page reloads with the new
+		   CRS. Cancel reverts the toggle so the form state stays
+		   consistent with what's on screen. */
+		var customTileModal = null;
+		var customTilePreviousState = null;
+
+		/* Full-screen blocking overlay shown while the editor saves and
+		   reloads. Inline-styled so we don't have to ship CSS through
+		   the build pipeline for a one-off element. z-index sits above
+		   modals (99999) and Leaflet's panes. The reload typically
+		   takes <2s; the overlay is removed automatically when the
+		   page navigates. */
+		function showLivePreviewReloadingMask(){
+			if(document.getElementById('wpgmza-live-preview-reloading-mask')) return;
+
+			var mask = document.createElement('div');
+			mask.id = 'wpgmza-live-preview-reloading-mask';
+			mask.style.cssText = [
+				'position:fixed',
+				'top:0',
+				'left:0',
+				'width:100vw',
+				'height:100vh',
+				'background:rgba(0,0,0,0.55)',
+				'z-index:999999',
+				'display:flex',
+				'align-items:center',
+				'justify-content:center',
+				'cursor:wait',
+				'font-family:"Plus Jakarta Sans",system-ui,sans-serif'
+			].join(';');
+
+			var inner = document.createElement('div');
+			inner.style.cssText = [
+				'background:#fff',
+				'color:#1f2937',
+				'padding:20px 28px',
+				'border-radius:10px',
+				'font-size:14px',
+				'font-weight:600',
+				'box-shadow:0 8px 32px rgba(0,0,0,0.25)',
+				'display:flex',
+				'align-items:center',
+				'gap:12px'
+			].join(';');
+
+			var spinner = document.createElement('div');
+			spinner.style.cssText = [
+				'width:18px',
+				'height:18px',
+				'border:2px solid #e5e7eb',
+				'border-top-color:#e8473f',
+				'border-radius:50%',
+				'animation:wpgmza-mask-spin 0.7s linear infinite'
+			].join(';');
+
+			/* Inject the keyframes once. Scoped via the unique id so
+			   we don't collide with anything else. */
+			if(!document.getElementById('wpgmza-mask-keyframes')){
+				var style = document.createElement('style');
+				style.id = 'wpgmza-mask-keyframes';
+				style.textContent = '@keyframes wpgmza-mask-spin{to{transform:rotate(360deg)}}';
+				document.head.appendChild(style);
+			}
+
+			inner.appendChild(spinner);
+			inner.appendChild(document.createTextNode('Saving and reloading editor…'));
+			mask.appendChild(inner);
+			document.body.appendChild(mask);
+		}
+
+		function buildCustomTileModal(){
+			/* Must inject inside the .wpgmza-atlas-major wrapper —
+			   the generic-modal CSS in input.css (~line 2548) is
+			   scoped under that selector, so appending to <body>
+			   leaves the modal unstyled and stuck in document flow
+			   below the page. */
+			var $host = $('.wpgmza-atlas-major').first();
+			if(!$host.length) $host = $('body');
+
+			var html = ''
+				+ '<div class="wpgmza-generic-modal wpgmza-custom-tile-modal" data-type="custom_tile_save_reload">'
+				+   '<div class="wpgmza-generic-modal-inner">'
+				+     '<div class="wpgmza-generic-modal-title">'
+				+       'Save and reload required'
+				+     '</div>'
+				+     '<div class="wpgmza-generic-modal-content">'
+				+       'Disabling or enabling this feature requires the map to be saved and the editor reloaded. Click <strong>Save &amp; Reload</strong> to apply this change now, or <strong>Cancel</strong> to revert.'
+				+     '</div>'
+				+     '<div class="wpgmza-generic-modal-actions">'
+				+       '<div class="wpgmza-row">'
+				+         '<div class="wpgmza-col">'
+				+           '<div class="wpgmza-button" data-action="cancel"><span>Cancel</span></div>'
+				+           '<div class="wpgmza-button" data-action="complete"><span>Save &amp; Reload</span></div>'
+				+         '</div>'
+				+       '</div>'
+				+     '</div>'
+				+   '</div>'
+				+ '</div>';
+			$host.append(html);
+
+			return WPGMZA.GenericModal.createInstance(
+				$host.find('.wpgmza-custom-tile-modal').get(0),
+				/* complete -> save+reload */
+				function(){
+					/* Atlas Major's autosave hijacks form submit and
+					   saves via REST instead of POST, so a plain
+					   submit-button click only saves — the page
+					   never reloads. Set the reloadAfterSave flag
+					   on the autosave so its REST success handler
+					   triggers location.reload() (atlas-major-
+					   autosave.js, success branch). */
+					if(WPGMZA.atlasMajorAutoSave){
+						WPGMZA.atlasMajorAutoSave.reloadAfterSave = true;
+					}
+
+					/* Cover the editor with a non-interactive overlay
+					   so the user can't fire other actions during the
+					   save+reload window. */
+					showLivePreviewReloadingMask();
+
+					/* Trigger the same submit input the visible Save
+					   Map label points at — keeps the save flow
+					   identical to a manual click. */
+					var $btn = $('input[name="wpgmza_savemap"]');
+					if($btn.length){
+						$btn.trigger('click');
+					}
+				},
+				/* cancel -> revert checkbox */
+				function(){
+					if(customTilePreviousState !== null){
+						$('input[name="custom_tile_enabled"]')
+							.prop('checked', customTilePreviousState)
+							.trigger('change.revert');
+					}
+				}
+			);
+		}
+
+		function showCustomTileSaveReloadModal(){
+			if(!customTileModal){
+				customTileModal = buildCustomTileModal();
+			}
+			customTileModal.show();
+		}
+
+		$(document.body).on('change',
+			'input[name="custom_tile_enabled"]',
+			function(event){
+				if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')) return;
+
+				/* Skip when the change is our own revert — namespaced
+				   `change.revert` lets us put the checkbox back without
+				   re-firing the modal. */
+				if(event && event.namespace === 'revert') return;
+
+				/* Stash the inverse of the new state so cancel can
+				   revert. The change event fires AFTER the checkbox
+				   value flipped, so previous = !current. */
+				customTilePreviousState = !$(this).is(':checked');
+
+				applyCustomTileLive();
+				showCustomTileSaveReloadModal();
+			}
+		);
+
+		$(document.body).on('change',
+			'input[name="custom_tile_image"]',
+			function(){
+				if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')) return;
+				applyCustomTileLive();
+			}
+		);
+		$(document.body).on('change input',
+			'input[name="custom_tile_image_width"], input[name="custom_tile_image_height"], input[name="custom_tile_image_attribution"]',
+			function(){
+				if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')) return;
+				applyCustomTileLive();
+			}
+		);
+	});
+
+	/* ========================================================
+	   BOOTSTRAP
+	   ======================================================== */
+	function tryInitLivePreview(){
+		if(WPGMZA.atlasMajorLivePreview) return;
+		if(WPGMZA.maps && WPGMZA.maps[0] && document.querySelector('.am-preview-frame')){
+			WPGMZA.atlasMajorLivePreview = new WPGMZA.AtlasMajorLivePreview();
+		}
+	}
+
+	$(document.body).on('wpgmza_map_edit_page_created', function(){
+		setTimeout(tryInitLivePreview, 1200);
+	});
+
+	/* Fallback poll */
+	var pollCount = 0;
+	var pollInterval = setInterval(function(){
+		pollCount++;
+		if(WPGMZA.atlasMajorLivePreview || pollCount > 30){
+			clearInterval(pollInterval);
+			return;
+		}
+		tryInitLivePreview();
+	}, 1000);
+
+
+	/* ========================================================
+	   COLOR PICKER REPARENT (Live Preview mode)
+	   --------------------------------------------------------
+	   Lives in this file (rather than a standalone module) so
+	   it inherits a known-good loading position in the base
+	   combined bundle. A previous attempt as its own file got
+	   misrouted into the Pro bundle by the build CLI, throwing
+	   WPGMZA-is-not-defined and breaking the whole Pro bundle.
+	   --------------------------------------------------------
+	   Why this exists: the color picker is appended to
+	   `.map_wrapper` via data-container, ending up nested in
+	   the map engine's DOM. The map engine applies transforms
+	   on inner layers, which hijack `position: fixed`
+	   (containing block becomes the transformed ancestor
+	   instead of the viewport). Plus `.content` and
+	   `.am-preview-page` both clip overflow. CSS-only fixes
+	   can't escape both.
+	   --------------------------------------------------------
+	   When LP is on: detach picker from map DOM, append to a
+	   body-level host wrapper, position via getBoundingClientRect
+	   relative to the trigger swatch. Host carries
+	   `.wpgmza-color-input-host` so the existing picker CSS
+	   (sizing, palette layout, .active display toggle) still
+	   applies. When LP is off (or toggled off mid-session):
+	   restore picker to original parent on next open so the
+	   base `left: 10px inside .map_wrapper` rule applies. */
+	if(document.querySelector('.wpgmza-atlas-major') && WPGMZA.currentPage === 'map-edit'){
+		var $lpColorHost = null;
+
+		var ensureLpColorHost = function(){
+			if(!$lpColorHost){
+				$lpColorHost = $('<div class="wpgmza-color-input-host wpgmza-atlas-major am-lp-color-host"></div>');
+				$lpColorHost.css({
+					position: 'fixed',
+					zIndex: 100000,
+					width: '200px'
+				});
+				$('body').append($lpColorHost);
+			}
+			return $lpColorHost;
+		};
+
+		var repositionLpColorHostNear = function(triggerEl){
+			var host = ensureLpColorHost();
+			var rect = triggerEl.getBoundingClientRect();
+			var $picker = host.find('.wpgmza-color-picker').first();
+			var pickerHeight = ($picker.length && $picker[0].offsetHeight) || 370;
+			var vh = window.innerHeight;
+			var vw = window.innerWidth;
+
+			/* Default placement: below the trigger swatch, aligned
+			   to its left edge. Standard popover behaviour. */
+			var topPos = rect.bottom + 4;
+			var leftPos = rect.left;
+
+			/* Flip above the trigger if there's no room below. */
+			if(topPos + pickerHeight > vh - 10){
+				var aboveTop = rect.top - pickerHeight - 4;
+				if(aboveTop >= 10){
+					topPos = aboveTop;
+				} else {
+					topPos = Math.max(10, vh - pickerHeight - 10);
+				}
+			}
+
+			/* Clamp horizontally so the 200px-wide picker can't
+			   render off-screen. */
+			if(leftPos + 200 > vw - 10) leftPos = vw - 210;
+			if(leftPos < 10) leftPos = 10;
+
+			host.css({
+				top: topPos + 'px',
+				left: leftPos + 'px'
+			});
+		};
+
+		var restoreLpPicker = function($picker){
+			var origParent = $picker.data('wpgmza-orig-parent');
+			if(origParent && document.body.contains(origParent)){
+				$(origParent).append($picker);
+			}
+		};
+
+		/* Track the currently-open ColorInput instance so the
+		   outside-click handler below can close it on any tab /
+		   panel click that would otherwise leave the picker
+		   stranded. color-input.js binds its own body-click
+		   autoClose listener, but tab navigation in Atlas Major
+		   (sidebar groupings) sometimes stops propagation, so the
+		   picker's own listener doesn't fire and the picker stays
+		   visible — and because the host gets re-evaluated against
+		   a stale/hidden trigger, it can shoot to viewport-top-left.
+		   This defensive document-level handler ensures the picker
+		   closes whenever the user clicks anywhere outside the
+		   picker and its trigger swatch. */
+		var lpActiveColorInstance = null;
+
+		$(document.body).on('colorpicker.open.wpgmza', function(event){
+			if(!event.instance || !event.instance.picker) return;
+
+			lpActiveColorInstance = event.instance;
+
+			var $picker = $(event.instance.picker);
+			var trigger = event.instance.preview;
+			if(!trigger || !trigger.length) return;
+
+			var lpActive = !!document.querySelector('.am-preview-frame:not(.am-preview-off)');
+			var inHost = $picker.closest('.am-lp-color-host').length > 0;
+
+			if(lpActive){
+				if(!inHost){
+					if(!$picker.data('wpgmza-orig-parent')){
+						$picker.data('wpgmza-orig-parent', $picker.parent()[0]);
+					}
+					ensureLpColorHost().append($picker);
+				}
+				repositionLpColorHostNear(trigger[0]);
+			} else if(inHost){
+				/* LP toggled off between open events — return picker
+				   to original parent so the base `left: 10px inside
+				   .map_wrapper` CSS rule applies again. */
+				restoreLpPicker($picker);
+			}
+		});
+
+		/* Defensive outside-click handler — runs on mousedown
+		   (earlier than click) so we close the picker even if the
+		   downstream click handler (e.g. a sidebar tab switch)
+		   later stops propagation and prevents color-input.js's
+		   own body listener from firing.
+		   Bind once on document; uses lpActiveColorInstance tracked
+		   above to know which instance to close. Safe to fire even
+		   if the picker's own listener also closes it — onTogglePicker
+		   is gated on `state.open` so the second call is a no-op. */
+		$(document).on('mousedown.amlpcolor', function(e){
+			if(!lpActiveColorInstance) return;
+			if(!lpActiveColorInstance.state || !lpActiveColorInstance.state.open) return;
+
+			var $target = $(e.target);
+			/* Clicks inside the body-level host (where the picker
+			   itself lives once reparented) should NOT close. */
+			if($target.closest('.am-lp-color-host').length) return;
+			/* Clicks on any color preview / swatch should NOT close
+			   either — the preview's own click handler manages the
+			   toggle and stopPropagation. */
+			if($target.closest('.wpgmza-color-preview').length) return;
+			/* Clicks inside the picker (if not reparented, e.g.
+			   LP off) should also be ignored. */
+			if($target.closest('.wpgmza-color-picker').length) return;
+
+			try {
+				lpActiveColorInstance.onTogglePicker();
+			} catch(e){}
+			lpActiveColorInstance = null;
+		});
+	}
+
+});
+
+
+// js/v8/atlas-major-marker-list.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorMarkerList
+ * @requires WPGMZA
+ *
+ * Custom marker list renderer for Atlas Major.
+ * Replaces the DataTable in the markers tab with a clean list
+ * matching the Concept C mockup design.
+ *
+ * Features: live search filtering, pagination, auto-sync with map events.
+ */
+jQuery(function($) {
+
+	if(!document.querySelector('.wpgmza-atlas-major'))
+		return;
+
+	WPGMZA.AtlasMajorMarkerList = function(){
+		var self = this;
+
+		this.container = document.querySelector('.am-marker-list-container');
+		this.paginationContainer = document.querySelector('.am-ml-pagination');
+		this.searchInput = document.querySelector('.am-ml-search');
+		this.countBadge = document.querySelector('.am-ml-count');
+		this.datatableContainer = document.querySelector('#wpgmza-table-container-Marker');
+
+		this.page = 1;
+		this.perPage = 15;
+		this.searchTerm = '';
+		this.debounceTimer = null;
+		this.selectedIds = {};
+
+		if(!this.container)
+			return;
+
+		if(this.datatableContainer){
+			$(this.datatableContainer).addClass('am-dt-hidden-in-list');
+		}
+
+		this.initBulkBar();
+		this.bindSearch();
+		this.initKebabDismiss();
+		this.render();
+		this.bindMapEvents();
+
+		/* Initial load busy state — if the map hasn't finished placing
+		 * its initial marker batch, the list is empty until then.
+		 * Show the busy overlay so the user sees a clear "loading"
+		 * indicator instead of a deceptively empty list. bindMapEvents
+		 * above hooks `markersplaced` (or fires render() immediately
+		 * if it's already true); either path clears the busy state via
+		 * setBusy(false) at the end of render(). */
+		var map = WPGMZA.maps[0];
+		if(map && !map.markersPlaced){
+			this.setBusy(true);
+		}
+	}
+
+	/**
+	 * Toggle the busy/loading overlay on the list container.
+	 *
+	 * Adds/removes the `am-marker-list-busy` class on the container,
+	 * which CSS (atlas-major.css, marker-list section) renders as a
+	 * dimmed list + centred spinner overlay + pointer-events: none
+	 * so the user can't click rows mid-action. Called by the action
+	 * handlers (duplicate / delete / approve / move-map) around their
+	 * AJAX calls, and once at constructor time while the map is still
+	 * fetching its initial marker batch. Cleared at the end of
+	 * render() too, as a safety net for code paths that forgot to
+	 * unset it after their AJAX completes.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.setBusy = function(busy){
+		if(!this.container) return;
+		if(busy){
+			this.container.classList.add('am-marker-list-busy');
+		} else {
+			this.container.classList.remove('am-marker-list-busy');
+		}
+	}
+
+	/**
+	 * Install document-level handlers (once) that dismiss any open
+	 * kebab menu on outside-click or Escape. Bound on the
+	 * constructor rather than bindItemEvents() so we don't stack
+	 * a fresh handler every render.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.initKebabDismiss = function(){
+		var self = this;
+
+		$(document).on('click.ammkebab', function(e){
+			/* Click inside a kebab or its menu → leave alone, the
+			   per-row handlers in bindItemEvents() manage state. */
+			if($(e.target).closest('.am-mi-kebab, .am-mi-menu').length) return;
+			$(self.container).find('.am-mi.am-mi-menu-open').removeClass('am-mi-menu-open')
+				.find('.am-mi-kebab').attr('aria-expanded', 'false');
+		});
+
+		$(document).on('keydown.ammkebab', function(e){
+			if(e.key === 'Escape'){
+				$(self.container).find('.am-mi.am-mi-menu-open').removeClass('am-mi-menu-open')
+					.find('.am-mi-kebab').attr('aria-expanded', 'false');
+			}
+		});
+	}
+
+	WPGMZA.AtlasMajorMarkerList.PIN_COLORS = [
+		'#e8473f', '#3b82f6', '#10b981', '#f59e0b',
+		'#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
+	];
+
+	/**
+	 * Get the filtered marker list based on search term
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.getFilteredMarkers = function(){
+		var map = WPGMZA.maps[0];
+		if(!map) return [];
+
+		var markers = map.markers || [];
+		var term = this.searchTerm.toLowerCase().trim();
+
+		if(!term)
+			return markers;
+
+		return markers.filter(function(m){
+			var title = (m.title || '').toLowerCase();
+			var address = (m.address || '').toLowerCase();
+			var id = String(m.id || '');
+
+			if(title.indexOf(term) !== -1 || address.indexOf(term) !== -1 || id.indexOf(term) !== -1)
+				return true;
+
+			/* Search description (strip HTML tags) */
+			if(m.description){
+				var desc = m.description.replace(/<[^>]*>/g, '').toLowerCase();
+				if(desc.indexOf(term) !== -1)
+					return true;
+			}
+
+			/* Search category names */
+			if(m.categories && m.categories.length && WPGMZA.categories){
+				for(var i = 0; i < m.categories.length; i++){
+					var cat = WPGMZA.categories.getCategoryByID(parseInt(m.categories[i]));
+					if(cat && cat.name && cat.name.toLowerCase().indexOf(term) !== -1)
+						return true;
+				}
+			}
+
+			return false;
+		});
+	}
+
+	/**
+	 * Render the list with pagination
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.render = function(){
+		if(!this.container) return;
+
+		var filtered = this.getFilteredMarkers();
+		var total = filtered.length;
+		var totalPages = Math.ceil(total / this.perPage);
+
+		if(this.page > totalPages) this.page = Math.max(1, totalPages);
+
+		var start = (this.page - 1) * this.perPage;
+		var pageItems = filtered.slice(start, start + this.perPage);
+
+		/* Render list */
+		var html = '';
+		if(total === 0){
+			var msg = this.searchTerm
+				? (WPGMZA.localized_strings.no_results_found || 'No markers match your search')
+				: (WPGMZA.localized_strings.no_markers_found || 'No markers yet');
+			html = '<div class="am-ml-empty"><div class="am-empty-text">' + msg + '</div></div>';
+		} else {
+			html = '<ul class="am-ml">';
+			for(var i = 0; i < pageItems.length; i++){
+				html += this.renderItem(pageItems[i], start + i);
+			}
+			html += '</ul>';
+		}
+		this.container.innerHTML = html;
+
+		/* Render pagination */
+		this.renderPagination(total, totalPages);
+
+		/* Update count badge */
+		this.updateCount(total);
+
+		/* Bind events */
+		this.bindItemEvents();
+	}
+
+	/**
+	 * Coalesced render — collapses a burst of render requests into a
+	 * single actual render on the next animation frame.
+	 *
+	 * Why: map mutations fire `markeradded` / `markerremoved` ONE PER
+	 * MARKER. During a bulk operation (initial load of a large map,
+	 * a re-fetch, a multi-delete) that's potentially thousands of
+	 * synchronous events, and a naive `render()` per event re-runs an
+	 * O(n) filter over the whole marker set + rebuilds the page + re-
+	 * binds events every time — locking the tab on large maps.
+	 * requestAnimationFrame batches the whole synchronous burst into
+	 * one render after the burst settles.
+	 *
+	 * Also skips entirely while the map's initial marker load is still
+	 * in progress (`markersPlaced` false) — the single `markersplaced`
+	 * render at the end of load covers that case, so we don't render
+	 * thousands of times against a half-populated list during boot.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.scheduleRender = function(){
+		var self = this;
+		var map = WPGMZA.maps[0];
+
+		/* Initial bulk load — defer to the end-of-load markersplaced
+		   render rather than re-rendering per marker. */
+		if(map && !map.markersPlaced)
+			return;
+
+		if(self._renderScheduled)
+			return;
+		self._renderScheduled = true;
+
+		var run = function(){
+			self._renderScheduled = false;
+			self.render();
+		};
+
+		if(typeof window.requestAnimationFrame === 'function')
+			window.requestAnimationFrame(run);
+		else
+			setTimeout(run, 16);
+	}
+
+	/**
+	 * Render a single marker list item
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.renderItem = function(marker, index){
+		var title = this.esc(marker.title || '');
+		var address = this.esc(marker.address || '');
+		var id = marker.id;
+
+		if(!title && address){ title = address; address = ''; }
+		if(!title) title = 'Marker #' + id;
+
+		/* Resolve the actual icon URL — custom, map default, or global default */
+		var iconUrl = '';
+		var rawIcon = marker.icon;
+		if(rawIcon && rawIcon !== ''){
+			if(typeof rawIcon === 'object' && rawIcon.url){
+				iconUrl = rawIcon.url;
+			} else if(typeof rawIcon === 'string'){
+				try {
+					var parsed = JSON.parse(rawIcon);
+					iconUrl = parsed.url || rawIcon;
+				} catch(e){
+					iconUrl = rawIcon;
+				}
+			}
+		} else if(typeof marker.getIcon === 'function'){
+			var fetched = marker.getIcon();
+			if(typeof fetched === 'object' && fetched.url){
+				iconUrl = fetched.url;
+			} else if(typeof fetched === 'string'){
+				iconUrl = fetched;
+			}
+		}
+		if(!iconUrl && WPGMZA.defaultMarkerIcon){
+			iconUrl = WPGMZA.defaultMarkerIcon;
+		}
+		if(!iconUrl && WPGMZA.settings && WPGMZA.settings.default_marker_icon){
+			iconUrl = WPGMZA.settings.default_marker_icon;
+		}
+
+		var iconHtml = iconUrl
+			? '<img src="' + this.esc(iconUrl) + '" alt="" />'
+			: '<div style="width:10px;height:10px;border-radius:50%;background:#e8473f;"></div>';
+
+		/* Resolve category pills (Pro only) */
+		var catHtml = '';
+		if(marker.categories && marker.categories.length && WPGMZA.categories){
+			var pills = [];
+			for(var c = 0; c < marker.categories.length; c++){
+				var cat = WPGMZA.categories.getCategoryByID(parseInt(marker.categories[c]));
+				if(cat && cat.name && cat.name.trim() !== ''){
+					pills.push('<span class="am-mi-cat">' + this.esc(cat.name) + '</span>');
+				}
+			}
+			if(pills.length){
+				catHtml = '<div class="am-mi-cats">' + pills.join('') + '</div>';
+			}
+		}
+
+		var checked = this.selectedIds[id] ? ' checked' : '';
+
+		/* Pending approval detection — UGM (visitor-generated markers)
+		   submits with approved=0 until an admin approves. The base
+		   marker model defaults approved=1, so a value of 0 (number
+		   or string) means "needs admin action". Pro's
+		   ProAdminMarkerDataTable injects an Approve action when UGM
+		   is loaded and approved=0; we mirror that here so VGM users
+		   keep this critical workflow in the Atlas Major list. */
+		var needsApproval = (typeof marker.approved !== 'undefined' && parseInt(marker.approved) === 0);
+
+		/* Build the action menu items. Pro-only items (Duplicate,
+		   Move Map) are gated on WPGMZA.isProVersion(). Approve is
+		   gated on needsApproval and is the only item that carries
+		   its own red-dot indicator inside the menu (so users can
+		   spot the pending action without scanning every label). */
+		var isPro = WPGMZA.isProVersion();
+		var menuItems = '';
+		menuItems += this.renderMenuItem('edit-marker-id', id, 'Edit',
+			'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>');
+		menuItems += this.renderMenuItem('adjust-marker-id', id, 'Adjust',
+			'<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>');
+		menuItems += this.renderMenuItem('center-marker-id', id, 'Center',
+			'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>');
+		if(isPro){
+			menuItems += this.renderMenuItem('duplicate-feature-id', id, 'Duplicate',
+				'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>');
+			menuItems += this.renderMenuItem('move-map-feature-id', id, 'Move Map',
+				'<polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/>');
+		}
+		if(needsApproval){
+			menuItems += this.renderMenuItem('approve-marker-id', id, 'Approve',
+				'<polyline points="20 6 9 17 4 12"/>',
+				'am-mi-mi-approve am-mi-mi-attention');
+		}
+		menuItems += this.renderMenuItem('delete-marker-id', id, 'Delete',
+			'<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+			'am-mi-mi-danger');
+
+		/* ---- Developer hook: row PARTS (filter-style) ----
+		   Atlas Major has no DataTable, so the column-extension pattern
+		   third-party clients used under Atlas Novus (adding <td>s /
+		   filtering cell content) doesn't apply. This is the supported
+		   replacement: handlers receive a single mutable `parts` object
+		   and can rewrite any rendered segment (title, address, icon,
+		   category pills, action-menu items) or read `parts.marker` for
+		   context. Mutations are read back below when the row is
+		   assembled. WPGMZA's JS has no applyFilters(), so we use the
+		   codebase's established jQuery-trigger-with-mutable-payload
+		   convention. Underscored event name (no jQuery namespace
+		   parsing), mirroring WP's PHP filter naming for familiarity.
+
+		   Example — append the marker ID to every title:
+		     jQuery(document.body).on('wpgmza_atlas_major_marker_list_item', function(e, parts){
+		         parts.title += ' #' + parts.marker.id;
+		     });
+		   Example — add a custom menu action (reuse renderMenuItem):
+		     jQuery(document.body).on('wpgmza_atlas_major_marker_list_item', function(e, parts){
+		         parts.menuItems += WPGMZA.atlasMajorMarkerList.renderMenuItem(
+		             'my-custom-id', parts.id, 'My Action', '<circle cx="12" cy="12" r="10"/>');
+		     }); */
+		var parts = {
+			marker:        marker,
+			id:            id,
+			title:         title,
+			address:       address,
+			iconHtml:      iconHtml,
+			catHtml:       catHtml,
+			menuItems:     menuItems,
+			checked:       checked,
+			needsApproval: needsApproval
+		};
+		$(document.body).trigger('wpgmza_atlas_major_marker_list_item', [parts]);
+
+		var rowHtml = '<li class="am-mi' + (parts.checked ? ' am-mi-selected' : '') + (parts.needsApproval ? ' am-mi-needs-approval' : '') + '" data-marker-id="' + id + '">' +
+			'<label class="am-mi-check"><input type="checkbox" data-bulk-marker-id="' + id + '"' + parts.checked + '/></label>' +
+			'<div class="am-mi-pin">' + parts.iconHtml + '</div>' +
+			'<div class="am-mi-body">' +
+				'<div class="am-mi-name">' + parts.title + '</div>' +
+				(parts.address ? '<div class="am-mi-addr">' + parts.address + '</div>' : '') +
+				parts.catHtml +
+			'</div>' +
+			'<div class="am-mi-ops">' +
+				/* Single kebab trigger replacing the previous inline
+				   icon strip. Matches Novus's "..." menu affordance.
+				   The red attention dot sits on this button (via the
+				   .am-mi-needs-approval class on the parent <li>),
+				   mirroring exactly where Novus places it. */
+				'<button class="am-mi-kebab" data-marker-menu-id="' + id + '" aria-label="Marker actions" aria-haspopup="true" aria-expanded="false">' +
+					'<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>' +
+				'</button>' +
+				'<div class="am-mi-menu" data-marker-menu-for="' + id + '" role="menu">' +
+					parts.menuItems +
+				'</div>' +
+			'</div>' +
+		'</li>';
+
+		/* ---- Developer hook: whole-row HTML (filter-style) ----
+		   Final escape hatch for clients that need to rewrite the row
+		   markup wholesale. Handlers receive a mutable `result` object;
+		   set `result.html` to replace. `result.marker` provided for
+		   context. Runs after the PARTS hook so part-level tweaks are
+		   already baked into `result.html`. NB: data-* attributes the
+		   list relies on for event delegation (data-marker-id,
+		   data-*-marker-id, etc.) must be preserved if you rebuild. */
+		var result = { html: rowHtml, marker: marker, id: id };
+		$(document.body).trigger('wpgmza_atlas_major_marker_list_item_html', [result]);
+
+		return result.html;
+	}
+
+	/**
+	 * Render a single menu item button. SVG body is the inner
+	 * <path>/<circle>/etc. — we wrap with the standard SVG attrs
+	 * so menu items render consistently.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.renderMenuItem = function(dataKey, id, label, svgBody, extraClass){
+		var cls = 'am-mi-mi' + (extraClass ? ' ' + extraClass : '');
+		return '<button class="' + cls + '" data-' + dataKey + '="' + id + '" role="menuitem">' +
+			'<svg class="am-mi-mi-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + svgBody + '</svg>' +
+			'<span class="am-mi-mi-label">' + label + '</span>' +
+		'</button>';
+	}
+
+	/**
+	 * Render pagination controls
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.renderPagination = function(total, totalPages){
+		if(!this.paginationContainer) return;
+
+		if(totalPages <= 1){
+			this.paginationContainer.innerHTML = '';
+			return;
+		}
+
+		var self = this;
+		var html = '<div class="am-pag">';
+
+		/* Prev */
+		html += '<button class="am-pag-btn' + (this.page <= 1 ? ' disabled' : '') + '" data-page="' + (this.page - 1) + '">' +
+			'<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>' +
+		'</button>';
+
+		/* Page numbers — show max 5 around current */
+		var startPage = Math.max(1, this.page - 2);
+		var endPage = Math.min(totalPages, startPage + 4);
+		if(endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+		for(var p = startPage; p <= endPage; p++){
+			html += '<button class="am-pag-btn am-pag-num' + (p === this.page ? ' on' : '') + '" data-page="' + p + '">' + p + '</button>';
+		}
+
+		/* Next */
+		html += '<button class="am-pag-btn' + (this.page >= totalPages ? ' disabled' : '') + '" data-page="' + (this.page + 1) + '">' +
+			'<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>' +
+		'</button>';
+
+		html += '<span class="am-pag-info">' + this.page + ' / ' + totalPages + '</span>';
+		html += '</div>';
+
+		this.paginationContainer.innerHTML = html;
+
+		/* Bind pagination clicks */
+		$(this.paginationContainer).off('click.ampag').on('click.ampag', '.am-pag-btn:not(.disabled)', function(){
+			var page = parseInt($(this).attr('data-page'));
+			if(page >= 1 && page <= totalPages){
+				self.page = page;
+				self.render();
+				/* Scroll to top of list */
+				$(self.container).closest('.am-panel-scroll')[0].scrollTop = 0;
+			}
+		});
+	}
+
+	/**
+	 * Bind search input with debounce
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindSearch = function(){
+		var self = this;
+		if(!this.searchInput) return;
+
+		$(this.searchInput).on('input', function(){
+			clearTimeout(self.debounceTimer);
+			self.debounceTimer = setTimeout(function(){
+				self.searchTerm = $(self.searchInput).val();
+				self.page = 1;
+				self.render();
+			}, 200);
+		});
+	}
+
+	/**
+	 * Update the count badge next to "Markers" heading
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.updateCount = function(filteredCount){
+		if(!this.countBadge) return;
+
+		var map = WPGMZA.maps[0];
+		var total = (map && map.markers) ? map.markers.length : 0;
+
+		if(this.searchTerm){
+			this.countBadge.textContent = filteredCount + ' / ' + total;
+		} else {
+			this.countBadge.textContent = total;
+		}
+	}
+
+	/**
+	 * Bind click events on rendered list items
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindItemEvents = function(){
+		var self = this;
+		var container = $(this.container);
+
+		container.off('click.amlist').on('click.amlist', '.am-mi', function(e){
+			if($(e.target).closest('.am-mi-ops').length) return;
+			if($(e.target).closest('.am-mi-check').length) return;
+			self.editMarker($(this).data('marker-id'));
+		});
+
+		/* Kebab toggle — opens the per-row action menu. We close any
+		   other open menu first so only one is visible at a time.
+		   The menu closes via the document-level handler installed
+		   in initKebabDismiss(). */
+		container.on('click.amlist', '.am-mi-kebab', function(e){
+			e.stopPropagation();
+			var $kebab = $(this);
+			var $li = $kebab.closest('.am-mi');
+			var alreadyOpen = $li.hasClass('am-mi-menu-open');
+
+			/* Close all other menus */
+			$(self.container).find('.am-mi.am-mi-menu-open').removeClass('am-mi-menu-open')
+				.find('.am-mi-kebab').attr('aria-expanded', 'false');
+
+			if(!alreadyOpen){
+				$li.addClass('am-mi-menu-open');
+				$kebab.attr('aria-expanded', 'true');
+			}
+		});
+
+		/* Close-on-action: clicking any menu item should close the
+		   menu after the action's own handler fires. */
+		container.on('click.amlist', '.am-mi-menu .am-mi-mi', function(){
+			$(this).closest('.am-mi').removeClass('am-mi-menu-open')
+				.find('.am-mi-kebab').attr('aria-expanded', 'false');
+		});
+
+		self.bindBulkCheckboxes();
+		self.updateBulkBar();
+
+		container.on('click.amlist', '[data-edit-marker-id]', function(e){
+			e.stopPropagation();
+			self.editMarker($(this).attr('data-edit-marker-id'));
+		});
+
+		container.on('click.amlist', '[data-center-marker-id]', function(e){
+			e.stopPropagation();
+			self.centerMarker($(this).attr('data-center-marker-id'));
+		});
+
+		/* Adjust — do NOT stopPropagation. The core MarkerPanel listens on
+		   document.body for [data-adjust-marker-id] clicks. We just need
+		   to ensure the editor grouping opens. */
+		container.on('click.amlist', '[data-adjust-marker-id]', function(e){
+			/* Let the event bubble to MarkerPanel.onAdjustFeature on body */
+		});
+
+		container.on('click.amlist', '[data-duplicate-feature-id]', function(e){
+			e.stopPropagation();
+			self.duplicateMarker($(this).attr('data-duplicate-feature-id'));
+		});
+
+		container.on('click.amlist', '[data-move-map-feature-id]', function(e){
+			e.stopPropagation();
+			self.moveMarkerToMap($(this).attr('data-move-map-feature-id'));
+		});
+
+		container.on('click.amlist', '[data-approve-marker-id]', function(e){
+			e.stopPropagation();
+			self.approveMarker($(this).attr('data-approve-marker-id'));
+		});
+
+		container.on('click.amlist', '[data-delete-marker-id]', function(e){
+			e.stopPropagation();
+			self.deleteMarker($(this).attr('data-delete-marker-id'));
+		});
+	}
+
+	/**
+	 * Bind to map events for live updates
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindMapEvents = function(){
+		var self = this;
+		var map = WPGMZA.maps[0];
+		if(!map) return;
+
+		/* Coalesced (scheduleRender) rather than a direct render per
+		   event — on large maps these fire once per marker during bulk
+		   adds/removes and would otherwise re-render thousands of times.
+		   scheduleRender also no-ops while the initial load is still in
+		   progress; the markersplaced handler below renders once at the
+		   end of that load. */
+		map.on('markeradded', function(){ self.scheduleRender(); });
+		map.on('markerremoved', function(){ self.scheduleRender(); });
+
+		/* Authoritative "all initial markers are loaded" event. This
+		 * covers the case where the marker list constructor runs
+		 * BEFORE the map has finished fetching its initial marker
+		 * batch — constructor's render() sees 0 markers, tab shows
+		 * empty, and without this listener we'd miss the later load.
+		 * If `markersplaced` already fired (map.markersPlaced is true),
+		 * we render once right now instead of waiting. Direct render()
+		 * here (not scheduleRender) since it's a single end-of-load
+		 * call and scheduleRender would no-op if markersPlaced flips
+		 * true mid-frame.
+		 * Either path clears the initial-load busy state (set in the
+		 * constructor when !map.markersPlaced) — render is the real
+		 * "list is up to date" signal here. */
+		if(map.markersPlaced){
+			self.render();
+			self.setBusy(false);
+		} else {
+			map.on('markersplaced', function(){
+				self.render();
+				self.setBusy(false);
+			});
+		}
+
+		$(document.body).on('datatable.reload', function(){
+			setTimeout(function(){ self.render(); }, 500);
+		});
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.editMarker = function(id){
+		var panel = WPGMZA.mapEditPage ? WPGMZA.mapEditPage.markerPanel : null;
+
+		if(panel && typeof panel.select === 'function'){
+			panel.select(id);
+		}
+
+		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.sidebarGroupings){
+			WPGMZA.mapEditPage.sidebarGroupings.openTabByGroupId('map-markers-editor');
+		}
+
+		/* Open the marker's infowindow on the Live Preview map so the
+		   user sees what they're editing in its rendered state. Safe
+		   in the editor because the viewportGroupings null-guards in
+		   pro-info-window.js (and siblings) make populatePanel
+		   tolerant of admin context where viewportGroupings is absent. */
+		var map = WPGMZA.maps[0];
+		var marker = map ? map.getMarkerByID(id) : null;
+		if(marker && typeof marker.openInfoWindow === 'function'){
+			marker.openInfoWindow();
+		}
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.centerMarker = function(id){
+		var marker = WPGMZA.maps[0].getMarkerByID(id);
+		if(marker){
+			WPGMZA.maps[0].setCenter(new WPGMZA.LatLng({ lat: marker.lat, lng: marker.lng }));
+		}
+	}
+
+	/**
+	 * Duplicate a marker via REST API (Pro only)
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.duplicateMarker = function(id){
+		var self = this;
+		var map = WPGMZA.maps[0];
+
+		self.setBusy(true);
+
+		WPGMZA.restAPI.call("/markers/", {
+			method: "POST",
+			data: {
+				id: id,
+				action: "duplicate"
+			},
+			success: function(response, status, xhr) {
+				/* The list renders from map.markers (no server-backed
+				   DataTable like Novus), so the freshly-created marker
+				   has to be pushed into the map. The duplicate endpoint
+				   now returns the new marker (see ProRestAPI::markers
+				   duplicate case); instantiate + addMarker, which fires
+				   `markeradded` -> render() via bindMapEvents. */
+				if(response && response.marker && map && typeof map.addMarker === 'function'){
+					var marker = WPGMZA.Marker.createInstance(response.marker);
+					map.addMarker(marker);
+				} else {
+					/* Fallback for older Pro that doesn't return the
+					   marker — at least re-render from current state. */
+					self.render();
+				}
+
+				/* Keep the hidden DataTable (bulk-edit modal source) in
+				   sync with the new row. */
+				if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable){
+					WPGMZA.mapEditPage.markerAdminDataTable.reload();
+				}
+
+				self.setBusy(false);
+			},
+			error: function(){
+				self.setBusy(false);
+			}
+		});
+	}
+
+	/**
+	 * Move marker to a different map (Pro only)
+	 * Reuses the existing AdminFeatureDataTable.onMoveMap which
+	 * shows the .wpgmza-map-select-modal generic modal. The modal
+	 * is created during datatable construction; we just delegate
+	 * the call so the modal lifecycle stays in one place.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.moveMarkerToMap = function(id){
+		var self = this;
+
+		var dt = WPGMZA.mapEditPage ? WPGMZA.mapEditPage.markerAdminDataTable : null;
+		if(!dt || typeof dt.onMoveMap !== 'function')
+			return;
+
+		/* onMoveMap accepts either an event OR a bare id when event is
+		   undefined. Passing the id directly fires the modal flow. */
+		dt.onMoveMap(id);
+	}
+
+	/**
+	 * Approve a pending marker (Pro + UGM)
+	 * Mirrors MarkerPanel.onApproveMarker — POST /markers/{id} with
+	 * approved=1. Pro's existing handler updates the datatable; we
+	 * additionally flip the local marker.approved so the list
+	 * re-renders without the red-dot indicator + approve button.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.approveMarker = function(id){
+		var self = this;
+		var map = WPGMZA.maps[0];
+		if(!map) return;
+
+		self.setBusy(true);
+
+		WPGMZA.restAPI.call("/markers/" + id, {
+			method: "POST",
+			data: { approved: "1" },
+			success: function(){
+				/* Update the local marker model so the list reflects
+				   the new state immediately without waiting for a
+				   full markers refetch. */
+				var marker = map.getMarkerByID(id);
+				if(marker){
+					marker.approved = 1;
+				}
+				self.render();
+
+				/* Keep the hidden DataTable (used by bulk-edit modal
+				   lookups) in sync as well. */
+				if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable){
+					WPGMZA.mapEditPage.markerAdminDataTable.reload();
+				}
+
+				self.setBusy(false);
+			},
+			error: function(){
+				self.setBusy(false);
+			}
+		});
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.deleteMarker = function(id){
+		var self = this;
+		if(!confirm(WPGMZA.localized_strings.general_delete_prompt_text || 'Are you sure you want to delete this marker?'))
+			return;
+
+		var map = WPGMZA.maps[0];
+		var marker = map.getMarkerByID(id);
+
+		/* Delete via the REST API (DELETE /markers/{id}) — the same
+		   path FeaturePanel.onDeleteFeature() uses (feature-panel.js
+		   ~L592). The previous legacy `$.post(ajaxurl, action:
+		   delete_marker)` call relied on `wp_ajax_delete_marker`,
+		   which is only registered by the pro-below-8.1 compatibility
+		   layer (hooking a deprecated empty stub); on current Pro no
+		   handler is registered, so admin-ajax returned 400 and the
+		   marker was never actually deleted. We also now remove the
+		   marker only AFTER the delete succeeds, rather than
+		   optimistically before a request that could fail. */
+		self.setBusy(true);
+
+		WPGMZA.restAPI.call("/markers/" + id, {
+			method: "DELETE",
+			success: function(data, status, xhr){
+				if(marker)
+					map.removeMarker(marker); /* fires markerremoved -> render() */
+				else
+					map.removeMarkerByID(id);
+
+				self.render();
+				if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable){
+					WPGMZA.mapEditPage.markerAdminDataTable.reload();
+				}
+
+				self.setBusy(false);
+			},
+			error: function(){
+				self.setBusy(false);
+			}
+		});
+	}
+
+	/**
+	 * Create the bulk action bar (inserted after search field)
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.initBulkBar = function(){
+		var self = this;
+		var searchField = document.querySelector('.am-search-field');
+		if(!searchField) return;
+
+		var bar = document.createElement('div');
+		bar.className = 'am-bulk-bar';
+		bar.style.display = 'none';
+		bar.innerHTML =
+			'<button type="button" class="am-bulk-btn" data-bulk-action="select-all">' + (WPGMZA.localized_strings.select_all || 'Select All') + '</button>' +
+			'<button type="button" class="am-bulk-btn" data-bulk-action="deselect-all">' + (WPGMZA.localized_strings.deselect_all || 'Deselect All') + '</button>' +
+			'<button type="button" class="am-bulk-btn" data-bulk-action="bulk-edit">' + (WPGMZA.localized_strings.bulk_edit || 'Bulk Edit') + '</button>' +
+			'<button type="button" class="am-bulk-btn am-bulk-btn-danger" data-bulk-action="bulk-delete">' + (WPGMZA.localized_strings.bulk_delete || 'Bulk Delete') + '</button>';
+
+		searchField.after(bar);
+		this.bulkBar = bar;
+
+		$(bar).on('click', '[data-bulk-action]', function(e){
+			var action = $(this).attr('data-bulk-action');
+			if(action === 'select-all') self.bulkSelectAll();
+			else if(action === 'deselect-all') self.bulkDeselectAll();
+			else if(action === 'bulk-edit') self.bulkEdit();
+			else if(action === 'bulk-delete') self.bulkDelete();
+		});
+	}
+
+	/**
+	 * Get the bulk edit modal (Pro only)
+	 * Reuses the modal already created by the hidden AdminFeatureDataTable
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.getBulkEditModal = function(){
+		/* Try the datatable's lazy getter first */
+		var tables = WPGMZA.mapEditPage ? WPGMZA.mapEditPage.markerDataTable || WPGMZA.mapEditPage.markerAdminDataTable : null;
+		if(tables && typeof tables.getBulkEditorModal === 'function'){
+			return tables.getBulkEditorModal();
+		}
+
+		/* Fallback: find any AdminFeatureDataTable for markers */
+		if(WPGMZA.AdminFeatureDataTable){
+			var el = $('[data-wpgmza-table][data-wpgmza-feature-type="marker"]')[0];
+			if(el && el.wpgmzaDataTable && typeof el.wpgmzaDataTable.getBulkEditorModal === 'function'){
+				return el.wpgmzaDataTable.getBulkEditorModal();
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Update bulk bar visibility and info
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.updateBulkBar = function(){
+		if(!this.bulkBar) return;
+
+		var count = Object.keys(this.selectedIds).length;
+		if(count > 0){
+			this.bulkBar.style.display = 'flex';
+		} else {
+			this.bulkBar.style.display = 'none';
+		}
+	}
+
+	/**
+	 * Bind checkbox change events (called after render)
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindBulkCheckboxes = function(){
+		var self = this;
+		$(this.container).off('change.ambulk').on('change.ambulk', '[data-bulk-marker-id]', function(e){
+			e.stopPropagation();
+			var id = $(this).attr('data-bulk-marker-id');
+			if(this.checked){
+				self.selectedIds[id] = true;
+			} else {
+				delete self.selectedIds[id];
+			}
+			$(this).closest('.am-mi').toggleClass('am-mi-selected', this.checked);
+			self.updateBulkBar();
+		});
+
+		/* Prevent checkbox click from triggering marker edit */
+		$(this.container).off('click.ambulkstop').on('click.ambulkstop', '.am-mi-check', function(e){
+			e.stopPropagation();
+		});
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.bulkSelectAll = function(){
+		var filtered = this.getFilteredMarkers();
+		for(var i = 0; i < filtered.length; i++){
+			this.selectedIds[filtered[i].id] = true;
+		}
+		this.render();
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.bulkDeselectAll = function(){
+		this.selectedIds = {};
+		this.render();
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.getSelectedIds = function(){
+		return Object.keys(this.selectedIds).map(function(id){ return parseInt(id); });
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.bulkDelete = function(){
+		var self = this;
+		var ids = this.getSelectedIds();
+		if(!ids.length) return;
+
+		if(!confirm(WPGMZA.localized_strings.general_delete_prompt_text || 'Are you sure you want to delete these markers?'))
+			return;
+
+		var map = WPGMZA.maps[0];
+		ids.forEach(function(id){
+			try { map.removeMarkerByID(id); } catch(e){}
+		});
+
+		WPGMZA.restAPI.call("/markers/", {
+			method: "DELETE",
+			data: { ids: ids },
+			complete: function(){
+				self.selectedIds = {};
+				self.render();
+				if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable){
+					WPGMZA.mapEditPage.markerAdminDataTable.reload();
+				}
+			}
+		});
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.bulkEdit = function(){
+		var self = this;
+		var ids = this.getSelectedIds();
+		if(!ids.length) return;
+
+		var modal = this.getBulkEditModal();
+		if(modal){
+			modal.show(function(data){
+				data.ids = ids;
+				data.action = "bulk_edit";
+
+				WPGMZA.restAPI.call("/markers/", {
+					method: "POST",
+					data: data,
+					success: function(){
+						self.selectedIds = {};
+						self.render();
+						if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable){
+							WPGMZA.mapEditPage.markerAdminDataTable.reload();
+						}
+					}
+				});
+			});
+		}
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.esc = function(str){
+		var d = document.createElement('div');
+		d.textContent = str;
+		return d.innerHTML;
+	}
+
+	/* Init */
+	function initMarkerList(){
+		if(WPGMZA.maps && WPGMZA.maps[0] && document.querySelector('.am-marker-list-container')){
+			if(!WPGMZA.atlasMajorMarkerList){
+				WPGMZA.atlasMajorMarkerList = new WPGMZA.AtlasMajorMarkerList();
+			}
+		}
+	}
+
+	$(document.body).on('wpgmza_map_edit_page_created', function(){
+		setTimeout(initMarkerList, 1000);
+	});
+
+	$(window).on('load', function(){
+		setTimeout(initMarkerList, 1500);
+	});
+
+	$(document.body).on('markersfetched', function(){
+		if(WPGMZA.atlasMajorMarkerList){
+			WPGMZA.atlasMajorMarkerList.render();
+		}
+	});
+
+	/* (Removed) Previously this file installed a sidebar-delegate-created
+	 * handler that scrolled the Add Marker panel back to the top and
+	 * refocused the address input — the old request was to keep users
+	 * on the Add Marker form for bulk-add workflows. That requirement
+	 * has been reversed: after a successful Add, the editor should now
+	 * return to the marker list panel (consistent with what Edit Marker
+	 * already does via sidebar-groupings.js's `sidebar-delegate-saved`
+	 * handler). The navigate-back is handled in sidebar-groupings.js's
+	 * `sidebar-delegate-created` handler — nothing Atlas-Major-specific
+	 * needs to run here anymore. */
+});
+
+
+// js/v8/atlas-major-pro-pill.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorProPill
+ * @requires WPGMZA
+ *
+ * Click handler for the "Pro" pills that visually replace locked
+ * toggle switches inside `.wpgmza-pro-feature` fieldsets / tab-rows
+ * (see input.css `.wpgmza-pro-feature .switch` block). The pill
+ * navigates to the Pro purchase page in a new tab when clicked.
+ *
+ * Body-delegated so it works for Pro fields rendered after page
+ * load (Pro feature panels, dynamic templates) as well as static
+ * ones on the settings page and map editor sidebar.
+ */
+jQuery(function($){
+
+	if(!document.querySelector('.wpgmza-atlas-major'))
+		return;
+
+	var UPGRADE_URL = 'https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&utm_medium=link&utm_campaign=pro-pill-locked-toggle-atlas-major-v10';
+
+	$(document.body).on('click', '.wpgmza-pro-feature .switch', function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		window.open(UPGRADE_URL, '_blank', 'noopener');
+	});
+
+});
+
+
 // js/v8/compatibility.js
 /**
  * @namespace WPGMZA
@@ -5422,26 +9242,33 @@ jQuery(function($) {
 			}
 		}
 		
-		if(typeof subject == "object")
+		/* Use Array.isArray instead of `typeof subject == "object"`:
+		   typeof returns "object" for plain objects and null too, which
+		   would fall into this branch and return a non-array, causing
+		   Google Maps to throw "InvalidValueError: not an Array" from
+		   the downstream setPath() call. Seen in the wild when polydata
+		   in the DB is stored as an object-shaped JSON (e.g. from a
+		   migration artifact) rather than a JSON array. */
+		if(Array.isArray(subject))
 		{
 			var arr = subject;
-			
+
 			for(var i = 0; i < arr.length; i++)
 			{
 				arr[i].lat = parseFloat(arr[i].lat);
 				arr[i].lng = parseFloat(arr[i].lng);
 			}
-			
+
 			return arr;
 		}
 		else if(typeof subject == "string")
 		{
 			// Guessing old format
 			var stripped, pairs, coords, results = [];
-			
+
 			stripped = subject.replace(/[^ ,\d\.\-+e]/g, "");
 			pairs = stripped.split(",");
-			
+
 			for(var i = 0; i < pairs.length; i++)
 			{
 				coords = pairs[i].split(" ");
@@ -5450,11 +9277,16 @@ jQuery(function($) {
 					lng: parseFloat(coords[0])
 				});
 			}
-			
+
 			return results;
 		}
-		
-		throw new Error("Invalid geometry");
+
+		/* Return [] rather than throw — a throw here propagates out of
+		   the AJAX success callback that builds features and aborts
+		   loading of every feature after the bad row. Google Maps
+		   silently accepts an empty path, so the offending shape just
+		   renders as nothing while everything around it keeps working. */
+		return [];
 	}
 	
 	WPGMZA.Feature.prototype.setOptions = function(options)
@@ -6208,15 +10040,32 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.workOutDistanceBetweenTwoMarkers = function(location1, location2) {
 		if(!location1 || !location2)
 			return; // No location (no search performed, user location unavailable)
-		
+
 		var distanceInKM = WPGMZA.Distance.between(location1, location2);
 		var distanceToDisplay = distanceInKM;
-			
-		if(this.distanceUnits == WPGMZA.Distance.MILES)
+
+		/* Resolve the distance unit. InfoWindow doesn't set its own
+		 * `distanceUnits` — that property only exists on StoreLocator
+		 * (store-locator.js:20). Previously this check compared
+		 * `undefined == WPGMZA.Distance.MILES` which is always false,
+		 * so the displayed value was ALWAYS in KM even when the user
+		 * had Miles selected ("33 miles" meant 33km). Read from
+		 * `map.settings.store_locator_distance` instead — the same
+		 * source getContent uses for the unit-label string ("km
+		 * away" vs "miles away") — so both the numeric value and the
+		 * label stay consistent. */
+		var useMiles = false;
+		if(this.feature && this.feature.map && this.feature.map.settings){
+			useMiles = this.feature.map.settings.store_locator_distance == WPGMZA.Distance.MILES
+				|| this.feature.map.settings.store_locator_distance == 1
+				|| this.feature.map.settings.store_locator_distance == '1';
+		}
+
+		if(useMiles)
 			distanceToDisplay /= WPGMZA.Distance.KILOMETERS_PER_MILE;
-		
+
 		var text = Math.round(distanceToDisplay, 2);
-		
+
 		return text;
 	}
 
@@ -14249,7 +18098,14 @@ jQuery(function($) {
 		});
 
 		$('.wpgmza-feature-accordion[data-wpgmza-feature-type]').on('sidebar-delegate-created', function(event){
-			/* Nothing to do yet */
+			/* After a successful Add, return to the parent feature list
+			 * panel — mirrors the existing `sidebar-delegate-saved`
+			 * (edit) behaviour just above. Previously this was a no-op,
+			 * so users were left on the Add Marker / Add Polygon / etc.
+			 * form after a successful create. */
+			if(event.feature){
+				self.closeCurrent();
+			}
 		});
 
 		$(this.element).find('.fieldset-toggle').on('click', function(event){
@@ -14593,6 +18449,568 @@ jQuery(function($) {
 		}
 	}
 });
+
+// js/v8/atlas-major-tabs.js
+/**
+ * @namespace WPGMZA
+ * @module AtlasMajorTabs
+ * @requires WPGMZA.SidebarGroupings
+ *
+ * Bridges the Atlas Major tab bar to the existing SidebarGroupings navigation system.
+ * Tabs carry data-am-group attributes that map to data-group values on groupings.
+ */
+jQuery(function($) {
+
+	if(WPGMZA.currentPage != "map-edit")
+		return;
+
+	if(!document.querySelector('.wpgmza-atlas-major'))
+		return;
+
+	WPGMZA.AtlasMajorTabs = function(){
+		var self = this;
+		this.tabBar = $('.am-tabs');
+		this.tabs = this.tabBar.find('.am-tab[data-am-group]');
+		this.activeGroup = null;
+
+		this.tabs.on('click', function(){
+			var groupId = $(this).data('am-group');
+			if(groupId){
+				/* Belt-and-braces: discard any in-progress drawing
+				   BEFORE switching tabs. The `grouping-closed`
+				   listener further down also handles this path (via
+				   closeAll → grouping-closed → our synthesized
+				   feature-block-closed), but firing here too
+				   guarantees the discard runs regardless of the
+				   closeAll timing or any race with the tab switch.
+				   discardChanges is gated on `this.feature` so a
+				   double-discard is a no-op. */
+				$('.grouping[data-feature-discard]').each(function(){
+					$(this).trigger('feature-block-closed');
+				});
+
+				self.activateTab($(this), groupId);
+			}
+		});
+
+		/* Make the entire .heading.has-back row clickable, not just
+		   the small caret-left arrow on its left edge. The core
+		   SidebarGroupings handler binds to `.grouping .item` clicks
+		   only, so anywhere else in the heading row was inert.
+		   This caused a confusing UX: the whole row hover-highlights
+		   (signalling clickability) but only the arrow column actually
+		   navigated back. We forward clicks anywhere on the row to
+		   the inner .item.caret-left, which then bubbles through the
+		   existing handler. Scoped to .wpgmza-atlas-major so Atlas
+		   Novus behaviour is unchanged. */
+		$(document.body).on('click', '.wpgmza-atlas-major .heading.has-back', function(event){
+			/* If the click hit the .item directly, the existing
+			   SidebarGroupings delegation will handle it — don't
+			   double-fire. */
+			if($(event.target).closest('.item').length) return;
+			$(this).find('> .item').first().trigger('click');
+		});
+
+		/* Release the drawing manager when a feature grouping is
+		   being closed by navigation away (e.g. clicking a settings
+		   tab while in the Circles / Polygons / etc. feature panel
+		   with the drawing manager active).
+		   Background: sidebar-groupings.js:openTabByGroupId fires
+		   `feature-block-closed` ONLY when the TARGET grouping has
+		   `data-feature-discard="true"` — that's the
+		   feature-to-feature switch path (Circles → Polygons fires
+		   discard on the polygon grouping; all FeaturePanels
+		   listen on `.grouping` and react). Settings groupings
+		   don't carry `data-feature-discard`, so the
+		   feature-to-settings path NEVER fires the trigger —
+		   drawing manager stays active, the in-progress shape stays
+		   parked, and the user can't return to that feature panel
+		   without a page reload.
+		   Fix: listen for `grouping-closed` (fired by
+		   sidebar-groupings.js:closeAll for every closing
+		   grouping) and synthesize a `feature-block-closed`
+		   event on any closing grouping that carries
+		   `data-feature-discard`. The existing
+		   feature-panel.js:51 listener then triggers
+		   onTabDeactivated → discardChanges and resets drawing
+		   mode to MODE_NONE. Works regardless of navigation path
+		   (tab bar, back arrow, programmatic switch). */
+		$(document.body).on('grouping-closed', function(event, groupId){
+			if(!groupId) return;
+			var closingGrouping = $('.grouping[data-group="' + groupId + '"]').first();
+			if(!closingGrouping.length) return;
+			if(closingGrouping.data('feature-discard')){
+				closingGrouping.trigger('feature-block-closed');
+			}
+		});
+
+		/* Listen for grouping changes from other sources (context menu, quick actions) */
+		$(document.body).on('grouping-opened', function(event, groupId){
+			self.syncTabState(groupId);
+		});
+
+		/* Also catch the event on .grouping elements directly (jQuery trigger doesn't always bubble) */
+		$('.grouping').on('grouping-opened', function(event, groupId){
+			self.syncTabState(groupId);
+		});
+
+		/* Activate the first tab on load. Retry if
+		 * WPGMZA.mapEditPage.sidebarGroupings isn't ready yet — the
+		 * AtlasMajorTabs constructor runs on window.load, but
+		 * sidebarGroupings is created during MapEditPage's own init
+		 * which can lag. Without the retry we'd silently bail and the
+		 * markers grouping would stay `display:none` until the user
+		 * clicks the tab themselves. */
+		var firstTab = this.tabs.filter('.on').first();
+		if(firstTab.length){
+			var initialGroup = firstTab.data('am-group');
+			if(initialGroup){
+				var attempts = 0;
+				var tryActivate = function(){
+					if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.sidebarGroupings){
+						self.activateTab(firstTab, initialGroup);
+						return true;
+					}
+					return false;
+				};
+				if(!tryActivate()){
+					var retry = setInterval(function(){
+						attempts++;
+						if(tryActivate() || attempts > 30){
+							clearInterval(retry);
+						}
+					}, 100);
+				}
+			}
+		}
+
+		/* Sub-tab navigation (horizontal tabs within panels like Store Locator) */
+		$('.am-subnav').on('click', '.am-subnav-item', function(){
+			var subnav = $(this).closest('.am-subnav');
+			subnav.find('.am-subnav-item').removeClass('on');
+			$(this).addClass('on');
+		});
+
+		/* Sync sub-tab active state when groupings open from other sources */
+		$(document.body).on('grouping-opened', function(event, groupId){
+			$('.am-subnav .am-subnav-item').each(function(){
+				var itemGroup = $(this).data('group');
+				if(itemGroup === groupId){
+					$(this).closest('.am-subnav').find('.am-subnav-item').removeClass('on');
+					$(this).addClass('on');
+				}
+			});
+		});
+
+		/* Auto-focus the Address/GPS input when the marker editor opens in
+		   Add mode. FeaturePanel flips the visibility of
+		   .wpgmza-feature-drawing-instructions vs
+		   .wpgmza-feature-editing-instructions (showInstructions) on mode
+		   change — we defer one tick so that DOM swap has landed before
+		   we check. */
+		$(document.body).on('grouping-opened', function(event, groupId){
+			if(groupId !== 'map-markers-editor'){
+				return;
+			}
+			setTimeout(function(){
+				var grouping = $('[data-group="map-markers-editor"]');
+				var drawing = grouping.find('.wpgmza-feature-drawing-instructions');
+				if(drawing.length && drawing.is(':visible')){
+					var addressInput = grouping.find('#wpgmza_add_address_map_editor');
+					if(addressInput.length && !addressInput.is(':disabled')){
+						addressInput.trigger('focus');
+					}
+				}
+			}, 0);
+		});
+
+		/* Sync toolbar map name with the form field */
+		this.syncToolbarFields();
+	}
+
+	/* Groupings that are navigation hubs — when opened, auto-navigate
+	   to the first visible child item */
+	WPGMZA.AtlasMajorTabs.AUTO_NAV_HUBS = [
+		'map-settings-themes'
+	];
+
+	WPGMZA.AtlasMajorTabs.prototype.activateTab = function(tabElement, groupId){
+		/* Update tab active state */
+		this.tabs.removeClass('on');
+		tabElement.addClass('on');
+		this.activeGroup = groupId;
+
+		/* Open the grouping via SidebarGroupings */
+		if(WPGMZA.mapEditPage && WPGMZA.mapEditPage.sidebarGroupings){
+			WPGMZA.mapEditPage.sidebarGroupings.openTabByGroupId(groupId);
+
+			/* For nav hubs, auto-click the first visible child sub-tab */
+			if(WPGMZA.AtlasMajorTabs.AUTO_NAV_HUBS.indexOf(groupId) !== -1){
+				setTimeout(function(){
+					var grouping = $('[data-group="' + groupId + '"]');
+					/* Try visible am-subnav-item first (Atlas Major sub-tabs) */
+					var firstVisible = grouping.find('.am-subnav .am-subnav-item:visible').first();
+					if(!firstVisible.length){
+						/* Fallback to hidden nav items */
+						firstVisible = grouping.find('.am-hidden-nav .item.caret-right').first();
+					}
+					if(firstVisible.length){
+						firstVisible.trigger('click');
+					}
+				}, 50);
+			}
+		}
+	}
+
+	WPGMZA.AtlasMajorTabs.prototype.syncTabState = function(groupId){
+		/* Find the tab that owns this group or a parent of it */
+		var matched = false;
+		var self = this;
+
+		this.tabs.each(function(){
+			var tabGroup = $(this).data('am-group');
+
+			/* Direct match */
+			if(tabGroup === groupId){
+				self.tabs.removeClass('on');
+				$(this).addClass('on');
+				self.activeGroup = groupId;
+				matched = true;
+				return false;
+			}
+
+			/* Prefix match — e.g. tab targets "map-settings-store-locator-general"
+			   but opened group is "map-settings-store-locator-style".
+			   Strip the last segment of both and compare the prefix.
+			   Only applies when prefix has 3+ segments to avoid false matches
+			   like "map-markers" matching "map-datasets". */
+			var tabPrefix = tabGroup.replace(/-[^-]+$/, '');
+			var groupPrefix = groupId.replace(/-[^-]+$/, '');
+			var segmentCount = tabPrefix.split('-').length;
+			if(tabPrefix === groupPrefix && tabPrefix !== tabGroup && segmentCount >= 3){
+				self.tabs.removeClass('on');
+				$(this).addClass('on');
+				self.activeGroup = tabGroup;
+				matched = true;
+				return false;
+			}
+		});
+
+		if(!matched){
+			/* Check if the opened group is a child of a tab's group */
+			this.tabs.each(function(){
+				var tabGroup = $(this).data('am-group');
+				var openedGrouping = $('[data-group="' + groupId + '"]');
+
+				/* Walk up the back-navigation chain to find parent */
+				var backItem = openedGrouping.find('.heading .item.caret-left[data-group]');
+				while(backItem.length){
+					var parentGroup = backItem.data('group');
+					if(parentGroup === tabGroup){
+						self.tabs.removeClass('on');
+						$(this).addClass('on');
+						self.activeGroup = tabGroup;
+						matched = true;
+						return false;
+					}
+					var parentGrouping = $('[data-group="' + parentGroup + '"]');
+					backItem = parentGrouping.find('.heading .item.caret-left[data-group]');
+				}
+			});
+		}
+	}
+
+	WPGMZA.AtlasMajorTabs.prototype.syncToolbarFields = function(){
+		var titleInput = $('#wpgmza_title');
+		var toolbarTitle = $('#am_wpgmza_title');
+		var shortcodeInput = $('#shortcode_input');
+		var toolbarShortcode = $('#am_shortcode_display');
+
+		if(titleInput.length && toolbarTitle.length){
+			/* Initial sync */
+			toolbarTitle.val(titleInput.val());
+
+			/* Two-way bind */
+			toolbarTitle.on('input change', function(){
+				titleInput.val($(this).val()).trigger('change');
+			});
+			titleInput.on('input change', function(){
+				toolbarTitle.val($(this).val());
+			});
+		}
+
+		if(shortcodeInput.length && toolbarShortcode.length){
+			/* Sync shortcode display — PHP sets the value attribute server-side */
+			var updateShortcode = function(){
+				/* Try property first, then attribute, then raw DOM */
+				var val = shortcodeInput.val()
+					|| shortcodeInput.attr('value')
+					|| shortcodeInput[0].getAttribute('value')
+					|| '';
+				if(val && val.trim()){
+					toolbarShortcode.text(val);
+					return true;
+				}
+				return false;
+			};
+
+			shortcodeInput.on('input change', updateShortcode);
+
+			/* Immediate attempt */
+			if(!updateShortcode()){
+				/* Poll until value appears */
+				var pollCount = 0;
+				var pollInterval = setInterval(function(){
+					if(updateShortcode() || pollCount > 30){
+						clearInterval(pollInterval);
+					}
+					pollCount++;
+				}, 500);
+			}
+		}
+
+		/* Copy shortcode on pill click */
+		$('.am-sc-pill').on('click', function(){
+			var text = (shortcodeInput.val() || toolbarShortcode.text() || '').trim();
+			if(!text) return;
+
+			/* Use temp input + execCommand as primary (works in all contexts) */
+			var $temp = $('<input>');
+			$('body').append($temp);
+			$temp.val(text).select();
+			document.execCommand('copy');
+			$temp.remove();
+
+			if(WPGMZA.notification){
+				WPGMZA.notification("Shortcode Copied");
+			}
+		});
+
+		/* Override the core .wpgmza_copy_shortcode handler — unbind then rebind with centered notification */
+		$('body').off('click', '.wpgmza_copy_shortcode');
+		$('body').on('click', '.wpgmza_copy_shortcode', function(){
+			var text = $(this).val();
+			if(!text) return;
+
+			var $temp = $('<input>');
+			$('body').append($temp);
+			$temp.val(text).select();
+			document.execCommand('copy');
+			$temp.remove();
+
+			if(WPGMZA.notification){
+				WPGMZA.notification("Shortcode Copied");
+			}
+		});
+	}
+
+	/**
+	 * Quick-add marker: when user types address in the markers tab bar
+	 * and clicks Add, populate the editor's address field and navigate to editor.
+	 */
+	WPGMZA.AtlasMajorTabs.prototype.initQuickAddMarker = function(){
+		var self = this;
+		var quickInput = $('#am-quick-add-address');
+		var quickBtn = $('.am-marker-quick-add');
+		var resultsContainer = $('#am-quick-add-autocomplete-results');
+
+		if(!quickInput.length || !quickBtn.length)
+			return;
+
+		/* Add wpgmza-address class NOW (after MapEditPage init has finished
+		   its $("input.wpgmza-address").each loop) so the body-level keypress
+		   delegation picks up our input, but no AddressInput/Google autocomplete
+		   gets created on it. */
+		quickInput.addClass('wpgmza-address');
+
+		/* Override shouldAddressFieldUseEnhancedAutocomplete so the core
+		   keypress handler on .wpgmza-address also fires for our input.
+		   We wrap the original method — no core code changes needed. */
+		if(WPGMZA.mapEditPage){
+			var originalCheck = WPGMZA.mapEditPage.shouldAddressFieldUseEnhancedAutocomplete;
+			WPGMZA.mapEditPage.shouldAddressFieldUseEnhancedAutocomplete = function(element){
+				if(element && element.id === 'am-quick-add-address'){
+					return true;
+				}
+				return originalCheck.call(this, element);
+			};
+		}
+
+		/* The core renders results into #wpgmza_autocomplete_search_results
+		   which lives inside the editor accordion. We observe that element
+		   and mirror its content into our local results container. */
+		var coreResults = $('#wpgmza_autocomplete_search_results');
+		var quickAddActive = false;
+
+		quickInput.on('focusin', function(){ quickAddActive = true; });
+		quickInput.on('focusout', function(){
+			setTimeout(function(){
+				quickAddActive = false;
+				resultsContainer.hide();
+			}, 400);
+		});
+
+		var coreDisabled = $('#wpgmza_autoc_disabled');
+
+		function mirrorCoreElement(coreEl, localContainer){
+			if(!coreEl.length) return;
+
+			var observer = new MutationObserver(function(){
+				if(!quickAddActive) return;
+				var html = coreEl.html();
+				if(html && html.trim().length > 0){
+					localContainer.html(html).show();
+					coreEl.hide();
+				} else {
+					localContainer.hide();
+				}
+			});
+			observer.observe(coreEl[0], { childList: true, subtree: true, characterData: true });
+
+			var styleObserver = new MutationObserver(function(){
+				if(!quickAddActive) return;
+				if(coreEl.is(':visible') && coreEl.html().trim().length > 0){
+					localContainer.html(coreEl.html()).show();
+					coreEl.hide();
+				}
+			});
+			styleObserver.observe(coreEl[0], { attributes: true, attributeFilter: ['style'] });
+		}
+
+		/* Mirror both the results and the disabled/warning div */
+		mirrorCoreElement(coreResults, resultsContainer);
+
+		if(coreDisabled.length){
+			var disabledContainer = $('<div id="am-quick-add-autoc-disabled"></div>');
+			quickInput.closest('.am-ml-bar').append(disabledContainer);
+			disabledContainer.hide();
+			mirrorCoreElement(coreDisabled, disabledContainer);
+		}
+
+		/* When a result is clicked in our container, fill our input */
+		resultsContainer.on('click', '.wpgmza_ac_result', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var index = $(this).data('id');
+			var lat = $(this).data('lat');
+			var lng = $(this).data('lng');
+			var name = $(this).find('[id^="wpgmza_item_address_"]').html() || $(this).text();
+			quickInput.val(name.trim());
+			resultsContainer.hide();
+		});
+
+		/* When "Add" is clicked, copy the address to the editor input
+		   and navigate to the editor grouping */
+		quickBtn.on('click', function(e){
+			var address = quickInput.val().trim();
+
+			setTimeout(function(){
+				if(address){
+					var editorAddress = $('#wpgmza_add_address_map_editor');
+					if(editorAddress.length){
+						editorAddress.val(address).trigger('change').trigger('input');
+					}
+				}
+				quickInput.val('');
+				resultsContainer.hide();
+			}, 200);
+		});
+
+		/* Enter key in quick input triggers Add */
+		quickInput.on('keydown', function(e){
+			if(e.key === 'Enter'){
+				e.preventDefault();
+				quickBtn.trigger('click');
+			}
+		});
+	}
+
+	/* Initialize after map edit page is ready */
+	$(document.body).on('wpgmza_map_edit_page_created', function(){
+		if(!WPGMZA.atlasMajorTabs){
+			WPGMZA.atlasMajorTabs = new WPGMZA.AtlasMajorTabs();
+			WPGMZA.atlasMajorTabs.initQuickAddMarker();
+		}
+	});
+
+	/* Fallback initialization */
+	$(window).on('load', function(){
+		if(!WPGMZA.atlasMajorTabs && document.querySelector('.wpgmza-atlas-major')){
+			WPGMZA.atlasMajorTabs = new WPGMZA.AtlasMajorTabs();
+			WPGMZA.atlasMajorTabs.initQuickAddMarker();
+		}
+		initDualZoomSliders();
+	});
+
+	/* ========================================================
+	   DUAL-HANDLE ZOOM RANGE SLIDER
+	   Visual wrapper around the hidden map_max_zoom / map_min_zoom
+	   inputs. Two overlapping range inputs share a track; the fill
+	   bar shows the allowed zoom range between them.
+	   ======================================================== */
+	function initDualZoomSliders(){
+		$('.wpgmza-dual-zoom-slider').each(function(){
+			var $slider = $(this);
+			if($slider.data('wpgmza-dual-zoom-inited')) return;
+			$slider.data('wpgmza-dual-zoom-inited', true);
+
+			var $outInput  = $slider.find('.wpgmza-dual-zoom-out-input');
+			var $inInput   = $slider.find('.wpgmza-dual-zoom-in-input');
+			var $outLabel  = $slider.find('.wpgmza-dual-zoom-out-label');
+			var $inLabel   = $slider.find('.wpgmza-dual-zoom-in-label');
+			var $fill      = $slider.find('.wpgmza-dual-zoom-fill');
+
+			/* Sync from hidden inputs (holds saved values) into the range inputs */
+			var $hiddenOut = $slider.closest('fieldset').find('input[name="map_max_zoom"]');
+			var $hiddenIn  = $slider.closest('fieldset').find('input[name="map_min_zoom"]');
+
+			var savedOut = parseInt($hiddenOut.val());
+			var savedIn  = parseInt($hiddenIn.val());
+			if(!isNaN(savedOut)) $outInput.val(savedOut);
+			if(!isNaN(savedIn))  $inInput.val(savedIn);
+
+			var min = parseInt($slider.data('min')) || 0;
+			var max = parseInt($slider.data('max')) || 22;
+
+			function update(fromInput){
+				var outVal = parseInt($outInput.val());
+				var inVal  = parseInt($inInput.val());
+
+				/* Enforce outVal <= inVal, push whichever handle is driving */
+				if(outVal > inVal){
+					if(fromInput === 'out'){
+						$inInput.val(outVal);
+						inVal = outVal;
+					} else {
+						$outInput.val(inVal);
+						outVal = inVal;
+					}
+				}
+
+				$outLabel.text(outVal);
+				$inLabel.text(inVal);
+				$hiddenOut.val(outVal);
+				$hiddenIn.val(inVal);
+
+				var range = max - min;
+				var leftPct  = ((outVal - min) / range) * 100;
+				var rightPct = ((inVal - min) / range) * 100;
+				$fill.css({left: leftPct + '%', width: (rightPct - leftPct) + '%'});
+
+				/* Trigger change on the hidden inputs so live preview picks it up */
+				$hiddenOut.trigger('change');
+				$hiddenIn.trigger('change');
+			}
+
+			$outInput.on('input', function(){ update('out'); });
+			$inInput.on('input', function(){ update('in'); });
+
+			/* Initial render */
+			update();
+		});
+	}
+});
+
 
 // js/v8/store-locator.js
 /**
@@ -15020,18 +19438,28 @@ jQuery(function($) {
 			circle.setVisible(false);
 
 			var factor = (this.distanceUnits == WPGMZA.Distance.MILES ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1.0);
-			
+
 			if(params.center && params.radius){
 				circle.setRadius(params.radius * factor);
 				circle.setCenter(params.center);
 				circle.setVisible(true);
-				
+
 				if(!(circle instanceof WPGMZA.ModernStoreLocatorCircle) && circle.map != this.map)
 					this.map.addCircle(circle);
 			}
-			
-			if(circle instanceof WPGMZA.ModernStoreLocatorCircle)
+
+			if(circle instanceof WPGMZA.ModernStoreLocatorCircle){
 				circle.settings.radiusString = this.radius;
+
+				/* The modern circle is a canvas overlay — setVisible(true)
+				 * alone doesn't trigger a paint. The canvas only repaints
+				 * on map movement (drag/zoom). Calling draw() explicitly
+				 * renders the rings immediately so the radar appears
+				 * without requiring the user to interact with the map. */
+				if(typeof circle.draw === 'function'){
+					circle.draw();
+				}
+			}
 		}
 		
 		if(event.filteredMarkers.length == 0 && this.state === WPGMZA.StoreLocator.STATE_APPLIED){
@@ -16256,7 +20684,15 @@ jQuery(function($) {
 		this.element.on("click", ".tileset-option", (event) => {
 			this.onTilesetChange(event);
 
-            WPGMZA.notification("Save map to apply tileset!", false, '.grouping.open[data-group="map-settings-themes-tileset"]', 'top-right');
+			/* Skip the "Save map to apply tileset!" reminder when Atlas
+			 * Major's live preview is mounted — the live preview JS
+			 * applies the tileset to the map immediately on click, so
+			 * the notification would be misleading. Atlas Novus / Legacy
+			 * still need the reminder since their editors can't preview
+			 * the swap until the map is saved + reloaded. */
+			if(!document.querySelector('.wpgmza-atlas-major .am-preview-frame')){
+				WPGMZA.notification("Save map to apply tileset!", false, '.grouping.open[data-group="map-settings-themes-tileset"]', 'top-right');
+			}
 		});
 
         this.onTilesetChange();
@@ -22696,28 +27132,44 @@ jQuery(function($) {
 		var mapElement = $(this.map.element);
 		var leafletViewportElement = mapElement;
 
-		
+
 		this.canvas = document.createElement("canvas");
 		this.canvas.className = "wpgmza-leaflet-canvas-overlay";
 		leafletViewportElement.find('.leaflet-map-pane .leaflet-overlay-pane').prepend(this.canvas);
-		
+
 		this.renderFunction = function(event) {
-			
+
 			if(self.canvas.width != leafletViewportElement.width() || self.canvas.height != leafletViewportElement.height())
 			{
 				self.canvas.width = leafletViewportElement.width();
 				self.canvas.height = leafletViewportElement.height();
-				
+
 				$(this.canvas).css({
 					width: leafletViewportElement.width() + "px",
 					height: leafletViewportElement.height() + "px"
 				});
 			}
-			
+
 			self.draw();
 		};
-		
+
 		this.map.leafletMap.on("moveend", this.renderFunction);
+
+		/* Size the canvas to match the map viewport right away, not on
+		 * first moveend. Fresh HTML canvases default to 300x150 which
+		 * is much smaller than the map — without this initial sizing,
+		 * a circle created mid-session (e.g. user toggles radius style
+		 * from classic to radar without moving the map) paints into
+		 * the tiny default canvas and the rings never become visible
+		 * until the user drags/zooms the map. The `renderFunction`
+		 * above has the same resize logic; we invoke it once inline
+		 * so it applies on construction as well. */
+		self.canvas.width = leafletViewportElement.width();
+		self.canvas.height = leafletViewportElement.height();
+		$(self.canvas).css({
+			width: leafletViewportElement.width() + "px",
+			height: leafletViewportElement.height() + "px"
+		});
 	}
 
 	WPGMZA.LeafletModernStoreLocatorCircle.prototype.getContext = function(type)
@@ -22735,9 +27187,18 @@ jQuery(function($) {
 	
 	WPGMZA.LeafletModernStoreLocatorCircle.prototype.getCenterPixels = function()
 	{
-		var center = this.map.latLngToPixels(this.settings.center);
-		
-		return center;
+		/* The canvas lives inside .leaflet-overlay-pane which gets CSS-
+		 * transformed as the user pans the map. `latLngToContainerPoint`
+		 * returns viewport-relative pixels, so combined with the pane's
+		 * offset the drawing ends up double-shifted in the wrong
+		 * direction on drag. `latLngToLayerPoint` returns pane-relative
+		 * pixels which cancels out the pane offset — the radar now
+		 * stays pinned to its geographic location as the user drags. */
+		var leafletPoint = this.map.leafletMap.latLngToLayerPoint(this.settings.center);
+		if(!leafletPoint){
+			return { x: 0, y: 0 };
+		}
+		return { x: leafletPoint.x, y: leafletPoint.y };
 	}
 		
 	WPGMZA.LeafletModernStoreLocatorCircle.prototype.getWorldOriginOffset = function()
@@ -25027,9 +29488,14 @@ jQuery(function($) {
 		
 		WPGMZA.EventDispatcher.call(this);
 		
-		if(!WPGMZA.settings.internalEngine || WPGMZA.InternalEngine.isLegacy()){
+		if(!WPGMZA.settings.internal_engine || WPGMZA.InternalEngine.isLegacy()){
 			// Only force this if we are in legacy
-			// New internal engines will handle this internally instead
+			// New internal engines will handle this internally instead.
+			// NB: setting key is snake_case (`internal_engine`) — it's
+			// copied verbatim from PHP localization in core.js. The
+			// previous camelCase read was always undefined, so this
+			// guard fired under Atlas Major and Novus too, injecting
+			// the wrapper despite the engines not needing it.
 			$("#wpgmaps_options fieldset").wrapInner("<div class='wpgmza-flex'></div>");
 		}
 		
@@ -25059,7 +29525,12 @@ jQuery(function($) {
 		}
 		
 		// Address input
-		$("input.wpgmza-address").each(function(index, el) {
+		// Skip inputs inside #wpgmza-live-preview-templates — that container holds
+		// clone-source templates (Atlas Major live preview) which get live-initialised
+		// when cloned into the preview slot. Initialising them here would cause
+		// ProAddressInput to insert a "use my location" button into the template
+		// source, producing a duplicate button on every subsequent clone.
+		$("input.wpgmza-address").not("#wpgmza-live-preview-templates input.wpgmza-address").each(function(index, el) {
 			el.addressInput = WPGMZA.AddressInput.createInstance(el, self.map);
 		});
 
@@ -25255,6 +29726,24 @@ jQuery(function($) {
 
 		/* Map Engine Toolbar */
 		if($(document.body).find('.wpgmza-engine-switch-toolbar').length > 0){
+			/* Append a 🔑 indicator to engines that require an API key in
+			 * settings (Google Maps, Azure, Stadia, Maptiler, LocationIQ).
+			 * Engines without a key (zerocost, plain Leaflet, OpenLayers)
+			 * are left as-is. We mutate the option text at runtime instead
+			 * of changing the PHP source strings so existing translations
+			 * stay intact — the emoji is a universal symbol that doesn't
+			 * need translating. Guarded against double-application (rerun)
+			 * via the .data() flag. */
+			var KEYED_ENGINES = ['google-maps', 'leaflet-azure', 'leaflet-stadia', 'leaflet-maptiler', 'leaflet-locationiq'];
+			$(document.body).find('.wpgmza-engine-switch-toolbar select option').each(function(){
+				var $opt = $(this);
+				if($opt.data('keyBadgeApplied')) return;
+				if(KEYED_ENGINES.indexOf($opt.attr('value')) !== -1){
+					$opt.text($opt.text() + ' 🔑');
+					$opt.data('keyBadgeApplied', true);
+				}
+			});
+
 			$(document.body).find('.wpgmza-engine-switch-toolbar .wpgmza-button[data-engine-switch-control]').on('click', function(event){
 				const engineSwitchControl = $(this).attr('data-engine-switch-control');
 				if(engineSwitchControl === 'apply'){
@@ -25268,7 +29757,20 @@ jQuery(function($) {
 							wpgmza_security : WPGMZA.ajaxnonce
 						},
 						success : function(response){
-							/* Save the map for good measure */
+							/* Save the map for good measure. Under Atlas Major
+							 * the autosave hijacks the form submit and converts
+							 * it to a REST POST that does NOT reload the page —
+							 * so the new engine's JS libraries never load in
+							 * the browser. Set the autosave's one-shot
+							 * reloadAfterSave flag (added when we fixed the
+							 * custom-image save+reload modal) so the REST
+							 * success handler will reload after the save
+							 * persists. Atlas Novus / Legacy paths are
+							 * unaffected — their submit goes to admin-post.php
+							 * and reloads naturally. */
+							if(WPGMZA.atlasMajorAutoSave){
+								WPGMZA.atlasMajorAutoSave.reloadAfterSave = true;
+							}
 							$('input[name="wpgmza_savemap"]').click();
 						},
 						error: function(){}
@@ -25820,8 +30322,23 @@ jQuery(function($) {
 			}
 
 			/* Finalize the enhanced autocomplete URL query */
-			enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);					
+			enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);
 			enhancedAutocomplete.requestParams.url += "?" + enhancedAutocomplete.requestParams.query.toString();
+
+			/* Add-on extras — append a URL-encoded query-string fragment
+			   produced by the PHP filter `wpgmza_enhanced_autocomplete_extra_params`
+			   (see class.plugin.php). Pro hooks this in
+			   ProPlugin::filterEnhancedAutocompleteExtraParams to emit
+			   `pro=1&pro_version=…`; basic-only installs get '' and this is
+			   a no-op. Strip a leading '&'/'?' defensively so an over-eager
+			   filter implementation can't produce '&&'. */
+			var extraParams = WPGMZA.enhancedAutocompleteExtraParams;
+			if(typeof extraParams === 'string' && extraParams.length){
+				extraParams = extraParams.replace(/^[?&]+/, '');
+				if(extraParams.length){
+					enhancedAutocomplete.requestParams.url += "&" + extraParams;
+				}
+			}
 
 			/* Place request in a timetout, to delay the send time by the typing speed */
 			enhancedAutocomplete.ajaxTimeout = setTimeout(() => {
@@ -30048,10 +34565,19 @@ jQuery(function($) {
 				this.moveModal = WPGMZA.GenericModal.createInstance($('.wpgmza-map-select-modal'));
 			}
 
+			/* Bulk editor modal is lazy-initialized via getBulkEditorModal()
+			   to avoid jstree timing issues (CategoryPicker requires jstree
+			   which may not be loaded during DataTable construction) */
+		}
+	}
+
+	WPGMZA.AdminFeatureDataTable.prototype.getBulkEditorModal = function(){
+		if(!this.bulkEditorModal && this.featureType === 'marker'){
 			if($('.wpgmza-bulk-marker-editor-modal').length){
 				this.bulkEditorModal = WPGMZA.GenericModal.createInstance($('.wpgmza-bulk-marker-editor-modal'));
 			}
 		}
+		return this.bulkEditorModal;
 	}
 	
 	WPGMZA.AdminFeatureDataTable.prototype.getDataTableSettings = function()
@@ -30144,8 +34670,9 @@ jQuery(function($) {
 			ids.push(row.wpgmzaFeatureData.id);
 		});
 
-		if(this.bulkEditorModal && ids.length){
-			this.bulkEditorModal.show(function(data){
+		var modal = this.getBulkEditorModal();
+		if(modal && ids.length){
+			modal.show(function(data){
 				data.ids = ids;
 				data.action = "bulk_edit";
 

@@ -30,7 +30,23 @@ class Map extends Crud
 	{
 		global $wpdb;
 		global $wpgmza;
-		
+
+		/* New maps default to imperial (Miles). If the caller already
+		 * provided an explicit `store_locator_distance`, we respect it.
+		 * This covers both creation paths:
+		 *   - Map::createInstance(array(...))  — explicit fields
+		 *   - Map::createInstance()            — bare default (id=-1)
+		 * Existing-map reads (createInstance(42)) pass through unchanged. */
+		if(is_array($id_or_fields) || is_object($id_or_fields)){
+			$fields = (array) $id_or_fields;
+			if(!array_key_exists('store_locator_distance', $fields)){
+				$fields['store_locator_distance'] = 1;
+			}
+			$id_or_fields = $fields;
+		} else if($id_or_fields === -1 || $id_or_fields === null){
+			$id_or_fields = array('store_locator_distance' => 1);
+		}
+
 		try {
 			Crud::__construct("{$wpdb->prefix}wpgmza_maps", $id_or_fields);
 		} catch (\Exception $e){
@@ -122,14 +138,38 @@ class Map extends Crud
 				else
 					return Distance::UNITS_KM;
 				break;
-			
+
 			case "element":
-				
+
 				return $this->_element;
-				
+
+				break;
+
+			/* Default-on-read for the Pro store-locator circle styling
+			 * fields. Same defaults as Map::create() (line 184-187),
+			 * but applied retroactively at read time so existing maps
+			 * that got clobbered by a basic-mode save (or were
+			 * created before the create() defaults existed) still
+			 * render a visible circle. Empty-string check covers the
+			 * specific bug — basic's saveFromData roundtrip used to
+			 * write "" for these. We don't write back to the DB
+			 * here; the form populate path picks up the fallback and
+			 * the next save persists the resolved value. */
+			case 'sl_stroke_color':
+			case 'sl_fill_color':
+				$value = Crud::__get($name);
+				return ($value === null || $value === '') ? '#FF0000' : $value;
+				break;
+			case 'sl_stroke_opacity':
+				$value = Crud::__get($name);
+				return ($value === null || $value === '') ? 1 : $value;
+				break;
+			case 'sl_fill_opacity':
+				$value = Crud::__get($name);
+				return ($value === null || $value === '') ? 0.5 : $value;
 				break;
 		}
-		
+
 		return Crud::__get($name);
 	}
 	
@@ -162,7 +202,7 @@ class Map extends Crud
 			'map_start_zoom'	=> 4,
 			'map_width'			=> 100,
 			'map_width_type'	=> '%',
-			'map_height'		=> 400,
+			'map_height'		=> 600,
 			'map_height_type'	=> 'px',
 			'map_type'			=> 1, // Roadmap,
 			'sl_stroke_color'	=> "#FF0000",

@@ -74,7 +74,7 @@ class Strings
 			
 			'upload_complete'			=> __('Upload Complete', 'wp-google-maps'),
 			'uploading_file'			=> __('Uploading file', 'wp-google-maps'),
-			'bulk_jpeg_media_title'		=> __('WP Go Maps - Bulk JPEG Upload'),
+			'bulk_jpeg_media_title'		=> __('WP Go Maps - Bulk JPEG Upload', 'wp-google-maps'),
 			
 			'from_your_location'		=> __('from your location', 'wp-google-maps'),
 			'from_searched_location'	=> __('from searched location', 'wp-google-maps'),
@@ -107,12 +107,26 @@ class Strings
 			
 			'new_map'						=> __('New Map', 'wp-google-maps'),
 			'all'							=> __('All', 'wp-google-maps'),
-			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.'),"https://wpgmaps.com/documentation/autocomplete-disabled/?utm_source=plugin&utm_medium=link&utm_campaign=cloud-autocomplete-error"),
+			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.', 'wp-google-maps'),"https://wpgmaps.com/documentation/autocomplete-disabled/?utm_source=plugin&utm_medium=link&utm_campaign=cloud-autocomplete-error"),
 			'autcomplete_placeholder' 		=> __('Enter a location', 'wp-google-maps'),
 			'map_type_roadmap'				=> __('Roadmap', 'wp-google-maps'),
 			'map_type_satellite'			=> __('Satellite', 'wp-google-maps'),
 			'map_type_terrain'			    => __('Terrain', 'wp-google-maps'),
-			'map_type_hybrid'				=> __('Hybrid', 'wp-google-maps')
+			'map_type_hybrid'				=> __('Hybrid', 'wp-google-maps'),
+
+			/* Atlas Major — autosave pill + live preview fallbacks.
+			   Keys consumed by atlas-major-autosave.js and
+			   atlas-major-live-preview.js. The store locator label
+			   fallbacks reuse strings that already exist in the
+			   .po files from the store-locator templates. */
+			'atlas_major_saving'			=> __('Saving…', 'wp-google-maps'),
+			'atlas_major_saved'				=> __('Saved', 'wp-google-maps'),
+			'atlas_major_unsaved'			=> __('Unsaved changes', 'wp-google-maps'),
+			'atlas_major_save_failed'		=> __('Save failed', 'wp-google-maps'),
+			'atlas_major_save_failed_retrying'	=> __('Save failed — retrying in %ds', 'wp-google-maps'),
+			'atlas_major_sl_address_label'		=> __('ZIP / Address:', 'wp-google-maps'),
+			'atlas_major_sl_keywords_label'		=> __('Title / Description:', 'wp-google-maps'),
+			'atlas_major_sl_keywords_placeholder'	=> __('Enter a title', 'wp-google-maps')
 		));
 	}
 	

@@ -118,7 +118,7 @@ class SettingsPage extends Page {
 			/* Developer Hook (Action) - Take action before the final storage redirect completes */
 			do_action('wpgmza_global_settings_before_redirect', $wpgmza);
 			
-			wp_redirect($_SERVER['HTTP_REFERER']);
+			wp_redirect(esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])));
 			return;
 		}
 	}
@@ -130,7 +130,7 @@ class SettingsPage extends Page {
 	public static function dangerZoneDelete(){
 		global $wpgmza;
 		
-		if(!wp_verify_nonce($_POST['nonce'], 'wpgmza_maps_settings_danger_zone_delete_data')){
+		if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpgmza_maps_settings_danger_zone_delete_data')){
 			http_response_code(403);
 			exit;
 		}

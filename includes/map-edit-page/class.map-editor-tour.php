@@ -44,7 +44,7 @@ class MapEditorTour extends DOMDocument {
 
 	public static function logProgressFromAjax(){
 		global $wpgmza;
-		if(!wp_verify_nonce($_POST['wpgmza_security'], 'wpgmza_ajaxnonce')){
+		if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wpgmza_security'])), 'wpgmza_ajaxnonce')){
 			http_response_code(403);
 			exit;
 		}

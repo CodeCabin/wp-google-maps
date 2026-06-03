@@ -233,14 +233,14 @@
 				<li>
 					<label>
 						<input name='wpgmza_settings_cat_logic' type='radio' id='wpgmza_settings_cat_logic_or' value='0' checked="checked" />
-						<?php echo __("OR"," wp-google-maps") . " &nbsp; (<span class='description'>" . __("Example: Show the marker if it belongs to Cat A _OR_ Cat B.", "wp-google-maps") . "</span>)"; ?>
+						<?php echo __("OR","wp-google-maps") . " &nbsp; (<span class='description'>" . __("Example: Show the marker if it belongs to Cat A _OR_ Cat B.", "wp-google-maps") . "</span>)"; ?>
 					</label>
 				</li>
 
 				<li>
 					<label>
                     	<input name='wpgmza_settings_cat_logic' type='radio' id='wpgmza_settings_cat_logic_and' value='1'/>
-                    	<?php  echo __("AND"," wp-google-maps") . " &nbsp; (<span class='description'>" . __("Example: Only show the marker if it belongs to Cat A _AND_ Cat B.", "wp-google-maps") . "</span>)"; ?>
+                    	<?php  echo __("AND","wp-google-maps") . " &nbsp; (<span class='description'>" . __("Example: Only show the marker if it belongs to Cat A _AND_ Cat B.", "wp-google-maps") . "</span>)"; ?>
 					</label>
 				</li>
 			</ul>
@@ -1466,7 +1466,7 @@
 		
 		<fieldset data-required-maps-engine="open-layers">
 			<legend>
-				<?php echo __('OpenLayers Tileserver Key', 'wp-google-maps'); ?>
+				<?php esc_html_e('OpenLayers Tileserver Key', 'wp-google-maps'); ?>
 			</legend>
 			<label>
 				<input name='open_layers_api_key'/>
@@ -1482,7 +1482,7 @@
 
 		<fieldset data-required-maps-engine="open-layers" class="wpgmza-pro-feature">
 			<legend class="wpgmza-pro-feature-hide">
-				<?php echo __('OpenRouteService Key', 'wp-google-maps'); ?>
+				<?php esc_html_e('OpenRouteService Key', 'wp-google-maps'); ?>
 			</legend>
 			<label class="wpgmza-pro-feature-hide">
 				<input name='open_route_service_key'/>

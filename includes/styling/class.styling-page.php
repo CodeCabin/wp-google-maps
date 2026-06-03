@@ -42,7 +42,7 @@ class StylingPage extends Page {
 				$wpgmza->stylingSettings->{$key} = $value;
 			}
 			
-			wp_redirect($_SERVER['HTTP_REFERER']);
+			wp_redirect(esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])));
 			return;
 		}
 	}

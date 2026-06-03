@@ -62,7 +62,14 @@ jQuery(function($) {
 		});
 
 		$('.wpgmza-feature-accordion[data-wpgmza-feature-type]').on('sidebar-delegate-created', function(event){
-			/* Nothing to do yet */
+			/* After a successful Add, return to the parent feature list
+			 * panel — mirrors the existing `sidebar-delegate-saved`
+			 * (edit) behaviour just above. Previously this was a no-op,
+			 * so users were left on the Add Marker / Add Polygon / etc.
+			 * form after a successful create. */
+			if(event.feature){
+				self.closeCurrent();
+			}
 		});
 
 		$(this.element).find('.fieldset-toggle').on('click', function(event){

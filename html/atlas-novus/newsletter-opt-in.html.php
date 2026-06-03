@@ -19,7 +19,7 @@ if(!defined('ABSPATH'))
 
 
     <a class="wpgmza-button" href="javascript:window.close();">
-        <?php echo __("Close Window","wp-google-maps"); ?>
+        <?php esc_html_e("Close Window","wp-google-maps"); ?>
     </a>
 
 </div>

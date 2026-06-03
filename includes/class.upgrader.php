@@ -126,7 +126,7 @@ class Upgrader
 			$wpgmza->adminNotices->create('exploitSolver9030', 
 				array(
 					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
-					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.")
+					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.", "wp-google-maps")
 								. "<br><br>" . __("Markers cleaned:", "wp-google-maps") . " {$matched}",
 					'class' => 'notice-error'
 				)
@@ -167,7 +167,7 @@ class Upgrader
 			$wpgmza->adminNotices->create('exploitSolver9032', 
 				array(
 					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
-					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.")
+					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker descriptions have been removed. If you would like to know more, please contact support.", "wp-google-maps")
 								. "<br><br>" . __("Cleaned fields:", "wp-google-maps") . " {$markersCleaned}",
 					'class' => 'notice-error'
 				)
@@ -206,7 +206,7 @@ class Upgrader
 			$wpgmza->adminNotices->create('exploitSolver9034', 
 				array(
 					'title' => '🔐 ' . __('Security Notice', 'wp-google-maps'),
-					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker fields have been removed. If you would like to know more, please contact support.")
+					'message' => __("We detected and resolved an issue with certain markers containing malicious code. The system has automatically cleaned up affected content, however, some marker fields have been removed. If you would like to know more, please contact support.", "wp-google-maps")
 								. "<br><br>" . __("Cleaned fields:", "wp-google-maps") . " {$markersCleaned}",
 					'class' => 'notice-error'
 				)

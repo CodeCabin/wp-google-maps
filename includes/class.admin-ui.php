@@ -180,13 +180,26 @@ class Admin extends \WPGMZA\Factory
 		/* Developer Hook (Action) - Render content after page output, on any main menu item page */     
 		do_action("wpgmza_admin_ui_render_content_after");
 
-		/* Developer Hook (Action) - Render before our footer output */     
+		/* Developer Hook (Action) - Render before our footer output */
 		do_action("wpgmza_admin_ui_render_footer_before", $action);
 
-		/* Footer */
-		$document = new \WPGMZA\DOMDocument();
-		$document->loadPHPFile($wpgmza->internalEngine->getTemplate('footer.html.php'));
-		echo $document->html;
+		/* Footer — the "Experiencing problems?" support-links block.
+		 * On the map list page (non-Pro, non-Legacy) we DEFER this
+		 * render until after the demo-showcase has been output via
+		 * onAdminFooter(), so the footer appears BELOW the "Unlock
+		 * More Features" block instead of above it. All other admin
+		 * pages keep the original inline render order. */
+		$deferFooter = empty($action)
+			&& !empty($_GET['page'])
+			&& $_GET['page'] === 'wp-google-maps-menu'
+			&& !$wpgmza->isProVersion()
+			&& !$wpgmza->internalEngine->isLegacy();
+
+		if(!$deferFooter){
+			$document = new \WPGMZA\DOMDocument();
+			$document->loadPHPFile($wpgmza->internalEngine->getTemplate('footer.html.php'));
+			echo $document->html;
+		}
 
 		/* Developer Hook (Action) - Render after our footer output */  
 		do_action("wpgmza_admin_ui_render_footer_after", $action);
@@ -258,14 +271,51 @@ class Admin extends \WPGMZA\Factory
 					$document = new \WPGMZA\DOMDocument();
 					$document->loadPHPFile($wpgmza->internalEngine->getTemplate('demo-showcase.html.php'));
 					
-					/* Randomly remove some of the demos */
+					/* Randomly remove some of the demos, heavily weighting top sellers */
 					$demoCards = $document->querySelectorAll('[data-demo-showcase]');
 					if(!empty($demoCards)){
-						$maxDemos = count($demoCards) - 1; 
-						$rangedIndexes = range(0, $maxDemos);
-						shuffle($rangedIndexes);
-						$randomIndexes = array_slice($rangedIndexes, 0, 3);
-						
+						$maxDemos = count($demoCards) - 1;
+						$targetCount = min(3, count($demoCards));
+
+						/* Priority demo indexes (Pro): Advanced Markers (0),
+						 * Marker Icons (1), Directions (2), Store Locator
+						 * Pro (5), Heatmaps (7), Marker Listings (8).
+						 * These are the ordering in Atlas Novus's 9-card
+						 * template. Atlas Major's template is shorter
+						 * (6 cards) so we clamp to the valid range —
+						 * without this clamp, picks landing on index 7 or
+						 * 8 silently dropped out and only 1-2 cards
+						 * rendered instead of 3. */
+						$priorityIndexes = array_values(array_filter(
+							array(0, 1, 2, 5, 7, 8),
+							function($i) use ($maxDemos){ return $i <= $maxDemos; }
+						));
+						$otherIndexes = array_values(array_diff(range(0, $maxDemos), $priorityIndexes));
+
+						/* Always include 1-2 priority demos */
+						shuffle($priorityIndexes);
+						$priorityCount = (mt_rand(1, 100) <= 70) ? 2 : 1;
+						$priorityCount = min($priorityCount, count($priorityIndexes));
+						$selectedPriority = array_slice($priorityIndexes, 0, $priorityCount);
+
+						/* Fill remaining slots from other demos */
+						shuffle($otherIndexes);
+						$remainingCount = $targetCount - $priorityCount;
+						$selectedOther = array_slice($otherIndexes, 0, $remainingCount);
+
+						$randomIndexes = array_merge($selectedPriority, $selectedOther);
+
+						/* Belt-and-braces: if for some reason we still
+						 * don't have $targetCount entries (e.g. priorities
+						 * exhausted before others could fill), pad from
+						 * whichever list still has capacity. */
+						if(count($randomIndexes) < $targetCount){
+							$allRemaining = array_values(array_diff(range(0, $maxDemos), $randomIndexes));
+							shuffle($allRemaining);
+							$needed = $targetCount - count($randomIndexes);
+							$randomIndexes = array_merge($randomIndexes, array_slice($allRemaining, 0, $needed));
+						}
+
 						foreach($demoCards as $index => $demoCard){
 							if(!in_array($index, $randomIndexes)){
 								$demoCard->remove();
@@ -274,6 +324,13 @@ class Admin extends \WPGMZA\Factory
 					}
 
 					echo $document->html;
+
+					/* Render the deferred footer (see onMainMenu's $deferFooter
+					 * block) AFTER the demo-showcase, so "Experiencing problems
+					 * with the plugin?" appears below "Unlock More Features". */
+					$footerDocument = new \WPGMZA\DOMDocument();
+					$footerDocument->loadPHPFile($wpgmza->internalEngine->getTemplate('footer.html.php'));
+					echo $footerDocument->html;
 				}
 			}
 		}

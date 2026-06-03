@@ -130,6 +130,7 @@ class Plugin extends Factory
 		$this->_pro7Compatiblity = new Pro7Compatibility();
 		$this->_pro9Compatibility = new Pro9Compatibility();
 		$this->_pro10Compatibility = new Pro10Compatibility($this->_settings);
+		$this->_proAtlasMajorCompatibility = new ProAtlasMajorCompatibility();
 
 		$this->_restAPI = RestAPI::createInstance();
 		
@@ -271,16 +272,32 @@ class Plugin extends Factory
 	{
 		switch($name)
 		{
+			/* Keep this list in sync with the cases handled by __get()
+			 * above. Without that, `isset($wpgmza->internalEngine)` (and
+			 * therefore `empty($wpgmza->internalEngine)`) returns false
+			 * for properties that ARE accessible via __get() — silently
+			 * breaking any caller that guards with empty()/isset(). The
+			 * Atlas Major Pro panel injection in ProMapEditPage hit this:
+			 * wpgmza_pro_is_atlas_major()'s `empty($wpgmza->internalEngine)`
+			 * check returned true even though the engine was set, causing
+			 * the entire Pro live-preview template injection block to be
+			 * skipped. */
 			case 'settings':
 			case 'stylingSettings':
 			case 'gdprCompliance':
 			case 'restAPI':
 			case 'spatialFunctionPrefix':
 			case 'database':
+			case 'dynamicTranslations':
+			case 'adminUI':
+			case 'scriptLoader':
+			case 'internalEngine':
+			case 'previewMode':
+			case 'adminNotices':
 				return true;
 				break;
 		}
-		
+
 		return false;
 	}
 	
@@ -467,7 +484,24 @@ class Plugin extends Factory
 			'api_consent_html'		=> !empty($this->gdprCompliance) ? $this->gdprCompliance->getConsentPromptHTML() : "",
 			'basic_version'			=> $this->getBasicVersion(),
 			'_isProVersion'			=> $this->isProVersion(),
-			
+
+			/**
+			 * Extra query-string fragment appended to enhanced-autocomplete
+			 * requests sent to the node server (wpgmaps.us-3.evennode.com).
+			 * Default is empty so basic-only installs add nothing.
+			 *
+			 * Filter contract — `wpgmza_enhanced_autocomplete_extra_params`:
+			 *   Input:  string — current extras (default '').
+			 *   Output: string — URL-encoded query-string fragment (key=value
+			 *           pairs joined by '&'), suitable for direct '&'-concat
+			 *           onto the autocomplete URL. NO leading '&' or '?'.
+			 *           Return '' to skip.
+			 *
+			 * Pro hooks this in ProPlugin::filterEnhancedAutocompleteExtraParams
+			 * (class.pro-plugin.php) to emit 'pro=1&pro_version=…'.
+			 */
+			'enhancedAutocompleteExtraParams' => apply_filters('wpgmza_enhanced_autocomplete_extra_params', ''),
+
 			'defaultMarkerIcon'		=> Marker::DEFAULT_ICON,
 			'markerXMLPathURL'		=> Map::getMarkerXMLPathURL(),
 
@@ -1126,6 +1160,7 @@ class Plugin extends Factory
 		}
 		return $hash;
 	}
+
 
 	public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = "/tmp/rss2html-") {
 	    $result = "";

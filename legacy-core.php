@@ -261,10 +261,10 @@ function wpgmaps_check_permissions_cache() {
  */
 function wpgmaps_get_marker_url($mapid = false) {
     if (!$mapid) {
-        $mapid = sanitize_text_field($_POST['map_id']);
+        $mapid = sanitize_text_field(wp_unslash($_POST['map_id']));
     }
     if (!$mapid) {
-        $mapid = sanitize_text_field($_GET['map_id']);
+        $mapid = sanitize_text_field(wp_unslash($_GET['map_id']));
     }
     if (!$mapid) {
         global $wpgmza_current_map_id;
@@ -698,7 +698,7 @@ function wpgmaps_tag_basic( $atts )
 	
     $res = wpgmza_get_map_data($wpgmza_current_map_id);
 	
-    if (!isset($res)) { echo __("Error: The map ID","wp-google-maps")." (". intval($wpgmza_current_map_id) .") ".__("does not exist","wp-google-maps"); return; }
+    if (!isset($res)) { echo esc_html__("Error: The map ID","wp-google-maps")." (". intval($wpgmza_current_map_id) .") ".esc_html__("does not exist","wp-google-maps"); return; }
     
     $user_api_key = get_option( 'wpgmza_google_maps_api_key' );
 	
@@ -1648,7 +1648,7 @@ function google_maps_api_key_warning(){
         echo " <a target='_BLANK' href='https://www.wpgmaps.com/get-a-google-maps-api-key/' class=''>".__("Create an API key now","wp-google-maps")."</a>";
         echo "</li>";
         echo "<li><form method='POST'>";
-        echo __('Paste your API key here and press save:','wp-google-maps');
+        echo esc_html__('Paste your API key here and press save:','wp-google-maps');
         echo " <input type='text' name='wpgmza_google_maps_api_key' style='width:350px;' placeholder='".__("paste your Google Maps JavaScript API Key here","wp-google-maps")."' /> <button type='submit' class='button button-primary' name='wpgmza_save_google_api_key_list'>".__('Save', 'wp-google-maps')."</button>";
         echo "</form>";
 

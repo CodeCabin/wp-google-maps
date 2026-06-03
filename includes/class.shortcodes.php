@@ -118,7 +118,7 @@ class Shortcodes extends Factory {
 
 		    $options = array(
 				"width"  => !empty($map->map_width) ? intval($map->map_width) : 100,
-				"height" => !empty($map->map_height) ? intval($map->map_height) : 400,
+				"height" => !empty($map->map_height) ? intval($map->map_height) : 600,
 				"widthType"  => !empty($map->map_width_type) ? $map->map_width_type : "%",
 				"heightType" => !empty($map->map_height_type) ? $map->map_height_type : "px",
 				"alignment"  => !empty($map->wpgmza_map_align) ? intval($map->wpgmza_map_align) : 1   	

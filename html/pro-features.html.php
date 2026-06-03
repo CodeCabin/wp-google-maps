@@ -21,7 +21,7 @@ global $wpgmza;
     </div>
 
     <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-legacy-v10">
-        <?php echo __("Upgrade to Premium Now","wp-google-maps"); ?>
+        <?php esc_html_e("Upgrade to Premium Now","wp-google-maps"); ?>
     </a>
     
     <p>&nbsp;</p>
@@ -38,7 +38,7 @@ global $wpgmza;
                 <br>
 
                 <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-unlimited-maps-legacy-v10">
-                    <?php echo __("Unlock Maps","wp-google-maps"); ?>
+                    <?php esc_html_e("Unlock Maps","wp-google-maps"); ?>
                 </a>
             </div>             
         </div>
@@ -50,7 +50,7 @@ global $wpgmza;
                 <br>
                 <br>
                 <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-advanced-markers-legacy-v10">
-                    <?php echo __("Unlock Advanced Markers","wp-google-maps"); ?>
+                    <?php esc_html_e("Unlock Advanced Markers","wp-google-maps"); ?>
                 </a>
             </div>
         </div>
@@ -64,7 +64,7 @@ global $wpgmza;
                 <br>
                 <br>
                 <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-directions-legacy-v10">
-                    <?php echo __("Unlock Directions","wp-google-maps"); ?>
+                    <?php esc_html_e("Unlock Directions","wp-google-maps"); ?>
                 </a>
             </div>
         </div>
@@ -76,7 +76,7 @@ global $wpgmza;
                 <br>
                 <br>
                 <a class="button-primary" style='padding:5px; padding-right:15px; padding-left:15px; height:inherit;' target="_BLANK" href="https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=pro-purchase-page-marker-listings-legacy-v10">
-                    <?php echo __("Unlock Marker Listings","wp-google-maps"); ?>
+                    <?php esc_html_e("Unlock Marker Listings","wp-google-maps"); ?>
                 </a>
             </div>
         </div>

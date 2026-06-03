@@ -70,7 +70,7 @@
 				?>
 			</span>
 			<a target="_BLANK" class="wpgmza-button wpgmza-button-call-to-action"
-				href="<?php esc_attr_e(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage-cta-btn-atlas-novus-v10" . wpgmzaGetUpsellLinkParams()));  ?>">
+				href="<?php echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mappage-cta-btn-atlas-novus-v10" . wpgmzaGetUpsellLinkParams()));  ?>">
 				<?php _e('Unlock Unlimited Maps', 'wp-google-maps'); ?> 
 			</a>
 		</p>

@@ -728,6 +728,14 @@
     border-radius: var(--wpgmza-component-border-radius);
 }
 
+/* Equal padding on Google's info-window container — Google's own
+   default applies asymmetric padding (no top, generous right) that
+   leaves our content visually off-balance. !important is required
+   because Google injects inline styles on this element. */
+.gm-style-iw.gm-style-iw-c {
+    padding: 8px 12px !important;
+}
+
 .wpgmza_map .gm-style .gm-style-iw-tc::after {
     background-color: var(--wpgmza-component-color);
     backdrop-filter: var(--wpgmza-component-backdrop-filter);

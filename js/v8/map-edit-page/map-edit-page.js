@@ -18,9 +18,14 @@ jQuery(function($) {
 		
 		WPGMZA.EventDispatcher.call(this);
 		
-		if(!WPGMZA.settings.internalEngine || WPGMZA.InternalEngine.isLegacy()){
+		if(!WPGMZA.settings.internal_engine || WPGMZA.InternalEngine.isLegacy()){
 			// Only force this if we are in legacy
-			// New internal engines will handle this internally instead
+			// New internal engines will handle this internally instead.
+			// NB: setting key is snake_case (`internal_engine`) — it's
+			// copied verbatim from PHP localization in core.js. The
+			// previous camelCase read was always undefined, so this
+			// guard fired under Atlas Major and Novus too, injecting
+			// the wrapper despite the engines not needing it.
 			$("#wpgmaps_options fieldset").wrapInner("<div class='wpgmza-flex'></div>");
 		}
 		
@@ -50,7 +55,12 @@ jQuery(function($) {
 		}
 		
 		// Address input
-		$("input.wpgmza-address").each(function(index, el) {
+		// Skip inputs inside #wpgmza-live-preview-templates — that container holds
+		// clone-source templates (Atlas Major live preview) which get live-initialised
+		// when cloned into the preview slot. Initialising them here would cause
+		// ProAddressInput to insert a "use my location" button into the template
+		// source, producing a duplicate button on every subsequent clone.
+		$("input.wpgmza-address").not("#wpgmza-live-preview-templates input.wpgmza-address").each(function(index, el) {
 			el.addressInput = WPGMZA.AddressInput.createInstance(el, self.map);
 		});
 
@@ -246,6 +256,24 @@ jQuery(function($) {
 
 		/* Map Engine Toolbar */
 		if($(document.body).find('.wpgmza-engine-switch-toolbar').length > 0){
+			/* Append a 🔑 indicator to engines that require an API key in
+			 * settings (Google Maps, Azure, Stadia, Maptiler, LocationIQ).
+			 * Engines without a key (zerocost, plain Leaflet, OpenLayers)
+			 * are left as-is. We mutate the option text at runtime instead
+			 * of changing the PHP source strings so existing translations
+			 * stay intact — the emoji is a universal symbol that doesn't
+			 * need translating. Guarded against double-application (rerun)
+			 * via the .data() flag. */
+			var KEYED_ENGINES = ['google-maps', 'leaflet-azure', 'leaflet-stadia', 'leaflet-maptiler', 'leaflet-locationiq'];
+			$(document.body).find('.wpgmza-engine-switch-toolbar select option').each(function(){
+				var $opt = $(this);
+				if($opt.data('keyBadgeApplied')) return;
+				if(KEYED_ENGINES.indexOf($opt.attr('value')) !== -1){
+					$opt.text($opt.text() + ' 🔑');
+					$opt.data('keyBadgeApplied', true);
+				}
+			});
+
 			$(document.body).find('.wpgmza-engine-switch-toolbar .wpgmza-button[data-engine-switch-control]').on('click', function(event){
 				const engineSwitchControl = $(this).attr('data-engine-switch-control');
 				if(engineSwitchControl === 'apply'){
@@ -259,7 +287,20 @@ jQuery(function($) {
 							wpgmza_security : WPGMZA.ajaxnonce
 						},
 						success : function(response){
-							/* Save the map for good measure */
+							/* Save the map for good measure. Under Atlas Major
+							 * the autosave hijacks the form submit and converts
+							 * it to a REST POST that does NOT reload the page —
+							 * so the new engine's JS libraries never load in
+							 * the browser. Set the autosave's one-shot
+							 * reloadAfterSave flag (added when we fixed the
+							 * custom-image save+reload modal) so the REST
+							 * success handler will reload after the save
+							 * persists. Atlas Novus / Legacy paths are
+							 * unaffected — their submit goes to admin-post.php
+							 * and reloads naturally. */
+							if(WPGMZA.atlasMajorAutoSave){
+								WPGMZA.atlasMajorAutoSave.reloadAfterSave = true;
+							}
 							$('input[name="wpgmza_savemap"]').click();
 						},
 						error: function(){}
@@ -811,8 +852,23 @@ jQuery(function($) {
 			}
 
 			/* Finalize the enhanced autocomplete URL query */
-			enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);					
+			enhancedAutocomplete.requestParams.query = new URLSearchParams(enhancedAutocomplete.requestParams.query);
 			enhancedAutocomplete.requestParams.url += "?" + enhancedAutocomplete.requestParams.query.toString();
+
+			/* Add-on extras — append a URL-encoded query-string fragment
+			   produced by the PHP filter `wpgmza_enhanced_autocomplete_extra_params`
+			   (see class.plugin.php). Pro hooks this in
+			   ProPlugin::filterEnhancedAutocompleteExtraParams to emit
+			   `pro=1&pro_version=…`; basic-only installs get '' and this is
+			   a no-op. Strip a leading '&'/'?' defensively so an over-eager
+			   filter implementation can't produce '&&'. */
+			var extraParams = WPGMZA.enhancedAutocompleteExtraParams;
+			if(typeof extraParams === 'string' && extraParams.length){
+				extraParams = extraParams.replace(/^[?&]+/, '');
+				if(extraParams.length){
+					enhancedAutocomplete.requestParams.url += "&" + extraParams;
+				}
+			}
 
 			/* Place request in a timetout, to delay the send time by the typing speed */
 			enhancedAutocomplete.ajaxTimeout = setTimeout(() => {

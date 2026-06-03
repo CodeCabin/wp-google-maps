@@ -126,7 +126,7 @@ class WPGMAPS_templates {
                             </div>
                         </div>
                         
-                <a class="button-primary" href="admin.php?page=wp-google-maps-menu&override=1"><?php echo __("OK! Let's start","wp-google-maps"); ?></a>
+                <a class="button-primary" href="admin.php?page=wp-google-maps-menu&override=1"><?php esc_html_e("OK! Let's start","wp-google-maps"); ?></a>
 
             </div>
                 </div>

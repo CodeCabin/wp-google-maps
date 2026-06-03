@@ -138,15 +138,32 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.workOutDistanceBetweenTwoMarkers = function(location1, location2) {
 		if(!location1 || !location2)
 			return; // No location (no search performed, user location unavailable)
-		
+
 		var distanceInKM = WPGMZA.Distance.between(location1, location2);
 		var distanceToDisplay = distanceInKM;
-			
-		if(this.distanceUnits == WPGMZA.Distance.MILES)
+
+		/* Resolve the distance unit. InfoWindow doesn't set its own
+		 * `distanceUnits` — that property only exists on StoreLocator
+		 * (store-locator.js:20). Previously this check compared
+		 * `undefined == WPGMZA.Distance.MILES` which is always false,
+		 * so the displayed value was ALWAYS in KM even when the user
+		 * had Miles selected ("33 miles" meant 33km). Read from
+		 * `map.settings.store_locator_distance` instead — the same
+		 * source getContent uses for the unit-label string ("km
+		 * away" vs "miles away") — so both the numeric value and the
+		 * label stay consistent. */
+		var useMiles = false;
+		if(this.feature && this.feature.map && this.feature.map.settings){
+			useMiles = this.feature.map.settings.store_locator_distance == WPGMZA.Distance.MILES
+				|| this.feature.map.settings.store_locator_distance == 1
+				|| this.feature.map.settings.store_locator_distance == '1';
+		}
+
+		if(useMiles)
 			distanceToDisplay /= WPGMZA.Distance.KILOMETERS_PER_MILE;
-		
+
 		var text = Math.round(distanceToDisplay, 2);
-		
+
 		return text;
 	}
 

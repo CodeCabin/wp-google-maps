@@ -138,7 +138,7 @@ function wpgmza_b_pro_add_poly($mid) {
 
                     <div id='wpgmza-polygon-textarea' style='clear: both;'><label>Polygon data:</label><br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                     </div>
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_save_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_save_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -238,7 +238,7 @@ function wpgmza_b_pro_edit_poly($mid) {
                     <div class='clear'></div>
                      <p style='clear: both;' >Polygon data:<br /><textarea name=\"wpgmza_polygon\" id=\"poly_line_list\" style=\"height:100px; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
                      <!-- <p style='clear: both;' >Polygon data (inner):<br /><textarea name=\"wpgmza_polygon_inner\" id=\"poly_line_list_inner\" style=\"width:90%; height:100px; border:1px solid #ccc; background-color:#FFF; padding:5px; overflow:auto;\">".esc_textarea($pol->innerpolydata)."</textarea> -->
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_edit_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_edit_poly' class='button-primary' value='".__("Save Polygon","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -674,7 +674,7 @@ function wpgmza_b_pro_add_polyline($mid) {
 
 
                      <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\" height:100px; background-color:#FFF; padding:5px; overflow:auto;\"></textarea>
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_save_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_save_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -784,7 +784,7 @@ function wpgmza_b_pro_edit_polyline($mid) {
                     </div>
 
                      <p style='clear: both;'>Polyline data:<br /><textarea name=\"wpgmza_polyline\" id=\"poly_line_list\" style=\"height:100px; background-color:#FFF; padding:5px; overflow:auto;\">{$pol->polydata}</textarea>
-                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel")."'>".__("Cancel")."</a> <input type='submit' name='wpgmza_edit_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
+                    <p class='submit'><a href='javascript:history.back();' class='button button-secondary' title='".__("Cancel", "wp-google-maps")."'>".__("Cancel", "wp-google-maps")."</a> <input type='submit' name='wpgmza_edit_polyline' class='button-primary' value='".__("Save Polyline","wp-google-maps")." &raquo;' /></p>
 
                     </form>
                 </div>
@@ -899,6 +899,11 @@ function wpgmaps_b_admin_add_polyline_javascript($mapid)
  * @return void
  */
 function wpgmaps_b_admin_edit_polyline_javascript($mapid,$polyid) {
+	global $wpgmza;
+	if(!$wpgmza->isUserAllowedToEdit()){
+		return;
+	}
+
 	$res = wpgmza_get_map_data($mapid);
 	
 	$wpgmza_settings = get_option("WPGMZA_OTHER_SETTINGS");
@@ -1213,7 +1218,7 @@ function wpgmaps_menu_layout() {
         if (isset($_GET['action']) && $_GET['action'] == "duplicate" && $map_id) {
             if (function_exists('wpgmaps_duplicate_map')) {
 				
-				if(!wp_verify_nonce($_GET['nonce'], 'wpgmza_list_maps_pro_nonce'))
+				if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['nonce'])), 'wpgmza_list_maps_pro_nonce'))
 				{
 					http_response_code(403);
 					exit;
@@ -1820,7 +1825,7 @@ function wpgmaps_head() {
 		// var_dump("Woo!");
 		exit;
 
-    	if ( !isset( $_POST['wpgmaps_main-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_main-nonce'], 'wpgmaps_main-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_main-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_main-nonce'])), 'wpgmaps_main-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -1829,7 +1834,7 @@ function wpgmaps_head() {
         
 
         $map_id = intval(sanitize_text_field($_POST['wpgmza_id']));
-        $map_title = sanitize_text_field(esc_attr($_POST['wpgmza_title']));
+        $map_title = esc_attr(sanitize_text_field(wp_unslash($_POST['wpgmza_title'])));
         $map_height = sanitize_text_field($_POST['wpgmza_height']);
         $map_width = sanitize_text_field($_POST['wpgmza_width']);
         $map_width_type = sanitize_text_field($_POST['wpgmza_map_width_type']);
@@ -1956,7 +1961,7 @@ function wpgmaps_head() {
     }
 
     else if (isset($_POST['wpgmza_save_maker_location'])){
-    	if ( !isset( $_POST['wpgmaps_marker-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_marker-nonce'], 'wpgmaps_marker-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_marker-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_marker-nonce'])), 'wpgmaps_marker-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -1990,7 +1995,7 @@ function wpgmaps_head() {
 		
     }
     else if (isset($_POST['wpgmza_save_poly'])){
-    	if ( !isset( $_POST['wpgmaps_polygon-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_polygon-nonce'], 'wpgmaps_polygon-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_polygon-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_polygon-nonce'])), 'wpgmaps_polygon-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
         global $wpdb;
@@ -2053,7 +2058,7 @@ function wpgmaps_head() {
 
     }
     else if (isset($_POST['wpgmza_edit_poly'])){
-    	if ( !isset( $_POST['wpgmaps_polygon-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_polygon-nonce'], 'wpgmaps_polygon-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_polygon-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_polygon-nonce'])), 'wpgmaps_polygon-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -2119,7 +2124,7 @@ function wpgmaps_head() {
     }
     else if (isset($_POST['wpgmza_save_polyline'])){
 
-    	if ( !isset( $_POST['wpgmaps_polyline-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_polyline-nonce'], 'wpgmaps_polyline-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_polyline-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_polyline-nonce'])), 'wpgmaps_polyline-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -2169,7 +2174,7 @@ function wpgmaps_head() {
     }
     else if (isset($_POST['wpgmza_edit_polyline'])){
 
-    	if ( !isset( $_POST['wpgmaps_polyline-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_polyline-nonce'], 'wpgmaps_polyline-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_polyline-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_polyline-nonce'])), 'wpgmaps_polyline-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -2217,7 +2222,7 @@ function wpgmaps_head() {
     }
 	else if (isset($_POST['wpgmza_save_circle'])){
 
-    	if ( !isset( $_POST['wpgmaps_circle-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_circle-nonce'], 'wpgmaps_circle-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_circle-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_circle-nonce'])), 'wpgmaps_circle-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -2267,7 +2272,7 @@ function wpgmaps_head() {
     }
 	else if (isset($_POST['wpgmza_save_rectangle'])){
 
-    	if ( !isset( $_POST['wpgmaps_rectangle-nonce'] ) || !wp_verify_nonce( $_POST['wpgmaps_rectangle-nonce'], 'wpgmaps_rectangle-nonce' ) ) {
+    	if ( !isset( $_POST['wpgmaps_rectangle-nonce'] ) || !wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['wpgmaps_rectangle-nonce'])), 'wpgmaps_rectangle-nonce' ) ) {
     		wp_die( __( 'You do not have permission to perform this function', 'wp-google-maps' ) );
     	}
 
@@ -2336,7 +2341,7 @@ function wpgmza_settings_page_post()
 	global $wpdb;
 	global $wpgmza;
 	
-	if(!wp_verify_nonce($_POST['wpgmza_settings_page_post_nonce'], 'wpgmza_settings_page_post'))
+	if(!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wpgmza_settings_page_post_nonce'])), 'wpgmza_settings_page_post'))
 	{
 		http_response_code(403);
 		exit;

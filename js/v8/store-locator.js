@@ -423,18 +423,28 @@ jQuery(function($) {
 			circle.setVisible(false);
 
 			var factor = (this.distanceUnits == WPGMZA.Distance.MILES ? WPGMZA.Distance.KILOMETERS_PER_MILE : 1.0);
-			
+
 			if(params.center && params.radius){
 				circle.setRadius(params.radius * factor);
 				circle.setCenter(params.center);
 				circle.setVisible(true);
-				
+
 				if(!(circle instanceof WPGMZA.ModernStoreLocatorCircle) && circle.map != this.map)
 					this.map.addCircle(circle);
 			}
-			
-			if(circle instanceof WPGMZA.ModernStoreLocatorCircle)
+
+			if(circle instanceof WPGMZA.ModernStoreLocatorCircle){
 				circle.settings.radiusString = this.radius;
+
+				/* The modern circle is a canvas overlay — setVisible(true)
+				 * alone doesn't trigger a paint. The canvas only repaints
+				 * on map movement (drag/zoom). Calling draw() explicitly
+				 * renders the rings immediately so the radar appears
+				 * without requiring the user to interact with the map. */
+				if(typeof circle.draw === 'function'){
+					circle.draw();
+				}
+			}
 		}
 		
 		if(event.filteredMarkers.length == 0 && this.state === WPGMZA.StoreLocator.STATE_APPLIED){

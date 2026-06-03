@@ -56,9 +56,11 @@ class DOMDocument extends \DOMDocument
 		} catch (\Exception $ex){
 			if(function_exists('mb_convert_encoding')){
 				return mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-			} else{
+			} else if(version_compare(phpversion(), '8.2', '<')){
 				trigger_error('Using fallback UTF to HTML entity conversion', E_USER_NOTICE);
 				return htmlspecialchars_decode(utf8_decode(htmlentities($html, ENT_COMPAT, 'utf-8', false)));
+			} else{
+				return $html;
 			}
 		}
 		
@@ -168,10 +170,17 @@ class DOMDocument extends \DOMDocument
 				$lineCounter++;
 		}
 
-		$safeEntities = array('progress');
+		/* libxml's HTML parser is HTML4-era — it doesn't recognise HTML5
+		   elements (progress) or inline SVG elements (svg + its children).
+		   These tags are structurally valid in modern browsers; libxml's
+		   warning is parser-vocabulary noise, not a real markup problem. */
+		$safeEntities = array(
+			'progress',
+			'svg', 'line', 'circle', 'polyline', 'polygon', 'path', 'rect', 'mask'
+		);
 		foreach($safeEntities as $entity){
 			if(preg_match("/DOMDocument::loadHTML.+{$entity} invalid in Entity/", $message, $m)){
-				// HTML 5 safe entity, doesn't need to be logged
+				// HTML 5 / inline-SVG safe entity, doesn't need to be logged
 				return;
 			}
 		}

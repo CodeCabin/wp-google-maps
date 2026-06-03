@@ -28,7 +28,7 @@ class MapEditPage extends Page
 		// HTTP referrer input
 		if($element = $document->querySelector("input[name='http_referer']"))
 			// NB: Used to be PHP_SELF. We're going to alter this to the current URI. Shouldn't be used, will need checking
-			$element->setAttribute('value', $_SERVER['REQUEST_URI']);
+			$element->setAttribute('value', esc_attr($_SERVER['REQUEST_URI']));
 		
 		// Map ID
 		if($element = $document->querySelector('#wpgmza_id'))
@@ -101,31 +101,39 @@ class MapEditPage extends Page
 		if($element = $document->querySelector('.wpgmza-store-locator-default-radius'))
 		{
 			$suffix  = ($map->store_locator_distance == 1 ? __('mi', 'wp-google-maps') : __('km', 'wp-google-maps'));
-			
+
 			$default = 10;
-			
+
 			if(!empty($map->store_locator_default_radius))
 				$default = $map->store_locator_default_radius;
-			
+
 			$radii = StoreLocator::DEFAULT_RADII;
-			
+
 			if(!empty($wpgmza->settings->wpgmza_store_locator_radii) && preg_match_all('/\d+/', $wpgmza->settings->wpgmza_store_locator_radii, $m))
 				$radii = $m[0];
-			
+
 			foreach($radii as $radius)
 			{
 				$option = $document->createElement('option');
-				
+
 				$option->setAttribute('value', $radius);
 				$option->appendText($radius);
-				
+
 				if($radius == $default)
 					$option->setAttribute('selected', 'selected');
-				
+
 				$element->appendChild($option);
 			}
-			
-			$element->parentNode->appendText($suffix);
+
+			/* Wrap the unit suffix in a targetable span so client-side
+			 * JS can swap the text when the user toggles the distance
+			 * unit without requiring a form save + page reload.
+			 * Novus/Legacy render identically — a span with text is
+			 * visually equivalent to a bare text node. */
+			$suffixEl = $document->createElement('span');
+			$suffixEl->setAttribute('class', 'wpgmza-distance-unit-suffix');
+			$suffixEl->appendText($suffix);
+			$element->parentNode->appendChild($suffixEl);
 		}
 
 		// Anchor Controls
@@ -261,8 +269,56 @@ class MapEditPage extends Page
 			}
 		}
 
-		if(empty($wpgmza->settings->wpgmza_google_maps_api_key) && $wpgmza->settings->engine == "google-maps"){
-			$document->querySelector(".wpgmza-missing-key-notice")->removeClass('wpgmza-hidden');
+		/* Missing-API-key notice: shown as a centered card over the map
+		 * area when the user has selected an engine that requires a key
+		 * but hasn't configured one in Settings yet. Five engines need
+		 * keys; Google's key lives in a wp_option, the others live in
+		 * $wpgmza->settings.
+		 *
+		 * For Google, the existing template text mentions a "swap over
+		 * to Open Layers" link (Google-specific UX hint), so we leave
+		 * the template content intact. For the other four engines we
+		 * replace the notice content with a generic engine-aware
+		 * message via DOMDocument — settings link + engine name +
+		 * suggestion to switch via the engine dropdown. */
+		$keyedEngines = array(
+			'google-maps'        => array('option' => 'wpgmza_google_maps_api_key',   'storage' => 'option',   'name' => 'Google Maps'),
+			'leaflet-azure'      => array('option' => 'wpgmza_leaflet_azure_key',     'storage' => 'settings', 'name' => 'Microsoft Azure'),
+			'leaflet-stadia'     => array('option' => 'wpgmza_leaflet_stadia_key',    'storage' => 'settings', 'name' => 'Stadia Maps'),
+			'leaflet-maptiler'   => array('option' => 'wpgmza_leaflet_maptiler_key',  'storage' => 'settings', 'name' => 'Maptiler'),
+			'leaflet-locationiq' => array('option' => 'wpgmza_leaflet_locationiq_key','storage' => 'settings', 'name' => 'LocationIQ'),
+		);
+		$currentEngine = $wpgmza->settings->engine;
+
+		if(isset($keyedEngines[$currentEngine])){
+			$def    = $keyedEngines[$currentEngine];
+			$hasKey = ($def['storage'] === 'option')
+				? !empty(get_option($def['option']))
+				: !empty($wpgmza->settings->{$def['option']});
+
+			if(!$hasKey){
+				$notice = $document->querySelector('.wpgmza-missing-key-notice');
+				if($notice){
+					$notice->removeClass('wpgmza-hidden');
+
+					/* Replace the Google-specific text with a generic
+					 * engine-aware message for the other four engines. */
+					if($currentEngine !== 'google-maps'){
+						while($notice->firstChild){
+							$notice->removeChild($notice->firstChild);
+						}
+
+						$settingsUrl = 'admin.php?page=wp-google-maps-menu-settings#advanced-settings';
+						$message = sprintf(
+							__('Please ensure you <a href="%1$s">enter your API key</a> in settings to continue using %2$s. Alternatively, switch to a free engine via the dropdown above (Leaflet, OpenLayers, or Zero Cost Mapping).', 'wp-google-maps'),
+							esc_url($settingsUrl),
+							esc_html($def['name'])
+						);
+
+						$notice->import($message);
+					}
+				}
+			}
 		}
 
 		$engineDialog = new MapsEngineDialog();
@@ -277,8 +333,15 @@ class MapEditPage extends Page
 			@$document->querySelector(".wpgmza-wrap")->import($bulkMarkerEditorDialog->document);
 
 			$editorTour = new MapEditorTour();
-			if($editorTour->shouldReceiveFTU()){
-				/* Load the current first time usage flow */
+			if($editorTour->shouldReceiveFTU() && !$wpgmza->internalEngine->isAtlasMajor()){
+				/* Load the current first time usage flow.
+				 *
+				 * Atlas Major intentionally opts out of the FTU flow — its
+				 * marker panel already surfaces an "Add Marker" bar at the
+				 * top, so the legacy/Novus behaviour of auto-clicking into
+				 * the full marker-editor panel on first load would be
+				 * disorienting. The FTU option is not marked complete here
+				 * so a later switch to Novus/Legacy still gets the flow. */
 				$editorTour->loadFTU($document);
 			} else {
 				if($editorTour->canTour()){
@@ -614,45 +677,117 @@ class MapEditPage extends Page
 	
 	public function onSubmit()
 	{
-		$ignore = array(
-			'redirect_to',
-			'shortcode',
-			'nonce',
-			'wpgmza_savemap'
-		);
-		
-		// Check nonces
+		global $wpgmza;
+
+		if(!$wpgmza->isUserAllowedToEdit()){
+			wp_die(__('You do not have permission to perform this action.', 'wp-google-maps'), 403);
+		}
+
+		// Check nonces (admin-post path uses the legacy form nonce).
 		if(!$this->isNonceValid($this->form, $_POST['nonce'])){
 			throw new \Exception("Invalid nonce");
 			return;
 		}
-		
-		// Copy the data
-		$data = stripslashes_deep($_POST);
 
-		// Don't write "redirect_to" to the map settings
-		foreach($ignore as $key)
+		// Hand off to the shared save path with $_POST as the payload.
+		$this->saveFromData(stripslashes_deep($_POST));
+
+		// Admin-post-only: redirect back to the map list / wherever the
+		// form tells us to go.
+		wp_redirect(esc_url_raw(wp_unslash($_POST['redirect_to'])));
+	}
+
+	/**
+	 * Shared save path for map settings. Runs for both the legacy
+	 * admin-post form submit AND the newer REST auto-save endpoint.
+	 *
+	 * IMPORTANT: this method does NOT validate nonces or redirect. The
+	 * caller is responsible for auth (nonce, capability checks) and
+	 * any post-save response (redirect for admin-post, JSON for REST).
+	 *
+	 * @param array $data The data to save. Caller must have already
+	 *                    stripped slashes if needed.
+	 */
+	public function saveFromData($data)
+	{
+		$ignore = array(
+			'redirect_to',
+			'shortcode',
+			'nonce',
+			'wpgmza_savemap',
+			'action',              // admin-post action slug
+			'_wpnonce',            // REST nonce that may have leaked into payload
+			'real_post_nonce'      // template's hidden nonce field
+		);
+
+		if(!is_array($data)){
+			$data = array();
+		}
+
+		// Don't write these bookkeeping keys to the map settings.
+		foreach($ignore as $key){
 			unset($data[$key]);
+		}
 
-		// Patch for XSS report (Will be rebuilt later)
+		// Patch for XSS report (will be rebuilt later with a proper
+		// sanitisation pass, but at least the map title is cleaned.)
 		if(!empty($data['map_title'])){
 			$data['map_title'] = sanitize_text_field($data['map_title']);
 		}
-		
-		// Fill out the form
+
+		/* Developer Hook (Filter) - Last chance for plugins (Pro,
+		 * third-party integrations) to normalise the payload before
+		 * it's written. Historically Pro mutated $_POST directly inside
+		 * its ProMapEditPage::onSubmit() override; the same logic now
+		 * runs here via filter so both save paths (admin-post AND REST)
+		 * get identical data normalisation. */
+		$data = apply_filters('wpgmza_map_settings_save_data', $data, $this->map);
+
+		// Fill out the form (DOMDocument-side) — applies field-level
+		// normalisation (select defaults, checkbox coercion, etc.)
 		$this->form->populate($data);
-		
+
 		// Get the form data back
 		$data = $this->form->serializeFormData();
-		
+
+		/* When Pro is NOT active, the editor template still emits the
+		 * Pro-feature inputs (.wpgmza-pro-feature) — store-locator line
+		 * color, fill color, opacities, etc. They sit hidden/disabled
+		 * in the DOM but `serializeFormData()` still walks them and
+		 * emits empty strings, which `$this->map->set($data)` then
+		 * persists, overwriting any defaults that Map::create() laid
+		 * down (class.map.php:184-187) or values a previous Pro
+		 * session saved. Result: open the map next time in Pro and
+		 * the store-locator circle renders with no color/opacity.
+		 *
+		 * Skip Pro-feature inputs that are empty so basic saves leave
+		 * existing Pro values intact. Gated to !isProVersion so an
+		 * active Pro user clearing a field still has that intent
+		 * persisted — they can see the field, the clear is
+		 * deliberate. */
+		global $wpgmza;
+		if(!empty($wpgmza) && !$wpgmza->isProVersion()){
+			foreach($this->form->querySelectorAll('input.wpgmza-pro-feature, select.wpgmza-pro-feature, textarea.wpgmza-pro-feature') as $input){
+				$name = $input->getAttribute('name');
+				if($name && isset($data[$name]) && $data[$name] === ''){
+					unset($data[$name]);
+				}
+			}
+		}
+
 		// Set the data on the map settings
 		$this->map->set($data);
 
-		/* Developer Hook (Action) - Additional save logic - Not to be mistaken with Pro legacy hook - Passes map */
+		/* Developer Hook (Action) - Additional save logic - Not to be
+		 * mistaken with Pro legacy hook - Passes map
+		 * Kept for backwards compat with existing listeners. */
 		do_action("wpgmza_map_save_before_redirect", $this->map);
-		
-		// Done! Redirect to the specified URL
-		wp_redirect(wp_strip_all_tags($_POST['redirect_to']));
+
+		/* Developer Hook (Action) - Fires after every successful map
+		 * settings save regardless of entry point (admin-post or REST).
+		 * Use this for side-table writes (e.g. Pro's marker-filtering-tab
+		 * persistence) that need to run on every save path. */
+		do_action('wpgmza_map_settings_saved', $this->map, $data);
 	}
 
 	/** 

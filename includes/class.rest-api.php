@@ -78,7 +78,7 @@ class RestAPI extends Factory
 	protected function checkActionNonce($route)
 	{
 		$route = preg_replace('#^/wpgmza/v1#', '', $route);
-		$nonce = $_SERVER['HTTP_X_WPGMZA_ACTION_NONCE'];
+		$nonce = sanitize_text_field($_SERVER['HTTP_X_WPGMZA_ACTION_NONCE']);
 		
 		$result = wp_verify_nonce($nonce, 'wpgmza_' . $route);
 		
@@ -279,7 +279,19 @@ class RestAPI extends Factory
 			'methods'					=> 'GET',
 			'callback'					=> array($this, 'maps')
 		));
-		
+
+		/* Atlas Major auto-save endpoint. Accepts the full map settings
+		 * form payload and hands it to MapEditPage::saveFromData(),
+		 * the same method the legacy admin-post form submit uses. Both
+		 * entry points now share data normalisation (Pro filters
+		 * wpgmza_map_settings_save_data) and side-table writes (Pro
+		 * hooks wpgmza_map_settings_saved). */
+		$this->registerRoute('/maps/\d+/settings/', array(
+			'methods'					=> array('POST'),
+			'callback'					=> array($this, 'saveMapSettings'),
+			'permission_callback'		=> array($wpgmza, 'isUserAllowedToEdit')
+		));
+
 		$this->registerRoute('/markers/\d+/', array(
 			'methods'					=> array('GET'),
 			'callback'					=> array($this, 'markers'),
@@ -560,7 +572,88 @@ class RestAPI extends Factory
 				break;
 		}
 	}
-	
+
+	/**
+	 * POST /wpgmza/v1/maps/{id}/settings
+	 *
+	 * Atlas Major auto-save endpoint. Receives the full map settings
+	 * payload (same shape as the legacy admin-post form submit) and
+	 * hands it to MapEditPage::saveFromData() — the shared save path
+	 * used by both entry points.
+	 *
+	 * Auth is handled upstream by `permission_callback =
+	 * $wpgmza->isUserAllowedToEdit` (registered on the route) plus the
+	 * REST nonce check inside RestAPI::registerRoute. No manual
+	 * nonce/capability check required here.
+	 *
+	 * Response:
+	 *   200 { success: true, map_id: <int>, saved_at: <mysql dt> }
+	 *   400 on validation failure
+	 *   500 on save exception
+	 */
+	public function saveMapSettings($request)
+	{
+		/* Extract map id from the URL. The route regex is
+		 * /maps/\d+/settings/ so we pull the digits between the two
+		 * segments. */
+		$route = $_SERVER['REQUEST_URI'];
+		if(!preg_match('#/wpgmza/v1/maps/(\d+)/settings#', $route, $m)){
+			return new \WP_Error('wpgmza_invalid_map_id', 'Invalid map id', array('status' => 400));
+		}
+
+		$mapId = (int) $m[1];
+
+		/* Accept either a JSON body (preferred, for application/json
+		 * requests) or the flat POST array (falls back cleanly for
+		 * $.ajax's default application/x-www-form-urlencoded). */
+		$payload = $request->get_json_params();
+		if(empty($payload) || !is_array($payload)){
+			$payload = $request->get_body_params();
+		}
+		if(empty($payload) || !is_array($payload)){
+			$payload = $_POST;
+		}
+
+		/* Strip slashes to match the legacy admin-post path, which does
+		 * stripslashes_deep($_POST) before calling saveFromData. */
+		$payload = stripslashes_deep($payload);
+
+		try {
+			/* MapEditPage::createInstance triggers the Factory which
+			 * substitutes ProMapEditPage → constructs the full admin
+			 * editor UI → MarkerIconEditor::getIcons() calls
+			 * list_files() from wp-admin/includes/file.php. That admin
+			 * include is auto-loaded in admin context but NOT in REST
+			 * context, so we explicitly require it here before the
+			 * factory expansion. We deliberately keep the full editor-
+			 * UI construction path: it injects Pro form fields
+			 * (default_marker, marker icon pickers, retina checkboxes,
+			 * ProMarkerPanel) into the form. saveFromData()'s
+			 * form->populate / serializeFormData roundtrip would drop
+			 * those keys if the Pro fields weren't in the form, so we
+			 * need the full Pro construction for save correctness. */
+			if(!function_exists('list_files')){
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+
+			$mapEditPage = MapEditPage::createInstance($mapId);
+
+			if(empty($mapEditPage) || empty($mapEditPage->map) || empty($mapEditPage->map->id)){
+				return new \WP_Error('wpgmza_map_not_found', 'Map not found', array('status' => 404));
+			}
+
+			$mapEditPage->saveFromData($payload);
+
+			return array(
+				'success'  => true,
+				'map_id'   => $mapId,
+				'saved_at' => current_time('mysql')
+			);
+		} catch(\Exception $ex){
+			return new \WP_Error('wpgmza_save_failed', $ex->getMessage(), array('status' => 500));
+		}
+	}
+
 	protected function sanitizeFieldNames($fields, $table)
 	{
 		global $wpdb;
@@ -838,12 +931,10 @@ class RestAPI extends Factory
 				if(preg_match('#/wpgmza/v1/markers/(\d+)#', $route, $m)) {
 					try{
 						$marker = Marker::createInstance($m[1], Crud::SINGLE_READ, isset($_GET['raw_data']));
-
 						if(empty($marker->approved) && !$wpgmza->isUserAllowedToEdit()){
 							/* Marker is not approved */
 							return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
 						}
-
 						return $marker;
 					} catch (\Exception $ex){
 						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
