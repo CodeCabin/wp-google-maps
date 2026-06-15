@@ -58,17 +58,17 @@ class AdminMarkerDataTable extends MarkerDataTable
 		$buttonClass = $wpgmza->internalEngine->getButtonClass('button');
 
 		$actionsHtml = "<div class=\'wpgmza-action-buttons wpgmza-flex\'>
-					<a title=\'Edit this marker\' class=\'wpgmza_edit_btn {$buttonClass}\' data-edit-marker-id=\'{$id_placeholder}\'>
+					<a title=\'" . esc_attr( __('Edit this marker', 'wp-google-maps') ) . "\' class=\'wpgmza_edit_btn {$buttonClass}\' data-edit-marker-id=\'{$id_placeholder}\'>
 						<i class=\'fa fa-edit\'> </i>
 					</a>
 					<a title=\'" . esc_attr( __('Edit this marker location', 'wp-google-maps') ) . "\' data-adjust-marker-id=\'{$id_placeholder}\' class=\'wpgmza_edit_btn {$buttonClass}\'>
 						<i class=\'fa fa-map-marker\'> </i>
 					</a>
-					<a title=\'Center on marker\' class=\'wpgmza_center_btn {$buttonClass}\' data-center-marker-id=\'{$id_placeholder}\'>
+					<a title=\'" . esc_attr( __('Center on marker', 'wp-google-maps') ) . "\' class=\'wpgmza_center_btn {$buttonClass}\' data-center-marker-id=\'{$id_placeholder}\'>
 						<i class=\'fa fa-eye\'> </i>
 					</a>
 					<a href=\'javascript: ;\' title=\'"
-						. esc_attr( __('Delete this marker', 'wp-google-maps') ) . 
+						. esc_attr( __('Delete this marker', 'wp-google-maps') ) .
 						"\' class=\'wpgmza_del_btn {$buttonClass}\' data-delete-marker-id=\'{$id_placeholder}\'>
 						<i class=\'fa fa-times\'> </i>
 					</a>
@@ -80,19 +80,19 @@ class AdminMarkerDataTable extends MarkerDataTable
 					<input type=\'checkbox\' id=\'wpgmza-toolbar-conditional-marker-{$id_placeholder}\'>
 					<label class=\'wpgmza-button\' for=\'wpgmza-toolbar-conditional-marker-{$id_placeholder}\'><i class=\'fa fa-ellipsis-h\'></i></label>
 					<div class=\'wpgmza-toolbar-list\'>
-						<a title=\'Edit this marker\' class=\'wpgmza_edit_btn\' data-edit-marker-id=\'{$id_placeholder}\'>
+						<a title=\'" . esc_attr( __('Edit this marker', 'wp-google-maps') ) . "\' class=\'wpgmza_edit_btn\' data-edit-marker-id=\'{$id_placeholder}\'>
 							" . esc_attr( __('Edit', 'wp-google-maps') ) . "
 						</a>
 						<a title=\'" . esc_attr( __('Edit this marker location', 'wp-google-maps') ) . "\' data-adjust-marker-id=\'{$id_placeholder}\' class=\'wpgmza_edit_btn\'>
 							" . esc_attr( __('Adjust', 'wp-google-maps') ) . "
 						</a>
-						<a title=\'Center on marker\' class=\'wpgmza_center_btn\' data-center-marker-id=\'{$id_placeholder}\'>
+						<a title=\'" . esc_attr( __('Center on marker', 'wp-google-maps') ) . "\' class=\'wpgmza_center_btn\' data-center-marker-id=\'{$id_placeholder}\'>
 							" . esc_attr( __('Center', 'wp-google-maps') ) . "
 						</a>
-						<a title=\'Duplicate this marker\' class=\'wpgmza_duplicate_btn\' data-duplicate-feature-id=\'{$id_placeholder}\' data-pro-action>
+						<a title=\'" . esc_attr( __('Duplicate this marker', 'wp-google-maps') ) . "\' class=\'wpgmza_duplicate_btn\' data-duplicate-feature-id=\'{$id_placeholder}\' data-pro-action>
 							" . esc_attr( __('Duplicate', 'wp-google-maps') ) . "
 						</a>
-						<a title=\'Move this marker to another map\' class=\'wpgmza_move_map_btn\' data-move-map-feature-id=\'{$id_placeholder}\' data-pro-action>
+						<a title=\'" . esc_attr( __('Move this marker to another map', 'wp-google-maps') ) . "\' class=\'wpgmza_move_map_btn\' data-move-map-feature-id=\'{$id_placeholder}\' data-pro-action>
 							" . esc_attr( __('Move Map', 'wp-google-maps') ) . "
 						</a>
 						<a href=\'javascript: ;\' title=\'"

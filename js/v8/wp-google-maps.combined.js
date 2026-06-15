@@ -412,9 +412,18 @@ jQuery(function($) {
 				});
 			}
 
+			/* Iterate the full selection rather than always picking .first().
+			   For single-select (default) the selection has exactly one item
+			   so the callback fires once — identical to the prior behaviour.
+			   For multi-select (callers passing `multiple: true` in config)
+			   the callback now fires per item rather than silently dropping
+			   everything after the first. */
 			file_frame.on( 'select', function() {
-				attachment = file_frame.state().get('selection').first().toJSON();
-				callback(attachment.id, attachment.url, attachment);
+				var selection = file_frame.state().get('selection');
+				selection.each(function(attachment_model) {
+					var attachment = attachment_model.toJSON();
+					callback(attachment.id, attachment.url, attachment);
+				});
 			});
 
 			file_frame.open();
@@ -1804,12 +1813,30 @@ jQuery(function($) {
 			case 'error':    text = L('atlas_major_save_failed', 'Save failed'); break;
 			case 'idle':     text = '';         break;
 		}
-		this.pill.find('.am-save-pill-text').text(text);
+		this._writePillText(text);
 	};
 
 	WPGMZA.AtlasMajorAutoSave.prototype.updatePillText = function(state, text){
 		if(!this.pill.length) return;
 		this.pill.attr('data-state', state);
+		this._writePillText(text);
+	};
+
+	/* Safety check: only write to the pill text node when the value
+	 * actually differs from what's already there. setPillState() and
+	 * updatePillText() get called many times in rapid succession during
+	 * a window-resize drag — the map's onElementResized re-fires bounds
+	 * updates that cascade through the 4Hz polling loop and the form
+	 * change/input listener, each calling setPillState. Repeatedly
+	 * writing the same string to a text node triggers layout work and
+	 * was observed to visibly flicker the pill (and occasionally render
+	 * the English fallback for one frame between German writes when the
+	 * localized_strings lookup raced an in-flight resize tick). Caching
+	 * the last-written value on the instance is cheaper than reading
+	 * .text() on every call. */
+	WPGMZA.AtlasMajorAutoSave.prototype._writePillText = function(text){
+		if(this._lastPillText === text) return;
+		this._lastPillText = text;
 		this.pill.find('.am-save-pill-text').text(text);
 	};
 
@@ -4062,6 +4089,7 @@ jQuery(function($) {
 		this.initKebabDismiss();
 		this.render();
 		this.bindMapEvents();
+		WPGMZA.AtlasMajorMarkerList.applySidebarLabels();
 
 		/* Initial load busy state — if the map hasn't finished placing
 		 * its initial marker batch, the list is empty until then.
@@ -4122,6 +4150,53 @@ jQuery(function($) {
 			}
 		});
 	}
+
+	/**
+	 * Apply translated `data-am-label` attributes to sidebar
+	 * `.navigation` and `.feature-list` elements inside per-feature
+	 * groupings. These attributes are read by atlas-major.css via
+	 * `content: attr(data-am-label)` for the section heading labels
+	 * ("Add Marker", "Marker List", etc.).
+	 *
+	 * Previously those labels were hardcoded English in the CSS itself
+	 * (`::before { content: "Add Marker" }`), which made them
+	 * impossible to translate. This init runs once at editor load and
+	 * pushes the translated strings (from WPGMZA.localized_strings)
+	 * into the DOM as attributes so the CSS just reads them back.
+	 *
+	 * Runs idempotently (re-applies don't break anything) and is a
+	 * no-op outside the editor (no matching elements).
+	 */
+	WPGMZA.AtlasMajorMarkerList.applySidebarLabels = function() {
+		var L = (WPGMZA.localized_strings) || {};
+
+		var addLabel = function(group) {
+			if(group === 'map-markers')         return L.am_sidebar_add_marker || 'Add Marker';
+			return L.am_sidebar_add_default || 'Add';
+		};
+
+		var listLabel = function(group) {
+			switch(group) {
+				case 'map-markers':         return L.am_sidebar_list_marker         || 'Marker List';
+				case 'map-polygons':        return L.am_sidebar_list_polygon        || 'Polygon List';
+				case 'map-polylines':       return L.am_sidebar_list_polyline       || 'Polyline List';
+				case 'map-circles':         return L.am_sidebar_list_circle         || 'Circle List';
+				case 'map-rectangles':      return L.am_sidebar_list_rectangle      || 'Rectangle List';
+				case 'map-heatmaps':        return L.am_sidebar_list_heatmap        || 'Heatmap List';
+				case 'map-point-labels':    return L.am_sidebar_list_point_label    || 'Point Label List';
+				case 'map-image-overlays':  return L.am_sidebar_list_image_overlay  || 'Image Overlay List';
+				default:                    return L.am_sidebar_list_default        || 'List';
+			}
+		};
+
+		jQuery('.wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group]').each(function() {
+			var $grouping = jQuery(this);
+			var group = $grouping.attr('data-group');
+
+			$grouping.children('.navigation').attr('data-am-label', addLabel(group));
+			$grouping.find('.feature-list').attr('data-am-label', listLabel(group));
+		});
+	};
 
 	WPGMZA.AtlasMajorMarkerList.PIN_COLORS = [
 		'#e8473f', '#3b82f6', '#10b981', '#f59e0b',
@@ -10020,9 +10095,19 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.addEditButton = function() {
 		if (WPGMZA.currentPage == "map-edit") {
 			if(this.feature instanceof WPGMZA.Marker){
-				let buttons = '<a title="Edit this marker" style="width:15px;" class="wpgmza_edit_btn" data-edit-marker-id="'+this.feature.id+'"><i class="fa fa-edit"></i></a>';
+				/* Both the title attribute (tooltip) and the visible label
+				   come from WPGMZA.localized_strings so they honour the
+				   active site locale. The visible label used to come from
+				   a CSS `::after { content: "Edit" }` pseudo-element in
+				   atlas-major.css, which made it impossible to translate —
+				   now it's a real DOM <span> with proper text content.
+				   Fallback strings let the buttons render in English if
+				   the localized_strings payload hasn't loaded yet. */
+				var editTitle = (WPGMZA.localized_strings && WPGMZA.localized_strings.info_window_edit_marker_title) || 'Edit this marker';
+				var editLabel = (WPGMZA.localized_strings && WPGMZA.localized_strings.info_window_edit_marker_label) || 'Edit';
+				let buttons = '<a title="' + editTitle + '" class="wpgmza_edit_btn" data-edit-marker-id="'+this.feature.id+'"><i class="fa fa-edit"></i><span class="wpgmza-btn-label">' + editLabel + '</span></a>';
 				buttons += this.addDeleteButton();
-				return ' ' + buttons;	
+				return ' ' + buttons;
 			}
 		}
 		return '';
@@ -10031,7 +10116,9 @@ jQuery(function($) {
 	WPGMZA.InfoWindow.prototype.addDeleteButton = function(){
 		if (WPGMZA.currentPage == "map-edit") {
 			if(this.feature instanceof WPGMZA.Marker){
-				return' <a title="Delete this marker" style="width:15px;" class="wpgmza_del_btn" data-delete-marker-id="'+this.feature.id+'"><i class="fa fa-trash"></i></a>';
+				var deleteTitle = (WPGMZA.localized_strings && WPGMZA.localized_strings.info_window_delete_marker_title) || 'Delete this marker';
+				var deleteLabel = (WPGMZA.localized_strings && WPGMZA.localized_strings.info_window_delete_marker_label) || 'Delete';
+				return' <a title="' + deleteTitle + '" class="wpgmza_del_btn" data-delete-marker-id="'+this.feature.id+'"><i class="fa fa-trash"></i><span class="wpgmza-btn-label">' + deleteLabel + '</span></a>';
 			}
 		}
 		return '';
@@ -20518,7 +20605,7 @@ jQuery(function($) {
                 this.setImage(this.getPreview(definition), this.image, definition);
             }
         } else {
-            this.container.addClass('preview-failed');
+            this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
         }
     }
 
@@ -20592,7 +20679,7 @@ jQuery(function($) {
             });
 
             previewImage.addEventListener('error', () => {
-                this.container.addClass('preview-failed');
+                this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
 
                 if(definition && definition instanceof Object){
                     if(definition.type && definition.type === 'vector'){
@@ -20606,7 +20693,7 @@ jQuery(function($) {
             });
         } else {
             /* Failure */
-            this.container.addClass('preview-failed');
+            this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
         }
     }
 
@@ -26340,6 +26427,30 @@ jQuery(function($) {
 				L.DomEvent.on(element, 'mousedown', L.DomEvent.stopPropagation);
 			});
 		}
+
+		/* Force a Leaflet origin recalc after the page has actually painted.
+		 * `L.map(...)` above snapshots the container's dimensions at construction
+		 * time and computes its internal pixel origin from them; if the page
+		 * hasn't finished its initial layout (web fonts still settling, parent
+		 * flex/grid widths still resolving, a `display:none` ancestor that just
+		 * became visible, etc.) the snapshot is wrong and every marker placed
+		 * thereafter is offset against that bad origin.
+		 *
+		 * Double-nested requestAnimationFrame is the standard "after first
+		 * paint" signal: the outer rAF fires before the next paint, the inner
+		 * rAF guarantees the browser has actually painted at least once before
+		 * we measure. Leaflet's invalidateSize() compares old vs new dimensions
+		 * internally and bails when nothing changed, so this is safe to fire
+		 * unconditionally — the happy-path cost is one size measurement. */
+		if(typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function'){
+			window.requestAnimationFrame(() => {
+				window.requestAnimationFrame(() => {
+					if(this.leafletMap && typeof this.leafletMap.invalidateSize === 'function'){
+						this.leafletMap.invalidateSize();
+					}
+				});
+			});
+		}
 	}
 
 	if(WPGMZA.isProVersion())
@@ -30316,8 +30427,16 @@ jQuery(function($) {
 					enhancedAutocomplete.requestParams.query.engine = WPGMZA.settings.engine;
 				}
 
-				if(WPGMZA.settings.internal_engine){
-					enhancedAutocomplete.requestParams.query.build = WPGMZA.settings.internal_engine;
+				/* Prefer the user's saved choice (WPGMZA.settings.internal_engine).
+				   For brand-new installs that haven't saved settings yet that field
+				   is empty even though Atlas Major is the active resolved engine —
+				   fall back to WPGMZA.internalEngine which is the validated value
+				   exposed from PHP via InternalEngine::getStoredEngine(). Without
+				   the fallback, cloud telemetry for new users misses the build
+				   attribution until they save settings the first time. */
+				var resolvedBuild = WPGMZA.settings.internal_engine || WPGMZA.internalEngine;
+				if(resolvedBuild){
+					enhancedAutocomplete.requestParams.query.build = resolvedBuild;
 				}
 			}
 
@@ -34057,15 +34176,32 @@ jQuery(function($) {
 			this.dataTable.ajax.reload();
 		}
 		else {
-			
-			$.ajax(this.getLanguageURL(), {
+			const primaryURL = this.getLanguageURL();
+			const filename = primaryURL.split('/').pop();
+			const swappedFirst = filename.charAt(0) === filename.charAt(0).toUpperCase() ? filename.charAt(0).toLowerCase() : filename.charAt(0).toUpperCase();
+			const fallbackURL = primaryURL.slice(0, primaryURL.lastIndexOf('/') + 1) + swappedFirst + filename.slice(1);
 
+			$.ajax(primaryURL, {
 				success: function(response, status, xhr){
 					self.languageJSON = response;
 					self.dataTable = $(self.dataTableElement).DataTable(settings);
 					self.dataTable.ajax.reload();
+				},
+				error: function(){
+					$.ajax(fallbackURL, {
+						success: function(response, status, xhr){
+							self.languageJSON = response;
+							settings.language = { url: fallbackURL };
+							self.dataTable = $(self.dataTableElement).DataTable(settings);
+							self.dataTable.ajax.reload();
+						},
+						error: function(){
+							delete settings.language;
+							self.dataTable = $(self.dataTableElement).DataTable(settings);
+							self.dataTable.ajax.reload();
+						}
+					});
 				}
-				
 			});
 		}
 	}

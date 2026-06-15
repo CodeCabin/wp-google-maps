@@ -4506,7 +4506,7 @@
 			<div class="action-bar" data-type="map">
 				<div class="wpgmza-row">
 					<div class="wpgmza-col">
-						<label for="shortcode_input" class="wpgmza-button">Get Shortcode</label>
+						<label for="shortcode_input" class="wpgmza-button"><?php esc_html_e('Get Shortcode', 'wp-google-maps'); ?></label>
 					</div>
 					<div class="wpgmza-col wpgmza-text-align-right">
 						<label class="wpgmza-button wpgmza-button-accent dynamic-action wpgmza-hidden"></label>

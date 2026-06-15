@@ -476,6 +476,20 @@ class Plugin extends Factory
 			'stylingSettings'		=> $stylingSettings,
 			'currentPage'			=> $this->getCurrentPage(),
 			'tileServer'			=> $tileServer,
+
+			/* The resolved internal engine ("atlas-major" / "atlas-novus" /
+			   "legacy"). Distinct from `settings.internal_engine` which is
+			   the RAW stored DB value — that field is empty for brand-new
+			   installs that haven't saved settings yet, even though the
+			   plugin is actually rendering Atlas Major (the default).
+			   `getStoredEngine()` returns the validated/active engine via
+			   InternalEngine::validateEngine() so it's always populated.
+			   Used by enhanced-autocomplete (map-edit-page.js) for cloud
+			   telemetry — without this, new-user requests omit the build
+			   parameter until the user saves settings once. */
+			'internalEngine'		=> (!empty($this->internalEngine) && method_exists($this->internalEngine, 'getStoredEngine'))
+										? $this->internalEngine->getStoredEngine()
+										: null,
 			
 			'userCanAdministrator'	=> (current_user_can('administrator') ? 1 : 0),
 			'serverCanInflate'		=> RestAPI::isCompressedPathVariableSupported(),

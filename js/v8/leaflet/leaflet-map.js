@@ -293,6 +293,30 @@ jQuery(function($) {
 				L.DomEvent.on(element, 'mousedown', L.DomEvent.stopPropagation);
 			});
 		}
+
+		/* Force a Leaflet origin recalc after the page has actually painted.
+		 * `L.map(...)` above snapshots the container's dimensions at construction
+		 * time and computes its internal pixel origin from them; if the page
+		 * hasn't finished its initial layout (web fonts still settling, parent
+		 * flex/grid widths still resolving, a `display:none` ancestor that just
+		 * became visible, etc.) the snapshot is wrong and every marker placed
+		 * thereafter is offset against that bad origin.
+		 *
+		 * Double-nested requestAnimationFrame is the standard "after first
+		 * paint" signal: the outer rAF fires before the next paint, the inner
+		 * rAF guarantees the browser has actually painted at least once before
+		 * we measure. Leaflet's invalidateSize() compares old vs new dimensions
+		 * internally and bails when nothing changed, so this is safe to fire
+		 * unconditionally — the happy-path cost is one size measurement. */
+		if(typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function'){
+			window.requestAnimationFrame(() => {
+				window.requestAnimationFrame(() => {
+					if(this.leafletMap && typeof this.leafletMap.invalidateSize === 'function'){
+						this.leafletMap.invalidateSize();
+					}
+				});
+			});
+		}
 	}
 
 	if(WPGMZA.isProVersion())

@@ -430,16 +430,25 @@ class InternalEngine {
 	/**
 	 * Get the default engine to be used in all installations
 	 *
-	 * V9 selected a random engine for a split test. V10 picked Atlas Novus
-	 * by default. From V10.1 new installs default to Atlas Major —
-	 * existing installs keep whatever `internal_engine` value they already
-	 * have in `wpgmza_global_settings`, so only fresh installs pick up
-	 * the new default.
+	 * V9 selected a random engine for a Legacy/Novus split test (see
+	 * getRandomEngine() — date-based, day-of-month gated). V10 picked
+	 * Atlas Novus by default. From V10.1.01 new installs get a true
+	 * 50/50 random split between Atlas Novus and Atlas Major so we keep
+	 * field coverage on both UIs while Atlas Major matures.
+	 *
+	 * Called exactly once per install via GlobalSettings::install() →
+	 * getDefaults(), gated on `!get_option('wpgmza_global_settings')`.
+	 * Existing installs keep whatever `internal_engine` value they
+	 * already have in the option, so only genuinely fresh installs
+	 * pick up the new split.
+	 *
+	 * wp_rand() is the WordPress idiom over mt_rand(); both give us the
+	 * one-shot coin flip we need here.
 	 *
 	 * @return string
 	 */
 	public static function getDefaultEngine(){
-		return self::getStableBuildName();
+		return wp_rand(0, 1) === 0 ? self::ATLAS_NOVUS : self::ATLAS_MAJOR;
 	}
 
 	/**

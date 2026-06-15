@@ -126,7 +126,64 @@ class Strings
 			'atlas_major_save_failed_retrying'	=> __('Save failed — retrying in %ds', 'wp-google-maps'),
 			'atlas_major_sl_address_label'		=> __('ZIP / Address:', 'wp-google-maps'),
 			'atlas_major_sl_keywords_label'		=> __('Title / Description:', 'wp-google-maps'),
-			'atlas_major_sl_keywords_placeholder'	=> __('Enter a title', 'wp-google-maps')
+			'atlas_major_sl_keywords_placeholder'	=> __('Enter a title', 'wp-google-maps'),
+
+			/* Atlas Major autosave pill toggle labels + tooltip
+			   tips. Consumed by atlas-major-autosave.js via the
+			   L('key', 'fallback') helper — the fallback strings
+			   here MUST match the second argument of those L()
+			   calls exactly so the JS renders the right text when
+			   localized_strings hasn't loaded yet. */
+			'atlas_major_autosave_paused_label'	=> __('Autosave off', 'wp-google-maps'),
+			'atlas_major_autosave_active_label'	=> __('Autosave on', 'wp-google-maps'),
+			'atlas_major_autosave_resume_tip'	=> __('Click to enable autosave', 'wp-google-maps'),
+			'atlas_major_autosave_pause_tip'	=> __('Click to disable autosave (manual Save Map still works)', 'wp-google-maps'),
+
+			/* Info window edit / delete button title-attribute
+			   tooltips. Consumed by info-window.js when building
+			   the inline marker-action buttons inside an info
+			   window in the map editor. The same msgids are also
+			   used by class.admin-marker-datatable.php's row
+			   action buttons — gettext returns the same translation
+			   for both call sites. */
+			'info_window_edit_marker_title'		=> __('Edit this marker', 'wp-google-maps'),
+			'info_window_delete_marker_title'	=> __('Delete this marker', 'wp-google-maps'),
+
+			/* Visible labels for the same info-window edit / delete
+			   buttons. Previously these labels were injected via CSS
+			   pseudo-elements (`.wpgmza_edit_btn::after { content:
+			   "Edit"; }` in atlas-major.css ~L6757), which made them
+			   un-translatable because CSS `content` strings don't go
+			   through gettext. Moved to localized_strings + injected
+			   into the DOM by info-window.js so they translate. */
+			'info_window_edit_marker_label'		=> __('Edit', 'wp-google-maps'),
+			'info_window_delete_marker_label'	=> __('Delete', 'wp-google-maps'),
+
+			/* Sidebar grouping headings — used to live as
+			   `::before { content: "Add Marker" }` rules in
+			   atlas-major.css. Now applied via a small init in
+			   atlas-major-marker-list.js which sets data-am-label
+			   on each `.navigation` / `.feature-list`, with the CSS
+			   reading `content: attr(data-am-label)`. */
+			'am_sidebar_add_default'		=> __('Add', 'wp-google-maps'),
+			'am_sidebar_add_marker'			=> __('Add Marker', 'wp-google-maps'),
+			'am_sidebar_list_default'		=> __('List', 'wp-google-maps'),
+			'am_sidebar_list_marker'		=> __('Marker List', 'wp-google-maps'),
+			'am_sidebar_list_polygon'		=> __('Polygon List', 'wp-google-maps'),
+			'am_sidebar_list_polyline'		=> __('Polyline List', 'wp-google-maps'),
+			'am_sidebar_list_circle'		=> __('Circle List', 'wp-google-maps'),
+			'am_sidebar_list_rectangle'		=> __('Rectangle List', 'wp-google-maps'),
+			'am_sidebar_list_heatmap'		=> __('Heatmap List', 'wp-google-maps'),
+			'am_sidebar_list_point_label'	=> __('Point Label List', 'wp-google-maps'),
+			'am_sidebar_list_image_overlay'	=> __('Image Overlay List', 'wp-google-maps'),
+
+			/* Preview-failed error message — used by tileset /
+			   theme / tile-server preview UIs via CSS
+			   `:before { content: "Could not fetch preview" }`.
+			   Same data-am-label fix: PHP onerror handlers and
+			   tile-server-preview.js now set data-am-label with
+			   the translated text. */
+			'am_preview_fetch_failed'		=> __('Could not fetch preview', 'wp-google-maps')
 		));
 	}
 	

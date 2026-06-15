@@ -107,7 +107,7 @@ jQuery(function($) {
                 this.setImage(this.getPreview(definition), this.image, definition);
             }
         } else {
-            this.container.addClass('preview-failed');
+            this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
         }
     }
 
@@ -181,7 +181,7 @@ jQuery(function($) {
             });
 
             previewImage.addEventListener('error', () => {
-                this.container.addClass('preview-failed');
+                this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
 
                 if(definition && definition instanceof Object){
                     if(definition.type && definition.type === 'vector'){
@@ -195,7 +195,7 @@ jQuery(function($) {
             });
         } else {
             /* Failure */
-            this.container.addClass('preview-failed');
+            this.container.addClass('preview-failed').attr('data-am-label', (WPGMZA.localized_strings && WPGMZA.localized_strings.am_preview_fetch_failed) || 'Could not fetch preview');
         }
     }
 

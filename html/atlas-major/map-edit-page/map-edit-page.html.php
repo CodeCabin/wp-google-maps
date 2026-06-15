@@ -3908,19 +3908,21 @@ global $wpgmza;
 				<div class="am-panel-scroll">
 					<div class="am-marker-list-container"></div>
 					<div class="am-ml-pagination"></div>
+				</div>
 
-					<!-- Upsell at bottom of marker list -->
-					<div style="padding: 16px 20px;">
-						<div class="wpgmza-upsell wpgmza-upsell-featured wpgmza-card">
-							<div class="wpgmza-upsell-heading"><?php _e("Do more with your markers", "wp-google-maps"); ?></div>
-							<div class="wpgmza-upsell-content">
-								<?php _e("Custom icons, categories, images, descriptions, links, hover states, and sorting controls.", "wp-google-maps"); ?>
-							</div>
-							<a target="_BLANK" class="wpgmza-upsell-button"
-								href="<?php echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker-list-upsell-atlas-major-v10" . wpgmzaGetUpsellLinkParams())); ?>">
-								<?php _e("Unlock Advanced Markers", "wp-google-maps"); ?>
-							</a>
+				<!-- Upsell pinned at bottom of marker panel (sibling of am-panel-scroll
+				     so it sits outside the scrollable area and stays visible regardless
+				     of how many markers exist). -->
+				<div class="am-marker-list-upsell">
+					<div class="wpgmza-upsell wpgmza-upsell-featured wpgmza-card">
+						<div class="wpgmza-upsell-heading"><?php _e("Do more with your markers", "wp-google-maps"); ?></div>
+						<div class="wpgmza-upsell-content">
+							<?php _e("Custom icons, categories, images, descriptions, links, hover states, and sorting controls.", "wp-google-maps"); ?>
 						</div>
+						<a target="_BLANK" class="wpgmza-upsell-button"
+							href="<?php echo esc_attr(\WPGMZA\Plugin::getProLink("https://www.wpgmaps.com/purchase-professional-version/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=marker-list-upsell-atlas-major-v10" . wpgmzaGetUpsellLinkParams())); ?>">
+							<?php _e("Unlock Advanced Markers", "wp-google-maps"); ?>
+						</a>
 					</div>
 				</div>
 
@@ -4508,7 +4510,7 @@ global $wpgmza;
 			<div class="action-bar" data-type="map">
 				<div class="wpgmza-row">
 					<div class="wpgmza-col">
-						<label for="shortcode_input" class="wpgmza-button">Get Shortcode</label>
+						<label for="shortcode_input" class="wpgmza-button"><?php esc_html_e('Get Shortcode', 'wp-google-maps'); ?></label>
 					</div>
 					<div class="wpgmza-col wpgmza-text-align-right">
 						<label class="wpgmza-button wpgmza-button-accent dynamic-action wpgmza-hidden"></label>
