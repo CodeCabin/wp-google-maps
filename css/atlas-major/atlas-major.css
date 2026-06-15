@@ -477,10 +477,14 @@
   .wpgmza-atlas-major .am-tab-fill { flex: 1; }
 
   .wpgmza-atlas-major .am-tab.am-tab-upgrade {
-    color: var(--am-pro-text);
+    color: #fff;
+    background: var(--am-pro);
     font-weight: 600;
   }
-  .wpgmza-atlas-major .am-tab.am-tab-upgrade:hover { color: var(--am-pro-hover); }
+  .wpgmza-atlas-major .am-tab.am-tab-upgrade:hover {
+    color: #fff;
+    background: var(--am-pro-hover);
+  }
 
   /* ============================================
      MAIN AREA (am- components)
@@ -508,6 +512,17 @@
     flex: 1;
     overflow-y: auto;
     padding-bottom: 30px;
+  }
+
+  /* Pinned marker-list upsell — sits OUTSIDE .am-panel-scroll as a sibling, so
+     it stays visible regardless of how many markers are in the scrollable list
+     above it. flex-shrink: 0 prevents the upsell from being squashed when the
+     marker list is very long. Top border separates it from the scroll edge. */
+  .wpgmza-atlas-major .am-marker-list-upsell {
+    flex-shrink: 0;
+    padding: 16px 20px;
+    border-top: 1px solid var(--am-border);
+    background: var(--am-surface);
   }
   .wpgmza-atlas-major .am-panel-scroll::-webkit-scrollbar { width: 5px; }
   .wpgmza-atlas-major .am-panel-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -1200,6 +1215,19 @@
     width: 380px;
     max-width: 380px;
     min-width: 380px;
+  }
+
+  html:lang(de) .wpgmza-atlas-major .wpgmza-editor .sidebar,
+  html:lang(de) .wpgmza-atlas-major .wpgmza-editor .sidebar.expanded,
+  html:lang(fr) .wpgmza-atlas-major .wpgmza-editor .sidebar,
+  html:lang(fr) .wpgmza-atlas-major .wpgmza-editor .sidebar.expanded,
+  html:lang(it) .wpgmza-atlas-major .wpgmza-editor .sidebar,
+  html:lang(it) .wpgmza-atlas-major .wpgmza-editor .sidebar.expanded,
+  html:lang(es) .wpgmza-atlas-major .wpgmza-editor .sidebar,
+  html:lang(es) .wpgmza-atlas-major .wpgmza-editor .sidebar.expanded {
+    width: 424px;
+    max-width: 424px;
+    min-width: 424px;
   }
 
   .wpgmza-atlas-major .wpgmza-editor .sidebar form {
@@ -2003,9 +2031,16 @@
     overflow: visible;
     border-bottom: 1px solid var(--am-border);
   }
+  /* "Add" / "Add Marker" section heading above the per-feature
+     navigation block. Translated text comes from a
+     `data-am-label` attribute applied at runtime by
+     atlas-major-marker-list.js applySidebarLabels(). CSS used to
+     hard-code "Add" and "Add Marker" here which made them
+     un-translatable; the rule now just renders whatever the JS
+     populates. */
   .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping.auto-expand > .navigation::before,
   .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-feature-discard] > .navigation::before {
-    content: "Add";
+    content: attr(data-am-label);
     display: block;
     font-size: 11px;
     font-weight: 700;
@@ -2013,9 +2048,6 @@
     letter-spacing: 0.1em;
     color: var(--am-text-3);
     margin-bottom: 10px;
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-markers"] > .navigation::before {
-    content: "Add Marker";
   }
 
   /* Nav items inside auto-expand: style as clean buttons */
@@ -2057,9 +2089,15 @@
     border-top: none;
   }
 
-  /* --- Feature list header: "Marker List" label --- */
+  /* --- Feature list header: "Marker List" / "Polygon List" etc. ---
+     Translated text comes from a `data-am-label` attribute applied
+     at runtime by atlas-major-marker-list.js applySidebarLabels().
+     The per-feature override rules that used to hard-code labels
+     here (Marker List, Polygon List, Polyline List, …) are no
+     longer needed — the JS picks the right translated string for
+     each grouping's data-group. */
   .wpgmza-atlas-major .wpgmza-editor .sidebar .feature-list::before {
-    content: "List";
+    content: attr(data-am-label);
     display: block;
     font-size: 11px;
     font-weight: 700;
@@ -2067,30 +2105,6 @@
     letter-spacing: 0.1em;
     color: var(--am-text-3);
     padding: 14px 20px 8px;
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-markers"] .feature-list::before {
-    content: "Marker List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-polygons"] .feature-list::before {
-    content: "Polygon List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-polylines"] .feature-list::before {
-    content: "Polyline List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-circles"] .feature-list::before {
-    content: "Circle List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-rectangles"] .feature-list::before {
-    content: "Rectangle List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-heatmaps"] .feature-list::before {
-    content: "Heatmap List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-point-labels"] .feature-list::before {
-    content: "Point Label List";
-  }
-  .wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group="map-image-overlays"] .feature-list::before {
-    content: "Image Overlay List";
   }
 
   /* ==========================================================
@@ -3547,23 +3561,37 @@
   }
   .wpgmza-atlas-major .wpgmza-editor .sidebar .action-bar .wpgmza-button {
     font-size: 12px;
-    padding: 7px 16px;
+    padding: 7px 12px;
   }
 
-  /* Keep the action bar's right-side buttons (Preview + Save Map +
-     optional dynamic-action) inline on one row regardless of sidebar
-     width. The default `.wpgmza-row .wpgmza-col { flex: 1 }` gives the
-     right column ~50% of the sidebar, which on narrower sidebars isn't
-     wide enough for Preview + Save Map side-by-side — Save Map wraps
-     below. Override to flex with nowrap so they stay on one line; if
-     space runs out they'll visually overflow rather than wrap. */
+  /* Action-bar layout — keep all buttons (Get Shortcode + Preview +
+     Save Map + optional dynamic-action) on a single row when they fit
+     across the full sidebar width, wrap to a second row only when an
+     individual button's text genuinely pushes the total past the
+     sidebar edge.
+
+     Previous approach used the default `.wpgmza-row .wpgmza-col {
+     flex: 1 }` 50/50 split, which wastes left-column space on the
+     short "Get Shortcode" button and forces the right column to fit
+     Preview + Save Map into just half the sidebar — in English the
+     two fit fine, in French "Aperçu" + "Enregistrer la carte"
+     overflowed. Fix: size the right column to its content
+     (`flex: 0 1 auto`) so the LEFT column absorbs the slack when
+     content is short, and the right column only consumes what it
+     needs. `flex-wrap: wrap` on the OUTER row (not the right column)
+     means wrapping only kicks in when total content > sidebar width,
+     not when right-column content > 50% of sidebar. */
+  .wpgmza-atlas-major .wpgmza-editor .sidebar .action-bar .wpgmza-row {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
   .wpgmza-atlas-major .wpgmza-editor .sidebar .action-bar .wpgmza-row .wpgmza-col.wpgmza-text-align-right {
+    flex: 0 1 auto;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    flex-wrap: nowrap;
     gap: 6px;
-    white-space: nowrap;
+    min-width: 0;
   }
 
 
@@ -4445,11 +4473,12 @@
   .wpgmza-atlas-major .am-preview-page::-webkit-scrollbar-track { background: transparent; }
   .wpgmza-atlas-major .am-preview-page::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 
+  /* Mockup site — fluid: always 100% of the remaining preview-page
+     width, scales with the viewport. No fixed cap so the map inside
+     can render at the same width it will have on the front end. */
   .wpgmza-atlas-major .am-preview-page-inner {
-    width: 100%;
-    max-width: 1000px;
-    margin: 30px auto;
-    margin-left: max(70px, calc((100% - 1000px) / 2));
+    width: auto;
+    margin: 12px 60px;
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 1px 6px rgba(0,0,0,0.08);
@@ -4468,8 +4497,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 14px 24px;
-    max-width: 960px;
-    margin: 0 auto;
   }
   .wpgmza-atlas-major .am-mock-logo {
     display: flex;
@@ -4508,8 +4535,6 @@
 
   /* Mockup page content area */
   .wpgmza-atlas-major .am-mock-content {
-    max-width: 960px;
-    margin: 0 auto;
     padding: 24px 24px 32px;
     width: 100%;
     box-sizing: border-box;
@@ -4535,8 +4560,7 @@
   .wpgmza-atlas-major .am-mock-footer-inner {
     display: flex;
     gap: 24px;
-    max-width: 960px;
-    margin: 0 auto 14px;
+    margin: 0 0 14px;
   }
   .wpgmza-atlas-major .am-mock-footer-block {
     flex: 1;
@@ -4545,8 +4569,6 @@
     border-radius: 4px;
   }
   .wpgmza-atlas-major .am-mock-footer-copy {
-    max-width: 960px;
-    margin: 0 auto;
     height: 6px;
     width: 140px;
     background: #ddd;
@@ -6078,16 +6100,23 @@
      42. HELP BUTTON (toolbar)
      ========================================================== */
   /* Go Pro pill — persistent toolbar CTA */
+  /* Demoted from a solid purple CTA to an outlined ghost-pill so it
+     doesn't compete with the red Save Map button next to it. Same Pro
+     brand color, just inverted (transparent fill, lavender border,
+     purple text/icon) so it reads as a secondary action. Hover swaps
+     to a soft lavender fill, no lift/shadow — those are CTA-grade
+     affordances we want reserved for Save Map. */
   .wpgmza-atlas-major .am-btn-go-pro {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     padding: 5px 14px;
-    background: var(--am-pro);
-    color: white;
+    background: transparent;
+    color: var(--am-pro-text);
+    border: 1px solid var(--am-pro-border);
     border-radius: 20px;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -6095,12 +6124,12 @@
     flex-shrink: 0;
   }
   .wpgmza-atlas-major .am-btn-go-pro:hover {
-    background: var(--am-pro-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+    background: var(--am-pro-soft);
+    border-color: var(--am-pro);
+    color: var(--am-pro);
   }
   .wpgmza-atlas-major .am-btn-go-pro svg {
-    stroke: white;
+    stroke: currentColor;
   }
 
   .wpgmza-atlas-major .am-btn-help {
@@ -6753,14 +6782,15 @@
     color: var(--am-accent);
     background: var(--am-accent-soft);
   }
-  .wpgmza-atlas-major .wpgmza_map .wpgmza_edit_btn::after,
-  .wpgmza-atlas-major .wpgmza-panel-info-window .wpgmza_edit_btn::after {
-    content: "Edit";
-  }
-  .wpgmza-atlas-major .wpgmza_map .wpgmza_del_btn::after,
-  .wpgmza-atlas-major .wpgmza-panel-info-window .wpgmza_del_btn::after {
-    content: "Delete";
-  }
+  /* Visible "Edit" / "Delete" labels used to be injected here via
+     `::after { content: "Edit"; }` / `"Delete"`. That made them
+     un-translatable because CSS `content` strings don't go through
+     gettext. They now live as real <span class="wpgmza-btn-label">
+     children appended to the <a> by info-window.js addEditButton() /
+     addDeleteButton(), and are translated via
+     WPGMZA.localized_strings.info_window_(edit|delete)_marker_label.
+     The span styling is inherited from the parent <a> button rules
+     above — no additional CSS needed. */
   .wpgmza-atlas-major .wpgmza_map .wpgmza_edit_btn .fa,
   .wpgmza-atlas-major .wpgmza_map .wpgmza_del_btn .fa,
   .wpgmza-atlas-major .wpgmza-panel-info-window .wpgmza_edit_btn .fa,
@@ -7046,9 +7076,14 @@
   .wpgmza-atlas-major .theme-option.theme-panel-error img {
     display: none;
   }
+  /* "Could not fetch preview" — translated text comes from a
+     `data-am-label` attribute that the failing-image onerror
+     handlers (tileset-panel.php, leaflet-theme-panel.php,
+     ol-theme-panel.php) populate alongside the *-panel-error class.
+     CSS used to hardcode the English string here. */
   .wpgmza-atlas-major .tileset-option.tileset-panel-error:before,
   .wpgmza-atlas-major .theme-option.theme-panel-error:before {
-    content: "Could not fetch preview";
+    content: attr(data-am-label);
     font-size: 11px;
     display: flex;
     align-items: center;
@@ -7589,8 +7624,10 @@
   .wpgmza-atlas-major .wpgmza-tile-server-preview-container.preview-failed::after {
     display: none;
   }
+  /* Translated via data-am-label set by tile-server-preview.js when
+     it adds the preview-failed class. */
   .wpgmza-atlas-major .wpgmza-tile-server-preview-container.preview-failed::before {
-    content: "Could not fetch preview";
+    content: attr(data-am-label);
     position: absolute;
     bottom: 45px;
     font-size: 10px;
@@ -10612,4 +10649,57 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 .wpgmza-atlas-major .wpgmza-category-picker.jstree ul li .jstree-leaf > .jstree-ocl:before,
 .wpgmza-atlas-major .wpgmza-category-picker.jstree ul li .jstree-leaf > .jstree-ocl:after {
   display: none;
+}
+
+/* === Live Preview chrome compaction at narrow viewports ===
+   Below 1668px (notably when the editor sidebar widens to 424px for
+   German/French), the browser-mockup chrome reserves ~118px horizontal
+   (70px page indent + 48px mock-content L/R padding) that is better
+   spent on the map. Collapses the indent and side padding so the map
+   renders edge-to-edge inside the frame, and switches the page to
+   overflow-x: auto so wider maps remain fully visible via horizontal
+   scroll instead of being clipped — preserves "Live Preview" parity
+   with the user's map width setting (no scaling, no shrinking). */
+@media (max-width: 1668px) {
+  .wpgmza-atlas-major .am-preview-page {
+    overflow-x: auto;
+  }
+  .wpgmza-atlas-major .am-preview-page-inner {
+    margin: 12px 60px;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .wpgmza-atlas-major .am-mock-header-inner {
+    padding: 10px 12px;
+    max-width: none;
+  }
+  .wpgmza-atlas-major .am-mock-content {
+    padding: 24px 24px 32px;
+    max-width: none;
+  }
+  .wpgmza-atlas-major .am-mock-title-row {
+    padding: 12px 12px 8px;
+  }
+  .wpgmza-atlas-major .am-mock-footer {
+    padding: 12px;
+  }
+  .wpgmza-atlas-major .am-mock-footer-inner,
+  .wpgmza-atlas-major .am-mock-footer-copy {
+    max-width: none;
+  }
+}
+
+/* === Top toolbar slim-down below 1570px ===
+   Hides non-essential toolbar elements when horizontal space gets tight
+   (notably with the wider DE/FR sidebar). The "Go Pro" upsell button
+   and the autosave pause toggle both have alternate access points
+   (Pro page in the WP menu, /maps settings, etc.), so dropping them
+   from the top bar keeps the save state, map title, and primary
+   actions (Get Shortcode / Preview / Save Map) readable. */
+@media (max-width: 1569px) {
+  .wpgmza-atlas-major .am-toolbar-right .am-btn-go-pro,
+  .wpgmza-atlas-major .am-autosave-pause-toggle {
+    display: none;
+  }
 }

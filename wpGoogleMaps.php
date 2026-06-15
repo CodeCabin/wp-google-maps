@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.1.00
+Version: 10.1.02
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -14,6 +14,20 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 
 /*
+ * 10.1.02 - 2026-06-15
+ * Fixed issue where unauthenticated requests could trigger unintended database writes via the DataTables REST endpoint. Security issue, thanks to Thanh Diem (Wordfence)
+ * Fixed issue where Datatables language files may not load correctly in some environments due to name case. Fallback system developed to resolve and fail gracefully if unavailable
+ * 
+ * 10.1.01 - 2026-06-10
+ * Added a canonical POT translation template (languages/wp-google-maps.pot) so translators and contributors can generate and maintain language files from a single source rather than reconstructing the template locally each pass
+ * Added a fully complete French (fr_FR) translation, refreshed against the 10.1.00 codebase.
+ * Added a fully complete German (de_DE) translation, refreshed against the 10.1.00 codebase.
+ * Added a fully complete Italian (it_IT) translation, refreshed against the 10.1.00 codebase.
+ * Added a fully complete Spanish (es_ES) translation, refreshed against the 10.1.00 codebase.
+ * Added a fully complete Polish (pl_PL) translation, refreshed against the 10.1.00 codebase.
+ * Fixed issue where Leaflet frontend maps could place markers at incorrect pixel positions when the page layout had not finished settling at map construction time. An invalidateSize() call after first paint forces the origin to be recalculated against the correct container dimensions
+ * Improved responsiveness of the map editor at narrow viewports (Atlas Major)
+ *
  * 10.1.00 - 2026-06-03
  * New UI introduced: "Atlas Major"
  * Added Atlas Major UI as an opt-in beta. Activate via Settings > Danger Zone > Internal Build. Built on Tailwind CSS with a Plus Jakarta Sans typeface

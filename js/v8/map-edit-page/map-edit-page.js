@@ -846,8 +846,16 @@ jQuery(function($) {
 					enhancedAutocomplete.requestParams.query.engine = WPGMZA.settings.engine;
 				}
 
-				if(WPGMZA.settings.internal_engine){
-					enhancedAutocomplete.requestParams.query.build = WPGMZA.settings.internal_engine;
+				/* Prefer the user's saved choice (WPGMZA.settings.internal_engine).
+				   For brand-new installs that haven't saved settings yet that field
+				   is empty even though Atlas Major is the active resolved engine —
+				   fall back to WPGMZA.internalEngine which is the validated value
+				   exposed from PHP via InternalEngine::getStoredEngine(). Without
+				   the fallback, cloud telemetry for new users misses the build
+				   attribution until they save settings the first time. */
+				var resolvedBuild = WPGMZA.settings.internal_engine || WPGMZA.internalEngine;
+				if(resolvedBuild){
+					enhancedAutocomplete.requestParams.query.build = resolvedBuild;
 				}
 			}
 

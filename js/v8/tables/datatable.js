@@ -55,15 +55,32 @@ jQuery(function($) {
 			this.dataTable.ajax.reload();
 		}
 		else {
-			
-			$.ajax(this.getLanguageURL(), {
+			const primaryURL = this.getLanguageURL();
+			const filename = primaryURL.split('/').pop();
+			const swappedFirst = filename.charAt(0) === filename.charAt(0).toUpperCase() ? filename.charAt(0).toLowerCase() : filename.charAt(0).toUpperCase();
+			const fallbackURL = primaryURL.slice(0, primaryURL.lastIndexOf('/') + 1) + swappedFirst + filename.slice(1);
 
+			$.ajax(primaryURL, {
 				success: function(response, status, xhr){
 					self.languageJSON = response;
 					self.dataTable = $(self.dataTableElement).DataTable(settings);
 					self.dataTable.ajax.reload();
+				},
+				error: function(){
+					$.ajax(fallbackURL, {
+						success: function(response, status, xhr){
+							self.languageJSON = response;
+							settings.language = { url: fallbackURL };
+							self.dataTable = $(self.dataTableElement).DataTable(settings);
+							self.dataTable.ajax.reload();
+						},
+						error: function(){
+							delete settings.language;
+							self.dataTable = $(self.dataTableElement).DataTable(settings);
+							self.dataTable.ajax.reload();
+						}
+					});
 				}
-				
 			});
 		}
 	}

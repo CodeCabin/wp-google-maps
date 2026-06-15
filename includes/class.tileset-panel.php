@@ -78,7 +78,12 @@ class TilesetPanel extends DOMDocument
                         }
                     }
                     
-                    $html[] =    "<img src='" . esc_url($preview->url) . "' onerror='this.parentElement.classList.add(\"tileset-panel-error\");' />";
+                    /* On image load failure, parent gets the error class
+                       AND a data-am-label populated with the translated
+                       error message — CSS reads it via attr() so the
+                       "Could not fetch preview" caption translates. */
+                    $previewFailLabel = esc_attr( __('Could not fetch preview', 'wp-google-maps') );
+                    $html[] =    "<img src='" . esc_url($preview->url) . "' onerror='this.parentElement.classList.add(\"tileset-panel-error\"); this.parentElement.setAttribute(\"data-am-label\", \"" . $previewFailLabel . "\");' />";
                 }
                 
                 $html[] =    "<span>" . esc_html($server->label) . "</span>";

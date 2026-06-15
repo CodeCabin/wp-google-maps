@@ -1,11 +1,11 @@
 === WP Go Maps - Google Maps, OpenStreetMap, Leaflet Map ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, map plugin, store locator
+Tags: google maps, maps, map, leaflet, store locator
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.1.00
+Stable tag: 10.1.02
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,13 +19,13 @@ Formerly WP Google Maps.
 
 Add a customized Google map, map block or Store Locator to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss. No iFrames and super easy to use! Perfect for contact page maps, routes, maps showing delivery areas and any other use you can think of!
 
-While the free version of WP Go Maps allows you to create a Google map with as many markers as you like, the Pro version allows you to do so much more! 
+While the free version of WP Go Maps allows you to create a Google map with as many markers as you like, the Pro version allows you to do so much more!
 
 Create Elementor Maps, map blocks and map widgets easily with our WP Go Maps Elementor map block integration, straight out the box!
 
-Do you use the classic editor? We still support map widgets for classic WordPress installations. No need to compromise, the map widget includes the same functionality as our map blocks!  
+Do you use the classic editor? We still support map widgets for classic WordPress installations. No need to compromise, the map widget includes the same functionality as our map blocks!
 
-The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-version/) version allows you create custom Google maps with high quality markers containing locations, descriptions, images, categories, links and directions. 
+The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-version/) version allows you create custom Google maps with high quality markers containing locations, descriptions, images, categories, links and directions.
 
 = Lite Version (Free) =
 * The most popular Google Maps plugin on WordPress
@@ -217,19 +217,36 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
-= 10.1.00 = 
+= 10.1.02 =
+Please update to 10.1.02 or above to ensure you are using the latest security enhancements.
+
+= 10.1.00 =
 Please update to 10.1.00 or above to ensure you are using the latest security enhancements.
 
-= 10.0.10 = 
+= 10.0.10 =
 Please update to 10.0.10 or above to ensure you are using the latest security enhancements.
 
-= 10.0.08 = 
+= 10.0.08 =
 Please update to 10.0.08 or above for the latest stability improvements.
 
-= 10.0.07 = 
+= 10.0.07 =
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.02 - 2026-06-15 =
+* Fixed issue where unauthenticated requests could trigger unintended database writes via the DataTables REST endpoint. Security issue, thanks to Thanh Diem (Wordfence)
+* Fixed issue where Datatables language files may not load correctly in some environments due to name case. Fallback system developed to resolve and fail gracefully if unavailable
+
+= 10.1.01 - 2026-06-10 =
+* Added a canonical POT translation template (languages/wp-google-maps.pot) so translators and contributors can generate and maintain language files from a single source rather than reconstructing the template locally each pass
+* Added a fully complete French (fr_FR) translation, refreshed against the 10.1.00 codebase including all Atlas Major UI strings.
+* Added a fully complete German (de_DE) translation, refreshed against the 10.1.00 codebase including all Atlas Major UI strings.
+* Added a fully complete Italian (it_IT) translation, refreshed against the 10.1.00 codebase including all Atlas Major UI strings.
+* Added a fully complete Spanish (es_ES) translation, refreshed against the 10.1.00 codebase including all Atlas Major UI strings.
+* Added a fully complete Polish (pl_PL) translation, refreshed against the 10.1.00 codebase including all Atlas Major UI strings.
+* Improved responsiveness of the map editor at narrow viewports (Atlas Major).
+* Fixed issue where Leaflet frontend maps could place markers at incorrect pixel positions when the page layout had not finished settling at map construction time. An invalidateSize() call after first paint forces the origin to be recalculated against the correct container dimensions
 
 = 10.1.00 - 2026-06-03 =
 * Added Atlas Major, a new editor UI.
@@ -323,7 +340,7 @@ Please update to 10.0.07 or above to ensure you are using the latest architectur
 * Fixed issue where map list clicks were not being handled correctly for action buttons
 * Fixed issue where PHP 8.5 would throw a deprecation warning due to an outdated switch case
 * Fixed issue with our internal links, docs, site, support, forums, throughout the plugin
-* Fixed issue where bulk marker selection button would not work in some environments 
+* Fixed issue where bulk marker selection button would not work in some environments
 * Fixed issue where info-window link controls were available in basic
 * Updated marker listing demo image
 
@@ -342,7 +359,7 @@ Please update to 10.0.07 or above to ensure you are using the latest architectur
 * Added blue highlight to primary dataset creation buttons to make it clearer how to add datasets (UX Improvement)
 * Added button to marker quick tip notice to jump straight to marker creation (UX Improvement)
 * Added conditional checks for major version mismatches in compiler, preventing mismatched major versions from throwing build errors
-* Added a one time hint tool to our internal map editor tour system, which will show helpful usage hints after the main tour is completed. 
+* Added a one time hint tool to our internal map editor tour system, which will show helpful usage hints after the main tour is completed.
 * Fixed issue where Google Maps logo would not display on some installations, within the engine selector
 * Fixed issue where plugins that load bootstrap in our editor might cause editor placement issues, plugin conflict
 * Fixed issue where map preview would not generate on some themes. We now generate a draft page, which is reused and pruned when new previews are created
@@ -372,14 +389,14 @@ Please update to 10.0.07 or above to ensure you are using the latest architectur
 * Added Atlas Novus as the default internal build
 * Added danger zone tool to reindex any spatial coordinate data for markers, where a spatial coordinate has gone missing
 * Added ability to adjust rectangle boundaries with  boundary input
-* Added ability to bulk delete shapes 
+* Added ability to bulk delete shapes
 * Added ability to center on shapes and datasets within the editor
 * Added dropdown context meny to shape datatables
 * Added option to cachebust REST API requests
 * Added improved GDPR styling, it becomes the new default
 * Added quick delete button to info-window within the map editor
-* Added ability to override any HTML template part via a child theme override 
-* Added map preview system, allowing maps to be previewed on frontpage 
+* Added ability to override any HTML template part via a child theme override
+* Added map preview system, allowing maps to be previewed on frontpage
 * Added default indexes to all tables to improve performance
 * Added spatial indexes to tables where applicable to improve performance
 * Added fullscreen map editor panel mode, for dataset listings, allowing more data to be viewed
@@ -408,7 +425,7 @@ Please update to 10.0.07 or above to ensure you are using the latest architectur
 * - - - We know that accessibility is more nuanced than simple machine driven tests, we'd like to work with our community to ensure we improve this further
 * - - - Please reach out to us if you find anything that you feel should be improved as a priority!
 * Improved internal autocomplete modules for better user experience and management
-* Improved theme preset user interface 
+* Improved theme preset user interface
 * Improved theme CSS editor
 * Improved tile server system to handle params and authentication more efficiently
 * Improved tile server system to properly attribute various service providers

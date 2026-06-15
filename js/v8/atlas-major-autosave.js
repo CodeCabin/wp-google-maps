@@ -571,12 +571,30 @@ jQuery(function($) {
 			case 'error':    text = L('atlas_major_save_failed', 'Save failed'); break;
 			case 'idle':     text = '';         break;
 		}
-		this.pill.find('.am-save-pill-text').text(text);
+		this._writePillText(text);
 	};
 
 	WPGMZA.AtlasMajorAutoSave.prototype.updatePillText = function(state, text){
 		if(!this.pill.length) return;
 		this.pill.attr('data-state', state);
+		this._writePillText(text);
+	};
+
+	/* Safety check: only write to the pill text node when the value
+	 * actually differs from what's already there. setPillState() and
+	 * updatePillText() get called many times in rapid succession during
+	 * a window-resize drag — the map's onElementResized re-fires bounds
+	 * updates that cascade through the 4Hz polling loop and the form
+	 * change/input listener, each calling setPillState. Repeatedly
+	 * writing the same string to a text node triggers layout work and
+	 * was observed to visibly flicker the pill (and occasionally render
+	 * the English fallback for one frame between German writes when the
+	 * localized_strings lookup raced an in-flight resize tick). Caching
+	 * the last-written value on the instance is cheaper than reading
+	 * .text() on every call. */
+	WPGMZA.AtlasMajorAutoSave.prototype._writePillText = function(text){
+		if(this._lastPillText === text) return;
+		this._lastPillText = text;
 		this.pill.find('.am-save-pill-text').text(text);
 	};
 

@@ -2743,7 +2743,7 @@
 
 			<ul>
 				<li>
-					<button class="wpgmza-button wpgmza-system-health-tool-button" data-tool-type="resolve_coordinates">Resolve Coordinates</button>
+					<button class="wpgmza-button wpgmza-system-health-tool-button" data-tool-type="resolve_coordinates"><?php esc_html_e('Resolve Coordinates', 'wp-google-maps'); ?></button>
 
 					<small class="hint inline-hint">
 						<?php esc_html_e('Check if your database is missing spatial coordinate data and resolve if necessary.', 'wp-google-maps'); ?>
@@ -2758,8 +2758,8 @@
 
 			<ul>
 				<li>
-					<button class="wpgmza-button wpgmza-integration-tool-button" data-tool-type="test_collation">Collation Test</button>
-					<button class="wpgmza-button wpgmza-integration-tool-button wpgmza-hidden" data-tool-type="resolve_collation">Resolve Collation Issues</button>
+					<button class="wpgmza-button wpgmza-integration-tool-button" data-tool-type="test_collation"><?php esc_html_e('Collation Test', 'wp-google-maps'); ?></button>
+					<button class="wpgmza-button wpgmza-integration-tool-button wpgmza-hidden" data-tool-type="resolve_collation"><?php esc_html_e('Resolve Collation Issues', 'wp-google-maps'); ?></button>
 
 					<small class="hint inline-hint">
 						<?php esc_html_e('Only use this if requested by our support team.', 'wp-google-maps'); ?>
@@ -2774,8 +2774,8 @@
 
 			<ul>
 				<li>
-					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="add_db_indexing">Add Indexes</button>
-					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="remove_db_indexing">Remove Indexes</button>
+					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="add_db_indexing"><?php esc_html_e('Add Indexes', 'wp-google-maps'); ?></button>
+					<button class="wpgmza-button wpgmza-performance-tool-button" data-tool-type="remove_db_indexing"><?php esc_html_e('Remove Indexes', 'wp-google-maps'); ?></button>
 
 					<small class="hint inline-hint">
 						<?php esc_html_e('Add/remove performance indexes from the database tables that may improve query times. Only do this if suggested by our support team', 'wp-google-maps'); ?>
@@ -2791,7 +2791,7 @@
 			<ul>
 				<!-- Full Reset -->
 				<li>
-					<button danger="wpgmza_destroy_all_data" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button">Complete Reset</button>
+					<button danger="wpgmza_destroy_all_data" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Complete Reset', 'wp-google-maps'); ?></button>
 					
 					<small class="hint inline-hint">
 						<?php esc_html_e('This will delete all settings, maps, markers, shapes, categories, and custom fields and reset the plugin back to the first time you used it.', 'wp-google-maps'); ?>
@@ -2800,7 +2800,7 @@
 
 				<!-- Reset Settings -->
 				<li>
-					<button danger="wpgmza_reset_all_settings" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button">Reset all settings</button>
+					<button danger="wpgmza_reset_all_settings" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Reset all settings', 'wp-google-maps'); ?></button>
 					
 					<small class="hint inline-hint">
 						<?php esc_html_e('This will reset all settings back to their default.', 'wp-google-maps'); ?>
@@ -2809,7 +2809,7 @@
 
 				<!-- Maps -->
 				<li>
-					<button danger="wpgmza_destroy_maps" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button">Delete all maps</button>
+					<button danger="wpgmza_destroy_maps" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Delete all maps', 'wp-google-maps'); ?></button>
 					
 					<small class="hint inline-hint">
 						<?php esc_html_e('This will delete all maps, markers, shapes, categories, and custom fields.', 'wp-google-maps'); ?>
@@ -2818,7 +2818,7 @@
 
 				<!-- Markers -->
 				<li>
-					<button danger="wpgmza_destroy_markers" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button">Delete all markers</button>
+					<button danger="wpgmza_destroy_markers" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Delete all markers', 'wp-google-maps'); ?></button>
 					
 					<small class="hint inline-hint">
 						<?php esc_html_e('This will delete all markers.', 'wp-google-maps'); ?>
@@ -2827,7 +2827,7 @@
 				
 				<!-- Shapes -->
 				<li>
-					<button danger="wpgmza_destroy_shapes" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button">Delete all shapes</button>
+					<button danger="wpgmza_destroy_shapes" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Delete all shapes', 'wp-google-maps'); ?></button>
 					
 					<small class="hint inline-hint">
 						<?php esc_html_e('This will delete all shapes.', 'wp-google-maps'); ?>
@@ -2846,7 +2846,7 @@
 
 					<div class="wpgmza-danger-zone-map-target-select"></div> 
 					
-					<button danger="wpgmza_destroy_by_map" class="wpgmza_destroy_data wpgmza-button">Delete</button>
+					<button danger="wpgmza_destroy_by_map" class="wpgmza_destroy_data wpgmza-button"><?php esc_html_e('Delete', 'wp-google-maps'); ?></button>
 				</li>
 			</ul>
 		</div>

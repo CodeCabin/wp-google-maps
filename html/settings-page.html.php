@@ -1533,7 +1533,7 @@
 			
 			<p>
 				<label>
-					<button danger="wpgmza_destroy_all_data" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary">Complete Reset</button>
+					<button danger="wpgmza_destroy_all_data" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary"><?php esc_html_e('Complete Reset', 'wp-google-maps'); ?></button>
 					
 						<small class="wpgmza-button-hint-small">
 							<?php
@@ -1546,7 +1546,7 @@
 			<p>&nbsp;</p>
 			<p>
 				<label>
-					<button danger="wpgmza_reset_all_settings" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary">Reset all settings</button>
+					<button danger="wpgmza_reset_all_settings" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary"><?php esc_html_e('Reset all settings', 'wp-google-maps'); ?></button>
 					
 						<small class="wpgmza-button-hint-small">
 							<?php
@@ -1559,7 +1559,7 @@
 			<p>&nbsp;</p>
 			<p class="wpgmza-pro-feature-hide">
 				<label>
-					<button danger="wpgmza_destroy_maps" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary">Delete all maps</button>
+					<button danger="wpgmza_destroy_maps" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary"><?php esc_html_e('Delete all maps', 'wp-google-maps'); ?></button>
 					
 						<small class="wpgmza-button-hint-small">
 							<?php
@@ -1571,7 +1571,7 @@
 			</p>
 			<p>
 				<label>
-					<button danger="wpgmza_destroy_markers" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary">Delete all markers</button>
+					<button danger="wpgmza_destroy_markers" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary"><?php esc_html_e('Delete all markers', 'wp-google-maps'); ?></button>
 					
 						<small class="wpgmza-button-hint-small">
 							<?php
@@ -1583,7 +1583,7 @@
 			</p>
 			<p>
 				<label>
-					<button danger="wpgmza_destroy_shapes" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary">Delete all shapes</button>
+					<button danger="wpgmza_destroy_shapes" name="wpgmza_destroy_data" class="wpgmza_destroy_data wpgmza_general_btn button button-secondary"><?php esc_html_e('Delete all shapes', 'wp-google-maps'); ?></button>
 					
 						<small class="wpgmza-button-hint-small">
 							<?php
@@ -1596,8 +1596,8 @@
 
 			<p>&nbsp;</p>
 			<p class="wpgmza-pro-feature-hide">
-				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="add_db_indexing">Add Indexes</button>
-				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="remove_db_indexing">Remove Indexes</button>
+				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="add_db_indexing"><?php esc_html_e('Add Indexes', 'wp-google-maps'); ?></button>
+				<button class="wpgmza_general_btn button button-secondary wpgmza-performance-tool-button" data-tool-type="remove_db_indexing"><?php esc_html_e('Remove Indexes', 'wp-google-maps'); ?></button>
 				
 				<small class="wpgmza-button-hint-small">
 					<?php esc_html_e('Add/remove performance indexes from the database tables that may improve query times. Only do this if suggested by our support team', 'wp-google-maps'); ?>

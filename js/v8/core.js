@@ -410,9 +410,18 @@ jQuery(function($) {
 				});
 			}
 
+			/* Iterate the full selection rather than always picking .first().
+			   For single-select (default) the selection has exactly one item
+			   so the callback fires once — identical to the prior behaviour.
+			   For multi-select (callers passing `multiple: true` in config)
+			   the callback now fires per item rather than silently dropping
+			   everything after the first. */
 			file_frame.on( 'select', function() {
-				attachment = file_frame.state().get('selection').first().toJSON();
-				callback(attachment.id, attachment.url, attachment);
+				var selection = file_frame.state().get('selection');
+				selection.each(function(attachment_model) {
+					var attachment = attachment_model.toJSON();
+					callback(attachment.id, attachment.url, attachment);
+				});
 			});
 
 			file_frame.open();

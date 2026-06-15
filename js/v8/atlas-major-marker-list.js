@@ -41,6 +41,7 @@ jQuery(function($) {
 		this.initKebabDismiss();
 		this.render();
 		this.bindMapEvents();
+		WPGMZA.AtlasMajorMarkerList.applySidebarLabels();
 
 		/* Initial load busy state — if the map hasn't finished placing
 		 * its initial marker batch, the list is empty until then.
@@ -101,6 +102,53 @@ jQuery(function($) {
 			}
 		});
 	}
+
+	/**
+	 * Apply translated `data-am-label` attributes to sidebar
+	 * `.navigation` and `.feature-list` elements inside per-feature
+	 * groupings. These attributes are read by atlas-major.css via
+	 * `content: attr(data-am-label)` for the section heading labels
+	 * ("Add Marker", "Marker List", etc.).
+	 *
+	 * Previously those labels were hardcoded English in the CSS itself
+	 * (`::before { content: "Add Marker" }`), which made them
+	 * impossible to translate. This init runs once at editor load and
+	 * pushes the translated strings (from WPGMZA.localized_strings)
+	 * into the DOM as attributes so the CSS just reads them back.
+	 *
+	 * Runs idempotently (re-applies don't break anything) and is a
+	 * no-op outside the editor (no matching elements).
+	 */
+	WPGMZA.AtlasMajorMarkerList.applySidebarLabels = function() {
+		var L = (WPGMZA.localized_strings) || {};
+
+		var addLabel = function(group) {
+			if(group === 'map-markers')         return L.am_sidebar_add_marker || 'Add Marker';
+			return L.am_sidebar_add_default || 'Add';
+		};
+
+		var listLabel = function(group) {
+			switch(group) {
+				case 'map-markers':         return L.am_sidebar_list_marker         || 'Marker List';
+				case 'map-polygons':        return L.am_sidebar_list_polygon        || 'Polygon List';
+				case 'map-polylines':       return L.am_sidebar_list_polyline       || 'Polyline List';
+				case 'map-circles':         return L.am_sidebar_list_circle         || 'Circle List';
+				case 'map-rectangles':      return L.am_sidebar_list_rectangle      || 'Rectangle List';
+				case 'map-heatmaps':        return L.am_sidebar_list_heatmap        || 'Heatmap List';
+				case 'map-point-labels':    return L.am_sidebar_list_point_label    || 'Point Label List';
+				case 'map-image-overlays':  return L.am_sidebar_list_image_overlay  || 'Image Overlay List';
+				default:                    return L.am_sidebar_list_default        || 'List';
+			}
+		};
+
+		jQuery('.wpgmza-atlas-major .wpgmza-editor .sidebar .grouping[data-group]').each(function() {
+			var $grouping = jQuery(this);
+			var group = $grouping.attr('data-group');
+
+			$grouping.children('.navigation').attr('data-am-label', addLabel(group));
+			$grouping.find('.feature-list').attr('data-am-label', listLabel(group));
+		});
+	};
 
 	WPGMZA.AtlasMajorMarkerList.PIN_COLORS = [
 		'#e8473f', '#3b82f6', '#10b981', '#f59e0b',
