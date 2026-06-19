@@ -1,15 +1,15 @@
-=== WP Go Maps - Google Maps, OpenStreetMap, Leaflet Map ===
+=== WP Go Maps - Google Map, OpenStreetMap, Leaflet Map ===
 Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
-Tags: google maps, maps, map, leaflet, store locator
+Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.1.02
+Stable tag: 10.1.03
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The easiest to use map plugin! Create a custom map, map block, store locator or map widget with high quality markers.
+The easiest to use WordPress map plugin! Create a custom map, map block, store locator or map widget with high quality markers.
 
 == Description ==
 
@@ -28,7 +28,7 @@ Do you use the classic editor? We still support map widgets for classic WordPres
 The [WP Go Maps Pro Version](https://www.wpgmaps.com/purchase-professional-version/) version allows you create custom Google maps with high quality markers containing locations, descriptions, images, categories, links and directions.
 
 = Lite Version (Free) =
-* The most popular Google Maps plugin on WordPress
+* The most popular WordPress map plugin
 * Choose between Google Maps, Leaflet, Azure Maps, Stadia Maps, Maptiler, LocationIQ, Zero Cost or Open Layers Maps
 * Super easy to use, no coding required!
 * Create as many map markers as you need by simply typing in the address
@@ -193,6 +193,33 @@ It's super easy to add a map block to your page or post. Simply add a block in t
 = How do I add a map widget to my widget area? =
 To add your map to your widgets area, simply go to Appearance->Widgets and drag the "WP Go Maps" Map Widget to your sidebar. You then edit the map widget to reflect the correct map.
 
+= Do I need a Google Maps API key? =
+Only if you choose Google Maps as your map engine. WP Go Maps also supports Leaflet, OpenLayers, Stadia Maps, Maptiler, LocationIQ, Microsoft Azure and a Zero Cost option, none of which require a Google API key. You can switch engines at any time from Maps > Settings.
+
+= Which map engine should I choose? =
+If you want Google's native maps and have an API key, choose Google Maps. If you prefer an engine that does not require a billing-enabled API key, Leaflet (OpenStreetMap tiles) is a popular choice. OpenLayers, Stadia Maps, Maptiler, LocationIQ and Microsoft Azure are also supported. Zero Cost is a Leaflet-based option that requires no setup. Engine choice does not affect your stored markers, so you can switch later without losing data.
+
+= Why is my map not showing on the front-end? =
+First, confirm the shortcode or block is added to the page correctly. Then open your browser's developer console and look for errors related to the map engine you are using. If you are using Google Maps, check that the API key in Maps > Settings is valid and is not restricted to a different domain. Theme or plugin conflicts are also common. For a full troubleshooting walkthrough see [our troubleshooting documentation](https://www.wpgmaps.com/help/docs/my-map-is-not-showing-on-my-website/).
+
+= Is the plugin GDPR-compliant? =
+WP Go Maps does not set tracking cookies and does not transmit visitor data to third parties beyond the map tile and geocoding requests required to render the map. The plugin includes a built-in GDPR consent prompt that blocks those API requests until a visitor accepts. Configure it under Maps > Settings > GDPR.
+
+= How many markers can I add to a single map? =
+There is no hard limit. The free version supports as many markers as you need to add manually. The Pro version adds bulk CSV import, marker categories, marker clustering and batched loading for sites with thousands of markers.
+
+= Does the plugin work with Elementor, Divi, Gutenberg and other page builders? =
+Yes. WP Go Maps ships with a Gutenberg map block, an Elementor widget and a classic WordPress widget. The map shortcode works in any page builder that accepts WordPress shortcodes, including Divi, WPBakery, Beaver Builder and Oxygen.
+
+= Does the plugin support WPML, Polylang and multilingual sites? =
+The free version is translation-ready and ships with full translations for French, German, Italian, Spanish and Polish, plus partial coverage for many other languages. WP Go Maps Pro adds dynamic translation support for marker fields (title, description, address) via WPML.
+
+= Can I import markers from a CSV or spreadsheet? =
+Yes, with WP Go Maps Pro. The Pro version's import tool accepts CSV, KML and KMZ files and supports batched imports for very large datasets. The free version supports manual marker entry only.
+
+= Is the plugin compatible with caching plugins and Cloudflare? =
+Yes. WP Go Maps works with all major caching plugins including WP Rocket, W3 Total Cache and LiteSpeed Cache, as well as Cloudflare. If the map stops loading after enabling aggressive optimisation (JS minification or deferral), exclude the wp-google-maps scripts from those rules and the map will render correctly.
+
 = How can I report security bugs? =
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/wp-google-maps)
 
@@ -233,6 +260,9 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.03 - 2026-06-17 =
+* Fixed issue where the internal engine assignment could be skipped on fresh installs, defaulting new installations to Atlas Major instead of the intended random assignment
 
 = 10.1.02 - 2026-06-15 =
 * Fixed issue where unauthenticated requests could trigger unintended database writes via the DataTables REST endpoint. Security issue, thanks to Thanh Diem (Wordfence)
