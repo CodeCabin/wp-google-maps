@@ -47,15 +47,6 @@ class Database extends Factory
 		global $wpgmza;
 		global $wpgmza_version;
 
-		/* Capture fresh-install state BEFORE we run the table installs.
-		   `$this->version` is the value read from `wpgmza_db_version`
-		   in the constructor — empty here means there's no prior
-		   install on this site. We use this further down to gate
-		   "fresh-install-only defaults" so existing users updating
-		   the plugin don't suddenly get new UI defaults forced on
-		   them. */
-		$isFreshInstall = empty($this->version);
-
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 		$this->installMapsTable();
@@ -72,53 +63,9 @@ class Database extends Factory
 
 		$this->setDefaults();
 
-		if($isFreshInstall){
-			$this->setFreshInstallDefaults();
-		}
-
 		update_option('wpgmza_db_version', $wpgmza_version, false);
 	}
 
-	/**
-	 * Settings that should default ON for brand-new installs but
-	 * stay OFF for existing users updating the plugin.
-	 *
-	 * Anything written here lands in `wpgmza_global_settings` (the
-	 * JSON option that backs `$wpgmza->settings`). Existing keys are
-	 * preserved — we only ADD new keys.
-	 *
-	 * Add new fresh-install-only defaults to this method as they're
-	 * introduced rather than scattering the version-gating logic
-	 * across the codebase.
-	 */
-	protected function setFreshInstallDefaults()
-	{
-		$settings = get_option('wpgmza_global_settings');
-
-		/* `wpgmza_global_settings` is stored as a JSON string. */
-		if(is_string($settings)){
-			$decoded = json_decode($settings, true);
-			$settings = is_array($decoded) ? $decoded : array();
-		}
-		if(!is_array($settings)){
-			$settings = array();
-		}
-
-		/* Image placeholder for info-window panels (Panel / Card /
-		   Drawer) and marker listings (Basic Table / Grid). A subtle
-		   pin SVG + light gradient renders in the image area when
-		   the marker has no `pic` set, giving panels/rows a
-		   consistent visual anchor. Existing users keep their
-		   no-placeholder behaviour; new users get the polished UX
-		   by default and can disable via the settings page if they
-		   prefer empty space. */
-		if(!array_key_exists('image_placeholder_enabled', $settings)){
-			$settings['image_placeholder_enabled'] = true;
-		}
-
-		update_option('wpgmza_global_settings', wp_json_encode($settings));
-	}
-	
 	protected function installMapsTable()
 	{
 		global $WPGMZA_TABLE_NAME_MAPS;

@@ -121,14 +121,15 @@ class GlobalSettings extends Settings
 	{
 		/* Developer Hook (Filter) - Add or alter default plugin installation settings */
 		$settings = apply_filters('wpgmza_plugin_get_default_settings', array(
-			'engine' 				=> 'google-maps',
-			'internal_engine'		=> InternalEngine::getDefaultEngine(),
-			'google_maps_api_key'	=> get_option('wpgmza_google_maps_api_key'),
-			'default_marker_icon'	=> Marker::DEFAULT_ICON,
-			'developer_mode'		=> false,
-			'user_interface_style'	=> "default",
+			'engine' 					=> 'google-maps',
+			'internal_engine'			=> InternalEngine::getDefaultEngine(),
+			'google_maps_api_key'		=> get_option('wpgmza_google_maps_api_key'),
+			'default_marker_icon'		=> Marker::DEFAULT_ICON,
+			'developer_mode'			=> false,
+			'user_interface_style'		=> "default",
+			'image_placeholder_enabled'	=> true,
 		));
-		
+
 		return $settings;
 	}
 	
