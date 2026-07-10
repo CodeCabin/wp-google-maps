@@ -32,6 +32,9 @@ class MarkerFilter extends Factory
 	
 	public function __set($name, $value)
 	{
+		if(isset($name[0]) && $name[0] === '_')
+			return;
+
 		if(property_exists($this, "_$name"))
 		{
 			switch($name)

@@ -138,6 +138,7 @@
                 <li title='Organization: Wordfence'>Thanh Diem</li>
                 <li title='Organization: Patchstack'>Rafie Muhammad</li>
                 <li title='Organization: WPScan'>Marc</li>
+                <li title='Organization: WPScan'>Jakub Herman</li>
                 <li title='Organization: Fraudless.tech'>Ilyess Ghalem</li>
                 <li>Visse</li>
                 <li>Mohammed Adam</li>

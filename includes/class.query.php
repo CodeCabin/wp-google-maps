@@ -96,10 +96,10 @@ class Query
 				break;
 				
 			case 'limit':
-				if(!preg_match('/\d+\s*,\s*\d+/', $value))
+				if(!preg_match('/^\s*(\d+)(?:\s*,\s*(\d+))?\s*$/', $value, $m))
 					throw new \Exception('Invalid SQL limit');
-			
-				$this->_limit = $value;
+
+				$this->_limit = isset($m[2]) ? ((int)$m[1] . ',' . (int)$m[2]) : (int)$m[1];
 
 				break;
 				
