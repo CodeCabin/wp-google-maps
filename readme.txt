@@ -5,7 +5,7 @@ Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.1.03
+Stable tag: 10.1.04
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,6 +244,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.1.04 =
+Please update to 10.1.04 or above to ensure you are using the latest security enhancements.
+
 = 10.1.02 =
 Please update to 10.1.02 or above to ensure you are using the latest security enhancements.
 
@@ -260,6 +263,9 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.04 - 2026-07-10 =
+* Fixed issue where unauthenticated SQL Injection was possible via the limit paramater in the Marker Filter. Security issue, thanks to Jakub Herman
 
 = 10.1.03 - 2026-06-17 =
 * Fixed issue where the internal engine assignment could be skipped on fresh installs, defaulting new installations to Atlas Major instead of the intended random assignment
