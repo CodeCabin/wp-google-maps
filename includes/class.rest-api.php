@@ -400,7 +400,7 @@ class RestAPI extends Factory
 		
 		header('Content-type: application/json');
 		
-		echo json_encode($result);
+		echo wp_json_encode($result);
 	}
 	
 	public function onAJAXRequest()
