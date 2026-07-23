@@ -10,7 +10,7 @@ class InternalEngine {
 	const ATLAS_NOVUS  = "atlas-novus";
 	const ATLAS_MAJOR  = "atlas-major";
 
-	const RAND_PROB_FACTOR = 0.7;
+	const RAND_PROB_FACTOR = 0.75;
 
 	private $engine;
 	private $baseUrl;
@@ -448,7 +448,7 @@ class InternalEngine {
 	 * @return string
 	 */
 	public static function getDefaultEngine(){
-		return wp_rand(0, 1) === 0 ? self::ATLAS_NOVUS : self::ATLAS_MAJOR;
+		return wp_rand(1, 100) <= (int)(100 * self::RAND_PROB_FACTOR) ? self::ATLAS_NOVUS : self::ATLAS_MAJOR;
 	}
 
 	/**

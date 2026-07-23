@@ -400,7 +400,7 @@ class RestAPI extends Factory
 		
 		header('Content-type: application/json');
 		
-		echo json_encode($result);
+		echo wp_json_encode($result);
 	}
 	
 	public function onAJAXRequest()
@@ -674,10 +674,11 @@ class RestAPI extends Factory
 	{
 		global $wpdb;
 		global $wpgmza;
-		
+		global $WPGMZA_TABLE_NAME_MAPS;
+
 		$route		= $_SERVER['REQUEST_URI'];
-		
-		
+
+
 		// NB: Not sure if this is intentional, but it works
 		if(!preg_match('#wpgmza/v1/(\w+)(/\d+)?#', $_SERVER['REQUEST_URI'], $m)) {
 			if(!preg_match('/(\w+)s(\/(\d+))?(\/?\?.+)?$/', $route, $m)) {
@@ -792,13 +793,13 @@ class RestAPI extends Factory
 						}
 
 						$queryParams	= array();
-						$qstr			= "SELECT $columns FROM $table";
-						
+						$qstr			= "SELECT $columns FROM $table WHERE map_id IN (SELECT id FROM $WPGMZA_TABLE_NAME_MAPS WHERE active = 0)";
+
 						if(!empty($map_ids)){
 							$queryParams 	= array_merge($queryParams, $map_ids);
 							$placeholders	= implode(',', array_fill(0, count($map_ids), '%d'));
-							
-							$qstr			.= " WHERE map_id IN (" . $placeholders . ")";
+
+							$qstr			.= " AND map_id IN (" . $placeholders . ")";
 							$stmt			= $wpdb->prepare($qstr, $queryParams);
 						} else {
 							$stmt			= $qstr;
