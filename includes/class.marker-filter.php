@@ -178,6 +178,7 @@ class MarkerFilter extends Factory
 		$this->applyIDsClause($query);
 		$this->applyLimit($query);
 		$this->applyApprovedClause($query);
+		$this->applyActiveMapClause($query);
 
 		return $query;
 	}
@@ -201,6 +202,19 @@ class MarkerFilter extends Factory
 			return;
 
 		$query->where['approved'] = 'approved = 1';
+	}
+
+	protected function applyActiveMapClause($query)
+	{
+		global $wpgmza;
+		global $WPGMZA_TABLE_NAME_MAPS;
+
+		if(isset($_SERVER['HTTP_REFERER'])
+			&& preg_match('/page=wp-google-maps-menu/', sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER'])))
+			&& $wpgmza->isUserAllowedToEdit())
+			return;
+
+		$query->where['active_map'] = "map_id IN (SELECT id FROM $WPGMZA_TABLE_NAME_MAPS WHERE active = 0)";
 	}
 	
 	public function getColumns($fields=null)

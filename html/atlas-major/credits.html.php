@@ -131,6 +131,7 @@
                 <li title="Organization: Jetpack">Animesh Gaurav</li>
                 <li title="Organization: CleanTalk Inc | Wordfence">Dmitrii Ignatyev</li>
                 <li title='Organization: Patchstack'>Joshua Chan</li>
+                <li title='Organization: Patchstack'>Bao - BlueRock</li>
                 <li title='Organization: Wordfence'>Tim Coen</li>
                 <li title='Organization: Wordfence'>Marco Wotschka</li>
                 <li title='Organization: Wordfence'>Akbar Kustirama</li>
@@ -162,6 +163,7 @@
         <div class="credit-container am-chain-block">
             <ul class="list-chain am-chain-list">
                 <!-- Actionable code changes from community -->
+                <li title="Core Improvements | GitHub: @thisismyurl">Christopher Ross</li>
                 <li title="Stability Improvements | GitHub: @shazahm1">Steven Zahm</li>
                 <li title="Stability Improvements | GitHub: @CNick">CNick</li>
                 <li title="Optimization | GitHub: @Lowwebtech">Lowwebtech</li>

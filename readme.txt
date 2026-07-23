@@ -5,7 +5,7 @@ Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.1.04
+Stable tag: 10.1.05
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,6 +244,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.1.05 =
+Please update to 10.1.05 or above to ensure you are using the latest security enhancements.
+
 = 10.1.04 =
 Please update to 10.1.04 or above to ensure you are using the latest security enhancements.
 
@@ -263,6 +266,11 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.05 - 2026-07-23 =
+* Fixed issue where inactive map data would still be visible via the /features REST endpoint. Security issue, thanks to Bao - BlueRock
+* Improved JSON encoding in the REST API response layer, using wp_json_encode instead of json_encode to ensure proper handling of multibyte characters and other edge cases. Thanks to Christopher Ross
+* Updated installation module to enforce a 75/25 split between Atlas Novus and Atlas Major for new installations, as part of internal split testing.
 
 = 10.1.04 - 2026-07-10 =
 * Fixed issue where unauthenticated SQL Injection was possible via the limit paramater in the Marker Filter. Security issue, thanks to Jakub Herman
