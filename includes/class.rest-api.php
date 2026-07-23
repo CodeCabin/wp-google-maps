@@ -540,16 +540,23 @@ class RestAPI extends Factory
 	public function maps($request)
 	{
 		global $wpdb;
+		global $wpgmza;
 		global $WPGMZA_TABLE_NAME_MAPS;
-		
+
 		$route = $_SERVER['REQUEST_URI'];
-		
+
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
 				if(preg_match('#/wpgmza/v1/maps/(\d+)#', $route, $m))
 				{
-					$map = Map::createInstance($m[1]);
+					$id     = (int)$m[1];
+					$active = $wpdb->get_var($wpdb->prepare("SELECT active FROM $WPGMZA_TABLE_NAME_MAPS WHERE id = %d", $id));
+
+					if($active === null || $active != 0)
+						return new \WP_Error('wpgmza_map_not_found', 'Map does not exist', array('status' => 404));
+
+					$map = Map::createInstance($id);
 					return $map;
 				}
 				
@@ -711,9 +718,16 @@ class RestAPI extends Factory
 				}
 				else if($feature_id) {
 					// $qualified	= "WPGMZA\\" . ucwords($feature_type);
-					
+
 					// $instance	= new $qualified($feature_id);
 					$instance	= $qualified::createInstance($feature_id);
+
+					if(!empty($instance->map_id)) {
+						$active = $wpdb->get_var($wpdb->prepare("SELECT active FROM $WPGMZA_TABLE_NAME_MAPS WHERE id = %d", (int)$instance->map_id));
+						if($active === null || $active != 0)
+							return new \WP_Error('wpgmza_feature_not_found', 'Feature does not exist', array('status' => 404));
+					}
+
 					return $instance;
 				}
 				
@@ -919,7 +933,8 @@ class RestAPI extends Factory
 		global $wpdb;
 		global $wpgmza;
 		global $wpgmza_tblname;
-		
+		global $WPGMZA_TABLE_NAME_MAPS;
+
 		$route 		= $_SERVER['REQUEST_URI'];
 		$params		= $this->getRequestParameters();
 
@@ -936,6 +951,9 @@ class RestAPI extends Factory
 							/* Marker is not approved */
 							return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
 						}
+						$active = $wpdb->get_var($wpdb->prepare("SELECT active FROM $WPGMZA_TABLE_NAME_MAPS WHERE id = %d", (int)$marker->map_id));
+						if($active === null || $active != 0)
+							return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));
 						return $marker;
 					} catch (\Exception $ex){
 						return new \WP_Error('wpgmza_marker_not_found', 'Marker does not exist', array('status' => 404));

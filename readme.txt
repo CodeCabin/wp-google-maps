@@ -5,7 +5,7 @@ Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 10.1.05
+Stable tag: 10.1.06
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,6 +244,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.1.06 =
+Please update to 10.1.06 or above to ensure you are using the latest security enhancements.
+
 = 10.1.05 =
 Please update to 10.1.05 or above to ensure you are using the latest security enhancements.
 
@@ -266,6 +269,10 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.06 - 2026-07-23 = 
+* Fixed issue where inactive map data would be served on direct /maps requests even if the map was not active. Security issue, thanks to Bao - BlueRock
+* Fixed issue where individual datasets like /marker, /polygon and /polyline would be served even if the map was inactive. Security issue, thanks to Bao - BlueRock
 
 = 10.1.05 - 2026-07-23 =
 * Fixed issue where inactive map data would still be visible via the /features REST endpoint. Security issue, thanks to Bao - BlueRock
