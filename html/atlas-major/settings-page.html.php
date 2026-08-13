@@ -3130,10 +3130,30 @@
 		<!-- Sub heading : Infrastructure -->
 		<div class="tab-row as-heading">
 			<strong>
-				<?php esc_html_e("Infrastructure","wp-google-maps"); ?> 
+				<?php esc_html_e("Infrastructure","wp-google-maps"); ?>
 			</strong>
 		</div>
-		
+
+		<!-- Style Preload Hoist -->
+		<div id="wpgmza-enable-style-preload-hoist" class="tab-row has-hint">
+			<div class="title"><?php esc_html_e("Preload Map Styles", "wp-google-maps"); ?></div>
+			<div class="switch switch-inline">
+				<input name="wpgmza_enable_style_preload_hoist"
+						id="wpgmza_enable_style_preload_hoist"
+						class="cmn-toggle cmn-toggle-round-flat"
+						type="checkbox"/>
+
+				<label for="wpgmza_enable_style_preload_hoist"></label>
+				<label for="wpgmza_enable_style_preload_hoist">
+					<small>
+						<?php
+						esc_html_e('Detects the map shortcode/block before the page head is output and preloads its styles early - only needed on themes/setups that break the normal wp_head/wp_footer flow, where maps can otherwise load without styling. Please consult support before enabling this.', 'wp-google-maps');
+						?>
+					</small>
+				</label>
+			</div>
+		</div>
+
 		<!-- Automatic backups -->
 		<div id="wpgmza-disable-automatic-backups" class="tab-row has-hint wpgmza-pro-feature">
 			<div class="title"><?php esc_html_e("Disable Automatic Backups", "wp-google-maps"); ?></div>

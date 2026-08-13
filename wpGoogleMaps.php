@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.1.06
+Version: 10.1.07
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -14,6 +14,17 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 
 /*
+ * 10.1.07 - 2026-08-13
+ * Added extended data storage support in point labels to support feature expansion
+ * Added a new event trigger in MarkerFilter, 'filteringstart', which runs before a filter is about to start a run
+ * Added option to hoist script loading for environments that require early script loading
+ * Improved OpenLayers text overlays to be DOM based instead of canvas based, allowing element styling as part of a new styling module
+ * Improved modal serialization to ensure data is correctly serialized where needed, specifically addressing an issue with checkbox values not being serialized correctly
+ * Improved clarity of the theme JSON we support for Google Maps, specifically mentioning the requirement for legacy JSON not cloud based JSON
+ * Fixed issue where country restriction were not applied to all address providers, and as a result would provide wide results
+ * Fixed issue where Atlas Major marker list in editor would not correctly pull title/address from datatables request when system was in lazyload mode
+ * Tested with WP 7.1
+ * 
  * 10.1.06 - 2026-07-23
  * Fixed issue where inactive map data would be served on direct /maps requests even if the map was not active. Security issue, thanks to Bao - BlueRock
  * Fixed issue where individual datasets like /marker, /polygon and /polyline would be served even if the map was inactive. Security issue, thanks to Bao - BlueRock

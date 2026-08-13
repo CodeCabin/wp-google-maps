@@ -34,6 +34,10 @@ jQuery(function($) {
 	WPGMZA.OLPointlabel.prototype.updateNativeFeature = function(){
 		var options = this.getScalarProperties();
 
+		if(options.layergroup){
+			this.textFeature.setZIndex(options.layergroup);
+		}
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}

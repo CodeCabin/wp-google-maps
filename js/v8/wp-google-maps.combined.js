@@ -3215,25 +3215,45 @@ jQuery(function($) {
 		/* close_infowindow_on_map_click is already synced by initStoreLocatorSettingsSync's
 		   simpleFields array — no handler needed here. */
 
-		/* --- Enable marker labels (beta) ---
+		/* --- Marker labels ---
 		 * ProMarker applies labels at onAdd/setVisible time using map.settings.enable_marker_labels
-		 * and the marker's own title. Iterate existing markers and flip them live. */
-		$(document.body).on('change', 'input[name="enable_marker_labels"]', function(){
-			var enabled = $(this).is(':checked');
-			map.settings.enable_marker_labels = enabled ? 1 : 0;
-
+		 * and the marker's own title/subText. The label itself is a Pointlabel instance owned by
+		 * the marker (see WPGMZA.Marker.prototype.setLabel), styled entirely from the
+		 * map.settings.marker_label_* fields below. Iterate existing markers and refresh them
+		 * live on any relevant setting change. */
+		function refreshMarkerLabels(){
 			if(!map.markers) return;
 			for(var i = 0; i < map.markers.length; i++){
 				var m = map.markers[i];
 				if(typeof m.setLabel !== 'function') continue;
-				if(enabled){
-					if(m.title){
-						m.setLabel(m.title);
-					}
+				if(map.settings.enable_marker_labels){
+					m.setLabel();
 				} else {
 					m.setLabel(null);
 				}
 			}
+		}
+
+		$(document.body).on('change', 'input[name="enable_marker_labels"]', function(){
+			map.settings.enable_marker_labels = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'select[name="marker_label_style"]', function(){
+			map.settings.marker_label_style = $(this).val();
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'input[name="marker_label_above_icons"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		/* marker_label_icon is a single global icon URL (ImageInputSingle widget) - it
+		 * fires a plain 'change' on its underlying text input when picked or reset. */
+		$(document.body).on('change input', 'input[name="marker_label_font_size"], input[name="marker_label_offset_x"], input[name="marker_label_offset_y"], input[name="marker_label_icon"]', function(){
+			map.settings[$(this).attr('name')] = $(this).val();
+			refreshMarkerLabels();
 		});
 	}
 
@@ -4089,6 +4109,7 @@ jQuery(function($) {
 		this.initKebabDismiss();
 		this.render();
 		this.bindMapEvents();
+		this.bindMetaSync();
 		WPGMZA.AtlasMajorMarkerList.applySidebarLabels();
 
 		/* Initial load busy state — if the map hasn't finished placing
@@ -4204,9 +4225,112 @@ jQuery(function($) {
 	];
 
 	/**
+	 * Keep title/address in sync with the hidden marker-list DataTable
+	 * (#wpgmza-table-container-Marker — never shown, see the constructor's
+	 * am-dt-hidden-in-list class, but still created by
+	 * MapEditPage::initDataTables and used for bulk-edit id lookups).
+	 *
+	 * Under Pro's `lazyload_info_window_content` setting, the map's own
+	 * marker fetch requests a reduced field set — id/lat/lng/icon/anim/
+	 * categories/layergroup only (ProMap::getRESTParameters) — and defers
+	 * title/address/etc. until a marker's info-window is opened
+	 * (ProMarker::lazyloadContent). Reading marker.title/marker.address
+	 * directly off map.markers (as renderItem/getFilteredMarkers used to)
+	 * means those fields are still unset for any marker that hasn't been
+	 * clicked, so title falls back to address, which falls back to the
+	 * Marker class's placeholder default of "California".
+	 *
+	 * The hidden DataTable queries title/address straight from the DB on
+	 * every load, completely independent of that reduced fetch — it's the
+	 * same request Atlas Novus's real, visible table already uses to show
+	 * accurate titles. Rather than issue a second request for the same
+	 * data, this listens for that request's response (see the
+	 * 'wpgmza-datatable-loaded' event added in tables/datatable.js) and
+	 * builds an id -> {title, address, ...} lookup from its `meta` array
+	 * (the raw per-row fields DataTables keeps alongside the formatted
+	 * grid — AdminFeatureDataTable already relies on this same array for
+	 * bulk actions, e.g. row.wpgmzaFeatureData.id).
+	 *
+	 * That table defaults to a page of 10 rows, which wouldn't cover
+	 * every marker on a larger map. Its query is deliberately cheap
+	 * though — AdminMarkerDataTable::filterColumns blanks out
+	 * description/pic/category in SQL specifically to keep this listing
+	 * query light — so forcing it to "All" (the same length option Novus's
+	 * visible table already offers) is one extra lightweight request, not
+	 * a heavy one, and guarantees every marker gets an accurate title/
+	 * address regardless of which page Atlas Major's own list is on.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindMetaSync = function(){
+		var self = this;
+
+		var attach = function(){
+			var dt = WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable;
+			if(!dt || !dt.dataTable){
+				setTimeout(attach, 250);
+				return;
+			}
+
+			$(dt.element).on('wpgmza-datatable-loaded', function(event, response){
+				self.applyMetaResponse(response);
+			});
+
+			if(dt.lastResponse){
+				self.applyMetaResponse(dt.lastResponse);
+			}
+
+			if(dt.dataTable.page.len() !== -1){
+				dt.dataTable.page.len(-1).draw(false);
+			}
+		};
+
+		attach();
+	}
+
+	/**
+	 * Merge a DataTable response's raw `meta` rows into the id -> fields
+	 * lookup used by getDisplayTitle/getDisplayAddress, then re-render so
+	 * any row currently showing stale/placeholder text picks up the
+	 * correct value.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.applyMetaResponse = function(response){
+		if(!response || !(response.meta instanceof Array))
+			return;
+
+		this._metaById = this._metaById || {};
+
+		for(var i = 0; i < response.meta.length; i++){
+			var row = response.meta[i];
+			if(row && typeof row.id !== 'undefined')
+				this._metaById[row.id] = row;
+		}
+
+		this.render();
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.getMetaFor = function(id){
+		return (this._metaById && this._metaById[id]) || null;
+	}
+
+	/**
+	 * Prefer the hidden DataTable's DB-accurate value; fall back to the
+	 * marker instance (correct once lazyloadContent has resolved, or
+	 * always correct when lazyload_info_window_content is off).
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.getDisplayTitle = function(marker){
+		var meta = this.getMetaFor(marker.id);
+		return (meta && meta.title) || marker.title || '';
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.getDisplayAddress = function(marker){
+		var meta = this.getMetaFor(marker.id);
+		return (meta && meta.address) || marker.address || '';
+	}
+
+	/**
 	 * Get the filtered marker list based on search term
 	 */
 	WPGMZA.AtlasMajorMarkerList.prototype.getFilteredMarkers = function(){
+		var self = this;
 		var map = WPGMZA.maps[0];
 		if(!map) return [];
 
@@ -4217,8 +4341,8 @@ jQuery(function($) {
 			return markers;
 
 		return markers.filter(function(m){
-			var title = (m.title || '').toLowerCase();
-			var address = (m.address || '').toLowerCase();
+			var title = self.getDisplayTitle(m).toLowerCase();
+			var address = self.getDisplayAddress(m).toLowerCase();
 			var id = String(m.id || '');
 
 			if(title.indexOf(term) !== -1 || address.indexOf(term) !== -1 || id.indexOf(term) !== -1)
@@ -4331,8 +4455,8 @@ jQuery(function($) {
 	 * Render a single marker list item
 	 */
 	WPGMZA.AtlasMajorMarkerList.prototype.renderItem = function(marker, index){
-		var title = this.esc(marker.title || '');
-		var address = this.esc(marker.address || '');
+		var title = this.esc(this.getDisplayTitle(marker));
+		var address = this.esc(this.getDisplayAddress(marker));
 		var id = marker.id;
 
 		if(!title && address){ title = address; address = ''; }
@@ -9543,8 +9667,19 @@ jQuery(function($) {
     WPGMZA.GenericModal.prototype.getData = function(){
         const data = {};
         this.element.find('input,select').each(function(){
-            if($(this).data('ajax-name')){
-                data[$(this).data('ajax-name')] = $(this).val();
+            const ajaxName = $(this).data('ajax-name');
+
+            if(!ajaxName)
+                return;
+
+            /* .val() always returns a checkbox's static value attribute (or "on" when
+               absent) regardless of whether it's actually checked - matches the
+               convention FeaturePanel.serializeFormData() already uses for the same
+               data-ajax-name fields on the individual feature panels. */
+            if($(this).attr('type') === 'checkbox'){
+                data[ajaxName] = $(this).prop('checked') ? 1 : 0;
+            } else {
+                data[ajaxName] = $(this).val();
             }
         });
 
@@ -14629,25 +14764,38 @@ jQuery(function($) {
 			this.xhr.abort();
 			delete this.xhr;
 		}
-		
+
 		function dispatchEvent(result)
 		{
 			var event = new WPGMZA.Event("filteringcomplete");
-			
+
 			event.map = self.map;
 			event.source = source;
-			
+
 			event.filteredMarkers = result;
 			event.filteringParams = params;
-			
+
 			self.onFilteringComplete(event);
-			
+
 			self.trigger(event);
 			self.map.trigger(event);
 		}
-		
+
+		/* Fired before any filtering/search actually runs, so consumers (eg. Gold's
+		 * near-vicinity groupings) can close/reset transient UI state before the
+		 * marker set underneath it changes, rather than reacting after the fact
+		 * to markers that have already moved. */
+		var startEvent = new WPGMZA.Event("filteringstart");
+
+		startEvent.map = this.map;
+		startEvent.source = source;
+		startEvent.filteringParams = params;
+
+		this.trigger(startEvent);
+		this.map.trigger(startEvent);
+
 		this.updateTimeoutID = setTimeout(function() {
-			
+
 			params = $.extend(self.getFilteringParameters(), params);
 			
 			if(params.center instanceof WPGMZA.LatLng)
@@ -14759,7 +14907,17 @@ jQuery(function($) {
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);
 		});
-		
+
+		// Marker.removeMarker() dispatches "removed" here but never touches native engine
+		// state directly - without this, an owned label would be orphaned on the map after
+		// its marker is removed (e.g. deleted, or replaced during a marker refetch).
+		this.addEventListener("removed", function(event) {
+			if(self.label){
+				self.label.map = null;
+				self.label = false;
+			}
+		});
+
 		this.handleLegacyGlobals(row);
 	}
 	
@@ -15026,8 +15184,83 @@ jQuery(function($) {
 			this.lat = parseFloat(latLng.lat);
 			this.lng = parseFloat(latLng.lng);
 		}
+
+		if(this.label)
+			this.setLabel(this.label.name);
 	}
-	
+
+	/**
+	 * Adds, updates or removes this marker's label. The label is rendered by an internally
+	 * owned WPGMZA.Pointlabel instance (never saved, never added to the map's pointlabel
+	 * collection), so it reuses the exact same Text/Card rendering engine as point labels
+	 * instead of duplicating engine-specific DOM/native label code per map provider.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {string} [label] The label text. Defaults to this.title if omitted. Falsy removes the label.
+	 */
+	WPGMZA.Marker.prototype.setLabel = function(label)
+	{
+		if(arguments.length === 0)
+			label = this.title;
+
+		if(!label || !this.map)
+		{
+			if(this.label)
+			{
+				this.label.map = null;
+				this.label = false;
+			}
+
+			return;
+		}
+
+		var settings = this.map.settings || {};
+		var offsetX = parseFloat(settings.marker_label_offset_x) || 0;
+		var offsetY = parseFloat(settings.marker_label_offset_y) || 0;
+		var position = this.map.nudgeLatLng(this.getPosition(), offsetX, offsetY);
+		var style = settings.marker_label_style || "";
+
+		// NB: marker_label_icon is a single global icon (set once in Behaviour settings)
+		// shown in every marker's label card - not the marker's own pin icon.
+		var icon;
+		if(style === "card" && settings.marker_label_icon)
+			icon = settings.marker_label_icon;
+
+		// "Render above marker icons" rides the same Layer field Point Label/Circle/Rectangle
+		// use - layer 1 is enough to clear an un-layered marker icon's default stacking.
+		var layergroup = settings.marker_label_above_icons ? 1 : 0;
+
+		if(!this.label)
+		{
+			this.label = WPGMZA.Pointlabel.createInstance({
+				center: position,
+				map: this.map,
+				name: label,
+				subText: this.markerLabelSubText,
+				style: style,
+				fontSize: settings.marker_label_font_size,
+				fillColor: settings.marker_label_font_color,
+				lineColor: settings.marker_label_outline_color,
+				icon: icon,
+				layergroup: layergroup
+			});
+
+			return;
+		}
+
+		this.label.name = label;
+		this.label.subText = this.markerLabelSubText;
+		this.label.style = style;
+		this.label.fontSize = settings.marker_label_font_size;
+		this.label.fillColor = settings.marker_label_font_color;
+		this.label.lineColor = settings.marker_label_outline_color;
+		this.label.icon = icon;
+		this.label.layergroup = layergroup;
+
+		this.label.setPosition(position);
+		this.label.updateNativeFeature();
+	}
+
 	WPGMZA.Marker.prototype.setOffset = function(x, y)
 	{
 		this._offset.x = x;
@@ -16305,6 +16538,32 @@ jQuery(function($) {
 
 		if(this.textFeature){
 			this.textFeature.setPosition(this.getPosition());
+		}
+	}
+
+	/* Layer (z-index) - same convention as WPGMZA.Polyline (shared by Circle/Rectangle/Polygon):
+	   a small user-facing number, offset by WPGMZA.Shape.BASE_LAYER_INDEX internally so labels
+	   with a layer set always render above un-layered features regardless of DOM order. */
+	Object.defineProperty(WPGMZA.Pointlabel.prototype, "layergroup", {
+		enumerable : true,
+		get: function() {
+			if(this._layergroup){
+				return this._layergroup;
+			}
+			return 0;
+		},
+		set: function(value) {
+			if(parseInt(value)){
+				this._layergroup = parseInt(value) + WPGMZA.Shape.BASE_LAYER_INDEX;
+			}
+		}
+	});
+
+	WPGMZA.Pointlabel.prototype.setLayergroup = function(layergroup){
+		this.layergroup = layergroup;
+
+		if(this.layergroup && this.textFeature){
+			this.textFeature.setZIndex(this.layergroup);
 		}
 	}
 
@@ -19922,6 +20181,21 @@ jQuery(function($) {
 		}
 	}
 
+	/**
+	 * Renders a "card" style label instead of plain text - title, optional subheading, optional
+	 * icon, styled entirely from the site's Styling (--wpgmza-component-*) CSS vars rather than
+	 * fillColor/lineColor, which don't apply to this style
+	 *
+	 * @param object content {title, subText, icon}
+	 *
+	 * @return void
+	 */
+	WPGMZA.Text.prototype.setCardContent = function(content){
+		if(this.overlay){
+			this.overlay.setCardContent(content);
+		}
+	}
+
 	WPGMZA.Text.prototype.setFontSize = function(size){
 		if(this.overlay){
 			this.overlay.setFontSize(size);
@@ -19943,6 +20217,12 @@ jQuery(function($) {
 	WPGMZA.Text.prototype.setOpacity = function(opacity){
 		if(this.overlay){
 			this.overlay.setOpacity(opacity);
+		}
+	}
+
+	WPGMZA.Text.prototype.setZIndex = function(zIndex){
+		if(this.overlay){
+			this.overlay.setZIndex(zIndex);
 		}
 	}
 
@@ -20101,6 +20381,7 @@ jQuery(function($) {
 	{
 		$('#wpgmza_theme_editor_feature option, #wpgmza_theme_editor_element option').css('font-weight', 'normal');
 		$('#wpgmza_theme_editor_error').hide();
+		$('.wpgmza-theme-cloud-format-notice').hide();
 		$('#wpgmza_theme_editor').show();
 		$('#wpgmza_theme_editor_do_hue').prop('checked', false);
 		$('#wpgmza_theme_editor_hue').val('#000000');
@@ -20137,10 +20418,34 @@ jQuery(function($) {
 			this.json = [];
 			this.json.push(jsonCopy);
 		}
-		
+
+		$('.wpgmza-theme-cloud-format-notice').toggle(this.looksLikeCloudStyleData(this.json));
+
 		this.highlightFeatures();
 		this.highlightElements();
 		this.loadElementStylers();
+	}
+
+	/**
+	 * Heuristic check for pasted Google Cloud-based map style data (from
+	 * Cloud Console's Map Styling / Map IDs), which uses a different
+	 * schema to the legacy Maps JavaScript API style array this field
+	 * supports. There's no published schema to positively match cloud
+	 * data against, so instead this checks the shape we DO know: a
+	 * legacy style is always an array of rule objects, and at least one
+	 * rule normally carries a `stylers` array. Anything that doesn't
+	 * look like that is flagged - not blocked, just flagged, since we
+	 * can't be certain it's wrong (e.g. a rule with only featureType/
+	 * elementType and no stylers yet, mid-edit).
+	 */
+	WPGMZA.ThemeEditor.prototype.looksLikeCloudStyleData = function(json)
+	{
+		if (!$.isArray(json) || !json.length)
+			return false;
+
+		return !json.some(function(rule) {
+			return rule && typeof rule === 'object' && $.isArray(rule.stylers);
+		});
 	}
 	
 	WPGMZA.ThemeEditor.prototype.highlightFeatures = function()
@@ -21806,6 +22111,17 @@ jQuery(function($) {
                 "query": location.trim(),
                 'subscription-key': apikey
             });
+
+            if(mode === WPGMZA.AzureGeocoder.Modes.ADDRESS){
+                /* Azure's Search Address API restricts by countrySet - comma separated
+                   ISO 3166-1 alpha-2 codes. Matches the "Restrict to Country" store
+                   locator setting, which is always a single alpha-2 code. */
+                if(options.componentRestrictions && options.componentRestrictions.country){
+                    params.append('countrySet', options.componentRestrictions.country.toUpperCase());
+                } else if(options.country){
+                    params.append('countrySet', options.country.toUpperCase());
+                }
+            }
 
             let endpoint = WPGMZA.AzureGeocoder.API_URL + (mode === WPGMZA.AzureGeocoder.Modes.ADDRESS ? "json" : 'reverse/json');
             let url = `${endpoint}?${params.toString()}`;
@@ -24426,46 +24742,6 @@ jQuery(function($) {
 		
 	});
 	
-	WPGMZA.GoogleMarker.prototype.setLabel = function(label)
-	{
-		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
-			/* AdvancedMarkerElement module */
-			if(this.googleMarker.content){
-				if(!label){
-					const existing = this.googleMarker.content.querySelector('.wpgmza-google-marker-label');
-					if(existing){
-						existing.remove();
-					}
-
-					return;
-				}
-
-				const labelElement = document.createElement("div");
-				labelElement.classList.add('wpgmza-google-marker-label');
-				labelElement.innerText = label;
-
-				this.googleMarker.content.appendChild(labelElement);
-			}
-		} else {
-			/* Assume Marker module */
-			if(!label){
-				this.googleMarker.setLabel(null);
-				return;
-			}
-			
-			label = label.replaceAll("&amp;", "&");
-
-			this.googleMarker.setLabel({
-				text: label,
-				className: 'wpgmza-google-marker-label-legacy'
-			});
-			
-			if(!this.googleMarker.getIcon()){
-				this.googleMarker.setIcon(WPGMZA.settings.default_marker_icon);
-			}
-		}
-	}
-	
 	/**
 	 * Sets the position of the marker
 	 * @return void
@@ -24902,7 +25178,7 @@ jQuery(function($) {
 
 		this.googleFeature = this;
 
-		this.setOptions(options);
+		this.updateNativeFeature();
 	}
 
 	if(WPGMZA.isProVersion()){
@@ -24913,8 +25189,13 @@ jQuery(function($) {
 
 	WPGMZA.extend(WPGMZA.GooglePointlabel, Parent);
 
-	WPGMZA.GooglePointlabel.prototype.setOptions = function(options){
-		/* We don't actually handle this here */
+	WPGMZA.GooglePointlabel.prototype.updateNativeFeature = function(){
+		var options = this.getScalarProperties();
+
+		if(options.layergroup){
+			this.textFeature.setZIndex(options.layergroup);
+		}
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
@@ -25401,10 +25682,10 @@ jQuery(function($) {
 	
 	WPGMZA.GoogleTextOverlay = function(options)
 	{
-		this.element = $("<div class='wpgmza-google-text-overlay'><div class='wpgmza-inner'></div></div>");
-		
 		if(!options)
 			options = {};
+
+		this.element = $("<div class='wpgmza-google-text-overlay" + (options.class ? ` ${options.class}` : '') + "'><div class='wpgmza-inner'></div></div>");
 		
 		if(options.position)
 			this.position = options.position;
@@ -25479,6 +25760,41 @@ jQuery(function($) {
 		this.element.find(".wpgmza-inner").text(text);
 	}
 
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Note the
+	 * card's own font-size rule would win over an inherited .wpgmza-inner value either way, since a
+	 * direct rule always beats an inherited one - opacity still applies via that same inheritance
+	 * since nothing here overrides it
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setCardContent = function(content){
+		this.cardContent = content || {};
+		this.element.find(".wpgmza-inner").empty().append(this.getCardElement());
+	}
+
 	WPGMZA.GoogleTextOverlay.prototype.setFontSize = function(size){
 		size = parseInt(size);
 		this.element.find(".wpgmza-inner").css('font-size', size + 'px');
@@ -25508,6 +25824,10 @@ jQuery(function($) {
 		}
 
 		this.element.find(".wpgmza-inner").css('opacity', opacity);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setZIndex = function(zIndex){
+		this.element.css('z-index', zIndex);
 	}
 
 	WPGMZA.GoogleTextOverlay.prototype.remove = function(){
@@ -27044,7 +27364,8 @@ jQuery(function($) {
         
 		this.leafletMarker.on('remove', () => {
 			if(this.label){
-				this.label.remove();
+				this.label.map = null;
+				this.label = false;
 			}
 		});
 		
@@ -27061,32 +27382,6 @@ jQuery(function($) {
 	
 	WPGMZA.LeafletMarker.prototype = Object.create(Parent.prototype);
 	WPGMZA.LeafletMarker.prototype.constructor = WPGMZA.LeafletMarker;
-	
-	WPGMZA.LeafletMarker.prototype.addLabel = function() {
-		this.setLabel(this.getLabelText());
-	}
-	
-	WPGMZA.LeafletMarker.prototype.setLabel = function(label){
-		if(!label){
-			if(this.label){
-				this.label.remove();
-				this.label = false;
-
-			}
-			return;
-		}
-		
-		if(!this.label) {
-			label = label.replaceAll("&amp;", "&");
-			
-			this.label = WPGMZA.Text.createInstance({
-				text: label,
-				map: this.map,
-				position: this.getPosition(),
-				class: 'leaflet-marker-label'
-			});
-		}
-	}
 	
 	WPGMZA.LeafletMarker.prototype.getVisible = function(visible){
 		let element = this.getNativeElement();
@@ -27397,6 +27692,10 @@ jQuery(function($) {
 
 	WPGMZA.LeafletPointlabel.prototype.updateNativeFeature = function(){
 		var options = this.getScalarProperties();
+
+		if(options.layergroup){
+			this.textFeature.setZIndex(options.layergroup);
+		}
 
 		if(options.name){
 			this.textFeature.setText(options.name);
@@ -27818,7 +28117,8 @@ jQuery(function($) {
 		});
 
 		this.styleOptions = (!options) ? {} : options;
-		
+		this.map = options.map;
+
 		this.leafletFeature.on('add', () => {
 			this.refresh();
 		});
@@ -27877,6 +28177,49 @@ jQuery(function($) {
         }
 	}
 
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Opacity
+	 * still applies since that remains relevant either way
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(typeof this.styleOptions.opacity !== 'undefined'){
+			card.css('opacity', this.styleOptions.opacity);
+		}
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.LeafletTextOverlay.prototype.setCardContent = function(content){
+		if(!this.styleOptions){ return; }
+
+		this.cardContent = content || {};
+
+		if(this.leafletFeature){
+			const nativeElement = this.leafletFeature.getElement();
+			$(nativeElement).empty().append(this.getCardElement());
+		}
+	}
+
 	WPGMZA.LeafletTextOverlay.prototype.setFontSize = function(size){
 		if(!this.styleOptions){ return; }
 
@@ -27917,7 +28260,25 @@ jQuery(function($) {
         this.styleOptions.opacity = opacity;
 	}
 
-	
+	/**
+	 * Leaflet doesn't respect inline z-index within a shared pane the way Google/OL overlays
+	 * do, so layering re-parents into a dedicated numbered pane instead - same technique
+	 * WPGMZA.LeafletPolyline.setLayergroup already uses for shapes. Removing/re-adding the
+	 * marker regenerates its element, but the 'add' listener in the constructor already
+	 * re-runs refresh() (and the caller re-applies card content afterwards), so content isn't lost.
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setZIndex = function(zIndex){
+		if(!this.map || !this.leafletFeature){ return; }
+
+		var pane = this.map.getLayerGroupPane('text_layer_', zIndex, 'markerPane');
+		if(!pane || this.leafletFeature.options.pane === pane){ return; }
+
+		this.leafletFeature.remove();
+		this.leafletFeature.options.pane = pane;
+		this.leafletFeature.addTo(this.map.leafletMap);
+	}
+
+
 	WPGMZA.LeafletTextOverlay.prototype.remove = function(){
 		if(this.leafletFeature){
         	this.leafletFeature.remove();
@@ -28222,6 +28583,16 @@ jQuery(function($) {
 
             if(mode === WPGMZA.LocationIQGeocoder.Modes.ADDRESS){
                 params.append('q', location);
+
+                /* LocationIQ is Nominatim-compatible, so this is the same countrycodes
+                   param (comma separated ISO 3166-1 alpha-2 codes) NominatimGeocoder
+                   already uses. Matches the "Restrict to Country" store locator
+                   setting, which is always a single alpha-2 code. */
+                if(options.componentRestrictions && options.componentRestrictions.country){
+                    params.append('countrycodes', options.componentRestrictions.country);
+                } else if(options.country){
+                    params.append('countrycodes', options.country);
+                }
             } else if(mode === WPGMZA.LocationIQGeocoder.Modes.LATLNG){
                 params.append('lat', location.lat);
                 params.append('lon', location.lng);
@@ -30655,9 +31026,9 @@ jQuery(function($) {
 	WPGMZA.extend(WPGMZA.PointlabelPanel, WPGMZA.FeaturePanel);
 	
 	WPGMZA.PointlabelPanel.createInstance = function(element, mapEditPage){
-		/*if(WPGMZA.isProVersion())
+		if(WPGMZA.isProVersion())
 			return new WPGMZA.ProPointLabelPanel(element, mapEditPage);
-		*/
+
 		return new WPGMZA.PointlabelPanel(element, mapEditPage);
 	}
 	
@@ -33053,39 +33424,6 @@ jQuery(function($) {
 		$(this.element).css({height: height + "px"});
 	}
 	
-	WPGMZA.OLMarker.prototype.addLabel = function()
-	{
-		this.setLabel(this.getLabelText());
-	}
-	
-	WPGMZA.OLMarker.prototype.setLabel = function(label)
-	{
-		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
-		{
-			console.warn("Marker labels are not currently supported in Vector Layer rendering mode");
-			return;
-		}
-		
-		if(!label)
-		{
-			if(this.label){
-				$(this.element).find(".ol-marker-label").remove();
-				this.label = false;
-			}
-			
-			return;
-		}
-		
-		if(!this.label)
-		{
-			this.label = $("<div class='ol-marker-label'/>");
-			$(this.element).append(this.label);
-		}
-		
-		label = label.replaceAll("&amp;", "&");
-		this.label.html(label);
-	}
-	
 	WPGMZA.OLMarker.prototype.getVisible = function(visible)
 	{
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
@@ -33482,6 +33820,10 @@ jQuery(function($) {
 	WPGMZA.OLPointlabel.prototype.updateNativeFeature = function(){
 		var options = this.getScalarProperties();
 
+		if(options.layergroup){
+			this.textFeature.setZIndex(options.layergroup);
+		}
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
@@ -33872,12 +34214,15 @@ jQuery(function($) {
 	WPGMZA.OLText.prototype.setMap = function(map){
 		if(this.overlay){
 			if(map && map.olMap){
-				if(this.overlay.olMap){
+				if(this.overlay.olOverlay){
 					this.overlay.remove();
-					map.olMap.addLayer(this.overlay.layer);
+					map.olMap.addOverlay(this.overlay.olOverlay);
+					this.overlay.map = map;
+					this.overlay.refresh();
 				} else {
 					this.options.map = map;
 					this.overlay = new WPGMZA.OLTextOverlay(this.options);
+					this.overlay.refresh();
 				}
 			} else {
 				this.overlay.remove();
@@ -33893,35 +34238,27 @@ jQuery(function($) {
  * @requires WPGMZA.OLText
  */
 jQuery(function($) {
-	
+
 	WPGMZA.OLTextOverlay = function(options){
 		if(!options.position || !options.map) {
 			return;
 		}
 
-		let self = this;
-
-		let coords = ol.proj.fromLonLat([
-				options.position.lng,
-				options.position.lat
-		]);
-
-		this.olFeature = new ol.Feature({
-			geometry: new ol.geom.Point(coords)
-		});
+		this.element = $("<div class='wpgmza-ol-text-overlay-wrapper" + (options.class ? ` ${options.class}` : '') + "'></div>")[0];
 
 		this.styleOptions = (!options) ? {} : options;
+		this.map = options.map;
 
-		this.layer = new ol.layer.Vector({
-			source: new ol.source.Vector({
-				features: [this.olFeature]
-			}),
-			style : this.getStyle()
+		this.olOverlay = new ol.Overlay({
+			element : this.element,
+			position : ol.proj.fromLonLat([options.position.lng, options.position.lat]),
+			positioning : "center-center",
+			stopEvent : false
 		});
 
-		this.layer.setZIndex(10);
+		this.map.olMap.addOverlay(this.olOverlay);
 
-		options.map.olMap.addLayer(this.layer);
+		this.refresh();
 	}
 
 	WPGMZA.OLTextOverlay.prototype.getStyle = function(){
@@ -33937,58 +34274,98 @@ jQuery(function($) {
 			}
 		}
 
-		let labelStyles = new ol.style.Style({
-			text: new ol.style.Text({
-		    	font: 'bold ' + this.styleOptions.fontSize + 'px "Open Sans", "Arial Unicode MS", "sans-serif"',
-		    	placement: 'point',
-		    	fill: new ol.style.Fill({
-		      		color: this.styleOptions.fillColor,
-		    	}),
-		    	stroke: new ol.style.Stroke({
-		      		color: this.styleOptions.strokeColor,
-		      		width: 1
-		    	}),
-		  	})
-		});
+        let labelStyles = [];
+        labelStyles.push("width: fit-content");
+        labelStyles.push("font: bold " + this.styleOptions.fontSize + "px \"Open Sans\", \"Arial Unicode MS\", \"sans-serif\"");
+        labelStyles.push("color: " + this.styleOptions.fillColor);
+        labelStyles.push("z-index: 10");
+        labelStyles.push("text-shadow: -1px -1px 0 " + this.styleOptions.strokeColor + ", 1px -1px 0 " + this.styleOptions.strokeColor + ", -1px 1px 0 " + this.styleOptions.strokeColor + ", 1px 1px 0 " + this.styleOptions.strokeColor);
 
-		labelStyles.getText().setText(this.styleOptions.text || "");
+        if(this.styleOptions.opacity){
+            labelStyles.push("opacity: " + this.styleOptions.opacity);
+        }
 
-		return labelStyles;
+		return labelStyles.join('; ');
 	}
 
 	WPGMZA.OLTextOverlay.prototype.refresh = function(){
-		if(this.layer){
-			this.layer.setStyle(this.getStyle());
-		}
+		if(!this.styleOptions){ return; }
+		this.setText(this.styleOptions.text);
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setPosition = function(position){
-		if(this.olFeature){
-			let origin = ol.proj.fromLonLat([
+		if(this.olOverlay){
+			this.olOverlay.setPosition(ol.proj.fromLonLat([
 				parseFloat(position.lng),
 				parseFloat(position.lat)
-			]);
-
-			this.olFeature.setGeometry(new ol.geom.Point(origin));
+			]));
 		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setText = function(text){
 		if(!this.styleOptions){ return; }
 
-		this.styleOptions.text = text;
+		if(text){
+        	this.styleOptions.text = text;
+		}
+
+		if(this.element){
+			$(this.element).html(`<div class='wpgmza-ol-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div>`);
+        }
+	}
+
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Opacity
+	 * still applies since that remains relevant either way
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.OLTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(typeof this.styleOptions.opacity !== 'undefined'){
+			card.css('opacity', this.styleOptions.opacity);
+		}
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.OLTextOverlay.prototype.setCardContent = function(content){
+		if(!this.styleOptions){ return; }
+
+		this.cardContent = content || {};
+
+		if(this.element){
+			$(this.element).empty().append(this.getCardElement());
+		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFontSize = function(size){
 		if(!this.styleOptions){ return; }
-		
+
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFillColor = function(color){
 		if(!this.styleOptions){ return; }
-		
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -33998,7 +34375,7 @@ jQuery(function($) {
 
 	WPGMZA.OLTextOverlay.prototype.setLineColor = function(color){
 		if(!this.styleOptions){ return; }
-		
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -34007,7 +34384,7 @@ jQuery(function($) {
 
 	WPGMZA.OLTextOverlay.prototype.setOpacity = function(opacity){
 		if(!this.styleOptions){ return; }
-		
+
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){
@@ -34016,19 +34393,24 @@ jQuery(function($) {
 			opacity = 0;
 		}
 
-		if(this.layer){
-			this.layer.setOpacity(opacity);
+        this.styleOptions.opacity = opacity;
+	}
+
+	WPGMZA.OLTextOverlay.prototype.setZIndex = function(zIndex){
+		if(this.element){
+			$(this.element).css('z-index', zIndex);
 		}
 	}
 
-	
+
 	WPGMZA.OLTextOverlay.prototype.remove = function(){
-		if(this.styleOptions.map){
-			this.styleOptions.map.olMap.removeLayer(this.layer);
+		if(this.olOverlay && this.map && this.map.olMap){
+        	this.map.olMap.removeOverlay(this.olOverlay);
 		}
 	}
-	
+
 });
+
 
 // js/v8/open-layers/ol-theme-editor.js
 /**
@@ -34268,7 +34650,13 @@ jQuery(function($) {
 				}
 
 				self.lastResponse = response;
-				
+
+				/* Generic hook so other code can consume a table's raw
+				 * response (e.g. `response.meta`, the unformatted
+				 * per-row field data) without wiring up a second AJAX
+				 * request against the same route. */
+				$(self.element).trigger('wpgmza-datatable-loaded', [response]);
+
 				callback(response);
 				
 				$("[data-marker-icon-src]").each(function(index, element) {

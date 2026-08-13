@@ -12,9 +12,9 @@ jQuery(function($) {
 	WPGMZA.extend(WPGMZA.PointlabelPanel, WPGMZA.FeaturePanel);
 	
 	WPGMZA.PointlabelPanel.createInstance = function(element, mapEditPage){
-		/*if(WPGMZA.isProVersion())
+		if(WPGMZA.isProVersion())
 			return new WPGMZA.ProPointLabelPanel(element, mapEditPage);
-		*/
+
 		return new WPGMZA.PointlabelPanel(element, mapEditPage);
 	}
 	

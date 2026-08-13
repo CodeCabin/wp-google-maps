@@ -4124,6 +4124,50 @@
     position: relative;
 }
 
+/* Marker Label Icon (Behaviour settings tab) - same preview-box styling as the
+   editor sidebar/tabs-container variants above, extended to the map settings form */
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper {
+    position: relative;
+    cursor: pointer;
+    border: var(--wpgmza-color-grey-200) dashed 2px;
+    border-radius: 4px;
+    color: var(--wpgmza-color-grey-200);
+    transition: border 0.3s ease, color 0.3s ease;
+    width: 135px;
+}
+
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper:hover {
+    border-color: var(--wpgmza-color-grey-common);
+    color: var(--wpgmza-color-grey-common);
+}
+
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview div {
+    min-height: 60px;
+    font-size: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview img {
+    max-width: 100%;
+    border-radius: 4px;
+    transition: opacity 0.3s ease;
+}
+
+.wpgmza-map-settings-form .wpgmza-image-single-input-wrapper:hover img {
+    opacity: 0.7;
+}
+
 
 .wpgmza-wrap .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-reset {
     position: absolute;
@@ -4453,8 +4497,8 @@
 
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview {
-    min-width: 130px;
-    min-height: 130px;
+    min-width: 180px;
+    min-height: 180px;
     border-radius: 3px;
 
     margin-top: 5px;
@@ -4477,7 +4521,6 @@
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview[data-style="map"]{
     background: url("https://a.tile.openstreetmap.org/7/20/49.png");
-    background-position: -86px -20px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview canvas{
@@ -4619,9 +4662,68 @@
     background-color: var(--wpgmza-color-grey-100);
 }
 
+.wpgmza-marker-icon-editor .wpgmza-icon-output-resolution-custom-input{
+    font-size: 0.9em;
+    padding: 0 10px;
+    border: none;
+    background-color: var(--wpgmza-color-grey-100);
+    width: 84px;
+    box-sizing: border-box;
+}
+
+/* Image fill picker (Fill panel, colorMode = image) - shares the dashed-border/hover language with the
+   sidebar/tabs-container variants of this widget, sized to sit in a split-row alongside its label like
+   the color swatch above it */
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper {
+    position: relative;
+    cursor: pointer;
+    width: 45px;
+    height: 32px;
+    margin-left: auto;
+    flex-shrink: 0;
+    border: var(--wpgmza-color-grey-200) dashed 2px;
+    border-radius: 4px;
+    color: var(--wpgmza-color-grey-200);
+    transition: border 0.3s ease, color 0.3s ease;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper:hover {
+    border-color: var(--wpgmza-color-grey-common);
+    color: var(--wpgmza-color-grey-common);
+}
+
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview > div {
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    transition: opacity 0.2s ease;
+}
+
+/* Clearer "click to change" affordance once an image is set */
+.wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper:hover .wpgmza-image-single-input-preview img {
+    opacity: 0.5;
+}
+
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs {
-    display: flex;    
-    margin-top: 10px;
+    display: flex;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab{
@@ -4631,17 +4733,12 @@
     flex: 1;
     text-align: center;
     cursor: pointer;
-    
-    border: 2px solid var(--wpgmza-color-grey-100);
-}
 
-.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:first-child{
-    border-top-left-radius: 5px;
-    border-right: 0;
+    border-right: 2px solid var(--wpgmza-color-grey-100);
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:last-child{
-    border-top-right-radius: 5px;
+    border-right: 0;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
@@ -4655,12 +4752,30 @@
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab.active {
     display: block;
-    padding: 10px;
-    border: 2px solid var(--wpgmza-color-grey-100);
-    border-top:0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    padding: 0;
+    border: none;
+    border-top: 2px solid var(--wpgmza-color-grey-100);
     margin-bottom: 15px;
+}
+
+/* Icon-only tab bar (Style / Shape / Effects / Overlays) - icons carry the existing .inner-tab
+   flex/border-radius/background-on-hover-active treatment, just centered instead of text-aligned */
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    color: #9c9c99;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab.active {
+    color: #5c5c5a;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab-icon {
+    width: 18px;
+    height: 18px;
 }
 
 
@@ -4738,6 +4853,11 @@
     box-sizing: border-box;
 }
 
+.wpgmza-marker-icon-editor-panel .grouped-input-stack input[type="number"]{
+    max-height: 30px;
+    min-height: 30px;
+}
+
 .wpgmza-marker-icon-editor .layer-input-wrapper .icon-picker-autocomplete{
     top: 30px;
     right: 0;
@@ -4811,7 +4931,7 @@
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view {
     display: flex;
-    max-width: 400px;
+    max-width: 100%;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column{
@@ -4823,7 +4943,12 @@
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column.fill{
-    width:250px;
+    width: clamp(250px, 22vw, 340px);
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column.small{
+    width: 200px;
+    flex: 0 0 200px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column:last-child{
@@ -4834,6 +4959,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    min-height: 300px;
     max-height: 300px;
 }
 
@@ -4850,8 +4976,6 @@
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel-heading-row {
     border-bottom: 1px solid var(--wpgmza-color-light);
     border-top: 1px solid var(--wpgmza-color-light);
-
-    background: var(--wpgmza-color-light);
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel:first-child .wpgmza-marker-icon-editor-panel-heading-row {
@@ -4895,8 +5019,28 @@
     margin-top: auto;
 }
 
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-action-wrapper .wpgmza-marker-icon-editor-actions {
+    flex-direction: row;
+    gap: 6px;
+}
+
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="use"]{
     text-align: center;
+    flex: 1;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"]{
+    flex: 0 0 auto;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"] svg{
+    width: 16px;
+    height: 16px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-icon-shape-slider-stack {
@@ -5087,6 +5231,7 @@
     max-width: 84px;
     max-height: 24px;
     min-height: unset;
+    line-height: 22px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel div[data-switch-mode]{

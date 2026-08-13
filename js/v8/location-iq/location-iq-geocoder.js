@@ -96,6 +96,16 @@ jQuery(function($) {
 
             if(mode === WPGMZA.LocationIQGeocoder.Modes.ADDRESS){
                 params.append('q', location);
+
+                /* LocationIQ is Nominatim-compatible, so this is the same countrycodes
+                   param (comma separated ISO 3166-1 alpha-2 codes) NominatimGeocoder
+                   already uses. Matches the "Restrict to Country" store locator
+                   setting, which is always a single alpha-2 code. */
+                if(options.componentRestrictions && options.componentRestrictions.country){
+                    params.append('countrycodes', options.componentRestrictions.country);
+                } else if(options.country){
+                    params.append('countrycodes', options.country);
+                }
             } else if(mode === WPGMZA.LocationIQGeocoder.Modes.LATLNG){
                 params.append('lat', location.lat);
                 params.append('lon', location.lng);

@@ -274,6 +274,8 @@ class Database extends Factory
 			lineColor VARCHAR(16),
 			opacity FLOAT,
 			fontSize VARCHAR(3),
+			other_data LONGTEXT NOT NULL,
+			layergroup INT(3) DEFAULT '0',
 			PRIMARY KEY  (id),
 			KEY map_id_idx (map_id)
 			) AUTO_INCREMENT=1 " . Database::getCharsetAndCollate();

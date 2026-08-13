@@ -45,6 +45,15 @@
 		<input data-ajax-name="name" type="text"/>
 	</fieldset>
 
+	<!-- Style -->
+	<fieldset class="wpgmza-row wpgmza-pro-feature">
+		<legend><?php esc_html_e("Style", "wp-google-maps"); ?></legend>
+		<select data-ajax-name="style">
+			<option value=""><?php esc_html_e("Text Only", "wp-google-maps"); ?></option>
+			<option value="card"><?php esc_html_e("Card", "wp-google-maps"); ?></option>
+		</select>
+	</fieldset>
+
 	<fieldset class="wpgmza-row wpgmza-pro-feature">
 		<!-- Fill Color -->	
 		<div class="wpgmza-col-4">
@@ -58,7 +67,19 @@
 			<input data-ajax-name="lineColor" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#ffffff"/>
 		</div>
 	</fieldset>
-	
+
+	<!-- Card: Subheading (Card style only) -->
+	<fieldset class="wpgmza-pro-feature-hide">
+		<legend><?php esc_html_e("Subheading", "wp-google-maps"); ?></legend>
+		<input data-ajax-name="subText" type="text"/>
+	</fieldset>
+
+	<!-- Card: Icon (Card style only) -->
+	<fieldset class="wpgmza-pro-feature-hide">
+		<legend><?php esc_html_e("Icon", "wp-google-maps"); ?></legend>
+		<input type="text" class="wpgmza-image-single-input" data-ajax-name="icon" data-image-reset="true"/>
+	</fieldset>
+
 	<fieldset class="wpgmza-row wpgmza-pro-feature">
 		<!-- Opacity -->
 		<div class="wpgmza-col">
@@ -70,15 +91,30 @@
 				<?php esc_html_e('Example: 0.5 for 50%', 'wp-google-maps'); ?>
 			</div>
 		</div>
+	</fieldset>
 
-		<!-- Font size -->
+	<!-- Font size (Text Only style only - card size comes from the Styling system) -->
+	<fieldset class="wpgmza-row wpgmza-pro-feature">
 		<div class="wpgmza-col">
 			<legend><?php esc_html_e("Font Size", "wp-google-maps"); ?></legend>
 			<input type="number" data-ajax-name="fontSize" min="1" max="100" step="1" value="11"/> <em>px</em>
 		</div>
 	</fieldset>
 
-	
+	<!-- Layer -->
+	<fieldset>
+		<legend><?php esc_html_e('Layer', 'wp-google-maps'); ?></legend>
+
+		<div>
+			<input data-ajax-name="layergroup" type="number" min="0" max="100" value="0" step="1" />
+			<small>
+				<?php
+				esc_html_e('Increase this number to move the label to the top', 'wp-google-maps');
+				?>
+			</small>
+		</div>
+	</fieldset>
+
 	<!-- Buttons -->
 	<fieldset class="wpgmza-save-feature-container">
 		<button 

@@ -53,7 +53,8 @@ jQuery(function($) {
         
 		this.leafletMarker.on('remove', () => {
 			if(this.label){
-				this.label.remove();
+				this.label.map = null;
+				this.label = false;
 			}
 		});
 		
@@ -70,32 +71,6 @@ jQuery(function($) {
 	
 	WPGMZA.LeafletMarker.prototype = Object.create(Parent.prototype);
 	WPGMZA.LeafletMarker.prototype.constructor = WPGMZA.LeafletMarker;
-	
-	WPGMZA.LeafletMarker.prototype.addLabel = function() {
-		this.setLabel(this.getLabelText());
-	}
-	
-	WPGMZA.LeafletMarker.prototype.setLabel = function(label){
-		if(!label){
-			if(this.label){
-				this.label.remove();
-				this.label = false;
-
-			}
-			return;
-		}
-		
-		if(!this.label) {
-			label = label.replaceAll("&amp;", "&");
-			
-			this.label = WPGMZA.Text.createInstance({
-				text: label,
-				map: this.map,
-				position: this.getPosition(),
-				class: 'leaflet-marker-label'
-			});
-		}
-	}
 	
 	WPGMZA.LeafletMarker.prototype.getVisible = function(visible){
 		let element = this.getNativeElement();

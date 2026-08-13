@@ -4,35 +4,27 @@
  * @requires WPGMZA.OLText
  */
 jQuery(function($) {
-	
+
 	WPGMZA.OLTextOverlay = function(options){
 		if(!options.position || !options.map) {
 			return;
 		}
 
-		let self = this;
-
-		let coords = ol.proj.fromLonLat([
-				options.position.lng,
-				options.position.lat
-		]);
-
-		this.olFeature = new ol.Feature({
-			geometry: new ol.geom.Point(coords)
-		});
+		this.element = $("<div class='wpgmza-ol-text-overlay-wrapper" + (options.class ? ` ${options.class}` : '') + "'></div>")[0];
 
 		this.styleOptions = (!options) ? {} : options;
+		this.map = options.map;
 
-		this.layer = new ol.layer.Vector({
-			source: new ol.source.Vector({
-				features: [this.olFeature]
-			}),
-			style : this.getStyle()
+		this.olOverlay = new ol.Overlay({
+			element : this.element,
+			position : ol.proj.fromLonLat([options.position.lng, options.position.lat]),
+			positioning : "center-center",
+			stopEvent : false
 		});
 
-		this.layer.setZIndex(10);
+		this.map.olMap.addOverlay(this.olOverlay);
 
-		options.map.olMap.addLayer(this.layer);
+		this.refresh();
 	}
 
 	WPGMZA.OLTextOverlay.prototype.getStyle = function(){
@@ -48,58 +40,98 @@ jQuery(function($) {
 			}
 		}
 
-		let labelStyles = new ol.style.Style({
-			text: new ol.style.Text({
-		    	font: 'bold ' + this.styleOptions.fontSize + 'px "Open Sans", "Arial Unicode MS", "sans-serif"',
-		    	placement: 'point',
-		    	fill: new ol.style.Fill({
-		      		color: this.styleOptions.fillColor,
-		    	}),
-		    	stroke: new ol.style.Stroke({
-		      		color: this.styleOptions.strokeColor,
-		      		width: 1
-		    	}),
-		  	})
-		});
+        let labelStyles = [];
+        labelStyles.push("width: fit-content");
+        labelStyles.push("font: bold " + this.styleOptions.fontSize + "px \"Open Sans\", \"Arial Unicode MS\", \"sans-serif\"");
+        labelStyles.push("color: " + this.styleOptions.fillColor);
+        labelStyles.push("z-index: 10");
+        labelStyles.push("text-shadow: -1px -1px 0 " + this.styleOptions.strokeColor + ", 1px -1px 0 " + this.styleOptions.strokeColor + ", -1px 1px 0 " + this.styleOptions.strokeColor + ", 1px 1px 0 " + this.styleOptions.strokeColor);
 
-		labelStyles.getText().setText(this.styleOptions.text || "");
+        if(this.styleOptions.opacity){
+            labelStyles.push("opacity: " + this.styleOptions.opacity);
+        }
 
-		return labelStyles;
+		return labelStyles.join('; ');
 	}
 
 	WPGMZA.OLTextOverlay.prototype.refresh = function(){
-		if(this.layer){
-			this.layer.setStyle(this.getStyle());
-		}
+		if(!this.styleOptions){ return; }
+		this.setText(this.styleOptions.text);
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setPosition = function(position){
-		if(this.olFeature){
-			let origin = ol.proj.fromLonLat([
+		if(this.olOverlay){
+			this.olOverlay.setPosition(ol.proj.fromLonLat([
 				parseFloat(position.lng),
 				parseFloat(position.lat)
-			]);
-
-			this.olFeature.setGeometry(new ol.geom.Point(origin));
+			]));
 		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setText = function(text){
 		if(!this.styleOptions){ return; }
 
-		this.styleOptions.text = text;
+		if(text){
+        	this.styleOptions.text = text;
+		}
+
+		if(this.element){
+			$(this.element).html(`<div class='wpgmza-ol-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div>`);
+        }
+	}
+
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Opacity
+	 * still applies since that remains relevant either way
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.OLTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(typeof this.styleOptions.opacity !== 'undefined'){
+			card.css('opacity', this.styleOptions.opacity);
+		}
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.OLTextOverlay.prototype.setCardContent = function(content){
+		if(!this.styleOptions){ return; }
+
+		this.cardContent = content || {};
+
+		if(this.element){
+			$(this.element).empty().append(this.getCardElement());
+		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFontSize = function(size){
 		if(!this.styleOptions){ return; }
-		
+
 		size = parseInt(size);
 		this.styleOptions.fontSize = size;
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setFillColor = function(color){
 		if(!this.styleOptions){ return; }
-		
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -109,7 +141,7 @@ jQuery(function($) {
 
 	WPGMZA.OLTextOverlay.prototype.setLineColor = function(color){
 		if(!this.styleOptions){ return; }
-		
+
 		if(!color.match(/^#/))
 			color = "#" + color;
 
@@ -118,7 +150,7 @@ jQuery(function($) {
 
 	WPGMZA.OLTextOverlay.prototype.setOpacity = function(opacity){
 		if(!this.styleOptions){ return; }
-		
+
 		opacity = parseFloat(opacity);
 
 		if(opacity > 1){
@@ -127,16 +159,20 @@ jQuery(function($) {
 			opacity = 0;
 		}
 
-		if(this.layer){
-			this.layer.setOpacity(opacity);
+        this.styleOptions.opacity = opacity;
+	}
+
+	WPGMZA.OLTextOverlay.prototype.setZIndex = function(zIndex){
+		if(this.element){
+			$(this.element).css('z-index', zIndex);
 		}
 	}
 
-	
+
 	WPGMZA.OLTextOverlay.prototype.remove = function(){
-		if(this.styleOptions.map){
-			this.styleOptions.map.olMap.removeLayer(this.layer);
+		if(this.olOverlay && this.map && this.map.olMap){
+        	this.map.olMap.removeOverlay(this.olOverlay);
 		}
 	}
-	
+
 });

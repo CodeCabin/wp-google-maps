@@ -7,10 +7,10 @@ jQuery(function($) {
 	
 	WPGMZA.GoogleTextOverlay = function(options)
 	{
-		this.element = $("<div class='wpgmza-google-text-overlay'><div class='wpgmza-inner'></div></div>");
-		
 		if(!options)
 			options = {};
+
+		this.element = $("<div class='wpgmza-google-text-overlay" + (options.class ? ` ${options.class}` : '') + "'><div class='wpgmza-inner'></div></div>");
 		
 		if(options.position)
 			this.position = options.position;
@@ -85,6 +85,41 @@ jQuery(function($) {
 		this.element.find(".wpgmza-inner").text(text);
 	}
 
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Note the
+	 * card's own font-size rule would win over an inherited .wpgmza-inner value either way, since a
+	 * direct rule always beats an inherited one - opacity still applies via that same inheritance
+	 * since nothing here overrides it
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setCardContent = function(content){
+		this.cardContent = content || {};
+		this.element.find(".wpgmza-inner").empty().append(this.getCardElement());
+	}
+
 	WPGMZA.GoogleTextOverlay.prototype.setFontSize = function(size){
 		size = parseInt(size);
 		this.element.find(".wpgmza-inner").css('font-size', size + 'px');
@@ -114,6 +149,10 @@ jQuery(function($) {
 		}
 
 		this.element.find(".wpgmza-inner").css('opacity', opacity);
+	}
+
+	WPGMZA.GoogleTextOverlay.prototype.setZIndex = function(zIndex){
+		this.element.css('z-index', zIndex);
 	}
 
 	WPGMZA.GoogleTextOverlay.prototype.remove = function(){

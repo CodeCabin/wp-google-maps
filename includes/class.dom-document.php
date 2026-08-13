@@ -107,11 +107,40 @@ class DOMDocument extends \DOMDocument
 	
 	private function translateLineNumber($htmlLineNumber, $src)
 	{
-		
+
 	}
-	
+
+	/**
+	 * libxml's HTML parser is HTML4-era - it doesn't recognise HTML5 elements
+	 * (progress) or inline SVG elements (svg + its children). These tags are
+	 * structurally valid in modern browsers; libxml's "Tag X invalid in Entity"
+	 * warning is parser-vocabulary noise, not a real markup problem, for any of
+	 * these. Shared so every DOMDocument::loadHTML() caller in the plugin (the
+	 * page-template loader here, and WPGMZA\DOMElement::import()'s fragment
+	 * loader) filters the exact same list rather than drifting apart.
+	 * @param string $message The raw PHP warning message
+	 * @return bool
+	 */
+	public static function isSafeEntityWarning($message)
+	{
+		$safeEntities = array(
+			'progress',
+			'svg', 'line', 'circle', 'polyline', 'polygon', 'path', 'rect', 'mask'
+		);
+
+		foreach($safeEntities as $entity){
+			if(preg_match("/DOMDocument::loadHTML.+{$entity} invalid in Entity/", $message))
+				return true;
+		}
+
+		return false;
+	}
+
 	public function onError($severity, $message, $file, $unused)
 	{
+		if(self::isSafeEntityWarning($message))
+			return;
+
 		if(!preg_match('/DOMDocument::loadHTML.+line: (\d+)/', $message, $m)){
 			trigger_error($message, E_USER_WARNING);
 			return;
@@ -170,21 +199,6 @@ class DOMDocument extends \DOMDocument
 				$lineCounter++;
 		}
 
-		/* libxml's HTML parser is HTML4-era — it doesn't recognise HTML5
-		   elements (progress) or inline SVG elements (svg + its children).
-		   These tags are structurally valid in modern browsers; libxml's
-		   warning is parser-vocabulary noise, not a real markup problem. */
-		$safeEntities = array(
-			'progress',
-			'svg', 'line', 'circle', 'polyline', 'polygon', 'path', 'rect', 'mask'
-		);
-		foreach($safeEntities as $entity){
-			if(preg_match("/DOMDocument::loadHTML.+{$entity} invalid in Entity/", $message, $m)){
-				// HTML 5 / inline-SVG safe entity, doesn't need to be logged
-				return;
-			}
-		}
-		
 		trigger_error("Failed to translate line number", E_USER_WARNING);
 		trigger_error($message, E_USER_WARNING);
 	}

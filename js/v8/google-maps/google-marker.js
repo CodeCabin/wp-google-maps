@@ -156,46 +156,6 @@ jQuery(function($) {
 		
 	});
 	
-	WPGMZA.GoogleMarker.prototype.setLabel = function(label)
-	{
-		if(this.googleMarker instanceof google.maps.marker.AdvancedMarkerElement){
-			/* AdvancedMarkerElement module */
-			if(this.googleMarker.content){
-				if(!label){
-					const existing = this.googleMarker.content.querySelector('.wpgmza-google-marker-label');
-					if(existing){
-						existing.remove();
-					}
-
-					return;
-				}
-
-				const labelElement = document.createElement("div");
-				labelElement.classList.add('wpgmza-google-marker-label');
-				labelElement.innerText = label;
-
-				this.googleMarker.content.appendChild(labelElement);
-			}
-		} else {
-			/* Assume Marker module */
-			if(!label){
-				this.googleMarker.setLabel(null);
-				return;
-			}
-			
-			label = label.replaceAll("&amp;", "&");
-
-			this.googleMarker.setLabel({
-				text: label,
-				className: 'wpgmza-google-marker-label-legacy'
-			});
-			
-			if(!this.googleMarker.getIcon()){
-				this.googleMarker.setIcon(WPGMZA.settings.default_marker_icon);
-			}
-		}
-	}
-	
 	/**
 	 * Sets the position of the marker
 	 * @return void

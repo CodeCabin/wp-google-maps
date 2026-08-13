@@ -20,8 +20,15 @@ class Pointlabel extends Feature {
 	protected function get_column_parameter($name){
 		if($name == 'center')
 			return "POINT(" . floatval($this->center->lat) . " " . floatval($this->center->lng) . ")";
-		
+
 		return Crud::get_column_parameter($name);
+	}
+
+	/**
+	 * @return string Always other_data for the point label table.
+	 */
+	protected function get_arbitrary_data_column_name(){
+		return 'other_data';
 	}
 
 	public function __get($name){

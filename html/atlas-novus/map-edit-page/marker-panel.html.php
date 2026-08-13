@@ -55,7 +55,7 @@
 		<legend><?php esc_html_e('Title', 'wp-google-maps'); ?></legend>
 		<input type="text" data-ajax-name="title" placeholder="<?php _e('Title', 'wp-google-maps'); ?>"/>
 	</fieldset>
-	
+
 	<!-- Address -->
 	<fieldset style='position:relative;' class="wpgmza-always-on">
 		<legend class="wpgmza-hide-in-adjust-mode"><?php esc_html_e('Address/GPS', 'wp-google-maps'); ?></legend>
@@ -198,7 +198,7 @@
 	<!-- Layer -->
 	<fieldset class="wpgmza-pro-feature">
 		<legend><?php esc_html_e('Layer', 'wp-google-maps'); ?></legend>
-		
+
 		<div>
 			<input data-ajax-name="layergroup" type="number" min="0" max="100" value="0" step="1" />
 			<small>
@@ -208,7 +208,13 @@
 			</small>
 		</div>
 	</fieldset>
-	
+
+	<!-- Marker Label Subheading (Card style only, shown/hidden per the map's Marker Label Style setting) -->
+	<fieldset class="wpgmza-pro-feature wpgmza-marker-label-subheading-fieldset">
+		<legend><?php esc_html_e('Marker Label Subheading', 'wp-google-maps'); ?></legend>
+		<input type="text" data-ajax-name="markerLabelSubText" placeholder="<?php _e('Marker Label Subheading', 'wp-google-maps'); ?>"/>
+	</fieldset>
+
 	<!-- Buttons -->
 	<fieldset class="wpgmza-save-feature-container wpgmza-always-on">
 		<button 

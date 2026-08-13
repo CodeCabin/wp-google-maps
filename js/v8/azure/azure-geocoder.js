@@ -95,6 +95,17 @@ jQuery(function($) {
                 'subscription-key': apikey
             });
 
+            if(mode === WPGMZA.AzureGeocoder.Modes.ADDRESS){
+                /* Azure's Search Address API restricts by countrySet - comma separated
+                   ISO 3166-1 alpha-2 codes. Matches the "Restrict to Country" store
+                   locator setting, which is always a single alpha-2 code. */
+                if(options.componentRestrictions && options.componentRestrictions.country){
+                    params.append('countrySet', options.componentRestrictions.country.toUpperCase());
+                } else if(options.country){
+                    params.append('countrySet', options.country.toUpperCase());
+                }
+            }
+
             let endpoint = WPGMZA.AzureGeocoder.API_URL + (mode === WPGMZA.AzureGeocoder.Modes.ADDRESS ? "json" : 'reverse/json');
             let url = `${endpoint}?${params.toString()}`;
 

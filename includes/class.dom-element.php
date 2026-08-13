@@ -265,11 +265,23 @@ class DOMElement extends \DOMElement
 				$str = "<div id='domdocument-import-payload___'>" . $html . "</div>";
 
 				if($wpgmza->isInDeveloperMode()){
+					/* Same filter loadPHPFile()/onError() applies to the page template
+					 * loader - libxml's HTML4-era parser doesn't recognise SVG tags and
+					 * always calls them "invalid", even though they're valid HTML5 that
+					 * every browser renders fine. Shared check so both loaders agree on
+					 * what's safe to ignore. */
+					set_error_handler(function($severity, $message) {
+						if(!DOMDocument::isSafeEntityWarning($message))
+							trigger_error($message, E_USER_WARNING);
+					}, E_WARNING);
+
 					$temp->loadHTML($str);
+
+					restore_error_handler();
 				} else {
 					@$temp->loadHTML($str);
 				}
-				
+
 				$body = $temp->querySelector('#domdocument-import-payload___');
 				for($child = $body->firstChild; $child != null; $child = $child->nextSibling)
 				{
