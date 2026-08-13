@@ -1143,25 +1143,45 @@ jQuery(function($) {
 		/* close_infowindow_on_map_click is already synced by initStoreLocatorSettingsSync's
 		   simpleFields array — no handler needed here. */
 
-		/* --- Enable marker labels (beta) ---
+		/* --- Marker labels ---
 		 * ProMarker applies labels at onAdd/setVisible time using map.settings.enable_marker_labels
-		 * and the marker's own title. Iterate existing markers and flip them live. */
-		$(document.body).on('change', 'input[name="enable_marker_labels"]', function(){
-			var enabled = $(this).is(':checked');
-			map.settings.enable_marker_labels = enabled ? 1 : 0;
-
+		 * and the marker's own title/subText. The label itself is a Pointlabel instance owned by
+		 * the marker (see WPGMZA.Marker.prototype.setLabel), styled entirely from the
+		 * map.settings.marker_label_* fields below. Iterate existing markers and refresh them
+		 * live on any relevant setting change. */
+		function refreshMarkerLabels(){
 			if(!map.markers) return;
 			for(var i = 0; i < map.markers.length; i++){
 				var m = map.markers[i];
 				if(typeof m.setLabel !== 'function') continue;
-				if(enabled){
-					if(m.title){
-						m.setLabel(m.title);
-					}
+				if(map.settings.enable_marker_labels){
+					m.setLabel();
 				} else {
 					m.setLabel(null);
 				}
 			}
+		}
+
+		$(document.body).on('change', 'input[name="enable_marker_labels"]', function(){
+			map.settings.enable_marker_labels = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'select[name="marker_label_style"]', function(){
+			map.settings.marker_label_style = $(this).val();
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'input[name="marker_label_above_icons"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		/* marker_label_icon is a single global icon URL (ImageInputSingle widget) - it
+		 * fires a plain 'change' on its underlying text input when picked or reset. */
+		$(document.body).on('change input', 'input[name="marker_label_font_size"], input[name="marker_label_offset_x"], input[name="marker_label_offset_y"], input[name="marker_label_icon"]', function(){
+			map.settings[$(this).attr('name')] = $(this).val();
+			refreshMarkerLabels();
 		});
 	}
 

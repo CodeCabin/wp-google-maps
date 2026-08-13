@@ -198,6 +198,51 @@
     backdrop-filter: var(--wpgmza-component-backdrop-filter);
 }
 
+/* Point/Marker label "Card" style - background/border/color come entirely from the Styling
+   system's component vars, so this automatically re-themes with the rest of the site */
+.wpgmza_map .wpgmza-text-overlay-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+    background: var(--wpgmza-component-color);
+    color: var(--wpgmza-component-text-color);
+    box-shadow: var(--wpgmza-component-shadow);
+    border-radius: var(--wpgmza-component-border-radius);
+    padding: var(--wpgmza-component-inner-padding);
+    backdrop-filter: var(--wpgmza-component-backdrop-filter);
+    font-size: var(--wpgmza-component-font-size);
+    text-align: left;
+    font-weight: normal;
+    text-shadow: none;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.wpgmza_map .wpgmza-text-overlay-card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.wpgmza_map .wpgmza-text-overlay-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.wpgmza_map .wpgmza-text-overlay-card-title {
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.wpgmza_map .wpgmza-text-overlay-card-subtext {
+    font-size: 0.85em;
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
 .wpgmza_map .wpgmza-inner-stack input:not([type="checkbox"]),
 .wpgmza_map .wpgmza-inner-stack select,
 .wpgmza_map .wpgmza-inner-stack button{

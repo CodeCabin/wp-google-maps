@@ -1422,6 +1422,15 @@ global $wpgmza;
 									echo sprintf(__('Looking for more themes? <a href="%s" target="_BLANK">Browse our theme directory</a>.', 'wp-google-maps'), 'https://www.wpgmaps.com/themes/?utm_source=plugin&amp;utm_medium=link&amp;utm_campaign=mapedit-themes-atlas-major-v10');
 								?>
 							</div>
+
+							<div class="hint">
+								<?php _e("Only legacy Google Maps JSON style arrays are supported here. Cloud-based map styles (Map IDs) created in Google Cloud Console cannot be pasted into this field.", "wp-google-maps"); ?>
+							</div>
+
+							<div class="hint wpgmza-theme-cloud-format-notice" style="display:none;">
+								<strong><span class="dashicons dashicons-warning"></span> <?php _e("This doesn't look like legacy theme JSON", "wp-google-maps"); ?></strong><br/>
+								<?php _e("If you copied this from Google Cloud Console's cloud-based map styling, that format isn't supported here. Please use a legacy JSON theme instead.", "wp-google-maps"); ?>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -2548,19 +2557,119 @@ global $wpgmza;
 							<div id="zoom-on-marker-click-slider"></div> 
 						</fieldset>
 
-						<!-- Marker Labels (beta) -->
+						<!-- Marker Labels -->
 						<fieldset class="wpgmza-pro-feature wpgmza-row wpgmza-row-stretch">
 							<div class="wpgmza-col-8">
-								<legend><?php _e("Enable Marker Labels (beta)", "wp-google-maps"); ?></legend>
+								<legend><?php _e("Enable Marker Labels", "wp-google-maps"); ?></legend>
 							</div>
-							
+
 							<div class="wpgmza-col textright">
 								<div class='switch'>
-									<input type='checkbox' 
-										id='enable_marker_labels' 
-										name='enable_marker_labels' 
+									<input type='checkbox'
+										id='enable_marker_labels'
+										name='enable_marker_labels'
 										class='postform cmn-toggle cmn-toggle-round-flat wpgmza-pro-feature'>
-									<label for='enable_marker_labels' 
+									<label for='enable_marker_labels'
+										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+										data-off='<?php _e("No", "wp-google-maps"); ?>'>
+									</label>
+								</div>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Style -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Style", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<select name="marker_label_style">
+									<option value=""><?php _e("Text Only", "wp-google-maps"); ?></option>
+									<option value="card"><?php _e("Card", "wp-google-maps"); ?></option>
+								</select>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Font Color (Text style only) -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-marker-label-text-fields wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Font Color", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_font_color" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#404040"/>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Outline Color (Text style only) -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-marker-label-text-fields wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Outline Color", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_outline_color" type="text" data-support-palette="false" data-support-alpha="false" data-container=".map_wrapper" class="wpgmza-color-input" value="#ffffff"/>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Font Size (Text style only) -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-marker-label-text-fields wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Font Size", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_font_size" type="number" min="1" max="100" step="1" value="11"> <em>px</em>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Icon (Card style only) - a single global icon shown in every marker label's card, not the marker's own pin icon -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-marker-label-card-fields wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Icon", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_icon" type="text" class="wpgmza-image-single-input" data-image-reset="true"/>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Offset X -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Offset X", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_offset_x" type="number" value="0"> <small>px</small>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Offset Y -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Marker Label Offset Y", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<input name="marker_label_offset_y" type="number" value="0"> <small>px</small>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Above Icons -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row wpgmza-row-stretch" style="display: none;">
+							<div class="wpgmza-col-8">
+								<legend><?php _e("Render Marker Labels Above Marker Icons", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col textright">
+								<div class='switch'>
+									<input type='checkbox'
+										id='marker_label_above_icons'
+										name='marker_label_above_icons'
+										class='postform cmn-toggle cmn-toggle-round-flat'>
+									<label for='marker_label_above_icons'
 										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
 										data-off='<?php _e("No", "wp-google-maps"); ?>'>
 									</label>

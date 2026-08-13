@@ -3573,8 +3573,8 @@ input[name="tile_server_url_override"] {
 
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview {
-  min-width: 130px;
-  min-height: 130px;
+  min-width: 180px;
+  min-height: 180px;
   border-radius: 3px;
 
   margin-top: 5px;
@@ -3597,7 +3597,6 @@ input[name="tile_server_url_override"] {
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview[data-style="map"]{
   background: url("https://a.tile.openstreetmap.org/7/20/49.png");
-  background-position: -86px -20px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview canvas{
@@ -3739,9 +3738,17 @@ input[name="tile_server_url_override"] {
   background-color: #f5f5f5;
 }
 
+.wpgmza-marker-icon-editor .wpgmza-icon-output-resolution-custom-input{
+  font-size: 0.9em;
+  padding: 0 10px;
+  border: none;
+  background-color: #f5f5f5;
+  width: 84px;
+  box-sizing: border-box;
+}
+
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs {
-  display: flex;    
-  margin-top: 10px;
+  display: flex;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab{
@@ -3751,17 +3758,12 @@ input[name="tile_server_url_override"] {
   flex: 1;
   text-align: center;
   cursor: pointer;
-  
-  border: 2px solid #f5f5f5;
-}
 
-.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:first-child{
-  border-top-left-radius: 5px;
-  border-right: 0;
+  border-right: 2px solid #f5f5f5;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:last-child{
-  border-top-right-radius: 5px;
+  border-right: 0;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
@@ -3775,12 +3777,30 @@ input[name="tile_server_url_override"] {
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab.active {
   display: block;
-  padding: 10px;
-  border: 2px solid #f5f5f5;
-  border-top:0;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  padding: 0;
+  border: none;
+  border-top: 2px solid #f5f5f5;
   margin-bottom: 15px;
+}
+
+/* Icon-only tab bar (Style / Shape / Effects / Overlays) - icons carry the existing .inner-tab
+   flex/border-radius/background-on-hover-active treatment, just centered instead of text-aligned */
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: #9c9c99;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab.active {
+  color: #5c5c5a;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab-icon {
+  width: 18px;
+  height: 18px;
 }
 
 
@@ -3858,6 +3878,11 @@ input[name="tile_server_url_override"] {
   box-sizing: border-box;
 }
 
+.wpgmza-marker-icon-editor-panel .grouped-input-stack input[type="number"]{
+  max-height: 30px;
+  min-height: 30px;
+}
+
 .wpgmza-marker-icon-editor .layer-input-wrapper .icon-picker-autocomplete{
   top: 30px;
   right: 0;
@@ -3931,7 +3956,7 @@ input[name="tile_server_url_override"] {
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view {
   display: flex;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column{
@@ -3943,7 +3968,12 @@ input[name="tile_server_url_override"] {
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column.fill{
-  width: 250px;
+  width: clamp(250px, 22vw, 340px);
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column.small{
+  width: 200px;
+  flex: 0 0 200px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view .wpgmza-marker-icon-editor-split-view-column:last-child{
@@ -3954,6 +3984,7 @@ input[name="tile_server_url_override"] {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 300px;
   max-height: 300px;
 }
 
@@ -3970,8 +4001,6 @@ input[name="tile_server_url_override"] {
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel-heading-row {
   border-bottom: 1px solid #eeeeee;
   border-top: 1px solid #eeeeee;
-
-  background: #eeeeee;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel:first-child .wpgmza-marker-icon-editor-panel-heading-row {
@@ -4015,8 +4044,28 @@ input[name="tile_server_url_override"] {
   margin-top: auto;
 }
 
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-action-wrapper .wpgmza-marker-icon-editor-actions {
+  flex-direction: row;
+  gap: 6px;
+}
+
 .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="use"]{
   text-align: center;
+  flex: 1;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"]{
+  flex: 0 0 auto;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"] svg{
+  width: 16px;
+  height: 16px;
 }
 
 .wpgmza-marker-icon-editor .wpgmza-icon-shape-slider-stack {

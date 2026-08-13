@@ -150,39 +150,6 @@ jQuery(function($) {
 		$(this.element).css({height: height + "px"});
 	}
 	
-	WPGMZA.OLMarker.prototype.addLabel = function()
-	{
-		this.setLabel(this.getLabelText());
-	}
-	
-	WPGMZA.OLMarker.prototype.setLabel = function(label)
-	{
-		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)
-		{
-			console.warn("Marker labels are not currently supported in Vector Layer rendering mode");
-			return;
-		}
-		
-		if(!label)
-		{
-			if(this.label){
-				$(this.element).find(".ol-marker-label").remove();
-				this.label = false;
-			}
-			
-			return;
-		}
-		
-		if(!this.label)
-		{
-			this.label = $("<div class='ol-marker-label'/>");
-			$(this.element).append(this.label);
-		}
-		
-		label = label.replaceAll("&amp;", "&");
-		this.label.html(label);
-	}
-	
 	WPGMZA.OLMarker.prototype.getVisible = function(visible)
 	{
 		if(WPGMZA.OLMarker.renderMode == WPGMZA.OLMarker.RENDER_MODE_VECTOR_LAYER)

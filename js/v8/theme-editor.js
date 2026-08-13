@@ -136,6 +136,7 @@ jQuery(function($) {
 	{
 		$('#wpgmza_theme_editor_feature option, #wpgmza_theme_editor_element option').css('font-weight', 'normal');
 		$('#wpgmza_theme_editor_error').hide();
+		$('.wpgmza-theme-cloud-format-notice').hide();
 		$('#wpgmza_theme_editor').show();
 		$('#wpgmza_theme_editor_do_hue').prop('checked', false);
 		$('#wpgmza_theme_editor_hue').val('#000000');
@@ -172,10 +173,34 @@ jQuery(function($) {
 			this.json = [];
 			this.json.push(jsonCopy);
 		}
-		
+
+		$('.wpgmza-theme-cloud-format-notice').toggle(this.looksLikeCloudStyleData(this.json));
+
 		this.highlightFeatures();
 		this.highlightElements();
 		this.loadElementStylers();
+	}
+
+	/**
+	 * Heuristic check for pasted Google Cloud-based map style data (from
+	 * Cloud Console's Map Styling / Map IDs), which uses a different
+	 * schema to the legacy Maps JavaScript API style array this field
+	 * supports. There's no published schema to positively match cloud
+	 * data against, so instead this checks the shape we DO know: a
+	 * legacy style is always an array of rule objects, and at least one
+	 * rule normally carries a `stylers` array. Anything that doesn't
+	 * look like that is flagged - not blocked, just flagged, since we
+	 * can't be certain it's wrong (e.g. a rule with only featureType/
+	 * elementType and no stylers yet, mid-edit).
+	 */
+	WPGMZA.ThemeEditor.prototype.looksLikeCloudStyleData = function(json)
+	{
+		if (!$.isArray(json) || !json.length)
+			return false;
+
+		return !json.some(function(rule) {
+			return rule && typeof rule === 'object' && $.isArray(rule.stylers);
+		});
 	}
 	
 	WPGMZA.ThemeEditor.prototype.highlightFeatures = function()

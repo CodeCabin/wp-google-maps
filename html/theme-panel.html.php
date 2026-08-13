@@ -416,5 +416,14 @@
 			</legend>
 			<textarea name="wpgmza_theme_data"></textarea>
 		</fieldset>
+
+		<p class="description">
+			<?php _e("Only legacy Google Maps JSON style arrays are supported here. Cloud-based map styles (Map IDs) created in Google Cloud Console cannot be pasted into this field.", "wp-google-maps"); ?>
+		</p>
+
+		<p class="description wpgmza-theme-cloud-format-notice" style="display:none;">
+			<strong><span class="dashicons dashicons-warning"></span> <?php _e("This doesn't look like legacy theme JSON.", "wp-google-maps"); ?></strong>
+			<?php _e("If you copied this from Google Cloud Console's cloud-based map styling, that format isn't supported here. Please use a legacy JSON theme instead.", "wp-google-maps"); ?>
+		</p>
 	</div>
 </div>

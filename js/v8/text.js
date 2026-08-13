@@ -47,6 +47,21 @@ jQuery(function($) {
 		}
 	}
 
+	/**
+	 * Renders a "card" style label instead of plain text - title, optional subheading, optional
+	 * icon, styled entirely from the site's Styling (--wpgmza-component-*) CSS vars rather than
+	 * fillColor/lineColor, which don't apply to this style
+	 *
+	 * @param object content {title, subText, icon}
+	 *
+	 * @return void
+	 */
+	WPGMZA.Text.prototype.setCardContent = function(content){
+		if(this.overlay){
+			this.overlay.setCardContent(content);
+		}
+	}
+
 	WPGMZA.Text.prototype.setFontSize = function(size){
 		if(this.overlay){
 			this.overlay.setFontSize(size);
@@ -68,6 +83,12 @@ jQuery(function($) {
 	WPGMZA.Text.prototype.setOpacity = function(opacity){
 		if(this.overlay){
 			this.overlay.setOpacity(opacity);
+		}
+	}
+
+	WPGMZA.Text.prototype.setZIndex = function(zIndex){
+		if(this.overlay){
+			this.overlay.setZIndex(zIndex);
 		}
 	}
 

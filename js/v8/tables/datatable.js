@@ -147,7 +147,13 @@ jQuery(function($) {
 				}
 
 				self.lastResponse = response;
-				
+
+				/* Generic hook so other code can consume a table's raw
+				 * response (e.g. `response.meta`, the unformatted
+				 * per-row field data) without wiring up a second AJAX
+				 * request against the same route. */
+				$(self.element).trigger('wpgmza-datatable-loaded', [response]);
+
 				callback(response);
 				
 				$("[data-marker-icon-src]").each(function(index, element) {

@@ -47,25 +47,38 @@ jQuery(function($) {
 			this.xhr.abort();
 			delete this.xhr;
 		}
-		
+
 		function dispatchEvent(result)
 		{
 			var event = new WPGMZA.Event("filteringcomplete");
-			
+
 			event.map = self.map;
 			event.source = source;
-			
+
 			event.filteredMarkers = result;
 			event.filteringParams = params;
-			
+
 			self.onFilteringComplete(event);
-			
+
 			self.trigger(event);
 			self.map.trigger(event);
 		}
-		
+
+		/* Fired before any filtering/search actually runs, so consumers (eg. Gold's
+		 * near-vicinity groupings) can close/reset transient UI state before the
+		 * marker set underneath it changes, rather than reacting after the fact
+		 * to markers that have already moved. */
+		var startEvent = new WPGMZA.Event("filteringstart");
+
+		startEvent.map = this.map;
+		startEvent.source = source;
+		startEvent.filteringParams = params;
+
+		this.trigger(startEvent);
+		this.map.trigger(startEvent);
+
 		this.updateTimeoutID = setTimeout(function() {
-			
+
 			params = $.extend(self.getFilteringParameters(), params);
 			
 			if(params.center instanceof WPGMZA.LatLng)

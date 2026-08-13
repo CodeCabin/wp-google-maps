@@ -234,6 +234,32 @@ jQuery(function($) {
 		}
 	}
 
+	/* Layer (z-index) - same convention as WPGMZA.Polyline (shared by Circle/Rectangle/Polygon):
+	   a small user-facing number, offset by WPGMZA.Shape.BASE_LAYER_INDEX internally so labels
+	   with a layer set always render above un-layered features regardless of DOM order. */
+	Object.defineProperty(WPGMZA.Pointlabel.prototype, "layergroup", {
+		enumerable : true,
+		get: function() {
+			if(this._layergroup){
+				return this._layergroup;
+			}
+			return 0;
+		},
+		set: function(value) {
+			if(parseInt(value)){
+				this._layergroup = parseInt(value) + WPGMZA.Shape.BASE_LAYER_INDEX;
+			}
+		}
+	});
+
+	WPGMZA.Pointlabel.prototype.setLayergroup = function(layergroup){
+		this.layergroup = layergroup;
+
+		if(this.layergroup && this.textFeature){
+			this.textFeature.setZIndex(this.layergroup);
+		}
+	}
+
 	WPGMZA.Pointlabel.prototype.getMap = function(){
 		return this.map;
 	}

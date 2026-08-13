@@ -106,6 +106,10 @@ class Plugin extends Factory
 
 		// Load text domain
 		add_action('after_setup_theme', array($this, 'onLoadTextDomain'));
+
+		// Style preload hoist - off unless wpgmza_enable_style_preload_hoist is set,
+		// see maybePreloadStyleHoist()
+		add_action('wp_enqueue_scripts', array($this, 'maybePreloadStyleHoist'));
 		
 		// Spatial function prefixes
 		$this->mysqlVersion = $wpdb->get_var('SELECT VERSION()');
@@ -426,10 +430,48 @@ class Plugin extends Factory
 			}
 		}
 		
-	    /* Developer Hook (Action) - Load additional plugin scripts */     
+	    /* Developer Hook (Action) - Load additional plugin scripts */
 		do_action('wpgmza_plugin_load_scripts');
 	}
-	
+
+	/**
+	 * Some themes/environments won't reliably print stylesheets enqueued after wp_head()
+	 * has already run - which is exactly when loadScripts() ends up enqueueing on a
+	 * shortcode-embedded map, since the shortcode only executes during the_content, well
+	 * after wp_enqueue_scripts/wp_head have fired. This detects the map early (before
+	 * wp_head) instead, so styles get queued in time.
+	 *
+	 * Off unless wpgmza_enable_style_preload_hoist is explicitly enabled (Maps -> Settings
+	 * -> Advanced) - doesn't affect most users, who never hit this timing issue.
+	 * @return void
+	 */
+	public function maybePreloadStyleHoist()
+	{
+		if(empty($this->settings->wpgmza_enable_style_preload_hoist))
+			return;
+
+		global $post;
+
+		if(!($post instanceof \WP_Post))
+			return;
+
+		$needsPreload = has_shortcode($post->post_content, Shortcodes::SLUG)
+			|| has_shortcode($post->post_content, Shortcodes::SLUG . '_' . Shortcodes::STORE_LOCATOR)
+			|| has_block('gutenberg-wpgmza/block', $post)
+			|| has_block('gutenberg-wpgmza/store-locator', $post);
+
+		/* Developer Hook (Filter) - Force preloading on or off for a post. Also where Pro
+		 * (via ProGutenbergExtended) adds checks for its own additional block types -
+		 * category-legends, category-filter, infowindow, directions, marker-listing,
+		 * marker-field-filter - and where shortcode/block detection generally can't see
+		 * the map (page builders, ACF, theme templates that call do_shortcode() directly,
+		 * etc). */
+		$needsPreload = apply_filters('wpgmza_style_hoist_should_preload', $needsPreload, $post);
+
+		if($needsPreload)
+			$this->loadScripts(true);
+	}
+
 	public function getLocalizedData()
 	{
 		global $post, $wpgmza;

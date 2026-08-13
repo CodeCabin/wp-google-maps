@@ -37,8 +37,19 @@ jQuery(function($) {
     WPGMZA.GenericModal.prototype.getData = function(){
         const data = {};
         this.element.find('input,select').each(function(){
-            if($(this).data('ajax-name')){
-                data[$(this).data('ajax-name')] = $(this).val();
+            const ajaxName = $(this).data('ajax-name');
+
+            if(!ajaxName)
+                return;
+
+            /* .val() always returns a checkbox's static value attribute (or "on" when
+               absent) regardless of whether it's actually checked - matches the
+               convention FeaturePanel.serializeFormData() already uses for the same
+               data-ajax-name fields on the individual feature panels. */
+            if($(this).attr('type') === 'checkbox'){
+                data[ajaxName] = $(this).prop('checked') ? 1 : 0;
+            } else {
+                data[ajaxName] = $(this).val();
             }
         });
 

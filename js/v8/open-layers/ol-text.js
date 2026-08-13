@@ -24,12 +24,15 @@ jQuery(function($) {
 	WPGMZA.OLText.prototype.setMap = function(map){
 		if(this.overlay){
 			if(map && map.olMap){
-				if(this.overlay.olMap){
+				if(this.overlay.olOverlay){
 					this.overlay.remove();
-					map.olMap.addLayer(this.overlay.layer);
+					map.olMap.addOverlay(this.overlay.olOverlay);
+					this.overlay.map = map;
+					this.overlay.refresh();
 				} else {
 					this.options.map = map;
 					this.overlay = new WPGMZA.OLTextOverlay(this.options);
+					this.overlay.refresh();
 				}
 			} else {
 				this.overlay.remove();

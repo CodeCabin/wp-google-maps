@@ -23,7 +23,7 @@ jQuery(function($) {
 
 		this.googleFeature = this;
 
-		this.setOptions(options);
+		this.updateNativeFeature();
 	}
 
 	if(WPGMZA.isProVersion()){
@@ -34,8 +34,13 @@ jQuery(function($) {
 
 	WPGMZA.extend(WPGMZA.GooglePointlabel, Parent);
 
-	WPGMZA.GooglePointlabel.prototype.setOptions = function(options){
-		/* We don't actually handle this here */
+	WPGMZA.GooglePointlabel.prototype.updateNativeFeature = function(){
+		var options = this.getScalarProperties();
+
+		if(options.layergroup){
+			this.textFeature.setZIndex(options.layergroup);
+		}
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}

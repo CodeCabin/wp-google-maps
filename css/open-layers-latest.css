@@ -98,12 +98,19 @@
 	font-size:0.7rem;
 	font-weight: bold;
     color: #000;
-    
+
     text-shadow: 0px 0px 2px #fff;
     text-shadow: 0px 0px 2px #fff,
         0px 0px 2px #fff,
         0px 0px 2px #fff,
         0px 0px 2px #fff;
+}
+
+.wpgmza_map .wpgmza-ol-text-overlay-wrapper {
+    white-space: nowrap;
+    width: fit-content;
+    margin: 0;
+    pointer-events: none;
 }
 
 .ol-info-window-plain {

@@ -5798,6 +5798,45 @@
     opacity: 0.7;
   }
 
+  /* Marker Label Icon (Behaviour settings tab) - same preview-box styling as the
+     editor sidebar/tabs-container variants above, extended to the map settings form */
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper {
+    position: relative;
+    cursor: pointer;
+    border: 2px dashed var(--am-border);
+    border-radius: var(--am-radius-sm);
+    color: var(--am-text-3);
+    transition: border-color 0.12s var(--am-ease), color 0.12s var(--am-ease);
+    width: 135px;
+  }
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper:hover {
+    border-color: var(--am-text-3);
+    color: var(--am-text-2);
+  }
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+  }
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview > div {
+    min-height: 60px;
+    font-size: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview img {
+    max-width: 100%;
+    border-radius: var(--am-radius-sm);
+    transition: opacity 0.3s ease;
+  }
+  .wpgmza-atlas-major .wpgmza-map-settings-form .wpgmza-image-single-input-wrapper:hover img {
+    opacity: 0.7;
+  }
+
 
   /* ==========================================================
      29. REVIEW NAG / SUPPORT NOTICE
@@ -9228,6 +9267,21 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   padding: 3px;
 }
 
+/* Switch shape/image mode toggle - was missing entirely in this engine, ported from atlas-novus */
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel div[data-switch-mode] {
+  text-align: center;
+  font-size: 0.65rem;
+  border: 1px solid var(--am-border);
+  margin: 5px;
+  padding: 0;
+  border-radius: 4px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel div[data-switch-mode]:hover {
+  opacity: 1;
+}
+
 /* Buttons inside the icon editor — light/secondary style */
 .wpgmza-atlas-major .wpgmza-marker-icon-editor button,
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-button {
@@ -9311,7 +9365,12 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   flex-direction: column;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-column.fill {
-  width: 250px;
+  width: clamp(250px, 22vw, 340px);
+}
+
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-column.small {
+  width: 200px;
+  flex: 0 0 200px;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-column:last-child {
   border-right: none;
@@ -9322,6 +9381,7 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 300px;
   max-height: 300px;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-configurator .wpgmza-marker-icon-editor-panel {
@@ -9339,7 +9399,6 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   flex-direction: row;
   border-bottom: 1px solid #e5e5e4;
   border-top: 1px solid #e5e5e4;
-  background: #f5f5f4;
   font-size: 12px;
   font-weight: 600;
   color: #5c5c5a;
@@ -9367,11 +9426,26 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-action-wrapper {
   margin-top: auto;
 }
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-split-view-action-wrapper .wpgmza-marker-icon-editor-actions {
+  flex-direction: row;
+  gap: 6px;
+}
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="use"] {
   text-align: center;
-  width: 100%;
+  flex: 1;
   justify-content: center;
-  margin: 8px;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"] {
+  flex: 0 0 auto;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-actions .wpgmza-button[data-action="download"] svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Editor panel (non-configurator) */
@@ -9414,8 +9488,8 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 
 /* Preview area */
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview {
-  min-width: 130px;
-  min-height: 130px;
+  min-width: 180px;
+  min-height: 180px;
   border-radius: 8px;
   margin-top: 5px;
   position: relative;
@@ -9430,7 +9504,6 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview[data-style="map"] {
   background: url("https://a.tile.openstreetmap.org/7/20/49.png");
-  background-position: -86px -20px;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-preview canvas {
   position: absolute;
@@ -9442,12 +9515,11 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 /* Tabs */
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs {
   display: flex;
-  margin-top: 10px;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab {
   font-size: 12px;
   padding: 6px 12px;
-  border: 1px solid #e5e5e4;
+  border-right: 1px solid #e5e5e4;
   flex: 1;
   text-align: center;
   cursor: pointer;
@@ -9457,12 +9529,8 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   font-weight: 500;
   color: #5c5c5a;
 }
-.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:first-child {
-  border-top-left-radius: 5px;
-  border-right: 0;
-}
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:last-child {
-  border-top-right-radius: 5px;
+  border-right: 0;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab.active {
@@ -9477,12 +9545,30 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab.active {
   display: block;
-  padding: 12px;
-  border: 1px solid #e5e5e4;
-  border-top: 0;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  padding: 0;
+  border: none;
+  border-top: 1px solid #e5e5e4;
   margin-bottom: 12px;
+}
+
+/* Icon-only tab bar (Style / Shape / Effects / Overlays) - icons carry the existing .inner-tab
+   flex/border-radius/background-on-hover-active treatment, just centered instead of text-aligned */
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: var(--am-text-3);
+}
+
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab:hover,
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tabs .inner-tab.active {
+  color: var(--am-text-2);
+}
+
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-tab-icon {
+  width: 18px;
+  height: 18px;
 }
 
 /* Controls */
@@ -9530,6 +9616,17 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   border-radius: 5px;
   background: #f5f5f4;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-icon-output-resolution-custom-input {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #e5e5e4;
+  border-radius: 5px;
+  background: #f5f5f4;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  width: 84px;
+  box-sizing: border-box;
 }
 
 /* Range sliders */
@@ -9627,6 +9724,11 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   flex: 2;
 }
 
+.wpgmza-atlas-major .wpgmza-marker-icon-editor-panel .grouped-input-stack input[type="number"]{
+  max-height: 30px;
+  min-height: 30px;
+}
+
 /* Layer controls */
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-layer .wpgmza-icon-layer-control[data-mode] { display: none; }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-marker-icon-editor-layer .wpgmza-icon-layer-control[data-mode].active { display: block; }
@@ -9642,7 +9744,53 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
   gap: 0.25rem;
 }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-icon-shape-split-row .wpgmza-icon-shape-split-column-fill { margin-right: auto; }
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-icon-shape-split-row .wpgmza-icon-shape-split-column-align-end { justify-content: flex-end; }
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-icon-shape-control-wrapper input[type="range"][data-style="micro"] { max-width: 100px; }
+
+/* Lock width/height sliders toggle - was missing entirely in this engine, ported from atlas-novus */
+.wpgmza-atlas-major .wpgmza-marker-icon-editor span[data-lock-trigger] {
+  width: 12px;
+  height: 12px;
+  background: #e5e5e4;
+  display: inline-block;
+  border-radius: 2px;
+  margin-left: 5px;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor span[data-lock-trigger][data-locked] {
+  opacity: 1;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor span[data-lock-trigger]:hover {
+  opacity: 0.7;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor span[data-lock-trigger]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 2px;
+  width: 3px;
+  height: 2px;
+  border: 1px solid #5c5c5a;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 1px;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor span[data-lock-trigger]:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2px;
+  width: 6px;
+  height: 5px;
+  background: #5c5c5a;
+  border-radius: 1px;
+}
 
 /* Saving overlay */
 .wpgmza-atlas-major .wpgmza-marker-icon-editor.open.saving:before {
@@ -9664,6 +9812,51 @@ body.wpgmza-autosave-on .wpgmza-atlas-major #wpgmaps_save_reminder,
 .wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-color-input-wrapper .wpgmza-color-preview {
   width: 45px;
   border-radius: 5px;
+}
+
+/* Image fill picker (Fill panel, colorMode = image) - shares the dashed-border/hover language with the
+   sidebar variant of this widget, sized to sit in a split-row alongside its label like the color swatch above it */
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper {
+  position: relative;
+  cursor: pointer;
+  width: 45px;
+  height: 32px;
+  margin-left: auto;
+  flex-shrink: 0;
+  border: 2px dashed var(--am-border);
+  border-radius: var(--am-radius-sm);
+  color: var(--am-text-3);
+  transition: border-color 0.12s var(--am-ease), color 0.12s var(--am-ease);
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper:hover {
+  border-color: var(--am-text-3);
+  color: var(--am-text-2);
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--am-radius-sm);
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview > div {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper .wpgmza-image-single-input-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  transition: opacity 0.2s ease;
+}
+/* Clearer "click to change" affordance once an image is set */
+.wpgmza-atlas-major .wpgmza-marker-icon-editor .wpgmza-image-single-input-wrapper:hover .wpgmza-image-single-input-preview img {
+  opacity: 0.5;
 }
 
 /* Autocomplete dropdown */

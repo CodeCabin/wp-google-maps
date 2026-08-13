@@ -51,7 +51,17 @@ jQuery(function($) {
 		this.addEventListener("added", function(event) {
 			self.onAdded(event);
 		});
-		
+
+		// Marker.removeMarker() dispatches "removed" here but never touches native engine
+		// state directly - without this, an owned label would be orphaned on the map after
+		// its marker is removed (e.g. deleted, or replaced during a marker refetch).
+		this.addEventListener("removed", function(event) {
+			if(self.label){
+				self.label.map = null;
+				self.label = false;
+			}
+		});
+
 		this.handleLegacyGlobals(row);
 	}
 	
@@ -318,8 +328,83 @@ jQuery(function($) {
 			this.lat = parseFloat(latLng.lat);
 			this.lng = parseFloat(latLng.lng);
 		}
+
+		if(this.label)
+			this.setLabel(this.label.name);
 	}
-	
+
+	/**
+	 * Adds, updates or removes this marker's label. The label is rendered by an internally
+	 * owned WPGMZA.Pointlabel instance (never saved, never added to the map's pointlabel
+	 * collection), so it reuses the exact same Text/Card rendering engine as point labels
+	 * instead of duplicating engine-specific DOM/native label code per map provider.
+	 * @method
+	 * @memberof WPGMZA.Marker
+	 * @param {string} [label] The label text. Defaults to this.title if omitted. Falsy removes the label.
+	 */
+	WPGMZA.Marker.prototype.setLabel = function(label)
+	{
+		if(arguments.length === 0)
+			label = this.title;
+
+		if(!label || !this.map)
+		{
+			if(this.label)
+			{
+				this.label.map = null;
+				this.label = false;
+			}
+
+			return;
+		}
+
+		var settings = this.map.settings || {};
+		var offsetX = parseFloat(settings.marker_label_offset_x) || 0;
+		var offsetY = parseFloat(settings.marker_label_offset_y) || 0;
+		var position = this.map.nudgeLatLng(this.getPosition(), offsetX, offsetY);
+		var style = settings.marker_label_style || "";
+
+		// NB: marker_label_icon is a single global icon (set once in Behaviour settings)
+		// shown in every marker's label card - not the marker's own pin icon.
+		var icon;
+		if(style === "card" && settings.marker_label_icon)
+			icon = settings.marker_label_icon;
+
+		// "Render above marker icons" rides the same Layer field Point Label/Circle/Rectangle
+		// use - layer 1 is enough to clear an un-layered marker icon's default stacking.
+		var layergroup = settings.marker_label_above_icons ? 1 : 0;
+
+		if(!this.label)
+		{
+			this.label = WPGMZA.Pointlabel.createInstance({
+				center: position,
+				map: this.map,
+				name: label,
+				subText: this.markerLabelSubText,
+				style: style,
+				fontSize: settings.marker_label_font_size,
+				fillColor: settings.marker_label_font_color,
+				lineColor: settings.marker_label_outline_color,
+				icon: icon,
+				layergroup: layergroup
+			});
+
+			return;
+		}
+
+		this.label.name = label;
+		this.label.subText = this.markerLabelSubText;
+		this.label.style = style;
+		this.label.fontSize = settings.marker_label_font_size;
+		this.label.fillColor = settings.marker_label_font_color;
+		this.label.lineColor = settings.marker_label_outline_color;
+		this.label.icon = icon;
+		this.label.layergroup = layergroup;
+
+		this.label.setPosition(position);
+		this.label.updateNativeFeature();
+	}
+
 	WPGMZA.Marker.prototype.setOffset = function(x, y)
 	{
 		this._offset.x = x;

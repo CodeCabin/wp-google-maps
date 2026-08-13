@@ -21,7 +21,8 @@ jQuery(function($) {
 		});
 
 		this.styleOptions = (!options) ? {} : options;
-		
+		this.map = options.map;
+
 		this.leafletFeature.on('add', () => {
 			this.refresh();
 		});
@@ -80,6 +81,49 @@ jQuery(function($) {
         }
 	}
 
+	/**
+	 * Builds the card element - title, optional subheading, optional icon. Colors/background/border/
+	 * font size come entirely from the --wpgmza-component-* CSS vars (see components.css), not
+	 * fillColor/lineColor/fontSize - those fields are hidden in the editor for card style. Opacity
+	 * still applies since that remains relevant either way
+	 *
+	 * @return jQuery
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.getCardElement = function(){
+		const content = this.cardContent || {};
+		const card = $("<div class='wpgmza-text-overlay-card'></div>");
+
+		if(typeof this.styleOptions.opacity !== 'undefined'){
+			card.css('opacity', this.styleOptions.opacity);
+		}
+
+		if(content.icon){
+			card.append($("<img class='wpgmza-text-overlay-card-icon'/>").attr('src', content.icon));
+		}
+
+		const textWrapper = $("<div class='wpgmza-text-overlay-card-content'></div>");
+		textWrapper.append($("<div class='wpgmza-text-overlay-card-title'></div>").text(content.title || ''));
+
+		if(content.subText){
+			textWrapper.append($("<div class='wpgmza-text-overlay-card-subtext'></div>").text(content.subText));
+		}
+
+		card.append(textWrapper);
+
+		return card;
+	}
+
+	WPGMZA.LeafletTextOverlay.prototype.setCardContent = function(content){
+		if(!this.styleOptions){ return; }
+
+		this.cardContent = content || {};
+
+		if(this.leafletFeature){
+			const nativeElement = this.leafletFeature.getElement();
+			$(nativeElement).empty().append(this.getCardElement());
+		}
+	}
+
 	WPGMZA.LeafletTextOverlay.prototype.setFontSize = function(size){
 		if(!this.styleOptions){ return; }
 
@@ -120,7 +164,25 @@ jQuery(function($) {
         this.styleOptions.opacity = opacity;
 	}
 
-	
+	/**
+	 * Leaflet doesn't respect inline z-index within a shared pane the way Google/OL overlays
+	 * do, so layering re-parents into a dedicated numbered pane instead - same technique
+	 * WPGMZA.LeafletPolyline.setLayergroup already uses for shapes. Removing/re-adding the
+	 * marker regenerates its element, but the 'add' listener in the constructor already
+	 * re-runs refresh() (and the caller re-applies card content afterwards), so content isn't lost.
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setZIndex = function(zIndex){
+		if(!this.map || !this.leafletFeature){ return; }
+
+		var pane = this.map.getLayerGroupPane('text_layer_', zIndex, 'markerPane');
+		if(!pane || this.leafletFeature.options.pane === pane){ return; }
+
+		this.leafletFeature.remove();
+		this.leafletFeature.options.pane = pane;
+		this.leafletFeature.addTo(this.map.leafletMap);
+	}
+
+
 	WPGMZA.LeafletTextOverlay.prototype.remove = function(){
 		if(this.leafletFeature){
         	this.leafletFeature.remove();

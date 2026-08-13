@@ -41,6 +41,7 @@ jQuery(function($) {
 		this.initKebabDismiss();
 		this.render();
 		this.bindMapEvents();
+		this.bindMetaSync();
 		WPGMZA.AtlasMajorMarkerList.applySidebarLabels();
 
 		/* Initial load busy state — if the map hasn't finished placing
@@ -156,9 +157,112 @@ jQuery(function($) {
 	];
 
 	/**
+	 * Keep title/address in sync with the hidden marker-list DataTable
+	 * (#wpgmza-table-container-Marker — never shown, see the constructor's
+	 * am-dt-hidden-in-list class, but still created by
+	 * MapEditPage::initDataTables and used for bulk-edit id lookups).
+	 *
+	 * Under Pro's `lazyload_info_window_content` setting, the map's own
+	 * marker fetch requests a reduced field set — id/lat/lng/icon/anim/
+	 * categories/layergroup only (ProMap::getRESTParameters) — and defers
+	 * title/address/etc. until a marker's info-window is opened
+	 * (ProMarker::lazyloadContent). Reading marker.title/marker.address
+	 * directly off map.markers (as renderItem/getFilteredMarkers used to)
+	 * means those fields are still unset for any marker that hasn't been
+	 * clicked, so title falls back to address, which falls back to the
+	 * Marker class's placeholder default of "California".
+	 *
+	 * The hidden DataTable queries title/address straight from the DB on
+	 * every load, completely independent of that reduced fetch — it's the
+	 * same request Atlas Novus's real, visible table already uses to show
+	 * accurate titles. Rather than issue a second request for the same
+	 * data, this listens for that request's response (see the
+	 * 'wpgmza-datatable-loaded' event added in tables/datatable.js) and
+	 * builds an id -> {title, address, ...} lookup from its `meta` array
+	 * (the raw per-row fields DataTables keeps alongside the formatted
+	 * grid — AdminFeatureDataTable already relies on this same array for
+	 * bulk actions, e.g. row.wpgmzaFeatureData.id).
+	 *
+	 * That table defaults to a page of 10 rows, which wouldn't cover
+	 * every marker on a larger map. Its query is deliberately cheap
+	 * though — AdminMarkerDataTable::filterColumns blanks out
+	 * description/pic/category in SQL specifically to keep this listing
+	 * query light — so forcing it to "All" (the same length option Novus's
+	 * visible table already offers) is one extra lightweight request, not
+	 * a heavy one, and guarantees every marker gets an accurate title/
+	 * address regardless of which page Atlas Major's own list is on.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.bindMetaSync = function(){
+		var self = this;
+
+		var attach = function(){
+			var dt = WPGMZA.mapEditPage && WPGMZA.mapEditPage.markerAdminDataTable;
+			if(!dt || !dt.dataTable){
+				setTimeout(attach, 250);
+				return;
+			}
+
+			$(dt.element).on('wpgmza-datatable-loaded', function(event, response){
+				self.applyMetaResponse(response);
+			});
+
+			if(dt.lastResponse){
+				self.applyMetaResponse(dt.lastResponse);
+			}
+
+			if(dt.dataTable.page.len() !== -1){
+				dt.dataTable.page.len(-1).draw(false);
+			}
+		};
+
+		attach();
+	}
+
+	/**
+	 * Merge a DataTable response's raw `meta` rows into the id -> fields
+	 * lookup used by getDisplayTitle/getDisplayAddress, then re-render so
+	 * any row currently showing stale/placeholder text picks up the
+	 * correct value.
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.applyMetaResponse = function(response){
+		if(!response || !(response.meta instanceof Array))
+			return;
+
+		this._metaById = this._metaById || {};
+
+		for(var i = 0; i < response.meta.length; i++){
+			var row = response.meta[i];
+			if(row && typeof row.id !== 'undefined')
+				this._metaById[row.id] = row;
+		}
+
+		this.render();
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.getMetaFor = function(id){
+		return (this._metaById && this._metaById[id]) || null;
+	}
+
+	/**
+	 * Prefer the hidden DataTable's DB-accurate value; fall back to the
+	 * marker instance (correct once lazyloadContent has resolved, or
+	 * always correct when lazyload_info_window_content is off).
+	 */
+	WPGMZA.AtlasMajorMarkerList.prototype.getDisplayTitle = function(marker){
+		var meta = this.getMetaFor(marker.id);
+		return (meta && meta.title) || marker.title || '';
+	}
+
+	WPGMZA.AtlasMajorMarkerList.prototype.getDisplayAddress = function(marker){
+		var meta = this.getMetaFor(marker.id);
+		return (meta && meta.address) || marker.address || '';
+	}
+
+	/**
 	 * Get the filtered marker list based on search term
 	 */
 	WPGMZA.AtlasMajorMarkerList.prototype.getFilteredMarkers = function(){
+		var self = this;
 		var map = WPGMZA.maps[0];
 		if(!map) return [];
 
@@ -169,8 +273,8 @@ jQuery(function($) {
 			return markers;
 
 		return markers.filter(function(m){
-			var title = (m.title || '').toLowerCase();
-			var address = (m.address || '').toLowerCase();
+			var title = self.getDisplayTitle(m).toLowerCase();
+			var address = self.getDisplayAddress(m).toLowerCase();
 			var id = String(m.id || '');
 
 			if(title.indexOf(term) !== -1 || address.indexOf(term) !== -1 || id.indexOf(term) !== -1)
@@ -283,8 +387,8 @@ jQuery(function($) {
 	 * Render a single marker list item
 	 */
 	WPGMZA.AtlasMajorMarkerList.prototype.renderItem = function(marker, index){
-		var title = this.esc(marker.title || '');
-		var address = this.esc(marker.address || '');
+		var title = this.esc(this.getDisplayTitle(marker));
+		var address = this.esc(this.getDisplayAddress(marker));
 		var id = marker.id;
 
 		if(!title && address){ title = address; address = ''; }
