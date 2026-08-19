@@ -215,6 +215,30 @@
 		<input type="text" data-ajax-name="markerLabelSubText" placeholder="<?php _e('Marker Label Subheading', 'wp-google-maps'); ?>"/>
 	</fieldset>
 
+	<!-- Marker Label Visibility (shown whenever Marker Labels are enabled, regardless of Style).
+	     The checkbox always means "flip from the map's default" - the caption text is composed
+	     client-side (see ProMarkerPanel.setTargetFeature) to read as whichever action it will
+	     actually perform, based on the map's current Marker Label Default Visibility setting. -->
+	<fieldset class="wpgmza-pro-feature wpgmza-marker-label-visibility-fieldset">
+		<legend><?php esc_html_e('Marker Label Visibility', 'wp-google-maps'); ?></legend>
+
+		<div>
+			<input data-ajax-name="markerLabelVisibilityOverride" type="checkbox"/>
+			<small data-marker-label-visibility-caption></small>
+		</div>
+	</fieldset>
+
+	<!-- Marker Label Icon Override (Card style only) -->
+	<fieldset class="wpgmza-pro-feature wpgmza-marker-label-icon-override-fieldset">
+		<legend><?php esc_html_e('Marker Label Icon Override', 'wp-google-maps'); ?></legend>
+		<input type="text" data-ajax-name="markerLabelIconOverride" class="wpgmza-image-single-input" data-image-reset="true"/>
+		<small>
+			<?php
+			esc_html_e('Leave blank to use the default icon set in Map Settings under Behaviour.', 'wp-google-maps');
+			?>
+		</small>
+	</fieldset>
+
 	<!-- Buttons -->
 	<fieldset class="wpgmza-save-feature-container wpgmza-always-on">
 		<button 

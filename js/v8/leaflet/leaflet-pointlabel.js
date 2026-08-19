@@ -41,12 +41,15 @@ jQuery(function($) {
 			this.textFeature.setZIndex(options.layergroup);
 		}
 
+		this.textFeature.setOffset(options.offsetX || 0, options.offsetY || 0);
+		this.textFeature.setMarker(this.marker);
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
 
 		this.textFeature.refresh();
-		
+
 	}
 });
 		

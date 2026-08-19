@@ -1177,6 +1177,16 @@ jQuery(function($) {
 			refreshMarkerLabels();
 		});
 
+		$(document.body).on('change', 'input[name="marker_label_hidden_by_default"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'input[name="marker_label_click_opens_infowindow"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
 		/* marker_label_icon is a single global icon URL (ImageInputSingle widget) - it
 		 * fires a plain 'change' on its underlying text input when picked or reset. */
 		$(document.body).on('change input', 'input[name="marker_label_font_size"], input[name="marker_label_offset_x"], input[name="marker_label_offset_y"], input[name="marker_label_icon"]', function(){

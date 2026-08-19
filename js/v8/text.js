@@ -92,6 +92,28 @@ jQuery(function($) {
 		}
 	}
 
+	WPGMZA.Text.prototype.setOffset = function(x, y){
+		if(this.overlay){
+			this.overlay.setOffset(x, y);
+		}
+	}
+
+	/**
+	 * Passes the owning WPGMZA.Marker through to the overlay so it can dispatch a
+	 * "select" event on it when clicked (see marker_label_click_opens_infowindow) - only
+	 * ever set for a marker-owned label (WPGMZA.Marker.prototype.setLabel), never for a
+	 * genuine standalone Point Label.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.Text.prototype.setMarker = function(marker){
+		if(this.overlay){
+			this.overlay.setMarker(marker);
+		}
+	}
+
 	WPGMZA.Text.prototype.remove = function(){
 		if(this.overlay){
 			this.overlay.remove();

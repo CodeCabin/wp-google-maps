@@ -15,12 +15,25 @@ jQuery(function($) {
 		this.styleOptions = (!options) ? {} : options;
 		this.map = options.map;
 
+		this.offsetX = parseFloat(options.offsetX) || 0;
+		this.offsetY = parseFloat(options.offsetY) || 0;
+
+		/* "top-left" pins the element's own top-left corner at the projected pixel with no
+		 * measurement of any kind on OL's part - centering AND the user-configurable offset
+		 * are both applied ourselves as a single CSS transform on this.element (see
+		 * setOffset()), exactly like GoogleTextOverlay does on .wpgmza-inner. OL's own
+		 * "center-center" positioning was tried first, but unlike Leaflet/Google (which
+		 * center via a self-referential CSS percentage transform, unaffected by content
+		 * size or timing) OL centers via a JS-measured pixel margin - which didn't track
+		 * correctly here. Doing it ourselves in pure CSS sidesteps that entirely. */
 		this.olOverlay = new ol.Overlay({
 			element : this.element,
 			position : ol.proj.fromLonLat([options.position.lng, options.position.lat]),
-			positioning : "center-center",
+			positioning : "top-left",
 			stopEvent : false
 		});
+
+		this.applyTransform();
 
 		this.map.olMap.addOverlay(this.olOverlay);
 
@@ -57,6 +70,73 @@ jQuery(function($) {
 	WPGMZA.OLTextOverlay.prototype.refresh = function(){
 		if(!this.styleOptions){ return; }
 		this.setText(this.styleOptions.text);
+	}
+
+	/**
+	 * Applies centering plus the user-configurable offset as ONE CSS transform on
+	 * this.element itself - translate(-50%,-50%) centers the element on the point (a
+	 * self-referential percentage, always correct regardless of the element's actual
+	 * rendered size, with no measurement needed), composed with a further translate(X%,Y%)
+	 * for the offset, which is a percentage of that same box - so "100%" always means
+	 * "shifted by one full label width/height", however long the title/subheading gets.
+	 * Not a pixel offset baked into a nudged lat/lng either - that only holds true at the
+	 * zoom level it was computed at, and would drift away from whatever this label is
+	 * meant to stay anchored next to (e.g. its owning marker) as soon as the map zoomed.
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.applyTransform = function(){
+		if(this.element){
+			$(this.element).css('transform', 'translate(-50%, -50%) translate(' + (this.offsetX || 0) + '%, ' + (this.offsetY || 0) + '%)');
+		}
+	}
+
+	/**
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		this.applyTransform();
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on this.element,
+	 * which OL never recreates itself. pointer-events is overridden here too, since the
+	 * wrapper is pointer-events:none by default (see open-layers.css) so clicks reach the
+	 * map underneath when this is off.
+	 *
+	 * A real marker click dispatches a "select" event on the WPGMZA.Marker instance itself
+	 * (see WPGMZA.Marker.prototype.onSelect), which is what actually opens the info
+	 * window, so this reuses that same path rather than reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		if(!this.element){ return; }
+
+		var self = this;
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		$(this.element).css('pointer-events', clickable ? 'auto' : '');
+		$(this.element).off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			$(this.element).on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
+		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setPosition = function(position){

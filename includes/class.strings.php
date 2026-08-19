@@ -104,7 +104,14 @@ class Strings
 			'map_bulk_delete_prompt_text'	=> __('Are you sure you want to delete these maps?', 'wp-google-maps'),
 			
 			'general_delete_prompt_text'	=> __('Are you sure you want to delete this data?', 'wp-google-maps'),
-			
+
+			/* Marker panel's "Marker Label Visibility" checkbox caption - the checkbox
+			   always means "flip from the map's current default", so the displayed text
+			   has to be composed client-side (see ProMarkerPanel.setTargetFeature) to
+			   match whichever action it will actually perform. */
+			'hide_label_for_this_marker'	=> __('Hide label for this marker', 'wp-google-maps'),
+			'show_label_for_this_marker'	=> __('Show label for this marker', 'wp-google-maps'),
+
 			'new_map'						=> __('New Map', 'wp-google-maps'),
 			'all'							=> __('All', 'wp-google-maps'),
 			'cloud_api_key_error_1'			=> sprintf(__('Autocomplete disabled. <a href="%s" target="_BLANK">Find out more</a>.', 'wp-google-maps'),"https://wpgmaps.com/documentation/autocomplete-disabled/?utm_source=plugin&utm_medium=link&utm_campaign=cloud-autocomplete-error"),

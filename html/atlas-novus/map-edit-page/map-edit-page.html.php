@@ -2713,6 +2713,26 @@
 							</div>
 						</fieldset>
 
+						<!-- Marker Label Hidden By Default -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row" style="display: none;">
+							<div class="wpgmza-col">
+								<legend><?php _e("Hide Marker Labels By Default", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox'
+										id='marker_label_hidden_by_default'
+										name='marker_label_hidden_by_default'
+										class='postform cmn-toggle cmn-toggle-round-flat'>
+									<label for='marker_label_hidden_by_default'
+										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+										data-off='<?php _e("No", "wp-google-maps"); ?>'>
+									</label>
+								</div>
+							</div>
+						</fieldset>
+
 						<!-- Marker Label Font Color (Text style only) -->
 						<fieldset class="wpgmza-marker-label-conditional wpgmza-marker-label-text-fields wpgmza-row" style="display: none;">
 							<div class="wpgmza-col">
@@ -2764,7 +2784,7 @@
 							</div>
 
 							<div class="wpgmza-col">
-								<input name="marker_label_offset_x" type="number" value="0"> <small>px</small>
+								<input name="marker_label_offset_x" type="number" value="0"> <small>%</small>
 							</div>
 						</fieldset>
 
@@ -2775,9 +2795,13 @@
 							</div>
 
 							<div class="wpgmza-col">
-								<input name="marker_label_offset_y" type="number" value="0"> <small>px</small>
+								<input name="marker_label_offset_y" type="number" value="0"> <small>%</small>
 							</div>
 						</fieldset>
+
+						<div class="wpgmza-marker-label-conditional hint">
+							<?php _e("Offset is a percentage of the label's own width/height, not pixels - so it stays meaningful no matter how long the title or subheading gets. 50 shifts the label by half its own size (its edge sits at the marker); 100 shifts it by a full width/height clear of the marker.", "wp-google-maps"); ?>
+						</div>
 
 						<!-- Marker Label Above Icons -->
 						<fieldset class="wpgmza-marker-label-conditional wpgmza-row" style="display: none;">
@@ -2792,6 +2816,26 @@
 										name='marker_label_above_icons'
 										class='postform cmn-toggle cmn-toggle-round-flat'>
 									<label for='marker_label_above_icons'
+										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
+										data-off='<?php _e("No", "wp-google-maps"); ?>'>
+									</label>
+								</div>
+							</div>
+						</fieldset>
+
+						<!-- Marker Label Click Opens Info Window -->
+						<fieldset class="wpgmza-marker-label-conditional wpgmza-row" style="display: none;">
+							<div class="wpgmza-col">
+								<legend><?php _e("Click Label Opens Info Window", "wp-google-maps"); ?></legend>
+							</div>
+
+							<div class="wpgmza-col">
+								<div class='switch'>
+									<input type='checkbox'
+										id='marker_label_click_opens_infowindow'
+										name='marker_label_click_opens_infowindow'
+										class='postform cmn-toggle cmn-toggle-round-flat'>
+									<label for='marker_label_click_opens_infowindow'
 										data-on='<?php _e("Yes", "wp-google-maps"); ?>'
 										data-off='<?php _e("No", "wp-google-maps"); ?>'>
 									</label>

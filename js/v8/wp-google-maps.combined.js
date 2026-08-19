@@ -3249,6 +3249,16 @@ jQuery(function($) {
 			refreshMarkerLabels();
 		});
 
+		$(document.body).on('change', 'input[name="marker_label_hidden_by_default"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
+		$(document.body).on('change', 'input[name="marker_label_click_opens_infowindow"]', function(){
+			map.settings[$(this).attr('name')] = $(this).is(':checked') ? 1 : 0;
+			refreshMarkerLabels();
+		});
+
 		/* marker_label_icon is a single global icon URL (ImageInputSingle widget) - it
 		 * fires a plain 'change' on its underlying text input when picked or reset. */
 		$(document.body).on('change input', 'input[name="marker_label_font_size"], input[name="marker_label_offset_x"], input[name="marker_label_offset_y"], input[name="marker_label_icon"]', function(){
@@ -15215,16 +15225,62 @@ jQuery(function($) {
 		}
 
 		var settings = this.map.settings || {};
+
+		/* Per-marker visibility override. marker_label_hidden_by_default is deliberately
+		 * phrased so an UNSET value (any map that predates this setting, or simply hasn't
+		 * had it touched) reads as "false" - i.e. shown - matching the only behaviour that
+		 * existed before this setting was added. Nothing needs to special-case "unset" vs
+		 * "explicitly off"; both are just falsy.
+		 *
+		 * markerLabelVisibilityOverride is a plain boolean meaning "flip from whatever the
+		 * map's default currently is" - not "show" or "hide" directly - so the same stored
+		 * value keeps working correctly regardless of which way the map-wide default is
+		 * set, and the per-marker checkbox's label text (composed client-side in the
+		 * marker panel) is the only thing that needs to know which state that resolves to
+		 * for display purposes. */
+		/* FeaturePanel.serializeFormData() explicitly writes 0 for every unchecked
+		 * checkbox on save, for every marker - not just ones a user has actually
+		 * touched. After a save+reload round-trip that comes back as the STRING "0"
+		 * (form-urlencoded POST data is always strings), and "0" is truthy in JS - so
+		 * a plain !!this.markerLabelVisibilityOverride check treats every marker as
+		 * having an override, permanently. parseInt() normalises "0"/"1"/0/1/undefined
+		 * to the correct boolean regardless of type. */
+		var hiddenByDefault = !!parseInt(settings.marker_label_hidden_by_default, 10);
+		var hasOverride = !!parseInt(this.markerLabelVisibilityOverride, 10);
+		var effectiveVisible = hasOverride ? hiddenByDefault : !hiddenByDefault;
+
+		if(!effectiveVisible)
+		{
+			if(this.label)
+			{
+				this.label.map = null;
+				this.label = false;
+			}
+
+			return;
+		}
+
 		var offsetX = parseFloat(settings.marker_label_offset_x) || 0;
 		var offsetY = parseFloat(settings.marker_label_offset_y) || 0;
-		var position = this.map.nudgeLatLng(this.getPosition(), offsetX, offsetY);
+
+		/* offsetX/offsetY are percentages of the label's OWN rendered width/height, not
+		 * pixels - applied as a CSS transform on the rendered label (see Pointlabel/Text/
+		 * *TextOverlay setOffset()), not baked into a nudged lat/lng. A lat/lng delta
+		 * computed from a pixel offset only holds true at the zoom level it was computed
+		 * at (the label would drift away from the marker as soon as the map zoomed), and a
+		 * fixed pixel value stops meaning anything useful once the label's content/size
+		 * changes (e.g. a longer title). A percentage of the label's own box stays
+		 * meaningful either way - "100" always means "shifted by one full label width/
+		 * height". The label's real position is always the marker's own position. */
+		var position = this.getPosition();
 		var style = settings.marker_label_style || "";
 
 		// NB: marker_label_icon is a single global icon (set once in Behaviour settings)
-		// shown in every marker's label card - not the marker's own pin icon.
+		// shown in every marker's label card, unless this marker sets its own
+		// markerLabelIconOverride - not the marker's own pin icon either way.
 		var icon;
-		if(style === "card" && settings.marker_label_icon)
-			icon = settings.marker_label_icon;
+		if(style === "card")
+			icon = this.markerLabelIconOverride || settings.marker_label_icon;
 
 		// "Render above marker icons" rides the same Layer field Point Label/Circle/Rectangle
 		// use - layer 1 is enough to clear an un-layered marker icon's default stacking.
@@ -15242,7 +15298,10 @@ jQuery(function($) {
 				fillColor: settings.marker_label_font_color,
 				lineColor: settings.marker_label_outline_color,
 				icon: icon,
-				layergroup: layergroup
+				layergroup: layergroup,
+				offsetX: offsetX,
+				offsetY: offsetY,
+				marker: this
 			});
 
 			return;
@@ -15256,6 +15315,9 @@ jQuery(function($) {
 		this.label.lineColor = settings.marker_label_outline_color;
 		this.label.icon = icon;
 		this.label.layergroup = layergroup;
+		this.label.offsetX = offsetX;
+		this.label.offsetY = offsetY;
+		this.label.marker = this;
 
 		this.label.setPosition(position);
 		this.label.updateNativeFeature();
@@ -20223,6 +20285,28 @@ jQuery(function($) {
 	WPGMZA.Text.prototype.setZIndex = function(zIndex){
 		if(this.overlay){
 			this.overlay.setZIndex(zIndex);
+		}
+	}
+
+	WPGMZA.Text.prototype.setOffset = function(x, y){
+		if(this.overlay){
+			this.overlay.setOffset(x, y);
+		}
+	}
+
+	/**
+	 * Passes the owning WPGMZA.Marker through to the overlay so it can dispatch a
+	 * "select" event on it when clicked (see marker_label_click_opens_infowindow) - only
+	 * ever set for a marker-owned label (WPGMZA.Marker.prototype.setLabel), never for a
+	 * genuine standalone Point Label.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.Text.prototype.setMarker = function(marker){
+		if(this.overlay){
+			this.overlay.setMarker(marker);
 		}
 	}
 
@@ -25196,6 +25280,9 @@ jQuery(function($) {
 			this.textFeature.setZIndex(options.layergroup);
 		}
 
+		this.textFeature.setOffset(options.offsetX || 0, options.offsetY || 0);
+		this.textFeature.setMarker(this.marker);
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
@@ -25686,7 +25773,10 @@ jQuery(function($) {
 			options = {};
 
 		this.element = $("<div class='wpgmza-google-text-overlay" + (options.class ? ` ${options.class}` : '') + "'><div class='wpgmza-inner'></div></div>");
-		
+
+		this.offsetX = parseFloat(options.offsetX) || 0;
+		this.offsetY = parseFloat(options.offsetY) || 0;
+
 		if(options.position)
 			this.position = options.position;
 		
@@ -25754,6 +25844,57 @@ jQuery(function($) {
 
 	WPGMZA.GoogleTextOverlay.prototype.setPosition = function(position){
 		this.position = position;
+	}
+
+	/**
+	 * Applies the offset as a percentage of the label's OWN rendered width/height, via a
+	 * transform composed with the existing centering transform on .wpgmza-inner (see
+	 * common.css) - not a pixel offset baked into a nudged lat/lng (drifts at other zoom
+	 * levels) and not a fixed pixel value (meaningless once content/box size changes,
+	 * e.g. a longer title). CSS percentage translate() is always relative to the element's
+	 * own box, so this stays correct regardless of zoom or content width with no
+	 * measurement needed - "100%" always means "shifted by one full box width/height".
+	 *
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		this.element.find(".wpgmza-inner").css('transform', 'translate(-50%, -50%) translate(' + this.offsetX + '%, ' + this.offsetY + '%)');
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on the outer
+	 * (stable) element - a real marker click dispatches a "select" event on the
+	 * WPGMZA.Marker instance itself (see WPGMZA.Marker.prototype.onSelect), which is what
+	 * actually opens the info window, so this reuses that same path rather than
+	 * reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		var self = this;
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		this.element.css('pointer-events', clickable ? 'auto' : '');
+		this.element.off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			this.element.on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
+		}
 	}
 
 	WPGMZA.GoogleTextOverlay.prototype.setText = function(text){
@@ -27697,12 +27838,15 @@ jQuery(function($) {
 			this.textFeature.setZIndex(options.layergroup);
 		}
 
+		this.textFeature.setOffset(options.offsetX || 0, options.offsetY || 0);
+		this.textFeature.setMarker(this.marker);
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
 
 		this.textFeature.refresh();
-		
+
 	}
 });
 		
@@ -28173,7 +28317,7 @@ jQuery(function($) {
 
 		if(this.leafletFeature){
 			let nativeElement = this.leafletFeature.getElement();
-			$(nativeElement).html(`<div class='wpgmza-leaflet-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div>`);
+			$(nativeElement).html(`<div style='display: inline-block; transform: translate(-50%, -50%) translate(${this.offsetX || 0}%, ${this.offsetY || 0}%)'><div class='wpgmza-leaflet-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div></div>`);
         }
 	}
 
@@ -28216,7 +28360,80 @@ jQuery(function($) {
 
 		if(this.leafletFeature){
 			const nativeElement = this.leafletFeature.getElement();
-			$(nativeElement).empty().append(this.getCardElement());
+			const offsetWrapper = $(`<div style='display: inline-block; transform: translate(-50%, -50%) translate(${this.offsetX || 0}%, ${this.offsetY || 0}%)'></div>`);
+			offsetWrapper.append(this.getCardElement());
+			$(nativeElement).empty().append(offsetWrapper);
+		}
+	}
+
+	/**
+	 * Applies centering plus the user-configurable offset as ONE composed CSS transform
+	 * (translate(-50%,-50%) translate(X%,Y%)) on an extra wrapper div, both as percentages
+	 * of the label's OWN rendered width/height - not pixels baked into a nudged lat/lng
+	 * (drifts at other zoom levels) and not a fixed pixel value (meaningless once content/
+	 * box size changes, e.g. a longer title). CSS percentage translate() is always relative
+	 * to the element's own box, and the wrapper is sized to shrink-wrap its content
+	 * (display:inline-block) so that box IS the card/text's actual rendered size - "100%"
+	 * always means "shifted by one full box width/height", with no measurement needed. The
+	 * wrapper sits between Leaflet's own positioned element (which this must not interfere
+	 * with - Leaflet moves it via its own transform) and the plain text/card content, which
+	 * no longer carry any centering of their own (that used to live in a CSS rule scoped to
+	 * plain-text labels only, which is why Card mode never centered - see leaflet.css).
+	 *
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		if(this.cardContent){
+			this.setCardContent(this.cardContent);
+		} else if(this.styleOptions){
+			this.setText(this.styleOptions.text);
+		}
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on the divIcon's own
+	 * element (stable across setText()/setCardContent() rebuilding its inner HTML), rather
+	 * than any inner child - re-adding via setZIndex()'s pane change creates a fresh
+	 * element, but the caller always re-applies content afterwards (same pattern the class
+	 * comment on setZIndex already documents), which is also where this gets re-bound.
+	 * pointer-events is overridden here too, since the wrapper is pointer-events:none by
+	 * default (see leaflet.css) so clicks reach the map underneath when this is off.
+	 *
+	 * A real marker click dispatches a "select" event on the WPGMZA.Marker instance itself
+	 * (see WPGMZA.Marker.prototype.onSelect), which is what actually opens the info
+	 * window, so this reuses that same path rather than reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		if(!this.leafletFeature){ return; }
+
+		var self = this;
+		var nativeElement = this.leafletFeature.getElement();
+		if(!nativeElement){ return; }
+
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		$(nativeElement).css('pointer-events', clickable ? 'auto' : '');
+		$(nativeElement).off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			$(nativeElement).on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
 		}
 	}
 
@@ -33824,6 +34041,9 @@ jQuery(function($) {
 			this.textFeature.setZIndex(options.layergroup);
 		}
 
+		this.textFeature.setOffset(options.offsetX || 0, options.offsetY || 0);
+		this.textFeature.setMarker(this.marker);
+
 		if(options.name){
 			this.textFeature.setText(options.name);
 		}
@@ -34249,12 +34469,25 @@ jQuery(function($) {
 		this.styleOptions = (!options) ? {} : options;
 		this.map = options.map;
 
+		this.offsetX = parseFloat(options.offsetX) || 0;
+		this.offsetY = parseFloat(options.offsetY) || 0;
+
+		/* "top-left" pins the element's own top-left corner at the projected pixel with no
+		 * measurement of any kind on OL's part - centering AND the user-configurable offset
+		 * are both applied ourselves as a single CSS transform on this.element (see
+		 * setOffset()), exactly like GoogleTextOverlay does on .wpgmza-inner. OL's own
+		 * "center-center" positioning was tried first, but unlike Leaflet/Google (which
+		 * center via a self-referential CSS percentage transform, unaffected by content
+		 * size or timing) OL centers via a JS-measured pixel margin - which didn't track
+		 * correctly here. Doing it ourselves in pure CSS sidesteps that entirely. */
 		this.olOverlay = new ol.Overlay({
 			element : this.element,
 			position : ol.proj.fromLonLat([options.position.lng, options.position.lat]),
-			positioning : "center-center",
+			positioning : "top-left",
 			stopEvent : false
 		});
+
+		this.applyTransform();
 
 		this.map.olMap.addOverlay(this.olOverlay);
 
@@ -34291,6 +34524,73 @@ jQuery(function($) {
 	WPGMZA.OLTextOverlay.prototype.refresh = function(){
 		if(!this.styleOptions){ return; }
 		this.setText(this.styleOptions.text);
+	}
+
+	/**
+	 * Applies centering plus the user-configurable offset as ONE CSS transform on
+	 * this.element itself - translate(-50%,-50%) centers the element on the point (a
+	 * self-referential percentage, always correct regardless of the element's actual
+	 * rendered size, with no measurement needed), composed with a further translate(X%,Y%)
+	 * for the offset, which is a percentage of that same box - so "100%" always means
+	 * "shifted by one full label width/height", however long the title/subheading gets.
+	 * Not a pixel offset baked into a nudged lat/lng either - that only holds true at the
+	 * zoom level it was computed at, and would drift away from whatever this label is
+	 * meant to stay anchored next to (e.g. its owning marker) as soon as the map zoomed.
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.applyTransform = function(){
+		if(this.element){
+			$(this.element).css('transform', 'translate(-50%, -50%) translate(' + (this.offsetX || 0) + '%, ' + (this.offsetY || 0) + '%)');
+		}
+	}
+
+	/**
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		this.applyTransform();
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on this.element,
+	 * which OL never recreates itself. pointer-events is overridden here too, since the
+	 * wrapper is pointer-events:none by default (see open-layers.css) so clicks reach the
+	 * map underneath when this is off.
+	 *
+	 * A real marker click dispatches a "select" event on the WPGMZA.Marker instance itself
+	 * (see WPGMZA.Marker.prototype.onSelect), which is what actually opens the info
+	 * window, so this reuses that same path rather than reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.OLTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		if(!this.element){ return; }
+
+		var self = this;
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		$(this.element).css('pointer-events', clickable ? 'auto' : '');
+		$(this.element).off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			$(this.element).on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
+		}
 	}
 
 	WPGMZA.OLTextOverlay.prototype.setPosition = function(position){
