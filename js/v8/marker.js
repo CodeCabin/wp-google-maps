@@ -359,16 +359,62 @@ jQuery(function($) {
 		}
 
 		var settings = this.map.settings || {};
+
+		/* Per-marker visibility override. marker_label_hidden_by_default is deliberately
+		 * phrased so an UNSET value (any map that predates this setting, or simply hasn't
+		 * had it touched) reads as "false" - i.e. shown - matching the only behaviour that
+		 * existed before this setting was added. Nothing needs to special-case "unset" vs
+		 * "explicitly off"; both are just falsy.
+		 *
+		 * markerLabelVisibilityOverride is a plain boolean meaning "flip from whatever the
+		 * map's default currently is" - not "show" or "hide" directly - so the same stored
+		 * value keeps working correctly regardless of which way the map-wide default is
+		 * set, and the per-marker checkbox's label text (composed client-side in the
+		 * marker panel) is the only thing that needs to know which state that resolves to
+		 * for display purposes. */
+		/* FeaturePanel.serializeFormData() explicitly writes 0 for every unchecked
+		 * checkbox on save, for every marker - not just ones a user has actually
+		 * touched. After a save+reload round-trip that comes back as the STRING "0"
+		 * (form-urlencoded POST data is always strings), and "0" is truthy in JS - so
+		 * a plain !!this.markerLabelVisibilityOverride check treats every marker as
+		 * having an override, permanently. parseInt() normalises "0"/"1"/0/1/undefined
+		 * to the correct boolean regardless of type. */
+		var hiddenByDefault = !!parseInt(settings.marker_label_hidden_by_default, 10);
+		var hasOverride = !!parseInt(this.markerLabelVisibilityOverride, 10);
+		var effectiveVisible = hasOverride ? hiddenByDefault : !hiddenByDefault;
+
+		if(!effectiveVisible)
+		{
+			if(this.label)
+			{
+				this.label.map = null;
+				this.label = false;
+			}
+
+			return;
+		}
+
 		var offsetX = parseFloat(settings.marker_label_offset_x) || 0;
 		var offsetY = parseFloat(settings.marker_label_offset_y) || 0;
-		var position = this.map.nudgeLatLng(this.getPosition(), offsetX, offsetY);
+
+		/* offsetX/offsetY are percentages of the label's OWN rendered width/height, not
+		 * pixels - applied as a CSS transform on the rendered label (see Pointlabel/Text/
+		 * *TextOverlay setOffset()), not baked into a nudged lat/lng. A lat/lng delta
+		 * computed from a pixel offset only holds true at the zoom level it was computed
+		 * at (the label would drift away from the marker as soon as the map zoomed), and a
+		 * fixed pixel value stops meaning anything useful once the label's content/size
+		 * changes (e.g. a longer title). A percentage of the label's own box stays
+		 * meaningful either way - "100" always means "shifted by one full label width/
+		 * height". The label's real position is always the marker's own position. */
+		var position = this.getPosition();
 		var style = settings.marker_label_style || "";
 
 		// NB: marker_label_icon is a single global icon (set once in Behaviour settings)
-		// shown in every marker's label card - not the marker's own pin icon.
+		// shown in every marker's label card, unless this marker sets its own
+		// markerLabelIconOverride - not the marker's own pin icon either way.
 		var icon;
-		if(style === "card" && settings.marker_label_icon)
-			icon = settings.marker_label_icon;
+		if(style === "card")
+			icon = this.markerLabelIconOverride || settings.marker_label_icon;
 
 		// "Render above marker icons" rides the same Layer field Point Label/Circle/Rectangle
 		// use - layer 1 is enough to clear an un-layered marker icon's default stacking.
@@ -386,7 +432,10 @@ jQuery(function($) {
 				fillColor: settings.marker_label_font_color,
 				lineColor: settings.marker_label_outline_color,
 				icon: icon,
-				layergroup: layergroup
+				layergroup: layergroup,
+				offsetX: offsetX,
+				offsetY: offsetY,
+				marker: this
 			});
 
 			return;
@@ -400,6 +449,9 @@ jQuery(function($) {
 		this.label.lineColor = settings.marker_label_outline_color;
 		this.label.icon = icon;
 		this.label.layergroup = layergroup;
+		this.label.offsetX = offsetX;
+		this.label.offsetY = offsetY;
+		this.label.marker = this;
 
 		this.label.setPosition(position);
 		this.label.updateNativeFeature();

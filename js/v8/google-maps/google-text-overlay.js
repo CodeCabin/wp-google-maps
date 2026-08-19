@@ -11,7 +11,10 @@ jQuery(function($) {
 			options = {};
 
 		this.element = $("<div class='wpgmza-google-text-overlay" + (options.class ? ` ${options.class}` : '') + "'><div class='wpgmza-inner'></div></div>");
-		
+
+		this.offsetX = parseFloat(options.offsetX) || 0;
+		this.offsetY = parseFloat(options.offsetY) || 0;
+
 		if(options.position)
 			this.position = options.position;
 		
@@ -79,6 +82,57 @@ jQuery(function($) {
 
 	WPGMZA.GoogleTextOverlay.prototype.setPosition = function(position){
 		this.position = position;
+	}
+
+	/**
+	 * Applies the offset as a percentage of the label's OWN rendered width/height, via a
+	 * transform composed with the existing centering transform on .wpgmza-inner (see
+	 * common.css) - not a pixel offset baked into a nudged lat/lng (drifts at other zoom
+	 * levels) and not a fixed pixel value (meaningless once content/box size changes,
+	 * e.g. a longer title). CSS percentage translate() is always relative to the element's
+	 * own box, so this stays correct regardless of zoom or content width with no
+	 * measurement needed - "100%" always means "shifted by one full box width/height".
+	 *
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		this.element.find(".wpgmza-inner").css('transform', 'translate(-50%, -50%) translate(' + this.offsetX + '%, ' + this.offsetY + '%)');
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on the outer
+	 * (stable) element - a real marker click dispatches a "select" event on the
+	 * WPGMZA.Marker instance itself (see WPGMZA.Marker.prototype.onSelect), which is what
+	 * actually opens the info window, so this reuses that same path rather than
+	 * reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.GoogleTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		var self = this;
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		this.element.css('pointer-events', clickable ? 'auto' : '');
+		this.element.off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			this.element.on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
+		}
 	}
 
 	WPGMZA.GoogleTextOverlay.prototype.setText = function(text){

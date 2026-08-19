@@ -42,10 +42,6 @@
     pointer-events: none;
 }
 
-.wpgmza_map .wpgmza-leaflet-text-overlay-wrapper .wpgmza-leaflet-text-overlay{
-    transform: translate(-50%, -50%);
-}
-
 .wpgmza_map .wpgmza-leaflet-text-overlay-wrapper.leaflet-marker-label .wpgmza-leaflet-text-overlay{
     margin-top: 8px;
 }

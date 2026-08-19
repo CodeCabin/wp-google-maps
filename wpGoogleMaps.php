@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.1.07
+Version: 10.1.08
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -14,6 +14,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 
 /*
+ * 10.1.08 - 2026-08-19
+ * Improved point label overlay offset manipulation system to be based on percentages instead of pixel values, this is more consistent across engines
+ * Improved Leaflet point label overlay to match Google and OpenLayers, where center-center is the standard
+ * Fixed issue where point label overlay placement would not be consistent across all engines, causing some variation with pixel placement
+ * Fixed issue where a translation in the cs_CZ language file was incorrectly utilizing a placeholder twice, causing a fatal error in the editor
+ * 
  * 10.1.07 - 2026-08-13
  * Added extended data storage support in point labels to support feature expansion
  * Added a new event trigger in MarkerFilter, 'filteringstart', which runs before a filter is about to start a run

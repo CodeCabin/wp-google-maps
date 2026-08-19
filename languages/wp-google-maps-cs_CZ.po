@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpgmaps\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-22 13:58+0200\n"
+"PO-Revision-Date: 2026-08-18 10:45+0200\n"
 "Last-Translator: Petr Aubrecht <auby@auby.cz>\n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-22 13:58+0200\n"
-"PO-Revision-Date: 2025-10-22 13:59+0200\n"
-"Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 "X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: .\n"
@@ -1208,8 +1208,7 @@ msgid "<strong>WP Go Maps Gold Add-on:</strong> This add-on requires WP Go Maps 
 msgstr "<strong>WP Google Maps Gold Add-on:</strong> Tento doplněk vyžaduje WP Google Maps 7.0 nebo vyšší. Chcete-li používat doplněk Gold, aktualizujte prosím WP Google Maps. Kontrolu aktualizací si můžete vynutit tak, že v nabídce Dashboard přejdete na položku Updates a kliknete na tlačítko \"Check Again\"."
 
 #: wp-google-maps-gold/wp-google-maps-gold.php:512
-#: wp-google-maps/legacy-core.php:37
-#: wp-google-maps/wpGoogleMaps.php:299
+#: wp-google-maps/legacy-core.php:37 wp-google-maps/wpGoogleMaps.php:299
 msgid "<strong>WP Go Maps:</strong> This plugin requires the WordPress REST API, which does not appear to be present on this installation. Please update WordPress to version 4.7 or above."
 msgstr "<strong>WP Mapy Google:</strong> Tento doplněk vyžaduje rozhraní WordPress REST API, které v této instalaci není přítomno. Aktualizujte prosím WordPress na verzi 4.7 nebo vyšší."
 
@@ -1735,8 +1734,7 @@ msgstr "Propojené mapy"
 #: wp-google-maps/includes/tables/class.polygon-datatable.php:22
 #: wp-google-maps/includes/tables/class.polyline-datatable.php:20
 #: wp-google-maps/includes/tables/class.rectangle-datatable.php:20
-#: wp-google-maps/legacy-core.php:1145
-#: wp-google-maps/legacy-core.php:1197
+#: wp-google-maps/legacy-core.php:1145 wp-google-maps/legacy-core.php:1197
 msgid "ID"
 msgstr "ID"
 
@@ -4207,8 +4205,7 @@ msgstr "<strong>WP Mapy Google:</strong> Fusion Tables jsou zastaralé a od 3. p
 #: wp-google-maps/includes/class.auto-loader.php:260
 #: wp-google-maps/includes/class.maps-engine-dialog.php:171
 #: wp-google-maps/includes/class.plugin.php:1368
-#: wp-google-maps/wpGoogleMaps.php:318
-#: wp-google-maps/wpGoogleMaps.php:346
+#: wp-google-maps/wpGoogleMaps.php:318 wp-google-maps/wpGoogleMaps.php:346
 #: wp-google-maps/wpGoogleMaps.php:491
 msgid "WP Go Maps"
 msgstr "WP Mapy Google"
@@ -5312,8 +5309,7 @@ msgid "of WP Go Maps for only"
 msgstr "wP Google Maps pouze za"
 
 #: wp-google-maps-pro/includes/page.categories.php:43
-#: wp-google-maps/legacy-core.php:1112
-#: wp-google-maps/legacy-core.php:1124
+#: wp-google-maps/legacy-core.php:1112 wp-google-maps/legacy-core.php:1124
 msgid "Problems with the plugin? See the troubleshooting manual."
 msgstr "Problémy se zásuvným modulem? Podívejte se do příručky pro řešení problémů."
 
@@ -5753,8 +5749,7 @@ msgstr "Potřebujete pomoc? Přečtěte si dokumentaci."
 #: wp-google-maps-pro/wp-google-maps-pro.php:272
 #: wp-google-maps-pro/wp-google-maps-pro.php:633
 #: wp-google-maps-pro/wp-google-maps-pro.php:650
-#: wp-google-maps/wpGoogleMaps.php:317
-#: wp-google-maps/wpGoogleMaps.php:346
+#: wp-google-maps/wpGoogleMaps.php:317 wp-google-maps/wpGoogleMaps.php:346
 msgid "Urgent notice"
 msgstr "Naléhavé upozornění"
 
@@ -5769,7 +5764,7 @@ msgid "In order to use WP Go Maps Pro 9.0.0, you need to <a href=\"%s\">update y
 msgstr "Chcete-li používat WP Google Maps Pro 8.1, musíte <a href=\"%s\">aktualizovat základní verzi</a> na nejnovější verzi (8.1*)."
 
 #: wp-google-maps-pro/wp-google-maps-pro.php:274
-#, fuzzy,php-format
+#, fuzzy, php-format
 msgid "In order to use WP Go Maps Pro 10.0.0, you need to <a href=\"%s\">update your basic version</a> to the latest version (10.*)."
 msgstr "Chcete-li používat WP Google Maps Pro 8.1, musíte <a href=\"%s\">aktualizovat základní verzi</a> na nejnovější verzi (8.1*)."
 
@@ -6373,7 +6368,7 @@ msgstr ""
 
 #: wp-google-maps/html/atlas-major/credits.html.php:21
 #: wp-google-maps/html/atlas-novus/credits.html.php:19
-#, fuzzy,php-format
+#, fuzzy, php-format
 msgid "WP Go Maps %s"
 msgstr "WP Mapy Google"
 
@@ -7843,9 +7838,9 @@ msgstr "Druhým<strong>kliknutím</strong> dokončete kreslení kruhu."
 
 #: wp-google-maps/html/atlas-major/map-edit-page/imageoverlay-panel.html.php:44
 #: wp-google-maps/html/atlas-novus/map-edit-page/imageoverlay-panel.html.php:38
-#, fuzzy,php-format
+#, php-format
 msgid "Add image overlays with the <a href=\"%s\" target=\"_BLANK\">Pro version</a>."
-msgstr "Ve <a href=\"%s\" target=\"_BLANK\">verzi Pro</a> můžete přidat dynamická data teplotních map. <a href=\"%s\" target=\"_BLANK\">Zobrazit ukázku</a>"
+msgstr "Ve <a href=\"%s\" target=\"_BLANK\">verzi Pro</a> můžete přidat dynamická data teplotních map."
 
 #: wp-google-maps/html/atlas-major/map-edit-page/imageoverlay-panel.html.php:50
 #: wp-google-maps/html/atlas-novus/map-edit-page/imageoverlay-panel.html.php:44
@@ -10042,7 +10037,7 @@ msgstr "V případě více zdrojů oddělte každý z nich čárkou."
 #: wp-google-maps/html/atlas-major/map-edit-page/map-edit-page.html.php:3301
 #: wp-google-maps/html/atlas-novus/map-edit-page/map-edit-page.html.php:3420
 #: wp-google-maps/html/map-edit-page/map-edit-page.html.php:1088
-#, fuzzy,php-format
+#, fuzzy, php-format
 msgid "Get the rest of these advanced features with the <a href=\"%s\" target=\"_BLANK\">Pro version</a>. Support and updates included forever."
 msgstr "Ostatní pokročilé funkce získáte ve verzi Pro za pouhých <a href=\"%s\" target=\"_BLANK\"> 39,99 USD jednorázově</a>. Podpora a aktualizace jsou navždy v ceně."
 
@@ -14344,8 +14339,7 @@ msgid "Polyline data"
 msgstr "Data křivky"
 
 #: wp-google-maps/html/map-list-page.html.php:10
-#: wp-google-maps/legacy-core.php:1060
-#: wp-google-maps/legacy-core.php:1121
+#: wp-google-maps/legacy-core.php:1060 wp-google-maps/legacy-core.php:1121
 msgid "Add New"
 msgstr "Přidat nový"
 
@@ -14355,8 +14349,7 @@ msgid "Wizard"
 msgstr "Průvodce optimalizací rychlosti"
 
 #: wp-google-maps/html/map-list-page.html.php:26
-#: wp-google-maps/legacy-core.php:1060
-#: wp-google-maps/legacy-core.php:1085
+#: wp-google-maps/legacy-core.php:1060 wp-google-maps/legacy-core.php:1085
 msgid "My Maps"
 msgstr "Moje mapy"
 
@@ -14823,7 +14816,7 @@ msgstr "Přidání vlastní značky"
 
 #: wp-google-maps/includes/class.rest-api.php:970
 #: wp-google-maps/includes/class.rest-api.php:985
-#, fuzzy,php-format
+#, fuzzy, php-format
 msgid "Removed %s markers"
 msgstr "Odstranění duplicitních značek"
 
@@ -15354,8 +15347,7 @@ msgid "Are you sure you want to delete this marker:"
 msgstr "Určitě chcete tuto značku odstranit:"
 
 #. translators: %s: WP Go Maps Settings Link
-#: wp-google-maps/legacy-core.php:1075
-#: wp-google-maps/legacy-core.php:1101
+#: wp-google-maps/legacy-core.php:1075 wp-google-maps/legacy-core.php:1101
 #, php-format
 msgid "We have detected a conflict between your current theme's version and our plugin. Should you be experiencing issues with your maps displaying, please update Avada to version 3.9.4 or go to <a href='%s'>settings page</a> and check the highlighted checkbox."
 msgstr "Zjistili jsme konflikt mezi aktuální verzí vašeho tématu a naším pluginem. Pokud máte problémy se zobrazováním map, aktualizujte prosím Avadu na verzi 3.9.4 nebo přejděte na <a href='%s'>stránku nastavení</a> a zaškrtněte zvýrazněné políčko."
@@ -15489,8 +15481,7 @@ msgstr "V současné době používáte zastaralou verzi PRO. Je třeba <a href=
 msgid "We have automatically given all PRO users the ability to update to 8.0.34 and then further to 8.1. Any major versions below 8 will no longer be supported."
 msgstr "Všem uživatelům PRO jsme automaticky umožnili aktualizaci na verzi 8.0.34 a následně na verzi 8.1. Všechny hlavní verze nižší než 8 již nebudou podporovány."
 
-#: wp-google-maps/wpGoogleMaps.php:328
-#: wp-google-maps/wpGoogleMaps.php:358
+#: wp-google-maps/wpGoogleMaps.php:328 wp-google-maps/wpGoogleMaps.php:358
 #, php-format
 msgid "If you are struggling to update your Pro version from within WordPress, please get the latest ZIP file <a target=\"_BLANK\" href=\"%s\">here</a>."
 msgstr "Pokud se vám nedaří aktualizovat verzi Pro ze systému WordPress, získejte nejnovější soubor ZIP <a target=\"_BLANK\" href=\"%s\">zde</a>."
@@ -15519,14 +15510,6 @@ msgstr "Chcete-li i nadále používat WP Google Maps, přejděte prosím na PHP
 #: wp-google-maps/wpGoogleMaps.php:494
 msgid "The plugin failed to load due to a fatal error. This is usually due to missing files, or incompatible software. Please re-install the plugin. We recommend you use PHP 5.6 or above. Technical details are as follows: "
 msgstr "Zásuvný modul se nepodařilo načíst z důvodu fatální chyby. Příčinou jsou obvykle chybějící soubory nebo nekompatibilní software. Znovu nainstalujte zásuvný modul. Doporučujeme používat PHP 5.6 nebo vyšší. Technické podrobnosti jsou následující "
-
-#: wp-google-maps-pro/includes/3rd-party-integration/elementor/class.elementor-category-filter-widget.php:27
-#~ msgid "Filter"
-#~ msgstr "Filtrovat podle"
-
-#: wp-google-maps-pro/includes/3rd-party-integration/elementor/class.elementor-infowindow-widget.php:29
-#~ msgid "Infowindow"
-#~ msgstr "Infookno"
 
 #: wp-google-maps-pro/html/atlas-major/directions-box-settings.html.php:28
 #: wp-google-maps-pro/html/atlas-major/directions-box.html.php:168
@@ -17144,3 +17127,9 @@ msgstr ""
 #: wp-google-maps/includes/open-layers/class.ol-theme-panel.php:104
 msgid "Could not fetch preview"
 msgstr ""
+
+#~ msgid "Filter"
+#~ msgstr "Filtrovat podle"
+
+#~ msgid "Infowindow"
+#~ msgstr "Infookno"

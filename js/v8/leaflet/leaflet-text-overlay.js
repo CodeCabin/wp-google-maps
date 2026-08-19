@@ -77,7 +77,7 @@ jQuery(function($) {
 
 		if(this.leafletFeature){
 			let nativeElement = this.leafletFeature.getElement();
-			$(nativeElement).html(`<div class='wpgmza-leaflet-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div>`);
+			$(nativeElement).html(`<div style='display: inline-block; transform: translate(-50%, -50%) translate(${this.offsetX || 0}%, ${this.offsetY || 0}%)'><div class='wpgmza-leaflet-text-overlay' style='${this.getStyle()}'>${this.styleOptions.text || ''}</div></div>`);
         }
 	}
 
@@ -120,7 +120,80 @@ jQuery(function($) {
 
 		if(this.leafletFeature){
 			const nativeElement = this.leafletFeature.getElement();
-			$(nativeElement).empty().append(this.getCardElement());
+			const offsetWrapper = $(`<div style='display: inline-block; transform: translate(-50%, -50%) translate(${this.offsetX || 0}%, ${this.offsetY || 0}%)'></div>`);
+			offsetWrapper.append(this.getCardElement());
+			$(nativeElement).empty().append(offsetWrapper);
+		}
+	}
+
+	/**
+	 * Applies centering plus the user-configurable offset as ONE composed CSS transform
+	 * (translate(-50%,-50%) translate(X%,Y%)) on an extra wrapper div, both as percentages
+	 * of the label's OWN rendered width/height - not pixels baked into a nudged lat/lng
+	 * (drifts at other zoom levels) and not a fixed pixel value (meaningless once content/
+	 * box size changes, e.g. a longer title). CSS percentage translate() is always relative
+	 * to the element's own box, and the wrapper is sized to shrink-wrap its content
+	 * (display:inline-block) so that box IS the card/text's actual rendered size - "100%"
+	 * always means "shifted by one full box width/height", with no measurement needed. The
+	 * wrapper sits between Leaflet's own positioned element (which this must not interfere
+	 * with - Leaflet moves it via its own transform) and the plain text/card content, which
+	 * no longer carry any centering of their own (that used to live in a CSS rule scoped to
+	 * plain-text labels only, which is why Card mode never centered - see leaflet.css).
+	 *
+	 * @param number x
+	 * @param number y
+	 *
+	 * @return void
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setOffset = function(x, y){
+		this.offsetX = parseFloat(x) || 0;
+		this.offsetY = parseFloat(y) || 0;
+
+		if(this.cardContent){
+			this.setCardContent(this.cardContent);
+		} else if(this.styleOptions){
+			this.setText(this.styleOptions.text);
+		}
+	}
+
+	/**
+	 * Stores the owning marker (only ever set for a marker-owned label, never a standalone
+	 * Point Label) and (re)applies click-to-select behaviour, gated behind the
+	 * marker_label_click_opens_infowindow map setting. Bound directly on the divIcon's own
+	 * element (stable across setText()/setCardContent() rebuilding its inner HTML), rather
+	 * than any inner child - re-adding via setZIndex()'s pane change creates a fresh
+	 * element, but the caller always re-applies content afterwards (same pattern the class
+	 * comment on setZIndex already documents), which is also where this gets re-bound.
+	 * pointer-events is overridden here too, since the wrapper is pointer-events:none by
+	 * default (see leaflet.css) so clicks reach the map underneath when this is off.
+	 *
+	 * A real marker click dispatches a "select" event on the WPGMZA.Marker instance itself
+	 * (see WPGMZA.Marker.prototype.onSelect), which is what actually opens the info
+	 * window, so this reuses that same path rather than reimplementing it.
+	 *
+	 * @param WPGMZA.Marker|undefined marker
+	 *
+	 * @return void
+	 */
+	WPGMZA.LeafletTextOverlay.prototype.setMarker = function(marker){
+		this.marker = marker;
+
+		if(!this.leafletFeature){ return; }
+
+		var self = this;
+		var nativeElement = this.leafletFeature.getElement();
+		if(!nativeElement){ return; }
+
+		var clickable = !!(this.marker && this.marker.map && this.marker.map.settings && this.marker.map.settings.marker_label_click_opens_infowindow);
+
+		$(nativeElement).css('pointer-events', clickable ? 'auto' : '');
+		$(nativeElement).off('click.wpgmzaLabelSelect');
+
+		if(clickable){
+			$(nativeElement).on('click.wpgmzaLabelSelect', function(event){
+				event.stopPropagation();
+				self.marker.dispatchEvent("select");
+			});
 		}
 	}
 
