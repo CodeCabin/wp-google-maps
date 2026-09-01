@@ -112,6 +112,7 @@
 	<h2><?php _e("Security","wp-google-maps"); ?></h2>
 	<div class="credit-container">
 		<ul class="list-chain">
+			<li title="Organization: Patchstack">Asim Alshaya</li>
 			<li title="Organization: Patchstack">Austin Ginder</li>
 			<li title="Organization: Bashu | KCSC | Wordfence">Nguyen Ba Hung</li>
 			<li title="Organization: Nagasaki Prefectural University | Wordfence">Moose Love</li>

@@ -201,9 +201,18 @@ class RestAPI extends Factory
 			$compressed = array_values( unpack('C' . strlen($compressed), $compressed) );
 			
 			$pointer = (int)$request['midcbp'];
-			
+
+			/* Security: midcbp is a fully attacker-controlled, unauthenticated value that
+			 * drives EliasFano::decode()'s loop bound directly. A legitimate pointer can
+			 * never exceed the buffer it indexes into, so anything outside that range is a
+			 * malformed/malicious request - reject it here, before the expensive decode
+			 * loop ever starts, rather than letting it run until max_execution_time while
+			 * flooding the error log with out-of-bounds array warnings. */
+			if($pointer < 0 || $pointer > count($compressed))
+				throw new \Exception('Invalid compressed buffer pointer supplied for marker IDs');
+
 			$eliasFano = new EliasFano();
-			$markerIDs = $eliasFano->decode($compressed, (int)$request['midcbp']);
+			$markerIDs = $eliasFano->decode($compressed, $pointer);
 			// TODO: Legacy markerIDs was a string, because this was historically more compact than POSTing an array. This can be altered, but the marker listing modules will have to be adjusted to cater for that
 			$request['markerIDs'] = implode(',', $markerIDs);
 		}
