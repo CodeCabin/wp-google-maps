@@ -80,7 +80,16 @@ class EliasFano
 		$lowBitsCount = 0;
 		$lowBits = 0;
 		$cb = 1;
-		
+
+		/* Security: defence-in-depth against a caller passing an out-of-range pointer -
+		 * this loop bound must never exceed the buffer it indexes into, or every
+		 * iteration reads past the end of $compressedBuffer. The REST API layer already
+		 * rejects this case outright (see RestAPI::parseCompressedParameters()), but this
+		 * class is reusable, so it shouldn't rely solely on callers validating first. */
+		$compressedBufferLength = count($compressedBuffer);
+		if($compressedBufferPointer < 0 || $compressedBufferPointer > $compressedBufferLength)
+			$compressedBufferPointer = $compressedBufferLength;
+
 		for(
 			$highBitsPointer = floor($lowBitsLength * $listCount / 8 + 6);
 			$highBitsPointer < $compressedBufferPointer;

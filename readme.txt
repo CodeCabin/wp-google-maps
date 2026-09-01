@@ -5,7 +5,7 @@ Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 10.1.08
+Stable tag: 10.1.09
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,6 +244,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= 10.1.09 =
+Please update to 10.1.09 or above to ensure you are using the latest security enhancements.
+
 = 10.1.06 =
 Please update to 10.1.06 or above to ensure you are using the latest security enhancements.
 
@@ -269,6 +272,9 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.09 - 2026-09-01 =
+* Fixed issue where a crafted unauthenticated request to the compressed REST API parameter parser could trigger an unbounded loop, causing excessive CPU usage and log file growth (denial of service). Security issue, thanks to Asim Alshaya
 
 = 10.1.08 - 2026-08-19 =
 * Improved point label overlay offset manipulation system to be based on percentages instead of pixel values, this is more consistent across engines

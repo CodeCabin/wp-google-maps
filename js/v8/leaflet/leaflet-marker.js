@@ -79,7 +79,7 @@ jQuery(function($) {
 		}
 		return false;
 	}
-	
+
 	WPGMZA.LeafletMarker.prototype.setVisible = function(visible) {
 		Parent.prototype.setVisible.call(this, visible);
 
@@ -190,7 +190,7 @@ jQuery(function($) {
 
 	WPGMZA.LeafletMarker.prototype.onAdded = function(event) {
 		Parent.prototype.onAdded.call(this, event);
-		
+
 		if(this.animation){
             this.setAnimation(this.animation);
 

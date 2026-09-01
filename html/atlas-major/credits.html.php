@@ -125,6 +125,7 @@
         <h2 class="am-section-title"><?php _e("Security","wp-google-maps"); ?></h2>
         <div class="credit-container am-chain-block">
             <ul class="list-chain am-chain-list">
+                <li title="Organization: Patchstack">Asim Alshaya</li>
                 <li title="Organization: Patchstack">Austin Ginder</li>
                 <li title="Organization: Bashu | KCSC | Wordfence">Nguyen Ba Hung</li>
                 <li title="Organization: Nagasaki Prefectural University | Wordfence">Moose Love</li>
