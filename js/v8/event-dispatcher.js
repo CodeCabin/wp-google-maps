@@ -211,8 +211,12 @@ jQuery(function($) {
 			
 			if(event.phase == WPGMZA.Event.CAPTURING_PHASE && !obj.useCapture)
 				continue;
-				
-			obj.listener.call(arr[i].thisObject, event);
+
+			try {
+				obj.listener.call(arr[i].thisObject, event);
+			} catch(e) {
+				console.error(e);
+			}
 		}
 	}
 

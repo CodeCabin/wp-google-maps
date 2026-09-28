@@ -150,6 +150,8 @@
 	<div class="credit-container">
 		<ul class="list-chain">
 			<!-- Actionable code changes from community -->
+			<li title="Stability Improvements">Mikael Føyen</li>
+			<li title="Stability Improvements">Adamcengel</li>
 			<li title="Core Improvements | GitHub: @thisismyurl">Christopher Ross</li>
 			<li title="Stability Improvements | GitHub: @shazahm1">Steven Zahm</li>
 			<li title="Stability Improvements | GitHub: @CNick">CNick</li>

@@ -5,7 +5,7 @@ Tags: google maps, maps, map, leaflet map, store locator
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 10.1.09
+Stable tag: 10.1.10
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -272,6 +272,12 @@ Please update to 10.0.08 or above for the latest stability improvements.
 Please update to 10.0.07 or above to ensure you are using the latest architecture, and latest features.
 
 == Changelog ==
+
+= 10.1.10 - 2026-09-28 =
+* Fixed issue where the compressed marker ID buffer could be undersized for certain marker sets, causing the server to reject the request and marker searches to return no results. Thanks to Adamcengel
+* Fixed issue where the compressed marker ID list could be corrupted when a large gap existed between filtered marker. Thanks to Mikael Føyen
+* Fixed issue where event dispatcher may prevent event bubbling if an error occurs within the trigger call. Thanks to Mikael Føyen
+* Updated built-in notices to disclose Pro V8 EOL to prevent confusion
 
 = 10.1.09 - 2026-09-01 =
 * Fixed issue where a crafted unauthenticated request to the compressed REST API parameter parser could trigger an unbounded loop, causing excessive CPU usage and log file growth (denial of service). Security issue, thanks to Asim Alshaya

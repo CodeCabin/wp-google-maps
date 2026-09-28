@@ -164,6 +164,8 @@
         <div class="credit-container am-chain-block">
             <ul class="list-chain am-chain-list">
                 <!-- Actionable code changes from community -->
+                <li title="Stability Improvements">Mikael Føyen</li>
+                <li title="Stability Improvements">Adamcengel</li>
                 <li title="Core Improvements | GitHub: @thisismyurl">Christopher Ross</li>
                 <li title="Stability Improvements | GitHub: @shazahm1">Steven Zahm</li>
                 <li title="Stability Improvements | GitHub: @CNick">CNick</li>
