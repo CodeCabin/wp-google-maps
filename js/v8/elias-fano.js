@@ -78,44 +78,55 @@ jQuery(function($) {
 		var lowBitsLength = Math.floor(averageDeltaLog);
 		var lowBitsMask = (1 << lowBitsLength) - 1;
 		var prev = null;
-		
-		var maxCompressedSize = Math.floor(
-			(
-				2 + Math.ceil(
-					Math.log2(averageDelta)
-				)
-			) * list.length / 8
-		) + 6;
-		
-		var compressedBuffer = new Uint8Array(maxCompressedSize);
-		
+
 		if(lowBitsLength < 0)
 			lowBitsLength = 0;
-		
+
+		// NB: Validate the list and total up the exact number of unary bits the high-bits
+		// stream will need, before allocating anything. This used to be an average-case
+		// estimate (Elias-Fano's ~2-bits/element bound), which silently undersizes
+		// compressedBuffer whenever a set of gaps' actual unary lengths run over that
+		// estimate - TypedArray writes past the end are dropped without error, but
+		// compressedBufferPointer2 (sent to the server as midcbp) keeps counting them,
+		// leaving a pointer past what was actually written.
+		var totalUnaryBits = 0;
+
+		list.forEach(function(docID) {
+
+			if(!WPGMZA.isNumeric(docID))
+				throw new Error("Value is not numeric");
+
+			docID = parseInt(docID);
+
+			if(prev !== null && docID <= prev)
+				throw new Error("Elias Fano encoding can only be used on a sorted, ascending list of unique integers.");
+
+			totalUnaryBits += ((docID - lastDocID - 1) >> lowBitsLength) + 1;
+
+			prev = docID;
+			lastDocID = docID;
+		});
+
 		compressedBufferPointer2 = Math.floor(lowBitsLength * list.length / 8 + 6);
-		
+
+		var compressedBuffer = new Uint8Array(compressedBufferPointer2 + Math.ceil(totalUnaryBits / 8) + 1);
+
+		lastDocID = 0;
+
 		compressedBuffer[compressedBufferPointer1++] = toByte( list.length );
 		compressedBuffer[compressedBufferPointer1++] = toByte( list.length >> 8 );
 		compressedBuffer[compressedBufferPointer1++] = toByte( list.length >> 16 );
 		compressedBuffer[compressedBufferPointer1++] = toByte( list.length >> 24 );
-		
+
 		compressedBuffer[compressedBufferPointer1++] = toByte( lowBitsLength );
-		
+
 		list.forEach(function(docID) {
-			
+
 			var docIDDelta = (docID - lastDocID - 1);
-			
-			if(!WPGMZA.isNumeric(docID))
-				throw new Error("Value is not numeric");
-			
-			// NB: Force docID to an integer in case it's a string
+
+			// NB: docID was already validated and order-checked above
 			docID = parseInt(docID);
-			
-			if(prev !== null && docID <= prev)
-				throw new Error("Elias Fano encoding can only be used on a sorted, ascending list of unique integers.");
-			
-			prev = docID;
-			
+
 			buffer1 <<= lowBitsLength;
 			buffer1 |= (docIDDelta & lowBitsMask);
 			bufferLength1 += lowBitsLength;
@@ -127,12 +138,34 @@ jQuery(function($) {
 				compressedBuffer[compressedBufferPointer1++] = toByte( buffer1 >> bufferLength1 );
 			}
 			
-			var unaryCodeLength = (docIDDelta >> lowBitsLength) + 1;
-			
-			buffer2 <<= unaryCodeLength;
+			// NB: Emit the unary code (zerosRemaining zero-bits + one terminating 1-bit) in
+			// bounded chunks. buffer2's leftover after each flush is always <=7 bits, so a
+			// chunk of <=24 never asks JS's << for more than 31 live bits (Int32 safe). A
+			// large docIDDelta can otherwise push unaryCodeLength past 31, where JS's <<
+			// masks the shift count to 5 bits and silently drops/wraps bits.
+			var zerosRemaining = (docIDDelta >> lowBitsLength);
+			var CHUNK = 24;
+
+			while(zerosRemaining > 0)
+			{
+				var chunk = Math.min(zerosRemaining, CHUNK);
+
+				buffer2 <<= chunk;
+				bufferLength2 += chunk;
+				zerosRemaining -= chunk;
+
+				// Flush buffer 2
+				while(bufferLength2 > 7)
+				{
+					bufferLength2 -= 8;
+					compressedBuffer[compressedBufferPointer2++] = toByte( buffer2 >> bufferLength2 );
+				}
+			}
+
+			buffer2 <<= 1;
 			buffer2 |= 1;
-			bufferLength2 += unaryCodeLength;
-			
+			bufferLength2 += 1;
+
 			// Flush buffer 2
 			while(bufferLength2 > 7)
 			{

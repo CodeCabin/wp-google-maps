@@ -3,7 +3,7 @@
 Plugin Name: WP Go Maps (formerly WP Google Maps)
 Plugin URI: https://www.wpgmaps.com
 Description: The easiest to use Google Maps plugin! Create custom Google Maps or a map block with high quality markers containing locations, descriptions, images and links. Add your customized map to your WordPress posts and/or pages quickly and easily with the supplied shortcode. No fuss.
-Version: 10.1.09
+Version: 10.1.10
 Author: WP Go Maps (formerly WP Google Maps)
 Author URI: https://www.wpgmaps.com
 Text Domain: wp-google-maps
@@ -14,6 +14,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 
 /*
+ * 10.1.10 - 2026-09-28
+ * Fixed issue where the compressed marker ID buffer could be undersized for certain marker sets, causing the server to reject the request and marker searches to return no results. Thanks to Adamcengel
+ * Fixed issue where the compressed marker ID list could be corrupted when a large gap existed between filtered marker. Thanks to Mikael Føyen
+ * Fixed issue where event dispatcher may prevent event bubbling if an error occurs within the trigger call. Thanks to Mikael Føyen
+ * Updated built-in notices to disclose Pro V8 EOL to prevent confusion
+ * 
  * 10.1.09 - 2026-09-01
  * Fixed issue where a crafted unauthenticated request to the compressed REST API parameter parser could trigger an unbounded loop, causing excessive CPU usage and log file growth (denial of service). Security issue, thanks to Asim Alshaya
  * 
@@ -357,9 +363,12 @@ if (isset($_GET['page']) && ($_GET['page'] == 'wp-google-maps-menu' || $_GET['pa
 	
 	global $wpgmza_pro_version;
 	if (isset($wpgmza_pro_version)) {
-		/* Check Pro Compat - V8.1.0 */
+		/* Check Pro Compat - V8.1.0
+		 * Deprecated - superseded by wpgmaps_basic_pro_v8_eol_notice() below, which covers
+		 * the same "on Pro V8" audience with the current EOL/upgrade messaging. Left in
+		 * place, add_action disabled, rather than removed. */
 		if(version_compare($wpgmza_pro_version, '8.1.0', '<')){
-			add_action('admin_notices', 'wpgmaps_basic_81_notice');
+			// add_action('admin_notices', 'wpgmaps_basic_81_notice');
 			function wpgmaps_basic_81_notice() {
 					?>
 					<div class="notice notice-error">
@@ -375,6 +384,38 @@ if (isset($_GET['page']) && ($_GET['page'] == 'wp-google-maps-menu' || $_GET['pa
 						</p><br />
 						<p><?php
 							echo sprintf(__('If you are struggling to update your Pro version from within WordPress, please get the latest ZIP file <a target="_BLANK" href="%s">here</a>.', 'wp-google-maps'),'https://www.wpgmaps.com/get-updated-version/');
+						?></p>
+						<p>&nbsp;</p>
+					</div><br />
+
+					<?php
+
+			}
+		}
+
+		/* Check Pro Compat - V8 EOL
+		 * Pro V8 was last actively developed in 2022 and reached end of life in 2023.
+		 * Prompts users still on it to upgrade. */
+		if(version_compare($wpgmza_pro_version, '9.0.0', '<')){
+			add_action('admin_notices', 'wpgmaps_basic_pro_v8_eol_notice');
+			function wpgmaps_basic_pro_v8_eol_notice() {
+					?>
+					<div class="notice notice-error">
+						<h3><?php _e('WP Go Maps', 'wp-google-maps'); ?> - <?php _e('Your Pro version has reached end of life', 'wp-google-maps'); ?></h3>
+						<p><?php
+							_e('You\'re currently running WP Go Maps Pro V8, which reached end of life in 2023. This version is no longer receiving active updates or patches.', 'wp-google-maps');
+						?></p><br />
+						<p><?php
+							echo sprintf(
+								__('We\'d recommend upgrading to the latest version to resolve this. As a thank you for your continued support, here\'s 50%% off: <a target="_BLANK" href="%s">Upgrade now</a>.', 'wp-google-maps'),
+								esc_url('https://www.wpgmaps.com/purchase-professional-version/?wpgm_c=sd58byd5' . wpgmzaGetUpsellLinkParams())
+							);
+						?></p><br />
+						<p><?php
+							echo sprintf(
+								__('If you believe you\'re seeing this in error, or hold a lifetime license, please <a target="_BLANK" href="%s">get in touch</a>.', 'wp-google-maps'),
+								esc_url('https://www.wpgmaps.com/support/')
+							);
 						?></p>
 						<p>&nbsp;</p>
 					</div><br />
